@@ -150,32 +150,6 @@ static void pan_queue_image_done_cb(ImageLoader *il, gpointer data)
 	while (pan_queue_step(pw));
 }
 
-#if 0
-static void pan_queue_image_area_cb(ImageLoader *il, guint x, guint y,
-				    guint width, guint height, gpointer data)
-{
-	PanWindow *pw = data;
-
-	if (pw->queue_pi)
-		{
-		PanItem *pi;
-		gint rc;
-
-		pi = pw->queue_pi;
-
-		if (!pi->pixbuf)
-			{
-			pi->pixbuf = image_loader_get_pixbuf(pw->il);
-			if (pi->pixbuf) g_object_ref(pi->pixbuf);
-			}
-
-		rc = pi->refcount;
-		image_area_changed(pw->imd, pi->x + x, pi->y + y, width, height);
-		pi->refcount = rc;
-		}
-}
-#endif
-
 static gboolean pan_queue_step(PanWindow *pw)
 {
 	PanItem *pi;
@@ -207,9 +181,6 @@ static gboolean pan_queue_step(PanWindow *pw)
 			image_loader_set_requested_size(pw->il, pi->width, pi->height);
 			}
 
-#if 0
-		image_loader_set_area_ready_func(pw->il, pan_queue_image_area_cb, pw);
-#endif
 		g_signal_connect(G_OBJECT(pw->il), "error", (GCallback)pan_queue_image_done_cb, pw);
 		g_signal_connect(G_OBJECT(pw->il), "done", (GCallback)pan_queue_image_done_cb, pw);
 
@@ -346,26 +317,6 @@ static gboolean pan_window_request_tile_cb(PixbufRenderer *pr, gint x, gint y,
 		}
 
 	g_list_free(list);
-
-#if 0
-	if (x%512 == 0 && y%512 == 0)
-		{
-		PangoLayout *layout;
-		gchar *buf;
-
-		layout = gtk_widget_create_pango_layout((GtkWidget *)pr, NULL);
-
-		buf = g_strdup_printf("%d,%d\n(#%d)", x, y,
-				      (x / pr->source_tile_width) +
-				      (y / pr->source_tile_height * (pr->image_width/pr->source_tile_width + 1)));
-		pango_layout_set_text(layout, buf, -1);
-		g_free(buf);
-
-		pixbuf_draw_layout(pixbuf, layout, (GtkWidget *)pr, 0, 0, 0, 0, 0, 255);
-
-		g_object_unref(G_OBJECT(layout));
-		}
-#endif
 
 	return TRUE;
 }
@@ -613,46 +564,6 @@ static gboolean pan_cache_step(PanWindow *pw)
 	fd = pw->cache_todo->data;
 	pw->cache_todo = g_list_remove(pw->cache_todo, fd);
 
-#if 0
-	if (enable_thumb_caching)
-		{
-		gchar *found;
-
-		found = cache_find_location(CACHE_TYPE_SIM, fd->path);
-		if (found && filetime(found) == fd->date)
-			{
-			cd = cache_sim_data_load(found);
-			}
-		g_free(found);
-		}
-
-	if (!cd) cd = cache_sim_data_new();
-
-	if (!cd->dimensions)
-		{
-		cd->dimensions = image_load_dimensions(fd, &cd->width, &cd->height);
-		if (enable_thumb_caching &&
-		    cd->dimensions)
-			{
-			gchar *base;
-			mode_t mode = 0755;
-
-			base = cache_get_location(CACHE_TYPE_SIM, fd->path, FALSE, &mode);
-			if (recursive_mkdir_if_not_exists(base, mode))
-				{
-				g_free(cd->path);
-				cd->path = cache_get_location(CACHE_TYPE_SIM, fd->path, TRUE, NULL);
-				if (cache_sim_data_save(cd))
-					{
-					filetime_set(cd->path, filetime(fd->path));
-					}
-				}
-			g_free(base);
-			}
-
-		pw->cache_tick = 9;
-		}
-#endif
 	pc = g_new0(PanCacheData, 1);
 	pc->fd = file_data_ref(fd);
 
@@ -1298,16 +1209,6 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 				stop_signal = FALSE;
 				break;
 			}
-#if 0
-		if (n != -1 && fd)
-			{
-			if (!editor_window_flag_set(n))
-				{
-				pan_fullscreen_toggle(pw, TRUE);
-				}
-			file_util_start_editor_from_file(n, fd, GTK_WIDGET(pr));
-			}
-#endif
 		}
 	else
 		{
@@ -1369,9 +1270,6 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 					pan_fullscreen_toggle(pw, FALSE);
 					break;
 				case 'I': case 'i':
-#if 0
-					pan_overlay_toggle(pw);
-#endif
 					break;
 				case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 					break;
@@ -1406,57 +1304,6 @@ static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 	if (!fd) return;
 
 	pan_text_alignment_add(ta, NULL, NULL);
-#if 0
-	{
-	GList *work;
-	gint i;
-
-
-	for (i = 0; ExifUIList[i].key; i++)
-		{
-		gchar *label;
-		gchar *desc;
-		gchar *text;
-
-		if (ExifUIList[i].current == EXIF_UI_OFF) continue;
-
-		text = metadata_read_string(fd, ExifUIList[i].key, METADATA_FORMATTED);
-		
-		if (ExifUIList[i].current == EXIF_UI_IFSET && (!text || !*text))
-			{
-			g_free(text);
-			continue;
-			}
-		
-		desc = exif_get_description_by_key(ExifUIList[i].key);
-		label = g_strdup_printf("%s:", desc);
-		g_free(desc);
-		pan_text_alignment_add(ta, label, text);
-		g_free(label);
-		g_free(text);
-		}
-
-	work = g_list_last(history_list_get_by_key("exif_extras"));
-	if (work) pan_text_alignment_add(ta, "---", NULL);
-	while (work)
-		{
-		const gchar *name;
-		gchar *text;
-
-		name = work->data;
-		work = work->prev;
-
-		text =  metadata_read_string(fd, name, METADATA_FORMATTED);
-		if (text)
-			{
-			gchar *label = g_strdup_printf("%s:", name);
-			pan_text_alignment_add(ta, label, text);
-			g_free(label);
-			g_free(text);
-			}
-		}
-	}
-#endif
 }
 
 
@@ -1922,13 +1769,6 @@ static void pan_search_activate(PanWindow *pw)
 {
 	gchar *text;
 
-#if 0
-	if (!GTK_WIDGET_VISIBLE(pw->search_box))
-		{
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
-		}
-#endif
-
 	text = g_strdup(gtk_entry_get_text(GTK_ENTRY(pw->search_entry)));
 	pan_search_activate_cb(text, pw);
 	g_free(text);
@@ -2039,9 +1879,6 @@ static void button_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 
 static void scroll_cb(PixbufRenderer *pr, GdkEventScroll *event, gpointer data)
 {
-#if 0
-	PanWindow *pw = data;
-#endif
 	gint w, h;
 
 	w = pr->vis_width;
@@ -2220,16 +2057,6 @@ static void pan_window_layout_size_cb(GtkWidget *combo, gpointer data)
 	pw->size = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
 	pan_layout_update(pw);
 }
-
-#if 0
-static void pan_window_date_toggle_cb(GtkWidget *button, gpointer data)
-{
-	PanWindow *pw = data;
-
-	pw->exif_date_enable = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
-	pan_layout_update(pw);
-}
-#endif
 
 static void pan_window_entry_activate_cb(const gchar *new_text, gpointer data)
 {
@@ -2473,11 +2300,6 @@ static void pan_window_new_real(FileData *dir_fd)
 	pw->label_zoom = gtk_label_new("");
 	gtk_container_add(GTK_CONTAINER(frame), pw->label_zoom);
 	gtk_widget_show(pw->label_zoom);
-
-#if 0
-	pw->date_button = pref_checkbox_new(box, _("Use Exif date"), pw->exif_date_enable,
-					    G_CALLBACK(pan_window_date_toggle_cb), pw);
-#endif
 
 	pw->search_button = gtk_toggle_button_new();
 	gtk_button_set_relief(GTK_BUTTON(pw->search_button), GTK_RELIEF_NONE);
