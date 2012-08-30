@@ -231,9 +231,6 @@ static void config_window_apply(void)
 	options->thumbnails.enable_caching = c_options->thumbnails.enable_caching;
 	options->thumbnails.cache_into_dirs = c_options->thumbnails.cache_into_dirs;
 	options->thumbnails.use_exif = c_options->thumbnails.use_exif;
-#if 0
-	options->thumbnails.use_xvpics = c_options->thumbnails.use_xvpics;
-#endif
 	options->thumbnails.spec_standard = c_options->thumbnails.spec_standard;
 	options->metadata.enable_metadata_dirs = c_options->metadata.enable_metadata_dirs;
 	options->file_filter.show_hidden_files = c_options->file_filter.show_hidden_files;
@@ -343,13 +340,6 @@ static void config_window_apply(void)
 	options->color_profile.use_x11_screen_profile = c_options->color_profile.use_x11_screen_profile;
 #endif
 
-#if 0
-	for (i = 0; ExifUIList[i].key; i++)
-		{
-		ExifUIList[i].current = ExifUIList[i].temp;
-		}
-
-#endif
 	image_options_sync();
 
 	if (refresh)
@@ -1141,18 +1131,6 @@ void accel_remove_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);
 }
 
-#if 0
-static void accel_remove_cb(GtkWidget *widget, gpointer data)
-{
-	GtkTreeSelection *selection;
-
-	if (!accel_store) return;
-
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data));
-	gtk_tree_selection_selected_foreach(selection, &accel_remove_selection, NULL);
-}
-#endif
-
 void accel_reset_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	GtkAccelKey key;
@@ -1179,114 +1157,6 @@ static void accel_reset_cb(GtkWidget *widget, gpointer data)
 }
 
 
-#if 0
-static void accel_alternate_activate_cb(GtkWidget *widget, gpointer data)
-{
-	gtk_action_activate((GtkAction*)data);
-}
-
-#define DUPL "-alt-"
-
-void accel_add_alt_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	LayoutWindow *lw;
-	GList *groups, *actions;
-	GtkAction *action;
-	GtkAccelKey key, *key2;
-	GtkAccelMap *map;
-	gchar *accel_path2, *accel;
-	const gchar *accel_path;
-	gint freeduplnum = 1;
-	gint len;
-	GClosure* closure;
-	GtkAccelGroup *group;
-	GtkAction *action_new, *action_new2;
-	gchar *name, *accel_path_new, *accel_path_new2;
-
-	if (!accel_store || !layout_window_list || !layout_window_list->data) return;
-
-	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path2, -1);
-	len = strlen(accel_path2);
-
-	gtk_tree_store_clear(accel_store);
-	lw = layout_window_list->data;
-
-	g_assert(lw && lw->ui_manager);
-	groups = gtk_ui_manager_get_action_groups(lw->ui_manager);
-	group = gtk_ui_manager_get_accel_group(lw->ui_manager);
-
-	while (groups)
-		{
-		actions = gtk_action_group_list_actions(GTK_ACTION_GROUP(groups->data));
-		while (actions)
-			{
-			gchar *dupl;
-			guint64 num;
-
-			action = GTK_ACTION(actions->data);
-			actions = actions->next;
-
-			accel_path = gtk_action_get_accel_path(action);
-			if (!accel_path) continue;
-
-			dupl = g_strrstr(accel_path, DUPL);
-
-			printf("D: %s %s %s\n", accel_path, accel_path2, dupl);
-
-			if ((dupl && (len != (dupl - accel_path)) ) ||
-			    g_ascii_strncasecmp(accel_path, accel_path2, len) != 0)
-				continue;
-
-			if (dupl && (num = g_ascii_strtoull(dupl + strlen(DUPL), NULL, 10)) > 0 &&
-			    num > freeduplnum)
-				{
-				freeduplnum = num + 1;
-				}
-			else
-				{
-				closure = gtk_action_get_accel_closure(action);
-				name = gtk_action_get_name(action);
-				accel_path_new = g_strdup(accel_path);
-				action_new2 = action;
-				}
-			}
-		groups = groups->next;
-		}
-
-	action_new = gtk_action_new(name, NULL, NULL, NULL);
-	gtk_action_set_accel_group(action_new, group);
-
-	g_signal_connect(G_OBJECT(action_new), "activate",
-			 G_CALLBACK(accel_alternate_activate_cb), action_new2);
-
-//	accel_path_new2 = g_strdup_printf("%s%s%d", accel_path_new, dupl, freeduplnum);
-	g_free(accel_path_new);
-
-	gtk_action_set_accel_path(action_new, accel_path_new);
-
-//	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);
-	printf("D: %s\n", accel_path_new2);
-
-	g_free(accel_path_new2);
-	gtk_action_connect_accelerator(action_new);
-}
-
-static void accel_add_alt_cb(GtkWidget *widget, gpointer data)
-{
-	GtkWidget *accel_view = data;
-	GtkTreeSelection *selection;
-
-	if (!accel_store) return;
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data));
-	gtk_tree_selection_selected_foreach(selection, &accel_add_alt_selection, NULL);
-}
-
-static void accel_default_ok_cb(GenericDialog *gd, gpointer data)
-{
-	accel_store_populate();
-}
-
-#endif
 
 static GtkWidget *scrolled_notebook_page(GtkWidget *notebook, const gchar *title)
 {
@@ -1349,11 +1219,6 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_checkbox_new_int(subgroup, _("Store thumbnails in '.thumbnails' folder, local to image folder (non-standard)"),
 			      options->thumbnails.cache_into_dirs, &c_options->thumbnails.cache_into_dirs);
 
-#if 0
-	pref_checkbox_new_int(subgroup, _("Use xvpics thumbnails when found (read only)"),
-			      options->thumbnails.use_xvpics, &c_options->thumbnails.use_xvpics);
-#endif
-
 	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"),
 			      options->thumbnails.use_exif, &c_options->thumbnails.use_exif);
 
@@ -1370,11 +1235,6 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Repeat"), options->slideshow.repeat, &c_options->slideshow.repeat);
 
 	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
-
-#if 0
-	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
-			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
-#endif
 
 	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
 			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
@@ -1612,10 +1472,6 @@ static void config_tab_files(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Show hidden files or folders"),
 			      options->file_filter.show_hidden_files, &c_options->file_filter.show_hidden_files);
-#if 0
-	pref_checkbox_new_int(group, _("Show dot directory"),
-			      options->file_filter.show_dot_directory, &c_options->file_filter.show_dot_directory);
-#endif
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
 			      options->file_sort.case_sensitive, &c_options->file_sort.case_sensitive);
 
@@ -1880,7 +1736,6 @@ static void config_tab_color(GtkWidget *notebook)
 
 		entry = gtk_entry_new();
 		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
-//		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
 		if (options->color_profile.input_name[i])
 			{
 			gtk_entry_set_text(GTK_ENTRY(entry), options->color_profile.input_name[i]);
@@ -2107,24 +1962,10 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
-#if 0
-	button = pref_button_new(NULL, GTK_STOCK_REMOVE, NULL, FALSE,
-				 G_CALLBACK(accel_remove_cb), accel_view);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-#endif
-
 	button = pref_button_new(NULL, NULL, _("Reset selected"), FALSE,
 				 G_CALLBACK(accel_reset_cb), accel_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
-
-#if 0
-	button = pref_button_new(NULL, _("Add Alt"), NULL, FALSE,
-				 G_CALLBACK(accel_add_alt_cb), accel_view);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-#endif
 }
 
 /* stereo tab */
