@@ -1324,12 +1324,24 @@ static gboolean sizer_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpoin
 
 static gboolean sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
+#if GTK_CHECK_VERSION(3,0,0)
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation(widget, &allocation);
+
+	cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(widget));
+
+	gtk_render_handle (gtk_widget_get_style_context (widget),
+	                   cr, allocation.x, allocation.y, allocation.width, allocation.height);
+	cairo_destroy(cr);
+#else
 	SizerData *sd = data;
 	GdkRectangle clip;
 	GtkOrientation orientation;
 	GtkStateType state;
 	GtkAllocation allocation;
 
+	gtk_widget_get_allocation(widget, &allocation);
 
 	if (sd->position & SIZER_POS_LEFT || sd->position & SIZER_POS_RIGHT)
 		{
@@ -1349,14 +1361,6 @@ static gboolean sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpoint
 		state = gtk_widget_get_state(widget);
 		}
 
-	gtk_widget_get_allocation(widget, &allocation);
-#if GTK_CHECK_VERSION(3,0,0)
-	cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(widget));
-
-	gtk_render_handle (gtk_widget_get_style_context (widget),
-	                   cr, allocation.x, allocation.y, allocation.width, allocation.height);    
-	cairo_destroy(cr);
-#else
 	gdk_region_get_clipbox(event->region, &clip);
 
 	gtk_paint_handle(gtk_widget_get_style(widget), gtk_widget_get_window(widget), state,
