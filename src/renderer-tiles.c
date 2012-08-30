@@ -1895,8 +1895,6 @@ static void rt_scroll(void *renderer, gint x_off, gint y_off)
 		gint x2, y2;
 		GtkWidget *box;
 		GdkWindow *window;
-//		GdkGC *gc;
-		GdkEvent *event;
 		cairo_t *cr;
 		cairo_surface_t *surface;
 
