@@ -478,7 +478,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	const gchar *name;
 	gchar *text;
 	gboolean with_hist;
-	const HistMap *histmap;
+	const HistMap *histmap = NULL;
 	ImageWindow *imd = osd->imd;
 	FileData *fd = image_get_fd(imd);
 
