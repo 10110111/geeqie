@@ -349,10 +349,6 @@ GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gboolean counter_clockwise)
 	gint dw, dh, drs;
 	guchar *s_pix;
 	guchar *d_pix;
-#if 0
-	guchar *sp;
-	guchar *dp;
-#endif
 	gint i, j;
 	gint a;
 	GdkPixbuf *buffer;
@@ -1008,20 +1004,6 @@ static gboolean util_clip_line(gdouble clip_x, gdouble clip_y, gdouble clip_w, g
 		{
 		if (y1 < clip_y || y2 > clip_y + clip_h) return FALSE;
 		}
-
-#if 0
-	if (x1 >= clip_x && x2 <= clip_x + clip_w)
-		{
-		if (y1 < y2)
-			{
-			if (y1 >= clip_y && y2 <= clip_y + clip_h) return TRUE;
-			}
-		else
-			{
-			if (y2 >= clip_y && y1 <= clip_y + clip_h) return TRUE;
-			}
-		}
-#endif
 
 	d = x2 - x1;
 	if (d > 0.0)
