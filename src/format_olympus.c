@@ -205,14 +205,6 @@ static ExifTextList OlympusTagContrast[]= {
 	EXIF_TEXT_LIST_END
 };
 
-#if 0
-static ExifTextList OlympusTag[]= {
-	{ ,	"" },
-	{ ,	"" },
-	EXIF_TEXT_LIST_END
-};
-#endif
-
 
 static ExifMarker OlympusExifMarkersList[] = {
 { 0x0001, EXIF_FORMAT_LONG_UNSIGNED, -1, "Konica/MinoltaSettings", "Konica / Minolta settings", NULL },
