@@ -307,27 +307,6 @@ static GList *parts_list_add_node_points(ViewDir *vd, GList *list)
 	return list;
 }
 
-/*
- *----------------------------------------------------------------------------
- * misc
- *----------------------------------------------------------------------------
- */
-
-#if 0
-static void vdtree_row_deleted_cb(GtkTreeModel *tree_model, GtkTreePath *tpath, gpointer data)
-{
-	GtkTreeIter iter;
-	NodeData *nd;
-
-	gtk_tree_model_get_iter(tree_model, &iter, tpath);
-	gtk_tree_model_get(tree_model, &iter, DIR_COLUMN_POINTER, &nd, -1);
-
-	if (!nd) return;
-
-	file_data_unref(nd->fd);
-	g_free(nd);
-}
-#endif
 
 /*
  *----------------------------------------------------------------------------
@@ -731,13 +710,6 @@ gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 
 	return TRUE;
 }
-
-#if 0
-const gchar *vdtree_get_path(ViewDir *vd)
-{
-	return vd->path;
-}
-#endif
 
 void vdtree_refresh(ViewDir *vd)
 {
