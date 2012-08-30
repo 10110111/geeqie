@@ -266,13 +266,9 @@ static void file_data_set_collate_keys(FileData *fd)
 	g_free(fd->collate_key_name);
 	g_free(fd->collate_key_name_nocase);
 
-#if 0 && GLIB_CHECK_VERSION(2, 8, 0)
-	fd->collate_key_name = g_utf8_collate_key_for_filename(valid_name, -1);
-	fd->collate_key_name_nocase = g_utf8_collate_key_for_filename(caseless_name, -1);
-#else
 	fd->collate_key_name = g_utf8_collate_key(valid_name, -1);
 	fd->collate_key_name_nocase = g_utf8_collate_key(caseless_name, -1);
-#endif
+	
 	g_free(valid_name);
 	g_free(caseless_name);
 }
@@ -966,31 +962,6 @@ static GList * file_data_basename_hash_insert(GHashTable *basename_hash, FileDat
 		}
 	return list;
 }
-
-#if 0
-static void file_data_basename_hash_remove(GHashTable *basename_hash, FileData *fd)
-{
-	GList *list;
-	gchar *basename = g_strndup(fd->path, fd->extension - fd->path);
-	
-	list = g_hash_table_lookup(basename_hash, basename);
-	
-	if (!g_list_find(list, fd)) return;
-	
-	list = g_list_remove(list, fd);
-	file_data_unref(fd);
-	
-	if (list)
-		{
-		g_hash_table_insert(basename_hash, basename, list);
-		}
-	else 
-		{
-		g_hash_table_remove(basename_hash, basename);
-		g_free(basename);
-		}
-}
-#endif
 
 static void file_data_basename_hash_remove_list(gpointer key, gpointer value, gpointer data)
 {
@@ -2608,29 +2579,6 @@ static gboolean file_data_list_contains_whole_group(GList *list, FileData *fd)
 		}
 	return TRUE;
 }
-
-#if 0
-static gboolean file_data_list_dump(GList *list)
-{
-	GList *work, *work2;
-
-	work = list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		printf("%s\n", fd->name);
-		work2 = fd->sidecar_files;
-		while (work2)
-			{
-			FileData *fd = work2->data;
-			printf("       %s\n", fd->name);
-			work2 = work2->next;
-			}
-		work = work->next;
-		}
-	return TRUE;
-}
-#endif
 
 GList *file_data_process_groups_in_selection(GList *list, gboolean ungroup, GList **ungrouped_list)
 {
