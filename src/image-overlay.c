@@ -477,7 +477,6 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	PangoLayout *layout;
 	const gchar *name;
 	gchar *text;
-	GdkPixbuf *imgpixbuf = NULL;
 	gboolean with_hist;
 	const HistMap *histmap;
 	ImageWindow *imd = osd->imd;
@@ -563,12 +562,10 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 				{
 				w = gdk_pixbuf_get_width(load_pixbuf);
 				h = gdk_pixbuf_get_height(load_pixbuf);
-				imgpixbuf = load_pixbuf;
 				}
 			else
 				{
 				image_get_image_size(imd, &w, &h);
-				imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
 				}
 		
 			
