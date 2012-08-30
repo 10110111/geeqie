@@ -1142,9 +1142,6 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 		gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(dd->filter_combo), renderer, TRUE);
 		gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(dd->filter_combo), renderer,
 					       "text", FILTER_COLUMN_NAME, NULL);
-#if 0
-		gtk_combo_set_case_sensitive(GTK_COMBO(dd->filter_combo), TRUE);
-#endif
 		gtk_box_pack_start(GTK_BOX(hbox2), dd->filter_combo, TRUE, TRUE, 0);
 		gtk_widget_show(dd->filter_combo);
 
