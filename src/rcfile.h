@@ -41,7 +41,6 @@ gboolean read_bool_option(const gchar *option, const gchar *label, const gchar *
 
 #define WRITE_NL() write_indent(outstr, indent)
 #define WRITE_SEPARATOR() g_string_append(outstr, "\n")
-#define WRITE_SUBTITLE(_title_) g_string_append_printf(outstr, "\n\n<!-- "_title_" -->\n\n")
 #define WRITE_STRING(...) g_string_append_printf(outstr, __VA_ARGS__)
 
 #define READ_BOOL(_target_, _name_) read_bool_option(option, #_name_, value, &(_target_)._name_)
