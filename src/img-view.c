@@ -373,40 +373,19 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
-		gint n = -1;
-
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
-				n = 0;
-				break;
 			case '2':
-				n = 1;
-				break;
 			case '3':
-				n = 2;
-				break;
 			case '4':
-				n = 3;
-				break;
 			case '5':
-				n = 4;
-				break;
 			case '6':
-				n = 5;
-				break;
 			case '7':
-				n = 6;
-				break;
 			case '8':
-				n = 7;
-				break;
 			case '9':
-				n = 8;
-				break;
 			case '0':
-				n = 9;
 				break;
 			case 'C': case 'c':
 				file_util_copy(image_get_fd(imd), NULL, NULL, imd->widget);
