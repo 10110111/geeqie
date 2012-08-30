@@ -3355,8 +3355,6 @@ static void dupe_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 			      guint time, gpointer data)
 {
 	DupeWindow *dw = data;
-	gchar *uri_text;
-	gint length;
 	GList *list;
 
 	switch (info)
@@ -3369,7 +3367,6 @@ static void dupe_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 			filelist_free(list);
 			break;
 		default:
-			uri_text = NULL;
 			break;
 		}
 }
