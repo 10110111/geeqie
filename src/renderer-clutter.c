@@ -466,8 +466,8 @@ static void rc_area_changed(void *renderer, gint src_x, gint src_y, gint src_w, 
 			}
 
 	if (!pr_clip_region(src_x, src_y, src_w, src_h,
-                            GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height,
-                            &src_x, &src_y, &src_w, &src_h)) return;
+						GET_RIGHT_PIXBUF_OFFSET(rc), 0, width, height,
+						&src_x, &src_y, &src_w, &src_h)) return;
 
 	par = g_new0(RendererClutterAreaParam, 1);
 	par->rc = rc;
@@ -662,7 +662,7 @@ static gint rc_overlay_add(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, Ov
 	g_signal_connect (od->actor, "destroy", G_CALLBACK(rc_overlay_actor_destroy_cb), od);
 
 	gtk_clutter_texture_set_from_pixbuf(GTK_CLUTTER_TEXTURE (od->actor), pixbuf, NULL);
-  	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), od->actor);
+	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), od->actor);
 
 	rc->overlay_list = g_list_append(rc->overlay_list, od);
 	rc_overlay_update_position(rc, od);
@@ -753,7 +753,7 @@ static void rc_update_viewport(void *renderer)
 		}
 	DEBUG_0("rc_update_viewport  scale %d %d", rc->pr->width, rc->pr->height);
 
-        clutter_stage_set_color(CLUTTER_STAGE(rc->stage), &stage_color);
+	clutter_stage_set_color(CLUTTER_STAGE(rc->stage), &stage_color);
 
 
 	clutter_actor_set_size(rc->group, rc->pr->viewport_width, rc->pr->viewport_height);
@@ -856,32 +856,32 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 	rc->idle_update = 0;
 	rc->pending_updates = NULL;
 
-  	rc->widget = gtk_bin_get_child(GTK_BIN(rc->pr));
+	rc->widget = gtk_bin_get_child(GTK_BIN(rc->pr));
 
-  	if (rc->widget)
-  		{
-  		if (!GTK_CLUTTER_IS_EMBED(rc->widget))
-  			{
-  			g_free(rc);
-  			DEBUG_0("pixbuf renderer has a child of other type than gtk_clutter_embed");
-  			return NULL;
-  			}
-  		}
-  	else
-  		{
-  		rc->widget = gtk_clutter_embed_new();
+	if (rc->widget)
+		{
+		if (!GTK_CLUTTER_IS_EMBED(rc->widget))
+			{
+			g_free(rc);
+			DEBUG_0("pixbuf renderer has a child of other type than gtk_clutter_embed");
+			return NULL;
+			}
+		}
+	else
+		{
+		rc->widget = gtk_clutter_embed_new();
 		gtk_container_add(GTK_CONTAINER(rc->pr), rc->widget);
-  		}
+		}
 
 	gtk_event_box_set_above_child (GTK_EVENT_BOX(rc->pr), TRUE);
-        rc->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (rc->widget));
+	rc->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (rc->widget));
 
-        rc->group = clutter_group_new();
-  	clutter_container_add_actor(CLUTTER_CONTAINER(rc->stage), rc->group);
-  	clutter_actor_set_clip_to_allocation(CLUTTER_ACTOR(rc->group), TRUE);
+	rc->group = clutter_group_new();
+	clutter_container_add_actor(CLUTTER_CONTAINER(rc->stage), rc->group);
+	clutter_actor_set_clip_to_allocation(CLUTTER_ACTOR(rc->group), TRUE);
 
-  	rc->texture = clutter_texture_new ();
-  	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), rc->texture);
+	rc->texture = clutter_texture_new ();
+	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), rc->texture);
 
 	renderer_clutter_init_checker_shader(rc);
 	g_object_ref(G_OBJECT(rc->widget));
