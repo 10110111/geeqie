@@ -251,6 +251,8 @@ static void rc_sync_actor(RendererClutter *rc)
 	PixbufRenderer *pr = rc->pr;
 	gint anchor_x = 0;
 	gint anchor_y = 0;
+	gint rot_z = 0;
+	gint rot_y = 0;
 
 	clutter_actor_set_anchor_point(CLUTTER_ACTOR(rc->texture), 0, 0);
 
@@ -264,95 +266,58 @@ static void rc_sync_actor(RendererClutter *rc)
 	switch (pr->orientation)
 		{
 		case EXIF_ORIENTATION_TOP_LEFT:
-			/* normal  */
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						0, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						0, 0, 0, 0);
-			anchor_x = 0;
-			anchor_y = 0;
+			/* 1 - Horizontal (normal)  */
 			break;
 		case EXIF_ORIENTATION_TOP_RIGHT:
-			/* mirrored */
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						0, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						180, 0, 0, 0);
+			/* 2 - Mirror horizontal */
+			rot_y = 180;
 			anchor_x = pr->width;
-			anchor_y = 0;
 			break;
 		case EXIF_ORIENTATION_BOTTOM_RIGHT:
-			/* upside down */
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						180, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						0, 0, 0, 0);
+			/* 3 - Rotate 180 */
+			rot_z = 180;
 			anchor_x = pr->width;
 			anchor_y = pr->height;
 			break;
 		case EXIF_ORIENTATION_BOTTOM_LEFT:
-			/* flipped */
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						180, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						180, 0, 0, 0);
-			anchor_x = 0;
+			/* 4 - Mirror vertical */
+			rot_z = 180;
+			rot_y = 180;
 			anchor_y = pr->height;
 			break;
 		case EXIF_ORIENTATION_LEFT_TOP:
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						-90, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						180, 0, 0, 0);
-			anchor_x = 0;
-			anchor_y = 0;
+			/* 5 - Mirror horizontal and rotate 270 CW */
+			rot_z = 270;
+			rot_y = 180;
 			break;
 		case EXIF_ORIENTATION_RIGHT_TOP:
-			/* rotated -90 (270) */
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						-90, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						0, 0, 0, 0);
-			anchor_x = 0;
-			anchor_y = pr->height;
+			/* 6 - Rotate 90 CW */
+			rot_z = 90;
+			anchor_x = pr->width;
 			break;
 		case EXIF_ORIENTATION_RIGHT_BOTTOM:
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						90, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						180, 0, 0, 0);
+			/* 7 - Mirror horizontal and rotate 90 CW */
+			rot_z = 90;
+			rot_y = 180;
 			anchor_x = pr->width;
 			anchor_y = pr->height;
 			break;
 		case EXIF_ORIENTATION_LEFT_BOTTOM:
-			/* rotated 90 */
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Z_AXIS,
-						90, 0, 0, 0);
-			clutter_actor_set_rotation(CLUTTER_ACTOR(rc->texture),
-						CLUTTER_Y_AXIS,
-						0, 0, 0, 0);
-			anchor_x = pr->width;
-			anchor_y = 0;
+			/* 8 - Rotate 270 CW */
+			rot_z = 270;
+			anchor_y = pr->height;
 			break;
 		default:
 			/* The other values are out of range */
 			break;
 		}
+
+	clutter_actor_set_rotation(	CLUTTER_ACTOR(rc->texture),
+								CLUTTER_Z_AXIS,
+								rot_z, 0, 0, 0);
+	clutter_actor_set_rotation(	CLUTTER_ACTOR(rc->texture),
+								CLUTTER_Y_AXIS,
+								rot_y, 0, 0, 0);
 
 	clutter_actor_set_position(CLUTTER_ACTOR(rc->texture),
 				pr->x_offset - pr->x_scroll + anchor_x,
