@@ -118,63 +118,83 @@ struct _RendererClutterAreaParam {
 	gint h;
 };
 
+typedef struct _RendererClutterShaderInfo RendererClutterShaderInfo;
+struct _RendererClutterShaderInfo {
+	float checkersize;
+	float checkercolor0[3];
+	float checkercolor1[3];
+};
+
 #define CLUT_SIZE	32
 
-static void rc_set_shader(CoglHandle material)
+static void rc_set_shader(CoglHandle material, const RendererClutterShaderInfo *shaderInfo)
 {
-  CoglHandle shader;
-  CoglHandle program;
-  gint uniform_no;
-  shader = cogl_create_shader (COGL_SHADER_TYPE_FRAGMENT);
-  cogl_shader_source (shader,
-  "vec3 checker(vec2 texc, vec3 color0, vec3 color1)						\n"
-  "{												\n"
-  "  if (mod(floor(texc.x) + floor(texc.y), 2.0) == 0.0)					\n"
-  "    return color0;										\n"
-  "  else											\n"
-  "    return color1;										\n"
-  "}												\n"
-  "												\n"
-  "uniform sampler2D tex;									\n"
-  "uniform sampler3D clut;									\n"
-  "uniform float scale;										\n"
-  "uniform float offset;									\n"
-  "												\n"
-  "void main(void)										\n"
-  "{												\n"
-  "    vec3 bg = checker(gl_FragCoord.xy / 16.0, vec3(0.6, 0.6, 0.6), vec3(0.4, 0.4, 0.4));	\n"
-  "    vec4 img4 = texture2D(tex, gl_TexCoord[0].xy);						\n"
-  "    vec3 img3 = img4.bgr;									\n"
-  "    img3 = img3 * scale + offset;								\n"
-  "    img3 = texture3D(clut, img3).rgb;								\n"
-  "												\n"
-  "    gl_FragColor = vec4(img3 * img4.a + bg * (1.0 - img4.a), 1.0);				\n"
-  "}												\n"
-  );
-  cogl_shader_compile(shader);
-  gchar *err = cogl_shader_get_info_log(shader);
-  DEBUG_0("%s\n",err);
-  g_free(err);
+	CoglHandle shader;
+	CoglHandle program;
+	gint uniform_no;
 
-  program = cogl_create_program ();
-  cogl_program_attach_shader (program, shader);
-  cogl_handle_unref (shader);
-  cogl_program_link (program);
+	shader = cogl_create_shader (COGL_SHADER_TYPE_FRAGMENT);
+	cogl_shader_source (shader,
+	"vec3 checker(vec2 texc, vec3 color0, vec3 color1)						\n"
+	"{																		\n"
+	"  if (mod(floor(texc.x) + floor(texc.y), 2.0) == 0.0)					\n"
+	"    return color0;														\n"
+	"  else																	\n"
+	"    return color1;														\n"
+	"}																		\n"
+	"																		\n"
+	"uniform sampler2D tex;													\n"
+	"uniform sampler3D clut;												\n"
+	"uniform float scale;													\n"
+	"uniform float offset;													\n"
+	"uniform float checkersize;												\n"
+	"uniform vec3 color0;													\n"
+	"uniform vec3 color1;													\n"
+	"																		\n"
+	"void main(void)														\n"
+	"{																		\n"
+	"    vec3 bg = checker(gl_FragCoord.xy / checkersize, color0, color1);	\n"
+	"    vec4 img4 = texture2D(tex, gl_TexCoord[0].xy);						\n"
+	"    vec3 img3 = img4.bgr;												\n"
+	"    img3 = img3 * scale + offset;										\n"
+	"    img3 = texture3D(clut, img3).rgb;									\n"
+	"																		\n"
+	"    gl_FragColor = vec4(img3 * img4.a + bg * (1.0 - img4.a), 1.0);		\n"
+	"}																		\n"
+	);
+	cogl_shader_compile(shader);
+	gchar *err = cogl_shader_get_info_log(shader);
+	DEBUG_0("%s\n",err);
+	g_free(err);
 
-  uniform_no = cogl_program_get_uniform_location (program, "tex");
-  cogl_program_set_uniform_1i (program, uniform_no, 0);
+	program = cogl_create_program ();
+	cogl_program_attach_shader (program, shader);
+	cogl_handle_unref (shader);
+	cogl_program_link (program);
 
-  uniform_no = cogl_program_get_uniform_location (program, "clut");
-  cogl_program_set_uniform_1i (program, uniform_no, 1);
+	uniform_no = cogl_program_get_uniform_location (program, "tex");
+	cogl_program_set_uniform_1i (program, uniform_no, 0);
 
-  uniform_no = cogl_program_get_uniform_location (program, "scale");
-  cogl_program_set_uniform_1f (program, uniform_no, (double) (CLUT_SIZE - 1) / CLUT_SIZE);
+	uniform_no = cogl_program_get_uniform_location (program, "clut");
+	cogl_program_set_uniform_1i (program, uniform_no, 1);
 
-  uniform_no = cogl_program_get_uniform_location (program, "offset");
-  cogl_program_set_uniform_1f (program, uniform_no, 1.0 / (2 * CLUT_SIZE));
+	uniform_no = cogl_program_get_uniform_location (program, "scale");
+	cogl_program_set_uniform_1f (program, uniform_no, (double) (CLUT_SIZE - 1) / CLUT_SIZE);
 
-  cogl_material_set_user_program (material, program);
-  cogl_handle_unref (program);
+	uniform_no = cogl_program_get_uniform_location (program, "offset");
+	cogl_program_set_uniform_1f (program, uniform_no, 1.0 / (2 * CLUT_SIZE));
+
+	uniform_no = cogl_program_get_uniform_location (program, "checkersize");
+	cogl_program_set_uniform_1f (program, uniform_no, shaderInfo->checkersize);
+
+	uniform_no = cogl_program_get_uniform_location (program, "color0");
+	cogl_program_set_uniform_float (program, uniform_no, 3, 1, shaderInfo->checkercolor0);
+
+	uniform_no = cogl_program_get_uniform_location (program, "color1");
+	cogl_program_set_uniform_float (program, uniform_no, 3, 1, shaderInfo->checkercolor1);
+
+	cogl_material_set_user_program (material, program);
+	cogl_handle_unref (program);
 }
 
 
@@ -796,6 +816,17 @@ static void rc_free(void *renderer)
 	g_free(rc);
 }
 
+/* initialize shader for transparency background checker */
+static void renderer_clutter_init_checker_shader(RendererClutter *rc)
+{
+	const RendererClutterShaderInfo info = {
+		16.0,				/* checker size */
+		{0.6, 0.6, 0.6}, 	/* color 0 */
+		{0.4, 0.4, 0.4}  	/* color 1 */
+	};
+	rc_set_shader(clutter_texture_get_cogl_material(CLUTTER_TEXTURE(rc->texture)), &info);
+}
+
 RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 {
 	RendererClutter *rc = g_new0(RendererClutter, 1);
@@ -851,8 +882,9 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 
   	rc->texture = clutter_texture_new ();
   	clutter_container_add_actor(CLUTTER_CONTAINER(rc->group), rc->texture);
-  	rc_set_shader(clutter_texture_get_cogl_material(CLUTTER_TEXTURE(rc->texture)));
-  	g_object_ref(G_OBJECT(rc->widget));
+
+	renderer_clutter_init_checker_shader(rc);
+	g_object_ref(G_OBJECT(rc->widget));
 
 	gtk_widget_show(rc->widget);
 	return (RendererFuncs *) rc;
