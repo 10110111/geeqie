@@ -295,18 +295,21 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 		/* Turns out that the packing used by TIFFRGBAImage depends on
 		 * the host byte order...
 		 */
-		while (pixels < lt->pixbuf->pixels + bytes)
+		{
+		guchar *ptr = pixels;
+		while (ptr < pixels + bytes)
 			{
-			uint32 pixel = *(uint32 *)pixels;
+			uint32 pixel = *(uint32 *)ptr;
 			int r = TIFFGetR(pixel);
 			int g = TIFFGetG(pixel);
 			int b = TIFFGetB(pixel);
 			int a = TIFFGetA(pixel);
-			*pixels++ = r;
-			*pixels++ = g;
-			*pixels++ = b;
-			*pixels++ = a;
+			*ptr++ = r;
+			*ptr++ = g;
+			*ptr++ = b;
+			*ptr++ = a;
 			}
+		}
 #endif
 
 		lt->area_updated_cb(loader, 0, 0, width, height, lt->data);
