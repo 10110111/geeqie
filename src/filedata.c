@@ -2638,12 +2638,6 @@ GList *file_data_process_groups_in_selection(GList *list, gboolean ungroup, GLis
    implementation in view_file_list.c */
 
 
-typedef struct _NotifyIdleData NotifyIdleData;
-
-struct _NotifyIdleData {
-	FileData *fd;
-	NotifyType type;
-};
 
 
 typedef struct _NotifyData NotifyData;
@@ -2717,29 +2711,17 @@ gboolean file_data_unregister_notify_func(FileDataNotifyFunc func, gpointer data
 }
 
 
-gboolean file_data_send_notification_idle_cb(gpointer data)
+void file_data_send_notification(FileData *fd, NotifyType type)
 {
-	NotifyIdleData *nid = (NotifyIdleData *)data;
 	GList *work = notify_func_list;
 
 	while (work)
 		{
 		NotifyData *nd = (NotifyData *)work->data;
 
-		nd->func(nid->fd, nid->type, nd->data);
+		nd->func(fd, type, nd->data);
 		work = work->next;
 		}
-	file_data_unref(nid->fd);
-	g_free(nid);
-	return FALSE;
-}
-
-void file_data_send_notification(FileData *fd, NotifyType type)
-{
-	NotifyIdleData *nid = g_new0(NotifyIdleData, 1);
-	nid->fd = file_data_ref(fd);
-	nid->type = type;
-	g_idle_add_full(G_PRIORITY_HIGH, file_data_send_notification_idle_cb, nid, NULL);
 }
 
 static GHashTable *file_data_monitor_pool = NULL;

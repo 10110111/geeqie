@@ -25,6 +25,7 @@
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
 #include "image-load.h"
+#include "glua.h"
 
 /*
  *----------------------------------------------------------------------------
@@ -318,6 +319,17 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			{
 			data = metadata_read_string(imd->image_fd, COMMENT_KEY, METADATA_PLAIN);
 			}
+#ifdef HAVE_LUA
+		else if (strncmp(name, "lua/", 4) == 0)
+			{
+			gchar *tmp;
+			tmp = strchr(name+4, '/');
+			if (!tmp)
+				break;
+			*tmp = '\0';
+			data = lua_callvalue(imd->image_fd, name+4, tmp+1);
+			}
+#endif
 		else
 			{
 			data = g_strdup(g_hash_table_lookup(vars, name));

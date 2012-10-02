@@ -46,6 +46,7 @@
 #include "exif.h"
 #include "histogram.h"
 #include "pixbuf_util.h"
+#include "glua.h"
 
 #ifdef HAVE_CLUTTER
 #include <clutter-gtk/clutter-gtk.h>
@@ -755,6 +756,10 @@ gint main(gint argc, gchar *argv[])
 #endif
 
 	exif_init();
+
+#ifdef HAVE_LUA
+	lua_init();
+#endif
 
 	/* setup random seed for random slideshow */
 	srand(time(NULL));
