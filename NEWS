@@ -60,7 +60,7 @@ function of <ctrl>1, <ctrl>2, <ctrl>3, ... from external editor to selecting mar
 
 Exiv2 support
 
-Geeqie can be optionally linked with exiv2 to improve support for image metadata. 
+Geeqie can be optionally linked with exiv2 to improve support for image metadata.
 Details are at http://geeqie.wiki.sourceforge.net/Exiv2
 
 Various enhancements
