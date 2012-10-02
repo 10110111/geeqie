@@ -8,7 +8,7 @@ GQ_METADATA_DIR="$HOME/.local/share/geeqie/metadata"
 rotate()
 {
     ext=`echo "${1##*.}" |tr "[:upper:]" "[:lower:]"`
-    [ "x$ext" == "x" ] && return 1 #no extension
+    [ "x$ext" = "x" ] && return 1 #no extension
 
     gq_metadata="$GQ_METADATA_DIR/$1.gq.xmp"
     if [ -f "$gq_metadata" ]; then
@@ -48,7 +48,7 @@ rotate()
 }
 
 get_sidecars=
-if [ "x$1" == "x-g" ] ; then
+if [ "x$1" = "x-g" ] ; then
     get_sidecars=yes
     shift
 fi

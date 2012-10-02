@@ -1,7 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -65,9 +65,14 @@ GtkWidget *pref_group_new(GtkWidget *parent_box, gboolean fill,
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 
 	/* add additional spacing if necessary */
-	if (GTK_IS_VBOX(parent_box) && GTK_BOX(parent_box)->children != NULL)
+	if (GTK_IS_VBOX(parent_box))
 		{
-		pref_spacer(vbox, PREF_PAD_GROUP - PREF_PAD_GAP);
+		GList *list = gtk_container_get_children(GTK_CONTAINER(parent_box));
+		if (list)
+			{
+			pref_spacer(vbox, PREF_PAD_GROUP - PREF_PAD_GAP);
+			}
+		g_list_free(list);
 		}
 
 	gtk_box_pack_start(GTK_BOX(parent_box), vbox, fill, fill, 0);
@@ -538,24 +543,11 @@ GtkWidget *pref_spin_new_int(GtkWidget *parent_box, const gchar *text, const gch
 			     G_CALLBACK(pref_spin_int_cb), value_var);
 }
 
-#if 0
-void pref_spin_set_blocking(GtkWidget *spin, gdouble value, gpointer block_data)
-{
-	g_signal_handlers_block_matched(G_OBJECT(spin), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, block_data);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), value);
-	g_signal_handlers_unblock_matched(G_OBJECT(spin), G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, block_data);
-}
-#endif
-
 static void pref_link_sensitivity_cb(GtkWidget *watch, GtkStateType prev_state, gpointer data)
 {
 	GtkWidget *widget = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	gtk_widget_set_sensitive(widget, gtk_widget_is_sensitive(watch));
-#else
-	gtk_widget_set_sensitive(widget, GTK_WIDGET_IS_SENSITIVE(watch));
-#endif
 }
 
 void pref_link_sensitivity(GtkWidget *widget, GtkWidget *watch)
@@ -657,25 +649,6 @@ GtkWidget *pref_table_button(GtkWidget *table, gint column, gint row,
 	return button;
 }
 
-#if 0
-static GtkWidget *pref_table_checkbox(GtkWidget *table, gint column, gint row,
-				      const gchar *text, gint active,
-				      GCallback func, gpointer data)
-{
-	GtkWidget *button;
-
-	button = gtk_check_button_new_with_label(text);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), active);
-	if (func) g_signal_connect(G_OBJECT(button), "clicked", func, data);
-
-	gtk_table_attach(GTK_TABLE(table), button, column, column + 1, row, row + 1,
-			 GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_widget_show(button);
-
-	return button;
-}
-#endif
-
 GtkWidget *pref_table_spin(GtkWidget *table, gint column, gint row,
 			   const gchar *text, const gchar *suffix,
 			   gdouble min, gdouble max, gdouble step, gint digits,
@@ -736,24 +709,10 @@ GtkWidget *pref_table_spin_new_int(GtkWidget *table, gint column, gint row,
 }
 
 
-#if ! GTK_CHECK_VERSION(2,12,0)
-
-static void pref_toolbar_destroy_cb(GtkWidget *widget, gpointer data)
-{
-	GtkTooltips *tips = data;
-
-	g_object_unref(G_OBJECT(tips));
-}
-
-#endif
-
 GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 {
 	GtkWidget *tbar;
-#if ! GTK_CHECK_VERSION(2,12,0)
-	GtkTooltips *tips;
-#endif
-	
+
 	tbar = gtk_toolbar_new();
 	gtk_toolbar_set_style(GTK_TOOLBAR(tbar), style);
 
@@ -762,27 +721,6 @@ GtkWidget *pref_toolbar_new(GtkWidget *parent_box, GtkToolbarStyle style)
 		gtk_box_pack_start(GTK_BOX(parent_box), tbar, FALSE, FALSE, 0);
 		gtk_widget_show(tbar);
 		}
-
-#if ! GTK_CHECK_VERSION(2,12,0)
-	tips = gtk_tooltips_new();
-
-	/* take ownership of tooltips */
-#  ifdef GTK_OBJECT_FLOATING
-	/* GTK+ < 2.10 */
-	g_object_ref(G_OBJECT(tips));
-	gtk_object_sink(GTK_OBJECT(tips));
-#  else
-	/* GTK+ >= 2.10 */
-	g_object_ref_sink(G_OBJECT(tips));
-#  endif
-
-	g_object_set_data(G_OBJECT(tbar), "tooltips", tips);
-	g_signal_connect(G_OBJECT(tbar), "destroy",
-			 G_CALLBACK(pref_toolbar_destroy_cb), tips);
-
-	gtk_tooltips_enable(tips);
-#endif
-
 	return tbar;
 }
 
@@ -825,18 +763,8 @@ GtkWidget *pref_toolbar_button(GtkWidget *toolbar,
 
 	if (description)
 		{
-
-#if GTK_CHECK_VERSION(2,12,0)
-
 		gtk_widget_set_tooltip_text(item, description);
-			
-#else
-		GtkTooltips *tips;
-
-		tips = g_object_get_data(G_OBJECT(toolbar), "tooltips");
-		gtk_tool_item_set_tooltip(GTK_TOOL_ITEM(item), tips, description, NULL);
-#endif
-	}
+		}
 
 	return item;
 }
@@ -894,11 +822,7 @@ static void date_selection_popup_hide(DateSelection *ds)
 {
 	if (!ds->window) return;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_has_grab(ds->window))
-#else
-	if (GTK_WIDGET_HAS_GRAB(ds->window))
-#endif
 		{
 		gtk_grab_remove(ds->window);
 		gdk_keyboard_ungrab(GDK_CURRENT_TIME);
@@ -928,12 +852,15 @@ static gboolean date_selection_popup_press_cb(GtkWidget *widget, GdkEventButton 
 	gint x, y;
 	gint w, h;
 	gint xr, yr;
+	GdkWindow *window;
 
 	xr = (gint)event->x_root;
 	yr = (gint)event->y_root;
 
-	gdk_window_get_origin(ds->window->window, &x, &y);
-	gdk_drawable_get_size(ds->window->window, &w, &h);
+	window = gtk_widget_get_window(ds->window);
+	gdk_window_get_origin(window, &x, &y);
+	w = gdk_window_get_width(window);
+	h = gdk_window_get_height(window);
 
 	if (xr < x || yr < y || xr > x + w || yr > y + h)
 		{
@@ -959,14 +886,14 @@ static gboolean date_selection_popup_keypress_cb(GtkWidget *widget, GdkEventKey 
 
 	switch (event->keyval)
 		{
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_Tab:
-		case GDK_ISO_Left_Tab:
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+		case GDK_KEY_Tab:
+		case GDK_KEY_ISO_Left_Tab:
 			date_selection_popup_sync(ds);
 			date_selection_popup_hide(ds);
 			break;
-		case GDK_Escape:
+		case GDK_KEY_Escape:
 			date_selection_popup_hide(ds);
 			break;
 		default:
@@ -995,6 +922,8 @@ static void date_selection_popup(DateSelection *ds)
 	gint x, y;
 	gint wx, wy;
 	gint day, month, year;
+	GtkAllocation button_allocation;
+	GtkAllocation window_allocation;
 
 	if (ds->window) return;
 
@@ -1020,14 +949,17 @@ static void date_selection_popup(DateSelection *ds)
 
 	gtk_widget_realize(ds->window);
 
-	gdk_window_get_origin(ds->button->window, &wx, &wy);
+	gdk_window_get_origin(gtk_widget_get_window(ds->button), &wx, &wy);
 
-	x = wx + ds->button->allocation.x + ds->button->allocation.width - ds->window->allocation.width;
-	y = wy + ds->button->allocation.y + ds->button->allocation.height;
+	gtk_widget_get_allocation(ds->button, &button_allocation);
+	gtk_widget_get_allocation(ds->window, &window_allocation);
 
-	if (y + ds->window->allocation.height > gdk_screen_height())
+	x = wx + button_allocation.x + button_allocation.width - window_allocation.width;
+	y = wy + button_allocation.y + button_allocation.height;
+
+	if (y + window_allocation.height > gdk_screen_height())
 		{
-		y = wy + ds->button->allocation.y - ds->window->allocation.height;
+		y = wy + button_allocation.y - window_allocation.height;
 		}
 	if (x < 0) x = 0;
 	if (y < 0) y = 0;
@@ -1036,10 +968,10 @@ static void date_selection_popup(DateSelection *ds)
 	gtk_widget_show(ds->window);
 
 	gtk_widget_grab_focus(ds->calendar);
-	gdk_pointer_grab(ds->window->window, TRUE,
+	gdk_pointer_grab(gtk_widget_get_window(ds->window), TRUE,
 			 GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_MOTION_MASK,
 			 NULL, NULL, GDK_CURRENT_TIME);
-	gdk_keyboard_grab(ds->window->window, TRUE, GDK_CURRENT_TIME);
+	gdk_keyboard_grab(gtk_widget_get_window(ds->window), TRUE, GDK_CURRENT_TIME);
 	gtk_grab_add(ds->window);
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ds->button), TRUE);
@@ -1058,15 +990,19 @@ static void date_selection_button_cb(GtkWidget *widget, gpointer data)
 static void button_size_allocate_cb(GtkWidget *button, GtkAllocation *allocation, gpointer data)
 {
 	GtkWidget *spin = data;
+	GtkRequisition spin_requisition;
+	gtk_widget_get_requisition(spin, &spin_requisition);
 
-	if (allocation->height > spin->requisition.height)
+	if (allocation->height > spin_requisition.height)
 		{
 		GtkAllocation button_allocation;
+		GtkAllocation spin_allocation;
 
-		button_allocation = button->allocation;
-		button_allocation.height = spin->requisition.height;
-		button_allocation.y = spin->allocation.y +
-			(spin->allocation.height - spin->requisition.height) / 2;
+		gtk_widget_get_allocation(button, &button_allocation);
+		gtk_widget_get_allocation(spin, &spin_allocation);
+		button_allocation.height = spin_requisition.height;
+		button_allocation.y = spin_allocation.y +
+			(spin_allocation.height - spin_requisition.height) / 2;
 		gtk_widget_size_allocate(button, &button_allocation);
 		}
 }
@@ -1232,6 +1168,7 @@ static gboolean sizer_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpoin
 	SizerData *sd = data;
 	gint x, y;
 	gint w, h;
+	GtkAllocation parent_allocation;
 
 	if (!sd->in_drag) return FALSE;
 
@@ -1264,20 +1201,27 @@ static gboolean sizer_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpoin
 
 	if (sd->bounding_widget)
 		{
-		w = CLAMP(w, sd->sizer->allocation.width, sd->bounding_widget->allocation.width);
-		h = CLAMP(h, sd->sizer->allocation.height, sd->bounding_widget->allocation.height);
+		GtkAllocation sizer_allocation;
+		GtkAllocation bounding_allocation;
+		gtk_widget_get_allocation(sd->sizer, &sizer_allocation);
+		gtk_widget_get_allocation(sd->bounding_widget, &bounding_allocation);
+		w = CLAMP(w, sizer_allocation.width, bounding_allocation.width);
+		h = CLAMP(h, sizer_allocation.height, bounding_allocation.height);
 		}
 	else
 		{
-		if (w < sd->sizer->allocation.width) w = sd->sizer->allocation.width;
-		if (h < sd->sizer->allocation.height) h = sd->sizer->allocation.height;
+		GtkAllocation sizer_allocation;
+		gtk_widget_get_allocation(sd->sizer, &sizer_allocation);
+		if (w < sizer_allocation.width) w = sizer_allocation.width;
+		if (h < sizer_allocation.height) h = sizer_allocation.height;
 		}
 
 	if (sd->hsize_max >= 0) w = MIN(w, sd->hsize_max);
 	if (sd->vsize_max >= 0) h = MIN(h, sd->vsize_max);
 
-	if (w == sd->parent->allocation.width) w = -1;
-	if (h == sd->parent->allocation.height) h = -1;
+	gtk_widget_get_allocation(sd->parent, &parent_allocation);
+	if (w == parent_allocation.width) w = -1;
+	if (h == parent_allocation.height) h = -1;
 
 	if (w > 0 || h > 0) gtk_widget_set_size_request(sd->parent, w, h);
 
@@ -1287,6 +1231,7 @@ static gboolean sizer_motion_cb(GtkWidget *widget, GdkEventButton *bevent, gpoin
 static gboolean sizer_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	SizerData *sd = data;
+	GtkAllocation parent_allocation;
 
 	if (bevent->button != MOUSE_BUTTON_LEFT) return FALSE;
 
@@ -1294,10 +1239,11 @@ static gboolean sizer_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpoint
 	sd->press_x = bevent->x_root;
 	sd->press_y = bevent->y_root;
 
-	sd->press_width = sd->parent->allocation.width;
-	sd->press_height = sd->parent->allocation.height;
+	gtk_widget_get_allocation(sd->parent, &parent_allocation);
+	sd->press_width = parent_allocation.width;
+	sd->press_height = parent_allocation.height;
 
-	gdk_pointer_grab(sd->sizer->window, FALSE,
+	gdk_pointer_grab(gtk_widget_get_window(sd->sizer), FALSE,
 			 GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			 NULL, NULL, bevent->time);
 	gtk_grab_add(sd->sizer);
@@ -1311,11 +1257,7 @@ static gboolean sizer_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpoi
 
 	if (bevent->button != MOUSE_BUTTON_LEFT) return FALSE;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gdk_pointer_is_grabbed() && gtk_widget_has_grab(sd->sizer))
-#else
-	if (gdk_pointer_is_grabbed() && GTK_WIDGET_HAS_GRAB(sd->sizer))
-#endif
 		{
 		gtk_grab_remove(sd->sizer);
 		gdk_pointer_ungrab(bevent->time);
@@ -1328,9 +1270,12 @@ static gboolean sizer_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpoi
 
 static void sizer_set_prelight(SizerData *sd, gboolean prelit)
 {
+	GtkAllocation sizer_allocation;
+	gtk_widget_get_allocation(sd->sizer, &sizer_allocation);
+
 	sd->handle_prelit = prelit;
 	gtk_widget_queue_draw_area(sd->sizer, 0, 0,
-				   sd->sizer->allocation.width, sd->sizer->allocation.height);
+				   sizer_allocation.width, sizer_allocation.height);
 }
 
 static gboolean sizer_enter_cb(GtkWidget *widget, GdkEventCrossing *event, gpointer data)
@@ -1351,12 +1296,24 @@ static gboolean sizer_leave_cb(GtkWidget *widget, GdkEventCrossing *event, gpoin
 
 static gboolean sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
 {
+#if GTK_CHECK_VERSION(3,0,0)
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation(widget, &allocation);
+
+	cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(widget));
+
+	gtk_render_handle (gtk_widget_get_style_context (widget),
+	                   cr, allocation.x, allocation.y, allocation.width, allocation.height);
+	cairo_destroy(cr);
+#else
 	SizerData *sd = data;
 	GdkRectangle clip;
 	GtkOrientation orientation;
 	GtkStateType state;
+	GtkAllocation allocation;
 
-	gdk_region_get_clipbox(event->region, &clip);
+	gtk_widget_get_allocation(widget, &allocation);
 
 	if (sd->position & SIZER_POS_LEFT || sd->position & SIZER_POS_RIGHT)
 		{
@@ -1373,14 +1330,17 @@ static gboolean sizer_expose_cb(GtkWidget *widget, GdkEventExpose *event, gpoint
 		}
 	else
 		{
-		state = widget->state;
+		state = gtk_widget_get_state(widget);
 		}
 
-	gtk_paint_handle(widget->style, widget->window, state,
+	gdk_region_get_clipbox(event->region, &clip);
+
+	gtk_paint_handle(gtk_widget_get_style(widget), gtk_widget_get_window(widget), state,
 			 GTK_SHADOW_NONE, &clip, widget, "paned",
 			 0, 0,
-			 widget->allocation.width, widget->allocation.height,
+			 allocation.width, allocation.height,
 			 orientation);
+#endif
 
 	return TRUE;
 }
@@ -1400,11 +1360,11 @@ static void sizer_realize_cb(GtkWidget *widget, gpointer data)
 		n = (n != 0) ? GDK_FLEUR : GDK_SB_H_DOUBLE_ARROW;
 		}
 
-	if (n != 0 && widget->window)
+	if (n != 0 && gtk_widget_get_window(widget))
 		{
 		GdkCursor *cursor;
 		cursor = gdk_cursor_new(n);
-		gdk_window_set_cursor(widget->window, cursor);
+		gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 		gdk_cursor_unref(cursor);
 		}
 }

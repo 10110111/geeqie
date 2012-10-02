@@ -1,7 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -64,10 +64,6 @@ static void help_window_scroll(GtkWidget *text, const gchar *key)
 		line = gtk_text_iter_get_line(&start);
 		gtk_text_buffer_get_iter_at_line_offset(buffer, &iter, line, 0);
 		gtk_text_buffer_place_cursor(buffer, &iter);
-
-#if 0
-		gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(text), &iter, 0.0, TRUE, 0, 0);
-#endif
 
 		/* apparently only scroll_to_mark works when the textview is not visible yet */
 
@@ -167,7 +163,7 @@ void help_window_set_key(GtkWidget *window, const gchar *key)
 	text = g_object_get_data(G_OBJECT(window), "text_widget");
 	if (!text) return;
 
-	gdk_window_raise(window->window);
+	gdk_window_raise(gtk_widget_get_window(window));
 
 	if (key) help_window_scroll(text, key);
 }
@@ -181,7 +177,7 @@ void help_window_set_file(GtkWidget *window, const gchar *path, const gchar *key
 	text = g_object_get_data(G_OBJECT(window), "text_widget");
 	if (!text) return;
 
-	gdk_window_raise(window->window);
+	gdk_window_raise(gtk_widget_get_window(window));
 
 	help_window_load_text(text, path);
 	help_window_scroll(text, key);
@@ -203,9 +199,6 @@ GtkWidget *help_window_new(const gchar *title,
 
 	window = window_new(GTK_WINDOW_TOPLEVEL, subclass, NULL, NULL, title);
 	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
-#if 0
-	gtk_container_set_border_width(GTK_CONTAINER(window), PREF_PAD_BORDER);
-#endif
 	gtk_window_set_default_size(GTK_WINDOW(window), HELP_WINDOW_WIDTH, HELP_WINDOW_HEIGHT);
 
 	g_signal_connect(G_OBJECT(window), "delete_event",
@@ -249,7 +242,7 @@ GtkWidget *help_window_new(const gchar *title,
 	g_signal_connect(G_OBJECT(button), "clicked",
 			 G_CALLBACK(help_window_close), window);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 

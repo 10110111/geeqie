@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Vladimir Nadvornik
  *
@@ -68,13 +68,13 @@ static gboolean editor_window_save(EditorWindow *ew)
 	GError *error = NULL;
 	gboolean ret = TRUE;
 	const gchar *name = gtk_entry_get_text(GTK_ENTRY(ew->entry));
-	
-	if (!name || !name[0]) 
+
+	if (!name || !name[0])
 		{
 		file_util_warning_dialog(_("Can't save"), _("Please specify file name."), GTK_STOCK_DIALOG_ERROR, NULL);
 		return FALSE;
 		}
-	
+
 	gtk_text_buffer_get_bounds(ew->buffer, &start, &end);
 	text = gtk_text_buffer_get_text(ew->buffer, &start, &end, FALSE);
 
@@ -87,19 +87,19 @@ static gboolean editor_window_save(EditorWindow *ew)
 		ret = FALSE;
 		}
 
-	if (ret && !g_file_set_contents(path, text, -1, &error)) 
+	if (ret && !g_file_set_contents(path, text, -1, &error))
 		{
 		file_util_warning_dialog(_("Can't save"), error->message, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_error_free(error);
 		ret = FALSE;
 		}
-	
+
 	g_free(path);
 	g_free(dir);
 	g_free(text);
 	layout_editors_reload_start();
 	/* idle function is not needed, everything should be cached */
-	layout_editors_reload_finish(); 
+	layout_editors_reload_finish();
 	return ret;
 }
 
@@ -135,7 +135,7 @@ static void editor_window_save_cb(GtkWidget *widget, gpointer data)
 static void editor_window_text_modified_cb(GtkWidget *widget, gpointer data)
 {
 	EditorWindow *ew = data;
-	
+
 	if (gtk_text_buffer_get_modified(ew->buffer))
 		{
 		gtk_widget_set_sensitive(ew->save_button, TRUE);
@@ -158,7 +158,7 @@ static void editor_window_entry_changed_cb(GtkWidget *widget, gpointer data)
 		{
 		modified = strcmp(ew->desktop_name, content);
 		}
-	
+
 	gtk_widget_set_sensitive(ew->save_button, modified);
 	ew->modified = modified;
 }
@@ -217,7 +217,7 @@ static void editor_window_new(const gchar *src_path, const gchar *desktop_name)
 	ew->save_button = pref_button_new(NULL, GTK_STOCK_SAVE, NULL, FALSE,
 				 G_CALLBACK(editor_window_save_cb), ew);
 	gtk_container_add(GTK_CONTAINER(button_hbox), ew->save_button);
-	GTK_WIDGET_SET_FLAGS(ew->save_button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(ew->save_button, TRUE);
 	gtk_widget_set_sensitive(ew->save_button, FALSE);
 	gtk_widget_show(ew->save_button);
 	ct_button = ew->save_button;
@@ -225,7 +225,7 @@ static void editor_window_new(const gchar *src_path, const gchar *desktop_name)
 	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
 				 G_CALLBACK(editor_window_close_cb), ew);
 	gtk_container_add(GTK_CONTAINER(button_hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	if (!generic_dialog_get_alternative_button_order(ew->window))
@@ -297,7 +297,7 @@ static void editor_list_window_delete_dlg_ok_cb(GenericDialog *gd, gpointer data
 		/* refresh list */
 		layout_editors_reload_start();
 		/* idle function is not needed, everything should be cached */
-		layout_editors_reload_finish(); 
+		layout_editors_reload_finish();
 		}
 
 	editor_list_window_delete_dlg_cancel(gd, data);
@@ -306,10 +306,10 @@ static void editor_list_window_delete_dlg_ok_cb(GenericDialog *gd, gpointer data
 static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
 {
 	EditorListWindow *ewl = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 		gchar *path;
@@ -325,7 +325,7 @@ static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
 		ewdl = g_new(EditorWindowDel_Data, 1);
 		ewdl->ewl = ewl;
 		ewdl->path = path;
-	
+
 		if (ewl->gd)
 			{
 			GenericDialog *gd = ewl->gd;
@@ -351,10 +351,10 @@ static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
 static void editor_list_window_edit_cb(GtkWidget *widget, gpointer data)
 {
 	EditorListWindow *ewl = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 		gchar *path;
@@ -363,7 +363,7 @@ static void editor_list_window_edit_cb(GtkWidget *widget, gpointer data)
 		gtk_tree_model_get(store, &iter,
 				   DESKTOP_FILE_COLUMN_PATH, &path,
 				   DESKTOP_FILE_COLUMN_KEY, &key, -1);
-		editor_window_new(path, key);	
+		editor_window_new(path, key);
 		g_free(key);
 		g_free(path);
 		}
@@ -377,10 +377,10 @@ static void editor_list_window_new_cb(GtkWidget *widget, gpointer data)
 static void editor_list_window_selection_changed_cb(GtkWidget *widget, gpointer data)
 {
 	EditorListWindow *ewl = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(ewl->view));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
 		gchar *path;
@@ -388,12 +388,12 @@ static void editor_list_window_selection_changed_cb(GtkWidget *widget, gpointer 
 		gtk_tree_model_get(store, &iter,
 						   DESKTOP_FILE_COLUMN_PATH, &path,
 						   -1);
-		
+
 		gtk_widget_set_sensitive(ewl->delete_button, access_file(path, W_OK));
 		gtk_widget_set_sensitive(ewl->edit_button, TRUE);
 		g_free(path);
 		}
-	
+
 }
 
 static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer data)
@@ -427,7 +427,7 @@ static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkT
 			g_free(s2);
 			}
 			break;
-	
+
     		default:
        			g_return_val_if_reached(0);
 		}
@@ -449,7 +449,7 @@ static void editor_list_window_create(void)
 	EditorListWindow *ewl;
 
 	editor_list_window = ewl = g_new0(EditorListWindow, 1);
-	
+
 	ewl->window = window_new(GTK_WINDOW_TOPLEVEL, "editors", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Editors"));
 	gtk_window_set_type_hint(GTK_WINDOW(ewl->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	g_signal_connect(G_OBJECT(ewl->window), "delete_event",
@@ -472,13 +472,13 @@ static void editor_list_window_create(void)
 	button = pref_button_new(NULL, GTK_STOCK_NEW, NULL, FALSE,
 				 G_CALLBACK(editor_list_window_new_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_EDIT, NULL, FALSE,
 				 G_CALLBACK(editor_list_window_edit_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_set_sensitive(button, FALSE);
 	gtk_widget_show(button);
 	ewl->edit_button = button;
@@ -486,7 +486,7 @@ static void editor_list_window_create(void)
 	button = pref_button_new(NULL, GTK_STOCK_DELETE, NULL, FALSE,
 				 G_CALLBACK(editor_list_window_delete_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_set_sensitive(button, FALSE);
 	gtk_widget_show(button);
 	ewl->delete_button = button;
@@ -494,7 +494,7 @@ static void editor_list_window_create(void)
 	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
 				 G_CALLBACK(editor_list_window_close_cb), ewl);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -528,7 +528,7 @@ static void editor_list_window_create(void)
 	gtk_tree_view_column_add_attribute(column, renderer, "text", DESKTOP_FILE_COLUMN_HIDDEN);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
 	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_HIDDEN);
-	gtk_tree_view_column_set_alignment(column, 0.5); 
+	gtk_tree_view_column_set_alignment(column, 0.5);
 
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Desktop file"));

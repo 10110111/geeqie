@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Authors: Vladimir Nadvornik, Laurent Monin
  *
@@ -60,7 +60,6 @@ struct _ConfOptions
 
 		gint tile_cache_max;	/* in megabytes */
 		gint image_cache_max;   /* in megabytes */
-		guint dither_quality;
 		gboolean enable_read_ahead;
 
 		ZoomMode zoom_mode;
@@ -68,6 +67,7 @@ struct _ConfOptions
 		gboolean zoom_to_fit_allow_expand;
 		guint zoom_quality;
 		gint zoom_increment;	/* 10 is 1.0, 5 is 0.05, 20 is 2.0, etc. */
+		gboolean use_clutter_renderer;
 
 		gboolean use_custom_border_color_in_fullscreen;
 		gboolean use_custom_border_color;
@@ -96,7 +96,7 @@ struct _ConfOptions
 	struct {
 		gchar *ext;
 	} sidecar;
-	
+
 	/* collections */
 	struct {
 		gboolean rectangular_selection;
@@ -107,7 +107,7 @@ struct _ConfOptions
 		gchar *path;
 		gchar *options;
 	} shell;
-	
+
 	/* file sorting */
 	struct {
 		SortType method;
@@ -171,9 +171,9 @@ struct _ConfOptions
 		gboolean warn_on_write_problems;
 
 		gboolean save_legacy_format;
-		
+
 		gboolean sync_grouped_files;
-		
+
 		gboolean confirm_write;
 		gint confirm_timeout;
 		gboolean confirm_after_timeout;
@@ -182,7 +182,7 @@ struct _ConfOptions
 		gboolean keywords_case_sensitive;
 		gboolean write_orientation;
 	} metadata;
-	
+
 	/* Stereo */
 	struct {
 		gint mode;;
@@ -204,7 +204,7 @@ struct _ConfOptions
 			gboolean fs_flip_left;
 			gboolean fs_swap;
 			gboolean fs_temp_disable;
-		} tmp; 
+		} tmp;
 	} stereo;
 };
 

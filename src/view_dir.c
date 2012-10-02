@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Laurent Monin
  *
@@ -31,7 +31,7 @@
 static PixmapFolders *folder_icons_new(GtkWidget *widget)
 {
 	PixmapFolders *pf = g_new0(PixmapFolders, 1);
-	
+
 #if 1
 	GtkIconSize size = GTK_ICON_SIZE_MENU;
 
@@ -268,7 +268,7 @@ static gboolean vd_rename_cb(TreeEditData *td, const gchar *old, const gchar *ne
 	g_free(base);
 
 	file_util_rename_dir(fd, new_path, vd->view, vd_rename_finished_cb, vd);
-	
+
 	g_free(new_path);
 
 	return FALSE;
@@ -366,9 +366,9 @@ static void vd_drop_menu_filter_cb(GtkWidget *widget, gpointer data)
 	const gchar *path;
 	GList *list;
 	const gchar *key;
-	
+
 	if (!vd->drop_fd) return;
-	
+
 	key = g_object_get_data(G_OBJECT(widget), "filter_key");
 
 	path = vd->drop_fd->path;
@@ -404,13 +404,13 @@ GtkWidget *vd_drop_menu(ViewDir *vd, gint active)
 		const EditorDescription *editor = work->data;
 		gchar *key;
 		work = work->next;
-		
+
 		if (!editor_is_filter(editor->key)) continue;
 		key = g_strdup(editor->key);
 		item = menu_item_add_sensitive(menu, editor->name, active, G_CALLBACK(vd_drop_menu_filter_cb), vd);
 		g_object_set_data_full(G_OBJECT(item), "filter_key", key, vd_drop_menu_edit_item_free);
 		}
-	
+
 	g_list_free(editors_list);
 
 	menu_item_add_divider(menu);
@@ -604,7 +604,6 @@ static void vd_pop_menu_rename_cb(GtkWidget *widget, gpointer data)
 GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 {
 	GtkWidget *menu;
-	GtkWidget *item;
 	gboolean active;
 	gboolean rename_delete_active = FALSE;
 	gboolean new_folder_active = FALSE;
@@ -674,11 +673,11 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 	menu_item_add_divider(menu);
 
 
-	item = menu_item_add_radio(menu, _("View as _List"), GINT_TO_POINTER(DIRVIEW_LIST), vd->type == DIRVIEW_LIST,
-                                           G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
+	menu_item_add_radio(menu, _("View as _List"), GINT_TO_POINTER(DIRVIEW_LIST), vd->type == DIRVIEW_LIST,
+                        G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
 
-	item = menu_item_add_radio(menu, _("View as _Tree"), GINT_TO_POINTER(DIRVIEW_TREE), vd->type == DIRVIEW_TREE,
-                                           G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
+	menu_item_add_radio(menu, _("View as _Tree"), GINT_TO_POINTER(DIRVIEW_TREE), vd->type == DIRVIEW_TREE,
+                        G_CALLBACK(vd_pop_submenu_dir_view_as_cb), vd);
 
 	menu_item_add_divider(menu);
 
@@ -728,8 +727,6 @@ static void vd_dnd_get(GtkWidget *widget, GdkDragContext *context,
 {
 	ViewDir *vd = data;
 	GList *list;
-	gchar *uritext = NULL;
-	gint length = 0;
 
 	if (!vd->click_fd) return;
 
@@ -738,15 +735,9 @@ static void vd_dnd_get(GtkWidget *widget, GdkDragContext *context,
 		case TARGET_URI_LIST:
 		case TARGET_TEXT_PLAIN:
 			list = g_list_prepend(NULL, vd->click_fd);
-			uritext = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
+			uri_selection_data_set_uris_from_filelist(selection_data, list);
 			g_list_free(list);
 			break;
-		}
-	if (uritext)
-		{
-		gtk_selection_data_set(selection_data, selection_data->target,
-				       8, (guchar *)uritext, length);
-		g_free(uritext);
 		}
 }
 
@@ -764,7 +755,7 @@ static void vd_dnd_end(GtkWidget *widget, GdkDragContext *context, gpointer data
 
 	vd_color_set(vd, vd->click_fd, FALSE);
 
-	if (vd->type == DIRVIEW_LIST && context->action == GDK_ACTION_MOVE)
+	if (vd->type == DIRVIEW_LIST && gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE)
 		{
 		vd_refresh(vd);
 		}
@@ -797,7 +788,7 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 		gint active;
 		gboolean done = FALSE;
 
-		list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+		list = uri_filelist_from_gtk_selection_data(selection_data);
 		if (!list) return;
 
 		active = access_file(fd->path, W_OK | X_OK);
@@ -806,13 +797,13 @@ static void vd_dnd_drop_receive(GtkWidget *widget,
 
 		if (active)
 			{
-			if (context->actions == GDK_ACTION_COPY)
+			if (gdk_drag_context_get_actions(context) == GDK_ACTION_COPY)
 				{
 				file_util_copy_simple(list, fd->path, vd->widget);
 				done = TRUE;
 				list = NULL;
 				}
-			else if (context->actions == GDK_ACTION_MOVE)
+			else if (gdk_drag_context_get_actions(context) == GDK_ACTION_MOVE)
 				{
 				file_util_move_simple(list, fd->path, vd->widget);
 				done = TRUE;
@@ -872,9 +863,10 @@ static gboolean vd_auto_scroll_idle_cb(gpointer data)
 		gint x, y;
 		gint w, h;
 
-		window = vd->view->window;
+		window = gtk_widget_get_window(vd->view);
 		gdk_window_get_pointer(window, &x, &y, NULL);
-		gdk_drawable_get_size(window, &w, &h);
+		w = gdk_window_get_width(window);
+		h = gdk_window_get_height(window);
 		if (x >= 0 && x < w && y >= 0 && y < h)
 			{
 			vd_dnd_drop_update(vd, x, y);
@@ -911,7 +903,7 @@ static gboolean vd_dnd_drop_motion(GtkWidget *widget, GdkDragContext *context,
 		}
 	else
 		{
-		gdk_drag_status(context, context->suggested_action, time);
+		gdk_drag_status(context, gdk_drag_context_get_suggested_action(context), time);
 		}
 
 	vd_dnd_drop_update(vd, x, y);
@@ -1110,7 +1102,7 @@ static void vd_notify_cb(FileData *fd, NotifyType type, gpointer data)
 				g_free(source_base);
 				}
 			}
-		
+
 		if (refresh) vd_refresh(vd);
 		}
 

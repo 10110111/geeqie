@@ -1,7 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -162,9 +162,11 @@ gboolean popup_menu_position_clamp(GtkMenu *menu, gint *x, gint *y, gint height)
 	gboolean adjusted = FALSE;
 	gint w, h;
 	gint xw, xh;
+	GtkRequisition requisition;
 
-	w = GTK_WIDGET(menu)->requisition.width;
-	h = GTK_WIDGET(menu)->requisition.height;
+	gtk_widget_get_requisition(GTK_WIDGET(menu), &requisition);
+	w = requisition.width;
+	h = requisition.height;
 	xw = gdk_screen_width();
 	xh = gdk_screen_height();
 

@@ -44,11 +44,19 @@ static void gqv_cell_renderer_icon_class_init(GQvCellRendererIconClass *class);
 static void gqv_cell_renderer_icon_finalize(GObject *object);
 static void gqv_cell_renderer_icon_get_size(GtkCellRenderer	*cell,
 					    GtkWidget		*widget,
-					    GdkRectangle	*rectangle,
+					    const GdkRectangle	*rectangle,
 					    gint		*x_offset,
 					    gint		*y_offset,
 					    gint		*width,
 					    gint		*height);
+#if GTK_CHECK_VERSION(3,0,0)
+static void gqv_cell_renderer_icon_render(GtkCellRenderer *cell,
+					   cairo_t *cr,
+					   GtkWidget *widget,
+					   const GdkRectangle *background_area,
+					   const GdkRectangle *cell_area,
+					   GtkCellRendererState flags);
+#else
 static void gqv_cell_renderer_icon_render(GtkCellRenderer	*cell,
 					   GdkWindow		*window,
 					   GtkWidget		*widget,
@@ -56,13 +64,15 @@ static void gqv_cell_renderer_icon_render(GtkCellRenderer	*cell,
 					   GdkRectangle		*cell_area,
 					   GdkRectangle		*expose_area,
 					   GtkCellRendererState	flags);
+#endif
 
-static gint gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
+
+static gboolean gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
 					    GdkEvent             *event,
 					    GtkWidget            *widget,
 					    const gchar          *path,
-					    GdkRectangle         *background_area,
-					    GdkRectangle         *cell_area,
+					    const GdkRectangle   *background_area,
+					    const GdkRectangle   *cell_area,
 					    GtkCellRendererState  flags);
 
 enum {
@@ -125,9 +135,8 @@ gqv_cell_renderer_icon_get_type(void)
 static void
 gqv_cell_renderer_icon_init(GQvCellRendererIcon *cellicon)
 {
-	GTK_CELL_RENDERER(cellicon)->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
-	GTK_CELL_RENDERER(cellicon)->xpad = 2;
-	GTK_CELL_RENDERER(cellicon)->ypad = 2;
+	g_object_set(G_OBJECT(cellicon), "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
+	gtk_cell_renderer_set_padding(GTK_CELL_RENDERER(cellicon), 2, 2);
 }
 
 static void
@@ -544,7 +553,7 @@ gqv_cell_renderer_icon_new(void)
 static void
 gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 				GtkWidget	*widget,
-				GdkRectangle	*cell_area,
+				const GdkRectangle	*cell_area,
 				gint		*x_offset,
 				gint		*y_offset,
 				gint		*width,
@@ -553,6 +562,11 @@ gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 	GQvCellRendererIcon *cellicon = (GQvCellRendererIcon *) cell;
 	gint calc_width;
 	gint calc_height;
+	gint xpad, ypad;
+	gfloat xalign, yalign;
+
+	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
+	gtk_cell_renderer_get_alignment(cell, &xalign, &yalign);
 
 	if (cellicon->fixed_width > 0)
 		{
@@ -591,8 +605,8 @@ gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 		calc_width = MAX(calc_width, TOGGLE_SPACING * cellicon->num_marks);
 		}
 
-	calc_width += (gint)cell->xpad * 2;
-	calc_height += (gint)cell->ypad * 2;
+	calc_width += xpad * 2;
+	calc_height += ypad * 2;
 
 	if (x_offset) *x_offset = 0;
 	if (y_offset) *y_offset = 0;
@@ -601,13 +615,13 @@ gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 		{
 		if (x_offset)
 			{
-			*x_offset = (cell->xalign * (cell_area->width - calc_width - 2 * cell->xpad));
-			*x_offset = MAX(*x_offset, 0) + cell->xpad;
+			*x_offset = (xalign * (cell_area->width - calc_width - 2 * xpad));
+			*x_offset = MAX(*x_offset, 0) + xpad;
 			}
 		if (y_offset)
 			{
-			*y_offset = (cell->yalign * (cell_area->height - calc_height - 2 * cell->ypad));
-			*y_offset = MAX(*y_offset, 0) + cell->ypad;
+			*y_offset = (yalign * (cell_area->height - calc_height - 2 * ypad));
+			*y_offset = MAX(*y_offset, 0) + ypad;
 			}
 		}
 
@@ -615,6 +629,17 @@ gqv_cell_renderer_icon_get_size(GtkCellRenderer *cell,
 	if (height) *height = calc_height;
 }
 
+#if GTK_CHECK_VERSION(3,0,0)
+static void gqv_cell_renderer_icon_render(GtkCellRenderer *cell,
+					   cairo_t *cr,
+					   GtkWidget *widget,
+					   const GdkRectangle *background_area,
+					   const GdkRectangle *cell_area,
+					   GtkCellRendererState flags)
+
+{
+	GtkStyleContext *context = gtk_widget_get_style_context(widget);
+#else
 static void
 gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 			      GdkWindow			*window,
@@ -625,48 +650,50 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 			      GtkCellRendererState	flags)
 
 {
+	cairo_t *cr = gdk_cairo_create(window);
+#endif
 	GQvCellRendererIcon *cellicon = (GQvCellRendererIcon *) cell;
 	GdkPixbuf *pixbuf;
 	const gchar *text;
 	GdkRectangle cell_rect;
 	GtkStateType state;
+	gint xpad, ypad;
+
 
 	pixbuf = cellicon->pixbuf;
 	text = cellicon->text;
 
 	if (!pixbuf && !text) return;
 
+	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
+
 	gqv_cell_renderer_icon_get_size(cell, widget, cell_area,
 					&cell_rect.x, &cell_rect.y,
 					&cell_rect.width, &cell_rect.height);
 
-	cell_rect.x += cell->xpad;
-	cell_rect.y += cell->ypad;
-	cell_rect.width -= cell->xpad * 2;
-	cell_rect.height -= cell->ypad * 2;
+	cell_rect.x += xpad;
+	cell_rect.y += ypad;
+	cell_rect.width -= xpad * 2;
+	cell_rect.height -= ypad * 2;
 
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_has_focus(widget))
-#else
-		if (GTK_WIDGET_HAS_FOCUS(widget))
-#endif
 			state = GTK_STATE_SELECTED;
 		else
 			state = GTK_STATE_ACTIVE;
 		}
 	else
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_get_state(widget) == GTK_STATE_INSENSITIVE)
-#else
-		if (GTK_WIDGET_STATE(widget) == GTK_STATE_INSENSITIVE)
-#endif
 			state = GTK_STATE_INSENSITIVE;
 		else
 			state = GTK_STATE_NORMAL;
 		}
+
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_style_context_set_state(context, state);
+#endif
 
 	if (pixbuf)
 		{
@@ -680,28 +707,27 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 
 		if (cellicon->fixed_height > 0)
 			{
-			pix_rect.y = cell_area->y + cell->ypad + (cellicon->fixed_height - pix_rect.height) / 2;
+			pix_rect.y = cell_area->y + ypad + (cellicon->fixed_height - pix_rect.height) / 2;
 			}
 		else
 			{
 			pix_rect.y = cell_area->y + cell_rect.y;
 			}
 
-		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect) &&
-		    gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect))
+		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect)
+#if !GTK_CHECK_VERSION(3,0,0)
+		    && gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect)
+#endif
+		   )
 			{
-			gdk_draw_pixbuf(window,
-					widget->style->black_gc,
-					pixbuf,
-					/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
-					draw_rect.x - pix_rect.x,
-					draw_rect.y - pix_rect.y,
+			gdk_cairo_set_source_pixbuf(cr, pixbuf, pix_rect.x, pix_rect.y);
+			cairo_rectangle (cr,
 					draw_rect.x,
 					draw_rect.y,
 					draw_rect.width,
-					draw_rect.height,
-					GDK_RGB_DITHER_NORMAL,
-					0, 0);
+					draw_rect.height);
+
+			cairo_fill (cr);
 			}
 		}
 
@@ -711,31 +737,37 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 		PangoRectangle text_rect;
 		GdkRectangle pix_rect;
 		GdkRectangle draw_rect;
-
 		layout = gqv_cell_renderer_icon_get_layout(cellicon, widget, TRUE);
 		pango_layout_get_pixel_extents(layout, NULL, &text_rect);
 
 		pix_rect.width = text_rect.width;
 		pix_rect.height = text_rect.height;
-		pix_rect.x = cell_area->x + cell->xpad + (cell_rect.width - text_rect.width + 1) / 2;
-		pix_rect.y = cell_area->y + cell->ypad + (cell_rect.height - text_rect.height);
-		
+		pix_rect.x = cell_area->x + xpad + (cell_rect.width - text_rect.width + 1) / 2;
+		pix_rect.y = cell_area->y + ypad + (cell_rect.height - text_rect.height);
+
 		if (cellicon->show_marks)
 			{
 			pix_rect.y -= TOGGLE_SPACING;
 			}
 
-		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect) &&
-		    gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect))
+		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect)
+#if !GTK_CHECK_VERSION(3,0,0)
+		    && gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect)
+#endif
+		    )
 			{
-			gtk_paint_layout(widget->style, window,
+#if GTK_CHECK_VERSION(3,0,0)
+			gtk_render_layout(context, cr, pix_rect.x - text_rect.x, pix_rect.y, layout);
+#else
+
+			gtk_paint_layout(gtk_widget_get_style(widget), window,
 					 state, TRUE,
 					 cell_area, widget,
 					 "cellrenderertext",
 					 pix_rect.x - text_rect.x, pix_rect.y,
 					 layout);
+#endif
 			}
-
 		g_object_unref(layout);
 		}
 
@@ -747,46 +779,79 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 
 		pix_rect.width = TOGGLE_SPACING * cellicon->num_marks;
 		pix_rect.height = TOGGLE_SPACING;
-		pix_rect.x = cell_area->x + cell->xpad + (cell_rect.width - pix_rect.width + 1) / 2 + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
-		pix_rect.y = cell_area->y + cell->ypad + (cell_rect.height - pix_rect.height) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
-		
-		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect) &&
-		    gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect))
+		pix_rect.x = cell_area->x + xpad + (cell_rect.width - pix_rect.width + 1) / 2 + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
+		pix_rect.y = cell_area->y + ypad + (cell_rect.height - pix_rect.height) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
+
+		if (gdk_rectangle_intersect(cell_area, &pix_rect, &draw_rect)
+#if !GTK_CHECK_VERSION(3,0,0)
+		    && gdk_rectangle_intersect(expose_area, &draw_rect, &draw_rect)
+#endif
+		    )
 			{
 			for (i = 0; i < cellicon->num_marks; i++)
 				{
-				gtk_paint_check(widget->style, window,
+#if GTK_CHECK_VERSION(3,0,0)
+  				state &= ~(GTK_STATE_FLAG_ACTIVE);
+
+				if ((cellicon->marks & (1 << i)))
+					state |= GTK_STATE_FLAG_ACTIVE;
+
+				cairo_save (cr);
+
+				cairo_rectangle(cr,
+						pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
+						pix_rect.y,
+						TOGGLE_WIDTH, TOGGLE_WIDTH);
+				cairo_clip (cr);
+
+				gtk_style_context_save(context);
+				gtk_style_context_set_state(context, state);
+
+				gtk_style_context_add_class(context, GTK_STYLE_CLASS_CHECK);
+
+				gtk_render_check(context, cr,
+					 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
+					 pix_rect.y,
+					 TOGGLE_WIDTH, TOGGLE_WIDTH);
+				gtk_style_context_restore(context);
+				cairo_restore(cr);
+
+#else
+				gtk_paint_check(gtk_widget_get_style(widget), window,
 					 state, (cellicon->marks & (1 << i)) ? GTK_SHADOW_IN : GTK_SHADOW_OUT,
 					 cell_area, widget, "cellcheck",
 					 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
 					 pix_rect.y,
 					 TOGGLE_WIDTH, TOGGLE_WIDTH);
+#endif
 				}
 			}
                 }
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (cellicon->focused && gtk_widget_has_focus(widget))
-#else
-	if (cellicon->focused && GTK_WIDGET_HAS_FOCUS(widget))
-#endif
 		{
-		gtk_paint_focus(widget->style, window,
+#if GTK_CHECK_VERSION(3,0,0)
+#else
+		gtk_paint_focus(gtk_widget_get_style(widget), window,
 				state,
 				cell_area, widget,
 				"cellrendererfocus",
 				cell_area->x, cell_area->y,
 				cell_area->width, cell_area->height);
+#endif
 		}
+#if !GTK_CHECK_VERSION(3,0,0)
+	cairo_destroy(cr);
+#endif
 }
 
-static gint
+static gboolean
 gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
 			 	GdkEvent             *event,
 				GtkWidget            *widget,
 				const gchar          *path,
-				GdkRectangle         *background_area,
-				GdkRectangle         *cell_area,
+				const GdkRectangle   *background_area,
+				const GdkRectangle   *cell_area,
 				GtkCellRendererState  flags)
 {
 	GQvCellRendererIcon *cellicon = (GQvCellRendererIcon *) cell;
@@ -800,23 +865,26 @@ gqv_cell_renderer_icon_activate(GtkCellRenderer      *cell,
 		GdkRectangle rect;
 		GdkRectangle cell_rect;
 		gint i;
-		
+		gint xpad, ypad;
+
+		gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
+
 		gqv_cell_renderer_icon_get_size(cell, widget, cell_area,
 						&cell_rect.x, &cell_rect.y,
 						&cell_rect.width, &cell_rect.height);
 
-		cell_rect.x += cell->xpad;
-		cell_rect.y += cell->ypad;
-		cell_rect.width -= cell->xpad * 2;
-		cell_rect.height -= cell->ypad * 2;
+		cell_rect.x += xpad;
+		cell_rect.y += ypad;
+		cell_rect.width -= xpad * 2;
+		cell_rect.height -= ypad * 2;
 
 		rect.width = TOGGLE_WIDTH;
 		rect.height = TOGGLE_WIDTH;
-		rect.y = cell_area->y + cell->ypad + (cell_rect.height - TOGGLE_SPACING) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
+		rect.y = cell_area->y + ypad + (cell_rect.height - TOGGLE_SPACING) + (TOGGLE_SPACING - TOGGLE_WIDTH) / 2;
 		for (i = 0; i < cellicon->num_marks; i++)
 			{
-			rect.x = cell_area->x + cell->xpad + (cell_rect.width - TOGGLE_SPACING * cellicon->num_marks + 1) / 2 + i * TOGGLE_SPACING;
-			
+			rect.x = cell_area->x + xpad + (cell_rect.width - TOGGLE_SPACING * cellicon->num_marks + 1) / 2 + i * TOGGLE_SPACING;
+
 			if (bevent->x >= rect.x && bevent->x < rect.x + rect.width &&
 			    bevent->y >= rect.y && bevent->y < rect.y + rect.height)
 				{

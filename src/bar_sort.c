@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -67,7 +67,7 @@ struct _SortData
 	SortModeType mode;
 	SortActionType action;
 	gchar *filter_key;
-	
+
 	SortSelectionType selection;
 
 	GtkWidget *folder_group;
@@ -579,12 +579,12 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 	sd->lw = lw;
 
 	sd->action = action;
-	
+
 	if (sd->action == BAR_SORT_FILTER && (!filter_key || !filter_key[0]))
 		{
 		sd->action = BAR_SORT_COPY;
 		}
-	
+
 	sd->selection = selection;
 	sd->undo_src = NULL;
 	sd->undo_dest = NULL;
@@ -599,12 +599,12 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 	gtk_box_pack_start(GTK_BOX(sd->vbox), label, FALSE, FALSE, 0);
 	gtk_widget_show(label);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 	gtk_box_pack_start(GTK_BOX(sd->vbox), combo, FALSE, FALSE, 0);
 	gtk_widget_show(combo);
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Folders"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Collections"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Folders"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Collections"));
 
 	g_signal_connect(G_OBJECT(combo), "changed",
 			 G_CALLBACK(bar_sort_mode_cb), sd);
@@ -630,9 +630,9 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 		gboolean select = FALSE;
 
 		work = work->next;
-			
+
 		if (!editor_is_filter(editor->key)) continue;
-		
+
 		key = g_strdup(editor->key);
 		if (sd->action == BAR_SORT_FILTER && strcmp(key, filter_key) == 0)
 			{
@@ -640,7 +640,7 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 			select = TRUE;
 			have_filter = TRUE;
 			}
-		
+
 		button = pref_radiobutton_new(sd->folder_group, buttongrp,
 					      editor->name, select,
 					      G_CALLBACK(bar_sort_set_filter_cb), sd);
@@ -648,7 +648,7 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 		g_object_set_data_full(G_OBJECT(button), "filter_key", key, bar_sort_edit_button_free);
 		}
 	g_list_free(editors_list);
-	
+
 	if (sd->action == BAR_SORT_FILTER && !have_filter) sd->action = BAR_SORT_COPY;
 
 	sd->collection_group = pref_box_new(sd->vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
@@ -683,7 +683,7 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 GtkWidget *bar_sort_new_from_config(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
 {
 	GtkWidget *bar;
-	
+
 	gboolean enabled = TRUE;
 	gint action = 0;
 	gint mode = 0;
@@ -724,11 +724,7 @@ void bar_sort_write_config(GtkWidget *bar, GString *outstr, gint indent)
 	if (!sd) return;
 
 	WRITE_NL(); WRITE_STRING("<bar_sort ");
-#if GTK_CHECK_VERSION(2,20,0)
 	write_bool_option(outstr, indent, "enabled", gtk_widget_get_visible(bar));
-#else
-	write_bool_option(outstr, indent, "enabled", GTK_WIDGET_VISIBLE(bar));
-#endif
 	WRITE_INT(*sd, mode);
 	WRITE_INT(*sd, action);
 	WRITE_INT(*sd, selection);

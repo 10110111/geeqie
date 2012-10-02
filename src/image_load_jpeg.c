@@ -14,7 +14,7 @@
  *
  * Copyright (C) 1999 Michael Zucchi
  * Copyright (C) 1999 The Free Software Foundation
- * 
+ *
  * Progressive loading code Copyright (C) 1999 Red Hat, Inc.
  *
  * Authors: Michael Zucchi <zucchi@zedzone.mmc.com.au>
@@ -55,16 +55,16 @@ struct _ImageLoaderJpeg {
 	ImageLoaderBackendCbAreaUpdated area_updated_cb;
 	ImageLoaderBackendCbSize size_cb;
 	ImageLoaderBackendCbAreaPrepared area_prepared_cb;
-	
+
 	gpointer data;
-	
+
 	GdkPixbuf *pixbuf;
 	guint requested_width;
 	guint requested_height;
-	
+
 	gboolean abort;
 	gboolean stereo;
-	
+
 };
 
 /* error handler data */
@@ -77,7 +77,7 @@ struct error_handler_data {
 /* explode gray image data from jpeg library into rgb components in pixbuf */
 static void
 explode_gray_into_buf (struct jpeg_decompress_struct *cinfo,
-		       guchar **lines) 
+		       guchar **lines)
 {
 	gint i, j;
 	guint w;
@@ -92,7 +92,7 @@ explode_gray_into_buf (struct jpeg_decompress_struct *cinfo,
 	w = cinfo->output_width;
 	for (i = cinfo->rec_outbuf_height - 1; i >= 0; i--) {
 		guchar *from, *to;
-		
+
 		from = lines[i] + w - 1;
 		to = lines[i] + (w - 1) * 3;
 		for (j = w - 1; j >= 0; j--) {
@@ -108,7 +108,7 @@ explode_gray_into_buf (struct jpeg_decompress_struct *cinfo,
 
 static void
 convert_cmyk_to_rgb (struct jpeg_decompress_struct *cinfo,
-		     guchar **lines) 
+		     guchar **lines)
 {
 	gint i, j;
 
@@ -118,7 +118,7 @@ convert_cmyk_to_rgb (struct jpeg_decompress_struct *cinfo,
 
 	for (i = cinfo->rec_outbuf_height - 1; i >= 0; i--) {
 		guchar *p;
-		
+
 		p = lines[i];
 		for (j = 0; j < cinfo->output_width; j++) {
 			int c, m, y, k;
@@ -146,7 +146,7 @@ convert_cmyk_to_rgb (struct jpeg_decompress_struct *cinfo,
 static gpointer image_loader_jpeg_new(ImageLoaderBackendCbAreaUpdated area_updated_cb, ImageLoaderBackendCbSize size_cb, ImageLoaderBackendCbAreaPrepared area_prepared_cb, gpointer data)
 {
         ImageLoaderJpeg *loader = g_new0(ImageLoaderJpeg, 1);
-        
+
 	loader->area_updated_cb = area_updated_cb;
 	loader->size_cb = size_cb;
 	loader->area_prepared_cb = area_prepared_cb;
@@ -159,9 +159,9 @@ fatal_error_handler (j_common_ptr cinfo)
 {
 	struct error_handler_data *errmgr;
         char buffer[JMSG_LENGTH_MAX];
-        
+
 	errmgr = (struct error_handler_data *) cinfo->err;
-        
+
         /* Create the message */
         (* cinfo->err->format_message) (cinfo, buffer);
 
@@ -171,13 +171,13 @@ fatal_error_handler (j_common_ptr cinfo)
         if (errmgr->error && *errmgr->error == NULL) {
                 g_set_error (errmgr->error,
                              GDK_PIXBUF_ERROR,
-                             cinfo->err->msg_code == JERR_OUT_OF_MEMORY 
-			     ? GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY 
+                             cinfo->err->msg_code == JERR_OUT_OF_MEMORY
+			     ? GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY
 			     : GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
                              _("Error interpreting JPEG image file (%s)"),
                              buffer);
         }
-        
+
 	siglongjmp (errmgr->setjmp_buffer, 1);
 
         g_assert_not_reached ();
@@ -199,7 +199,7 @@ void image_loader_jpeg_read_scanline(struct jpeg_decompress_struct *cinfo, gucha
 	gint i;
 
 	lptr = lines;
-	for (i = 0; i < cinfo->rec_outbuf_height; i++) 
+	for (i = 0; i < cinfo->rec_outbuf_height; i++)
 		{
 		*lptr++ = *dptr;
 		*dptr += rowstride;
@@ -207,7 +207,7 @@ void image_loader_jpeg_read_scanline(struct jpeg_decompress_struct *cinfo, gucha
 
 	jpeg_read_scanlines (cinfo, lines, cinfo->rec_outbuf_height);
 
-	switch (cinfo->out_color_space) 
+	switch (cinfo->out_color_space)
 		{
 		    case JCS_GRAYSCALE:
 		      explode_gray_into_buf (cinfo, lines);
@@ -238,7 +238,7 @@ static void skip_input_data (j_decompress_ptr cinfo, long num_bytes)
 		{
 		ERREXIT(cinfo, JERR_INPUT_EOF);
 		}
-	else if (num_bytes > 0) 
+	else if (num_bytes > 0)
 		{
 		src->next_input_byte += (size_t) num_bytes;
 		src->bytes_in_buffer -= (size_t) num_bytes;
@@ -249,7 +249,7 @@ static void set_mem_src (j_decompress_ptr cinfo, void* buffer, long nbytes)
 {
 	struct jpeg_source_mgr* src;
 
-	if (cinfo->src == NULL) 
+	if (cinfo->src == NULL)
 		{   /* first time for this JPEG object? */
 		cinfo->src = (struct jpeg_source_mgr *) (*cinfo->mem->alloc_small) (
 					(j_common_ptr) cinfo, JPOOL_PERMANENT,
@@ -278,7 +278,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 	guint stereo_length = 0;
 
 	struct error_handler_data jerr;
-	
+
 	lj->stereo = FALSE;
 
 	MPOData *mpo = jpeg_get_mpo_data(buf, count);
@@ -287,7 +287,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 		guint i;
 		gint idx1 = -1, idx2 = -1;
 		guint num2 = 1;
-		
+
 		for (i = 0; i < mpo->num_images; i++)
 			{
 			if (mpo->images[i].type_code == 0x20002)
@@ -303,7 +303,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 					}
 				}
 			}
-			
+
 		if (idx1 >= 0 && idx2 >= 0)
 			{
 			lj->stereo = TRUE;
@@ -324,7 +324,7 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
         jerr.error = error;
 
 
-	if (setjmp(jerr.setjmp_buffer)) 
+	if (setjmp(jerr.setjmp_buffer))
 		{
 		/* If we get here, the JPEG code has signaled an error.
 		 * We need to clean up the JPEG object, close the input file, and return.
@@ -333,22 +333,22 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 		if (lj->stereo) jpeg_destroy_decompress(&cinfo2);
 		return FALSE;
 		}
-	
+
 	jpeg_create_decompress(&cinfo);
 
 	set_mem_src(&cinfo, (unsigned char *)buf, count);
 
 
 	jpeg_read_header(&cinfo, TRUE);
-	
+
 	if (lj->stereo)
 		{
 		jpeg_create_decompress(&cinfo2);
 		set_mem_src(&cinfo2, stereo_buf2, stereo_length);
 		jpeg_read_header(&cinfo2, TRUE);
-		
+
 		if (cinfo.image_width != cinfo2.image_width ||
-		    cinfo.image_height != cinfo2.image_height) 
+		    cinfo.image_height != cinfo2.image_height)
 			{
 			DEBUG_1("stereo data with different size");
 			jpeg_destroy_decompress(&cinfo2);
@@ -356,12 +356,12 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 			}
 		}
 
-		    
+
 
 	lj->requested_width = lj->stereo ? cinfo.image_width * 2: cinfo.image_width;
 	lj->requested_height = cinfo.image_height;
 	lj->size_cb(loader, lj->requested_width, lj->requested_height, lj->data);
-			
+
 	cinfo.scale_num = 1;
 	for (cinfo.scale_denom = 2; cinfo.scale_denom <= 8; cinfo.scale_denom *= 2) {
 		jpeg_calc_output_dimensions(&cinfo);
@@ -378,29 +378,29 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 		jpeg_calc_output_dimensions(&cinfo2);
 		jpeg_start_decompress(&cinfo2);
 		}
-		
+
 
 	jpeg_start_decompress(&cinfo);
-	
+
 
 	if (lj->stereo)
 		{
 		if (cinfo.output_width != cinfo2.output_width ||
 		    cinfo.output_height != cinfo2.output_height ||
-		    cinfo.out_color_components != cinfo2.out_color_components) 
+		    cinfo.out_color_components != cinfo2.out_color_components)
 			{
 			DEBUG_1("stereo data with different output size");
 			jpeg_destroy_decompress(&cinfo2);
 			lj->stereo = FALSE;
 			}
 		}
-	
-	
-	lj->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 
-				     cinfo.out_color_components == 4 ? TRUE : FALSE, 
+
+
+	lj->pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+				     cinfo.out_color_components == 4 ? TRUE : FALSE,
 				     8, lj->stereo ? cinfo.output_width * 2: cinfo.output_width, cinfo.output_height);
 
-	if (!lj->pixbuf) 
+	if (!lj->pixbuf)
 		{
 		jpeg_destroy_decompress (&cinfo);
 		if (lj->stereo) jpeg_destroy_decompress (&cinfo2);
@@ -412,9 +412,9 @@ static gboolean image_loader_jpeg_load (gpointer loader, const guchar *buf, gsiz
 	rowstride = gdk_pixbuf_get_rowstride(lj->pixbuf);
 	dptr = gdk_pixbuf_get_pixels(lj->pixbuf);
 	dptr2 = gdk_pixbuf_get_pixels(lj->pixbuf) + ((cinfo.out_color_components == 4) ? 4 * cinfo.output_width : 3 * cinfo.output_width);
-	
 
-	while (cinfo.output_scanline < cinfo.output_height && !lj->abort) 
+
+	while (cinfo.output_scanline < cinfo.output_height && !lj->abort)
 		{
 		guint scanline = cinfo.output_scanline;
 		image_loader_jpeg_read_scanline(&cinfo, &dptr, rowstride);
@@ -490,7 +490,7 @@ void image_loader_backend_set_jpeg(ImageLoaderBackend *funcs)
 	funcs->close = image_loader_jpeg_close;
 	funcs->abort = image_loader_jpeg_abort;
 	funcs->free = image_loader_jpeg_free;
-	
+
 	funcs->get_format_name = image_loader_jpeg_get_format_name;
 	funcs->get_format_mime_types = image_loader_jpeg_get_format_mime_types;
 }
@@ -498,3 +498,6 @@ void image_loader_backend_set_jpeg(ImageLoaderBackend *funcs)
 
 
 #endif
+
+
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

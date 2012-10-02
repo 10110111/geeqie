@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis, Laurent Monin
  *
@@ -75,14 +75,14 @@ static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **commen
 static void metadata_cache_update(FileData *fd, const gchar *key, const GList *values)
 {
 	GList *work;
-	
+
 	work = fd->cached_metadata;
 	while (work)
 		{
 		GList *entry = work->data;
 		gchar *entry_key = entry->data;
-		
-		if (strcmp(entry_key, key) == 0) 
+
+		if (strcmp(entry_key, key) == 0)
 			{
 			/* key found - just replace values */
 			GList *old_values = entry->next;
@@ -95,9 +95,9 @@ static void metadata_cache_update(FileData *fd, const gchar *key, const GList *v
 			}
 		work = work->next;
 		}
-	
+
 	/* key not found - prepend new entry */
-	fd->cached_metadata = g_list_prepend(fd->cached_metadata, 
+	fd->cached_metadata = g_list_prepend(fd->cached_metadata,
 				g_list_prepend(string_list_copy(values), g_strdup(key)));
 	DEBUG_1("added %s %s\n", key, fd->path);
 
@@ -106,14 +106,14 @@ static void metadata_cache_update(FileData *fd, const gchar *key, const GList *v
 static const GList *metadata_cache_get(FileData *fd, const gchar *key)
 {
 	GList *work;
-	
+
 	work = fd->cached_metadata;
 	while (work)
 		{
 		GList *entry = work->data;
 		gchar *entry_key = entry->data;
-		
-		if (strcmp(entry_key, key) == 0) 
+
+		if (strcmp(entry_key, key) == 0)
 			{
 			/* key found */
 			DEBUG_1("found %s %s\n", key, fd->path);
@@ -128,14 +128,14 @@ static const GList *metadata_cache_get(FileData *fd, const gchar *key)
 static void metadata_cache_remove(FileData *fd, const gchar *key)
 {
 	GList *work;
-	
+
 	work = fd->cached_metadata;
 	while (work)
 		{
 		GList *entry = work->data;
 		gchar *entry_key = entry->data;
-		
-		if (strcmp(entry_key, key) == 0) 
+
+		if (strcmp(entry_key, key) == 0)
 			{
 			/* key found */
 			string_list_free(entry);
@@ -152,13 +152,13 @@ void metadata_cache_free(FileData *fd)
 {
 	GList *work;
 	if (fd->cached_metadata) DEBUG_1("freed %s\n", fd->path);
-	
+
 	work = fd->cached_metadata;
 	while (work)
 		{
 		GList *entry = work->data;
 		string_list_free(entry);
-		
+
 		work = work->next;
 		}
 	g_list_free(fd->cached_metadata);
@@ -185,16 +185,16 @@ static void metadata_write_queue_add(FileData *fd)
 		{
 		metadata_write_queue = g_list_prepend(metadata_write_queue, fd);
 		file_data_ref(fd);
-		
+
 		layout_util_status_update_write_all();
 		}
 
-	if (metadata_write_idle_id) 
+	if (metadata_write_idle_id)
 		{
 		g_source_remove(metadata_write_idle_id);
 		metadata_write_idle_id = 0;
 		}
-	
+
 	if (options->metadata.confirm_after_timeout)
 		{
 		metadata_write_idle_id = g_timeout_add(options->metadata.confirm_timeout * 1000, metadata_write_queue_idle_cb, NULL);
@@ -208,7 +208,7 @@ gboolean metadata_write_queue_remove(FileData *fd)
 	fd->modified_xmp = NULL;
 
 	metadata_write_queue = g_list_remove(metadata_write_queue, fd);
-	
+
 	file_data_increment_version(fd);
 	file_data_send_notification(fd, NOTIFY_REREAD);
 
@@ -222,7 +222,7 @@ gboolean metadata_write_queue_remove_list(GList *list)
 {
 	GList *work;
 	gboolean ret = TRUE;
-	
+
 	work = list;
 	while (work)
 		{
@@ -238,8 +238,8 @@ void metadata_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (type & (NOTIFY_REREAD | NOTIFY_CHANGE))
 		{
 		metadata_cache_free(fd);
-		
-		if (g_list_find(metadata_write_queue, fd)) 
+
+		if (g_list_find(metadata_write_queue, fd))
 			{
 			DEBUG_1("Notify metadata: %s %04x", fd->path, type);
 			if (!isname(fd->path))
@@ -255,27 +255,27 @@ gboolean metadata_write_queue_confirm(gboolean force_dialog, FileUtilDoneFunc do
 {
 	GList *work;
 	GList *to_approve = NULL;
-	
+
 	work = metadata_write_queue;
 	while (work)
 		{
 		FileData *fd = work->data;
 		work = work->next;
-		
+
 		if (!isname(fd->path))
 			{
 			/* ignore deleted files */
 			metadata_write_queue_remove(fd);
 			continue;
 			}
-		
+
 		if (fd->change) continue; /* another operation in progress, skip this file for now */
-		
+
 		to_approve = g_list_prepend(to_approve, file_data_ref(fd));
 		}
 
 	file_util_write_metadata(NULL, to_approve, NULL, force_dialog, done_func, done_data);
-	
+
 	return (metadata_write_queue != NULL);
 }
 
@@ -290,10 +290,10 @@ gboolean metadata_write_perform(FileData *fd)
 {
 	gboolean success;
 	ExifData *exif;
-	
+
 	g_assert(fd->change);
-	
-	if (fd->change->dest && 
+
+	if (fd->change->dest &&
 	    strcmp(extension_from_path(fd->change->dest), GQ_CACHE_EXT_METADATA) == 0)
 		{
 		success = metadata_legacy_write(fd);
@@ -302,24 +302,24 @@ gboolean metadata_write_perform(FileData *fd)
 		}
 
 	/* write via exiv2 */
-	/*  we can either use cached metadata which have fd->modified_xmp already applied 
+	/*  we can either use cached metadata which have fd->modified_xmp already applied
 	                             or read metadata from file and apply fd->modified_xmp
 	    metadata are read also if the file was modified meanwhile */
-	exif = exif_read_fd(fd); 
+	exif = exif_read_fd(fd);
 	if (!exif) return FALSE;
 
 	success = (fd->change->dest) ? exif_write_sidecar(exif, fd->change->dest) : exif_write(exif); /* write modified metadata */
 	exif_free_fd(fd, exif);
 
 	if (fd->change->dest)
-		/* this will create a FileData for the sidecar and link it to the main file 
+		/* this will create a FileData for the sidecar and link it to the main file
 		   (we can't wait until the sidecar is discovered by directory scanning because
-		    exif_read_fd is called before that and it would read the main file only and 
+		    exif_read_fd is called before that and it would read the main file only and
 		    store the metadata in the cache)
 		    FIXME: this does not catch new sidecars created by independent external programs
 		*/
-		file_data_unref(file_data_new_group(fd->change->dest)); 
-		
+		file_data_unref(file_data_new_group(fd->change->dest));
+
 	if (success) metadata_legacy_delete(fd, fd->change->dest);
 	return success;
 }
@@ -332,7 +332,7 @@ gint metadata_queue_length(void)
 static gboolean metadata_check_key(const gchar *keys[], const gchar *key)
 {
 	const gchar **k = keys;
-	
+
 	while (*k)
 		{
 		if (strcmp(key, *k) == 0) return TRUE;
@@ -344,9 +344,9 @@ static gboolean metadata_check_key(const gchar *keys[], const gchar *key)
 gboolean metadata_write_revert(FileData *fd, const gchar *key)
 {
 	if (!fd->modified_xmp) return FALSE;
-	
+
 	g_hash_table_remove(fd->modified_xmp, key);
-	
+
 	if (g_hash_table_size(fd->modified_xmp) == 0)
 		{
 		metadata_write_queue_remove(fd);
@@ -367,9 +367,9 @@ gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values
 		fd->modified_xmp = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GDestroyNotify)string_list_free);
 		}
 	g_hash_table_insert(fd->modified_xmp, g_strdup(key), string_list_copy((GList *)values));
-	
+
 	metadata_cache_remove(fd, key);
-	
+
 	if (fd->exif)
 		{
 		exif_update_metadata(fd->exif, key, values);
@@ -381,13 +381,13 @@ gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values
 	if (options->metadata.sync_grouped_files && metadata_check_key(group_keys, key))
 		{
 		GList *work = fd->sidecar_files;
-		
+
 		while (work)
 			{
 			FileData *sfd = work->data;
 			work = work->next;
-			
-			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue; 
+
+			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue;
 
 			metadata_write_list(sfd, key, values);
 			}
@@ -396,7 +396,7 @@ gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values
 
 	return TRUE;
 }
-	
+
 gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value)
 {
 	GList *list = g_list_append(NULL, g_strdup(value));
@@ -408,8 +408,8 @@ gboolean metadata_write_string(FileData *fd, const gchar *key, const char *value
 gboolean metadata_write_int(FileData *fd, const gchar *key, guint64 value)
 {
 	gchar string[50];
-	
-	g_snprintf(string, sizeof(string), "%ld", value);
+
+	g_snprintf(string, sizeof(string), "%llu", (unsigned long long) value);
 	return metadata_write_string(fd, key, string);
 }
 
@@ -469,17 +469,17 @@ static gboolean metadata_legacy_write(FileData *fd)
 	have_keywords = g_hash_table_lookup_extended(fd->modified_xmp, KEYWORD_KEY, NULL, &keywords);
 	have_comment = g_hash_table_lookup_extended(fd->modified_xmp, COMMENT_KEY, NULL, &comment_l);
 	comment = (have_comment && comment_l) ? ((GList *)comment_l)->data : NULL;
-	
+
 	if (!have_keywords || !have_comment) metadata_file_read(metadata_pathl, &orig_keywords, &orig_comment);
-	
-	success = metadata_file_write(metadata_pathl, 
+
+	success = metadata_file_write(metadata_pathl,
 				      have_keywords ? (GList *)keywords : orig_keywords,
 				      have_comment ? comment : orig_comment);
 
 	g_free(metadata_pathl);
 	g_free(orig_comment);
 	string_list_free(orig_keywords);
-	
+
 	return success;
 }
 
@@ -502,10 +502,10 @@ static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **commen
 		if (*ptr == '[' && key != MK_COMMENT)
 			{
 			gchar *keystr = ++ptr;
-			
+
 			key = MK_NONE;
 			while (*ptr != ']' && *ptr != '\n' && *ptr != '\0') ptr++;
-			
+
 			if (*ptr == ']')
 				{
 				*ptr = '\0';
@@ -516,7 +516,7 @@ static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **commen
 				}
 			continue;
 			}
-		
+
 		switch (key)
 			{
 			case MK_NONE:
@@ -539,10 +539,10 @@ static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **commen
 				break;
 			}
 		}
-	
+
 	fclose(f);
 
-	if (keywords) 
+	if (keywords)
 		{
 		*keywords = g_list_reverse(list);
 		}
@@ -550,7 +550,7 @@ static gboolean metadata_file_read(gchar *path, GList **keywords, gchar **commen
 		{
 		string_list_free(list);
 		}
-		
+
 	if (comment_build)
 		{
 		if (comment)
@@ -584,7 +584,7 @@ static void metadata_legacy_delete(FileData *fd, const gchar *except)
 	if (!fd) return;
 
 	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
-	if (metadata_path && (!except || strcmp(metadata_path, except) != 0)) 
+	if (metadata_path && (!except || strcmp(metadata_path, except) != 0))
 		{
 		metadata_pathl = path_from_utf8(metadata_path);
 		unlink(metadata_pathl);
@@ -593,10 +593,10 @@ static void metadata_legacy_delete(FileData *fd, const gchar *except)
 		}
 
 #ifdef HAVE_EXIV2
-	/* without exiv2: do not delete xmp metadata because we are not able to convert it, 
+	/* without exiv2: do not delete xmp metadata because we are not able to convert it,
 	   just ignore it */
 	metadata_path = cache_find_location(CACHE_TYPE_XMP_METADATA, fd->path);
-	if (metadata_path && (!except || strcmp(metadata_path, except) != 0)) 
+	if (metadata_path && (!except || strcmp(metadata_path, except) != 0))
 		{
 		metadata_pathl = path_from_utf8(metadata_path);
 		unlink(metadata_pathl);
@@ -611,7 +611,7 @@ static gboolean metadata_legacy_read(FileData *fd, GList **keywords, gchar **com
 	gchar *metadata_path;
 	gchar *metadata_pathl;
 	gboolean success = FALSE;
-	
+
 	if (!fd) return FALSE;
 
 	metadata_path = cache_find_location(CACHE_TYPE_METADATA, fd->path);
@@ -666,13 +666,13 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 		}
 
 
-	if (format == METADATA_PLAIN && strcmp(key, KEYWORD_KEY) == 0 
+	if (format == METADATA_PLAIN && strcmp(key, KEYWORD_KEY) == 0
 	    && (cache_entry = metadata_cache_get(fd, key)))
 		{
 		return string_list_copy(cache_entry->next);
 		}
 
-	/* 
+	/*
 	    Legacy metadata file is the primary source if it exists.
 	    Merging the lists does not make much sense, because the existence of
 	    legacy metadata file indicates that the other metadata sources are not
@@ -681,9 +681,9 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 	*/
 	if (strcmp(key, KEYWORD_KEY) == 0)
 		{
-		if (metadata_legacy_read(fd, &list, NULL)) 
+		if (metadata_legacy_read(fd, &list, NULL))
 			{
-			if (format == METADATA_PLAIN) 
+			if (format == METADATA_PLAIN)
 				{
 				metadata_cache_update(fd, key, list);
 				}
@@ -699,17 +699,17 @@ GList *metadata_read_list(FileData *fd, const gchar *key, MetadataFormat format)
 		{
 	        return g_list_append(NULL, metadata_file_info(fd, key, format));
 		}
-	
+
 	exif = exif_read_fd(fd); /* this is cached, thus inexpensive */
 	if (!exif) return NULL;
 	list = exif_get_metadata(exif, key, format);
 	exif_free_fd(fd, exif);
-	
+
 	if (format == METADATA_PLAIN && strcmp(key, KEYWORD_KEY) == 0)
 		{
 		metadata_cache_update(fd, key, list);
 		}
-		
+
 	return list;
 }
 
@@ -732,7 +732,7 @@ guint64 metadata_read_int(FileData *fd, const gchar *key, guint64 fallback)
 	gchar *endptr;
 	gchar *string = metadata_read_string(fd, key, METADATA_PLAIN);
 	if (!string) return fallback;
-	
+
 	ret = g_ascii_strtoull(string, &endptr, 10);
 	if (string == endptr) ret = fallback;
 	g_free(string);
@@ -747,40 +747,40 @@ gdouble metadata_read_GPS_coord(FileData *fd, const gchar *key, gdouble fallback
 	gboolean ok = FALSE;
 	gchar *string = metadata_read_string(fd, key, METADATA_PLAIN);
 	if (!string) return fallback;
-	
+
 	deg = g_ascii_strtod(string, &endptr);
 	if (*endptr == ',')
 		{
 		min = g_ascii_strtod(endptr + 1, &endptr);
 		if (*endptr == ',')
 			sec = g_ascii_strtod(endptr + 1, &endptr);
-		else 
+		else
 			sec = 0.0;
-		
-		
-		if (*endptr == 'S' || *endptr == 'W' || *endptr == 'N' || *endptr == 'E') 
+
+
+		if (*endptr == 'S' || *endptr == 'W' || *endptr == 'N' || *endptr == 'E')
 			{
 			coord = deg + min /60.0 + sec / 3600.0;
 			ok = TRUE;
 			if (*endptr == 'S' || *endptr == 'W') coord = -coord;
 			}
 		}
-	
+
 	if (!ok)
 		{
 		coord = fallback;
 		log_printf("unable to parse GPS coordinate '%s'\n", string);
 		}
-	
+
 	g_free(string);
 	return coord;
 }
-	
+
 gboolean metadata_append_string(FileData *fd, const gchar *key, const char *value)
 {
 	gchar *str = metadata_read_string(fd, key, METADATA_PLAIN);
-	
-	if (!str) 
+
+	if (!str)
 		{
 		return metadata_write_string(fd, key, value);
 		}
@@ -797,8 +797,8 @@ gboolean metadata_append_string(FileData *fd, const gchar *key, const char *valu
 gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *values)
 {
 	GList *list = metadata_read_list(fd, key, METADATA_PLAIN);
-	
-	if (!list) 
+
+	if (!list)
 		{
 		return metadata_write_list(fd, key, values);
 		}
@@ -807,7 +807,7 @@ gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *value
 		gboolean ret;
 		list = g_list_concat(list, string_list_copy(values));
 		list = remove_duplicate_strings_from_list(list);
-		
+
 		ret = metadata_write_list(fd, key, list);
 		string_list_free(list);
 		return ret;
@@ -929,7 +929,7 @@ GList *string_to_keywords_list(const gchar *text)
 /*
  * keywords to marks
  */
- 
+
 
 gboolean meta_data_get_keyword_mark(FileData *fd, gint n, gpointer data)
 {
@@ -954,14 +954,14 @@ gboolean meta_data_set_keyword_mark(FileData *fd, gint n, gboolean value, gpoint
 	GList *path = data;
 	GList *keywords = NULL;
 	GtkTreeIter iter;
-	
+
 	if (!keyword_tree_get_iter(GTK_TREE_MODEL(keyword_tree), &iter, path)) return FALSE;
 
 	keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
 
 	if (!!keyword_tree_is_set(GTK_TREE_MODEL(keyword_tree), &iter, keywords) != !!value)
 		{
-		if (value) 
+		if (value)
 			{
 			keyword_tree_set(GTK_TREE_MODEL(keyword_tree), &iter, &keywords);
 			}
@@ -990,12 +990,12 @@ void meta_data_connect_mark_with_keyword(GtkTreeModel *keyword_tree, GtkTreeIter
 	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 		{
 		file_data_get_registered_mark_func(i, &get_mark_func, &set_mark_func, &mark_func_data);
-		if (get_mark_func == meta_data_get_keyword_mark) 
+		if (get_mark_func == meta_data_get_keyword_mark)
 			{
 			GtkTreeIter old_kw_iter;
 			GList *old_path = mark_func_data;
-			
-			if (keyword_tree_get_iter(keyword_tree, &old_kw_iter, old_path) && 
+
+			if (keyword_tree_get_iter(keyword_tree, &old_kw_iter, old_path) &&
 			    (i == mark || /* release any previous connection of given mark */
 			     keyword_compare(keyword_tree, &old_kw_iter, kw_iter) == 0)) /* or given keyword */
 				{
@@ -1012,7 +1012,7 @@ void meta_data_connect_mark_with_keyword(GtkTreeModel *keyword_tree, GtkTreeIter
 		gchar *mark_str;
 		path = keyword_tree_get_path(keyword_tree, kw_iter);
 		file_data_register_mark_func(mark, meta_data_get_keyword_mark, meta_data_set_keyword_mark, path, (GDestroyNotify)string_list_free);
-		
+
 		mark_str = g_strdup_printf("%d", mark + 1);
 		gtk_tree_store_set(GTK_TREE_STORE(keyword_tree), kw_iter, KEYWORD_COLUMN_MARK, mark_str, -1);
 		g_free(mark_str);
@@ -1075,7 +1075,7 @@ gboolean keyword_same_parent(GtkTreeModel *keyword_tree, GtkTreeIter *a, GtkTree
 {
 	GtkTreeIter parent_a;
 	GtkTreeIter parent_b;
-	
+
 	gboolean valid_pa = gtk_tree_model_iter_parent(keyword_tree, &parent_a, a);
 	gboolean valid_pb = gtk_tree_model_iter_parent(keyword_tree, &parent_b, b);
 
@@ -1096,7 +1096,7 @@ gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, Gtk
 	gboolean toplevel = FALSE;
 	gboolean ret;
 	gchar *casefold;
-	
+
 	if (parent_ptr)
 		{
 		parent = *parent_ptr;
@@ -1109,12 +1109,12 @@ gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, Gtk
 		{
 		toplevel = TRUE;
 		}
-	
+
 	if (!gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &iter, toplevel ? NULL : &parent)) return FALSE;
-	
+
 	casefold = g_utf8_casefold(name, -1);
 	ret = FALSE;
-	
+
 	while (TRUE)
 		{
 		if (!(exclude_sibling && sibling && keyword_compare(keyword_tree, &iter, sibling) == 0))
@@ -1132,7 +1132,7 @@ gboolean keyword_exists(GtkTreeModel *keyword_tree, GtkTreeIter *parent_ptr, Gtk
 				g_free(iter_casefold);
 				} // if (options->metadata.tags_cas...
 			}
-		if (ret) 
+		if (ret)
 			{
 			if (result) *result = iter;
 			break;
@@ -1168,11 +1168,11 @@ void keyword_copy(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from
 void keyword_copy_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *to, GtkTreeIter *from)
 {
 	GtkTreeIter from_child;
-	
+
 	keyword_copy(keyword_tree, to, from);
-	
+
 	if (!gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &from_child, from)) return;
-	
+
 	while (TRUE)
 		{
 		GtkTreeIter to_child;
@@ -1192,7 +1192,7 @@ GList *keyword_tree_get_path(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr)
 {
 	GList *path = NULL;
 	GtkTreeIter iter = *iter_ptr;
-	
+
 	while (TRUE)
 		{
 		GtkTreeIter parent;
@@ -1208,7 +1208,7 @@ gboolean keyword_tree_get_iter(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr
 	GtkTreeIter iter;
 
 	if (!gtk_tree_model_get_iter_first(keyword_tree, &iter)) return FALSE;
-	
+
 	while (TRUE)
 		{
 		GtkTreeIter children;
@@ -1220,12 +1220,12 @@ gboolean keyword_tree_get_iter(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr
 			if (!gtk_tree_model_iter_next(keyword_tree, &iter)) return FALSE;
 			}
 		path = path->next;
-		if (!path) 
+		if (!path)
 			{
 			*iter_ptr = iter;
 			return TRUE;
 			}
-			
+
 	    	if (!gtk_tree_model_iter_children(keyword_tree, &children, &iter)) return FALSE;
 	    	iter = children;
 		}
@@ -1240,7 +1240,7 @@ static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTree
 		{
 		/* for the purpose of expanding and hiding, a helper is set if it has any children set */
 		GtkTreeIter child;
-		if (!gtk_tree_model_iter_children(keyword_tree, &child, &iter)) 
+		if (!gtk_tree_model_iter_children(keyword_tree, &child, &iter))
 			return FALSE; /* this should happen only on empty helpers */
 
 		while (TRUE)
@@ -1249,7 +1249,7 @@ static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTree
 			if (!gtk_tree_model_iter_next(keyword_tree, &child)) return FALSE;
 			}
 		}
-	
+
 	while (TRUE)
 		{
 		GtkTreeIter parent;
@@ -1273,7 +1273,7 @@ static gboolean keyword_tree_is_set_casefold(GtkTreeModel *keyword_tree, GtkTree
 			g_free(iter_casefold);
 			if (!found) return FALSE;
 			}
-		
+
 		if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return TRUE;
 		iter = parent;
 		}
@@ -1421,7 +1421,7 @@ static void keyword_tree_reset_recursive(GtkTreeModel *keyword_tree, GtkTreeIter
 {
 	GtkTreeIter child;
 	keyword_tree_reset1(keyword_tree, iter, kw_list);
-	
+
 	if (!gtk_tree_model_iter_children(keyword_tree, &child, iter)) return;
 
 	while (TRUE)
@@ -1434,8 +1434,8 @@ static void keyword_tree_reset_recursive(GtkTreeModel *keyword_tree, GtkTreeIter
 static gboolean keyword_tree_check_empty_children(GtkTreeModel *keyword_tree, GtkTreeIter *parent, GList *kw_list)
 {
 	GtkTreeIter iter;
-	
-	if (!gtk_tree_model_iter_children(keyword_tree, &iter, parent)) 
+
+	if (!gtk_tree_model_iter_children(keyword_tree, &iter, parent))
 		return TRUE; /* this should happen only on empty helpers */
 
 	while (TRUE)
@@ -1453,7 +1453,7 @@ void keyword_tree_reset(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr, GList
 
 	if (!gtk_tree_model_iter_parent(keyword_tree, &parent, &iter)) return;
 	iter = parent;
-	
+
 	while (keyword_tree_check_empty_children(keyword_tree, &iter, *kw_list))
 		{
 		GtkTreeIter parent;
@@ -1471,12 +1471,12 @@ void keyword_delete(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr)
 		{
 		keyword_delete(keyword_tree, &child);
 		}
-	
+
 	meta_data_connect_mark_with_keyword(GTK_TREE_MODEL(keyword_tree), iter_ptr, -1);
 
 	gtk_tree_model_get(GTK_TREE_MODEL(keyword_tree), iter_ptr, KEYWORD_COLUMN_HIDE_IN, &list, -1);
 	g_list_free(list);
-	
+
 	gtk_tree_store_remove(keyword_tree, iter_ptr);
 }
 
@@ -1531,7 +1531,7 @@ static void keyword_hide_unset_in_recursive(GtkTreeStore *keyword_tree, GtkTreeI
 		else
 			{
 			GtkTreeIter child;
-			if (gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &child, &iter)) 
+			if (gtk_tree_model_iter_children(GTK_TREE_MODEL(keyword_tree), &child, &iter))
 				{
 				keyword_hide_unset_in_recursive(keyword_tree, &child, id, keywords);
 				}
@@ -1578,7 +1578,7 @@ void keyword_show_set_in(GtkTreeStore *keyword_tree, gpointer id, GList *keyword
 void keyword_tree_new(void)
 {
 	if (keyword_tree) return;
-	
+
 	keyword_tree = gtk_tree_store_new(KEYWORD_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 }
 
@@ -1592,70 +1592,70 @@ static GtkTreeIter keyword_tree_default_append(GtkTreeStore *keyword_tree, GtkTr
 
 void keyword_tree_new_default(void)
 {
-	GtkTreeIter i1, i2, i3;
+	GtkTreeIter i1, i2;
 
 	if (!keyword_tree) keyword_tree_new();
 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("People"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Family"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Free time"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Children"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Sport"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Culture"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Festival"), TRUE); 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Nature"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Animal"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Bird"), TRUE); 
- 			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Insect"), TRUE); 
- 			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Pets"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Wildlife"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Zoo"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Plant"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Tree"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Flower"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Water"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("River"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Lake"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Sea"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Landscape"), TRUE); 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Art"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Statue"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Painting"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Historic"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Modern"), TRUE); 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("City"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Park"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Street"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Square"), TRUE); 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Architecture"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Buildings"), FALSE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("House"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Cathedral"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Palace"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Castle"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Bridge"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Interior"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Historic"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Modern"), TRUE); 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Places"), FALSE); 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Conditions"), FALSE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Night"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Lights"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Reflections"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Sun"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Weather"), FALSE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Fog"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Rain"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Clouds"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Snow"), TRUE); 
-			i3 = keyword_tree_default_append(keyword_tree, &i2, _("Sunny weather"), TRUE); 
-	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Photo"), FALSE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Edited"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Detail"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Macro"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Portrait"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Black and White"), TRUE); 
-		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Perspective"), TRUE); 
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("People"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Family"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Free time"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Children"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Sport"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Culture"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Festival"), TRUE);
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Nature"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Animal"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Bird"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Insect"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Pets"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Wildlife"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Zoo"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Plant"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Tree"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Flower"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Water"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("River"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Lake"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Sea"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Landscape"), TRUE);
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Art"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Statue"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Painting"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Historic"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Modern"), TRUE);
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("City"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Park"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Street"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Square"), TRUE);
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Architecture"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Buildings"), FALSE);
+			keyword_tree_default_append(keyword_tree, &i2, _("House"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Cathedral"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Palace"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Castle"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Bridge"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Interior"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Historic"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Modern"), TRUE);
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Places"), FALSE);
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Conditions"), FALSE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Night"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Lights"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Reflections"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Sun"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Weather"), FALSE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Fog"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Rain"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Clouds"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Snow"), TRUE);
+			keyword_tree_default_append(keyword_tree, &i2, _("Sunny weather"), TRUE);
+	i1 = keyword_tree_default_append(keyword_tree, NULL, _("Photo"), FALSE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Edited"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Detail"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Macro"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Portrait"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Black and White"), TRUE);
+		i2 = keyword_tree_default_append(keyword_tree, &i1, _("Perspective"), TRUE);
 }
 
 
@@ -1672,7 +1672,7 @@ static void keyword_tree_node_write_config(GtkTreeModel *keyword_tree, GtkTreeIt
 		write_char_option(outstr, indent, "name", name);
 		g_free(name);
 		write_bool_option(outstr, indent, "kw", keyword_get_is_keyword(keyword_tree, &iter));
-		if (gtk_tree_model_iter_children(keyword_tree, &children, &iter)) 
+		if (gtk_tree_model_iter_children(keyword_tree, &children, &iter))
 			{
 			WRITE_STRING(">");
 			indent++;
@@ -1680,7 +1680,7 @@ static void keyword_tree_node_write_config(GtkTreeModel *keyword_tree, GtkTreeIt
 			indent--;
 			WRITE_NL(); WRITE_STRING("</keyword>");
 			}
-		else 
+		else
 			{
 			WRITE_STRING("/>");
 			}
@@ -1693,7 +1693,7 @@ void keyword_tree_write_config(GString *outstr, gint indent)
 	GtkTreeIter iter;
 	WRITE_NL(); WRITE_STRING("<keyword_tree>");
 	indent++;
-	
+
 	if (keyword_tree && gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter))
 		{
 		keyword_tree_node_write_config(GTK_TREE_MODEL(keyword_tree), &iter, outstr, indent);
@@ -1717,7 +1717,7 @@ GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *pa
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
-	if (name && name[0]) 
+	if (name && name[0])
 		{
 		GtkTreeIter iter;
 		/* re-use existing keyword if any */

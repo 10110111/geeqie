@@ -1,7 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -291,7 +291,7 @@ static void dest_change_dir(Dest_Data *dd, const gchar *path, gboolean retain_na
 		new_directory = g_path_get_dirname(full_path);
 	else
 		new_directory = g_strdup(full_path);
-	
+
 	gtk_entry_set_text(GTK_ENTRY(dd->entry), full_path);
 
 	dest_populate(dd, new_directory);
@@ -331,9 +331,7 @@ static void dest_dnd_set_data(GtkWidget *view,
 			      guint info, guint time, gpointer data)
 {
 	gchar *path = NULL;
-	gchar *uri_text = NULL;
 	GList *list = NULL;
-	gint length = 0;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -346,23 +344,16 @@ static void dest_dnd_set_data(GtkWidget *view,
 
 	list = g_list_append(list, path);
 
-	switch (info)
+	gchar **uris = uris_from_filelist(list);
+	gboolean ret = gtk_selection_data_set_uris(selection_data, uris);
+	if (!ret)
 		{
-		case TARGET_URI_LIST:
-			uri_text = uri_text_from_list(list, &length, FALSE);
-			break;
-		case TARGET_TEXT_PLAIN:
-			uri_text = uri_text_from_list(list, &length, TRUE);
-			break;
+		char *str = g_strjoinv("\r\n", uris);
+		ret = gtk_selection_data_set_text(selection_data, str, -1);
+		g_free(str);
 		}
 
 	string_list_free(list);
-
-	if (!uri_text) return;
-
-	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, (guchar *)uri_text, length);
-	g_free(uri_text);
 }
 
 static void dest_dnd_init(Dest_Data *dd)
@@ -696,9 +687,9 @@ static gboolean dest_keypress_cb(GtkWidget *view, GdkEventKey *event, gpointer d
 
 	switch (event->keyval)
 		{
-		case GDK_F10:
+		case GDK_KEY_F10:
 			if (!(event->state & GDK_CONTROL_MASK)) return FALSE;
-		case GDK_Menu:
+		case GDK_KEY_Menu:
 			dest_view_store_selection(dd, GTK_TREE_VIEW(view));
 			dest_popup_menu(dd, GTK_TREE_VIEW(view), 0, event->time, TRUE);
 			return TRUE;
@@ -711,7 +702,7 @@ static gboolean dest_keypress_cb(GtkWidget *view, GdkEventKey *event, gpointer d
 				return TRUE;
 				}
 			break;
-		case GDK_Delete:
+		case GDK_KEY_Delete:
 			dest_view_store_selection(dd, GTK_TREE_VIEW(view));
 			dest_view_delete(dd, GTK_TREE_VIEW(view));
 			return TRUE;
@@ -905,7 +896,7 @@ static void dest_filter_list_sync(Dest_Data *dd)
 
 	if (!dd->filter_list || !dd->filter_combo) return;
 
-	entry = GTK_BIN(dd->filter_combo)->child;
+	entry = gtk_bin_get_child(GTK_BIN(dd->filter_combo));
 	old_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
 
 	store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(dd->filter_combo)));
@@ -972,7 +963,7 @@ static void dest_filter_add(Dest_Data *dd, const gchar *filter, const gchar *des
 		}
 	dd->filter_text_list = uig_list_insert_link(dd->filter_text_list, g_list_last(dd->filter_text_list), buf);
 
-	if (set) gtk_entry_set_text(GTK_ENTRY(GTK_BIN(dd->filter_combo)->child), filter);
+	if (set) gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(dd->filter_combo))), filter);
 	dest_filter_list_sync(dd);
 }
 
@@ -994,7 +985,7 @@ static void dest_filter_changed_cb(GtkEditable *editable, gpointer data)
 	const gchar *buf;
 	gchar *path;
 
-	entry = GTK_BIN(dd->filter_combo)->child;
+	entry = gtk_bin_get_child(GTK_BIN(dd->filter_combo));
 	buf = gtk_entry_get_text(GTK_ENTRY(entry));
 
 	g_free(dd->filter);
@@ -1144,17 +1135,13 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 
 		store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
 
-		dd->filter_combo = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(store),
-								      FILTER_COLUMN_FILTER);
+		dd->filter_combo = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(store));
 		g_object_unref(store);
 		gtk_cell_layout_clear(GTK_CELL_LAYOUT(dd->filter_combo));
 		renderer = gtk_cell_renderer_text_new();
 		gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(dd->filter_combo), renderer, TRUE);
 		gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(dd->filter_combo), renderer,
 					       "text", FILTER_COLUMN_NAME, NULL);
-#if 0
-		gtk_combo_set_case_sensitive(GTK_COMBO(dd->filter_combo), TRUE);
-#endif
 		gtk_box_pack_start(GTK_BOX(hbox2), dd->filter_combo, TRUE, TRUE, 0);
 		gtk_widget_show(dd->filter_combo);
 
@@ -1208,7 +1195,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 		dest_filter_clear(dd);
 		dest_filter_add(dd, filter, filter_desc, TRUE);
 
-		dd->filter = g_strdup(gtk_entry_get_text(GTK_ENTRY(GTK_BIN(dd->filter_combo)->child)));
+		dd->filter = g_strdup(gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(dd->filter_combo)))));
 		}
 
 	if (path && path[0] == G_DIR_SEPARATOR && isdir(path))
@@ -1235,7 +1222,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 
 	if (dd->filter_combo)
 		{
-		g_signal_connect(G_OBJECT(GTK_BIN(dd->filter_combo)->child), "changed",
+		g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(dd->filter_combo))), "changed",
 				 G_CALLBACK(dest_filter_changed_cb), dd);
 		}
 	g_signal_connect(G_OBJECT(dd->entry), "changed",

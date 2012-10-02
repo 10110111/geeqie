@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -37,36 +37,28 @@ enum {
 
 static void clear_mouse_cursor(GtkWidget *widget, gint state)
 {
-	if (!widget->window) return;
+	GdkWindow *window = gtk_widget_get_window(widget);
+	if (!window) return;
 
 	if (state & FULLSCREEN_CURSOR_BUSY)
 		{
 		GdkCursor *cursor;
 
 		cursor = gdk_cursor_new(GDK_WATCH);
-		gdk_window_set_cursor(widget->window, cursor);
+		gdk_window_set_cursor(window, cursor);
 		gdk_cursor_unref(cursor);
 		}
 	else if (state & FULLSCREEN_CURSOR_NORMAL)
 		{
-		gdk_window_set_cursor(widget->window, NULL);
+		gdk_window_set_cursor(window, NULL);
 		}
 	else
 		{
 		GdkCursor *cursor;
-		GdkPixmap *p;
 
-		p = gdk_bitmap_create_from_data(widget->window, "\0\0\0", 1, 1);
-
-		cursor = gdk_cursor_new_from_pixmap(p, p,
-						    &widget->style->fg[GTK_STATE_ACTIVE],
-						    &widget->style->bg[GTK_STATE_ACTIVE],
-						    0, 0);
-
-		gdk_window_set_cursor(widget->window, cursor);
-
+		cursor = gdk_cursor_new(GDK_BLANK_CURSOR);
+		gdk_window_set_cursor(window, cursor);
 		gdk_cursor_unref(cursor);
-		g_object_unref(p);
 		}
 }
 
@@ -219,10 +211,10 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 {
 	FullScreenData *fs;
 	GdkScreen *screen;
-	gboolean same;
 	gint x, y;
 	gint w, h;
 	GdkGeometry geometry;
+	GdkWindow *gdkwin;
 
 	if (!window || !imd) return NULL;
 
@@ -238,7 +230,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	DEBUG_1("full screen requests screen %d", options->fullscreen.screen);
 	fullscreen_prefs_get_geometry(options->fullscreen.screen, window, &x, &y, &w, &h,
-				      &screen, &same);
+				      &screen, &fs->same_region);
 
 	fs->window = window_new(GTK_WINDOW_TOPLEVEL, "fullscreen", NULL, NULL, _("Full screen"));
 
@@ -252,15 +244,14 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 		 */
 		gtk_window_fullscreen(GTK_WINDOW(fs->window));
 		}
-	else if (options->fullscreen.above)
+	else
 		{
-		/* request to be above other windows */
-		gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
+		gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
+		if (options->fullscreen.above)
+			gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
 		}
 
 	gtk_window_set_resizable(GTK_WINDOW(fs->window), FALSE);
-
-	gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
 	gtk_container_set_border_width(GTK_CONTAINER(fs->window), 0);
 	g_signal_connect(G_OBJECT(fs->window), "delete_event",
 			 G_CALLBACK(fullscreen_delete_cb), fs);
@@ -287,6 +278,11 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gtk_window_set_default_size(GTK_WINDOW(fs->window), w, h);
 	gtk_window_move(GTK_WINDOW(fs->window), x, y);
 
+	gtk_widget_realize(fs->window);
+	gdkwin = gtk_widget_get_window(fs->window);
+	if (gdkwin != NULL)
+		gdk_window_set_override_redirect(gdkwin, TRUE);
+
 	fs->imd = image_new(FALSE);
 
 	gtk_container_add(GTK_CONTAINER(fs->window), fs->imd->widget);
@@ -294,7 +290,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	image_background_set_color_from_options(fs->imd, TRUE);
 	image_set_delay_flip(fs->imd, options->fullscreen.clean_flip);
 	image_auto_refresh_enable(fs->imd, fs->normal_imd->auto_refresh);
-	
+
 	if (options->fullscreen.clean_flip)
 		{
 		image_set_update_func(fs->imd, fullscreen_image_update_cb, fs);
@@ -303,7 +299,16 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	gtk_widget_show(fs->imd->widget);
 
-	image_change_from_image(fs->imd, fs->normal_imd);
+	if (fs->same_region)
+		{
+		DEBUG_0("Original vindow is not visible, enabling std. fullscreen mode");
+		image_move_from_image(fs->imd, fs->normal_imd);
+		}
+	else
+		{
+		DEBUG_0("Original vindow is still visible, enabling presentation fullscreen mode");
+		image_copy_from_image(fs->imd, fs->normal_imd);
+		}
 
 	if (options->stereo.enable_fsmode) {
 		image_stereo_set(fs->imd, options->stereo.fsmode);
@@ -322,10 +327,13 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	/* hide normal window
 	 * FIXME: properly restore this window on show
 	 */
+	if (fs->same_region)
+		{
 #ifdef HIDE_WINDOW_IN_FULLSCREEN
-	gtk_widget_hide(fs->normal_window);
+		gtk_widget_hide(fs->normal_window);
 #endif
-	image_change_fd(fs->normal_imd, NULL, image_zoom_get(fs->normal_imd));
+		image_change_fd(fs->normal_imd, NULL, image_zoom_get(fs->normal_imd));
+		}
 
 	return fs;
 }
@@ -340,15 +348,19 @@ void fullscreen_stop(FullScreenData *fs)
 	fullscreen_busy_mouse_disable(fs);
 	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
 
-	image_change_from_image(fs->normal_imd, fs->imd);
-
-	if (options->stereo.enable_fsmode) {
-		image_stereo_set(fs->normal_imd, options->stereo.mode);
-	}
-
+	if (fs->same_region)
+		{
+		image_move_from_image(fs->normal_imd, fs->imd);
 #ifdef HIDE_WINDOW_IN_FULLSCREEN
-	gtk_widget_show(fs->normal_window);
+		gtk_widget_show(fs->normal_window);
 #endif
+		if (options->stereo.enable_fsmode)
+			{
+			image_stereo_set(fs->normal_imd, options->stereo.mode);
+			}
+		}
+
+
 	if (fs->stop_func) fs->stop_func(fs, fs->stop_data);
 
 	gtk_widget_destroy(fs->window);
@@ -402,7 +414,11 @@ GList *fullscreen_prefs_list(void)
 			else
 				{
 				gdk_screen_get_monitor_geometry(screen, j, &rect);
-				subname = g_strdup_printf("%s %d", _("Monitor"), j + 1);
+				subname = gdk_screen_get_monitor_plug_name(screen, j);
+				if (subname == NULL)
+					{
+					subname = g_strdup_printf("%s %d", _("Monitor"), j + 1);
+					}
 				}
 
 			sd = g_new0(ScreenData, 1);
@@ -510,13 +526,13 @@ void fullscreen_prefs_get_geometry(gint screen, GtkWidget *widget, gint *x, gint
 		if (height) *height = sd->height;
 
 		if (dest_screen) *dest_screen = screen;
-		if (same_region) *same_region = (!widget || !widget->window ||
+		if (same_region) *same_region = (!widget || !gtk_widget_get_window(widget) ||
 					(screen == gtk_widget_get_screen(widget) &&
 					(sd->number%100 == 0 ||
-					 sd->number%100 == gdk_screen_get_monitor_at_window(screen, widget->window)+1)));
+					 sd->number%100 == gdk_screen_get_monitor_at_window(screen, gtk_widget_get_window(widget))+1)));
 
 		}
-	else if (screen != 1 || !widget || !widget->window)
+	else if (screen != 1 || !widget || !gtk_widget_get_window(widget))
 		{
 		GdkScreen *screen;
 
@@ -544,7 +560,7 @@ void fullscreen_prefs_get_geometry(gint screen, GtkWidget *widget, gint *x, gint
 		GdkRectangle rect;
 
 		screen = gtk_widget_get_screen(widget);
-		monitor = gdk_screen_get_monitor_at_window(screen, widget->window);
+		monitor = gdk_screen_get_monitor_at_window(screen, gtk_widget_get_window(widget));
 
 		gdk_screen_get_monitor_geometry(screen, monitor, &rect);
 
@@ -566,10 +582,10 @@ gint fullscreen_prefs_find_screen_for_widget(GtkWidget *widget)
 	gint monitor;
 	gint n;
 
-	if (!widget || !widget->window) return 0;
+	if (!widget || !gtk_widget_get_window(widget)) return 0;
 
 	screen = gtk_widget_get_screen(widget);
-	monitor = gdk_screen_get_monitor_at_window(screen, widget->window);
+	monitor = gdk_screen_get_monitor_at_window(screen, gtk_widget_get_window(widget));
 
 	n = (gdk_screen_get_number(screen)+1) * 100 + monitor + 1;
 

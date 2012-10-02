@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -222,7 +222,7 @@ static void layout_config_table_button(GtkWidget *table, LayoutLocation l, const
 
 	button = gtk_button_new_with_label(text);
 	gtk_widget_set_sensitive(button, FALSE);
-	GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(button, FALSE);
 	gtk_table_attach_defaults(GTK_TABLE(table), button, x1, x2, y1, y2);
 	gtk_widget_show(button);
 }
@@ -263,21 +263,6 @@ static GtkWidget *layout_config_widget(GtkWidget *group, GtkWidget *box, gint st
 
 	return group;
 }
-
-#if 0
-static void layout_config_row_move(GtkWidget *clist, gint source_row, gint dest_row, gpointer data)
-{
-	gchar *text;
-	gint i;
-
-	for (i = 0; i < 3; i++)
-		{
-		text = g_strdup_printf("%d", i + 1);
-		gtk_clist_set_text(GTK_CLIST(clist), i, 0, text);
-		g_free(text);
-		}
-}
-#endif
 
 static void layout_config_number_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
 				    GtkTreeModel *store, GtkTreeIter *iter, gpointer data)

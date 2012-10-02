@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  */
 
@@ -53,7 +53,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 	gint ret;
 	gint x = 0;
 	gint y = 0;
-	
+
 	/* LIRC code and corresponding geeqie command (and parameters)*/
 	gchar *code;
 	gchar *cmd;
@@ -71,7 +71,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 4;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				i_parm = atoi(ptr);
-				
+
 				if (i_parm <= 0) i_parm = 1;
 				x -= i_parm;
 				}
@@ -80,7 +80,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 5;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				i_parm = atoi(ptr);
-				
+
 				if (i_parm <= 0) i_parm = 1;
 				x += i_parm;
 				}
@@ -89,7 +89,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 2;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				i_parm = atoi(ptr);
-				
+
 				if (i_parm <= 0) i_parm = 1;
 				y -= i_parm;
 				}
@@ -98,7 +98,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 4;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				i_parm = atoi(ptr);
-				
+
 				if (i_parm <= 0) i_parm = 1;
 				y += i_parm;
 				}
@@ -115,7 +115,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 7;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				fl_parm = atoi(ptr) / 10.0;
-				
+
 				if (fl_parm <= 0.01) fl_parm = get_zoom_increment();
 				layout_image_zoom_adjust(lw, fl_parm, FALSE);
 				}
@@ -124,7 +124,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 8;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				fl_parm = atoi(ptr) / 10.0;
-				
+
 				if (fl_parm <= 0.01) fl_parm = get_zoom_increment();
 				layout_image_zoom_adjust(lw, -fl_parm, FALSE);
 				}
@@ -141,7 +141,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 8;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				i_parm = atoi(ptr);
-				
+
 				if (i_parm <= 0) i_parm = 1;
 				layout_image_zoom_set(lw, 1.0, FALSE);
 				}
@@ -150,7 +150,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 				ptr = cmd + 12;
 				while (g_ascii_isspace(*ptr)) ptr++;
 				i_parm = atoi(ptr);
-				
+
 				if (i_parm <= 0) i_parm = 1;
 				layout_image_zoom_set(lw, -i_parm, FALSE);
 				}
@@ -204,7 +204,7 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 void layout_image_lirc_init(LayoutWindow *lw)
 {
 	gint flags;
-	
+
 	DEBUG_1("Initializing LIRC...");
 	lirc_fd = lirc_init(GQ_APPNAME_LC, get_debug_level() > 0);
 	if (lirc_fd == -1)

@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Laurent Monin
  *
@@ -633,7 +633,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 				    G_CALLBACK(vficon_pop_menu_show_names_cb), vf);
 		break;
 	}
-	
+
 	menu_item_add_stock(menu, _("Re_fresh"), GTK_STOCK_REFRESH, G_CALLBACK(vf_pop_menu_refresh_cb), vf);
 
 	return menu;
@@ -661,7 +661,7 @@ gboolean vf_set_fd(ViewFile *vf, FileData *dir_fd)
 	case FILEVIEW_LIST: ret = vflist_set_fd(vf, dir_fd); break;
 	case FILEVIEW_ICON: ret = vficon_set_fd(vf, dir_fd); break;
 	}
-	
+
 	return ret;
 }
 
@@ -698,9 +698,9 @@ static GtkWidget *vf_marks_filter_init(ViewFile *vf)
 {
 	GtkWidget *frame = gtk_frame_new(NULL);
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
-	
+
 	gint i;
-	
+
 	for (i = 0; i < FILEDATA_MARKS_SIZE ; i++)
 		{
 		GtkWidget *check = gtk_check_button_new();
@@ -728,7 +728,7 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 	ViewFile *vf;
 
 	vf = g_new0(ViewFile, 1);
-	
+
 	vf->type = type;
 	vf->sort_method = SORT_NAME;
 	vf->sort_ascend = TRUE;
@@ -737,14 +737,14 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(vf->scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(vf->scrolled),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	
+
 	vf->filter = vf_marks_filter_init(vf);
 
 	vf->widget = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vf->widget), vf->filter, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vf->widget), vf->scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(vf->scrolled);
-	
+
 	g_signal_connect(G_OBJECT(vf->widget), "destroy",
 			 G_CALLBACK(vf_destroy_cb), vf);
 
@@ -799,19 +799,19 @@ static gdouble vf_thumb_progress(ViewFile *vf)
 {
 	gint count = 0;
 	gint done = 0;
-	
+
 	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_thumb_progress_count(vf->list, &count, &done); break;
 	case FILEVIEW_ICON: vficon_thumb_progress_count(vf->list, &count, &done); break;
 	}
-	
+
 	DEBUG_1("thumb progress: %d of %d", done, count);
 	return (gdouble)done / count;
 }
 
 static void vf_set_thumb_fd(ViewFile *vf, FileData *fd)
-{	
+{
 	switch (vf->type)
 	{
 	case FILEVIEW_LIST: vflist_set_thumb_fd(vf, fd); break;
@@ -878,11 +878,7 @@ static gboolean vf_thumb_next(ViewFile *vf)
 {
 	FileData *fd = NULL;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_realized(vf->listview))
-#else
-	if (!GTK_WIDGET_REALIZED(vf->listview))
-#endif
 		{
 		vf_thumb_status(vf, 0.0, NULL);
 		return FALSE;
@@ -936,7 +932,7 @@ static void vf_thumb_reset_all(ViewFile *vf)
 void vf_thumb_update(ViewFile *vf)
 {
 	vf_thumb_stop(vf);
-	
+
 	if (vf->type == FILEVIEW_LIST && !VFLIST(vf)->thumbs_enabled) return;
 
 	vf_thumb_status(vf, 0.0, _("Loading thumbs..."));
@@ -976,7 +972,7 @@ guint vf_marks_get_filter(ViewFile *vf)
 	guint ret = 0;
 	gint i;
 	if (!vf->marks_enabled) return 0;
-	
+
 	for (i = 0; i < FILEDATA_MARKS_SIZE ; i++)
 		{
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(vf->filter_check[i])))
@@ -1045,7 +1041,7 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	/* FIXME: NOTIFY_METADATA should be checked by the keyword-to-mark functions and converted to NOTIFY_MARKS only if there was a change */
 
 	if (!(type & interested) || vf->refresh_idle_id || !vf->dir_fd) return;
-	
+
 	refresh = (fd == vf->dir_fd);
 
 	if (!refresh)
@@ -1071,7 +1067,7 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 			g_free(source_base);
 			}
 		}
-	
+
 	if (refresh)
 		{
 		DEBUG_1("Notify vf: %s %04x", fd->path, type);

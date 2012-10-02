@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -102,7 +102,7 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 
 		DEBUG_1("HUP detected, closing client.");
 		DEBUG_1("client count %d", g_list_length(rc->clients));
-		
+
 		g_source_remove(client->channel_id);
 		close(client->fd);
 		g_free(client);
@@ -212,14 +212,14 @@ static RemoteConnection *remote_server_open(const gchar *path)
 		}
 
 	rc = g_new0(RemoteConnection, 1);
-	
+
 	rc->server = TRUE;
 	rc->fd = fd;
 	rc->path = g_strdup(path);
 
 	channel = g_io_channel_unix_new(rc->fd);
-	g_io_channel_set_flags(channel, G_IO_FLAG_NONBLOCK, NULL); 
-	
+	g_io_channel_set_flags(channel, G_IO_FLAG_NONBLOCK, NULL);
+
 	rc->channel_id = g_io_add_watch_full(channel, G_PRIORITY_DEFAULT, G_IO_IN,
 					     remote_server_read_cb, rc, NULL);
 	g_io_channel_unref(channel);
@@ -338,7 +338,7 @@ static gboolean remote_client_send(RemoteConnection *rc, const gchar *text)
 			ret = FALSE;
 			}
 		}
-		
+
 
 	/* restore the original signal handler */
 	sigaction(SIGPIPE, &old_action, NULL);
@@ -533,7 +533,7 @@ static void gr_get_sidecars(const gchar *text, GIOChannel *channel, gpointer dat
 {
 	gchar *filename = expand_tilde(text);
 	FileData *fd = file_data_new_group(filename);
-	
+
 	GList *work;
 	if (fd->parent) fd = fd->parent;
 
@@ -556,7 +556,7 @@ static void gr_get_destination(const gchar *text, GIOChannel *channel, gpointer 
 {
 	gchar *filename = expand_tilde(text);
 	FileData *fd = file_data_new_group(filename);
-	
+
 	if (fd->change && fd->change->dest)
 		{
 		g_io_channel_write_chars(channel, fd->change->dest, -1, NULL, NULL);
@@ -932,7 +932,7 @@ RemoteConnection *remote_server_init(gchar *path, CollectionData *command_collec
 {
 	RemoteConnection *remote_connection = remote_server_open(path);
 	RemoteData *remote_data = g_new(RemoteData, 1);
-	
+
 	remote_data->command_collection = command_collection;
 
 	remote_server_subscribe(remote_connection, remote_cb, remote_data);

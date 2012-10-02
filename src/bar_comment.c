@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -60,16 +60,22 @@ static void bar_pane_comment_write(PaneCommentData *pcd)
 static void bar_pane_comment_update(PaneCommentData *pcd)
 {
 	gchar *comment = NULL;
+	gchar *orig_comment = NULL;
+	gchar *comment_not_null;
 	GtkTextBuffer *comment_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pcd->comment_view));
 
-	g_signal_handlers_block_by_func(comment_buffer, bar_pane_comment_changed, pcd);
-
+	orig_comment = text_widget_text_pull(pcd->comment_view);
 	comment = metadata_read_string(pcd->fd, pcd->key, METADATA_PLAIN);
-	gtk_text_buffer_set_text(comment_buffer,
-				 (comment) ? comment : "", -1);
+	comment_not_null = (comment) ? comment : "";
+
+	if (strcmp(orig_comment, comment_not_null) != 0)
+		{
+		g_signal_handlers_block_by_func(comment_buffer, bar_pane_comment_changed, pcd);
+		gtk_text_buffer_set_text(comment_buffer, comment_not_null, -1);
+		g_signal_handlers_unblock_by_func(comment_buffer, bar_pane_comment_changed, pcd);
+		}
 	g_free(comment);
-	
-	g_signal_handlers_unblock_by_func(comment_buffer, bar_pane_comment_changed, pcd);
+	g_free(orig_comment);
 
 	gtk_widget_set_sensitive(pcd->comment_view, (pcd->fd != NULL));
 }
@@ -84,7 +90,7 @@ static void bar_pane_comment_set_selection(PaneCommentData *pcd, gboolean append
 
 	list = layout_selection_list(pcd->pane.lw);
 	list = file_data_process_groups_in_selection(list, FALSE, NULL);
-	
+
 	work = list;
 	while (work)
 		{
@@ -141,11 +147,7 @@ static gint bar_pane_comment_event(GtkWidget *bar, GdkEvent *event)
 	pcd = g_object_get_data(G_OBJECT(bar), "pane_data");
 	if (!pcd) return FALSE;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_has_focus(pcd->comment_view)) return gtk_widget_event(pcd->comment_view, event);
-#else
-	if (GTK_WIDGET_HAS_FOCUS(pcd->comment_view)) return gtk_widget_event(pcd->comment_view, event);
-#endif
 
 	return FALSE;
 }
@@ -162,14 +164,14 @@ static void bar_pane_comment_write_config(GtkWidget *pane, GString *outstr, gint
 	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(pcd->pane.title)));
 	WRITE_BOOL(pcd->pane, expanded);
 	WRITE_CHAR(*pcd, key);
-	WRITE_INT(*pcd, height); 
+	WRITE_INT(*pcd, height);
 	WRITE_STRING("/>");
 }
 
 static void bar_pane_comment_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneCommentData *pcd = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pcd->fd) 
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_METADATA)) && fd == pcd->fd)
 		{
 		DEBUG_1("Notify pane_comment: %s %04x", fd->path, type);
 
@@ -181,9 +183,7 @@ static void bar_pane_comment_changed(GtkTextBuffer *buffer, gpointer data)
 {
 	PaneCommentData *pcd = data;
 
-	file_data_unregister_notify_func(bar_pane_comment_notify_cb, pcd);
 	bar_pane_comment_write(pcd);
-	file_data_register_notify_func(bar_pane_comment_notify_cb, pcd, NOTIFY_PRIORITY_LOW);
 }
 
 
@@ -195,18 +195,6 @@ static void bar_pane_comment_populate_popup(GtkTextView *textview, GtkMenu *menu
 	menu_item_add_stock(GTK_WIDGET(menu), _("Add text to selected files"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_comment_sel_add_cb), pcd);
 	menu_item_add_stock(GTK_WIDGET(menu), _("Replace existing text in selected files"), GTK_STOCK_CONVERT, G_CALLBACK(bar_pane_comment_sel_replace_cb), data);
 }
-
-#if 0
-static void bar_pane_comment_close(GtkWidget *bar)
-{
-	PaneCommentData *pcd;
-
-	pcd = g_object_get_data(G_OBJECT(bar), "pane_data");
-	if (!pcd) return;
-
-	gtk_widget_destroy(pcd->comment_view);
-}
-#endif
 
 static void bar_pane_comment_destroy(GtkWidget *widget, gpointer data)
 {
@@ -230,7 +218,7 @@ static GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, cons
 	GtkTextBuffer *buffer;
 
 	pcd = g_new0(PaneCommentData, 1);
-	
+
 	pcd->pane.pane_set_fd = bar_pane_comment_set_fd;
 	pcd->pane.pane_event = bar_pane_comment_event;
 	pcd->pane.pane_write_config = bar_pane_comment_write_config;
@@ -239,17 +227,17 @@ static GtkWidget *bar_pane_comment_new(const gchar *id, const gchar *title, cons
 	pcd->pane.type = PANE_COMMENT;
 
 	pcd->pane.expanded = expanded;
-	
+
 	pcd->key = g_strdup(key);
 	pcd->height = height;
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-	
+
 	pcd->widget = scrolled;
 	g_object_set_data(G_OBJECT(pcd->widget), "pane_data", pcd);
 	g_signal_connect(G_OBJECT(pcd->widget), "destroy",
 			 G_CALLBACK(bar_pane_comment_destroy), pcd);
-	
+
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -293,11 +281,11 @@ GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const
 		if (READ_BOOL_FULL("expanded", expanded)) continue;
 		if (READ_INT_FULL("height", height)) continue;
 		if (READ_CHAR_FULL("id", id)) continue;
-		
+
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
-	
+
 	bar_pane_translate_title(PANE_COMMENT, id, &title);
 	ret = bar_pane_comment_new(id, title, key, expanded, height);
 	g_free(title);
@@ -325,7 +313,7 @@ void bar_pane_comment_update_from_config(GtkWidget *pane, const gchar **attribut
 		if (READ_BOOL_FULL("expanded", pcd->pane.expanded)) continue;
 		if (READ_INT_FULL("height", pcd->height)) continue;
 		if (READ_CHAR_FULL("id", pcd->pane.id)) continue;
-		
+
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}

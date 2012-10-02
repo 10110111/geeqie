@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -389,7 +389,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 			{
 			tl->fd->exif_orientation = metadata_read_int(tl->fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
 			}
-		
+
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
 			{
 			rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
@@ -434,7 +434,7 @@ static GdkPixbuf *thumb_loader_std_finish(ThumbLoaderStd *tl, GdkPixbuf *pixbuf,
 
 				/* do not save the thumbnail if the source file has changed meanwhile -
 				   the thumbnail is most probably broken */
-				if (stat_utf8(tl->fd->path, &st) && 
+				if (stat_utf8(tl->fd->path, &st) &&
 				    tl->source_mtime == st.st_mtime &&
 				    tl->source_size == st.st_size)
 					{
@@ -581,14 +581,14 @@ static void thumb_loader_std_error_cb(ImageLoader *il, gpointer data)
 		thumb_loader_std_done_cb(il, data);
 		return;
 		}
-	
+
 	DEBUG_1("thumb image error: %s", tl->fd->path);
 	DEBUG_1("             from: %s", image_loader_get_fd(tl->il)->path);
 
 	if (thumb_loader_std_next_source(tl, TRUE)) return;
 
 	thumb_loader_std_set_fallback(tl);
-	
+
 	if (tl->func_error) tl->func_error(tl, tl->data);
 }
 
@@ -792,9 +792,9 @@ static void thumb_loader_std_thumb_file_validate_done_cb(ThumbLoaderStd *tl, gpo
 	GdkPixbuf *pixbuf;
 	gboolean valid = FALSE;
 
-	/* get the original thumbnail pixbuf (unrotated, with original options) 
+	/* get the original thumbnail pixbuf (unrotated, with original options)
 	   this is called from image_loader done callback, so tv->tl->il must exist*/
-	pixbuf = image_loader_get_pixbuf(tv->tl->il); 
+	pixbuf = image_loader_get_pixbuf(tv->tl->il);
 	if (pixbuf)
 		{
 		const gchar *uri;
@@ -959,9 +959,9 @@ static void thumb_std_maint_move_validate_cb(const gchar *path, gboolean valid, 
 	TMaintMove *tm = data;
 	GdkPixbuf *pixbuf;
 
-	/* get the original thumbnail pixbuf (unrotated, with original options) 
+	/* get the original thumbnail pixbuf (unrotated, with original options)
 	   this is called from image_loader done callback, so tm->tl->il must exist*/
-	pixbuf = image_loader_get_pixbuf(tm->tl->il); 
+	pixbuf = image_loader_get_pixbuf(tm->tl->il);
 	if (pixbuf)
 		{
 		const gchar *uri;

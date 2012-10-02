@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Vladimir Nadvornik
  *
@@ -35,7 +35,7 @@ struct _PaneData {
 	gboolean expanded;
 	gchar *id;
 	PaneType type;
-	
+
 	/* filled in by bar */
 	GtkWidget *bar;
 	LayoutWindow *lw;

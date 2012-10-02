@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -17,6 +17,8 @@
 #ifdef DEBUG
 #define DEBUG_FILEDATA
 #endif
+
+#define FD_MAGICK 0x12345678u
 
 gchar *text_from_size(gint64 size);
 gchar *text_from_size_abrev(gint64 size);

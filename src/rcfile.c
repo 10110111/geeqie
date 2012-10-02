@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -49,7 +49,7 @@ void write_indent(GString *str, gint indent)
 
 void write_char_option(GString *str, gint indent, const gchar *label, const gchar *text)
 {
-	/* this is needed for overlay string, because g_markup_escape_text does not handle \n and such, 
+	/* this is needed for overlay string, because g_markup_escape_text does not handle \n and such,
 	   ideas for improvement are welcome
 	*/
 	static const unsigned char no_quote_utf[] = {
@@ -67,12 +67,21 @@ void write_char_option(GString *str, gint indent, const gchar *label, const gcha
 		'"',  0 /* '"' is handled in g_markup_escape_text */
 	};
 
-	gchar *escval1 = g_strescape(text ? text : "", (gchar *) no_quote_utf); 
+	gchar *escval1 = g_strescape(text ? text : "", (gchar *) no_quote_utf);
 	gchar *escval2 = g_markup_escape_text(escval1, -1);
 	g_string_append_printf(str, "%s = \"%s\" ", label, escval2);
 	g_free(escval2);
 	g_free(escval1);
 }
+
+/* dummy read for old/obsolete/futur/deprecated/unused options */
+gboolean read_dummy_option(const gchar *option, const gchar *label, const gchar *message)
+{
+	if (g_ascii_strcasecmp(option, label) != 0) return FALSE;
+	log_printf(_("Option %s ignored: %s\n"), option, message);
+	return TRUE;
+}
+
 
 gboolean read_char_option(const gchar *option, const gchar *label, const gchar *value, gchar **text)
 {
@@ -160,7 +169,7 @@ gboolean read_uint_option(const gchar *option, const gchar *label, const gchar *
 		else
 			*n = 0;
 		}
-	
+
 	return TRUE;
 }
 
@@ -230,7 +239,7 @@ gboolean read_int_unit_option(const gchar *option, const gchar *label, const gch
 
 	*n = l * subunits + r;
 	g_free(buf);
-	
+
 	return TRUE;
 }
 
@@ -260,8 +269,7 @@ gboolean read_bool_option(const gchar *option, const gchar *label, const gchar *
 
 static void write_global_attributes(GString *outstr, gint indent)
 {
-//	WRITE_SUBTITLE("General Options");
-
+	/* General Options */
 	WRITE_NL(); WRITE_BOOL(*options, show_icon_names);
 	WRITE_SEPARATOR();
 
@@ -283,8 +291,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, save_window_positions);
 	WRITE_NL(); WRITE_BOOL(*options, tools_restore_state);
 
-//	WRITE_SUBTITLE("File operations Options");
-
+	/* File operations Options */
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_in_place_rename);
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.confirm_delete);
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_delete_key);
@@ -292,27 +299,12 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_CHAR(*options, file_ops.safe_delete_path);
 	WRITE_NL(); WRITE_INT(*options, file_ops.safe_delete_folder_maxsize);
 
-
-
-
-//	WRITE_SUBTITLE("Properties dialog Options");
+	/* Properties dialog Options */
 	WRITE_NL(); WRITE_CHAR(*options, properties.tabs_order);
 
-//	WRITE_SUBTITLE("Image Options");
-
+	/* Image Options */
 	WRITE_NL(); WRITE_UINT(*options, image.zoom_mode);
 
-//	g_string_append_printf(outstr, "# image.zoom_mode possible values are:\n"
-//			    "#   original\n"
-//			    "#   fit\n"
-//			    "#   dont_change\n");
-//	g_string_append_printf(outstr, "image.zoom_mode: ");
-//	switch (options->image.zoom_mode)
-//	{
-//	case ZOOM_RESET_ORIGINAL: g_string_append_printf(outstr, "original\n"); break;
-//	case ZOOM_RESET_FIT_WINDOW: g_string_append_printf(outstr, "fit\n"); break;
-//	case ZOOM_RESET_NONE: g_string_append_printf(outstr, "dont_change\n"); break;
-//	}
 	WRITE_SEPARATOR();
 	WRITE_NL(); WRITE_BOOL(*options, image.zoom_2pass);
 	WRITE_NL(); WRITE_BOOL(*options, image.zoom_to_fit_allow_expand);
@@ -326,15 +318,14 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_UINT(*options, image.scroll_reset_method);
 	WRITE_NL(); WRITE_INT(*options, image.tile_cache_max);
 	WRITE_NL(); WRITE_INT(*options, image.image_cache_max);
-	WRITE_NL(); WRITE_UINT(*options, image.dither_quality);
 	WRITE_NL(); WRITE_BOOL(*options, image.enable_read_ahead);
 	WRITE_NL(); WRITE_BOOL(*options, image.exif_rotate_enable);
 	WRITE_NL(); WRITE_BOOL(*options, image.use_custom_border_color);
 	WRITE_NL(); WRITE_BOOL(*options, image.use_custom_border_color_in_fullscreen);
 	WRITE_NL(); WRITE_COLOR(*options, image.border_color);
+	WRITE_NL(); WRITE_BOOL(*options, image.use_clutter_renderer);
 
-//	WRITE_SUBTITLE("Thumbnails Options");
-
+	/* Thumbnails Options */
 	WRITE_NL(); WRITE_INT(*options, thumbnails.max_width);
 	WRITE_NL(); WRITE_INT(*options, thumbnails.max_height);
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.enable_caching);
@@ -344,16 +335,12 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_UINT(*options, thumbnails.quality);
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.use_exif);
 
-
-//	WRITE_SUBTITLE("File sorting Options");
-
+	/* File sorting Options */
 	WRITE_NL(); WRITE_INT(*options, file_sort.method);
 	WRITE_NL(); WRITE_BOOL(*options, file_sort.ascending);
 	WRITE_NL(); WRITE_BOOL(*options, file_sort.case_sensitive);
 
-
-//	WRITE_SUBTITLE("Fullscreen Options");
-
+	/* Fullscreen Options */
 	WRITE_NL(); WRITE_INT(*options, fullscreen.screen);
 	WRITE_NL(); WRITE_BOOL(*options, fullscreen.clean_flip);
 	WRITE_NL(); WRITE_BOOL(*options, fullscreen.disable_saver);
@@ -361,75 +348,40 @@ static void write_global_attributes(GString *outstr, gint indent)
 
 	WRITE_SEPARATOR();
 
-//	WRITE_SUBTITLE("Image Overlay Options");
+	/* Image Overlay Options */
 	WRITE_NL(); WRITE_CHAR(*options, image_overlay.template_string);
 
-//	g_string_append_printf(outstr, "# these are relative positions:\n");
-//	g_string_append_printf(outstr, "# x >= 0: |x| pixels from left border\n");
-//	g_string_append_printf(outstr, "# x < 0 : |x| pixels from right border\n");
-//	g_string_append_printf(outstr, "# y >= 0: |y| pixels from top border\n");
-//	g_string_append_printf(outstr, "# y < 0 : |y| pixels from bottom border\n");
 	WRITE_NL(); WRITE_INT(*options, image_overlay.x);
 	WRITE_NL(); WRITE_INT(*options, image_overlay.y);
 
-
-//	WRITE_SUBTITLE("Slideshow Options");
-
+	/* Slideshow Options */
 	WRITE_NL(); WRITE_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
 	WRITE_NL(); WRITE_BOOL(*options, slideshow.random);
 	WRITE_NL(); WRITE_BOOL(*options, slideshow.repeat);
 
-
-//	WRITE_SUBTITLE("Collection Options");
-
+	/* Collection Options */
 	WRITE_NL(); WRITE_BOOL(*options, collections.rectangular_selection);
 
-
-//	WRITE_SUBTITLE("Filtering Options");
-
+	/* Filtering Options */
 	WRITE_NL(); WRITE_BOOL(*options, file_filter.show_hidden_files);
 	WRITE_NL(); WRITE_BOOL(*options, file_filter.show_dot_directory);
 	WRITE_NL(); WRITE_BOOL(*options, file_filter.disable);
 	WRITE_SEPARATOR();
 
-
-//	WRITE_SUBTITLE("Sidecars Options");
-
+	/* Sidecars Options */
 	WRITE_NL(); WRITE_CHAR(*options, sidecar.ext);
 
-
-
-//	WRITE_SUBTITLE("Shell command");
+	/* Shell command */
 	WRITE_NL(); WRITE_CHAR(*options, shell.path);
 	WRITE_NL(); WRITE_CHAR(*options, shell.options);
 
-
-//	WRITE_SUBTITLE("Helpers");
-//	g_string_append_printf(outstr, "# Html browser\n");
-//	g_string_append_printf(outstr, "# command_name is: the binary's name to look for in the path\n");
-//	g_string_append_printf(outstr, "# If command_name is empty, the program will try various common html browsers\n");
-//	g_string_append_printf(outstr, "# command_line is:\n");
-//	g_string_append_printf(outstr, "# \"\" (empty string)  = execute binary with html file path as command line\n");
-//	g_string_append_printf(outstr, "# \"string\"           = execute string and use results for command line\n");
-//	g_string_append_printf(outstr, "# \"!string\"          = use text following ! as command line, replacing optional %%s with html file path\n");
+	/* Helpers */
 	WRITE_NL(); WRITE_CHAR(*options, helpers.html_browser.command_name);
 	WRITE_NL(); WRITE_CHAR(*options, helpers.html_browser.command_line);
 
-/* FIXME:
-	WRITE_SUBTITLE("Exif Options");
-	g_string_append_printf(outstr, "# Display: 0: never\n"
-			    "#          1: if set\n"
-			    "#          2: always\n\n");
-	for (i = 0; ExifUIList[i].key; i++)
-		{
-		g_string_append_printf(outstr, "exif.display.");
-		write_int_option(outstr, 2, (gchar *)ExifUIList[i].key, ExifUIList[i].current);
-		}
-*/
-
-//	WRITE_SUBTITLE("Metadata Options");
+	/* Metadata Options */
 	WRITE_NL(); WRITE_BOOL(*options, metadata.enable_metadata_dirs);
-	WRITE_NL(); WRITE_BOOL(*options, metadata.save_in_image_file); 
+	WRITE_NL(); WRITE_BOOL(*options, metadata.save_in_image_file);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.save_legacy_IPTC);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.warn_on_write_problems);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.save_legacy_format);
@@ -442,15 +394,15 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, metadata.keywords_case_sensitive);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.write_orientation);
 
-	WRITE_NL(); WRITE_UINT(*options, stereo.mode);
-	WRITE_NL(); WRITE_UINT(*options, stereo.fsmode);
+	WRITE_NL(); WRITE_INT(*options, stereo.mode);
+	WRITE_NL(); WRITE_INT(*options, stereo.fsmode);
 	WRITE_NL(); WRITE_BOOL(*options, stereo.enable_fsmode);
-	WRITE_NL(); WRITE_UINT(*options, stereo.fixed_w);
-	WRITE_NL(); WRITE_UINT(*options, stereo.fixed_h);
-	WRITE_NL(); WRITE_UINT(*options, stereo.fixed_x1);
-	WRITE_NL(); WRITE_UINT(*options, stereo.fixed_y1);
-	WRITE_NL(); WRITE_UINT(*options, stereo.fixed_x2);
-	WRITE_NL(); WRITE_UINT(*options, stereo.fixed_y2);
+	WRITE_NL(); WRITE_INT(*options, stereo.fixed_w);
+	WRITE_NL(); WRITE_INT(*options, stereo.fixed_h);
+	WRITE_NL(); WRITE_INT(*options, stereo.fixed_x1);
+	WRITE_NL(); WRITE_INT(*options, stereo.fixed_y1);
+	WRITE_NL(); WRITE_INT(*options, stereo.fixed_x2);
+	WRITE_NL(); WRITE_INT(*options, stereo.fixed_y2);
 }
 
 static void write_color_profile(GString *outstr, gint indent)
@@ -495,7 +447,7 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 	GString *outstr;
 	gint indent = 0;
 	GList *work;
-	
+
 	rc_pathl = path_from_utf8(utf8_path);
 	ssi = secure_open(rc_pathl);
 	g_free(rc_pathl);
@@ -520,7 +472,7 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 
 	WRITE_STRING("<gq>\n");
 	indent++;
-	
+
 	WRITE_NL(); WRITE_STRING("<global\n");
 	indent++;
 	write_global_attributes(outstr, indent + 1);
@@ -540,8 +492,8 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 	WRITE_NL(); WRITE_STRING("</global>\n");
 
 	WRITE_SEPARATOR();
-	WRITE_SUBTITLE("Layout Options");
 
+	/* Layout Options */
 	work = layout_window_list;
 	while (work)
 		{
@@ -581,8 +533,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
 
-
-		/* general options */
+		/* General options */
 		if (READ_BOOL(*options, show_icon_names)) continue;
 
 		if (READ_BOOL(*options, tree_descend_subdirs)) continue;
@@ -602,10 +553,10 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, save_window_positions)) continue;
 		if (READ_BOOL(*options, tools_restore_state)) continue;
 
-		/* properties dialog options */
+		/* Properties dialog options */
 		if (READ_CHAR(*options, properties.tabs_order)) continue;
 
-		/* image options */
+		/* Image options */
 		if (READ_UINT_CLAMP(*options, image.zoom_mode, 0, ZOOM_RESET_NONE)) continue;
 		if (READ_BOOL(*options, image.zoom_2pass)) continue;
 		if (READ_BOOL(*options, image.zoom_to_fit_allow_expand)) continue;
@@ -618,15 +569,15 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, image.tile_cache_max)) continue;
 		if (READ_INT(*options, image.image_cache_max)) continue;
 		if (READ_UINT_CLAMP(*options, image.zoom_quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER)) continue;
-		if (READ_UINT_CLAMP(*options, image.dither_quality, GDK_RGB_DITHER_NONE, GDK_RGB_DITHER_MAX)) continue;
 		if (READ_INT(*options, image.zoom_increment)) continue;
 		if (READ_BOOL(*options, image.enable_read_ahead)) continue;
 		if (READ_BOOL(*options, image.exif_rotate_enable)) continue;
 		if (READ_BOOL(*options, image.use_custom_border_color)) continue;
 		if (READ_BOOL(*options, image.use_custom_border_color_in_fullscreen)) continue;
 		if (READ_COLOR(*options, image.border_color)) continue;
+		if (READ_BOOL(*options, image.use_clutter_renderer)) continue;
 
-		/* thumbnails options */
+		/* Thumbnails options */
 		if (READ_INT_CLAMP(*options, thumbnails.max_width, 16, 512)) continue;
 		if (READ_INT_CLAMP(*options, thumbnails.max_height, 16, 512)) continue;
 
@@ -637,12 +588,12 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_UINT_CLAMP(*options, thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER)) continue;
 		if (READ_BOOL(*options, thumbnails.use_exif)) continue;
 
-		/* file sorting options */
+		/* File sorting options */
 		if (READ_UINT(*options, file_sort.method)) continue;
 		if (READ_BOOL(*options, file_sort.ascending)) continue;
 		if (READ_BOOL(*options, file_sort.case_sensitive)) continue;
 
-		/* file operations *options */
+		/* File operations *options */
 		if (READ_BOOL(*options, file_ops.enable_in_place_rename)) continue;
 		if (READ_BOOL(*options, file_ops.confirm_delete)) continue;
 		if (READ_BOOL(*options, file_ops.enable_delete_key)) continue;
@@ -650,29 +601,26 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_CHAR(*options, file_ops.safe_delete_path)) continue;
 		if (READ_INT(*options, file_ops.safe_delete_folder_maxsize)) continue;
 
-		/* fullscreen options */
+		/* Fullscreen options */
 		if (READ_INT(*options, fullscreen.screen)) continue;
 		if (READ_BOOL(*options, fullscreen.clean_flip)) continue;
 		if (READ_BOOL(*options, fullscreen.disable_saver)) continue;
 		if (READ_BOOL(*options, fullscreen.above)) continue;
 
-		/* image overlay */
+		/* Image overlay */
 		if (READ_CHAR(*options, image_overlay.template_string)) continue;
 		if (READ_INT(*options, image_overlay.x)) continue;
 		if (READ_INT(*options, image_overlay.y)) continue;
 
-
-		/* slideshow options */
+		/* Slideshow options */
 		if (READ_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION)) continue;
 		if (READ_BOOL(*options, slideshow.random)) continue;
 		if (READ_BOOL(*options, slideshow.repeat)) continue;
 
-		/* collection options */
-
+		/* Collection options */
 		if (READ_BOOL(*options, collections.rectangular_selection)) continue;
 
-		/* filtering options */
-
+		/* Filtering options */
 		if (READ_BOOL(*options, file_filter.show_hidden_files)) continue;
 		if (READ_BOOL(*options, file_filter.show_dot_directory)) continue;
 		if (READ_BOOL(*options, file_filter.disable)) continue;
@@ -687,17 +635,8 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		/* Helpers */
 		if (READ_CHAR(*options, helpers.html_browser.command_name)) continue;
 		if (READ_CHAR(*options, helpers.html_browser.command_line)) continue;
-		/* Exif */
-/*
-		if (0 == g_ascii_strncasecmp(option, "exif.display.", 13))
-			{
-			for (i = 0; ExifUIList[i].key; i++)
-				if (0 == g_ascii_strcasecmp(option + 13, ExifUIList[i].key))
-					ExifUIList[i].current = strtol(value, NULL, 10);
-			continue;
-			}
-*/
-		/* metadata */		
+
+		/* Metadata */
 		if (READ_BOOL(*options, metadata.enable_metadata_dirs)) continue;
 		if (READ_BOOL(*options, metadata.save_in_image_file)) continue;
 		if (READ_BOOL(*options, metadata.save_legacy_IPTC)) continue;
@@ -712,16 +651,20 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, metadata.keywords_case_sensitive)) continue;
 		if (READ_BOOL(*options, metadata.write_orientation)) continue;
 
-		if (READ_UINT(*options, stereo.mode)) continue;
-		if (READ_UINT(*options, stereo.fsmode)) continue;
+		if (READ_INT(*options, stereo.mode)) continue;
+		if (READ_INT(*options, stereo.fsmode)) continue;
 		if (READ_BOOL(*options, stereo.enable_fsmode)) continue;
-		if (READ_UINT(*options, stereo.fixed_w)) continue;
-		if (READ_UINT(*options, stereo.fixed_h)) continue;
-		if (READ_UINT(*options, stereo.fixed_x1)) continue;
-		if (READ_UINT(*options, stereo.fixed_y1)) continue;
-		if (READ_UINT(*options, stereo.fixed_x2)) continue;
-		if (READ_UINT(*options, stereo.fixed_y2)) continue;
+		if (READ_INT(*options, stereo.fixed_w)) continue;
+		if (READ_INT(*options, stereo.fixed_h)) continue;
+		if (READ_INT(*options, stereo.fixed_x1)) continue;
+		if (READ_INT(*options, stereo.fixed_y1)) continue;
+		if (READ_INT(*options, stereo.fixed_x2)) continue;
+		if (READ_INT(*options, stereo.fixed_y2)) continue;
 
+		/* Dummy options */
+		if (READ_DUMMY(*options, image.dither_quality, "deprecated since 2012-08-13")) continue;
+
+		/* Unknown options */
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
@@ -784,7 +727,7 @@ static const gchar *options_get_id(const gchar **attribute_names, const gchar **
 		{
 		const gchar *option = *attribute_names++;
 		const gchar *value = *attribute_values++;
-		
+
 		if (strcmp(option, "id") == 0) return value;
 
 		}
@@ -829,7 +772,7 @@ static void options_parse_filter(GQParserData *parser_data, GMarkupParseContext 
 static void options_parse_filter_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
 {
 	if (parser_data->startup) filter_add_defaults();
-	filter_rebuild(); 
+	filter_rebuild();
 }
 
 static void options_parse_keyword_end(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, gpointer data, GError **error)
@@ -1063,7 +1006,7 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 			{
 			bar_update_from_config(lw->bar, attribute_names, attribute_values);
 			}
-			
+
 		options_parse_func_push(parser_data, options_parse_bar, NULL, lw->bar);
 		}
 	else if (g_ascii_strcasecmp(element_name, "bar_sort") == 0)
@@ -1107,12 +1050,12 @@ static void options_parse_toplevel(GQParserData *parser_data, GMarkupParseContex
 		options_parse_func_push(parser_data, options_parse_global, options_parse_global_end, NULL);
 		return;
 		}
-	
+
 	if (g_ascii_strcasecmp(element_name, "layout") == 0)
 		{
 		LayoutWindow *lw;
 		lw = layout_find_by_layout_id(options_get_id(attribute_names, attribute_values));
-		if (lw) 
+		if (lw)
 			{
 			layout_update_from_config(lw, attribute_names, attribute_values);
 			}
@@ -1144,7 +1087,6 @@ struct _GQParserFuncData
 {
 	GQParserStartFunc start_func;
 	GQParserEndFunc end_func;
-//	GQParserTextFunc text_func;
 	gpointer data;
 };
 
@@ -1154,7 +1096,7 @@ void options_parse_func_push(GQParserData *parser_data, GQParserStartFunc start_
 	func_data->start_func = start_func;
 	func_data->end_func = end_func;
 	func_data->data = data;
-	
+
 	parser_data->parse_func_stack = g_list_prepend(parser_data->parse_func_stack, func_data);
 }
 
@@ -1176,12 +1118,12 @@ static void start_element(GMarkupParseContext *context,
 			  const gchar **attribute_names,
 			  const gchar **attribute_values,
 			  gpointer user_data,
-			  GError **error) 
+			  GError **error)
 {
 	GQParserData *parser_data = user_data;
-	GQParserFuncData *func = parser_data->parse_func_stack->data; 
+	GQParserFuncData *func = parser_data->parse_func_stack->data;
 	DEBUG_2("start %s", element_name);
-	
+
 	if (func->start_func)
 		func->start_func(parser_data, context, element_name, attribute_names, attribute_values, func->data, error);
 }
@@ -1189,10 +1131,10 @@ static void start_element(GMarkupParseContext *context,
 static void end_element(GMarkupParseContext *context,
 			  const gchar *element_name,
 			  gpointer user_data,
-			  GError **error) 
+			  GError **error)
 {
 	GQParserData *parser_data = user_data;
-	GQParserFuncData *func = parser_data->parse_func_stack->data; 
+	GQParserFuncData *func = parser_data->parse_func_stack->data;
 	DEBUG_2("end %s", element_name);
 
 	if (func->end_func)
@@ -1222,10 +1164,10 @@ gboolean load_config_from_buf(const gchar *buf, gsize size, gboolean startup)
 	GQParserData *parser_data;
 
 	parser_data = g_new0(GQParserData, 1);
-	
+
 	parser_data->startup = startup;
 	options_parse_func_push(parser_data, options_parse_toplevel, NULL, NULL);
-	
+
 	context = g_markup_parse_context_new(&parser, 0, parser_data, NULL);
 
 	if (g_markup_parse_context_parse(context, buf, size, NULL) == FALSE)
@@ -1233,7 +1175,7 @@ gboolean load_config_from_buf(const gchar *buf, gsize size, gboolean startup)
 		ret = FALSE;
 		DEBUG_1("Parse failed");
 		}
-		
+
 	g_free(parser_data);
 
 	g_markup_parse_context_free(context);
@@ -1246,7 +1188,7 @@ gboolean load_config_from_file(const gchar *utf8_path, gboolean startup)
 	gchar *buf;
 	gboolean ret = TRUE;
 
-	if (g_file_get_contents(utf8_path, &buf, &size, NULL) == FALSE) 
+	if (g_file_get_contents(utf8_path, &buf, &size, NULL) == FALSE)
 		{
 		return FALSE;
 		}
@@ -1254,7 +1196,7 @@ gboolean load_config_from_file(const gchar *utf8_path, gboolean startup)
 	g_free(buf);
 	return ret;
 }
-	
+
 
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

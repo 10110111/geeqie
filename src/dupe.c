@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2005 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -217,7 +217,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 {
 	GdkCursor *cursor;
 
-	if (!widget->window) return;
+	if (!gtk_widget_get_window(widget)) return;
 
 	if (icon == -1)
 		{
@@ -228,7 +228,7 @@ static void widget_set_cursor(GtkWidget *widget, gint icon)
 		cursor = gdk_cursor_new(icon);
 		}
 
-	gdk_window_set_cursor(widget->window, cursor);
+	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 
 	if (cursor) gdk_cursor_unref(cursor);
 }
@@ -1116,7 +1116,7 @@ static gboolean dupe_match(DupeItem *a, DupeItem *b, DupeMatchType mask, gdouble
 {
 	*rank = 0.0;
 
-	if (a == b) return FALSE;
+	if (a->fd->path == b->fd->path) return FALSE;
 
 	if (mask & DUPE_MATCH_PATH)
 		{
@@ -2210,17 +2210,13 @@ static void dupe_menu_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	GList *editmenu_fd_list = data;
 
 	filelist_free(editmenu_fd_list);
-}	
+}
 
 static GList *dupe_window_get_fd_list(DupeWindow *dw)
 {
 	GList *list;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_has_focus(dw->second_listview))
-#else
-	if (GTK_WIDGET_HAS_FOCUS(dw->second_listview))
-#endif
 		{
 		list = dupe_listview_get_selection(dw, dw->second_listview);
 		}
@@ -2257,7 +2253,7 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 	menu_item_add_sensitive(menu, _("Select group _2 duplicates"), (dw->dupes != NULL),
 				G_CALLBACK(dupe_menu_select_dupes_set2_cb), dw);
 	menu_item_add_divider(menu);
-	
+
 	editmenu_fd_list = dupe_window_get_fd_list(dw);
 	g_signal_connect(G_OBJECT(menu), "destroy",
 			 G_CALLBACK(dupe_menu_popup_destroy_cb), editmenu_fd_list);
@@ -2581,7 +2577,7 @@ static void dupe_second_set_toggle_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	dw->second_set = GTK_TOGGLE_BUTTON(widget)->active;
+	dw->second_set = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
 	if (dw->second_set)
 		{
@@ -2773,11 +2769,7 @@ static void dupe_listview_set_height(GtkWidget *listview, gboolean thumb)
 
 	gtk_tree_view_column_set_fixed_width(column, (thumb) ? options->thumbnails.max_width : 4);
 
-#if GTK_CHECK_VERSION(2,18,0)
 	list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
-#else
-	list = gtk_tree_view_column_get_cell_renderers(column);
-#endif
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
@@ -2797,7 +2789,7 @@ static void dupe_window_show_thumb_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	dw->show_thumbs = GTK_TOGGLE_BUTTON(widget)->active;
+	dw->show_thumbs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
 	if (dw->show_thumbs)
 		{
@@ -2864,11 +2856,7 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 	GList *slist;
 	DupeItem *di = NULL;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	on_second = gtk_widget_has_focus(dw->second_listview);
-#else
-	on_second = GTK_WIDGET_HAS_FOCUS(dw->second_listview);
-#endif
 
 	if (on_second)
 		{
@@ -2899,42 +2887,21 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
-		gint edit_val = -1;
-
 		if (!on_second)
 			{
 			stop_signal = TRUE;
 			switch (event->keyval)
 				{
 				case '1':
-					edit_val = 0;
-					break;
 				case '2':
-					edit_val = 1;
-					break;
 				case '3':
-					edit_val = 2;
-					break;
 				case '4':
-					edit_val = 3;
-					break;
 				case '5':
-					edit_val = 4;
-					break;
 				case '6':
-					edit_val = 5;
-					break;
 				case '7':
-					edit_val = 6;
-					break;
 				case '8':
-					edit_val = 7;
-					break;
 				case '9':
-					edit_val = 8;
-					break;
 				case '0':
-					edit_val = 9;
 					break;
 				case 'C': case 'c':
 					file_util_copy(NULL, dupe_listview_get_selection(dw, listview),
@@ -2971,7 +2938,7 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 						gtk_tree_selection_select_all(selection);
 						}
 					break;
-				case GDK_Delete: case GDK_KP_Delete:
+				case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 					if (on_second)
 						{
 						dupe_second_clear(dw);
@@ -2997,25 +2964,19 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 					break;
 				}
 			}
-#if 0
-		if (edit_val >= 0)
-			{
-			dupe_window_edit_selected(dw, edit_val);
-			}
-#endif
 		}
 	else
 		{
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Return: case GDK_KP_Enter:
+			case GDK_KEY_Return: case GDK_KEY_KP_Enter:
 				dupe_menu_view(dw, di, listview, FALSE);
 				break;
 			case 'V': case 'v':
 				dupe_menu_view(dw, di, listview, TRUE);
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				dupe_window_remove_selection(dw, listview);
 				break;
 			case 'C': case 'c':
@@ -3030,8 +2991,8 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 			case '2':
 				dupe_listview_select_dupes(dw, FALSE);
 				break;
-			case GDK_Menu:
-			case GDK_F10:
+			case GDK_KEY_Menu:
+			case GDK_KEY_F10:
 				if (!on_second)
 					{
 					GtkWidget *menu;
@@ -3394,8 +3355,6 @@ static void dupe_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 			      guint time, gpointer data)
 {
 	DupeWindow *dw = data;
-	gchar *uri_text;
-	gint length;
 	GList *list;
 
 	switch (info)
@@ -3404,17 +3363,12 @@ static void dupe_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 		case TARGET_TEXT_PLAIN:
 			list = dupe_listview_get_selection(dw, widget);
 			if (!list) return;
-			uri_text = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
+			uri_selection_data_set_uris_from_filelist(selection_data, list);
 			filelist_free(list);
 			break;
 		default:
-			uri_text = NULL;
 			break;
 		}
-
-	if (uri_text) gtk_selection_data_set(selection_data, selection_data->target,
-					     8, (guchar *)uri_text, length);
-	g_free(uri_text);
 }
 
 static void dupe_dnd_data_get(GtkWidget *widget, GdkDragContext *context,
@@ -3435,10 +3389,10 @@ static void dupe_dnd_data_get(GtkWidget *widget, GdkDragContext *context,
 	switch (info)
 		{
 		case TARGET_APP_COLLECTION_MEMBER:
-			collection_from_dnd_data((gchar *)selection_data->data, &list, NULL);
+			collection_from_dnd_data((gchar *)gtk_selection_data_get_data(selection_data), &list, NULL);
 			break;
 		case TARGET_URI_LIST:
-			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+			list = uri_filelist_from_gtk_selection_data(selection_data);
 			work = list;
 			while (work)
 				{
@@ -3572,7 +3526,7 @@ static void dupe_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 
 	DEBUG_1("Notify dupe: %s %04x", fd->path, type);
-	
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:

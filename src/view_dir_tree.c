@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -53,10 +53,10 @@ static void set_cursor(GtkWidget *widget, GdkCursorType cursor_type)
 {
 	GdkCursor *cursor = NULL;
 
-	if (!widget || !widget->window) return;
+	if (!widget || !gtk_widget_get_window(widget)) return;
 
 	if (cursor_type > -1) cursor = gdk_cursor_new(cursor_type);
-	gdk_window_set_cursor(widget->window, cursor);
+	gdk_window_set_cursor(gtk_widget_get_window(widget), cursor);
 	if (cursor) gdk_cursor_unref(cursor);
 	gdk_flush();
 }
@@ -307,27 +307,6 @@ static GList *parts_list_add_node_points(ViewDir *vd, GList *list)
 	return list;
 }
 
-/*
- *----------------------------------------------------------------------------
- * misc
- *----------------------------------------------------------------------------
- */
-
-#if 0
-static void vdtree_row_deleted_cb(GtkTreeModel *tree_model, GtkTreePath *tpath, gpointer data)
-{
-	GtkTreeIter iter;
-	NodeData *nd;
-
-	gtk_tree_model_get_iter(tree_model, &iter, tpath);
-	gtk_tree_model_get(tree_model, &iter, DIR_COLUMN_POINTER, &nd, -1);
-
-	if (!nd) return;
-
-	file_data_unref(nd->fd);
-	g_free(nd);
-}
-#endif
 
 /*
  *----------------------------------------------------------------------------
@@ -475,6 +454,7 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 			DEBUG_1("Too frequent update of %s", nd->fd->path);
 			return TRUE;
 			}
+		file_data_check_changed_files(nd->fd); /* make sure we have recent info */
 		if (nd->fd->version == nd->version) return TRUE;
 		}
 
@@ -714,12 +694,12 @@ gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 
 		gtk_tree_view_get_cursor(GTK_TREE_VIEW(vd->view), &old_tpath, NULL);
 		tpath = gtk_tree_model_get_path(store, &iter);
-		
+
 		if (!old_tpath || gtk_tree_path_compare(tpath, old_tpath) != 0)
 			{
 			/* setting the cursor scrolls the view; do not do that unless it is necessary */
 			gtk_tree_view_set_cursor(GTK_TREE_VIEW(vd->view), tpath, NULL, FALSE);
-			
+
 			/* gtk_tree_view_set_cursor scrolls the window itself, but it sometimes
 			   does not work (switch from dir_list to dir_tree) */
 			tree_view_row_make_visible(GTK_TREE_VIEW(vd->view), &iter, TRUE);
@@ -730,13 +710,6 @@ gboolean vdtree_set_fd(ViewDir *vd, FileData *dir_fd)
 
 	return TRUE;
 }
-
-#if 0
-const gchar *vdtree_get_path(ViewDir *vd)
-{
-	return vd->path;
-}
-#endif
 
 void vdtree_refresh(ViewDir *vd)
 {
@@ -779,7 +752,7 @@ gboolean vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 	switch (event->keyval)
 		{
-		case GDK_Menu:
+		case GDK_KEY_Menu:
 			vd->click_fd = fd;
 			vd_color_set(vd, vd->click_fd, TRUE);
 
@@ -788,9 +761,9 @@ gboolean vdtree_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 			return TRUE;
 			break;
-		case GDK_plus:
-		case GDK_Right:
-		case GDK_KP_Add:
+		case GDK_KEY_plus:
+		case GDK_KEY_Right:
+		case GDK_KEY_KP_Add:
 			if (fd)
 				{
 				vdtree_populate_path_by_iter(vd, &iter, FALSE, vd->dir_fd);

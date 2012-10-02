@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -19,6 +19,7 @@
 #ifdef G_OS_UNIX
 #include <pwd.h>
 #endif
+#include <locale.h>
 
 #include "main.h"
 
@@ -47,10 +48,8 @@
 #include "pixbuf_util.h"
 #include "glua.h"
 
-#ifdef HAVE_LIBCHAMPLAIN
-#ifdef HAVE_LIBCHAMPLAIN_GTK
+#ifdef HAVE_CLUTTER
 #include <clutter-gtk/clutter-gtk.h>
-#endif
 #endif
 
 
@@ -143,7 +142,7 @@ static void parse_command_line_add_dir(const gchar *dir, gchar **path, gchar **f
 	path_parsed = g_strdup(dir);
 	parse_out_relatives(path_parsed);
 	dir_fd = file_data_new_dir(path_parsed);
-	
+
 
 	if (filelist_read(dir_fd, &files, NULL))
 		{
@@ -213,9 +212,9 @@ static void parse_command_line(gint argc, gchar *argv[])
 	GList *remote_errors = NULL;
 	gboolean remote_do = FALSE;
 	gchar *first_dir = NULL;
-	
+
 	command_line = g_new0(CommandLine, 1);
-	
+
 	command_line->argc = argc;
 	command_line->argv = argv;
 
@@ -373,12 +372,12 @@ static void parse_command_line(gint argc, gchar *argv[])
 		if (remote_errors)
 			{
 			GList *work = remote_errors;
-			
+
 			printf_term(_("Invalid or ignored remote options: "));
 			while (work)
 				{
 				gchar *opt = work->data;
-						
+
 				printf_term("%s%s", (work == remote_errors) ? "" : ", ", opt);
 				work = work->next;
 				}
@@ -544,7 +543,7 @@ static gboolean gq_accel_map_save(const gchar *path)
 		log_printf(_("error saving file: %s\n"), path);
 		return FALSE;
 		}
-	
+
 	gstring = g_string_new("; ");
 	if (g_get_prgname())
 		g_string_append(gstring, g_get_prgname());
@@ -700,7 +699,7 @@ void exit_program(void)
 	exit_program_final();
 }
 
-/* This code is supposed to handle situation when a file mmaped by image_loader 
+/* This code is supposed to handle situation when a file mmaped by image_loader
  * or by exif loader is truncated by some other process.
  * This is probably not completely correct according to posix, because
  * mmap is not in the list of calls that can be used safely in signal handler,
@@ -743,12 +742,12 @@ gint main(gint argc, gchar *argv[])
 	gdk_threads_enter();
 
 #endif
-	
+
 	/* init execution time counter (debug only) */
 	init_exec_time();
 
 	/* setup locale, i18n */
-	gtk_set_locale();
+	setlocale(LC_ALL, "");
 
 #ifdef ENABLE_NLS
 	bindtextdomain(PACKAGE, GQ_LOCALEDIR);
@@ -773,22 +772,18 @@ gint main(gint argc, gchar *argv[])
 	file_data_register_notify_func(histogram_notify_cb, NULL, NOTIFY_PRIORITY_HIGH);
 	file_data_register_notify_func(collect_manager_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
 	file_data_register_notify_func(metadata_notify_cb, NULL, NOTIFY_PRIORITY_LOW);
-	
+
 
 	gtkrc_load();
 
 	parse_command_line_for_debug_option(argc, argv);
-	DEBUG_1("%s main: gtk_init", get_exec_time());	 
-#ifdef HAVE_LIBCHAMPLAIN
-#ifdef HAVE_LIBCHAMPLAIN_GTK
+	DEBUG_1("%s main: gtk_init", get_exec_time());
+#ifdef HAVE_CLUTTER
 	if (gtk_clutter_init(&argc, &argv) != CLUTTER_INIT_SUCCESS)
 		{
 		log_printf("Can't initialize clutter-gtk.\n");
 		exit(1);
 		}
-#else
-	gtk_init(&argc, &argv);
-#endif
 #else
 	gtk_init(&argc, &argv);
 #endif
@@ -803,13 +798,17 @@ gint main(gint argc, gchar *argv[])
 		log_printf("!!! %s may quit unexpectedly with a relocation error.\n", GQ_APPNAME);
 		}
 
-	DEBUG_1("%s main: pixbuf_inline_register_stock_icons", get_exec_time());	 
+	DEBUG_1("%s main: pixbuf_inline_register_stock_icons", get_exec_time());
 	pixbuf_inline_register_stock_icons();
 
-	DEBUG_1("%s main: parse_command_line", get_exec_time());	 
+	DEBUG_1("%s main: setting default options before commandline handling", get_exec_time());
+	options = init_options(NULL);
+	setup_default_options(options);
+
+	DEBUG_1("%s main: parse_command_line", get_exec_time());
 	parse_command_line(argc, argv);
 
-	DEBUG_1("%s main: mkdir_if_not_exists", get_exec_time());	 
+	DEBUG_1("%s main: mkdir_if_not_exists", get_exec_time());
 	/* these functions don't depend on config file */
 	mkdir_if_not_exists(get_rc_dir());
 	mkdir_if_not_exists(get_collections_dir());
@@ -823,19 +822,17 @@ gint main(gint argc, gchar *argv[])
 
 	/* restore session from the config file */
 
-	options = init_options(NULL);
-	setup_default_options(options);
 
-	DEBUG_1("%s main: load_options", get_exec_time());	 
+	DEBUG_1("%s main: load_options", get_exec_time());
 	if (!load_options(options))
 		{
 		/* load_options calls these functions after it parses global options, we have to call it here if it fails */
 		filter_add_defaults();
-		filter_rebuild(); 
+		filter_rebuild();
 		}
 
 	/* handle missing config file and commandline additions*/
-	if (!layout_window_list) 
+	if (!layout_window_list)
 		{
 		/* broken or no config file */
 		layout_new_from_config(NULL, NULL, TRUE);
@@ -919,8 +916,8 @@ gint main(gint argc, gchar *argv[])
 	buf = g_build_filename(get_rc_dir(), ".command", NULL);
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
-	
-	DEBUG_1("%s main: gtk_main", get_exec_time());	 
+
+	DEBUG_1("%s main: gtk_main", get_exec_time());
 	gtk_main();
 #ifdef HAVE_GTHREAD
 	gdk_threads_leave();

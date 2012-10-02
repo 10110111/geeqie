@@ -10,10 +10,10 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
-#include "main.h" 
+#include "main.h"
 #include "jpeg_parser.h"
 
-gboolean jpeg_segment_find(guchar *data, guint size,
+gboolean jpeg_segment_find(const guchar *data, guint size,
 			    guchar app_marker, const gchar *magic, guint magic_len,
 			    guint *seg_offset, guint *seg_length)
 {
@@ -64,7 +64,7 @@ typedef enum {
 
 
 
-guint16 tiff_byte_get_int16(guchar *f, TiffByteOrder bo)
+guint16 tiff_byte_get_int16(const guchar *f, TiffByteOrder bo)
 {
 	guint16 align_buf;
 
@@ -76,7 +76,7 @@ guint16 tiff_byte_get_int16(guchar *f, TiffByteOrder bo)
 		return GUINT16_FROM_BE(align_buf);
 }
 
-guint32 tiff_byte_get_int32(guchar *f, TiffByteOrder bo)
+guint32 tiff_byte_get_int32(const guchar *f, TiffByteOrder bo)
 {
 	guint32 align_buf;
 
@@ -120,7 +120,7 @@ void tiff_byte_put_int32(guchar *f, guint32 n, TiffByteOrder bo)
 	memcpy(f, &align_buf, sizeof(guint32));
 }
 
-gint tiff_directory_offset(guchar *data, const guint len,
+gint tiff_directory_offset(const guchar *data, const guint len,
 				guint *offset, TiffByteOrder *bo)
 {
 	if (len < 8) return FALSE;
@@ -148,12 +148,12 @@ gint tiff_directory_offset(guchar *data, const guint len,
 	return (*offset < len);
 }
 
-typedef gint (* FuncParseIFDEntry)(guchar *tiff, guint offset,
+typedef gint (* FuncParseIFDEntry)(const guchar *tiff, guint offset,
 				 guint size, TiffByteOrder bo,
 				 gpointer data);
 
 
-gint tiff_parse_IFD_table(guchar *tiff, guint offset,
+gint tiff_parse_IFD_table(const guchar *tiff, guint offset,
 			  guint size, TiffByteOrder bo,
 			  guint *next_offset,
 			  FuncParseIFDEntry parse_entry, gpointer data)
@@ -175,14 +175,14 @@ gint tiff_parse_IFD_table(guchar *tiff, guint offset,
 		{
 		parse_entry(tiff, offset + i * TIFF_TIFD_SIZE, size, bo, data);
 		}
-	
+
 	next = tiff_byte_get_int32(tiff + offset + count * TIFF_TIFD_SIZE, bo);
 	if (next_offset) *next_offset = next;
-	
+
 	return 0;
 }
 
-static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
+static gint mpo_parse_Index_IFD_entry(const guchar *tiff, guint offset,
 				 guint size, TiffByteOrder bo,
 				 gpointer data)
 {
@@ -201,16 +201,16 @@ static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
 	data_val = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_DATA, bo);
 	DEBUG_1("   tag %x format %x count %x data_val %x", tag, format, count, data_val);
 
-        if (tag == 0xb000)
-        	{
-        	mpo->version = data_val;
+	if (tag == 0xb000)
+		{
+		mpo->version = data_val;
 		DEBUG_1("    mpo version %x", mpo->version);
-        	}
-        else if (tag == 0xb001)
-        	{
-        	mpo->num_images = data_val;
+		}
+	else if (tag == 0xb001)
+		{
+		mpo->num_images = data_val;
 		DEBUG_1("    num images %x", mpo->num_images);
-        	}
+		}
 	else if (tag == 0xb002)
 		{
 		guint i;
@@ -224,9 +224,9 @@ static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
 			{
 			return -1;
 			}
-		
+
 		mpo->images = g_new0(MPOEntry, mpo->num_images);
-			
+
 		for (i = 0; i < mpo->num_images; i++) {
 			guint image_attr = tiff_byte_get_int32(tiff + data_offset + i * 16, bo);
 			mpo->images[i].type_code = image_attr & 0xffffff;
@@ -237,16 +237,16 @@ static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
 			mpo->images[i].offset = tiff_byte_get_int32(tiff + data_offset + i * 16 + 8, bo);
 			mpo->images[i].dep1 = tiff_byte_get_int16(tiff + data_offset + i * 16 + 12, bo);
 			mpo->images[i].dep2 = tiff_byte_get_int16(tiff + data_offset + i * 16 + 14, bo);
-			
-			if (i == 0) 
+
+			if (i == 0)
 				{
 				mpo->images[i].offset = 0;
 				}
 			else
 				{
-			 	mpo->images[i].offset += mpo->mpo_offset;
-			 	}
-			 	
+				mpo->images[i].offset += mpo->mpo_offset;
+				}
+
 			DEBUG_1("   image %x %x %x", image_attr, mpo->images[i].length, mpo->images[i].offset);
 			}
 		}
@@ -254,7 +254,7 @@ static gint mpo_parse_Index_IFD_entry(guchar *tiff, guint offset,
 	return 0;
 }
 
-static gint mpo_parse_Attributes_IFD_entry(guchar *tiff, guint offset,
+static gint mpo_parse_Attributes_IFD_entry(const guchar *tiff, guint offset,
 				 guint size, TiffByteOrder bo,
 				 gpointer data)
 {
@@ -262,8 +262,6 @@ static gint mpo_parse_Attributes_IFD_entry(guchar *tiff, guint offset,
 	guint format;
 	guint count;
 	guint data_val;
-	guint data_offset;
-	guint data_length;
 
 	MPOEntry *mpe = data;
 
@@ -273,19 +271,19 @@ static gint mpo_parse_Attributes_IFD_entry(guchar *tiff, guint offset,
 	data_val = tiff_byte_get_int32(tiff + offset + TIFF_TIFD_OFFSET_DATA, bo);
 	DEBUG_1("   tag %x format %x count %x data_val %x", tag, format, count, data_val);
 
-        switch (tag) 
-        	{
-        	case 0xb000: 
-        		mpe->MPFVersion = data_val;
+	switch (tag)
+		{
+		case 0xb000:
+			mpe->MPFVersion = data_val;
 			DEBUG_1("    mpo version %x", data_val);
-        		break;
-        	case 0xb101: 
-        		mpe->MPIndividualNum = data_val;
+			break;
+		case 0xb101:
+			mpe->MPIndividualNum = data_val;
 			DEBUG_1("    Individual Image Number %x", mpe->MPIndividualNum);
-        		break;
-        	case 0xb201: 
-        		mpe->PanOrientation = data_val;
-        		break;
+			break;
+		case 0xb201:
+			mpe->PanOrientation = data_val;
+			break;
 /*
 
 FIXME:
@@ -301,16 +299,16 @@ Vertical Axis Distance AxisDistance_Y 45577 B209 SRATIONAL 1
 Collimation Axis Distance AxisDistance_Z 45578 B20A SRATIONAL 1
 Yaw Angle YawAngle 45579 B20B SRATIONAL 1
 Pitch Angle PitchAngle 45580 B20C SRATIONAL 1
-Roll Angle RollAngle 45581 B20D 
-  */      	
-		default: 
+Roll Angle RollAngle 45581 B20D
+  */
+		default:
 			break;
 		}
 
 	return 0;
 }
 
-MPOData *jpeg_get_mpo_data(guchar *data, guint size)
+MPOData *jpeg_get_mpo_data(const guchar *data, guint size)
 {
 	guint seg_offset;
 	guint seg_size;
@@ -322,19 +320,19 @@ MPOData *jpeg_get_mpo_data(guchar *data, guint size)
 		MPOData *mpo;
 		guint i;
 
-		DEBUG_1("mpo signature found at %x", seg_offset); 
+		DEBUG_1("mpo signature found at %x", seg_offset);
 		seg_offset += 4;
 		seg_size -= 4;
-		
+
 		if (!tiff_directory_offset(data + seg_offset, seg_size, &offset, &bo)) return NULL;
 
 		mpo = g_new0(MPOData, 1);
 		mpo->mpo_offset = seg_offset;
-		
+
 		tiff_parse_IFD_table(data + seg_offset,  offset , seg_size, bo, &next_offset, mpo_parse_Index_IFD_entry, (gpointer)mpo);
 		if (!mpo->images) mpo->num_images = 0;
-		
-	
+
+
 		for (i = 0; i < mpo->num_images; i++)
 			{
 			if (mpo->images[i].offset + mpo->images[i].length > size)
@@ -344,10 +342,10 @@ MPOData *jpeg_get_mpo_data(guchar *data, guint size)
 				break;
 				}
 			}
-		
+
 		for (i = 0; i < mpo->num_images; i++)
 			{
-			if (i == 0) 
+			if (i == 0)
 				{
 				offset = next_offset;
 				}
@@ -358,10 +356,10 @@ MPOData *jpeg_get_mpo_data(guchar *data, guint size)
 					DEBUG_1("MPO image %d: MPO signature not found", i);
 					continue;
 					}
-				
+
 				seg_offset += 4;
 				seg_size -= 4;
-				if (!tiff_directory_offset(data + mpo->images[i].offset + seg_offset, seg_size, &offset, &bo)) 
+				if (!tiff_directory_offset(data + mpo->images[i].offset + seg_offset, seg_size, &offset, &bo))
 					{
 					DEBUG_1("MPO image %d: invalid directory offset", i);
 					continue;
@@ -370,7 +368,7 @@ MPOData *jpeg_get_mpo_data(guchar *data, guint size)
 				}
 			tiff_parse_IFD_table(data + mpo->images[i].offset + seg_offset,  offset , seg_size, bo, NULL, mpo_parse_Attributes_IFD_entry, (gpointer)&mpo->images[i]);
 			}
-		
+
 		return mpo;
 		}
 	return NULL;
@@ -384,3 +382,6 @@ void jpeg_mpo_data_free(MPOData *mpo)
 		g_free(mpo);
 		}
 }
+
+
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

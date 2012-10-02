@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -17,6 +17,7 @@
 #include "collect.h"
 #include "image.h"
 #include "ui_fileops.h"
+#include "pixbuf_util.h"
 
 
 GtkTargetEntry dnd_file_drag_types[] = {
@@ -72,6 +73,7 @@ static void pixbuf_draw_border(GdkPixbuf *pixbuf, gint w, gint h)
 		}
 }
 
+/*
 static void pixbuf_draw_rect(GdkPixbuf *pixbuf, gint x, gint y, gint w, gint h, guint8 val)
 {
 	gboolean alpha;
@@ -96,11 +98,9 @@ static void pixbuf_draw_rect(GdkPixbuf *pixbuf, gint x, gint y, gint w, gint h, 
 			}
 		}
 }
-
+*/
 void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pixbuf, gint items)
 {
-	GdkPixmap *pixmap;
-	GdkBitmap *mask;
 	GdkPixbuf *dest;
 	gint w, h;
 	gint sw, sh;
@@ -148,24 +148,20 @@ void dnd_set_drag_icon(GtkWidget *widget, GdkDragContext *context, GdkPixbuf *pi
 		lw = CLAMP(lw, 0, w - x - 1);
 		lh = CLAMP(lh, 0, h - y - 1);
 
-		pixbuf_draw_rect(dest, x, y, lw, lh, 128);
+		pixbuf_draw_rect_fill(dest, x, y, lw, lh, 128, 128, 128, 255);
 		}
-
-	gdk_pixbuf_render_pixmap_and_mask(dest, &pixmap, &mask, 128);
-	g_object_unref(dest);
 
 	if (layout)
 		{
-		gdk_draw_layout(pixmap, widget->style->black_gc, x+1, y+1, layout);
-		gdk_draw_layout(pixmap, widget->style->white_gc, x, y, layout);
+		pixbuf_draw_layout(dest, layout, NULL, x+1, y+1, 0, 0, 0, 255);
+		pixbuf_draw_layout(dest, layout, NULL, x, y, 255, 255, 255, 255);
 
 		g_object_unref(G_OBJECT(layout));
 		}
 
-	gtk_drag_set_icon_pixmap(context, gtk_widget_get_colormap(widget), pixmap, mask, -8, -6);
+	gtk_drag_set_icon_pixbuf(context, dest, -8, -6);
 
-	g_object_unref(pixmap);
-	if (mask) g_object_unref(mask);
+	g_object_unref(dest);
 }
 
 static void dnd_set_drag_label_end_cb(GtkWidget *widget, GdkDragContext *context, gpointer data)

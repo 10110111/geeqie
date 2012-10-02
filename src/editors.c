@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -81,7 +81,7 @@ gboolean editors_finished = FALSE;
 void editor_description_free(EditorDescription *editor)
 {
 	if (!editor) return;
-	
+
 	g_free(editor->key);
 	g_free(editor->name);
 	g_free(editor->icon);
@@ -97,7 +97,7 @@ void editor_description_free(EditorDescription *editor)
 static GList *editor_mime_types_to_extensions(gchar **mime_types)
 {
 	/* FIXME: this should be rewritten to use the shared mime database, as soon as we switch to gio */
-	
+
 	static const gchar *conv_table[][2] = {
 		{"application/x-ufraw",	".ufraw"},
 		{"image/*",		"*"},
@@ -109,7 +109,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 		{"image/png",		".png"},
 		{"image/svg",		".svg"},
 		{"image/svg+xml",	".svg"},
-		{"image/svg+xml-compressed", 	".svg"},	
+		{"image/svg+xml-compressed", 	".svg"},
 		{"image/tiff",		".tiff;.tif"},
 		{"image/x-bmp",		".bmp"},
 		{"image/x-canon-crw",	".crw"},
@@ -123,7 +123,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 		{"image/x-pcx",		".pcx"},
 		{"image/xpm",		".xpm"},
 		{"image/x-png",		".png"},
-		{"image/x-portable-anymap",	".pam"},	
+		{"image/x-portable-anymap",	".pam"},
 		{"image/x-portable-bitmap",	".pbm"},
 		{"image/x-portable-graymap",	".pgm"},
 		{"image/x-portable-pixmap",	".ppm"},
@@ -137,15 +137,15 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 		{"image/x-x3f",		".x3f"},
 		{"application/x-ptoptimizer-script",	".pto"},
 		{NULL, NULL}};
-	
+
 	gint i, j;
 	GList *list = NULL;
-	
-	for (i = 0; mime_types[i]; i++) 
+
+	for (i = 0; mime_types[i]; i++)
 		for (j = 0; conv_table[j][0]; j++)
 			if (strcmp(mime_types[i], conv_table[j][0]) == 0)
 				list = g_list_concat(list, filter_to_list(conv_table[j][1]));
-	
+
 	return list;
 }
 
@@ -162,7 +162,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 	gboolean category_geeqie = FALSE;
 
 	if (g_hash_table_lookup(editors, key)) return FALSE; /* the file found earlier wins */
-	
+
 	key_file = g_key_file_new();
 	if (!g_key_file_load_from_file(key_file, path, 0, NULL))
 		{
@@ -179,9 +179,9 @@ gboolean editor_read_desktop_file(const gchar *path)
 		return FALSE;
 		}
 	g_free(type);
-	
+
 	editor = g_new0(EditorDescription, 1);
-	
+
 	editor->key = g_strdup(key);
 	editor->file = g_strdup(path);
 
@@ -198,14 +198,14 @@ gboolean editor_read_desktop_file(const gchar *path)
 		{
 		gboolean found = FALSE;
 		gint i;
-		for (i = 0; categories[i]; i++) 
+		for (i = 0; categories[i]; i++)
 			{
 			/* IMHO "Graphics" is exactly the category that we are interested in, so this does not have to be configurable */
 			if (strcmp(categories[i], "Graphics") == 0)
 				{
 				found = TRUE;
 				}
-			if (strcmp(categories[i], "X-Geeqie") == 0) 
+			if (strcmp(categories[i], "X-Geeqie") == 0)
 				{
 				found = TRUE;
 				category_geeqie = TRUE;
@@ -225,7 +225,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 		{
 		gboolean found = FALSE;
 		gint i;
-		for (i = 0; only_show_in[i]; i++) 
+		for (i = 0; only_show_in[i]; i++)
 			if (strcmp(only_show_in[i], "X-Geeqie") == 0)
 				{
 				found = TRUE;
@@ -240,7 +240,7 @@ gboolean editor_read_desktop_file(const gchar *path)
 		{
 		gboolean found = FALSE;
 		gint i;
-		for (i = 0; not_show_in[i]; i++) 
+		for (i = 0; not_show_in[i]; i++)
 			if (strcmp(not_show_in[i], "X-Geeqie") == 0)
 				{
 				found = TRUE;
@@ -249,8 +249,8 @@ gboolean editor_read_desktop_file(const gchar *path)
 		if (found) editor->ignored = TRUE;
 		g_strfreev(not_show_in);
 		}
-		
-		
+
+
 	try_exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "TryExec", NULL);
 	if (try_exec && !editor->hidden && !editor->ignored)
 		{
@@ -260,27 +260,27 @@ gboolean editor_read_desktop_file(const gchar *path)
 		g_free(try_exec);
 		}
 
-	if (editor->ignored) 
+	if (editor->ignored)
 		{
 		/* ignored editors will be deleted, no need to parse the rest */
 		g_key_file_free(key_file);
 		return TRUE;
 		}
-	
+
 	editor->name = g_key_file_get_locale_string(key_file, DESKTOP_GROUP, "Name", NULL, NULL);
 	editor->icon = g_key_file_get_string(key_file, DESKTOP_GROUP, "Icon", NULL);
-	
+
 	/* Icon key can be either a full path (absolute with file name extension) or an icon name (without extension) */
 	if (editor->icon && !g_path_is_absolute(editor->icon))
 		{
 		gchar *ext = strrchr(editor->icon, '.');
-		
-		if (ext && strlen(ext) == 4 && 
+
+		if (ext && strlen(ext) == 4 &&
 		    (!strcmp(ext, ".png") || !strcmp(ext, ".xpm") || !strcmp(ext, ".svg")))
 			{
 			log_printf(_("Desktop file '%s' should not include extension in Icon key: '%s'\n"),
 				   editor->file, editor->icon);
-	  		
+
 			// drop extension
 			*ext = '\0';
 			}
@@ -292,10 +292,10 @@ gboolean editor_read_desktop_file(const gchar *path)
 		}
 
 	editor->exec = g_key_file_get_string(key_file, DESKTOP_GROUP, "Exec", NULL);
-	
+
 	editor->menu_path = g_key_file_get_string(key_file, DESKTOP_GROUP, "X-Geeqie-Menu-Path", NULL);
 	if (!editor->menu_path) editor->menu_path = g_strdup("EditMenu/ExternalMenu");
-	
+
 	editor->hotkey = g_key_file_get_string(key_file, DESKTOP_GROUP, "X-Geeqie-Hotkey", NULL);
 
 	editor->comment = g_key_file_get_string(key_file, DESKTOP_GROUP, "Comment", NULL);
@@ -310,16 +310,16 @@ gboolean editor_read_desktop_file(const gchar *path)
 			{
 			editor->ext_list = editor_mime_types_to_extensions(mime_types);
 			g_strfreev(mime_types);
-			if (!editor->ext_list) editor->hidden = TRUE; 
+			if (!editor->ext_list) editor->hidden = TRUE;
 			}
 		}
-		
+
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Keep-Fullscreen", NULL)) editor->flags |= EDITOR_KEEP_FS;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Verbose", NULL)) editor->flags |= EDITOR_VERBOSE;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Verbose-Multi", NULL)) editor->flags |= EDITOR_VERBOSE_MULTI;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "X-Geeqie-Filter", NULL)) editor->flags |= EDITOR_DEST;
 	if (g_key_file_get_boolean(key_file, DESKTOP_GROUP, "Terminal", NULL)) editor->flags |= EDITOR_TERMINAL;
-	
+
 	editor->flags |= editor_command_parse(editor, NULL, FALSE, NULL);
 
 	if ((editor->flags & EDITOR_NO_PARAM) && !category_geeqie) editor->hidden = TRUE;
@@ -327,16 +327,16 @@ gboolean editor_read_desktop_file(const gchar *path)
 	g_key_file_free(key_file);
 
 	if (editor->ignored) return TRUE;
-	
+
 	gtk_list_store_append(desktop_file_list, &iter);
-	gtk_list_store_set(desktop_file_list, &iter, 
+	gtk_list_store_set(desktop_file_list, &iter,
 			   DESKTOP_FILE_COLUMN_KEY, key,
 			   DESKTOP_FILE_COLUMN_NAME, editor->name,
 			   DESKTOP_FILE_COLUMN_HIDDEN, editor->hidden ? _("yes") : _("no"),
 			   DESKTOP_FILE_COLUMN_WRITABLE, access_file(path, W_OK),
 			   DESKTOP_FILE_COLUMN_PATH, path, -1);
-	
-	return TRUE;	
+
+	return TRUE;
 }
 
 static gboolean editor_remove_desktop_file_cb(gpointer key, gpointer value, gpointer user_data)
@@ -357,7 +357,7 @@ void editor_table_clear(void)
 		{
 		gtk_list_store_clear(desktop_file_list);
 		}
-	else 
+	else
 		{
 		desktop_file_list = gtk_list_store_new(DESKTOP_FILE_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
 		}
@@ -386,14 +386,14 @@ static GList *editor_add_desktop_dir(GList *list, const gchar *path)
 	while ((dir = readdir(dp)) != NULL)
 		{
 		gchar *namel = dir->d_name;
-		
+
 		if (g_str_has_suffix(namel, ".desktop"))
 			{
 			gchar *name = path_to_utf8(namel);
 			gchar *dpath = g_build_filename(path, name, NULL);
 			list = g_list_prepend(list, dpath);
 			g_free(name);
-			}	
+			}
 		}
 	closedir(dp);
 	return list;
@@ -407,19 +407,19 @@ GList *editor_get_desktop_files(void)
 	gchar **split_dirs;
 	gint i;
 	GList *list = NULL;
-	
+
 	xdg_data_dirs = getenv("XDG_DATA_DIRS");
 	if (xdg_data_dirs && xdg_data_dirs[0])
 		xdg_data_dirs = path_to_utf8(xdg_data_dirs);
 	else
 		xdg_data_dirs = g_strdup("/usr/share");
-	
+
 	all_dirs = g_strconcat(get_rc_dir(), ":", GQ_APP_DIR, ":", xdg_data_home_get(), ":", xdg_data_dirs, NULL);
-	
+
 	g_free(xdg_data_dirs);
 
 	split_dirs = g_strsplit(all_dirs, ":", 0);
-	
+
 	g_free(all_dirs);
 
 	for (i = 0; split_dirs[i]; i++);
@@ -429,7 +429,7 @@ GList *editor_get_desktop_files(void)
 		list = editor_add_desktop_dir(list, path);
 		g_free(path);
 		}
-		
+
 	g_strfreev(split_dirs);
 	return list;
 }
@@ -438,10 +438,10 @@ static void editor_list_add_cb(gpointer key, gpointer value, gpointer data)
 {
 	GList **listp = data;
 	EditorDescription *editor = value;
-	
-	/* do not show the special commands in any list, they are called explicitly */ 
+
+	/* do not show the special commands in any list, they are called explicitly */
 	if (strcmp(editor->key, CMD_COPY) == 0 ||
-	    strcmp(editor->key, CMD_MOVE) == 0 ||  
+	    strcmp(editor->key, CMD_MOVE) == 0 ||
 	    strcmp(editor->key, CMD_RENAME) == 0 ||
 	    strcmp(editor->key, CMD_DELETE) == 0 ||
 	    strcmp(editor->key, CMD_FOLDER) == 0) return;
@@ -454,19 +454,19 @@ static gint editor_sort(gconstpointer a, gconstpointer b)
 	const EditorDescription *ea = a;
 	const EditorDescription *eb = b;
 	gint ret;
-	
+
 	ret = strcmp(ea->menu_path, eb->menu_path);
 	if (ret != 0) return ret;
-	
+
 	return g_utf8_collate(ea->name, eb->name);
 }
 
 GList *editor_list_get(void)
 {
 	GList *editors_list = NULL;
-	
+
 	if (!editors_finished) return NULL;
-	
+
 	g_hash_table_foreach(editors, editor_list_add_cb, &editors_list);
 	editors_list = g_list_sort(editors_list, editor_sort);
 
@@ -708,7 +708,7 @@ static gchar *editor_command_path_parse(const FileData *fd, gboolean consider_si
 		g_free(pathl);
 		pathl = NULL;
 		}
-	
+
 	DEBUG_2("editor_command_path_parse: return %s", pathl);
 	return pathl;
 }
@@ -716,7 +716,7 @@ static gchar *editor_command_path_parse(const FileData *fd, gboolean consider_si
 static GString *append_quoted(GString *str, const char *s, gboolean single_quotes, gboolean double_quotes)
 {
 	const char *p;
-	
+
 	if (!single_quotes)
 		{
 		if (!double_quotes)
@@ -732,7 +732,7 @@ static GString *append_quoted(GString *str, const char *s, gboolean single_quote
 		else
 			g_string_append_c(str, *p);
 		}
-	
+
 	if (!single_quotes)
 		{
 		if (!double_quotes)
@@ -764,7 +764,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 		flags |= EDITOR_ERROR_EMPTY;
 		goto err;
 		}
-	
+
 	p = editor->exec;
 	/* skip leading whitespaces if any */
 	while (g_ascii_isspace(*p)) p++;
@@ -832,7 +832,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 							/* just testing, check also the rest of the list (like with F and U)
 							   any matching file is OK */
 							GList *work = list->next;
-							
+
 							while (!pathl && work)
 								{
 								FileData *fd = work->data;
@@ -843,7 +843,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 								work = work->next;
 								}
 							}
-							
+
 						if (!pathl)
 							{
 							flags |= EDITOR_ERROR_NO_FILE;
@@ -993,7 +993,7 @@ static EditorFlags editor_command_one(const EditorDescription *editor, GList *li
 		{
 		ok = (options->shell.path && *options->shell.path);
 		if (!ok) log_printf("ERROR: empty shell command\n");
-			
+
 		if (ok)
 			{
 			ok = (access(options->shell.path, X_OK) == 0);
@@ -1033,7 +1033,7 @@ static EditorFlags editor_command_one(const EditorDescription *editor, GList *li
 				      ed->vd ? &standard_output : NULL,
 				      ed->vd ? &standard_error : NULL,
 				      NULL);
-		
+
 		g_free(working_directory);
 
 		if (!ok) ed->flags |= EDITOR_ERROR_CANT_EXEC;
@@ -1117,7 +1117,7 @@ static EditorFlags editor_command_next_start(EditorData *ed)
 
 		if (!error)
 			return 0;
-		
+
 		/* command was not started, call the finish immediately */
 		return editor_command_next_finish(ed, 0);
 		}
@@ -1162,7 +1162,7 @@ static EditorFlags editor_command_next_finish(EditorData *ed, gint status)
 		case EDITOR_CB_SKIP:
 			return editor_command_done(ed);
 		}
-	
+
 	return editor_command_next_start(ed);
 }
 
@@ -1249,7 +1249,7 @@ EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, const
 	EditorFlags error;
 	EditorDescription *editor;
 	if (!key) return EDITOR_ERROR_EMPTY;
-	
+
 	editor = g_hash_table_lookup(editors, key);
 
 	if (!editor) return EDITOR_ERROR_EMPTY;
@@ -1264,7 +1264,7 @@ EditorFlags start_editor_from_filelist_full(const gchar *key, GList *list, const
 	if (EDITOR_ERRORS(error))
 		{
 		gchar *text = g_strdup_printf(_("%s\n\"%s\""), editor_get_error_str(error), editor->file);
-		
+
 		file_util_warning_dialog(_("Invalid editor command"), text, GTK_STOCK_DIALOG_ERROR, NULL);
 		g_free(text);
 		}
@@ -1304,7 +1304,7 @@ gboolean editor_window_flag_set(const gchar *key)
 {
 	EditorDescription *editor;
 	if (!key) return TRUE;
-	
+
 	editor = g_hash_table_lookup(editors, key);
 	if (!editor) return TRUE;
 
@@ -1315,7 +1315,7 @@ gboolean editor_is_filter(const gchar *key)
 {
 	EditorDescription *editor;
 	if (!key) return TRUE;
-	
+
 	editor = g_hash_table_lookup(editors, key);
 	if (!editor) return TRUE;
 
@@ -1326,7 +1326,7 @@ gboolean editor_no_param(const gchar *key)
 {
 	EditorDescription *editor;
 	if (!key) return FALSE;
-	
+
 	editor = g_hash_table_lookup(editors, key);
 	if (!editor) return FALSE;
 
@@ -1337,7 +1337,7 @@ gboolean editor_blocks_file(const gchar *key)
 {
 	EditorDescription *editor;
 	if (!key) return FALSE;
-	
+
 	editor = g_hash_table_lookup(editors, key);
 	if (!editor) return FALSE;
 
@@ -1346,7 +1346,7 @@ gboolean editor_blocks_file(const gchar *key)
 	   saved, for editing unrelated files.
 	   %f vs. %F seems to be a good heuristic to detect this kind of editors.
 	*/
-	   
+
 	return !(editor->flags & EDITOR_SINGLE_COMMAND);
 }
 

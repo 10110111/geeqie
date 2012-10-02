@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Vladimir Nadvornik
  *
@@ -59,13 +59,9 @@ static void bar_pane_histogram_update(PaneHistogramData *phd)
 	if (!phd->histogram_width || !phd->histogram_height || !phd->fd) return;
 
 	/* histmap_get is relatively expensive, run it only when we really need it
-	   and with lower priority than pixbuf_renderer 
+	   and with lower priority than pixbuf_renderer
 	   FIXME: this does not work for fullscreen*/
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_is_drawable(phd->drawing_area))
-#else
-	if (GTK_WIDGET_DRAWABLE(phd->drawing_area))
-#endif
 		{
 		if (!phd->idle_id)
 			{
@@ -85,18 +81,18 @@ static gboolean bar_pane_histogram_update_cb(gpointer data)
 
 	phd->idle_id = 0;
 	phd->need_update = FALSE;
-	
+
 	gtk_widget_queue_draw_area(GTK_WIDGET(phd->drawing_area), 0, 0, phd->histogram_width, phd->histogram_height);
-	
+
 	if (phd->fd == NULL) return FALSE;
 	histmap = histmap_get(phd->fd);
-	
-	if (!histmap) 
+
+	if (!histmap)
 		{
 		histmap_start_idle(phd->fd);
 		return FALSE;
 		}
-	
+
 	phd->pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, phd->histogram_width, phd->histogram_height);
 	gdk_pixbuf_fill(phd->pixbuf, 0xffffffff);
 	histogram_draw(phd->histogram, histmap, phd->pixbuf, 0, 0, phd->histogram_width, phd->histogram_height);
@@ -137,38 +133,53 @@ static void bar_pane_histogram_write_config(GtkWidget *pane, GString *outstr, gi
 static void bar_pane_histogram_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	PaneHistogramData *phd = data;
-	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_HISTMAP | NOTIFY_PIXBUF)) && fd == phd->fd) 
+	if ((type & (NOTIFY_REREAD | NOTIFY_CHANGE | NOTIFY_HISTMAP | NOTIFY_PIXBUF)) && fd == phd->fd)
 		{
 		DEBUG_1("Notify pane_histogram: %s %04x", fd->path, type);
 		bar_pane_histogram_update(phd);
 		}
 }
 
-static gboolean bar_pane_histogram_expose_event_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+#if GTK_CHECK_VERSION(3,0,0)
+static gboolean bar_pane_histogram_draw_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
 	PaneHistogramData *phd = data;
 	if (!phd) return TRUE;
-	
+
 	if (phd->need_update)
 		{
 		bar_pane_histogram_update(phd);
 		}
-	
+
 	if (!phd->pixbuf) return TRUE;
-	
-	gdk_draw_pixbuf(widget->window,
-#if GTK_CHECK_VERSION(2,20,0)
-			widget->style->fg_gc[gtk_widget_get_state(widget)],
-#else
-			widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
-#endif
-			phd->pixbuf,
-			0, 0,
-			0, 0,
-			-1, -1,
-			GDK_RGB_DITHER_NORMAL, 0, 0);
+
+	gdk_cairo_set_source_pixbuf(cr, phd->pixbuf, 0, 0);
+	cairo_paint (cr);
+
 	return TRUE;
 }
+
+#else
+static gboolean bar_pane_histogram_expose_event_cb(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+	PaneHistogramData *phd = data;
+	if (!phd) return TRUE;
+
+	if (phd->need_update)
+		{
+		bar_pane_histogram_update(phd);
+		}
+
+	if (!phd->pixbuf) return TRUE;
+
+	cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(widget));
+	gdk_cairo_set_source_pixbuf (cr, phd->pixbuf, 0, 0);
+	cairo_paint (cr);
+	cairo_destroy (cr);
+
+	return TRUE;
+}
+#endif
 
 static void bar_pane_histogram_size_cb(GtkWidget *widget, GtkAllocation *allocation, gpointer data)
 {
@@ -179,22 +190,10 @@ static void bar_pane_histogram_size_cb(GtkWidget *widget, GtkAllocation *allocat
 	bar_pane_histogram_update(phd);
 }
 
-#if 0
-static void bar_pane_histogram_close(GtkWidget *pane)
-{
-	PaneHistogramData *phd;
-
-	phd = g_object_get_data(G_OBJECT(pane), "pane_data");
-	if (!phd) return;
-
-	gtk_widget_destroy(phd->widget);
-}
-#endif
-
 static void bar_pane_histogram_destroy(GtkWidget *widget, gpointer data)
 {
 	PaneHistogramData *phd = data;
-	
+
 	if (phd->idle_id) g_source_remove(phd->idle_id);
 	file_data_unregister_notify_func(bar_pane_histogram_notify_cb, phd);
 
@@ -226,7 +225,7 @@ static void bar_pane_histogram_popup_mode_cb(GtkWidget *widget, gpointer data)
 {
 	PaneHistogramData *phd = data;
 	gint logmode;
-	
+
 	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) return;
 
 	if (!phd) return;
@@ -252,9 +251,9 @@ static GtkWidget *bar_pane_histogram_menu(PaneHistogramData *phd)
 	menu_item_add_radio(menu, _("Histogram on _Blue"),  GINT_TO_POINTER(HCHAN_B), (channel == HCHAN_B), G_CALLBACK(bar_pane_histogram_popup_channels_cb), phd);
 	menu_item_add_radio(menu, _("_Histogram on RGB"),   GINT_TO_POINTER(HCHAN_RGB), (channel == HCHAN_RGB), G_CALLBACK(bar_pane_histogram_popup_channels_cb), phd);
 	menu_item_add_radio(menu, _("Histogram on _Value"), GINT_TO_POINTER(HCHAN_MAX), (channel == HCHAN_MAX), G_CALLBACK(bar_pane_histogram_popup_channels_cb), phd);
-	
+
 	menu_item_add_divider(menu);
-	
+
 	menu_item_add_radio(menu, _("Li_near Histogram"), GINT_TO_POINTER(0), (mode == 0), G_CALLBACK(bar_pane_histogram_popup_mode_cb), phd);
 	menu_item_add_radio(menu, _("L_og Histogram"),    GINT_TO_POINTER(1), (mode == 1), G_CALLBACK(bar_pane_histogram_popup_mode_cb), phd);
 
@@ -283,7 +282,7 @@ static GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gi
 	PaneHistogramData *phd;
 
 	phd = g_new0(PaneHistogramData, 1);
-	
+
 	phd->pane.pane_set_fd = bar_pane_histogram_set_fd;
 	phd->pane.pane_write_config = bar_pane_histogram_write_config;
 	phd->pane.title = bar_pane_expander_title(title);
@@ -291,7 +290,7 @@ static GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gi
 	phd->pane.type = PANE_HISTOGRAM;
 
 	phd->pane.expanded = expanded;
-	
+
 	phd->histogram = histogram_new();
 
 	histogram_set_channel(phd->histogram, histogram_channel);
@@ -302,7 +301,7 @@ static GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gi
 	g_object_set_data(G_OBJECT(phd->widget), "pane_data", phd);
 	g_signal_connect(G_OBJECT(phd->widget), "destroy",
 			 G_CALLBACK(bar_pane_histogram_destroy), phd);
-	
+
 
 	gtk_widget_set_size_request(GTK_WIDGET(phd->widget), -1, height);
 
@@ -310,9 +309,14 @@ static GtkWidget *bar_pane_histogram_new(const gchar *id, const gchar *title, gi
 	g_signal_connect_after(G_OBJECT(phd->drawing_area), "size_allocate",
                                G_CALLBACK(bar_pane_histogram_size_cb), phd);
 
-	g_signal_connect(G_OBJECT(phd->drawing_area), "expose_event",  
+#if GTK_CHECK_VERSION(3,0,0)
+	g_signal_connect(G_OBJECT(phd->drawing_area), "draw",
+			 G_CALLBACK(bar_pane_histogram_draw_cb), phd);
+#else
+	g_signal_connect(G_OBJECT(phd->drawing_area), "expose_event",
 			 G_CALLBACK(bar_pane_histogram_expose_event_cb), phd);
-			 
+#endif
+
 	gtk_box_pack_start(GTK_BOX(phd->widget), phd->drawing_area, TRUE, TRUE, 0);
 	gtk_widget_show(phd->drawing_area);
 	gtk_widget_add_events(phd->drawing_area, GDK_BUTTON_PRESS_MASK);
@@ -349,7 +353,7 @@ GtkWidget *bar_pane_histogram_new_from_config(const gchar **attribute_names, con
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
-	
+
 	bar_pane_translate_title(PANE_HISTOGRAM, id, &title);
 	ret = bar_pane_histogram_new(id, title, height, expanded, histogram_channel, histogram_mode);
 	g_free(title);
@@ -377,11 +381,11 @@ void bar_pane_histogram_update_from_config(GtkWidget *pane, const gchar **attrib
 		if (READ_BOOL_FULL("expanded", phd->pane.expanded)) continue;
 		if (READ_INT_FULL("histogram_channel", histogram_channel)) continue;
 		if (READ_INT_FULL("histogram_mode", histogram_mode)) continue;
-		
+
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
-	
+
 	histogram_set_channel(phd->histogram, histogram_channel);
 	histogram_set_mode(phd->histogram, histogram_mode);
 

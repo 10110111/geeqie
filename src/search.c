@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2005 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -286,7 +286,7 @@ static void search_status_update(SearchData *sd)
 
 	t = search_result_count(sd, &t_bytes);
 	s = search_result_selection_count(sd, &s_bytes);
-	
+
 	tt = text_from_size_abrev(t_bytes);
 
 	if (s > 0)
@@ -824,11 +824,7 @@ static void search_result_thumb_height(SearchData *sd)
 
 	gtk_tree_view_column_set_fixed_width(column, (sd->thumb_enable) ? options->thumbnails.max_width : 4);
 
-#if GTK_CHECK_VERSION(2,18,0)
 	list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
-#else
-	list = gtk_tree_view_column_get_cell_renderers(column);
-#endif
 	if (!list) return;
 	cell = list->data;
 	g_list_free(list);
@@ -1219,40 +1215,19 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
-		gint edit_val = -1;
-
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
-				edit_val = 0;
-				break;
 			case '2':
-				edit_val = 1;
-				break;
 			case '3':
-				edit_val = 2;
-				break;
 			case '4':
-				edit_val = 3;
-				break;
 			case '5':
-				edit_val = 4;
-				break;
 			case '6':
-				edit_val = 5;
-				break;
 			case '7':
-				edit_val = 6;
-				break;
 			case '8':
-				edit_val = 7;
-				break;
 			case '9':
-				edit_val = 8;
-				break;
 			case '0':
-				edit_val = 9;
 				break;
 			case 'C': case 'c':
 				file_util_copy(NULL, search_result_selection_list(sd), NULL, widget);
@@ -1276,26 +1251,20 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 					gtk_tree_selection_select_all(selection);
 					}
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				search_result_clear(sd);
 				break;
 			default:
 				stop_signal = FALSE;
 				break;
 			}
-#if 0
-		if (edit_val >= 0)
-			{
-			search_result_edit_selected(sd, edit_val);
-			}
-#endif
 		}
 	else
 		{
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Return: case GDK_KP_Enter:
+			case GDK_KEY_Return: case GDK_KEY_KP_Enter:
 				if (mfd) layout_set_fd(NULL, mfd->fd);
 				break;
 			case 'V': case 'v':
@@ -1307,14 +1276,14 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 				filelist_free(list);
 				}
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				search_result_remove_selection(sd);
 				break;
 			case 'C': case 'c':
 				search_result_collection_from_selection(sd);
 				break;
-			case GDK_Menu:
-			case GDK_F10:
+			case GDK_KEY_Menu:
+			case GDK_KEY_F10:
 				{
 				GtkWidget *menu;
 
@@ -1376,27 +1345,13 @@ static void search_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 				guint time, gpointer data)
 {
 	SearchData *sd = data;
-	gchar *uri_text;
-	gint length;
 	GList *list;
 
-	switch (info)
-		{
-		case TARGET_URI_LIST:
-		case TARGET_TEXT_PLAIN:
-			list = search_result_selection_list(sd);
-			if (!list) return;
-			uri_text = uri_text_from_filelist(list, &length, (info == TARGET_TEXT_PLAIN));
-			filelist_free(list);
-			break;
-		default:
-			uri_text = NULL;
-			break;
-		}
+	list = search_result_selection_list(sd);
+	if (!list) return;
 
-	if (uri_text) gtk_selection_data_set(selection_data, selection_data->target,
-					     8, (guchar *)uri_text, length);
-	g_free(uri_text);
+	uri_selection_data_set_uris_from_filelist(selection_data, list);
+	filelist_free(list);
 }
 
 static void search_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointer data)
@@ -1440,11 +1395,6 @@ static void search_dnd_init(SearchData *sd)
 			 G_CALLBACK(search_dnd_data_set), sd);
 	g_signal_connect(G_OBJECT(sd->result_view), "drag_begin",
 			 G_CALLBACK(search_dnd_begin), sd);
-#if 0
-	g_signal_connect(G_OBJECT(sd->result_view), "drag_end",
-			 G_CALLBACK(search_dnd_end), sd);
-#endif
-
 }
 
 /*
@@ -2361,19 +2311,11 @@ static void menu_choice_set_visible(GtkWidget *widget, gboolean visible)
 {
 	if (visible)
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (!gtk_widget_get_visible(widget)) gtk_widget_show(widget);
-#else
-		if (!GTK_WIDGET_VISIBLE(widget)) gtk_widget_show(widget);
-#endif
 		}
 	else
 		{
-#if GTK_CHECK_VERSION(2,20,0)
 		if (gtk_widget_get_visible(widget)) gtk_widget_hide(widget);
-#else
-		if (GTK_WIDGET_VISIBLE(widget)) gtk_widget_hide(widget);
-#endif
 		}
 }
 
@@ -2637,7 +2579,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_name_enable = TRUE;
 
 	sd->search_similarity = 95;
-	
+
 	if (example_file)
 		{
 		sd->search_similarity_path = g_strdup(example_file->path);
@@ -2843,10 +2785,6 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(sd->result_view), TRUE);
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(sd->result_view), FALSE);
 
-#if 0
-	gtk_tree_view_set_search_column(GTK_TREE_VIEW(sd->result_view), SEARCH_COLUMN_NAME);
-#endif
-
 	search_result_add_column(sd, SEARCH_COLUMN_RANK, _("Rank"), FALSE, FALSE);
 	search_result_add_column(sd, SEARCH_COLUMN_THUMB, "", TRUE, FALSE);
 	search_result_add_column(sd, SEARCH_COLUMN_NAME, _("Name"), FALSE, FALSE);
@@ -2951,7 +2889,7 @@ static void search_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 
 	DEBUG_1("Notify search: %s %04x", fd->path, type);
-	
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:

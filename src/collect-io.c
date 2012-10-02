@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -725,7 +725,7 @@ static void collect_manager_refresh(void)
 static void collect_manager_process_actions(gint max)
 {
 	if (collection_manager_action_list) DEBUG_1("collection manager processing actions");
-	
+
 	while (collection_manager_action_list != NULL && max > 0)
 		{
 		CollectManagerAction *action;
@@ -784,12 +784,11 @@ static void collect_manager_process_actions(gint max)
 static gboolean collect_manager_process_entry(CollectManagerEntry *entry)
 {
 	CollectionData *cd;
-	gboolean success;
 
 	if (entry->empty) return FALSE;
 
 	cd = collection_new(entry->path);
-	success = collection_load_private(cd, entry->path, COLLECTION_LOAD_NONE);
+	(void) collection_load_private(cd, entry->path, COLLECTION_LOAD_NONE);
 
 	collection_unref(cd);
 
@@ -935,7 +934,7 @@ void collect_manager_flush(void)
 void collect_manager_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
-	
+
 	DEBUG_1("Notify collect_manager: %s %04x", fd->path, type);
 	switch (fd->change->type)
 		{

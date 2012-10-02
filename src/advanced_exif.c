@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -85,11 +85,11 @@ static void advanced_exif_update(ExifWin *ew)
 	ExifItem *item;
 
 	exif = exif_read_fd(ew->fd);
-	
+
 	gtk_widget_set_sensitive(ew->scrolled, !!exif);
 
 	if (!exif) return;
-	
+
 	exif_original = exif_get_original(exif);
 
 	store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(ew->listview)));
@@ -114,7 +114,7 @@ static void advanced_exif_update(ExifWin *ew)
 		g_free(text);
 		elements = g_strdup_printf("%d", exif_item_get_elements(item));
 		description = exif_item_get_description(item);
-		if (!description || *description == '\0') 
+		if (!description || *description == '\0')
 			{
 			g_free(description);
 			description = g_strdup(tag_name);
@@ -176,10 +176,10 @@ static void advanced_exif_dnd_get(GtkWidget *listview, GdkDragContext *context,
 				  guint time, gpointer data)
 {
 	//ExifWin *ew = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
 		gchar *key;
@@ -196,10 +196,10 @@ static void advanced_exif_dnd_get(GtkWidget *listview, GdkDragContext *context,
 static void advanced_exif_dnd_begin(GtkWidget *listview, GdkDragContext *context, gpointer data)
 {
 	//ExifWin *ew = data;
-	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview)); 
+	GtkTreeSelection *sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(listview));
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(sel, NULL, &iter)) 
+	if (gtk_tree_selection_get_selected(sel, NULL, &iter))
 		{
 		GtkTreeModel *store = gtk_tree_view_get_model(GTK_TREE_VIEW(listview));
 		gchar *key;
@@ -230,7 +230,7 @@ static void advanced_exif_add_column(GtkWidget *listview, const gchar *title, gi
 		{
 		gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 		}
-	
+
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_column_set_sort_column_id(column, n);
 
@@ -379,7 +379,7 @@ GtkWidget *advanced_exif_new(void)
 	advanced_exif_add_column(ew->listview, _("Tag"), EXIF_ADVCOL_TAG, FALSE);
 	advanced_exif_add_column(ew->listview, _("Format"), EXIF_ADVCOL_FORMAT, FALSE);
 	advanced_exif_add_column(ew->listview, _("Elements"), EXIF_ADVCOL_ELEMENTS, FALSE);
-	
+
 
 	gtk_drag_source_set(ew->listview,
 			   GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,

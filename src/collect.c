@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -102,14 +102,6 @@ gboolean collection_info_load_thumb(CollectInfo *ci)
 
 	log_printf("collection_info_load_thumb not implemented!\n(because an instant thumb loader not implemented)");
 	return FALSE;
-#if 0
-	if (create_thumbnail(ci->fd->path, &ci->pixmap, &ci->mask) < 0) return FALSE;
-
-	if (ci->pixmap) gdk_pixmap_ref(ci->pixmap);
-	if (ci->mask) gdk_bitmap_ref(ci->mask);
-
-	return TRUE;
-#endif
 }
 
 void collection_list_free(GList *list)
@@ -254,38 +246,6 @@ CollectInfo *collection_list_find_fd(GList *list, FileData *fd)
 	return NULL;
 }
 
-#if 0
-static GList *collection_list_find_link(GList *list, gchar *path)
-{
-	GList *work = list;
-
-	while (work)
-		{
-		CollectInfo *ci = work->data;
-		if (strcmp(ci->fd->path, path) == 0) return work;
-		work = work->next;
-		}
-
-	return NULL;
-}
-
-static gint collection_list_find_index(GList *list, gchar *path)
-{
-	gint c = 0;
-	GList *work = list;
-
-	while (work)
-		{
-		CollectInfo *ci = work->data;
-		if (strcmp(ci->fd->path, path) == 0) return c;
-		work = work->next;
-		c++;
-		}
-
-	return -1;
-}
-#endif
-
 GList *collection_list_to_filelist(GList *list)
 {
 	GList *filelist = NULL;
@@ -377,7 +337,7 @@ CollectionData *collection_new(const gchar *path)
 
 
 	collection_list = g_list_append(collection_list, cd);
-	
+
 	return cd;
 }
 
@@ -389,7 +349,7 @@ void collection_free(CollectionData *cd)
 
 	collection_load_stop(cd);
 	collection_list_free(cd->list);
-	
+
 	file_data_unregister_notify_func(collection_notify_cb, cd);
 
 	collection_list = g_list_remove(collection_list, cd);
@@ -446,15 +406,15 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 	if (info_list) *info_list = NULL;
 
 	if (strncmp(data, "COLLECTION:", 11) != 0) return NULL;
-	
+
 	ptr = data + 11;
-		
+
 	collection_number = atoi(ptr);
 	cd = collection_from_number(collection_number);
 	if (!cd) return NULL;
 
 	if (!list && !info_list) return cd;
-	
+
 	while (*ptr != '\0' && *ptr != '\n' ) ptr++;
 	if (*ptr == '\0') return cd;
 	ptr++;
@@ -463,7 +423,7 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 		{
 		guint item_number;
 		CollectInfo *info;
-		
+
 		item_number = (guint) atoi(ptr);
 		while (*ptr != '\n' && *ptr != '\0') ptr++;
 		if (*ptr == '\0')
@@ -477,7 +437,7 @@ CollectionData *collection_from_dnd_data(const gchar *data, GList **list, GList 
 		if (list) *list = g_list_append(*list, file_data_ref(info->fd));
 		if (info_list) *info_list = g_list_append(*info_list, info);
 		}
-	
+
 	return cd;
 }
 
@@ -508,7 +468,7 @@ gchar *collection_info_list_to_dnd_data(CollectionData *cd, GList *list, gint *l
 		work = work->next;
 
 		if (item_number < 0) continue;
-		
+
 		text = g_strdup_printf("%d\n", item_number);
 		temp = g_list_prepend(temp, text);
 		*length += strlen(text);
@@ -787,7 +747,7 @@ static void collection_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
 
 	DEBUG_1("Notify collection: %s %04x", fd->path, type);
-	
+
 	switch (fd->change->type)
 		{
 		case FILEDATA_CHANGE_MOVE:
@@ -817,7 +777,6 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 {
 	CollectWindow *cw = data;
 	gboolean stop_signal = FALSE;
-	gint edit_val = -1;
 	GList *list;
 
 	if (event->state & GDK_CONTROL_MASK)
@@ -826,34 +785,15 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 		switch (event->keyval)
 			{
 			case '1':
-				edit_val = 0;
-				break;
 			case '2':
-				edit_val = 1;
-				break;
 			case '3':
-				edit_val = 2;
-				break;
 			case '4':
-				edit_val = 3;
-				break;
 			case '5':
-				edit_val = 4;
-				break;
 			case '6':
-				edit_val = 5;
-				break;
 			case '7':
-				edit_val = 6;
-				break;
 			case '8':
-				edit_val = 7;
-				break;
 			case '9':
-				edit_val = 8;
-				break;
 			case '0':
-				edit_val = 9;
 				break;
 			case 'A': case 'a':
 				if (event->state & GDK_SHIFT_MASK)
@@ -901,7 +841,7 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Return: case GDK_KP_Enter:
+			case GDK_KEY_Return: case GDK_KEY_KP_Enter:
 				layout_image_set_collection(NULL, cw->cd,
 					collection_table_get_focus_info(cw->table));
 				break;
@@ -951,7 +891,7 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 					collection_set_sort_method(cw->cd, SORT_PATH);
 					}
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				list = g_list_copy(cw->table->selection);
 				if (list)
 					{
@@ -979,12 +919,15 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 static void collection_window_get_geometry(CollectWindow *cw)
 {
 	CollectionData *cd;
+	GdkWindow *window;
 
 	if (!cw) return;
 
 	cd = cw->cd;
-	gdk_window_get_position(cw->window->window, &cd->window_x, &cd->window_y);
-	gdk_drawable_get_size(cw->window->window, &cd->window_w, &cd->window_h);
+	window = gtk_widget_get_window(cw->window);
+	gdk_window_get_position(window, &cd->window_x, &cd->window_y);
+	cd->window_w = gdk_window_get_width(window);
+	cd->window_h = gdk_window_get_height(window);
 	cd->window_read = TRUE;
 }
 
@@ -1042,13 +985,6 @@ static void collection_window_insert(CollectWindow *cw, CollectInfo *ci)
 	collection_table_file_insert(cw->table, ci);
 	if (!cw) return;
 }
-
-#if 0
-static void collection_window_move(CollectWindow *cw, CollectInfo *ci)
-{
-	if (!cw) return;
-}
-#endif
 
 static void collection_window_remove(CollectWindow *cw, CollectInfo *ci)
 {

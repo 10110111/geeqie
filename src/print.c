@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -1367,10 +1367,10 @@ static gboolean print_job_ps_page_text(PrintWindow *pw, const gchar *text, gdoub
 	pixbuf_draw_layout(pixbuf, layout, pw->dialog->dialog, 0, 0, r, g, b, 255);
 	g_object_unref(G_OBJECT(layout));
 
-	ret = print_job_ps_page_image(pw, pixbuf, x, y, 
+	ret = print_job_ps_page_image(pw, pixbuf, x, y,
 				       /* do not allow rescaling of the pixbuf due to rounding errors */
 	                              ((gdouble)lw + 0.01) / scale_to_max_dpi,
-	                              ((gdouble)lh + 0.01) / scale_to_max_dpi, 
+	                              ((gdouble)lh + 0.01) / scale_to_max_dpi,
 	                              0, 0);
 
 	g_object_unref(G_OBJECT(pixbuf));
@@ -1959,11 +1959,7 @@ static void print_job_throw_error(PrintWindow *pw, const gchar *message)
 	GtkWidget *label;
 	gchar *buf;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_get_visible(pw->dialog->dialog)) parent = pw->dialog->dialog;
-#else
-	if (GTK_WIDGET_VISIBLE(pw->dialog->dialog)) parent = pw->dialog->dialog;
-#endif
 
 	gd = generic_dialog_new(_("Printing error"), "print_warning",
 				parent, TRUE, NULL, NULL);
@@ -2061,7 +2057,6 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 		gdouble sw, sh;
 		gdouble dw, dh;
 		gdouble x, y, w, h;
-		gdouble scale;
 		gdouble offx, offy;
 
 		sw = (gdouble)gdk_pixbuf_get_width(pixbuf);
@@ -2074,13 +2069,11 @@ static void print_job_render_image_loader_done(ImageLoader *il, gpointer data)
 			{
 			w = dw;
 			h = dw / sw * sh;
-			scale = w / sw;
 			}
 		else
 			{
 			h = dh;
 			w = dh / sh *sw;
-			scale = h / sh;
 			}
 
 		if (pw->image_scale >= 5.0)
@@ -2191,7 +2184,6 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 	gdouble w, h;
 	gdouble proof_w, proof_h;
 	gdouble icon_w, icon_h;
-	gdouble scale;
 	gboolean success = TRUE;
 
 	if (pw->proof_columns < 1 || pw->proof_rows < 1)
@@ -2217,13 +2209,11 @@ static void print_job_render_proof_loader_done(ImageLoader *il, gpointer data)
 		{
 		icon_w = pw->proof_width;
 		icon_h = pw->proof_width / w * h;
-		scale = icon_w / w;
 		}
 	else
 		{
 		icon_h = pw->proof_height;
 		icon_w = pw->proof_height / h * w;
-		scale = icon_h / h;
 		}
 
 	y = pw->proof_position / pw->proof_columns;
@@ -2489,11 +2479,7 @@ static void print_job_close(PrintWindow *pw, gint error)
 		pw->job_pixbuf = NULL;
 		}
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (pw->dialog && !gtk_widget_get_visible(pw->dialog->dialog))
-#else
-	if (pw->dialog && !GTK_WIDGET_VISIBLE(pw->dialog->dialog))
-#endif
 		{
 		g_idle_add_full(G_PRIORITY_HIGH_IDLE, print_job_close_finish_cb, pw, NULL);
 		}
@@ -2672,11 +2658,11 @@ static GtkWidget *print_combo_menu(const gchar *text[], gint count, gint preferr
 	GtkWidget *combo;
 	gint i;
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
 	for (i = 0 ; i < count; i++)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _(text[i]));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _(text[i]));
 		}
 
 	if (preferred >= 0 && preferred < count)
@@ -2704,12 +2690,12 @@ static GtkWidget *print_paper_menu(GtkWidget *table, gint column, gint row,
 
 	pref_table_label(table, column, row, (_("Format:")), 1.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
 	i = 0;
 	while (print_paper_sizes[i].description)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _(print_paper_sizes[i].description));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _(print_paper_sizes[i].description));
 		i++;
 		}
 
@@ -2985,7 +2971,7 @@ static void print_custom_entry_set(PrintWindow *pw, GtkWidget *combo)
 		work = work->next;
 
 		buf = g_strdup_printf(PRINT_LPR_CUSTOM, name);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), buf);
 		g_free(buf);
 		}
 	string_list_free(list);
@@ -3226,12 +3212,6 @@ static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 	pref_spin_new(group, _("Size:"), _("points"),
 		      8.0, 100.0, 1.0, 0, pw->text_points,
 		      G_CALLBACK(print_text_cb_points), pw);
-
-#if 0
-	button = color_selection_new();
-	gtk_box_pack_start(GTK_BOX(group), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-#endif
 }
 
 /*
@@ -3324,9 +3304,9 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 
 	pw->source = print_pref_int(PRINT_PREF_SOURCE, PRINT_SOURCE_SELECTION);
 	pw->layout = print_pref_int(PRINT_PREF_LAYOUT, PRINT_LAYOUT_IMAGE);
-	
+
 	pw->image_scale = print_pref_double(PRINT_PREF_IMAGE_SCALE, 100.0);
-	
+
 	pw->output = print_pref_int(PRINT_PREF_OUTPUT, PRINT_OUTPUT_PS_LPR);
 	pw->output_format = print_pref_int(PRINT_PREF_FORMAT, PRINT_FILE_JPG_NORMAL);
 

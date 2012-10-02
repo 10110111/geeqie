@@ -1,7 +1,7 @@
 ###################################################################
-##                            Geeqie 1.0                         ##
+##                            Geeqie 1.1                         ##
 ##                                                               ##
-##              Copyright (C) 2008 - 2010 The Geeqie Team        ##
+##              Copyright (C) 2008 - 2012 The Geeqie Team        ##
 ##              Copyright (C) 1999 - 2006 John Ellis.            ##
 ##                                                               ##
 ##                      Use at your own risk!                    ##
@@ -17,8 +17,8 @@ possible to contact gqview author and the only maintainer.
 Geeqie projects goal is to move the development forward and 
 also integrate the existing patches.
 
-Geeqie is currently in beta state. All planed features for 1.0 are implemented,
-but there are bugs. Please report any crash or odd behavior to the bugtracker:
+Geeqie is currently considered stable. 
+Please report any crash or odd behavior to the bugtracker:
 https://sourceforge.net/tracker/?group_id=222125&atid=1054680
 
 For more info see:
@@ -48,10 +48,7 @@ geeqie-devel@lists.sourceforge.net
 ======== Requirements
 
   Required libraries:
-    GTK+ 2.??.x: ftp://ftp.gtk.org/pub/gtk
-FIXME: determine realistic requirements.
-It compiles with GTK 2.10, but some features are disabled and the testing was
-minimal. Please report success or  falilures.
+    GTK+ 2.20: ftp://ftp.gtk.org/pub/gtk
 
   Optional libraries:
     lcms, for color management support: http://www.littlecms.com
@@ -104,6 +101,11 @@ See http://geeqie.wiki.sourceforge.net/new_features
     - Comparison of images to find duplicates by name, size, date,
       dimensions, or image content similarity.
     - EXIF support.
+    
+  Geeqie 1.1:
+    - support for stereoscopic images
+      - input: side-by-side (JPS) and MPO format
+      - output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
 ======== Documentation (brief)                         [section:documentation]
 
@@ -319,7 +321,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
     "1/200 - 80 mm" if there's no ISO information in the Exif data.
 
   If a line is empty, it is removed.
-  This allows to add lines that totally disappear when no data is available.
+  This allows one to add lines that totally disappear when no data is available.
 
   Extra string uses special character '*' to mark the position of the data.
   If no '*' is present, then extra string is just appended to data.
@@ -331,7 +333,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   "%name:<i>*</i>\n%" -> name is displayed in italics ended with a newline
   "%size:\n%"         -> size is displayed with a newline at end
   "%formatted.ISOSpeedRating:ISO *%"      -> ie. "ISO 100"
-  "Collection <b>*</b>\n" -> display collection name in bold prefixed by
+  "%collection: Collection <b>*</b>\n%" -> display collection name in bold prefixed by
                              "Collection " and a newline is appended
 
 

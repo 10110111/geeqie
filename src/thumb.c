@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -144,7 +144,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			{
 			tl->fd->exif_orientation = metadata_read_int(tl->fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
 			}
-		
+
 		if (tl->fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
 			{
 			rotated = pixbuf_apply_orientation(pixbuf, tl->fd->exif_orientation);
@@ -162,7 +162,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		tl->cache_hit = FALSE;
 
 		thumb_loader_setup(tl, tl->fd);
-	
+
 		g_signal_connect(G_OBJECT(tl->il), "done", (GCallback)thumb_loader_done_cb, tl);
 
 		if (!image_loader_start(tl->il))
@@ -194,7 +194,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 			w = (gdouble)h / ph * pw;
 			if (w < 1) w = 1;
 			}
-		
+
 		if (tl->fd)
 			{
 			if (tl->fd->thumb_pixbuf) g_object_unref(tl->fd->thumb_pixbuf);
@@ -215,7 +215,7 @@ static void thumb_loader_done_cb(ImageLoader *il, gpointer data)
 		}
 
 	if (rotated) g_object_unref(rotated);
-	
+
 	/* save it ? */
 	if (tl->cache_enable && save)
 		{
@@ -242,7 +242,7 @@ static void thumb_loader_error_cb(ImageLoader *il, gpointer data)
 	tl->il = NULL;
 
 	thumb_loader_set_fallback(tl);
-	
+
 	if (tl->func_error) tl->func_error(tl, tl->data);
 }
 
@@ -311,10 +311,6 @@ void thumb_loader_set_cache(ThumbLoader *tl, gboolean enable_cache, gboolean loc
 		}
 
 	tl->cache_enable = enable_cache;
-#if 0
-	tl->cache_local = local;
-	tl->cache_retry = retry_failed;
-#endif
 }
 
 
@@ -414,17 +410,6 @@ gboolean thumb_loader_start(ThumbLoader *tl, FileData *fd)
 	return TRUE;
 }
 
-#if 0
-gint thumb_loader_to_pixmap(ThumbLoader *tl, GdkPixmap **pixmap, GdkBitmap **mask)
-{
-	if (!tl || !tl->pixbuf) return -1;
-
-	gdk_pixbuf_render_pixmap_and_mask(tl->pixbuf, pixmap, mask, 128);
-
-	return thumb_loader_get_space(tl);
-}
-#endif
-
 GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl)
 {
 	GdkPixbuf *pixbuf;
@@ -447,17 +432,6 @@ GdkPixbuf *thumb_loader_get_pixbuf(ThumbLoader *tl)
 	return pixbuf;
 }
 
-#if 0
-gint thumb_loader_get_space(ThumbLoader *tl)
-{
-	if (!tl) return 0;
-
-	if (tl->pixbuf) return (tl->max_w - gdk_pixbuf_get_width(tl->pixbuf));
-
-	return tl->max_w;
-}
-#endif
-
 ThumbLoader *thumb_loader_new(gint width, gint height)
 {
 	ThumbLoader *tl;
@@ -472,7 +446,7 @@ ThumbLoader *thumb_loader_new(gint width, gint height)
 		}
 
 	tl = g_new0(ThumbLoader, 1);
-	
+
 	tl->cache_enable = options->thumbnails.enable_caching;
 	tl->percent_done = 0.0;
 	tl->max_w = width;
@@ -498,34 +472,6 @@ void thumb_loader_free(ThumbLoader *tl)
 
 	g_free(tl);
 }
-
-#if 0
-gint thumb_from_xpm_d(const gchar **data, gint max_w, gint max_h, GdkPixmap **pixmap, GdkBitmap **mask)
-{
-	GdkPixbuf *pixbuf;
-	gint w, h;
-
-	pixbuf = gdk_pixbuf_new_from_xpm_data(data);
-	w = gdk_pixbuf_get_width(pixbuf);
-	h = gdk_pixbuf_get_height(pixbuf);
-
-	if (pixbuf_scale_aspect(w, h, max_w, max_h, &w, &h))
-		{
-		/* scale */
-		GdkPixbuf *tmp;
-
-		tmp = pixbuf;
-		pixbuf = gdk_pixbuf_scale_simple(tmp, w, h, GDK_INTERP_NEAREST);
-		gdk_pixbuf_unref(tmp);
-		}
-
-	gdk_pixbuf_render_pixmap_and_mask(pixbuf, pixmap, mask, 128);
-	gdk_pixbuf_unref(pixbuf);
-
-	return w;
-}
-#endif
-
 
 /* release thumb_pixbuf on file change - this forces reload. */
 void thumb_notify_cb(FileData *fd, NotifyType type, gpointer data)
@@ -574,7 +520,7 @@ static guchar *load_xv_thumbnail(gchar *filename, gint *widthp, gint *heightp)
 		if (sscanf(buffer, "%d %d %d", &width, &height, &depth) == 3)
 			{
 			gsize size = width * height;
-			
+
 			data = g_new(guchar, size);
 			if (data && fread(data, 1, size, file) == size)
 				{
@@ -606,9 +552,9 @@ static GdkPixbuf *get_xv_thumbnail(gchar *thumb_filename, gint max_w, gint max_h
 	path = path_from_utf8(thumb_filename);
 	directory = g_path_get_dirname(path);
 	name = g_path_get_basename(path);
-	
+
 	thumb_name = g_build_filename(directory, ".xvpics", name, NULL);
-	
+
 	g_free(name);
 	g_free(directory);
 	g_free(path);

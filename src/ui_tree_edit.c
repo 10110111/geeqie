@@ -1,7 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -21,6 +21,8 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+
+#include "compat.h"
 
 #include "ui_tree_edit.h"
 
@@ -74,6 +76,7 @@ static gboolean tree_edit_click_end_cb(GtkWidget *widget, GdkEventButton *event,
 static gboolean tree_edit_click_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	TreeEditData *ted = data;
+	GdkWindow *window = gtk_widget_get_window(ted->window);
 
 	gint x, y;
 	gint w, h;
@@ -83,8 +86,9 @@ static gboolean tree_edit_click_cb(GtkWidget *widget, GdkEventButton *event, gpo
 	xr = (gint)event->x_root;
 	yr = (gint)event->y_root;
 
-	gdk_window_get_origin(ted->window->window, &x, &y);
-	gdk_drawable_get_size(ted->window->window, &w, &h);
+	gdk_window_get_origin(window, &x, &y);
+	w = gdk_window_get_width(window);
+	h = gdk_window_get_height(window);
 
 	if (xr < x || yr < y || xr > x + w || yr > y + h)
 		{
@@ -102,21 +106,21 @@ static gboolean tree_edit_key_press_cb(GtkWidget *widget, GdkEventKey *event, gp
 
 	switch (event->keyval)
 		{
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_Tab: 		/* ok, we are going to intercept the focus change
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+		case GDK_KEY_Tab: 		/* ok, we are going to intercept the focus change
 					   from keyboard and act like return was hit */
-		case GDK_ISO_Left_Tab:
-		case GDK_Up:
-		case GDK_Down:
-		case GDK_KP_Up:
-		case GDK_KP_Down:
-		case GDK_KP_Left:
-		case GDK_KP_Right:
+		case GDK_KEY_ISO_Left_Tab:
+		case GDK_KEY_Up:
+		case GDK_KEY_Down:
+		case GDK_KEY_KP_Up:
+		case GDK_KEY_KP_Down:
+		case GDK_KEY_KP_Left:
+		case GDK_KEY_KP_Right:
 			tree_edit_do(ted);
 			tree_edit_close(ted);
 			break;
-		case GDK_Escape:
+		case GDK_KEY_Escape:
 			tree_edit_close(ted);
 			break;
 		default:
@@ -164,12 +168,12 @@ static gboolean tree_edit_by_path_idle_cb(gpointer data)
 	/* explicitely set the focus flag for the entry, for some reason on popup windows this
 	 * is not set, and causes no edit cursor to appear ( popups not allowed focus? )
 	 */
-	GTK_WIDGET_SET_FLAGS(ted->entry, GTK_HAS_FOCUS);
+	gtk_widget_grab_focus(ted->entry);
 	gtk_grab_add(ted->window);
-	gdk_pointer_grab(ted->window->window, TRUE,
+	gdk_pointer_grab(gtk_widget_get_window(ted->window), TRUE,
 			 GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_MOTION_MASK,
 			 NULL, NULL, GDK_CURRENT_TIME);
-	gdk_keyboard_grab(ted->window->window, TRUE, GDK_CURRENT_TIME);
+	gdk_keyboard_grab(gtk_widget_get_window(ted->window), TRUE, GDK_CURRENT_TIME);
 
 	return FALSE;
 }
@@ -184,20 +188,12 @@ gboolean tree_edit_by_path(GtkTreeView *tree, GtkTreePath *tpath, gint column, c
 	GList *work;
 
 	if (!edit_func) return FALSE;
-#if GTK_CHECK_VERSION(2,20,0)
-	if (!gtk_widget_get_visible(tree)) return FALSE;
-#else
-	if (!GTK_WIDGET_VISIBLE(tree)) return FALSE;
-#endif
+	if (!gtk_widget_get_visible(GTK_WIDGET(tree))) return FALSE;
 
 	tcolumn = gtk_tree_view_get_column(tree, column);
 	if (!tcolumn) return FALSE;
 
-#if GTK_CHECK_VERSION(2,18,0)
 	list = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(tcolumn));
-#else
-	list = gtk_tree_view_column_get_cell_renderers(tcolumn);
-#endif
 	work = list;
 	while (work && !cell)
 		{
@@ -273,16 +269,18 @@ gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint
 	 * use x_offset instead for X scroll (sigh)
 	 */
 	gtk_tree_view_get_cell_area(widget, tpath, tv_column, &rect);
-#if GTK_CHECK_VERSION(2,12,0)
 	gtk_tree_view_convert_tree_to_widget_coords(widget, 0, 0, &x_offset, &y_offset);
-#else
-	gtk_tree_view_tree_to_widget_coords(widget, 0, 0, &x_offset, &y_offset);
-#endif
-	gdk_window_get_origin(GTK_WIDGET(widget)->window, &x_origin, &y_origin);
+	gdk_window_get_origin(gtk_widget_get_window(GTK_WIDGET(widget)), &x_origin, &y_origin);
 
 	if (gtk_tree_view_get_headers_visible(widget))
 		{
-		header_size = tv_column->button->allocation.height;
+		GtkAllocation allocation;
+#if GTK_CHECK_VERSION(3,0,0)
+		gtk_widget_get_allocation(gtk_tree_view_column_get_button(tv_column), &allocation);
+#else
+		gtk_widget_get_allocation(tv_column->button, &allocation);
+#endif
+		header_size = allocation.height;
 		}
 	else
 		{
@@ -297,11 +295,7 @@ gboolean tree_view_get_cell_origin(GtkTreeView *widget, GtkTreePath *tpath, gint
 		gint cell_x;
 		gint cell_width;
 
-#if GTK_CHECK_VERSION(2,18,0)
 		renderers = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(tv_column));
-#else
-		renderers = gtk_tree_view_column_get_cell_renderers(tv_column);
-#endif
 		work = renderers;
 		while (work && !cell)
 			{
@@ -337,9 +331,12 @@ void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint co
 	gint wx, wy, ww, wh;
 	GdkWindow *window;
 
-	window = GTK_WIDGET(widget)->window;
+	window = gtk_widget_get_window(GTK_WIDGET(widget));
 	gdk_window_get_origin(window, &wx, &wy);
-	gdk_drawable_get_size(window, &ww, &wh);
+
+	ww = gdk_window_get_width(window);
+	wh = gdk_window_get_height(window);
+
 	if (!tree_view_get_cell_origin(widget, tpath, column, text_cell_only, x,  y, width, height))
 		{
 		*x = wx;
@@ -355,7 +352,6 @@ void tree_view_get_cell_clamped(GtkTreeView *widget, GtkTreePath *tpath, gint co
 	*height = MIN(*height, wy + wh - (*y));
 }
 
-#if GTK_CHECK_VERSION(2,8,0)
 /* an implementation that uses gtk_tree_view_get_visible_range */
 gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboolean fully_visible)
 {
@@ -396,47 +392,6 @@ gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboole
 	gtk_tree_path_free(end_path);
 	return ret;
 }
-
-#else 
-/* an implementation that uses gtk_tree_view_get_visible_rect, it seems to be more error prone than the variant above */
-
-gint tree_view_row_get_visibility(GtkTreeView *widget, GtkTreeIter *iter, gboolean fully_visible)
-{
-	GtkTreeModel *store;
-	GtkTreePath *tpath;
-	gint cx, cy;
-
-	GdkRectangle vrect;
-	GdkRectangle crect;
-
-	if (!GTK_WIDGET_REALIZED(GTK_WIDGET(widget))) return -1; /* we will most probably scroll down, needed for tree_view_row_make_visible */
-
-	store = gtk_tree_view_get_model(widget);
-	tpath = gtk_tree_model_get_path(store, iter);
-
-	gtk_tree_view_get_visible_rect(widget, &vrect);
-	gtk_tree_view_get_cell_area(widget, tpath, NULL, &crect);
-	gtk_tree_path_free(tpath);
-
-
-#if GTK_CHECK_VERSION(2,12,0)
-	gtk_tree_view_convert_widget_to_tree_coords(widget, crect.x, crect.y, &cx, &cy);
-#else
-	gtk_tree_view_widget_to_tree_coords(widget, crect.x, crect.y, &cx, &cy);
-#endif
-
-	if (fully_visible)
-		{
-		if (cy < vrect.y) return -1;
-		if (cy + crect.height > vrect.y + vrect.height) return 1;
-		return 0;
-		}
-
-	if (cy + crect.height < vrect.y) return -1;
-	if (cy > vrect.y + vrect.height) return 1;
-	return 0;
-}
-#endif
 
 gint tree_view_row_make_visible(GtkTreeView *widget, GtkTreeIter *iter, gboolean center)
 {
@@ -617,9 +572,10 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 		sd->max_step = MIN(sd->region_size, sd->max_step + 2);
 		}
 
-	window = sd->widget->window;
+	window = gtk_widget_get_window(sd->widget);
 	gdk_window_get_pointer(window, &x, &y, NULL);
-	gdk_drawable_get_size(window, &w, &h);
+	w = gdk_window_get_width(window);
+	h = gdk_window_get_height(window);
 
 	if (x < 0 || x >= w || y < 0 || y >= h)
 		{
@@ -649,7 +605,7 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 		{
 		amt = CLAMP(amt, 0 - sd->max_step, sd->max_step);
 
-		if (sd->adj->value != CLAMP(sd->adj->value + amt, sd->adj->lower, sd->adj->upper - sd->adj->page_size))
+		if (gtk_adjustment_get_value(sd->adj) != CLAMP(gtk_adjustment_get_value(sd->adj) + amt, gtk_adjustment_get_lower(sd->adj), gtk_adjustment_get_upper(sd->adj) - gtk_adjustment_get_page_size(sd->adj)))
 			{
 			/* only notify when scrolling is needed */
 			if (sd->notify_func && !sd->notify_func(sd->widget, x, y, sd->notify_data))
@@ -660,7 +616,7 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 				}
 
 			gtk_adjustment_set_value(sd->adj,
-				CLAMP(sd->adj->value + amt, sd->adj->lower, sd->adj->upper - sd->adj->page_size));
+				CLAMP(gtk_adjustment_get_value(sd->adj) + amt, gtk_adjustment_get_lower(sd->adj), gtk_adjustment_get_upper(sd->adj) - gtk_adjustment_get_page_size(sd->adj)));
 			}
 		}
 

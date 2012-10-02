@@ -1,8 +1,17 @@
+Geeqie 1.1
+==========
 
-This is a snapshot of a wiki page, from the time of release. For current version
-of the page look at http://geeqie.wiki.sourceforge.net/new_features
+- support for stereoscopic images
+  - input: side-by-side (JPS) and MPO format
+  - output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
-================================================================================
+- custom tiff loader - better handling of large tiff files
+
+- rewritten file grouping
+
+
+Geeqie 1.0
+==========
 
 Comparing images side-to-side
 

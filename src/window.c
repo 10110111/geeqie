@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Authors: Vladimir Nadvornik / Laurent Monin
  *
@@ -69,9 +69,9 @@ gboolean window_maximized(GtkWidget *window)
 {
 	GdkWindowState state;
 
-	if (!window || !window->window) return FALSE;
+	if (!window || !gtk_widget_get_window(window)) return FALSE;
 
-	state = gdk_window_get_state(window->window);
+	state = gdk_window_get_state(gtk_widget_get_window(window));
 	return !!(state & GDK_WINDOW_STATE_MAXIMIZED);
 }
 
@@ -187,7 +187,7 @@ static void help_browser_run(void)
 	gchar *result = NULL;
 	gint i;
 
-	i = 0;	
+	i = 0;
 	while (!result)
 		{
 		if ((name && *name) || (cmd && *cmd)) {
@@ -197,7 +197,7 @@ static void help_browser_run(void)
 			if (result)
 				{
 				int ret = help_browser_command(result, path);
-				
+
 				if (ret == 0) break;
 				g_free(result);
 				result = NULL;

@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -96,11 +96,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
 {
 	GtkTreeIter iter;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_get_realized(vd->view) && vd_find_row(vd, fd, &iter))
-#else
-	if (GTK_WIDGET_REALIZED(vd->view) && vd_find_row(vd, fd, &iter))
-#endif
 		{
 		GtkTreeModel *store;
 		GtkTreePath *tpath;
@@ -111,11 +107,7 @@ static void vdlist_scroll_to_row(ViewDir *vd, FileData *fd, gfloat y_align)
 		gtk_tree_view_set_cursor(GTK_TREE_VIEW(vd->view), tpath, NULL, FALSE);
 		gtk_tree_path_free(tpath);
 
-#if GTK_CHECK_VERSION(2,20,0)
 		if (!gtk_widget_has_focus(vd->view)) gtk_widget_grab_focus(vd->view);
-#else
-		if (!GTK_WIDGET_HAS_FOCUS(vd->view)) gtk_widget_grab_focus(vd->view);
-#endif
 		}
 }
 
@@ -184,7 +176,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 		GdkPixbuf *pixbuf;
 		const gchar *date = "";
 		gboolean done = FALSE;
-		
+
 		fd = work->data;
 
 		if (access_file(fd->path, R_OK | X_OK) && fd->name)
@@ -229,7 +221,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 
 					if (match == 0) g_warning("multiple fd for the same path");
 					}
-					
+
 				}
 			else
 				{
@@ -285,7 +277,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 
 		valid = gtk_list_store_remove(store, &iter);
 		}
-		
+
 
 	vd->click_fd = NULL;
 	vd->drop_fd = NULL;
@@ -339,11 +331,7 @@ gboolean vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 		return ret;
 		}
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (gtk_widget_get_realized(vd->view))
-#else
-	if (GTK_WIDGET_REALIZED(vd->view))
-#endif
 		{
 		gtk_tree_view_scroll_to_point(GTK_TREE_VIEW(vd->view), 0, 0);
 		}
@@ -361,7 +349,7 @@ gboolean vdlist_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
 
-	if (event->keyval != GDK_Menu) return FALSE;
+	if (event->keyval != GDK_KEY_Menu) return FALSE;
 
 	gtk_tree_view_get_cursor(GTK_TREE_VIEW(vd->view), &tpath, NULL);
 	if (tpath)

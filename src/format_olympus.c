@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2005 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * This software is released under the GNU General Public License (GNU GPL).
  * Please read the included file COPYING for more information.
@@ -204,14 +204,6 @@ static ExifTextList OlympusTagContrast[]= {
 	{ 2,	"soft" },
 	EXIF_TEXT_LIST_END
 };
-
-#if 0
-static ExifTextList OlympusTag[]= {
-	{ ,	"" },
-	{ ,	"" },
-	EXIF_TEXT_LIST_END
-};
-#endif
 
 
 static ExifMarker OlympusExifMarkersList[] = {

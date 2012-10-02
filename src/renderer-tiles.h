@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -12,9 +12,6 @@
 
 #ifndef RENDERER_TILES_H
 #define RENDERER_TILES_H
-
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkwindow.h>
 
 #include <pixbuf-renderer.h>
 

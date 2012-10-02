@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -50,7 +50,8 @@ typedef enum {
 	SORT_SIZE,
 	SORT_TIME,
 	SORT_PATH,
-	SORT_NUMBER
+	SORT_NUMBER,
+	SORT_EXIFTIME
 } SortType;
 
 typedef enum {
@@ -139,7 +140,7 @@ typedef enum {
 	NOTIFY_PRIORITY_MEDIUM,
 	NOTIFY_PRIORITY_LOW
 } NotifyPriority;
-	
+
 typedef enum {
 	NOTIFY_MARKS		= 1 << 1, /* changed marks */
 	NOTIFY_PIXBUF		= 1 << 2, /* image was read into fd->pixbuf */
@@ -158,11 +159,11 @@ typedef enum {
 	CHANGE_WARN_SAME               = 1 << 2,
 	CHANGE_WARN_CHANGED_EXT        = 1 << 3,
 	CHANGE_WARN_UNSAVED_META       = 1 << 4,
+	CHANGE_WARN_NO_WRITE_PERM_DEST_DIR  = 1 << 5,
 	CHANGE_ERROR_MASK              = (~0) << 8, /* the values below are fatal errors */
 	CHANGE_NO_READ_PERM            = 1 << 8,
 	CHANGE_NO_WRITE_PERM_DIR       = 1 << 9,
 	CHANGE_NO_DEST_DIR             = 1 << 10,
-	CHANGE_NO_WRITE_PERM_DEST_DIR  = 1 << 11,
 	CHANGE_NO_WRITE_PERM_DEST      = 1 << 12,
 	CHANGE_DEST_EXISTS             = 1 << 13,
 	CHANGE_NO_SRC                  = 1 << 14,
@@ -486,7 +487,7 @@ struct _FileDataChangeInfo {
 };
 
 struct _FileData {
-	gint magick;
+	guint magick;
 	gint type;
 	gchar *original_path; /* key to file_data_pool hash table */
 	gchar *path;
@@ -498,7 +499,7 @@ struct _FileData {
 	time_t date;
 	mode_t mode; /* this is needed at least for notification in view_dir because it is preserved after the file/directory is deleted */
 	gint sidecar_priority;
-	
+
 	guint marks; /* each bit represents one mark */
 	guint valid_marks; /* zero bit means that the corresponding mark needs to be reread */
 
@@ -510,7 +511,7 @@ struct _FileData {
 
 	GdkPixbuf *pixbuf; /* full-size image, only complete images, NULL during loading
 			      all FileData with non-NULL pixbuf are referenced by image_cache */
-			      
+
 	HistMap *histmap;
 
 	gint ref;
@@ -519,8 +520,9 @@ struct _FileData {
 
 	gint user_orientation;
 	gint exif_orientation;
-	
+
 	ExifData *exif;
+	time_t exifdate;
 	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
 	GList *cached_metadata;
 };
@@ -671,7 +673,7 @@ struct _LayoutWindow
 	GtkWidget *info_details;
 	GtkWidget *info_zoom;
 	GtkWidget *info_pixel;
-	
+
 	/* slide show */
 
 	SlideShowData *slideshow;
@@ -780,7 +782,7 @@ struct _ViewFile
 	gboolean marks_enabled;
 	gint active_mark;
 	gint clicked_mark;
-	
+
 	/* refresh */
 	guint refresh_idle_id; /* event source id */
 	time_t time_refresh_set; /* time when refresh_idle_id was set */
@@ -866,6 +868,8 @@ struct _FullScreenData
 
 	void (*stop_func)(FullScreenData *, gpointer);
 	gpointer stop_data;
+
+	gboolean same_region; /* the returned region will overlap the current location of widget. */
 };
 
 struct _PixmapFolders

@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Authors: Vladimir Nadvornik, Laurent Monin
  *
@@ -38,7 +38,7 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->dnd_icon_size = 48;
 	options->duplicates_similarity_threshold = 99;
-	
+
 	options->file_filter.disable = FALSE;
 	options->file_filter.show_dot_directory = FALSE;
 	options->file_filter.show_hidden_files = FALSE;
@@ -63,7 +63,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.screen = -1;
 
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
-	options->image.dither_quality = GDK_RGB_DITHER_NORMAL;
 	options->image.enable_read_ahead = TRUE;
 	options->image.exif_rotate_enable = TRUE;
 	options->image.exif_proof_rotate_enable = TRUE;
@@ -93,7 +92,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->place_dialogs_under_mouse = FALSE;
 
 	options->progressive_key_scrolling = TRUE;
-	
+
 	options->metadata.enable_metadata_dirs = FALSE;
 	options->metadata.save_in_image_file = FALSE;
 	options->metadata.save_legacy_IPTC = FALSE;
@@ -107,7 +106,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->metadata.confirm_on_dir_change = TRUE;
 	options->metadata.keywords_case_sensitive = FALSE;
 	options->metadata.write_orientation = TRUE;
-	
+
 	options->show_icon_names = TRUE;
 
 	options->slideshow.delay = 50;
@@ -125,7 +124,7 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->tree_descend_subdirs = FALSE;
 	options->update_on_time_change = TRUE;
-	
+
 	options->stereo.fixed_w = 1920;
 	options->stereo.fixed_h = 1080;
 	options->stereo.fixed_x1 = 0;
@@ -161,17 +160,12 @@ void setup_default_options(ConfOptions *options)
 
 	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
 	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
-
-#if 0	
-	for (i = 0; ExifUIList[i].key; i++)
-		ExifUIList[i].current = ExifUIList[i].default_value;
-#endif
 }
 
 void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)
 {
 	free_layout_options_content(dest);
-	
+
 	*dest = *src;
 	dest->id = g_strdup(src->id);
 	dest->order = g_strdup(src->order);
@@ -261,7 +255,7 @@ gboolean load_options(ConfOptions *options)
 		DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");
 		g_free(rc_path);
 		}
-	
+
 	rc_path = g_build_filename(get_rc_dir(), RC_FILE_NAME, NULL);
 	success = load_config_from_file(rc_path, TRUE);
 	DEBUG_1("Loading options from %s ... %s", rc_path, success ? "done" : "failed");

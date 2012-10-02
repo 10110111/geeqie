@@ -2,6 +2,9 @@
 *.bak
 Makefile
 Makefile.in
+*~
+*.rej
+*.orig
 
 # /
 /aclocal.m4

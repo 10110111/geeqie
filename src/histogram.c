@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Vladimir Nadvornik
  * based on a patch by Uwe Ohse
@@ -31,7 +31,7 @@ struct _HistMap {
 	gulong g[HISTMAP_SIZE];
 	gulong b[HISTMAP_SIZE];
 	gulong max[HISTMAP_SIZE];
-	
+
 	guint idle_id; /* event source id */
 	GdkPixbuf *pixbuf;
 	gint y;
@@ -104,7 +104,7 @@ gint histogram_toggle_mode(Histogram *histogram)
 const gchar *histogram_label(Histogram *histogram)
 {
 	const gchar *t1 = "";
-	
+
 	if (!histogram) return NULL;
 
 	if (histogram->histogram_mode)
@@ -147,13 +147,13 @@ static gboolean histmap_read(HistMap *histmap, gboolean whole)
 	gint w, h, i, j, srs, has_alpha, step, end_line;
 	guchar *s_pix;
 	GdkPixbuf *imgpixbuf = histmap->pixbuf;
-	
+
 	w = gdk_pixbuf_get_width(imgpixbuf);
 	h = gdk_pixbuf_get_height(imgpixbuf);
 	srs = gdk_pixbuf_get_rowstride(imgpixbuf);
 	s_pix = gdk_pixbuf_get_pixels(imgpixbuf);
 	has_alpha = gdk_pixbuf_get_has_alpha(imgpixbuf);
-	
+
 	if (whole)
 		{
 		end_line = h;
@@ -174,7 +174,7 @@ static gboolean histmap_read(HistMap *histmap, gboolean whole)
 			guint max = sp[0];
 			if (sp[1] > max) max = sp[1];
 			if (sp[2] > max) max = sp[2];
-		
+
 			histmap->r[sp[0]]++;
 			histmap->g[sp[1]]++;
 			histmap->b[sp[2]]++;
@@ -184,13 +184,13 @@ static gboolean histmap_read(HistMap *histmap, gboolean whole)
 			}
 		}
 	histmap->y = end_line;
-	return end_line >= h;	
+	return end_line >= h;
 }
 
 const HistMap *histmap_get(FileData *fd)
 {
 	if (fd->histmap && !fd->histmap->idle_id) return fd->histmap; /* histmap exists and is finished */
-	
+
 	return NULL;
 }
 
@@ -226,7 +226,7 @@ static void histogram_vgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 {
 	guint i;
 	float add;
-	
+
 	if (histogram->vgrid == 0) return;
 
 	add = width / (float)histogram->vgrid;
@@ -247,7 +247,7 @@ static void histogram_hgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 {
 	guint i;
 	float add;
-	
+
 	if (histogram->hgrid == 0) return;
 
 	add = height / (float)histogram->hgrid;
@@ -255,7 +255,7 @@ static void histogram_hgrid(Histogram *histogram, GdkPixbuf *pixbuf, gint x, gin
 	for (i = 1; i < histogram->hgrid; i++)
 		{
 		gint ypos = y + (int)(i * add + 0.5);
-	
+
 		pixbuf_draw_line(pixbuf, x, y, width, height, x, ypos, x + width, ypos,
 				 histogram->grid_color.R,
 				 histogram->grid_color.G,
@@ -272,9 +272,9 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 	gdouble logmax;
 	gint combine = (HISTMAP_SIZE - 1) / width + 1;
 	gint ypos = y + height;
-	
+
 	if (!histogram || !histmap) return FALSE;
-	
+
 	/* Draw the grid */
 	histogram_vgrid(histogram, pixbuf, x, y, width, height);
 	histogram_hgrid(histogram, pixbuf, x, y, width, height);
@@ -312,15 +312,15 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 			v[2] += histmap->b[p];
 			v[3] += histmap->max[p];
 			}
-	
+
 		for (j = 0; combine > 1 && j < 4; j++)
 			v[j] /= combine;
-		
+
 		num_chan = (histogram->histogram_channel == HCHAN_RGB) ? 3 : 1;
 		for (j = 0; j < num_chan; j++)
 			{
 			gint chanmax;
-			if (histogram->histogram_channel == HCHAN_RGB) 
+			if (histogram->histogram_channel == HCHAN_RGB)
 				{
 				chanmax = HCHAN_R;
 				if (v[HCHAN_G] > v[HCHAN_R]) chanmax = HCHAN_G;
@@ -330,7 +330,7 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 				{
 				chanmax = histogram->histogram_channel;
 				}
-			
+
 			    	{
 				gulong pt;
 				gint r = rplus;
@@ -357,7 +357,7 @@ gboolean histogram_draw(Histogram *histogram, const HistMap *histmap, GdkPixbuf 
 					case HCHAN_B:   r = 0;		g = 0; 	break;
 					case HCHAN_MAX: r = 0; 	b = 0; 	g = 0; 	break;
 					}
-				
+
 				if (v[chanmax] == 0)
 					pt = 0;
 				else if (histogram->histogram_mode)

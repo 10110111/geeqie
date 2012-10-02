@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -54,9 +54,9 @@ static GtkWidget *add_menu_item(GtkWidget *menu, gchar *label, GtkAccelGroup *ac
 
 gpointer submenu_item_get_data(GtkWidget *menu)
 {
-	if (!menu->parent || !GTK_IS_MENU(menu->parent)) return NULL;
+	if (!gtk_widget_get_parent(menu) || !GTK_IS_MENU(gtk_widget_get_parent(menu))) return NULL;
 
-	return g_object_get_data(G_OBJECT(menu->parent), "submenu_data");
+	return g_object_get_data(G_OBJECT(gtk_widget_get_parent(menu)), "submenu_data");
 }
 
 /*
@@ -96,7 +96,7 @@ static void add_edit_items(GtkWidget *menu, GCallback func, GList *fd_list)
 			g_signal_connect(G_OBJECT(item), "destroy", G_CALLBACK(edit_item_destroy_cb), key);
 			}
 		}
-	
+
 	g_list_free(editors_list);
 }
 
@@ -134,6 +134,9 @@ gchar *sort_type_get_text(SortType method)
 			break;
 		case SORT_TIME:
 			return _("Sort by date");
+			break;
+		case SORT_EXIFTIME:
+			return _("Sort by Exif-date");
 			break;
 		case SORT_NONE:
 			return _("Unsorted");
@@ -188,6 +191,7 @@ GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
 	submenu_add_sort_item(submenu, func, SORT_NUMBER, show_current, type);
 #endif
 	submenu_add_sort_item(submenu, func, SORT_TIME, show_current, type);
+	submenu_add_sort_item(submenu, func, SORT_EXIFTIME, show_current, type);
 	submenu_add_sort_item(submenu, func, SORT_SIZE, show_current, type);
 	if (include_path) submenu_add_sort_item(submenu, func, SORT_PATH, show_current, type);
 	if (include_none) submenu_add_sort_item(submenu, func, SORT_NONE, show_current, type);

@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Vladimir Nadvornik, Laurent Monin
  * based on logwindow.[ch] from Sylpheed 2.4.7 (C) Hiroyuki Yamamoto
@@ -26,7 +26,7 @@ struct _LogWindow
 	GtkWidget *window;
 	GtkWidget *scrolledwin;
 	GtkWidget *text;
-	
+
 	GdkColor colors[LOG_COUNT];
 
 	guint lines;
@@ -57,7 +57,7 @@ static void hide_cb(GtkWidget *widget, LogWindow *logwin)
 static gboolean key_pressed(GtkWidget *widget, GdkEventKey *event,
 			    LogWindow *logwin)
 {
-	if (event && event->keyval == GDK_Escape)
+	if (event && event->keyval == GDK_KEY_Escape)
 		gtk_widget_hide(logwin->window);
 	return FALSE;
 }
@@ -111,13 +111,15 @@ static LogWindow *log_window_create(void)
 static void log_window_init(LogWindow *logwin)
 {
 	GtkTextBuffer *buffer;
+#if !GTK_CHECK_VERSION(3,0,0)
 	GdkColormap *colormap;
 	gboolean success[LOG_COUNT];
+#endif
 	gint i;
 
 	g_assert(logwin != NULL);
 	g_assert(logwin->colors != NULL);
-
+#if !GTK_CHECK_VERSION(3,0,0)
 	for (i = LOG_NORMAL; i < LOG_COUNT; i++)
 		{
 		gboolean ok = gdk_color_parse(logdefs[i].color, &logwin->colors[i]);
@@ -127,7 +129,7 @@ static void log_window_init(LogWindow *logwin)
 		memcpy(&logwin->colors[i], &logwin->colors[LOG_NORMAL], sizeof(GdkColor));
 		}
 
-	colormap = gdk_drawable_get_colormap(logwin->window->window);
+	colormap = gdk_drawable_get_colormap(gtk_widget_get_window(logwin->window));
 	gdk_colormap_alloc_colors(colormap, logwin->colors, LOG_COUNT, FALSE, TRUE, success);
 
 	for (i = LOG_NORMAL; i < LOG_COUNT; i++)
@@ -144,7 +146,7 @@ static void log_window_init(LogWindow *logwin)
 			break;
 			}
 		}
-
+#endif
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(logwin->text));
 	for (i = LOG_NORMAL; i < LOG_COUNT; i++)
 		gtk_text_buffer_create_tag(buffer, logdefs[i].tag,
@@ -158,7 +160,7 @@ static void log_window_show(LogWindow *logwin)
 	GtkTextView *text = GTK_TEXT_VIEW(logwin->text);
 	GtkTextBuffer *buffer;
 	GtkTextMark *mark;
-	
+
 	g_assert(logwin != NULL);
 
 	buffer = gtk_text_view_get_buffer(text);
@@ -227,7 +229,7 @@ void log_window_append(const gchar *str, LogType type)
 				{
 				GList *work = g_list_last(memory);
 				LogMsg *oldest_msg = work->data;
-			
+
 				g_free(oldest_msg->text);
 				memory = g_list_delete_link(memory, work);
 				}
@@ -257,9 +259,9 @@ void log_window_append(const gchar *str, LogType type)
 		{
 		GList *prev;
 		LogMsg *oldest_msg = work->data;
-		
+
 		log_window_insert_text(buffer, &iter, oldest_msg->text, logdefs[oldest_msg->type].tag);
-		
+
 		prev = work->prev;
 		memory = g_list_delete_link(memory, work);
 		work = prev;
@@ -268,14 +270,10 @@ void log_window_append(const gchar *str, LogType type)
 
 	log_window_insert_text(buffer, &iter, str, logdefs[type].tag);
 
-#if GTK_CHECK_VERSION(2,20,0)
-	if (gtk_widget_get_visible(text))
-#else
-	if (GTK_WIDGET_VISIBLE(text))
-#endif
+	if (gtk_widget_get_visible(GTK_WIDGET(text)))
 		{
 		GtkTextMark *mark;
-		
+
 		mark = gtk_text_buffer_get_mark(buffer, "end");
 		gtk_text_view_scroll_mark_onscreen(text, mark);
 		}

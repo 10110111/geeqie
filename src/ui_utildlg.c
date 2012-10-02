@@ -1,7 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -62,11 +62,7 @@ static gboolean generic_dialog_default_key_press_cb(GtkWidget *widget, GdkEventK
 {
 	GenericDialog *gd = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
-	if (event->keyval == GDK_Return && gtk_widget_has_focus(widget)
-#else
-	if (event->keyval == GDK_Return && GTK_WIDGET_HAS_FOCUS(widget)
-#endif
+	if (event->keyval == GDK_KEY_Return && gtk_widget_has_focus(widget)
 	    && gd->default_cb)
 		{
 		gboolean auto_close;
@@ -91,7 +87,7 @@ static gboolean generic_dialog_key_press_cb(GtkWidget *widget, GdkEventKey *even
 {
 	GenericDialog *gd = data;
 
-	if (event->keyval == GDK_Escape)
+	if (event->keyval == GDK_KEY_Escape)
 		{
 		if (gd->cancel_cb) gd->cancel_cb(gd, gd->data);
 		if (gd->auto_close) generic_dialog_click_cb(widget, data);
@@ -150,7 +146,7 @@ GtkWidget *generic_dialog_add_button(GenericDialog *gd, const gchar *stock_id, c
 	button = pref_button_new(NULL, stock_id, text, FALSE,
 				 G_CALLBACK(generic_dialog_click_cb), gd);
 
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	g_object_set_data(G_OBJECT(button), "dialog_function", func_cb);
 
 	gtk_container_add(GTK_CONTAINER(gd->hbox), button);
@@ -238,11 +234,7 @@ static void generic_dialog_setup(GenericDialog *gd,
 			GtkWidget *top;
 
 			top = gtk_widget_get_toplevel(parent);
-#if GTK_CHECK_VERSION(2,20,0)
 			if (GTK_IS_WINDOW(top) && gtk_widget_is_toplevel(top)) window = GTK_WINDOW(top);
-#else
-			if (GTK_IS_WINDOW(top) && GTK_WIDGET_TOPLEVEL(top)) window = GTK_WINDOW(top);
-#endif
 			}
 
 		if (window) gtk_window_set_transient_for(GTK_WINDOW(gd->dialog), window);

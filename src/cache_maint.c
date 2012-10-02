@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -48,25 +48,6 @@ struct _CMData
  * cache maintenance
  *-------------------------------------------------------------------
  */
-
-#if 0
-static gint extension_truncate(gchar *path, const gchar *ext)
-{
-	gint l;
-	gint el;
-
-	if (!path || !ext) return FALSE;
-
-	l = strlen(path);
-	el = strlen(ext);
-
-	if (l < el || strcmp(path + (l - el), ext) != 0) return FALSE;
-
-	path[l - el] = '\0';
-
-	return TRUE;
-}
-#endif
 
 static gchar *extension_find_dot(gchar *path)
 {
@@ -256,11 +237,7 @@ static void cache_maintain_home_close_cb(GenericDialog *gd, gpointer data)
 {
 	CMData *cm = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_sensitive(cm->button_close)) return;
-#else
-	if (!GTK_WIDGET_SENSITIVE(cm->button_close)) return;
-#endif
 
 	cache_maintain_home_close(cm);
 }
@@ -338,7 +315,7 @@ void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 	gtk_widget_show(hbox);
 
 	cm->entry = gtk_entry_new();
-	GTK_WIDGET_UNSET_FLAGS(cm->entry, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(cm->entry, FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(cm->entry), FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox), cm->entry, TRUE, TRUE, 0);
 	gtk_widget_show(cm->entry);
@@ -351,160 +328,6 @@ void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 
 	cm->idle_id = g_idle_add(cache_maintain_home_cb, cm);
 }
-
-#if 0
-/* This checks all files in ~/GQ_RC_DIR/thumbnails and
- * removes them if thay have no source counterpart.
- * (this assumes all cache files have an extension of 4 chars including '.')
- */
-gint cache_maintain_home_dir(const gchar *dir, gint recursive, gint clear)
-{
-	gchar *base;
-	gint base_length;
-	GList *dlist = NULL;
-	FileData *dir_fd;
-	GList *flist = NULL;
-	gboolean still_have_a_file = FALSE;
-
-	DEBUG_1("maintainance check: %s", dir);
-
-	base_length = strlen(homedir()) + strlen("/") + strlen(GQ_CACHE_RC_THUMB);
-	base = g_strconcat(homedir(), "/", GQ_CACHE_RC_THUMB, dir, NULL);
-	dir_fd = file_data_new_dir(base);
-	g_free(base);
-
-	if (filelist_read(dir_fd, &flist, &dlist))
-		{
-		GList *work;
-
-		work = dlist;
-		while (work)
-			{
-			FileData *fd = work->data;
-			if (recursive && strlen(fd->path) > base_length &&
-			    !cache_maintain_home_dir(fd->path + base_length, recursive, clear))
-				{
-				DEBUG_1("Deleting thumb dir: %s", fd->path);
-				if (!rmdir_utf8(fd->path))
-					{
-					log_printf("Unable to delete dir: %s\n", fd->path);
-					}
-				}
-			else
-				{
-				still_have_a_file = TRUE;
-				}
-			work = work->next;
-			}
-
-		work = flist;
-		while (work)
-			{
-			FileData *fd = work->data;
-			gchar *path = g_strdup(fd->path);
-			gchar *dot;
-
-			dot = extension_find_dot(path);
-
-			if (dot) *dot = '\0';
-			if (clear ||
-			    (strlen(path) > base_length && !isfile(path + base_length)) )
-				{
-				if (dot) *dot = '.';
-				if (!unlink_file(path)) log_printf("failed to delete:%s\n", path);
-				}
-			else
-				{
-				still_have_a_file = TRUE;
-				}
-			g_free(path);
-
-			work = work->next;
-			}
-		}
-
-	filelist_free(dlist);
-	filelist_free(flist);
-	file_data_unref(dir_fd);
-
-	return still_have_a_file;
-}
-
-/* This checks relative caches in dir/.thumbnails and
- * removes them if they have no source counterpart.
- */
-gint cache_maintain_dir(FileData *dir_fd, gint recursive, gint clear)
-{
-	GList *list = NULL;
-	gchar *cachedir;
-	FileData *cachedir_fd;
-	gboolean still_have_a_file = FALSE;
-	GList *work;
-
-	cachedir = g_build_filename(dir, GQ_CACHE_LOCAL_THUMB, NULL);
-	cachedir_fd = file_data_new_dir(cachedir);
-	g_free(cachedir);
-
-	filelist_read(cachedir_fd, &list, NULL);
-	work = list;
-
-	while (work)
-		{
-		FileData *fd;
-		gchar *source;
-
-		fd = work->data;
-		work = work->next;
-
-		source = g_build_filename(dir->path, fd->name, NULL);
-
-		if (clear ||
-		    extension_truncate(source, GQ_CACHE_EXT_THUMB) ||
-		    extension_truncate(source, GQ_CACHE_EXT_SIM))
-			{
-			if (!clear && isfile(source))
-				{
-				still_have_a_file = TRUE;
-				}
-			else
-				{
-				if (!unlink_file(fd->path))
-					{
-					DEBUG_1("Failed to remove cache file %s", fd->path);
-					still_have_a_file = TRUE;
-					}
-				}
-			}
-		else
-			{
-			still_have_a_file = TRUE;
-			}
-		g_free(source);
-		}
-
-	filelist_free(list);
-	file_data_unref(cachedir_fd);
-
-	if (recursive)
-		{
-		list = NULL;
-
-		filelist_read(dir_fd, NULL, &list);
-		work = list;
-		while (work)
-			{
-			FileData *fd = work->data;
-			work = work->next;
-
-			still_have_a_file |= cache_maintain_dir(fd->path, recursive, clear);
-			}
-
-		filelist_free(list);
-		}
-
-	return still_have_a_file;
-}
-#endif
 
 static void cache_file_move(const gchar *src, const gchar *dest)
 {
@@ -626,7 +449,7 @@ static void cache_maint_copied(FileData *fd)
 void cache_notify_cb(FileData *fd, NotifyType type, gpointer data)
 {
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
-	
+
 	DEBUG_1("Notify cache_maint: %s %04x", fd->path, type);
 	switch (fd->change->type)
 		{
@@ -712,11 +535,7 @@ static void cache_manager_render_close_cb(GenericDialog *fd, gpointer data)
 {
 	CleanData *cd = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_sensitive(cd->button_close)) return;
-#else
-	if (!GTK_WIDGET_SENSITIVE(cd->button_close)) return;
-#endif
 
 	cache_manager_render_reset(cd);
 	generic_dialog_close(cd->gd);
@@ -831,11 +650,7 @@ static void cache_manager_render_start_cb(GenericDialog *fd, gpointer data)
 	CleanData *cd = data;
 	gchar *path;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
-#else
-	if (cd->list || !GTK_WIDGET_SENSITIVE(cd->button_start)) return;
-#endif
 
 	path = remove_trailing_slash((gtk_entry_get_text(GTK_ENTRY(cd->entry))));
 	parse_out_relatives(path);
@@ -910,7 +725,7 @@ static void cache_manager_render_dialog(GtkWidget *widget, const gchar *path)
 	hbox = pref_box_new(cd->gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 
 	cd->progress = gtk_entry_new();
-	GTK_WIDGET_UNSET_FLAGS(cd->progress, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(cd->progress, FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(cd->progress), FALSE);
 	gtk_entry_set_text(GTK_ENTRY(cd->progress), _("click start to begin"));
 	gtk_box_pack_start(GTK_BOX(hbox), cd->progress, TRUE, TRUE, 0);
@@ -932,11 +747,7 @@ static void cache_manager_standard_clean_close_cb(GenericDialog *gd, gpointer da
 {
 	CleanData *cd = data;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (!gtk_widget_get_sensitive(cd->button_close)) return;
-#else
-	if (!GTK_WIDGET_SENSITIVE(cd->button_close)) return;
-#endif
 
 	generic_dialog_close(cd->gd);
 
@@ -1049,11 +860,7 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 	gchar *path;
 	FileData *dir_fd;
 
-#if GTK_CHECK_VERSION(2,20,0)
 	if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
-#else
-	if (cd->list || !GTK_WIDGET_SENSITIVE(cd->button_start)) return;
-#endif
 
 	gtk_widget_set_sensitive(cd->button_start, FALSE);
 	gtk_widget_set_sensitive(cd->button_stop, TRUE);
@@ -1225,7 +1032,7 @@ static GtkWidget *cache_manager_location_label(GtkWidget *group, const gchar *su
 	label = pref_label_new(group, buf);
 	g_free(buf);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-	
+
 	return label;
 }
 

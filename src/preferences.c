@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -125,13 +125,13 @@ static GtkWidget *sidecar_ext_entry;
 
 static void zoom_mode_cb(GtkWidget *widget, gpointer data)
 {
-	if (GTK_TOGGLE_BUTTON (widget)->active)
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		c_options->image.zoom_mode = GPOINTER_TO_INT(data);
 }
 
 static void scroll_reset_cb(GtkWidget *widget, gpointer data)
 {
-	if (GTK_TOGGLE_BUTTON (widget)->active)
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		c_options->image.scroll_reset_method = GPOINTER_TO_INT(data);
 }
 
@@ -174,14 +174,14 @@ static gboolean accel_apply_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIt
 	gchar *accel_path, *accel;
 
 	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path, AE_KEY, &accel, -1);
-	
+
 	if (accel_path && accel_path[0])
 		{
 		GtkAccelKey key;
 		gtk_accelerator_parse(accel, &key.accel_key, &key.accel_mods);
 		gtk_accel_map_change_entry(accel_path, key.accel_key, key.accel_mods, TRUE);
 		}
-		
+
 	g_free(accel_path);
 	g_free(accel);
 
@@ -195,7 +195,7 @@ static void config_window_apply(void)
 	gboolean refresh = FALSE;
 
 	config_entry_to_option(safe_delete_path_entry, &options->file_ops.safe_delete_path, remove_trailing_slash);
-	
+
 	if (options->file_filter.show_hidden_files != c_options->file_filter.show_hidden_files) refresh = TRUE;
 	if (options->file_filter.show_dot_directory != c_options->file_filter.show_dot_directory) refresh = TRUE;
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
@@ -216,6 +216,7 @@ static void config_window_apply(void)
 	options->image.max_window_size = c_options->image.max_window_size;
 	options->image.limit_autofit_size = c_options->image.limit_autofit_size;
 	options->image.max_autofit_size = c_options->image.max_autofit_size;
+	options->image.use_clutter_renderer = c_options->image.use_clutter_renderer;
 	options->progressive_key_scrolling = c_options->progressive_key_scrolling;
 	if (options->thumbnails.max_width != c_options->thumbnails.max_width
 	    || options->thumbnails.max_height != c_options->thumbnails.max_height
@@ -230,9 +231,6 @@ static void config_window_apply(void)
 	options->thumbnails.enable_caching = c_options->thumbnails.enable_caching;
 	options->thumbnails.cache_into_dirs = c_options->thumbnails.cache_into_dirs;
 	options->thumbnails.use_exif = c_options->thumbnails.use_exif;
-#if 0
-	options->thumbnails.use_xvpics = c_options->thumbnails.use_xvpics;
-#endif
 	options->thumbnails.spec_standard = c_options->thumbnails.spec_standard;
 	options->metadata.enable_metadata_dirs = c_options->metadata.enable_metadata_dirs;
 	options->file_filter.show_hidden_files = c_options->file_filter.show_hidden_files;
@@ -263,7 +261,7 @@ static void config_window_apply(void)
 
 	options->image.enable_read_ahead = c_options->image.enable_read_ahead;
 
-	
+
 	if (options->image.use_custom_border_color != c_options->image.use_custom_border_color
 	    || options->image.use_custom_border_color_in_fullscreen != c_options->image.use_custom_border_color_in_fullscreen
 	    || !gdk_color_equal(&options->image.border_color, &c_options->image.border_color))
@@ -282,7 +280,7 @@ static void config_window_apply(void)
 	if (c_options->image_overlay.template_string)
 		set_image_overlay_template_string(&options->image_overlay.template_string,
 						  c_options->image_overlay.template_string);
-		
+
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
 	options->image.exif_proof_rotate_enable = c_options->image.exif_proof_rotate_enable;
@@ -293,7 +291,7 @@ static void config_window_apply(void)
 
 	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
 	options->dnd_icon_size = c_options->dnd_icon_size;
-	
+
 	options->metadata.save_in_image_file = c_options->metadata.save_in_image_file;
 	options->metadata.save_legacy_IPTC = c_options->metadata.save_legacy_IPTC;
 	options->metadata.warn_on_write_problems = c_options->metadata.warn_on_write_problems;
@@ -342,13 +340,6 @@ static void config_window_apply(void)
 	options->color_profile.use_x11_screen_profile = c_options->color_profile.use_x11_screen_profile;
 #endif
 
-#if 0
-	for (i = 0; ExifUIList[i].key; i++)
-		{
-		ExifUIList[i].current = ExifUIList[i].temp;
-		}
-
-#endif
 	image_options_sync();
 
 	if (refresh)
@@ -356,7 +347,7 @@ static void config_window_apply(void)
 		filter_rebuild();
 		layout_refresh(NULL);
 		}
-	
+
 	if (accel_store) gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_apply_cb, NULL);
 }
 
@@ -434,15 +425,15 @@ static void add_quality_menu(GtkWidget *table, gint column, gint row, const gcha
 
 	pref_table_label(table, column, row, text, 0.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Nearest (worst, but fastest)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Nearest (worst, but fastest)"));
 	if (option == GDK_INTERP_NEAREST) current = 0;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Tiles"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Tiles"));
 	if (option == GDK_INTERP_TILES) current = 1;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Bilinear"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Bilinear"));
 	if (option == GDK_INTERP_BILINEAR) current = 2;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Hyper (best, but slowest)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Hyper (best, but slowest)"));
 	if (option == GDK_INTERP_HYPER) current = 3;
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
@@ -454,33 +445,6 @@ static void add_quality_menu(GtkWidget *table, gint column, gint row, const gcha
 			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show(combo);
 }
-
-#if 0
-static void add_dither_menu(gint option, gint *option_c, gchar *text, GtkWidget *box)
-{
-	GtkWidget *hbox;
-	GtkWidget *omenu;
-	GtkWidget *menu;
-
-	*option_c = option;
-
-	hbox = pref_box_new(box, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	pref_label_new(hbox, text);
-
-	omenu = gtk_option_menu_new();
-	menu = gtk_menu_new();
-
-	add_menu_item(menu, _("None"), option_c, (gint)GDK_RGB_DITHER_NONE);
-	add_menu_item(menu, _("Normal"), option_c, (gint)GDK_RGB_DITHER_NORMAL);
-	add_menu_item(menu, _("Best"), option_c, (gint)GDK_RGB_DITHER_MAX);
-
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(omenu), menu);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(omenu), *option_c);
-
-	gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
-	gtk_widget_show(omenu);
-}
-#endif
 
 static void thumb_size_menu_cb(GtkWidget *combo, gpointer data)
 {
@@ -512,7 +476,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 
 	pref_table_label(table, column, row, text, 0.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
 	current = -1;
 	for (i = 0; (guint) i < sizeof(thumb_size_list) / sizeof(ThumbSize); i++)
@@ -524,7 +488,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 		h = thumb_size_list[i].h;
 
 		buf = g_strdup_printf("%d x %d", w, h);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), buf);
 		g_free(buf);
 
 		if (w == options->thumbnails.max_width && h == options->thumbnails.max_height) current = i;
@@ -535,7 +499,7 @@ static void add_thumb_size_menu(GtkWidget *table, gint column, gint row, gchar *
 		gchar *buf;
 
 		buf = g_strdup_printf("%s %d x %d", _("Custom"), options->thumbnails.max_width, options->thumbnails.max_height);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), buf);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), buf);
 		g_free(buf);
 
 		current = i;
@@ -588,7 +552,7 @@ static void stereo_mode_menu_cb(GtkWidget *combo, gpointer data)
 }
 
 static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const gchar *text,
-			     guint option, guint *option_c, gboolean add_fixed)
+			     gint option, gint *option_c, gboolean add_fixed)
 {
 	GtkWidget *combo;
 	gint current = 0;
@@ -597,36 +561,36 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 
 	pref_table_label(table, column, row, text, 0.0);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Single image"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Single image"));
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Red-Cyan"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Red-Cyan"));
 	if (option & PR_STEREO_ANAGLYPH_RC) current = 1;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Gray Red-Cyan"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Gray Red-Cyan"));
 	if (option & PR_STEREO_ANAGLYPH_GRAY) current = 2;
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Anaglyph Dubois"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Dubois"));
 	if (option & PR_STEREO_ANAGLYPH_DB) current = 3;
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Side by Side Half size"));
-	if (option & PR_STEREO_HORIZ) 
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side Half size"));
+	if (option & PR_STEREO_HORIZ)
 		{
 		current = 4;
 		if (option & PR_STEREO_HALF) current = 5;
 		}
 
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom"));
-	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Top - Bottom Half size"));
-	if (option & PR_STEREO_VERT) 
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom Half size"));
+	if (option & PR_STEREO_VERT)
 		{
 		current = 6;
 		if (option & PR_STEREO_HALF) current = 7;
 		}
-		
+
 	if (add_fixed)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), _("Fixed position"));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Fixed position"));
 		if (option & PR_STEREO_FIXED) current = 8;
 		}
 
@@ -823,12 +787,48 @@ static void filter_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cel
 		}
 }
 
+static gboolean filter_add_scroll(gpointer data)
+{
+	GtkTreePath *path;
+	GList *list_cells;
+	GtkCellRenderer *cell;
+	GtkTreeViewColumn *column;
+	GList *list_columns;
+	const gchar *title;
+	guint i = 0;
+	gint rows;
+
+	rows = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(filter_store), NULL);
+	path = gtk_tree_path_new_from_indices(rows-1, -1);
+
+	list_columns = gtk_tree_view_get_columns(GTK_TREE_VIEW(data));
+	do {
+		column = g_list_nth(list_columns,i)->data;
+		title = gtk_tree_view_column_get_title(GTK_TREE_VIEW_COLUMN(column));
+		i++;
+		} while (strcmp(title, "Filter") !=0 );
+
+	list_cells = gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
+	cell = g_list_last(list_cells)->data;
+
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(data),
+								path, column, FALSE, 0.0, 0.0 );
+	gtk_tree_view_set_cursor_on_cell(GTK_TREE_VIEW(data),
+								path, column, cell, TRUE);
+
+	gtk_tree_path_free(path);
+	g_list_free(list_cells);
+	g_list_free(list_columns);
+
+	return(FALSE);
+}
+
 static void filter_add_cb(GtkWidget *widget, gpointer data)
 {
 	filter_add_unique("description", ".new", FORMAT_CLASS_IMAGE, TRUE, FALSE, TRUE);
 	filter_store_populate();
 
-	/* FIXME: implement the scroll to/select row stuff for tree view */
+	g_idle_add((GSourceFunc)filter_add_scroll, data);
 }
 
 static void filter_remove_cb(GtkWidget *widget, gpointer data)
@@ -849,12 +849,33 @@ static void filter_remove_cb(GtkWidget *widget, gpointer data)
 	filter_store_populate();
 }
 
+static gboolean filter_default_ok_scroll(GtkTreeView *data)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	GtkTreeViewColumn *column;
+
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(filter_store), &iter);
+	path = gtk_tree_model_get_path(GTK_TREE_MODEL(filter_store), &iter);
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(data),0);
+
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(data),
+				     path, column,
+				     FALSE, 0.0, 0.0);
+
+	gtk_tree_path_free(path);
+
+	return(FALSE);
+}
+
 static void filter_default_ok_cb(GenericDialog *gd, gpointer data)
 {
 	filter_reset();
 	filter_add_defaults();
 	filter_rebuild();
 	filter_store_populate();
+
+	g_idle_add((GSourceFunc)filter_default_ok_scroll, gd->data);
 }
 
 static void dummy_cancel_cb(GenericDialog *gd, gpointer data)
@@ -868,7 +889,7 @@ static void filter_default_cb(GtkWidget *widget, gpointer data)
 
 	gd = generic_dialog_new(_("Reset filters"),
 				"reset_filter", widget, TRUE,
-				dummy_cancel_cb, NULL);
+				dummy_cancel_cb, data);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset filters"),
 				   _("This will reset the file filters to the defaults.\nContinue?"));
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, filter_default_ok_cb, TRUE);
@@ -904,7 +925,7 @@ static void safe_delete_clear_cb(GtkWidget *widget, gpointer data)
 				    _("This will remove the trash contents."));
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, safe_delete_clear_ok_cb, TRUE);
 	entry = gtk_entry_new();
-	GTK_WIDGET_UNSET_FLAGS(entry, GTK_CAN_FOCUS);
+	gtk_widget_set_can_focus(entry, FALSE);
 	gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
 	if (options->file_ops.safe_delete_path) gtk_entry_set_text(GTK_ENTRY(entry), options->file_ops.safe_delete_path);
 	gtk_box_pack_start(GTK_BOX(gd->vbox), entry, FALSE, FALSE, 0);
@@ -959,7 +980,6 @@ static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 	help_window_show("overlay");
 }
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 static void accel_store_populate(void)
 {
 	LayoutWindow *lw;
@@ -991,15 +1011,15 @@ static void accel_store_populate(void)
 					     "label", &label,
 					     NULL);
 
-				if (pango_parse_markup(label, -1, '_', NULL, &label2, NULL, NULL) && label2) 
+				if (pango_parse_markup(label, -1, '_', NULL, &label2, NULL, NULL) && label2)
 					{
 					g_free(label);
 					label = label2;
 					}
 
 				accel = gtk_accelerator_name(key.accel_key, key.accel_mods);
-				
-				if (tooltip) 
+
+				if (tooltip)
 					{
 					gtk_tree_store_append(accel_store, &iter, NULL);
 					gtk_tree_store_set(accel_store, &iter,
@@ -1023,7 +1043,7 @@ static void accel_store_populate(void)
 
 static void accel_store_cleared_cb(GtkCellRendererAccel *accel, gchar *path_string, gpointer user_data)
 {
-    
+
 }
 
 static gboolean accel_remove_key_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
@@ -1034,16 +1054,16 @@ static gboolean accel_remove_key_cb(GtkTreeModel *model, GtkTreePath *path, GtkT
 	GtkAccelKey key2;
 
 	gtk_tree_model_get(model, iter, AE_KEY, &accel2, -1);
-	
+
 	gtk_accelerator_parse(accel1, &key1.accel_key, &key1.accel_mods);
 	gtk_accelerator_parse(accel2, &key2.accel_key, &key2.accel_mods);
-	
+
 	if (key1.accel_key == key2.accel_key && key1.accel_mods == key2.accel_mods)
 		{
 		gtk_tree_store_set(accel_store, iter, AE_KEY, "",  -1);
 		DEBUG_1("accelerator key '%s' is already used, removing.", accel1);
 		}
-	
+
 	g_free(accel2);
 
 	return FALSE;
@@ -1066,11 +1086,11 @@ static void accel_store_edited_cb(GtkCellRendererAccel *accel, gchar *path_strin
 	gtk_accel_map_lookup_entry(accel_path, &old_key);
 
 	/* change the key and read it back (change may fail on keys hardcoded in gtk)*/
-	gtk_accel_map_change_entry(accel_path, accel_key, accel_mods, TRUE); 
+	gtk_accel_map_change_entry(accel_path, accel_key, accel_mods, TRUE);
 	gtk_accel_map_lookup_entry(accel_path, &key);
 
 	/* restore the original for now, the key will be really changed when the changes are confirmed */
-	gtk_accel_map_change_entry(accel_path, old_key.accel_key, old_key.accel_mods, TRUE); 
+	gtk_accel_map_change_entry(accel_path, old_key.accel_key, old_key.accel_mods, TRUE);
 
 	acc = gtk_accelerator_name(key.accel_key, key.accel_mods);
 	gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_remove_key_cb, acc);
@@ -1080,29 +1100,36 @@ static void accel_store_edited_cb(GtkCellRendererAccel *accel, gchar *path_strin
 	g_free(acc);
 }
 
+static gboolean accel_default_scroll(GtkTreeView *data)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	GtkTreeViewColumn *column;
+
+	gtk_tree_model_get_iter_first(GTK_TREE_MODEL(accel_store), &iter);
+	path = gtk_tree_model_get_path(GTK_TREE_MODEL(accel_store), &iter);
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(data),0);
+
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(data),
+				     path, column,
+				     FALSE, 0.0, 0.0);
+
+	gtk_tree_path_free(path);
+
+	return(FALSE);
+}
+
 static void accel_default_cb(GtkWidget *widget, gpointer data)
 {
 	accel_store_populate();
 
-	/* FIXME: implement the scroll to/select row stuff for tree view */
+	g_idle_add((GSourceFunc)accel_default_scroll, data);
 }
 
 void accel_remove_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
-	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);    
+	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);
 }
-
-#if 0    
-static void accel_remove_cb(GtkWidget *widget, gpointer data)
-{
-	GtkTreeSelection *selection;
-
-	if (!accel_store) return;
-
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data));
-	gtk_tree_selection_selected_foreach(selection, &accel_remove_selection, NULL);
-}
-#endif
 
 void accel_reset_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
@@ -1130,115 +1157,6 @@ static void accel_reset_cb(GtkWidget *widget, gpointer data)
 }
 
 
-#if 0
-static void accel_alternate_activate_cb(GtkWidget *widget, gpointer data)
-{
-	gtk_action_activate((GtkAction*)data);
-}
-
-#define DUPL "-alt-"
-
-void accel_add_alt_selection(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	LayoutWindow *lw;
-	GList *groups, *actions;
-	GtkAction *action;
-	GtkAccelKey key, *key2;
-	GtkAccelMap *map;
-	gchar *accel_path2, *accel;
-	const gchar *accel_path;
-	gint freeduplnum = 1;    
-	gint len;
-	GClosure* closure;
-	GtkAccelGroup *group;
-	GtkAction *action_new, *action_new2;
-	gchar *name, *accel_path_new, *accel_path_new2;
-
- 	if (!accel_store || !layout_window_list || !layout_window_list->data) return;
-
-	gtk_tree_model_get(model, iter, AE_ACCEL, &accel_path2, -1);
-	len = strlen(accel_path2);
- 
-	gtk_tree_store_clear(accel_store);
-	lw = layout_window_list->data;
-    
-	g_assert(lw && lw->ui_manager);
-	groups = gtk_ui_manager_get_action_groups(lw->ui_manager);
-	group = gtk_ui_manager_get_accel_group(lw->ui_manager);
-
-	while (groups)
-		{
-		actions = gtk_action_group_list_actions(GTK_ACTION_GROUP(groups->data));
-		while (actions)
-			{
-			gchar *dupl;
-			guint64 num;
-
-			action = GTK_ACTION(actions->data);
-			actions = actions->next;
-
-			accel_path = gtk_action_get_accel_path(action);
-			if (!accel_path) continue;
-
-			dupl = g_strrstr(accel_path, DUPL);
-
-			printf("D: %s %s %s\n", accel_path, accel_path2, dupl);
-
-			if ((dupl && (len != (dupl - accel_path)) ) ||
-			    g_ascii_strncasecmp(accel_path, accel_path2, len) != 0)
-				continue;
-
-			if (dupl && (num = g_ascii_strtoull(dupl + strlen(DUPL), NULL, 10)) > 0 &&
-			    num > freeduplnum)
-				{
-				freeduplnum = num + 1;
-				}
-			else
-				{
-				closure = gtk_action_get_accel_closure(action);
-				name = gtk_action_get_name(action);
-				accel_path_new = g_strdup(accel_path);
-				action_new2 = action;
-				}
-			}
-		groups = groups->next;
-		}
-
-	action_new = gtk_action_new(name, NULL, NULL, NULL);
-	gtk_action_set_accel_group(action_new, group);
-
-	g_signal_connect(G_OBJECT(action_new), "activate",
-			 G_CALLBACK(accel_alternate_activate_cb), action_new2);
-
-//	accel_path_new2 = g_strdup_printf("%s%s%d", accel_path_new, dupl, freeduplnum);
-	g_free(accel_path_new);
-
-	gtk_action_set_accel_path(action_new, accel_path_new);
-
-//	gtk_tree_store_set(accel_store, iter, AE_KEY, "", -1);
-	printf("D: %s\n", accel_path_new2);
-
-	g_free(accel_path_new2);
-	gtk_action_connect_accelerator(action_new);
-}
-    
-static void accel_add_alt_cb(GtkWidget *widget, gpointer data)
-{
-	GtkWidget *accel_view = data;
-	GtkTreeSelection *selection;
-
-	if (!accel_store) return;
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(data));
-	gtk_tree_selection_selected_foreach(selection, &accel_add_alt_selection, NULL);
-}
-
-static void accel_default_ok_cb(GenericDialog *gd, gpointer data)
-{
-	accel_store_populate();
-}
-
-#endif
-#endif
 
 static GtkWidget *scrolled_notebook_page(GtkWidget *notebook, const gchar *title)
 {
@@ -1301,11 +1219,6 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_checkbox_new_int(subgroup, _("Store thumbnails in '.thumbnails' folder, local to image folder (non-standard)"),
 			      options->thumbnails.cache_into_dirs, &c_options->thumbnails.cache_into_dirs);
 
-#if 0
-	pref_checkbox_new_int(subgroup, _("Use xvpics thumbnails when found (read only)"),
-			      options->thumbnails.use_xvpics, &c_options->thumbnails.use_xvpics);
-#endif
-
 	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"),
 			      options->thumbnails.use_exif, &c_options->thumbnails.use_exif);
 
@@ -1322,11 +1235,6 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Repeat"), options->slideshow.repeat, &c_options->slideshow.repeat);
 
 	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
-
-#if 0
-	pref_spin_new_int(group, _("Offscreen cache size (Mb per image):"), NULL,
-			  0, 128, 1, options->image.tile_cache_max, &c_options->image.tile_cache_max);
-#endif
 
 	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
 			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
@@ -1353,11 +1261,13 @@ static void config_tab_image(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Zoom"), GTK_ORIENTATION_VERTICAL);
 
-#if 0
-	add_dither_menu(dither_quality, &c_options->image.dither_quality, _("Dithering method:"), group);
-#endif
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 	add_quality_menu(table, 0, 0, _("Quality:"), options->image.zoom_quality, &c_options->image.zoom_quality);
+
+#ifdef HAVE_CLUTTER
+	pref_checkbox_new_int(group, _("Use GPU acceleration via Clutter library"),
+			      options->image.use_clutter_renderer, &c_options->image.use_clutter_renderer);
+#endif
 
 	pref_checkbox_new_int(group, _("Two pass rendering (apply HQ zoom and color correction in second pass)"),
 			      options->image.zoom_2pass, &c_options->image.zoom_2pass);
@@ -1410,7 +1320,7 @@ static void config_tab_image(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Use custom border color in window mode"),
 			      options->image.use_custom_border_color, &c_options->image.use_custom_border_color);
-	
+
 	pref_checkbox_new_int(group, _("Use custom border color in fullscreen mode"),
 			      options->image.use_custom_border_color_in_fullscreen, &c_options->image.use_custom_border_color_in_fullscreen);
 
@@ -1489,7 +1399,6 @@ static void config_tab_windows(GtkWidget *notebook)
 
 	image_overlay_template_view = gtk_text_view_new();
 
-#if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(image_overlay_template_view,
 	_("<i>%name%</i> results in the filename of the picture.\n"
 	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
@@ -1500,9 +1409,8 @@ static void config_tab_windows(GtkWidget *notebook)
 	  "If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
 	  "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
 	  "if there's no ISO information in the Exif data.\n"
-	  "If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
-));
-#endif
+	  "If a line is empty, it is removed. This allows one to add lines that totally disappear when no data is available.\n"
+	));
 	gtk_container_add(GTK_CONTAINER(scrolled), image_overlay_template_view);
 	gtk_widget_show(image_overlay_template_view);
 
@@ -1564,10 +1472,6 @@ static void config_tab_files(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Show hidden files or folders"),
 			      options->file_filter.show_hidden_files, &c_options->file_filter.show_hidden_files);
-#if 0
-	pref_checkbox_new_int(group, _("Show dot directory"),
-			      options->file_filter.show_dot_directory, &c_options->file_filter.show_dot_directory);
-#endif
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
 			      options->file_sort.case_sensitive, &c_options->file_sort.case_sensitive);
 
@@ -1626,6 +1530,9 @@ static void config_tab_files(GtkWidget *notebook)
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Description"));
 	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_column_set_fixed_width(column, 200);
+	gtk_tree_view_column_set_sizing(column, GTK_TREE_VIEW_COLUMN_FIXED);
+
 	renderer = gtk_cell_renderer_text_new();
 	g_signal_connect(G_OBJECT(renderer), "edited",
 			 G_CALLBACK(filter_store_desc_edit_cb), filter_store);
@@ -1682,7 +1589,7 @@ static void config_tab_files(GtkWidget *notebook)
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(filter_default_cb), NULL);
+				 G_CALLBACK(filter_default_cb), filter_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
@@ -1692,7 +1599,7 @@ static void config_tab_files(GtkWidget *notebook)
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_ADD, NULL, FALSE,
-				 G_CALLBACK(filter_add_cb), NULL);
+				 G_CALLBACK(filter_add_cb), filter_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 }
@@ -1729,6 +1636,7 @@ static void config_tab_metadata(GtkWidget *notebook)
 	text = g_strdup_printf(_("3) Save metadata in Geeqie private directory '%s'"), get_metadata_cache_dir());
 	label = pref_label_new(group, text);
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+	gtk_misc_set_padding(GTK_MISC(label), 22, 0);
 	g_free(text);
 
 	group = pref_group_new(vbox, FALSE, _("Step 1: Write to image files"), GTK_ORIENTATION_VERTICAL);
@@ -1780,7 +1688,7 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	pref_spin_new_int(hbox, _("Timeout (seconds):"), NULL, 0, 900, 1,
 			      options->metadata.confirm_timeout, &c_options->metadata.confirm_timeout);
-			      
+
 	pref_checkbox_new_int(group, _("Write metadata on image change"),
 			      options->metadata.confirm_on_image_change, &c_options->metadata.confirm_on_image_change);
 
@@ -1828,7 +1736,6 @@ static void config_tab_color(GtkWidget *notebook)
 
 		entry = gtk_entry_new();
 		gtk_entry_set_max_length(GTK_ENTRY(entry), EDITOR_NAME_MAX_LENGTH);
-//		gtk_widget_set_size_request(editor_name_entry[i], 30, -1);
 		if (options->color_profile.input_name[i])
 			{
 			gtk_entry_set_text(GTK_ENTRY(entry), options->color_profile.input_name[i]);
@@ -1907,9 +1814,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_GAP);
 	spin = pref_spin_new_int(hbox, _("Maximum size:"), _("MB"),
 				 0, 2048, 1, options->file_ops.safe_delete_folder_maxsize, &c_options->file_ops.safe_delete_folder_maxsize);
-#if GTK_CHECK_VERSION(2,12,0)
 	gtk_widget_set_tooltip_markup(spin, _("Set to 0 for unlimited size"));
-#endif
 	button = pref_button_new(NULL, NULL, _("View"), FALSE,
 				 G_CALLBACK(safe_delete_view_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
@@ -1934,7 +1839,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);
-	
+
 	pref_spin_new_int(group, _("Drag'n drop icon size"), NULL,
 			  16, 256, 16, options->dnd_icon_size, &c_options->dnd_icon_size);
 
@@ -1962,7 +1867,6 @@ static void config_tab_behavior(GtkWidget *notebook)
 /* accelerators tab */
 static void config_tab_accelerators(GtkWidget *notebook)
 {
-#if GTK_CHECK_VERSION(2, 10, 0)
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *group;
@@ -1995,9 +1899,9 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	renderer = gtk_cell_renderer_text_new();
 
 	column = gtk_tree_view_column_new_with_attributes(_("Action"),
-        	                                      renderer,
-                                                      "text", AE_ACTION,
-                                                      NULL);
+							  renderer,
+							  "text", AE_ACTION,
+							  NULL);
 
 	gtk_tree_view_column_set_sort_column_id(column, AE_ACTION);
 	gtk_tree_view_column_set_resizable(column, TRUE);
@@ -2012,14 +1916,14 @@ static void config_tab_accelerators(GtkWidget *notebook)
 
 
 	g_object_set (renderer,
-                  "editable", TRUE,
-                  "accel-mode", GTK_CELL_RENDERER_ACCEL_MODE_OTHER,
-                  NULL);
-    
+		      "editable", TRUE,
+		      "accel-mode", GTK_CELL_RENDERER_ACCEL_MODE_OTHER,
+		      NULL);
+
 	column = gtk_tree_view_column_new_with_attributes(_("KEY"),
-                                                      renderer,
-                                                      "text", AE_KEY,
-                                                      NULL);
+							  renderer,
+							  "text", AE_KEY,
+							  NULL);
 
 	gtk_tree_view_column_set_sort_column_id(column, AE_KEY);
 	gtk_tree_view_column_set_resizable(column, TRUE);
@@ -2028,9 +1932,9 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	renderer = gtk_cell_renderer_text_new();
 
 	column = gtk_tree_view_column_new_with_attributes(_("Tooltip"),
-                                                      renderer,
-                                                      "text", AE_TOOLTIP,
-                                                      NULL);
+							  renderer,
+							  "text", AE_TOOLTIP,
+							  NULL);
 
 	gtk_tree_view_column_set_sort_column_id(column, AE_TOOLTIP);
 	gtk_tree_view_column_set_resizable(column, TRUE);
@@ -2039,14 +1943,14 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	renderer = gtk_cell_renderer_text_new();
 
 	column = gtk_tree_view_column_new_with_attributes("Accel",
-                                                      renderer,
-                                                      "text", AE_ACCEL,
-                                                      NULL);
- 
+							  renderer,
+							  "text", AE_ACCEL,
+							  NULL);
+
 	gtk_tree_view_column_set_sort_column_id(column, AE_ACCEL);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(accel_view), column);
-    
+
 	accel_store_populate();
 	gtk_container_add(GTK_CONTAINER(scrolled), accel_view);
 	gtk_widget_show(accel_view);
@@ -2054,29 +1958,14 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
-				 G_CALLBACK(accel_default_cb), NULL);
+				 G_CALLBACK(accel_default_cb), accel_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
-
-#if 0
-	button = pref_button_new(NULL, GTK_STOCK_REMOVE, NULL, FALSE,
-				 G_CALLBACK(accel_remove_cb), accel_view);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-#endif
 
 	button = pref_button_new(NULL, NULL, _("Reset selected"), FALSE,
 				 G_CALLBACK(accel_reset_cb), accel_view);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
-
-#if 0
-	button = pref_button_new(NULL, _("Add Alt"), NULL, FALSE,
-                 G_CALLBACK(accel_add_alt_cb), accel_view);
-	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
-	gtk_widget_show(button);
-#endif
-#endif
 }
 
 /* stereo tab */
@@ -2188,7 +2077,7 @@ static void config_window_create(void)
 	button = pref_button_new(NULL, GTK_STOCK_OK, NULL, FALSE,
 				 G_CALLBACK(config_window_ok_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 
@@ -2197,19 +2086,19 @@ static void config_window_create(void)
 	button = pref_button_new(NULL, GTK_STOCK_SAVE, NULL, FALSE,
 				 G_CALLBACK(config_window_save_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
-	
+
 	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
 				 G_CALLBACK(config_window_apply_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
 				 G_CALLBACK(config_window_close_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	if (!generic_dialog_get_alternative_button_order(configwindow))
@@ -2318,7 +2207,7 @@ void show_about_window(void)
 	buf = g_strdup_printf(_("%s %s\n\nCopyright (c) 2006 John Ellis\nCopyright (c) %s The Geeqie Team\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
 			      GQ_APPNAME,
 			      VERSION,
-			      "2008 - 2010",
+			      "2008 - 2012",
 			      GQ_WEBSITE,
 			      GQ_EMAIL_ADDRESS);
 	label = gtk_label_new(buf);
@@ -2337,13 +2226,13 @@ void show_about_window(void)
 	button = pref_button_new(NULL, NULL, _("Credits..."), FALSE,
 				 G_CALLBACK(about_credits_cb), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
 				 G_CALLBACK(about_window_close), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), button);
-	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(button, TRUE);
 	gtk_widget_grab_default(button);
 	gtk_widget_show(button);
 

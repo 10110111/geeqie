@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Authors: Vladimir Nadvornik / Laurent Monin
  *
@@ -22,7 +22,7 @@ gchar *utf8_validate_or_convert(const gchar *text)
 	gint len;
 
 	if (!text) return NULL;
-	
+
 	len = strlen(text);
 	if (!g_utf8_validate(text, len, NULL))
 		return g_convert(text, len, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
@@ -160,7 +160,7 @@ int runcmd(gchar *cmd)
 
 		DEBUG_1("%s : %d\n", msg, retval);
 	}
-	
+
 	return retval;
 #endif
 }

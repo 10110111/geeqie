@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis, Vladimir Nadvornik, Laurent Monin
  *
@@ -12,15 +12,12 @@
 #ifndef URI_UTILS_H
 #define URI_UTILS_H
 
-/* dnd data parsers (uris) */
-
-gchar *uri_text_escape(const gchar *text);
-void uri_text_decode(gchar *text);
-
-GList *uri_list_from_text(gchar *data, gboolean files_only);
-GList *uri_filelist_from_text(gchar *data, gboolean files_only);
-gchar *uri_text_from_list(GList *list, gint *len, gboolean plain_text);
-gchar *uri_text_from_filelist(GList *list, gint *len, gboolean plain_text);
+GList *uri_filelist_from_uris(gchar **uris);
+gchar **uris_from_pathlist(GList *list);
+gchar **uris_from_filelist(GList *list);
+GList *uri_pathlist_from_uris(gchar **uris);
+gboolean uri_selection_data_set_uris_from_filelist(GtkSelectionData *selection_data, GList *list);
+GList *uri_filelist_from_gtk_selection_data(GtkSelectionData *selection_data);
 
 #endif /* URI_UTILS_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

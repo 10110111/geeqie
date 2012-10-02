@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -12,10 +12,6 @@
 
 #ifndef PIXBUF_RENDERER_H
 #define PIXBUF_RENDERER_H
-
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkwindow.h>
-
 
 #define TYPE_PIXBUF_RENDERER		(pixbuf_renderer_get_type())
 #define PIXBUF_RENDERER(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), TYPE_PIXBUF_RENDERER, PixbufRenderer))
@@ -76,22 +72,20 @@ typedef enum {
 
 struct _RendererFuncs
 {
-	void (*redraw)(void *renderer, gint x, gint y, gint w, gint h,
-                     gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
-        void (*area_changed)(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h);
-	void (*queue_clear)(void *renderer);
-	void (*border_clear)(void *renderer);
-	void (*invalidate_all)(void *renderer);
+//	void (*redraw)(void *renderer, gint x, gint y, gint w, gint h,
+  //                   gint clamp, ImageRenderType render, gboolean new_data, gboolean only_existing);
+        void (*area_changed)(void *renderer, gint src_x, gint src_y, gint src_w, gint src_h); /* pixbuf area changed */
 	void (*invalidate_region)(void *renderer, gint x, gint y, gint w, gint h);
-	void (*scroll)(void *renderer, gint x_off, gint y_off);
-	void (*update_sizes)(void *renderer);
+	void (*scroll)(void *renderer, gint x_off, gint y_off); /* scroll */
+	void (*update_viewport)(void *renderer); /* window / wiewport / border color has changed */
+	void (*update_pixbuf)(void *renderer, gboolean lazy); /* pixbuf has changed */
+	void (*update_zoom)(void *renderer, gboolean lazy); /* zoom has changed */
 
 	gint (*overlay_add)(void *renderer, GdkPixbuf *pixbuf, gint x, gint y, OverlayRendererFlags flags);
 	void (*overlay_set)(void *renderer, gint id, GdkPixbuf *pixbuf, gint x, gint y);
 	gboolean (*overlay_get)(void *renderer, gint id, GdkPixbuf **pixbuf, gint *x, gint *y);
-	void (*overlay_draw)(void *renderer, gint x, gint y, gint w, gint h);
 
-	void (*stereo_set)(void *renderer, gint stereo_mode);
+	void (*stereo_set)(void *renderer, gint stereo_mode); /* set stereo mode */
 
 	void (*free)(void *renderer);
 };
@@ -115,7 +109,7 @@ struct _PixbufRenderer
 
 	gint x_offset;		/* offset of image start (non-zero when viewport < window) */
 	gint y_offset;
-	
+
 	gint x_mouse; /* coordinates of the mouse taken from GtkEvent */
 	gint y_mouse;
 
@@ -130,7 +124,7 @@ struct _PixbufRenderer
 
 	gdouble norm_center_x;	/* coordinates of viewport center in the image, in range 0.0 - 1.0 */
 	gdouble norm_center_y;  /* these coordinates are used for PR_SCROLL_RESET_NOCHANGE and should be preserved over periods with NULL pixbuf */
-	
+
 	gdouble subpixel_x_scroll; /* subpixel scroll alignment, used to prevent acumulation of rounding errors */
 	gdouble subpixel_y_scroll;
 
@@ -144,8 +138,6 @@ struct _PixbufRenderer
 	GdkInterpType zoom_quality;
 	gboolean zoom_2pass;
 	gboolean zoom_expand;
-
-	GdkRgbDither dither_quality;
 
 	PixbufRendererScrollResetType scroll_reset;
 
@@ -201,7 +193,7 @@ struct _PixbufRenderer
 	gint orientation;
 
 	gint stereo_mode;
-	
+
 	StereoPixbufData stereo_data;
 	gboolean stereo_temp_disable;
 	gint stereo_fixed_width;
@@ -210,7 +202,7 @@ struct _PixbufRenderer
 	gint stereo_fixed_y_left;
 	gint stereo_fixed_x_right;
 	gint stereo_fixed_y_right;
-	
+
 	RendererFuncs *renderer;
 	RendererFuncs *renderer2;
 };
@@ -270,6 +262,7 @@ gint pixbuf_renderer_get_tiles(PixbufRenderer *pr);
 /* move image data from source to pr, source is then set to NULL image */
 
 void pixbuf_renderer_move(PixbufRenderer *pr, PixbufRenderer *source);
+void pixbuf_renderer_copy(PixbufRenderer *pr, PixbufRenderer *source);
 
 /* update region of existing image */
 

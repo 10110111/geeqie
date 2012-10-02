@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -45,7 +45,7 @@ struct _OverlayStateData {
 	OsdShowFlags show;
 
 	gint ovl_info;
-	
+
 	gint x;
 	gint y;
 
@@ -227,13 +227,13 @@ static gchar *keywords_to_string(FileData *fd)
 			{
 			gchar *kw = work->data;
 			work = work->next;
-			
+
 			if (!kw) continue;
 			if (!kwstr)
 				kwstr = g_string_new("");
 			else
 				g_string_append(kwstr, ", ");
-			
+
 			g_string_append(kwstr, kw);
 			}
 		string_list_free(keywords);
@@ -306,7 +306,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 		if (extrapos)
 			extra = g_strndup(extrapos, end - extrapos);
-					
+
 		name = g_strndup(start+1, (trunc ? trunc : end)-start-1);
 		pos = start - new->str;
 		data = NULL;
@@ -336,14 +336,14 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			if (!data)
 				data = metadata_read_string(imd->image_fd, name, METADATA_FORMATTED);
 			}
-	
+
 		if (data && *data && limit > 0 && strlen(data) > limit + 3)
 			{
 			gchar *new_data = g_strdup_printf("%-*.*s...", limit, limit, data);
 			g_free(data);
 			data = new_data;
 			}
-	
+
 		if (data)
 			{
 			/* Since we use pango markup to display, we need to escape here */
@@ -378,7 +378,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 				gchar *right = extra;
 				gchar *p;
 				guint len = strlen(extra);
-				
+
 				/* Search for left and right parts and unescape characters */
 				for (p = extra; *p; p++, len--)
 					if (p[0] == '\\')
@@ -489,9 +489,8 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	PangoLayout *layout;
 	const gchar *name;
 	gchar *text;
-	GdkPixbuf *imgpixbuf = NULL;
 	gboolean with_hist;
-	const HistMap *histmap;
+	const HistMap *histmap = NULL;
 	ImageWindow *imd = osd->imd;
 	FileData *fd = image_get_fd(imd);
 
@@ -550,20 +549,20 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 				t = 1;
 				n = 1;
 				}
-	
+
 			if (n < 1) n = 1;
 			if (t < 1) t = 1;
-	
+
 			osd_template_insert(vars, "collection", NULL, OSDT_NONE);
 			}
-		
+
 		osd_template_insert(vars, "number", g_strdup_printf("%d", n), OSDT_NO_DUP);
 		osd_template_insert(vars, "total", g_strdup_printf("%d", t), OSDT_NO_DUP);
 		osd_template_insert(vars, "name", (gchar *) name, OSDT_NONE);
 		osd_template_insert(vars, "date", imd->image_fd ? ((gchar *) text_from_time(imd->image_fd->date)) : "", OSDT_NONE);
 		osd_template_insert(vars, "size", imd->image_fd ? (text_from_size_abrev(imd->image_fd->size)) : g_strdup(""), OSDT_FREE);
 		osd_template_insert(vars, "zoom", image_zoom_get_as_text(imd), OSDT_FREE);
-	
+
 		if (!imd->unknown)
 			{
 			gint w, h;
@@ -575,15 +574,13 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 				{
 				w = gdk_pixbuf_get_width(load_pixbuf);
 				h = gdk_pixbuf_get_height(load_pixbuf);
-				imgpixbuf = load_pixbuf;
 				}
 			else
 				{
 				image_get_image_size(imd, &w, &h);
-				imgpixbuf = (PIXBUF_RENDERER(imd->pr))->pixbuf;
 				}
-		
-			
+
+
 			osd_template_insert(vars, "width", g_strdup_printf("%d", w), OSDT_NO_DUP);
 	 		osd_template_insert(vars, "height", g_strdup_printf("%d", h), OSDT_NO_DUP);
 	 		osd_template_insert(vars, "res", g_strdup_printf("%d × %d", w, h), OSDT_FREE);
@@ -607,14 +604,14 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	if (with_hist)
 		{
 		histmap = histmap_get(imd->image_fd);
-		if (!histmap) 
+		if (!histmap)
 			{
 			histmap_start_idle(imd->image_fd);
 			with_hist = FALSE;
 			}
 		}
-	
-	
+
+
 	{
 		gint active_marks = 0;
 		gint mark;
@@ -777,13 +774,6 @@ static void image_overlay_set(ImageWindow *imd, gint id, GdkPixbuf *pixbuf, gint
 	pixbuf_renderer_overlay_set((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
 }
 
-#if 0 /* unused for now */
-static gint image_overlay_get(ImageWindow *imd, gint id, GdkPixbuf **pixbuf, gint *x, gint *y)
-{
-	return pixbuf_renderer_overlay_get((PixbufRenderer *)imd->pr, id, pixbuf, x, y);
-}
-#endif
-
 static void image_overlay_remove(ImageWindow *imd, gint id)
 {
 	pixbuf_renderer_overlay_remove((PixbufRenderer *)imd->pr, id);
@@ -878,7 +868,7 @@ static gboolean image_osd_update_cb(gpointer data)
 
 	if (osd->show & OSD_SHOW_INFO)
 		{
-		/* redraw when the image was changed, 
+		/* redraw when the image was changed,
 		   with histogram we have to redraw also when loading is finished */
 		if (osd->changed_states & IMAGE_STATE_IMAGE ||
 		    (osd->changed_states & IMAGE_STATE_LOADING && osd->show & OSD_SHOW_HISTOGRAM) ||
@@ -907,7 +897,7 @@ static gboolean image_osd_update_cb(gpointer data)
 		{
 		if (osd->changed_states & IMAGE_STATE_IMAGE)
 			image_osd_icons_reset_time(osd);
-	
+
 		if (osd->changed_states & IMAGE_STATE_COLOR_ADJ)
 			{
 			osd->icon_time[IMAGE_OSD_COLOR] = IMAGE_OSD_DEFAULT_DURATION + 1;
@@ -1049,15 +1039,6 @@ static void image_osd_free(OverlayStateData *osd)
 	g_free(osd);
 }
 
-#if 0
-static void image_osd_remove(ImageWindow *imd)
-{
-	OverlayStateData *osd = image_get_osd_data(imd);
-
-	if (osd) image_osd_free(osd);
-}
-#endif
-
 static void image_osd_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	OverlayStateData *osd = data;
@@ -1077,7 +1058,7 @@ static void image_osd_enable(ImageWindow *imd, OsdShowFlags show)
 		osd->show = OSD_SHOW_NOTHING;
 		osd->x = options->image_overlay.x;
 		osd->y = options->image_overlay.y;
-		
+
 		osd->histogram = histogram_new();
 
 		osd->destroy_id = g_signal_connect(G_OBJECT(imd->pr), "destroy",
@@ -1122,13 +1103,13 @@ void image_osd_copy_status(ImageWindow *src, ImageWindow *dest)
 {
 	Histogram *h_src, *h_dest;
 	image_osd_set(dest, image_osd_get(src));
-	
+
 	h_src = image_osd_get_histogram(src);
 	h_dest = image_osd_get_histogram(dest);
-	
+
 	h_dest->histogram_mode = h_src->histogram_mode;
 	h_dest->histogram_channel = h_src->histogram_channel;
-	
+
 }
 
 /* duration:

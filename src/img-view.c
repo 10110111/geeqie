@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -322,7 +322,7 @@ static void view_window_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *p
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
-	gdk_window_get_origin(imd->pr->window, x, y);
+	gdk_window_get_origin(gtk_widget_get_window(imd->pr), x, y);
 	popup_menu_position_clamp(menu, x, y, 0);
 }
 
@@ -340,16 +340,16 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 	stop_signal = TRUE;
 	switch (event->keyval)
 		{
-		case GDK_Left: case GDK_KP_Left:
+		case GDK_KEY_Left: case GDK_KEY_KP_Left:
 			x -= 1;
 			break;
-		case GDK_Right: case GDK_KP_Right:
+		case GDK_KEY_Right: case GDK_KEY_KP_Right:
 			x += 1;
 			break;
-		case GDK_Up: case GDK_KP_Up:
+		case GDK_KEY_Up: case GDK_KEY_KP_Up:
 			y -= 1;
 			break;
-		case GDK_Down: case GDK_KP_Down:
+		case GDK_KEY_Down: case GDK_KEY_KP_Down:
 			y += 1;
 			break;
 		default:
@@ -373,40 +373,19 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 
 	if (event->state & GDK_CONTROL_MASK)
 		{
-		gint n = -1;
-
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
 			case '1':
-				n = 0;
-				break;
 			case '2':
-				n = 1;
-				break;
 			case '3':
-				n = 2;
-				break;
 			case '4':
-				n = 3;
-				break;
 			case '5':
-				n = 4;
-				break;
 			case '6':
-				n = 5;
-				break;
 			case '7':
-				n = 6;
-				break;
 			case '8':
-				n = 7;
-				break;
 			case '9':
-				n = 8;
-				break;
 			case '0':
-				n = 9;
 				break;
 			case 'C': case 'c':
 				file_util_copy(image_get_fd(imd), NULL, NULL, imd->widget);
@@ -467,32 +446,32 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 		stop_signal = TRUE;
 		switch (event->keyval)
 			{
-			case GDK_Page_Up: case GDK_KP_Page_Up:
-			case GDK_BackSpace:
+			case GDK_KEY_Page_Up: case GDK_KEY_KP_Page_Up:
+			case GDK_KEY_BackSpace:
 			case 'B': case 'b':
 				view_step_prev(vw);
 				break;
-			case GDK_Page_Down: case GDK_KP_Page_Down:
-			case GDK_space:
+			case GDK_KEY_Page_Down: case GDK_KEY_KP_Page_Down:
+			case GDK_KEY_space:
 			case 'N': case 'n':
 				view_step_next(vw);
 				break;
-			case GDK_Home: case GDK_KP_Home:
+			case GDK_KEY_Home: case GDK_KEY_KP_Home:
 				view_step_to_end(vw, FALSE);
 				break;
-			case GDK_End: case GDK_KP_End:
+			case GDK_KEY_End: case GDK_KEY_KP_End:
 				view_step_to_end(vw, TRUE);
 				break;
-			case '+': case '=': case GDK_KP_Add:
+			case '+': case '=': case GDK_KEY_KP_Add:
 				image_zoom_adjust(imd, get_zoom_increment());
 				break;
-			case '-': case GDK_KP_Subtract:
+			case '-': case GDK_KEY_KP_Subtract:
 				image_zoom_adjust(imd, -get_zoom_increment());
 				break;
-			case 'X': case 'x': case GDK_KP_Multiply:
+			case 'X': case 'x': case GDK_KEY_KP_Multiply:
 				image_zoom_set(imd, 0.0);
 				break;
-			case 'Z': case 'z': case GDK_KP_Divide: case '1':
+			case 'Z': case 'z': case GDK_KEY_KP_Divide: case '1':
 				image_zoom_set(imd, 1.0);
 				break;
 			case '2':
@@ -537,7 +516,7 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 				break;
 			case 'F': case 'f':
 			case 'V': case 'v':
-			case GDK_F11:
+			case GDK_KEY_F11:
 				view_fullscreen_toggle(vw, FALSE);
 				break;
 			case 'I': case 'i':
@@ -549,13 +528,13 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 			case '[':
 				image_alter_orientation(imd, ALTER_ROTATE_90_CC);
 				break;
-			case GDK_Delete: case GDK_KP_Delete:
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				if (options->file_ops.enable_delete_key)
 					{
 					file_util_delete(image_get_fd(imd), NULL, imd->widget);
 					}
 				break;
-			case GDK_Escape:
+			case GDK_KEY_Escape:
 				if (vw->fs)
 					{
 					view_fullscreen_toggle(vw, TRUE);
@@ -565,8 +544,8 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 					view_window_close(vw);
 					}
 				break;
-			case GDK_Menu:
-			case GDK_F10:
+			case GDK_KEY_Menu:
+			case GDK_KEY_F10:
 				menu = view_popup_menu(vw);
 				gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
 					       view_window_menu_pos_cb, vw, 0, GDK_CURRENT_TIME);
@@ -684,7 +663,7 @@ static void view_fullscreen_toggle(ViewWindow *vw, gboolean force_off)
 		{
 		if (image_osd_get(vw->imd) & OSD_SHOW_INFO)
 			image_osd_set(vw->imd, image_osd_get(vw->fs->imd));
-		
+
 		fullscreen_stop(vw->fs);
 		}
 	else
@@ -710,7 +689,7 @@ static void view_overlay_toggle(ViewWindow *vw)
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
-	
+
 	image_osd_toggle(imd);
 }
 
@@ -1000,7 +979,7 @@ void view_window_colors_update(void)
 		{
 		ViewWindow *vw = work->data;
 		work = work->next;
-		
+
 		image_background_set_color_from_options(vw->imd, !!vw->fs);
 		}
 }
@@ -1246,7 +1225,7 @@ static void view_popup_menu_destroy_cb(GtkWidget *widget, gpointer data)
 	GList *editmenu_fd_list = data;
 
 	filelist_free(editmenu_fd_list);
-}		
+}
 
 static GList *view_window_get_fd_list(ViewWindow *vw)
 {
@@ -1258,7 +1237,7 @@ static GList *view_window_get_fd_list(ViewWindow *vw)
 		FileData *fd = image_get_fd(imd);
 		if (fd) list = g_list_append(NULL, file_data_ref(fd));
 		}
-	
+
 	return list;
 }
 
@@ -1487,7 +1466,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			{
 			GList *work;
 
-			list = uri_filelist_from_text((gchar *)selection_data->data, TRUE);
+			list = uri_filelist_from_gtk_selection_data(selection_data);
 
 			work = list;
 			while (work)
@@ -1510,7 +1489,7 @@ static void view_window_get_dnd_data(GtkWidget *widget, GdkDragContext *context,
 			}
 		else
 			{
-			source = collection_from_dnd_data((gchar *)selection_data->data, &list, &info_list);
+			source = collection_from_dnd_data((gchar *)gtk_selection_data_get_data(selection_data), &list, &info_list);
 			}
 
 		if (list)
@@ -1556,34 +1535,15 @@ static void view_window_set_dnd_data(GtkWidget *widget, GdkDragContext *context,
 
 	if (fd)
 		{
-		gchar *text = NULL;
-		gint len;
-		gboolean plain_text;
 		GList *list;
 
-		switch (info)
-			{
-			case TARGET_URI_LIST:
-				plain_text = FALSE;
-				break;
-			case TARGET_TEXT_PLAIN:
-			default:
-				plain_text = TRUE;
-				break;
-			}
 		list = g_list_append(NULL, fd);
-		text = uri_text_from_filelist(list, &len, plain_text);
+		uri_selection_data_set_uris_from_filelist(selection_data, list);
 		g_list_free(list);
-		if (text)
-			{
-			gtk_selection_data_set(selection_data, selection_data->target,
-					       8, (guchar *)text, len);
-			g_free(text);
-			}
 		}
 	else
 		{
-		gtk_selection_data_set(selection_data, selection_data->target,
+		gtk_selection_data_set(selection_data, gtk_selection_data_get_target(selection_data),
 				       8, NULL, 0);
 		}
 }
@@ -1700,7 +1660,7 @@ static void view_window_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	ViewWindow *vw = data;
 
 	if (!(type & NOTIFY_CHANGE) || !fd->change) return;
-	
+
 	DEBUG_1("Notify view_window: %s %04x", fd->path, type);
 
 	switch (fd->change->type)

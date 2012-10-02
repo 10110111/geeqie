@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -21,7 +21,11 @@
 #ifdef HAVE_LCMS
 /*** color support enabled ***/
 
+#ifdef HAVE_LCMS2
+#include <lcms2.h>
+#else
 #include <lcms.h>
+#endif
 
 
 typedef struct _ColorManCache ColorManCache;
@@ -52,7 +56,9 @@ static void color_man_lib_init(void)
 	if (init_done) return;
 	init_done = TRUE;
 
+#ifndef HAVE_LCMS2
 	cmsErrorAction(LCMS_ERROR_IGNORE);
+#endif
 }
 
 static cmsHPROFILE color_man_create_adobe_comp(void)
@@ -425,7 +431,14 @@ static gchar *color_man_get_profile_name(ColorManProfileType type, cmsHPROFILE p
 		case COLOR_PROFILE_FILE:
 			if (profile)
 				{
+#ifdef HAVE_LCMS2
+				cmsUInt8Number profileID[17];
+				profileID[16] = '\0';
+				cmsGetHeaderProfileID(profile, profileID);
+				return g_strdup((gchar *) profileID);
+#else
 				return g_strdup(cmsTakeProductName(profile));
+#endif
 				}
 			return g_strdup(_("Custom profile"));
 			break;
@@ -441,7 +454,7 @@ gboolean color_man_get_status(ColorMan *cm, gchar **image_profile, gchar **scree
 	if (!cm) return FALSE;
 
 	cc = cm->profile;
-	
+
 	if (image_profile) *image_profile = color_man_get_profile_name(cc->profile_in_type, cc->profile_in);
 	if (screen_profile) *screen_profile = color_man_get_profile_name(cc->profile_out_type, cc->profile_out);
 	return TRUE;

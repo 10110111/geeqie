@@ -1,6 +1,6 @@
 /*
  * Geeqie
- * (C) 2004 John Ellis
+ * (C) 2006 John Ellis
  * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
@@ -10,14 +10,15 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
+#ifndef RENDERER_CLUTTER_H
+#define RENDERER_CLUTTER_H
 
-#ifndef PRINT_H
-#define PRINT_H
-
-
-/* do not free selection or list, the print window takes control of them */
-void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *parent);
+#ifdef HAVE_CLUTTER
+#include <pixbuf-renderer.h>
 
 
+RendererFuncs *renderer_clutter_new(PixbufRenderer *pr);
+
+#endif
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

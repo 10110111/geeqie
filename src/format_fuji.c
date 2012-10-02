@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2005 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  *  Authors:
  *    Original version 2005 Lars Ellenberg, base on dcraw by David coffin.
@@ -143,14 +143,6 @@ static ExifTextList FujiTagNoYes[]= {
 	{ 1,	"yes" },
 	EXIF_TEXT_LIST_END
 };
-
-#if 0
-static ExifTextList FujiTag[]= {
-	{ ,	"" },
-	{ ,	"" },
-	EXIF_TEXT_LIST_END
-};
-#endif
 
 
 static ExifMarker FujiExifMarkersList[] = {

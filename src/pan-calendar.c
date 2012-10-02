@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -86,21 +86,10 @@ void pan_calendar_update(PanWindow *pw, PanItem *pi_day)
 			}
 		}
 
-#if 0
-	if (!list) return;
-#endif
-
 	grid = (gint)(sqrt(g_list_length(list)) + 0.5);
 
 	x = pi_day->x + pi_day->width + 4;
 	y = pi_day->y;
-
-#if 0
-	if (y + grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_BOX_BORDER * 4 > pw->pr->image_height)
-		{
-		y = pw->pr->image_height - (grid * (PAN_THUMB_SIZE + PAN_THUMB_GAP) + PAN_BOX_BORDER * 4);
-		}
-#endif
 
 	pbox = pan_item_box_new(pw, NULL, x, y, PAN_BOX_BORDER, PAN_BOX_BORDER,
 				PAN_CAL_POPUP_BORDER,
@@ -194,8 +183,6 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	time_t tc;
 	gint count;
 	gint day_max;
-	gint day_width;
-	gint day_height;
 	gint grid;
 	gint year = 0;
 	gint month = 0;
@@ -240,8 +227,6 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	DEBUG_1("biggest day contains %d images", day_max);
 
 	grid = (gint)(sqrt((gdouble)day_max) + 0.5) * (PAN_THUMB_SIZE + PAN_SHADOW_OFFSET * 2 + PAN_THUMB_GAP);
-	day_width = MAX(PAN_CAL_DAY_WIDTH, grid);
-	day_height = MAX(PAN_CAL_DAY_HEIGHT, grid);
 
 	if (list)
 		{

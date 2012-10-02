@@ -1,7 +1,7 @@
 /*
  * (SLIK) SimpLIstic sKin functions
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: John Ellis
  *
@@ -383,9 +383,11 @@ static void bookmark_menu_remove_cb(GtkWidget *widget, gpointer data)
 static void bookmark_menu_position_cb(GtkMenu *menu, gint *x, gint *y, gint *pushed_in, gpointer data)
 {
 	GtkWidget *button = data;
+	GtkAllocation allocation;
 
-	gdk_window_get_origin(button->window, x, y);
-	*y += button->allocation.y + button->allocation.height;
+	gtk_widget_set_allocation(button, &allocation);
+	gdk_window_get_origin(gtk_widget_get_window(button), x, y);
+	*y += allocation.y + allocation.height;
 }
 
 static void bookmark_menu_popup(BookMarkData *bm, GtkWidget *button,
@@ -437,20 +439,20 @@ static gboolean bookmark_keypress_cb(GtkWidget *button, GdkEventKey *event, gpoi
 
 	switch (event->keyval)
 		{
-		case GDK_F10:
+		case GDK_KEY_F10:
 			if (!(event->state & GDK_CONTROL_MASK)) return FALSE;
-		case GDK_Menu:
+		case GDK_KEY_Menu:
 			bookmark_menu_popup(bm, button, 0, event->time, TRUE);
 			return TRUE;
 			break;
-		case GDK_Up:
+		case GDK_KEY_Up:
 			if (event->state & GDK_SHIFT_MASK)
 				{
 				bookmark_move(bm, button, -1);
 				return TRUE;
 				}
 			break;
-		case GDK_Down:
+		case GDK_KEY_Down:
 			if (event->state & GDK_SHIFT_MASK)
 				{
 				bookmark_move(bm, button, 1);
@@ -468,34 +470,30 @@ static void bookmark_drag_set_data(GtkWidget *button,
 {
 	BookMarkData *bm = data;
 	BookButtonData *b;
-	gchar *uri_text = NULL;
-	gint length = 0;
 	GList *list = NULL;
 
+#if GTK_CHECK_VERSION(3,0,0)
+	if (gdk_drag_context_get_dest_window(context) == gtk_widget_get_window(bm->widget)) return;
+#else
 	if (context->dest_window == bm->widget->window) return;
+#endif
 
 	b = g_object_get_data(G_OBJECT(button), "bookbuttondata");
 	if (!b) return;
 
 	list = g_list_append(list, b->path);
 
-	switch (info)
+	gchar **uris = uris_from_filelist(list);
+	gboolean ret = gtk_selection_data_set_uris(selection_data, uris);
+	if (!ret)
 		{
-		case TARGET_URI_LIST:
-			uri_text = uri_text_from_list(list, &length, FALSE);
-			break;
-		case TARGET_TEXT_PLAIN:
-			uri_text = uri_text_from_list(list, &length, TRUE);
-			break;
+		char *str = g_strjoinv("\r\n", uris);
+		ret = gtk_selection_data_set_text(selection_data, str, -1);
+		g_free(str);
 		}
 
+	g_strfreev(uris);
 	g_list_free(list);
-
-	if (!uri_text) return;
-
-	gtk_selection_data_set(selection_data, selection_data->target,
-			       8, (guchar *)uri_text, length);
-	g_free(uri_text);
 }
 
 static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpointer data)
@@ -503,17 +501,25 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	GdkPixbuf *pixbuf;
 	GdkModifierType mask;
 	gint x, y;
+	GtkAllocation allocation;
 
+	gtk_widget_get_allocation(button, &allocation);
+
+#if GTK_CHECK_VERSION(3,0,0)
+	pixbuf = gdk_pixbuf_get_from_window(gtk_widget_get_window(button),
+					    allocation.x, allocation.y,
+					    allocation.width, allocation.height);
+#else
 	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8,
-				button->allocation.width, button->allocation.height);
-	gdk_pixbuf_get_from_drawable(pixbuf, button->window, NULL,
-				     button->allocation.x, button->allocation.y,
-				     0, 0, button->allocation.width, button->allocation.height);
-
-	gdk_window_get_pointer(button->window, &x, &y, &mask);
+				allocation.width, allocation.height);
+	gdk_pixbuf_get_from_drawable(pixbuf, gtk_widget_get_window(button), NULL,
+				     allocation.x, allocation.y,
+				     0, 0, allocation.width, allocation.height);
+#endif
+	gdk_window_get_pointer(gtk_widget_get_window(button), &x, &y, &mask);
 
 	gtk_drag_set_icon_pixbuf(context, pixbuf,
-				 x - button->allocation.x, y - button->allocation.y);
+				 x - allocation.x, y - allocation.y);
 	g_object_unref(pixbuf);
 }
 
@@ -681,16 +687,13 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 	BookMarkData *bm = data;
 	GList *list = NULL;
 	GList *work;
+	gchar **uris;
 
 	if (!bm->editable) return;
 
-	switch (info)
-		{
-		case TARGET_URI_LIST:
-		case TARGET_X_URL:
-			list = uri_list_from_text((gchar *)selection_data->data, FALSE);
-			break;
-		}
+	uris = gtk_selection_data_get_uris(selection_data);
+	list = uri_filelist_from_uris(uris);
+	g_strfreev(uris);
 
 	work = list;
 	while (work)
@@ -871,13 +874,9 @@ GtkWidget *history_combo_new(GtkWidget **entry, const gchar *text,
 	hc->history_key = g_strdup(history_key);
 	hc->history_levels = max_levels;
 
-	hc->combo = gtk_combo_box_entry_new_text();
-#if 0
-	gtk_combo_set_case_sensitive(GTK_COMBO(hc->combo), TRUE);
-	gtk_combo_set_use_arrows(GTK_COMBO(hc->combo), FALSE);
-#endif
+	hc->combo = gtk_combo_box_text_new_with_entry();
 
-	hc->entry = GTK_BIN(hc->combo)->child;
+	hc->entry = gtk_bin_get_child(GTK_BIN(hc->combo));
 
 	g_object_set_data(G_OBJECT(hc->combo), "history_combo_data", hc);
 	g_object_set_data(G_OBJECT(hc->entry), "history_combo_data", hc);
@@ -887,7 +886,7 @@ GtkWidget *history_combo_new(GtkWidget **entry, const gchar *text,
 	work = history_list_get_by_key(hc->history_key);
 	while (work)
 		{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(hc->combo), (gchar *)work->data);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(hc->combo), (gchar *)work->data);
 		work = work->next;
 		n++;
 		}
@@ -944,7 +943,7 @@ void history_combo_append_history(GtkWidget *widget, const gchar *text)
 		work = history_list_get_by_key(hc->history_key);
 		while (work)
 			{
-			gtk_combo_box_append_text(GTK_COMBO_BOX(hc->combo), (gchar *)work->data);
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(hc->combo), (gchar *)work->data);
 			work = work->next;
 			}
 		}

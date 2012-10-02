@@ -1,7 +1,7 @@
 /*
  * Geeqie
  * (C) 2004 John Ellis
- * Copyright (C) 2008 - 2010 The Geeqie Team
+ * Copyright (C) 2008 - 2012 The Geeqie Team
  *
  * Author: Vladimir Nadvornik
  *
@@ -31,7 +31,7 @@
        NNN.: the data in this segment
  */
 
-gboolean jpeg_segment_find(guchar *data, guint size,
+gboolean jpeg_segment_find(const guchar *data, guint size,
 			    guchar app_marker, const gchar *magic, guint magic_len,
 			    guint *seg_offset, guint *seg_length);
 
@@ -50,11 +50,11 @@ struct _MPOEntry {
 	guint dep2;
 
 	guint MPFVersion;
-	guint MPIndividualNum;  
-	guint PanOrientation;   
-	double PanOverlap_H;    
-	double PanOverlap_V;    
-	guint BaseViewpointNum; 
+	guint MPIndividualNum;
+	guint PanOrientation;
+	double PanOverlap_H;
+	double PanOverlap_V;
+	guint BaseViewpointNum;
 	double ConvergenceAngle;
 	double BaselineLength;
 	double VerticalDivergence;
@@ -76,7 +76,9 @@ struct _MPOData {
 	MPOEntry *images;
 };
 
-MPOData* jpeg_get_mpo_data(guchar *data, guint size);
+MPOData* jpeg_get_mpo_data(const guchar *data, guint size);
 void jpeg_mpo_data_free(MPOData *mpo);
 
 #endif
+
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
