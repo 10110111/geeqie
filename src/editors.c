@@ -759,7 +759,7 @@ EditorFlags editor_command_parse(const EditorDescription *editor, GList *list, g
 	if (output)
 		result = g_string_new("");
 
-	if (editor->exec[0] == '\0')
+	if (editor->exec == NULL || editor->exec[0] == '\0')
 		{
 		flags |= EDITOR_ERROR_EMPTY;
 		goto err;
