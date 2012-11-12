@@ -43,6 +43,9 @@ FileData *file_data_ref(FileData *fd);
 void file_data_unref(FileData *fd);
 #endif
 
+void file_data_lock(FileData *fd);
+void file_data_unlock(FileData *fd);
+
 gboolean file_data_check_changed_files(FileData *fd);
 
 void file_data_increment_version(FileData *fd);

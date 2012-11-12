@@ -514,6 +514,7 @@ struct _FileData {
 
 	HistMap *histmap;
 
+	gboolean locked;
 	gint ref;
 	gint version; /* increased when any field in this structure is changed */
 	gboolean disable_grouping;
