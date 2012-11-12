@@ -532,6 +532,7 @@ static void file_data_free(FileData *fd)
 {
 	g_assert(fd->magick == FD_MAGICK);
 	g_assert(fd->ref == 0);
+	g_assert(!fd->locked);
 
 	metadata_cache_free(fd);
 	g_hash_table_remove(file_data_pool, fd->original_path);
@@ -630,10 +631,12 @@ void file_data_unref(FileData *fd)
 /**
  * \brief Lock the FileData in memory.
  *
- * This allows the caller to prevent a FileData from being freed, even
- * after its refcount is zero.
+ * This allows the caller to prevent a FileData from being freed, even after its refcount is zero.
+ * This is intended to be used in cases where a FileData _should_ stay in memory as an optimization,
+ * even if the code would continue to function properly even if the FileData were freed.  Code that
+ * _requires_ the FileData to remain in memory should continue to use file_data_(un)ref.
  * <p />
- * This differs from file_data_ref in that the behavior is reentrant -- after N calls to
+ * Note: This differs from file_data_ref in that the behavior is reentrant -- after N calls to
  * file_data_lock, a single call to file_data_unlock will unlock the FileData.
  */
 void file_data_lock(FileData *fd)
@@ -664,6 +667,42 @@ void file_data_unlock(FileData *fd)
 
 	// Free FileData if it's no longer ref'd
 	file_data_consider_free(fd);
+}
+
+/**
+ * \brief Lock all of the FileDatas in the provided list
+ *
+ * \see file_data_lock(FileData)
+ */
+void file_data_lock_list(GList *list)
+{
+	GList *work;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		file_data_lock(fd);
+		}
+}
+
+/**
+ * \brief Unlock all of the FileDatas in the provided list
+ *
+ * \see file_data_unlock(FileData)
+ */
+void file_data_unlock_list(GList *list)
+{
+	GList *work;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		file_data_unlock(fd);
+		}
 }
 
 /*
