@@ -26,6 +26,10 @@
 
 #include <errno.h>
 
+#ifdef DEBUG_FILEDATA
+gint global_file_data_count = 0;
+#endif
+
 static GHashTable *file_data_pool = NULL;
 static GHashTable *file_data_planned_change_hash = NULL;
 
@@ -383,6 +387,10 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 		}
 
 	fd = g_new0(FileData, 1);
+#ifdef DEBUG_FILEDATA
+	global_file_data_count++;
+	DEBUG_2("file data count++: %d", global_file_data_count);
+#endif
 
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
@@ -533,6 +541,11 @@ static void file_data_free(FileData *fd)
 	g_assert(fd->magick == FD_MAGICK);
 	g_assert(fd->ref == 0);
 	g_assert(!fd->locked);
+
+#ifdef DEBUG_FILEDATA
+	global_file_data_count--;
+	DEBUG_2("file data count--: %d", global_file_data_count);
+#endif
 
 	metadata_cache_free(fd);
 	g_hash_table_remove(file_data_pool, fd->original_path);
