@@ -204,30 +204,37 @@ static gboolean lirc_input_callback(GIOChannel *source, GIOCondition condition,
 void layout_image_lirc_init(LayoutWindow *lw)
 {
 	gint flags;
+	gboolean lirc_verbose = (get_debug_level() >= 2);
 
-	DEBUG_1("Initializing LIRC...");
-	lirc_fd = lirc_init(GQ_APPNAME_LC, get_debug_level() > 0);
+	lirc_fd = lirc_init(GQ_APPNAME_LC, lirc_verbose);
 	if (lirc_fd == -1)
 		{
-		g_fprintf(stderr, _("Could not init LIRC support\n"));
+		DEBUG_1("Initializing LIRC... failed");
 		return;
 		}
+	
+	DEBUG_1("Initializing LIRC... OK");
 	if (lirc_readconfig(NULL, &config, NULL) == -1)
 		{
 		lirc_deinit();
+		
 		g_fprintf(stderr,
 			_("could not read LIRC config file\n"
 			"please read the documentation of LIRC to \n"
 			"know how to create a proper config file\n"));
+		fflush(stderr);
+
+		DEBUG_1("Failed to read LIRC config file");
 		return;
 		}
+	if (lirc_verbose) fflush(stderr);
+
 	gio_chan = g_io_channel_unix_new(lirc_fd);
 	input_tag = g_io_add_watch(gio_chan, G_IO_IN,
 				   lirc_input_callback, lw);
 	fcntl(lirc_fd, F_SETOWN, getpid());
 	flags = fcntl(lirc_fd, F_GETFL, 0);
 	if (flags != -1) fcntl(lirc_fd, F_SETFL, flags|O_NONBLOCK);
-	fflush(stderr);
 }
 
 #endif /* HAVE_LIRC */
