@@ -86,11 +86,12 @@ void generic_dialog_attach_default(GenericDialog *gd, GtkWidget *widget)
 static gboolean generic_dialog_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	GenericDialog *gd = data;
+	gboolean auto_close = gd->auto_close;
 
 	if (event->keyval == GDK_KEY_Escape)
 		{
 		if (gd->cancel_cb) gd->cancel_cb(gd, gd->data);
-		else if (gd->auto_close) generic_dialog_click_cb(widget, data);
+		else if (auto_close) generic_dialog_click_cb(widget, data);
 		return TRUE;
 		}
 	return FALSE;
