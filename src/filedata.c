@@ -2909,10 +2909,21 @@ gboolean file_data_send_notification_idle_cb(gpointer data)
 
 void file_data_send_notification(FileData *fd, NotifyType type)
 {
+	GList *work = notify_func_list;
+
+	while (work)
+		{
+		NotifyData *nd = (NotifyData *)work->data;
+
+		nd->func(fd, type, nd->data);
+		work = work->next;
+		}
+    /*
 	NotifyIdleData *nid = g_new0(NotifyIdleData, 1);
 	nid->fd = file_data_ref(fd);
 	nid->type = type;
 	g_idle_add_full(G_PRIORITY_HIGH, file_data_send_notification_idle_cb, nid, NULL);
+    */
 }
 
 static GHashTable *file_data_monitor_pool = NULL;
