@@ -1,3337 +1,3156 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: gqview 0.9.5\n"
+"Project-Id-Version: Geeqie-1.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-13 22:14+0200\n"
-"PO-Revision-Date: 2001-02-21 17:46+0800\n"
-"Last-Translator: Wu Yulun <migr@operamail.com>\n"
-"Language-Team: Chinese <i18n-chinese@egroups.com>\n"
+"POT-Creation-Date: 2013-12-29 19:38+0800\n"
+"PO-Revision-Date: 2013-12-31 23:45+0100\n"
+"Last-Translator: Levin <zjlevin@hotmail.com>\n"
+"Language-Team: Levin <zjlevin@hotmail.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=gb2312\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-Basepath: /home/userone/Download/geeqie-1.1\n"
 
-#: src/bar_exif.c:444
-msgid "Tag"
-msgstr ""
+#: src/advanced_exif.c:328
+#: src/cache_maint.c:1304
+#: src/preferences.c:93
+#: src/preferences.c:1706
+msgid "Metadata"
+msgstr "å…ƒæ•°æ®"
 
-#: src/bar_exif.c:445 src/dupe.c:2646 src/dupe.c:3167 src/print.c:3232
-#: src/search.c:2760 src/utilops.c:2971 src/view_file_list.c:1820
-msgid "Name"
-msgstr "Ãû³Æ"
-
-#: src/bar_exif.c:446
-msgid "Value"
-msgstr ""
-
-#: src/bar_exif.c:447
-#, fuzzy
-msgid "Format"
-msgstr "ÆÕÍ¨"
-
-#: src/bar_exif.c:448
-msgid "Elements"
-msgstr ""
-
-#: src/bar_exif.c:449 src/preferences.c:1131
+#: src/advanced_exif.c:376
+#: src/preferences.c:1623
 msgid "Description"
-msgstr ""
+msgstr "æè¿°"
 
-#: src/bar_exif.c:576 src/info.c:125 src/preferences.c:1274
-#, fuzzy
-msgid "Exif"
-msgstr "ÍË³ö"
+#: src/advanced_exif.c:377
+msgid "Value"
+msgstr "å€¼"
 
-#: src/bar_exif.c:650
-msgid "Advanced view"
-msgstr ""
+#: src/advanced_exif.c:378
+#: src/desktop_file.c:515
+#: src/dupe.c:2651
+#: src/dupe.c:3173
+#: src/print.c:3209
+#: src/search.c:2852
+#: src/utilops.c:462
+#: src/view_file_list.c:2046
+msgid "Name"
+msgstr "åç§°"
 
-#: src/bar_info.c:35
-msgid "Favorite"
-msgstr ""
+#: src/advanced_exif.c:379
+msgid "Tag"
+msgstr "æ ‡ç­¾"
 
-#: src/bar_info.c:36
-#, fuzzy
-msgid "Todo"
-msgstr "Æ½ÆÌ"
+#: src/advanced_exif.c:380
+msgid "Format"
+msgstr "æ ¼å¼"
 
-#: src/bar_info.c:37
-msgid "People"
-msgstr ""
+#: src/advanced_exif.c:381
+msgid "Elements"
+msgstr "ä¿¡æ¯æ•°"
 
-#: src/bar_info.c:38
-msgid "Places"
-msgstr ""
+#: src/bar.c:167
+msgid "Histogram"
+msgstr "ç›´æ–¹å›¾"
 
-#: src/bar_info.c:39
-msgid "Art"
-msgstr ""
+#: src/bar.c:168
+msgid "Title"
+msgstr "æ ‡é¢˜"
 
-#: src/bar_info.c:40
-#, fuzzy
-msgid "Nature"
-msgstr "ÈÕÆÚ"
-
-#: src/bar_info.c:41
-msgid "Possessions"
-msgstr ""
-
-#: src/bar_info.c:801
-msgid "Keyword Presets"
-msgstr ""
-
-#: src/bar_info.c:804
-msgid "Favorite keywords list"
-msgstr ""
-
-#: src/bar_info.c:1301 src/info.c:189 src/search.c:2699
+#: src/bar.c:169
+#: src/search.c:2775
 msgid "Keywords"
-msgstr ""
+msgstr "å…³é”®è¯"
 
-#: src/bar_info.c:1315 src/info.c:825 src/pan-view.c:1542 src/print.c:2632
-#, fuzzy
-msgid "Filename:"
-msgstr "ÖØÃüÃû£º"
+#: src/bar.c:170
+#: src/search.c:2787
+msgid "Comment"
+msgstr "æ³¨é‡Š"
 
-#: src/bar_info.c:1316 src/info.c:391
-#, fuzzy
-msgid "File date:"
-msgstr "¹ıÂËÆ÷£º"
+#: src/bar.c:171
+msgid "Exif"
+msgstr "Exif ä¿¡æ¯"
 
-#: src/bar_info.c:1336
-msgid "Keywords:"
-msgstr ""
+#: src/bar.c:173
+msgid "File info"
+msgstr "æ–‡ä»¶ä¿¡æ¯"
 
-#: src/bar_info.c:1404
-#, fuzzy
-msgid "Comment:"
-msgstr "ÓëÖ®±È½Ï£º"
+#: src/bar.c:174
+msgid "Location and GPS"
+msgstr "ä½ç½®å’ŒGPS"
 
-#: src/bar_info.c:1428
-msgid "Edit favorite keywords list."
-msgstr ""
+#: src/bar.c:175
+#: src/exif.c:348
+msgid "Copyright"
+msgstr "ç‰ˆæƒ"
 
-#: src/bar_info.c:1432
+#: src/bar.c:178
+#: src/bar_gps.c:768
+msgid "GPS Map"
+msgstr "GPS åœ°å›¾"
+
+#: src/bar.c:297
+msgid "Move to _top"
+msgstr "ç§»åˆ°é¡¶éƒ¨ (_t)"
+
+#: src/bar.c:298
+#: src/ui_bookmark.c:405
+msgid "Move _up"
+msgstr "ä¸Šç§»(_u)"
+
+#: src/bar.c:299
+#: src/ui_bookmark.c:407
+msgid "Move _down"
+msgstr "ä¸‹ç§»(_d)"
+
+#: src/bar.c:300
+msgid "Move to _bottom"
+msgstr "ç§»åˆ°åº•éƒ¨ (_b)"
+
+#: src/bar.c:302
+msgid "Remove"
+msgstr "ç§»å»"
+
+#: src/bar_comment.c:195
+msgid "Add text to selected files"
+msgstr "æ·»åŠ æ–‡æœ¬åˆ°æ‰€é€‰å›¾ç‰‡"
+
+#: src/bar_comment.c:196
+msgid "Replace existing text in selected files"
+msgstr "æ›¿æ¢æ–‡æœ¬åˆ°æ‰€é€‰å›¾ç‰‡"
+
+#: src/bar_exif.c:213
+msgid "<empty label, fixme>"
+msgstr "<ç©ºæ ‡ç­¾ï¼Œä¿®å¤æˆ‘>"
+
+#: src/bar_exif.c:546
+#: src/bar_exif.c:556
+msgid "Configure entry"
+msgstr "è®¾ç½®æ¡ç›®"
+
+#: src/bar_exif.c:546
+#: src/bar_exif.c:556
+#: src/bar_exif.c:629
+msgid "Add entry"
+msgstr "æ·»åŠ æ¡ç›®"
+
+#: src/bar_exif.c:562
+msgid "Key:"
+msgstr "é”®å€¼:"
+
+#: src/bar_exif.c:571
+msgid "Title:"
+msgstr "æ ‡é¢˜:"
+
+#: src/bar_exif.c:580
+msgid "Show only if set"
+msgstr "ä»…å½“æ–‡ä»¶è®¾ç½®äº†ç›¸å…³å†…å®¹åæ‰æ˜¾ç¤º"
+
+#: src/bar_exif.c:581
+msgid "Editable (supported only for XMP)"
+msgstr "å¯ç¼–è¾‘ (ä»…è¢« XMP æ”¯æŒ)"
+
+#: src/bar_exif.c:617
+#, c-format
+msgid "Configure \"%s\""
+msgstr "è®¾ç½® \"%s\""
+
+#: src/bar_exif.c:618
+#: src/bar_keywords.c:1207
+#, c-format
+msgid "Remove \"%s\""
+msgstr "ç§»å» \"%s\""
+
+#: src/bar_exif.c:630
+msgid "Show hidden entries"
+msgstr "æ˜¾ç¤ºéšè—æ¡ç›®"
+
+#: src/bar_histogram.c:250
+#: src/layout_util.c:1432
+msgid "Histogram on _Red"
+msgstr "ç›´æ–¹å›¾ çº¢ (_R)"
+
+#: src/bar_histogram.c:251
+#: src/layout_util.c:1433
+msgid "Histogram on _Green"
+msgstr "ç›´æ–¹å›¾ ç»¿ (_G)"
+
+#: src/bar_histogram.c:252
+#: src/layout_util.c:1434
+msgid "Histogram on _Blue"
+msgstr "ç›´æ–¹å›¾ è“ (_B)"
+
+#: src/bar_histogram.c:253
+#: src/layout_util.c:1435
+msgid "_Histogram on RGB"
+msgstr "ç›´æ–¹å›¾ RGB (_H)"
+
+#: src/bar_histogram.c:254
+#: src/layout_util.c:1436
+msgid "Histogram on _Value"
+msgstr "ç›´æ–¹å›¾ å€¼ (_V)"
+
+#: src/bar_histogram.c:258
+#: src/layout_util.c:1440
+msgid "Li_near Histogram"
+msgstr "çº¿æ€§ç›´æ–¹å›¾ (_n)"
+
+#: src/bar_histogram.c:259
+msgid "L_og Histogram"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾(_o)"
+
+#: src/bar_keywords.c:414
 msgid "Add keywords to selected files"
-msgstr ""
+msgstr "æ·»åŠ å…³é”®è¯åˆ°æ‰€é€‰å›¾ç‰‡"
 
-#: src/bar_info.c:1435
-msgid "Add keywords to selected files, replacing existing ones"
-msgstr ""
+#: src/bar_keywords.c:415
+msgid "Replace existing keywords in selected files"
+msgstr "æ›¿æ¢å…³é”®è¯åˆ°æ‰€é€‰å›¾ç‰‡"
 
-#: src/bar_info.c:1438
-#, fuzzy
-msgid "Add comment to selected files"
-msgstr ""
-"½«ÒªÉ¾³ıÎÄ¼ş£º\n"
-" %s"
+#: src/bar_keywords.c:888
+msgid "Edit keyword"
+msgstr "ç¼–è¾‘å…³é”®è¯"
 
-#: src/bar_info.c:1441
-msgid "Add comment to selected files, replacing existing one"
-msgstr ""
+#: src/bar_keywords.c:888
+msgid "Add keywords"
+msgstr "æ·»åŠ å…³é”®è¯"
 
-#: src/bar_info.c:1446
-#, fuzzy
-msgid "Save comment now"
-msgstr "±£´æÍ¼Ïñ¼¯"
+#: src/bar_keywords.c:895
+msgid "Configure keyword"
+msgstr "è®¾ç½®å…³é”®è¯"
 
-#: src/bar_sort.c:218
-#, fuzzy, c-format
-msgid ""
-"Unable to remove symbolic link:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÒÆ¶¯µ½£º\n"
-"%s"
+#: src/bar_keywords.c:895
+#: src/bar_keywords.c:1161
+msgid "Add keyword"
+msgstr "æ·»åŠ å…³é”®è¯"
 
-#: src/bar_sort.c:219
-#, fuzzy
-msgid "Unlink failed"
-msgstr "É¾³ıÊ§°Ü"
+#: src/bar_keywords.c:901
+msgid "Keyword:"
+msgstr "å…³é”®è¯:"
 
-#: src/bar_sort.c:300
-#, fuzzy, c-format
-msgid ""
-"Unable to create symbolic link:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨´´½¨Ä¿Â¼£º\n"
-"%s"
+#: src/bar_keywords.c:910
+msgid "Keyword type:"
+msgstr "å…³é”®è¯ç±»å‹:"
 
-#: src/bar_sort.c:301
-msgid "Link failed"
-msgstr ""
+#: src/bar_keywords.c:912
+msgid "Active keyword"
+msgstr "å¯é€‰æ‹©"
 
-#: src/bar_sort.c:452
-#, fuzzy, c-format
+#: src/bar_keywords.c:915
+msgid "Helper"
+msgstr "ä»…åˆ†ç±»"
+
+#: src/bar_keywords.c:1165
+msgid "Add keyword to all selected images"
+msgstr "æ·»åŠ å…³é”®è¯åˆ°æ‰€æœ‰é€‰æ‹©çš„å›¾ç‰‡"
+
+#: src/bar_keywords.c:1185
+#, c-format
+msgid "Hide \"%s\""
+msgstr "éšè— \"%s\""
+
+#: src/bar_keywords.c:1192
+#, c-format
+msgid "Mark %d"
+msgstr "æ ‡è®° %d"
+
+#: src/bar_keywords.c:1197
+#, c-format
+msgid "Connect \"%s\" to mark"
+msgstr "å…³è” \"%s\" åˆ°æ ‡è®°"
+
+#: src/bar_keywords.c:1204
+#, c-format
+msgid "Edit \"%s\""
+msgstr "ç¼–è¾‘ \"%s\""
+
+#: src/bar_keywords.c:1214
+#, c-format
+msgid "Disconnect \"%s\" from mark %s"
+msgstr "å–æ¶ˆå…³è” \"%s\" åˆ°æ ‡è®° %s"
+
+#: src/bar_keywords.c:1226
+#: src/bar_keywords.c:1235
+msgid "Expand checked"
+msgstr "å±•å¼€å‹¾é€‰"
+
+#: src/bar_keywords.c:1227
+#: src/bar_keywords.c:1236
+msgid "Collapse unchecked"
+msgstr "æ”¶æ‹¢æœªå‹¾é€‰"
+
+#: src/bar_keywords.c:1228
+#: src/bar_keywords.c:1237
+msgid "Hide unchecked"
+msgstr "éšè—æœªå‹¾é€‰"
+
+#: src/bar_keywords.c:1229
+msgid "Show all"
+msgstr "æ˜¾ç¤ºå…¨éƒ¨"
+
+#: src/bar_keywords.c:1232
+msgid "On any change"
+msgstr "å½“ä»»ä½•æ”¹å˜æ—¶"
+
+#: src/bar_sort.c:449
+#, c-format
 msgid ""
 "The collection:\n"
 "%s\n"
 "already exists."
 msgstr ""
-"Ä¿Â¼£º\n"
+"å›¾ç‰‡é›†:\n"
 "%s\n"
-"ÒÑ´æÔÚ¡£"
+"å·²å­˜åœ¨."
 
-#: src/bar_sort.c:453
-#, fuzzy
+#: src/bar_sort.c:450
 msgid "Collection exists"
-msgstr "Í¼Ïñ¼¯Îª¿Õ"
+msgstr "å›¾ç‰‡é›†å·²å­˜åœ¨"
 
-#: src/bar_sort.c:467 src/collect.c:1083 src/collect-dlg.c:85
+#: src/bar_sort.c:464
+#: src/collect.c:1098
+#: src/collect-dlg.c:85
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
 "%s"
 msgstr ""
-"±£´æÍ¼Ïñ¼¯Ê§°Ü£º\n"
+"ä¿å­˜å›¾ç‰‡é›†å¤±è´¥:\n"
 "%s"
 
-#: src/bar_sort.c:468 src/collect.c:1084 src/collect-dlg.c:86
+#: src/bar_sort.c:465
+#: src/collect.c:1099
+#: src/collect-dlg.c:86
 msgid "Save Failed"
-msgstr "±£´æÊ§°Ü"
+msgstr "ä¿å­˜å¤±è´¥"
 
-#: src/bar_sort.c:502 src/bar_sort.c:628
+#: src/bar_sort.c:500
+#: src/bar_sort.c:670
 msgid "Add Bookmark"
-msgstr ""
+msgstr "æ·»åŠ ä¹¦ç­¾"
 
-#: src/bar_sort.c:506
-#, fuzzy
+#: src/bar_sort.c:504
 msgid "Add Collection"
-msgstr "Í¼Ïñ¼¯"
+msgstr "æ·»åŠ å›¾ç‰‡é›†"
 
-#: src/bar_sort.c:523 src/ui_bookmark.c:601
-#, fuzzy
+#: src/bar_sort.c:521
+#: src/ui_bookmark.c:288
 msgid "Name:"
-msgstr "Ãû³Æ"
+msgstr "åç§°:"
 
-#: src/bar_sort.c:585
-#, fuzzy
+#: src/bar_sort.c:597
 msgid "Sort Manager"
-msgstr "°´Ãû³ÆÅÅĞò"
+msgstr "å¿«æ·æ•´ç†"
 
-#: src/bar_sort.c:594 src/pan-view.c:2395 src/ui_pathsel.c:1103
-#, fuzzy
+#: src/bar_sort.c:606
+#: src/pan-view.c:2417
+#: src/ui_pathsel.c:1106
 msgid "Folders"
-msgstr "Æ½ÆÌ"
+msgstr "æ–‡ä»¶å¤¹"
 
-#: src/bar_sort.c:595 src/main.c:567
+#: src/bar_sort.c:607
+#: src/options.c:147
 msgid "Collections"
-msgstr "Í¼Ïñ¼¯"
-
-#: src/bar_sort.c:603 src/utilops.c:1177
-msgid "Copy"
-msgstr "¸´ÖÆ"
-
-#: src/bar_sort.c:606 src/utilops.c:1191
-msgid "Move"
-msgstr "ÒÆ¶¯"
-
-#: src/bar_sort.c:609
-msgid "Link"
-msgstr ""
+msgstr "å›¾ç‰‡é›†"
 
 #: src/bar_sort.c:615
-#, fuzzy
-msgid "Add image"
-msgstr "%d Í¼Ïñ"
+#: src/utilops.c:2124
+msgid "Copy"
+msgstr "å¤åˆ¶"
 
 #: src/bar_sort.c:618
-#, fuzzy
+#: src/utilops.c:2075
+msgid "Move"
+msgstr "ç§»åŠ¨"
+
+#: src/bar_sort.c:657
+msgid "Add image"
+msgstr "æ·»åŠ å›¾åƒ"
+
+#: src/bar_sort.c:660
 msgid "Add selection"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "æ·»åŠ æ‰€é€‰é¡¹"
 
-#: src/bar_sort.c:631
+#: src/bar_sort.c:673
 msgid "Undo last image"
-msgstr ""
+msgstr "æ’¤é”€ä¸Šä¸€å›¾ç‰‡"
 
-#: src/cache.c:175
-#, fuzzy, c-format
+#: src/cache.c:174
+#, c-format
 msgid ""
 "error saving sim cache data: %s\n"
 "error: %s\n"
-msgstr "±£´æÅäÖÃÎÄ¼ş³ö´í£º%s\n"
+msgstr ""
+"ä¿å­˜æ¨¡æ‹Ÿç¼“å­˜æ•°æ®å‡ºé”™: %s\n"
+"error: %s\n"
 
-#: src/cache_maint.c:127 src/cache_maint.c:689 src/cache_maint.c:902
-#: src/editors.c:717
-#, fuzzy
+#: src/cache_maint.c:129
+#: src/cache_maint.c:730
+#: src/cache_maint.c:954
+#: src/editors.c:1177
 msgid "done"
-msgstr "ÎŞ"
+msgstr "å®Œæˆ"
 
-#: src/cache_maint.c:306
-#, fuzzy
+#: src/cache_maint.c:311
 msgid "Removing old metadata..."
-msgstr "ÕıÔÚ¶ÁÈ¡ÏàËÆĞÔÊı¾İ..."
+msgstr "ç§»é™¤æ—§çš„å…ƒæ•°æ®..."
 
-#: src/cache_maint.c:310
-#, fuzzy
+#: src/cache_maint.c:315
 msgid "Clearing cached thumbnails..."
-msgstr "ÕıÔÚÇå³ıËõÂÔÍ¼..."
+msgstr "æ¸…ç†ç¼“å­˜çš„ç¼©ç•¥å›¾..."
 
-#: src/cache_maint.c:314 src/cache_maint.c:1056
-#, fuzzy
+#: src/cache_maint.c:319
+#: src/cache_maint.c:1116
 msgid "Removing old thumbnails..."
-msgstr "ÕıÔÚÇå³ı¾ÉµÄËõÂÔÍ¼..."
+msgstr "ç§»é™¤æ—§çš„ç¼©ç•¥å›¾..."
 
-#: src/cache_maint.c:317 src/cache_maint.c:1059
+#: src/cache_maint.c:322
+#: src/cache_maint.c:1119
 msgid "Maintenance"
-msgstr ""
+msgstr "ç»´æŠ¤"
 
-#: src/cache_maint.c:800 src/utilops.c:1107
-#, fuzzy
+#: src/cache_maint.c:845
 msgid "Invalid folder"
-msgstr "·Ç·¨ÎÄ¼şÃû"
+msgstr "æ— æ•ˆçš„æ–‡ä»¶å¤¹"
 
-#: src/cache_maint.c:801
+#: src/cache_maint.c:846
 msgid "The specified folder can not be found."
-msgstr ""
+msgstr "æ‰¾ä¸åˆ°æŒ‡å®šæ–‡ä»¶å¤¹."
 
-#: src/cache_maint.c:829 src/cache_maint.c:843 src/cache_maint.c:1227
-#, fuzzy
+#: src/cache_maint.c:877
+#: src/cache_maint.c:891
+#: src/cache_maint.c:1295
 msgid "Create thumbnails"
-msgstr "»º´æËõÂÔÍ¼"
+msgstr "åˆ›å»ºç¼©ç•¥å›¾"
 
-#: src/cache_maint.c:837 src/cache_maint.c:1066
-#, fuzzy
+#: src/cache_maint.c:885
+#: src/cache_maint.c:1126
 msgid "S_tart"
-msgstr "ÈÕÆÚ"
+msgstr "å¼€å§‹ (_t)"
 
-#: src/cache_maint.c:850 src/preferences.c:1407
-#, fuzzy
+#: src/cache_maint.c:898
+#: src/preferences.c:1893
 msgid "Folder:"
-msgstr "Æ½ÆÌ"
+msgstr "æ–‡ä»¶å¤¹:"
 
-#: src/cache_maint.c:853
-#, fuzzy
+#: src/cache_maint.c:901
 msgid "Select folder"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "é€‰æ‹©æ–‡ä»¶å¤¹"
 
-#: src/cache_maint.c:857
-#, fuzzy
+#: src/cache_maint.c:905
 msgid "Include subfolders"
-msgstr "·Ç·¨ÎÄ¼şÃû"
+msgstr "åŒ…æ‹¬å­ç›®å½•"
 
-#: src/cache_maint.c:858
+#: src/cache_maint.c:906
 msgid "Store thumbnails local to source images"
-msgstr ""
+msgstr "å­˜å‚¨ç¼©ç•¥å›¾åˆ°æºå›¾åƒä½ç½®"
 
-#: src/cache_maint.c:867 src/cache_maint.c:1075
+#: src/cache_maint.c:915
+#: src/cache_maint.c:1135
 msgid "click start to begin"
-msgstr ""
+msgstr "ç‚¹å‡»å¼€å§‹æŒ‰é’®æ‰§è¡Œ"
 
-#: src/cache_maint.c:1005 src/editors.c:647
-#, fuzzy
+#: src/cache_maint.c:1062
+#: src/editors.c:1103
 msgid "running..."
-msgstr "ÕıÔÚ±È½Ï..."
+msgstr "è¿è¡Œä¸­..."
 
-#: src/cache_maint.c:1051
+#: src/cache_maint.c:1111
 msgid "Clearing thumbnails..."
-msgstr "ÕıÔÚÇå³ıËõÂÔÍ¼..."
+msgstr "æ¸…ç†ç¼©ç•¥å›¾..."
 
-#: src/cache_maint.c:1117 src/cache_maint.c:1120 src/cache_maint.c:1202
-#: src/cache_maint.c:1222
+#: src/cache_maint.c:1177
+#: src/cache_maint.c:1180
+#: src/cache_maint.c:1273
+#: src/cache_maint.c:1290
 msgid "Clear cache"
-msgstr "Çå³ı»º³åÇø"
+msgstr "æ¸…é™¤ç¼“å­˜"
 
-#: src/cache_maint.c:1121
+#: src/cache_maint.c:1181
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
 msgstr ""
-"Õâ½«É¾³ı±£´æµ½´ÅÅÌÉÏµÄ\n"
-"ËùÓĞËõÂÔÍ¼£¬¼ÌĞø£¿"
+"è¿™å°†ä¼šç§»é™¤æ‰€æœ‰å·²è¢«ä¿å­˜\n"
+"åˆ°ç¡¬ç›˜çš„ç¼©ç•¥å›¾, ç»§ç»­å—ï¼Ÿ"
 
-#: src/cache_maint.c:1172
-#, fuzzy
-msgid "Cache Maintenance"
-msgstr "ÇóÖú - Geeqie"
-
-#: src/cache_maint.c:1184
-msgid "Cache and Data Maintenance"
-msgstr ""
-
-#: src/cache_maint.c:1188
-#, fuzzy
-msgid "Thumbnail cache"
-msgstr "Geeqie È«ÆÁ"
-
-#: src/cache_maint.c:1190 src/cache_maint.c:1210 src/cache_maint.c:1238
-#: src/pan-view.c:1544 src/pan-view.c:2384 src/preferences.c:1333
-#: src/utilops.c:1747
-#, fuzzy
-msgid "Location:"
-msgstr "Í¼Ïñ¼¯"
-
-#: src/cache_maint.c:1197 src/cache_maint.c:1217 src/cache_maint.c:1245
-#, fuzzy
-msgid "Clean up"
-msgstr "Çå³ı"
-
-#: src/cache_maint.c:1200 src/cache_maint.c:1220
-msgid "Remove orphaned or outdated thumbnails."
-msgstr ""
-
-#: src/cache_maint.c:1205 src/cache_maint.c:1225
-#, fuzzy
-msgid "Delete all cached thumbnails."
-msgstr "»º´æËõÂÔÍ¼"
-
-#: src/cache_maint.c:1208
-#, fuzzy
-msgid "Shared thumbnail cache"
-msgstr "»º´æËõÂÔÍ¼"
-
-#: src/cache_maint.c:1231
-#, fuzzy
-msgid "Render"
-msgstr "ÖØÃüÃû"
-
-#: src/cache_maint.c:1234
-msgid "Render thumbnails for a specific folder."
-msgstr ""
-
-#: src/cache_maint.c:1236
-msgid "Metadata"
-msgstr ""
+#: src/cache_maint.c:1223
+#, c-format
+msgid "Location: %s"
+msgstr "ä½ç½®: %s"
 
 #: src/cache_maint.c:1248
+msgid "Cache Maintenance"
+msgstr "ç¼“å­˜ç»´æŠ¤"
+
+#: src/cache_maint.c:1258
+msgid "Cache and Data Maintenance"
+msgstr "ç¼“å­˜ä¸æ•°æ®ç»´æŠ¤"
+
+#: src/cache_maint.c:1262
+msgid "Thumbnail cache"
+msgstr "ç¼©ç•¥å›¾ç¼“å­˜"
+
+#: src/cache_maint.c:1268
+#: src/cache_maint.c:1285
+#: src/cache_maint.c:1310
+msgid "Clean up"
+msgstr "æ¸…ç†"
+
+#: src/cache_maint.c:1271
+#: src/cache_maint.c:1288
+msgid "Remove orphaned or outdated thumbnails."
+msgstr "ç§»é™¤æ— ç”¨æˆ–è¿‡æœŸçš„ç¼©ç•¥å›¾."
+
+#: src/cache_maint.c:1276
+#: src/cache_maint.c:1293
+msgid "Delete all cached thumbnails."
+msgstr "åˆ é™¤æ‰€æœ‰ç¼“å­˜çš„ç¼©ç•¥å›¾."
+
+#: src/cache_maint.c:1279
+msgid "Shared thumbnail cache"
+msgstr "å…±äº«çš„ç¼©ç•¥å›¾ç¼“å­˜"
+
+#: src/cache_maint.c:1299
+msgid "Render"
+msgstr "ç”Ÿæˆ"
+
+#: src/cache_maint.c:1302
+msgid "Render thumbnails for a specific folder."
+msgstr "å¯¹æŒ‡å®šæ–‡ä»¶å¤¹ç”Ÿæˆç¼©ç•¥å›¾"
+
+#: src/cache_maint.c:1313
 msgid "Remove orphaned keywords and comments."
-msgstr ""
+msgstr "ç§»é™¤æ— ç”¨çš„å…³é”®è¯å’Œæ³¨é‡Š"
 
-#: src/cellrenderericon.c:127
-msgid "Pixbuf Object"
-msgstr ""
-
-#: src/cellrenderericon.c:128
-msgid "The pixbuf to render"
-msgstr ""
-
-#: src/cellrenderericon.c:135 src/print.c:3439
-msgid "Text"
-msgstr ""
-
-#: src/cellrenderericon.c:136
-msgid "Text to render"
-msgstr ""
-
-#: src/cellrenderericon.c:143
-msgid "Background color"
-msgstr ""
-
-#: src/cellrenderericon.c:144
-msgid "Background color as a GdkColor"
-msgstr ""
-
-#: src/cellrenderericon.c:151
-msgid "Foreground color"
-msgstr ""
-
-#: src/cellrenderericon.c:152
-msgid "Foreground color as a GdkColor"
-msgstr ""
-
-#: src/cellrenderericon.c:159
-msgid "Focus"
-msgstr ""
-
-#: src/cellrenderericon.c:160
-msgid "Draw focus indicator"
-msgstr ""
-
-#: src/cellrenderericon.c:167
-msgid "Fixed width"
-msgstr ""
-
-#: src/cellrenderericon.c:168
-msgid "Width of cell"
-msgstr ""
-
-#: src/cellrenderericon.c:176
-msgid "Fixed height"
-msgstr ""
-
-#: src/cellrenderericon.c:177
-msgid "Height of icon excluding text"
-msgstr ""
-
-#: src/cellrenderericon.c:185
-msgid "Background set"
-msgstr ""
-
-#: src/cellrenderericon.c:186
-msgid "Whether this tag affects the background color"
-msgstr ""
-
-#: src/cellrenderericon.c:193
-msgid "Foreground set"
-msgstr ""
-
-#: src/cellrenderericon.c:194
-msgid "Whether this tag affects the foreground color"
-msgstr ""
-
-#: src/cellrenderericon.c:201
-#, fuzzy
-msgid "Show text"
-msgstr "ÏÔÊ¾Òş²ØÎÄ¼ş"
-
-#: src/cellrenderericon.c:202
-msgid "Whether the text is displayed"
-msgstr ""
-
-#: src/collect.c:353 src/image.c:178 src/image-overlay.c:437
+#: src/collect.c:366
+#: src/image.c:160
 #: src/image-overlay.c:512
-#, c-format
+#: src/image-overlay.c:591
 msgid "Untitled"
-msgstr "ÎŞ±êÌâ"
+msgstr "æœªå‘½å"
 
-#: src/collect.c:357
+#: src/collect.c:370
 #, c-format
 msgid "Untitled (%d)"
-msgstr "ÎŞ±êÌâ (%d)"
+msgstr "æœªå‘½å (%d)"
 
-#: src/collect.c:1002
-#, fuzzy, c-format
+#: src/collect.c:1016
+#, c-format
 msgid "%s - Collection - %s"
-msgstr "%s - Geeqie Í¼Ïñ¼¯"
+msgstr "%s - å›¾ç‰‡é›† - %s"
 
-#: src/collect.c:1120 src/collect.c:1124
+#: src/collect.c:1135
+#: src/collect.c:1139
 msgid "Close collection"
-msgstr "¹Ø±ÕÍ¼Ïñ¼¯"
+msgstr "å…³é—­å›¾ç‰‡é›†"
 
-#: src/collect.c:1125
+#: src/collect.c:1140
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
 msgstr ""
-"Í¼Ïñ¼¯ÒÑĞŞ¸Ä¡£\n"
-"Ê×ÏÈ±£´æËü£¿"
+"å›¾ç‰‡é›†å·²è¢«ä¿®æ”¹.\n"
+"è¦ä¿å­˜å—ï¼Ÿ"
 
-#: src/collect.c:1128
+#: src/collect.c:1143
 msgid "_Discard"
-msgstr ""
+msgstr "æ”¾å¼ƒ (_D)"
 
 #: src/collect-dlg.c:59
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Specified path:\n"
 "%s\n"
 "is a folder, collections are files"
 msgstr ""
-"Ö¸¶¨Â·¾¶£º\n"
+"æŒ‡å®šè·¯å¾„:\n"
 "%s\n"
-"ÊÇ¸öÄ¿Â¼£¬µ«Í¼Ïñ¼¯ÊÇÎÄ¼ş"
+"æ˜¯ä¸ªæ–‡ä»¶å¤¹ï¼Œå›¾ç‰‡é›†æ˜¯æ–‡ä»¶"
 
 #: src/collect-dlg.c:60
 msgid "Invalid filename"
-msgstr "·Ç·¨ÎÄ¼şÃû"
+msgstr "æ— æ•ˆæ–‡ä»¶å"
 
 #: src/collect-dlg.c:69
 msgid "Overwrite File"
-msgstr "¸²¸ÇÎÄ¼ş"
+msgstr "è¦†ç›–æ–‡ä»¶"
 
 #: src/collect-dlg.c:74
-#, fuzzy
 msgid "Overwrite existing file?"
-msgstr "¸²¸ÇÎÄ¼ş"
+msgstr "è¦†ç›–å·²å­˜åœ¨çš„æ–‡ä»¶ï¼Ÿ"
 
-#: src/collect-dlg.c:76 src/utilops.c:660 src/utilops.c:990 src/utilops.c:1902
-#: src/utilops.c:2622
-#, fuzzy
+#: src/collect-dlg.c:76
 msgid "_Overwrite"
-msgstr "¸²¸Ç"
+msgstr "è¦†ç›– (_O)"
 
-#: src/collect-dlg.c:171
+#: src/collect-dlg.c:127
+#, c-format
+msgid "No such file '%s'."
+msgstr "æ²¡æœ‰è¿™æ ·çš„æ–‡ä»¶ '%s'."
+
+#: src/collect-dlg.c:132
+#, c-format
+msgid "'%s' is a directory, not a collection file."
+msgstr "'%s' æ˜¯ä¸ªç›®å½•, ä¸æ˜¯å›¾ç‰‡é›†æ–‡ä»¶."
+
+#: src/collect-dlg.c:137
+#, c-format
+msgid "You do not have read permissions on the file '%s'."
+msgstr "ä½ æ²¡æœ‰æ–‡ä»¶ '%s' çš„è¯»å–æƒé™. "
+
+#: src/collect-dlg.c:143
+msgid "Can not open collection file"
+msgstr "ä¸èƒ½æ‰“å¼€å›¾ç‰‡é›†"
+
+#: src/collect-dlg.c:195
 msgid "Save collection"
-msgstr "±£´æÍ¼Ïñ¼¯"
+msgstr "ä¿å­˜å›¾ç‰‡é›†"
 
-#: src/collect-dlg.c:178
+#: src/collect-dlg.c:202
 msgid "Open collection"
-msgstr "´ò¿ªÍ¼Ïñ¼¯"
+msgstr "æ‰“å¼€å›¾ç‰‡é›†"
 
-#: src/collect-dlg.c:186
+#: src/collect-dlg.c:210
 msgid "Append collection"
-msgstr "×·¼ÓÍ¼Ïñ¼¯"
+msgstr "åŠ å…¥å›¾ç‰‡é›†"
 
-#: src/collect-dlg.c:187
-#, fuzzy
+#: src/collect-dlg.c:211
 msgid "_Append"
-msgstr "×·¼Ó"
+msgstr "åŠ å…¥(_A)"
 
-#: src/collect-dlg.c:205
+#: src/collect-dlg.c:228
 msgid "Collection Files"
-msgstr "Í¼Ïñ¼¯ÎÄ¼ş"
+msgstr "å›¾ç‰‡é›†æ–‡ä»¶"
 
-#: src/collect-dlg.c:223
+#: src/collect-dlg.c:245
 msgid "Collection empty"
-msgstr "Í¼Ïñ¼¯Îª¿Õ"
+msgstr "å›¾ç‰‡é›†ä¸ºç©º"
 
-#: src/collect-dlg.c:224
+#: src/collect-dlg.c:246
 msgid "The current collection is empty, save aborted."
-msgstr "µ±Ç°Í¼Ïñ¼¯Îª¿Õ£¬·ÅÆú±£´æ¡£"
+msgstr "å½“å‰å›¾ç‰‡é›†ä¸ºç©ºï¼Œä¿å­˜ç»ˆæ­¢."
 
-#: src/collect-io.c:343
-#, fuzzy, c-format
+#: src/collect-io.c:346
+#, c-format
 msgid "failed to open collection (write) \"%s\"\n"
-msgstr ""
-"±£´æÍ¼Ïñ¼¯Ê§°Ü£º\n"
-"%s"
+msgstr "æ‰“å¼€å›¾ç‰‡é›† (å†™) å¤±è´¥ \"%s\"\n"
 
-#: src/collect-io.c:368
-#, fuzzy, c-format
+#: src/collect-io.c:371
+#, c-format
 msgid ""
 "error saving collection file: %s\n"
 "error: %s\n"
-msgstr "±£´æÅäÖÃÎÄ¼ş³ö´í£º%s\n"
+msgstr ""
+"ä¿å­˜å›¾ç‰‡é›†æ–‡ä»¶å‡ºé”™: %s\n"
+"é”™è¯¯: %s\n"
 
-#: src/collect-table.c:167 src/layout.c:377 src/layout_util.c:965
+#: src/collect-table.c:211
+#, c-format
+msgid "%s, %d images (%s, %d)"
+msgstr "%s, %d å›¾ç‰‡ (%s, %d)"
+
+#: src/collect-table.c:218
+#, c-format
+msgid "%s, %d images"
+msgstr "%s, %d å›¾ç‰‡"
+
+#: src/collect-table.c:223
+#: src/layout_util.c:1232
+#: src/layout_util.c:2289
 msgid "Empty"
-msgstr "¿Õ"
+msgstr "ç©º"
 
-#: src/collect-table.c:171
-#, c-format
-msgid "%d images (%d)"
-msgstr "%d Í¼Ïñ (%d)"
-
-#: src/collect-table.c:175
-#, c-format
-msgid "%d images"
-msgstr "%d Í¼Ïñ"
-
-#: src/collect-table.c:189 src/dupe.c:1328 src/search.c:304
-#: src/view_file_icon.c:1779 src/view_file_icon.c:1895
-#: src/view_file_list.c:915 src/view_file_list.c:1031
+#: src/collect-table.c:237
+#: src/dupe.c:1319
+#: src/search.c:320
+#: src/view_file.c:835
+#: src/view_file.c:942
 msgid "Loading thumbs..."
-msgstr "ÕıÔÚ×°ÈëËõÂÔÍ¼..."
+msgstr "è½½å…¥ç¼©ç•¥å›¾..."
 
-#: src/collect-table.c:776 src/dupe.c:2239 src/dupe.c:2554
-#: src/layout_util.c:1042 src/search.c:983
-#, fuzzy
+#: src/collect-table.c:870
+#: src/dupe.c:2246
+#: src/dupe.c:2559
+#: src/layout_util.c:1279
+#: src/search.c:1000
 msgid "_View"
-msgstr "/²é¿´(_V)"
+msgstr "æŸ¥çœ‹ (_V)"
 
-#: src/collect-table.c:778 src/dupe.c:2241 src/dupe.c:2556 src/img-view.c:1282
-#: src/layout_image.c:759 src/pan-view.c:2814 src/search.c:985
-#: src/view_file.c:564
-#, fuzzy
+#: src/collect-table.c:872
+#: src/dupe.c:2248
+#: src/dupe.c:2561
+#: src/img-view.c:1289
+#: src/layout_image.c:505
+#: src/pan-view.c:2845
+#: src/search.c:1002
+#: src/view_file.c:588
 msgid "View in _new window"
-msgstr "ÔÚĞÂ´°¿ÚÖĞ²é¿´"
+msgstr "åœ¨æ–°çª—å£ä¸­æŸ¥çœ‹(_n)"
 
-#: src/collect-table.c:781 src/dupe.c:2274 src/dupe.c:2564 src/search.c:1014
-#, fuzzy
+#: src/collect-table.c:875
+#: src/dupe.c:2282
+#: src/dupe.c:2569
+#: src/search.c:1032
 msgid "Rem_ove"
-msgstr "É¾³ı"
+msgstr "ç§»å»(_o)"
 
-#: src/collect-table.c:784
+#: src/collect-table.c:878
 msgid "Append from file list"
-msgstr "´ÓÎÄ¼şÁĞ±íÖĞ×·¼Ó"
+msgstr "ä»æ–‡ä»¶åˆ—è¡¨åŠ å…¥"
 
-#: src/collect-table.c:786
+#: src/collect-table.c:880
 msgid "Append from collection..."
-msgstr "´ÓÍ¼Ïñ¼¯ÖĞ×·¼Ó..."
+msgstr "ä»å›¾ç‰‡é›†åŠ å…¥..."
 
-#: src/collect-table.c:789 src/dupe.c:2244 src/dupe.c:2559 src/search.c:988
+#: src/collect-table.c:884
+msgid "_Selection"
+msgstr "é€‰æ‹©(_S)"
+
+#: src/collect-table.c:886
+#: src/dupe.c:2251
+#: src/dupe.c:2564
+#: src/layout_util.c:1326
+#: src/search.c:1005
 msgid "Select all"
-msgstr "È«Ñ¡"
+msgstr "å…¨é€‰"
 
-#: src/collect-table.c:791 src/dupe.c:2246 src/dupe.c:2561 src/search.c:990
+#: src/collect-table.c:888
+#: src/dupe.c:2253
+#: src/dupe.c:2566
+#: src/layout_util.c:1327
+#: src/search.c:1007
 msgid "Select none"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "ä¸é€‰"
 
-#: src/collect-table.c:799 src/dupe.c:2255 src/img-view.c:1280
-#: src/layout_image.c:756 src/layout_util.c:1096 src/pan-view.c:2811
-#: src/search.c:995 src/view_file.c:562
-#, fuzzy
-msgid "_Properties"
-msgstr "/±à¼­/Ñ¡Ïî(_O)..."
+#: src/collect-table.c:890
+msgid "Invert selection"
+msgstr "åè½¬é€‰æ‹©"
 
-#: src/collect-table.c:802 src/dupe.c:2262 src/img-view.c:1286
-#: src/layout_image.c:767 src/layout_util.c:1067 src/pan-view.c:2818
-#: src/search.c:1002 src/view_file.c:568
-#, fuzzy
+#: src/collect-table.c:902
+#: src/dupe.c:2271
+#: src/img-view.c:1293
+#: src/layout_image.c:513
+#: src/layout_util.c:1309
+#: src/pan-view.c:2849
+#: src/search.c:1021
+#: src/view_file.c:592
 msgid "_Copy..."
-msgstr "¸´ÖÆ..."
+msgstr "å¤åˆ¶... (_C)"
 
-#: src/collect-table.c:804 src/dupe.c:2264 src/img-view.c:1287
-#: src/layout_image.c:769 src/layout_util.c:1068 src/pan-view.c:2820
-#: src/search.c:1004 src/view_file.c:570
-#, fuzzy
+#: src/collect-table.c:904
+#: src/dupe.c:2273
+#: src/img-view.c:1294
+#: src/layout_image.c:515
+#: src/layout_util.c:1310
+#: src/pan-view.c:2851
+#: src/search.c:1023
+#: src/view_file.c:594
 msgid "_Move..."
-msgstr "ÒÆ¶¯..."
+msgstr "ç§»åŠ¨... (_M)"
 
-#: src/collect-table.c:806 src/dupe.c:2266 src/img-view.c:1288
-#: src/layout_image.c:771 src/layout_util.c:1069 src/pan-view.c:2822
-#: src/search.c:1006 src/view_dir.c:608 src/view_file.c:572
-#, fuzzy
+#: src/collect-table.c:906
+#: src/dupe.c:2275
+#: src/img-view.c:1295
+#: src/layout_image.c:517
+#: src/layout_util.c:1311
+#: src/pan-view.c:2853
+#: src/search.c:1025
+#: src/view_dir.c:666
+#: src/view_file.c:596
 msgid "_Rename..."
-msgstr "ÖØÃüÃû..."
+msgstr "é‡å‘½å... (_R)"
 
-#: src/collect-table.c:808 src/dupe.c:2268 src/img-view.c:1289
-#: src/layout_image.c:773 src/layout_util.c:1070 src/layout_util.c:1071
-#: src/layout_util.c:1072 src/pan-view.c:2824 src/search.c:1008
-#: src/view_dir.c:610 src/view_file.c:574
-#, fuzzy
+#: src/collect-table.c:908
+#: src/dupe.c:2277
+#: src/img-view.c:1296
+#: src/layout_image.c:519
+#: src/layout_util.c:1312
+#: src/layout_util.c:1313
+#: src/layout_util.c:1314
+#: src/pan-view.c:2855
+#: src/search.c:1027
+#: src/view_dir.c:668
+#: src/view_file.c:598
 msgid "_Delete..."
-msgstr "É¾³ı..."
+msgstr "åˆ é™¤... (_D)"
 
-#: src/collect-table.c:811 src/dupe.c:2271 src/img-view.c:1291
-#: src/layout_image.c:778 src/layout_util.c:1073 src/pan-view.c:2827
-#: src/search.c:1011 src/view_dir.c:614 src/view_file.c:577
-#, fuzzy
+#: src/collect-table.c:910
+#: src/dupe.c:2279
+#: src/img-view.c:1297
+#: src/layout_image.c:522
+#: src/pan-view.c:2857
+#: src/search.c:1029
+#: src/view_dir.c:671
+#: src/view_file.c:600
 msgid "_Copy path"
-msgstr "¸´ÖÆ"
+msgstr "å¤åˆ¶è·¯å¾„(_C)"
 
-#: src/collect-table.c:816 src/view_file.c:601
-#, fuzzy
+#: src/collect-table.c:916
+msgid "Randomize"
+msgstr "éšæœºåŒ–"
+
+#: src/collect-table.c:918
+#: src/view_file.c:616
+msgid "_Sort"
+msgstr "æ’åº(_S)"
+
+#: src/collect-table.c:921
+#: src/view_file.c:632
 msgid "Show filename _text"
-msgstr "ÏÔÊ¾Òş²ØÎÄ¼ş"
+msgstr "æ˜¾ç¤ºæ–‡ä»¶å(_t)"
 
-#: src/collect-table.c:819
-#, fuzzy
+#: src/collect-table.c:924
 msgid "_Save collection"
-msgstr "±£´æÍ¼Ïñ¼¯"
+msgstr "ä¿å­˜å›¾ç‰‡é›†(_S)"
 
-#: src/collect-table.c:821
-#, fuzzy
+#: src/collect-table.c:926
 msgid "Save collection _as..."
-msgstr "½«Í¼Ïñ¼¯Áí´æÎª..."
+msgstr "ä¿å­˜å›¾ç‰‡é›†ä¸º...(_a)"
 
-#: src/collect-table.c:824 src/layout_util.c:1063
-#, fuzzy
+#: src/collect-table.c:929
+#: src/layout_util.c:1305
 msgid "_Find duplicates..."
-msgstr "Ñ°ÕÒ¸±±¾..."
+msgstr "æŸ¥æ‰¾é‡å¤é¡¹... (_F)"
 
-#: src/collect-table.c:826 src/dupe.c:2259 src/search.c:999
-#, fuzzy
+#: src/collect-table.c:931
+#: src/dupe.c:2268
+#: src/layout_util.c:1307
+#: src/search.c:1018
 msgid "Print..."
-msgstr "/ÎÄ¼ş/ÖØÃüÃû(_R)..."
+msgstr "æ‰“å°..."
 
-#: src/collect-table.c:1978 src/dupe.c:3355 src/img-view.c:1445
-#, fuzzy
+#: src/collect-table.c:2097
+#: src/dupe.c:3363
+#: src/img-view.c:1451
 msgid "Dropped list includes folders."
-msgstr "ÍÏ·ÅÁĞ±íº¬ÓĞÄ¿Â¼¡£"
+msgstr "æ‰”æ‰çš„åˆ—è¡¨åŒ…æ‹¬æ–‡ä»¶å¤¹."
 
-#: src/collect-table.c:1980 src/dupe.c:3357 src/img-view.c:1447
-#, fuzzy
+#: src/collect-table.c:2099
+#: src/dupe.c:3365
+#: src/img-view.c:1453
 msgid "_Add contents"
-msgstr "Ìí¼ÓÄÚÈİ"
+msgstr "æ·»åŠ å†…å®¹ (_A)"
 
-#: src/collect-table.c:1982 src/dupe.c:3358 src/img-view.c:1448
-#, fuzzy
+#: src/collect-table.c:2101
+#: src/dupe.c:3366
+#: src/img-view.c:1454
 msgid "Add contents _recursive"
-msgstr "µİ¹éÌí¼ÓÄÚÈİ"
+msgstr "æ·»åŠ å†…å®¹ åŒ…æ‹¬å­ç›®å½• (_r)"
 
-#: src/collect-table.c:1984 src/dupe.c:3359 src/img-view.c:1449
-#, fuzzy
+#: src/collect-table.c:2103
+#: src/dupe.c:3367
+#: src/img-view.c:1455
 msgid "_Skip folders"
-msgstr "ºöÂÔÄ¿Â¼"
+msgstr "è·³è¿‡æ–‡ä»¶å¤¹ (_S)"
 
-#: src/collect-table.c:1987 src/dupe.c:3361 src/img-view.c:1451
-#: src/view_dir.c:343
+#: src/collect-table.c:2106
+#: src/dupe.c:3369
+#: src/img-view.c:1457
+#: src/view_dir.c:417
 msgid "Cancel"
-msgstr "È¡Ïû"
+msgstr "å–æ¶ˆ"
 
-#: src/dupe.c:99
+#: src/color-man.c:422
+msgid "Adobe RGB compatible"
+msgstr "Adobe RGB å…¼å®¹"
+
+#: src/color-man.c:430
+msgid "Custom profile"
+msgstr "è‡ªå®šä¹‰é…ç½®æ–‡ä»¶"
+
+#: src/desktop_file.c:74
+#: src/desktop_file.c:86
+#: src/desktop_file.c:92
+msgid "Can't save"
+msgstr "ä¸èƒ½ä¿å­˜"
+
+#: src/desktop_file.c:74
+msgid "Please specify file name."
+msgstr "è¯·æŒ‡å®šæ–‡ä»¶å"
+
+#: src/desktop_file.c:86
+msgid "Could not create directory"
+msgstr "ä¸èƒ½åˆ›å»ºç›®å½•"
+
+#: src/desktop_file.c:182
+#: src/desktop_file.c:534
+msgid "Desktop file"
+msgstr "æ¡Œé¢æ–‡ä»¶"
+
+#: src/desktop_file.c:291
+#: src/ui_pathsel.c:494
+#, c-format
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"ä¸èƒ½åˆ é™¤æ–‡ä»¶:\n"
+"%s"
+
+#: src/desktop_file.c:292
+#: src/ui_pathsel.c:495
+#: src/utilops.c:1962
+#: src/utilops.c:1989
+#: src/utilops.c:2509
+msgid "File deletion failed"
+msgstr "æ–‡ä»¶åˆ é™¤å¤±è´¥"
+
+#: src/desktop_file.c:336
+#: src/desktop_file.c:344
+#: src/ui_pathsel.c:537
+#: src/ui_pathsel.c:545
+msgid "Delete file"
+msgstr "åˆ é™¤æ–‡ä»¶"
+
+#: src/desktop_file.c:342
+#: src/ui_pathsel.c:543
+#, c-format
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"å°†è¦åˆ é™¤è¿™äº›æ–‡ä»¶:\n"
+" %s"
+
+#: src/desktop_file.c:453
+msgid "Editors"
+msgstr "å¤–éƒ¨ç¼–è¾‘å™¨"
+
+#: src/desktop_file.c:524
+msgid "Hidden"
+msgstr "éšè—"
+
+#: src/desktop_file.c:543
+#: src/dupe.c:2657
+#: src/dupe.c:3177
+#: src/print.c:3211
+#: src/search.c:2856
+#: src/ui_pathsel.c:1118
+#: src/utilops.c:458
+msgid "Path"
+msgstr "è·¯å¾„"
+
+#: src/dupe.c:100
 msgid "Drop files to compare them."
-msgstr "ÍÏ·ÅÎÄ¼şÒÔ±È½ÏËüÃÇ¡£"
+msgstr "æ‹–å…¥æ–‡ä»¶æ¥æ¯”è¾ƒå®ƒä»¬."
 
-#: src/dupe.c:103
+#: src/dupe.c:104
 #, c-format
 msgid "%d files"
-msgstr "%d ÎÄ¼ş"
+msgstr "%d æ–‡ä»¶"
 
-#: src/dupe.c:107
+#: src/dupe.c:108
 #, c-format
 msgid "%d matches found in %d files"
-msgstr "ÔÚ %2$d ¸öÎÄ¼şÖĞÕÒµ½ %1$d ¸öÆ¥Åä"
+msgstr "%d åŒ¹é…çš„æ–‡ä»¶åœ¨ %d æ–‡ä»¶ä¸­"
 
-#: src/dupe.c:112
+#: src/dupe.c:113
 msgid "[set 1]"
-msgstr ""
+msgstr "[æ–‡ä»¶ç»„ 1]"
 
-#: src/dupe.c:1454
+#: src/dupe.c:1445
 msgid "Reading checksums..."
-msgstr "ÕıÔÚ¶ÁÈ¡Ğ£ÑéºÍ..."
+msgstr "è¯»å–æ£€éªŒç ..."
 
-#: src/dupe.c:1487
+#: src/dupe.c:1478
 msgid "Reading dimensions..."
-msgstr "ÕıÔÚ¶ÁÈ¡³ß´ç..."
+msgstr "è¯»å–å›¾åƒå°ºå¯¸..."
 
-#: src/dupe.c:1521
+#: src/dupe.c:1512
 msgid "Reading similarity data..."
-msgstr "ÕıÔÚ¶ÁÈ¡ÏàËÆĞÔÊı¾İ..."
+msgstr "è¯»å–ç›¸ä¼¼åº¦æ•°æ®..."
 
-#: src/dupe.c:1556 src/dupe.c:1587
+#: src/dupe.c:1548
+#: src/dupe.c:1579
 msgid "Comparing..."
-msgstr "ÕıÔÚ±È½Ï..."
+msgstr "æ¯”è¾ƒä¸­..."
 
-#: src/dupe.c:1567 src/pan-view.c:1093
-#, fuzzy
+#: src/dupe.c:1559
+#: src/pan-view.c:1094
 msgid "Sorting..."
-msgstr "ÕıÔÚ±È½Ï..."
+msgstr "æ’åºä¸­..."
 
-#: src/dupe.c:2248
+#: src/dupe.c:2255
 msgid "Select group _1 duplicates"
-msgstr ""
+msgstr "é€‰å–ç¬¬1ç»„é‡å¤é¡¹"
 
-#: src/dupe.c:2250
+#: src/dupe.c:2257
 msgid "Select group _2 duplicates"
-msgstr ""
+msgstr "é€‰å–ç¬¬2ç»„é‡å¤é¡¹"
 
-#: src/dupe.c:2257 src/search.c:997
+#: src/dupe.c:2266
+#: src/search.c:1016
 msgid "Add to new collection"
-msgstr "Ìí¼Óµ½ĞÂÍ¼Ïñ¼¯"
+msgstr "æ·»åŠ åˆ°æ–°å›¾ç‰‡é›†"
 
-#: src/dupe.c:2276 src/dupe.c:2566 src/search.c:1016
-#, fuzzy
+#: src/dupe.c:2284
+#: src/dupe.c:2571
+#: src/search.c:1034
 msgid "C_lear"
-msgstr "Çå³ı"
+msgstr "æ¸…é™¤"
 
-#: src/dupe.c:2279 src/dupe.c:2569
-#, fuzzy
+#: src/dupe.c:2287
+#: src/dupe.c:2574
 msgid "Close _window"
-msgstr "¹Ø±Õ´°¿Ú"
+msgstr "å…³é—­çª—å£ (_w)"
 
-#: src/dupe.c:2439
-#, fuzzy, c-format
+#: src/dupe.c:2447
+#, c-format
 msgid "%d files (set 2)"
-msgstr "%d ÎÄ¼ş%s"
+msgstr "%d æ–‡ä»¶ (æ–‡ä»¶ç»„ 2)"
 
-#: src/dupe.c:2647
+#: src/dupe.c:2652
 msgid "Name case-insensitive"
-msgstr ""
-
-#: src/dupe.c:2648 src/dupe.c:3168 src/preferences.c:1026 src/print.c:3238
-#: src/search.c:2761 src/view_file_list.c:1823
-msgid "Size"
-msgstr "´óĞ¡"
-
-#: src/dupe.c:2649 src/dupe.c:3169 src/exif.c:339 src/exif-common.c:442
-#: src/print.c:3236 src/search.c:2762 src/view_file_list.c:1824
-msgid "Date"
-msgstr "ÈÕÆÚ"
-
-#: src/dupe.c:2650 src/dupe.c:3170 src/print.c:3240 src/search.c:2763
-msgid "Dimensions"
-msgstr "³ß´ç"
-
-#: src/dupe.c:2651
-msgid "Checksum"
-msgstr "Ğ£ÑéºÍ"
-
-#: src/dupe.c:2652 src/dupe.c:3171 src/print.c:3234 src/search.c:2764
-#: src/ui_pathsel.c:1115
-msgid "Path"
-msgstr "Â·¾¶"
+msgstr "åç§°(å¿½ç•¥å¤§å°å†™)"
 
 #: src/dupe.c:2653
-msgid "Similarity (high)"
-msgstr "ÏàËÆĞÔ (¸ß)"
+#: src/dupe.c:3174
+#: src/preferences.c:1447
+#: src/print.c:3215
+#: src/search.c:2853
+#: src/view_file_list.c:2050
+msgid "Size"
+msgstr "å¤§å°"
 
 #: src/dupe.c:2654
-msgid "Similarity"
-msgstr "ÏàËÆĞÔ"
+#: src/dupe.c:3175
+#: src/exif.c:342
+#: src/exif-common.c:544
+#: src/print.c:3213
+#: src/search.c:2854
+#: src/view_file_list.c:2054
+msgid "Date"
+msgstr "æ—¥æœŸ"
 
 #: src/dupe.c:2655
-msgid "Similarity (low)"
-msgstr "ÏàËÆĞÔ (µÍ)"
+#: src/dupe.c:3176
+#: src/print.c:3217
+#: src/search.c:2855
+msgid "Dimensions"
+msgstr "å°ºå¯¸"
 
 #: src/dupe.c:2656
-#, fuzzy
+msgid "Checksum"
+msgstr "æ£€éªŒç "
+
+#: src/dupe.c:2658
+msgid "Similarity (high)"
+msgstr "ç›¸ä¼¼åº¦(é«˜)"
+
+#: src/dupe.c:2659
+msgid "Similarity"
+msgstr "ç›¸ä¼¼åº¦"
+
+#: src/dupe.c:2660
+msgid "Similarity (low)"
+msgstr "ç›¸ä¼¼åº¦(ä½)"
+
+#: src/dupe.c:2661
 msgid "Similarity (custom)"
-msgstr "ÏàËÆĞÔ (µÍ)"
+msgstr "ç›¸ä¼¼åº¦(è‡ªå®š)"
 
-#: src/dupe.c:3121
-#, fuzzy
+#: src/dupe.c:3127
 msgid "Find duplicates"
-msgstr "Ñ°ÕÒ¸±±¾..."
+msgstr "æŸ¥æ‰¾é‡å¤é¡¹"
 
-#: src/dupe.c:3203
+#: src/dupe.c:3209
 msgid "Compare to:"
-msgstr "ÓëÖ®±È½Ï£º"
+msgstr " æ¯”è¾ƒäº:"
 
-#: src/dupe.c:3216
+#: src/dupe.c:3222
 msgid "Compare by:"
-msgstr "ÒÀ´Ë±È½Ï£º"
+msgstr "æ¯”è¾ƒ:"
 
-#: src/dupe.c:3224 src/preferences.c:884 src/search.c:2777
+#: src/dupe.c:3230
+#: src/preferences.c:1282
+#: src/search.c:2869
 msgid "Thumbnails"
-msgstr "ËõÂÔÍ¼"
+msgstr "ç¼©ç•¥å›¾"
 
-#: src/dupe.c:3231
+#: src/dupe.c:3237
 msgid "Compare two file sets"
-msgstr "±È½ÏÁ½¸öÎÄ¼ş¼¯"
+msgstr "æ¯”è¾ƒä¸¤ä¸ªæ–‡ä»¶åˆ†ç»„"
 
-#: src/editors.c:61
-msgid "The Gimp"
-msgstr "Gimp"
+#: src/editors.c:335
+#: src/exif.c:226
+#: src/exif-common.c:362
+msgid "yes"
+msgstr "æ˜¯"
 
-#: src/editors.c:62
-msgid "XV"
-msgstr "XV"
+#: src/editors.c:335
+#: src/exif.c:225
+#: src/exif-common.c:362
+msgid "no"
+msgstr "å¦"
 
-#: src/editors.c:63
-msgid "Xpaint"
-msgstr "Xpaint"
-
-#: src/editors.c:64
-msgid "UFraw"
-msgstr ""
-
-#: src/editors.c:65
-msgid "Add XMP sidecar"
-msgstr ""
-
-#: src/editors.c:69
-#, fuzzy
-msgid "Rotate jpeg clockwise"
-msgstr "Ë³Ê±ÕëĞı×ª"
-
-#: src/editors.c:70
-#, fuzzy
-msgid "Rotate jpeg counterclockwise"
-msgstr "ÄæÊ±ÕëĞı×ª"
-
-#. for testing
-#: src/editors.c:74 src/editors.c:80
-msgid "External Copy command"
-msgstr ""
-
-#: src/editors.c:75 src/editors.c:81
-msgid "External Move command"
-msgstr ""
-
-#: src/editors.c:76 src/editors.c:82
-msgid "External Rename command"
-msgstr ""
-
-#: src/editors.c:77 src/editors.c:83
-#, fuzzy
-msgid "External Delete command"
-msgstr "ÆôÓÃÉ¾³ı¼ü"
-
-#: src/editors.c:78 src/editors.c:84
-msgid "External New Folder command"
-msgstr ""
-
-#: src/editors.c:140
-#, fuzzy
+#: src/editors.c:507
 msgid "stopping..."
-msgstr "ÕıÔÚ±È½Ï..."
+msgstr "åœæ­¢ä¸­..."
 
-#: src/editors.c:161
+#: src/editors.c:528
 msgid "Edit command results"
-msgstr ""
+msgstr "ç¼–è¾‘å‘½ä»¤ç»“æœ"
 
-#: src/editors.c:164
+#: src/editors.c:531
 #, c-format
 msgid "Output of %s"
-msgstr ""
+msgstr "%s çš„è¾“å‡º"
 
-#: src/editors.c:603
-#, fuzzy, c-format
+#: src/editors.c:1054
+#, c-format
 msgid ""
 "Failed to run command:\n"
 "%s\n"
 msgstr ""
-"ÎŞ·¨×°Èë£º\n"
-"%s"
+"è¿è¡Œå‘½ä»¤å¤±è´¥:\n"
+"%s\n"
 
-#: src/editors.c:721
-#, fuzzy
+#: src/editors.c:1181
 msgid "stopped by user"
-msgstr "°´±àºÅÅÅĞò"
+msgstr "çœŸå¾—è¦ç»§ç»­å—ï¼Ÿ"
 
-#: src/editors.c:836
+#: src/editors.c:1268
+msgid "Invalid editor command"
+msgstr "æ— æ•ˆç¼–è¾‘å™¨å‘½ä»¤"
+
+#: src/editors.c:1355
 msgid "Editor template is empty."
-msgstr ""
+msgstr "ç¼–è¾‘å™¨æ¨¡æ¿ä¸ºç©º."
 
-#: src/editors.c:837
+#: src/editors.c:1356
 msgid "Editor template has incorrect syntax."
-msgstr ""
+msgstr "ç¼–è¾‘å™¨æ¨¡æ¿æœ‰é”™è¯¯çš„è¯­æ³•"
 
-#: src/editors.c:838
+#: src/editors.c:1357
 msgid "Editor template uses incompatible macros."
-msgstr ""
+msgstr "ç¼–è¾‘å™¨æ¨¡æ¿ä½¿ç”¨äº†ä¸å…¼å®¹çš„å®."
 
-#: src/editors.c:839
+#: src/editors.c:1358
 msgid "Can't find matching file type."
-msgstr ""
+msgstr "ä¸èƒ½å‘ç°åŒ¹é…çš„æ–‡ä»¶ç±»å‹."
 
-#: src/editors.c:840
+#: src/editors.c:1359
 msgid "Can't execute external editor."
-msgstr ""
+msgstr "ä¸èƒ½æ‰§è¡Œå¤–éƒ¨ç¼–è¾‘å™¨"
 
-#: src/editors.c:841
+#: src/editors.c:1360
 msgid "External editor returned error status."
-msgstr ""
+msgstr "å¤–éƒ¨ç¼–è¾‘å™¨è¿”å›å‡ºé”™æ¶ˆæ¯."
 
-#: src/editors.c:842
+#: src/editors.c:1361
 msgid "File was skipped."
-msgstr ""
+msgstr "æ–‡ä»¶è¢«è·³è¿‡."
 
-#: src/editors.c:843
+#: src/editors.c:1362
 msgid "Unknown error."
-msgstr ""
-
-#: src/exif.c:145 src/exif.c:158 src/exif.c:172 src/exif.c:197 src/exif.c:314
-#: src/exif.c:625 src/exif-common.c:308 src/exif-common.c:311
-#: src/exif-common.c:378
-#, fuzzy
-msgid "unknown"
-msgstr "ÔÚ (Î´Öª)..."
-
-#: src/exif.c:146
-#, fuzzy
-msgid "top left"
-msgstr "É¾³ı"
-
-#: src/exif.c:147
-msgid "top right"
-msgstr ""
+msgstr "æœªçŸ¥é”™è¯¯."
 
 #: src/exif.c:148
-msgid "bottom right"
-msgstr ""
-
-#: src/exif.c:149
-msgid "bottom left"
-msgstr ""
-
-#: src/exif.c:150
-#, fuzzy
-msgid "left top"
-msgstr "É¾³ı"
-
-#: src/exif.c:151
-msgid "right top"
-msgstr ""
-
-#: src/exif.c:152
-msgid "right bottom"
-msgstr ""
-
-#: src/exif.c:153
-msgid "left bottom"
-msgstr ""
-
-#: src/exif.c:160
-msgid "inch"
-msgstr ""
-
 #: src/exif.c:161
-msgid "centimeter"
-msgstr ""
-
-#: src/exif.c:173
-msgid "average"
-msgstr ""
-
-#: src/exif.c:174
-msgid "center weighted"
-msgstr ""
-
 #: src/exif.c:175
-msgid "spot"
-msgstr ""
-
-#: src/exif.c:176
-msgid "multi-spot"
-msgstr ""
-
-#: src/exif.c:177
-msgid "multi-segment"
-msgstr ""
-
-#: src/exif.c:178
-msgid "partial"
-msgstr ""
-
-#: src/exif.c:179 src/exif.c:217
-msgid "other"
-msgstr ""
-
-#: src/exif.c:184 src/exif.c:236
-msgid "not defined"
-msgstr ""
-
-#: src/exif.c:185 src/exif.c:264 src/exif.c:271
-msgid "manual"
-msgstr ""
-
-#: src/exif.c:186 src/exif.c:257 src/exif.c:293 src/exif.c:300 src/exif.c:307
-#, fuzzy
-msgid "normal"
-msgstr "ÆÕÍ¨"
-
-#: src/exif.c:187
-msgid "aperture"
-msgstr ""
-
-#: src/exif.c:188
-msgid "shutter"
-msgstr ""
-
-#: src/exif.c:189
-#, fuzzy
-msgid "creative"
-msgstr "´´½¨"
-
-#: src/exif.c:190
-msgid "action"
-msgstr ""
-
-#: src/exif.c:191 src/exif.c:278
-msgid "portrait"
-msgstr ""
-
-#: src/exif.c:192 src/exif.c:277
-msgid "landscape"
-msgstr ""
-
-#: src/exif.c:198
-msgid "daylight"
-msgstr ""
-
-#: src/exif.c:199
-msgid "fluorescent"
-msgstr ""
-
 #: src/exif.c:200
-msgid "tungsten (incandescent)"
-msgstr ""
-
-#: src/exif.c:201
-msgid "flash"
-msgstr ""
-
-#: src/exif.c:202
-msgid "fine weather"
-msgstr ""
-
-#: src/exif.c:203
-msgid "cloudy weather"
-msgstr ""
-
-#: src/exif.c:204
-msgid "shade"
-msgstr ""
-
-#: src/exif.c:205
-msgid "daylight fluorescent"
-msgstr ""
-
-#: src/exif.c:206
-msgid "day white fluorescent"
-msgstr ""
-
-#: src/exif.c:207
-msgid "cool white fluorescent"
-msgstr ""
-
-#: src/exif.c:208
-msgid "white fluorescent"
-msgstr ""
-
-#: src/exif.c:209
-msgid "standard light A"
-msgstr ""
-
-#: src/exif.c:210
-msgid "standard light B"
-msgstr ""
-
-#: src/exif.c:211
-msgid "standard light C"
-msgstr ""
-
-#: src/exif.c:212
-msgid "D55"
-msgstr ""
-
-#: src/exif.c:213
-msgid "D65"
-msgstr ""
-
-#: src/exif.c:214
-msgid "D75"
-msgstr ""
-
-#: src/exif.c:215
-msgid "D50"
-msgstr ""
-
-#: src/exif.c:216
-msgid "ISO studio tungsten"
-msgstr ""
-
-#: src/exif.c:222 src/exif-common.c:332 src/info.c:257
-msgid "no"
-msgstr ""
-
-#. flash fired (bit 0)
-#: src/exif.c:223 src/exif-common.c:332 src/info.c:257
-#, fuzzy
-msgid "yes"
-msgstr "ÊÇ"
-
-#: src/exif.c:224
-msgid "yes, not detected by strobe"
-msgstr ""
-
-#: src/exif.c:225
-msgid "yes, detected by strobe"
-msgstr ""
-
-#: src/exif.c:230 src/exif-common.c:403 src/layout.c:422
-msgid "sRGB"
-msgstr ""
-
-#: src/exif.c:231
-msgid "uncalibrated"
-msgstr ""
-
-#: src/exif.c:237
-msgid "1 chip color area"
-msgstr ""
-
-#: src/exif.c:238
-msgid "2 chip color area"
-msgstr ""
-
-#: src/exif.c:239
-msgid "3 chip color area"
-msgstr ""
-
-#: src/exif.c:240
-msgid "color sequential area"
-msgstr ""
-
-#: src/exif.c:241
-#, fuzzy
-msgid "trilinear"
-msgstr "Ë«ÏßĞÔ"
-
-#: src/exif.c:242
-msgid "color sequential linear"
-msgstr ""
-
-#: src/exif.c:247
-msgid "digital still camera"
-msgstr ""
-
-#: src/exif.c:252
-msgid "direct photo"
-msgstr ""
-
-#: src/exif.c:258
-msgid "custom"
-msgstr ""
-
-#: src/exif.c:263 src/exif.c:270 src/exif-common.c:346
-msgid "auto"
-msgstr ""
-
-#: src/exif.c:265
-#, fuzzy
-msgid "auto bracket"
-msgstr "²Ëµ¥Ãû"
-
-#: src/exif.c:276
-#, fuzzy
-msgid "standard"
-msgstr "Çå³ı"
-
-#: src/exif.c:279
-msgid "night scene"
-msgstr ""
-
-#: src/exif.c:284
-#, fuzzy
-msgid "none"
-msgstr "ÎŞ"
-
-#: src/exif.c:285
-#, fuzzy
-msgid "low gain up"
-msgstr "Çå³ı"
-
-#: src/exif.c:286
-msgid "high gain up"
-msgstr ""
-
-#: src/exif.c:287
-#, fuzzy
-msgid "low gain down"
-msgstr "¹Ø±Õ´°¿Ú"
-
-#: src/exif.c:288
-msgid "high gain down"
-msgstr ""
-
-#: src/exif.c:294 src/exif.c:308
-msgid "soft"
-msgstr ""
-
-#: src/exif.c:295 src/exif.c:309
-msgid "hard"
-msgstr ""
-
-#: src/exif.c:301
-msgid "low"
-msgstr ""
-
-#: src/exif.c:302
-msgid "high"
-msgstr ""
-
-#: src/exif.c:315
-msgid "macro"
-msgstr ""
-
-#: src/exif.c:316
-#, fuzzy
-msgid "close"
-msgstr "¹Ø±Õ"
-
 #: src/exif.c:317
-msgid "distant"
-msgstr ""
+#: src/exif.c:664
+#: src/exif-common.c:338
+#: src/exif-common.c:341
+#: src/exif-common.c:408
+msgid "unknown"
+msgstr "æœªçŸ¥"
 
-#: src/exif.c:327
-#, fuzzy
-msgid "Image Width"
-msgstr "Í¼Ïñ"
-
-#: src/exif.c:328
-#, fuzzy
-msgid "Image Height"
-msgstr "ÎŞĞ§µÄÄ¿±ê"
-
-#: src/exif.c:329
-msgid "Bits per Sample/Pixel"
-msgstr ""
-
-#: src/exif.c:330
-#, fuzzy
-msgid "Compression"
-msgstr "ÓëÖ®±È½Ï£º"
-
-#: src/exif.c:331
-#, fuzzy
-msgid "Image description"
-msgstr "ÎŞĞ§µÄÄ¿±ê"
-
-#: src/exif.c:332
-msgid "Camera make"
-msgstr ""
-
-#: src/exif.c:333
-msgid "Camera model"
-msgstr ""
-
-#: src/exif.c:334
-#, fuzzy
-msgid "Orientation"
-msgstr "³ß´ç"
-
-#: src/exif.c:335
-msgid "X resolution"
-msgstr ""
-
-#: src/exif.c:336
-msgid "Y Resolution"
-msgstr ""
-
-#: src/exif.c:337
-#, fuzzy
-msgid "Resolution units"
-msgstr "Í¼Ïñ¼¯Îª¿Õ"
-
-#: src/exif.c:338
-msgid "Firmware"
-msgstr ""
-
-#: src/exif.c:340
-msgid "White point"
-msgstr ""
-
-#: src/exif.c:341
-msgid "Primary chromaticities"
-msgstr ""
-
-#: src/exif.c:342
-msgid "YCbCy coefficients"
-msgstr ""
-
-#: src/exif.c:343
-msgid "YCbCr positioning"
-msgstr ""
-
-#: src/exif.c:344
-#, fuzzy
-msgid "Black white reference"
-msgstr "Geeqie - ÖØÃüÃû"
-
-#: src/exif.c:345
-#, fuzzy
-msgid "Copyright"
-msgstr "¸´ÖÆ"
-
-#: src/exif.c:346
-msgid "SubIFD Exif offset"
-msgstr ""
-
-#. subIFD follows
-#: src/exif.c:348
-msgid "Exposure time (seconds)"
-msgstr ""
-
-#: src/exif.c:349
-msgid "FNumber"
-msgstr ""
-
-#: src/exif.c:350
-msgid "Exposure program"
-msgstr ""
-
-#: src/exif.c:351
-msgid "Spectral Sensitivity"
-msgstr ""
-
-#: src/exif.c:352 src/exif.c:388 src/exif-common.c:446
-msgid "ISO sensitivity"
-msgstr ""
-
-#: src/exif.c:353
-msgid "Optoelectric conversion factor"
-msgstr ""
-
-#: src/exif.c:354
-msgid "Exif version"
-msgstr ""
+#: src/exif.c:266
+#: src/exif.c:273
+#: src/exif-common.c:376
+msgid "auto"
+msgstr "è‡ªåŠ¨"
 
 #: src/exif.c:355
-msgid "Date original"
-msgstr ""
+#: src/exif.c:391
+#: src/exif-common.c:548
+msgid "ISO sensitivity"
+msgstr "ISO æ„Ÿå…‰åº¦"
 
-#: src/exif.c:356
-msgid "Date digitized"
-msgstr ""
-
-#: src/exif.c:357
-#, fuzzy
-msgid "Pixel format"
-msgstr "¹ıÂËÆ÷£º"
-
-#: src/exif.c:358
-#, fuzzy
-msgid "Compression ratio"
-msgstr "ÓëÖ®±È½Ï£º"
-
-#: src/exif.c:359 src/exif-common.c:443
+#: src/exif.c:362
+#: src/exif-common.c:545
 msgid "Shutter speed"
-msgstr ""
-
-#: src/exif.c:360 src/exif-common.c:444
-msgid "Aperture"
-msgstr ""
-
-#: src/exif.c:361
-msgid "Brightness"
-msgstr ""
-
-#: src/exif.c:362 src/exif-common.c:445
-msgid "Exposure bias"
-msgstr ""
+msgstr "å¿«é—¨é€Ÿåº¦"
 
 #: src/exif.c:363
-#, fuzzy
-msgid "Maximum aperture"
-msgstr "Æ½ÆÌ"
-
-#: src/exif.c:364 src/exif-common.c:449
-msgid "Subject distance"
-msgstr ""
+#: src/exif-common.c:546
+msgid "Aperture"
+msgstr "å…‰åœˆ"
 
 #: src/exif.c:365
-#, fuzzy
-msgid "Metering mode"
-msgstr "¶¶¶¯·½·¨£º"
+#: src/exif-common.c:547
+msgid "Exposure bias"
+msgstr "æ›å…‰åå·®"
 
-#: src/exif.c:366
-msgid "Light source"
-msgstr ""
-
-#: src/exif.c:367 src/exif-common.c:450
-msgid "Flash"
-msgstr ""
-
-#: src/exif.c:368 src/exif-common.c:447
-msgid "Focal length"
-msgstr ""
-
-#: src/exif.c:369
-msgid "Subject area"
-msgstr ""
+#: src/exif.c:367
+#: src/exif-common.c:551
+msgid "Subject distance"
+msgstr "ä¸»ä½“è·ç¦»"
 
 #: src/exif.c:370
-msgid "MakerNote"
-msgstr ""
+#: src/exif-common.c:552
+msgid "Flash"
+msgstr "é—ªå…‰ç¯"
 
 #: src/exif.c:371
-#, fuzzy
-msgid "UserComment"
-msgstr "ÓëÖ®±È½Ï£º"
-
-#: src/exif.c:372
-msgid "Subsecond time"
-msgstr ""
-
-#: src/exif.c:373
-msgid "Subsecond time original"
-msgstr ""
-
-#: src/exif.c:374
-msgid "Subsecond time digitized"
-msgstr ""
-
-#: src/exif.c:375
-msgid "FlashPix version"
-msgstr ""
-
-#: src/exif.c:376
-#, fuzzy
-msgid "Colorspace"
-msgstr "¹Ø±Õ"
-
-#. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: src/exif.c:378
-msgid "Width"
-msgstr ""
-
-#: src/exif.c:379
-msgid "Height"
-msgstr ""
-
-#: src/exif.c:380
-#, fuzzy
-msgid "Audio data"
-msgstr "/²é¿´/¸üĞÂÁĞ±í(_R)"
+#: src/exif-common.c:549
+msgid "Focal length"
+msgstr "ç„¦è·"
 
 #: src/exif.c:381
-msgid "ExifR98 extension"
-msgstr ""
+#: src/preferences.c:2140
+msgid "Width"
+msgstr "å®½"
 
 #: src/exif.c:382
-msgid "Flash strength"
-msgstr ""
+#: src/preferences.c:2142
+msgid "Height"
+msgstr "é«˜"
 
-#: src/exif.c:383
-msgid "Spatial frequency response"
-msgstr ""
-
-#: src/exif.c:384
-msgid "X Pixel density"
-msgstr ""
-
-#: src/exif.c:385
-msgid "Y Pixel density"
-msgstr ""
-
-#: src/exif.c:386
-msgid "Pixel density units"
-msgstr ""
-
-#: src/exif.c:387
-#, fuzzy
-msgid "Subject location"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
-
-#: src/exif.c:389
-#, fuzzy
-msgid "Sensor type"
-msgstr "Î´ÅÅĞò"
-
-#: src/exif.c:390
-#, fuzzy
-msgid "Source type"
-msgstr "ÅÅĞò"
-
-#: src/exif.c:391
-#, fuzzy
-msgid "Scene type"
-msgstr "¹ıÂËÆ÷£º"
-
-#: src/exif.c:392
-msgid "Color filter array pattern"
-msgstr ""
-
-#. tags a4xx were added for Exif 2.2 (not just these - some above, as well)
-#: src/exif.c:394
-#, fuzzy
-msgid "Render process"
-msgstr "ÖØÃüÃû"
-
-#: src/exif.c:395
-msgid "Exposure mode"
-msgstr ""
-
-#: src/exif.c:396
-msgid "White balance"
-msgstr ""
-
-#: src/exif.c:397
-msgid "Digital zoom ratio"
-msgstr ""
-
-#: src/exif.c:398
-msgid "Focal length (35mm)"
-msgstr ""
-
-#: src/exif.c:399
-msgid "Scene capture type"
-msgstr ""
-
-#: src/exif.c:400
-#, fuzzy
-msgid "Gain control"
-msgstr "¸¡¶¯¿ØÖÆ"
-
-#: src/exif.c:401
-#, fuzzy
-msgid "Contrast"
-msgstr "¼ÌĞø"
-
-#: src/exif.c:402
-msgid "Saturation"
-msgstr ""
-
-#: src/exif.c:403
-msgid "Sharpness"
-msgstr ""
-
-#: src/exif.c:404
-msgid "Device setting"
-msgstr ""
-
-#: src/exif.c:405
-msgid "Subject range"
-msgstr ""
-
-#: src/exif.c:406
-#, fuzzy
-msgid "Image serial number"
-msgstr "Í¼Ïñ"
-
-#: src/exif-common.c:307
+#: src/exif-common.c:337
 msgid "infinity"
-msgstr ""
+msgstr "æ— é™è¿œ"
 
-#: src/exif-common.c:336
-#, fuzzy
+#: src/exif-common.c:366
 msgid "mode:"
-msgstr "Æ½ÆÌ"
+msgstr "æ¨¡å¼:"
 
-#: src/exif-common.c:340 src/trash.c:193
-#, fuzzy
+#: src/exif-common.c:370
+#: src/trash.c:205
 msgid "on"
-msgstr "ÎŞ"
+msgstr "å¼€"
 
-#: src/exif-common.c:343 src/trash.c:198
+#: src/exif-common.c:373
+#: src/trash.c:210
 msgid "off"
-msgstr ""
+msgstr "å…³"
 
-#: src/exif-common.c:352
-msgid "not detected by strobe"
-msgstr ""
-
-#: src/exif-common.c:353
-msgid "detected by strobe"
-msgstr ""
-
-#. we ignore flash function (bit 5)
-#. red-eye (bit 6)
-#: src/exif-common.c:358
+#: src/exif-common.c:388
 msgid "red-eye reduction"
-msgstr ""
-
-#: src/exif-common.c:378
-msgid "dot"
-msgstr ""
+msgstr "çº¢çœ¼æ¶ˆé™¤"
 
 #: src/exif-common.c:408
-msgid "AdobeRGB"
-msgstr ""
+msgid "dot"
+msgstr "ç‚¹"
 
-#: src/exif-common.c:416
+#: src/exif-common.c:446
 msgid "embedded"
-msgstr ""
+msgstr "å†…åµŒçš„"
 
-#: src/exif-common.c:441
-#, fuzzy
+#: src/exif-common.c:535
+msgid "Above Sea Level"
+msgstr "é«˜äºæµ·å¹³é¢"
+
+#: src/exif-common.c:535
+msgid "Below Sea Level"
+msgstr "ä½äºæµ·å¹³é¢"
+
+#: src/exif-common.c:543
 msgid "Camera"
-msgstr "Ãû³Æ"
+msgstr "ç›¸æœº"
 
-#: src/exif-common.c:448
+#: src/exif-common.c:550
 msgid "Focal length 35mm"
-msgstr ""
+msgstr "ç„¦è· 35mm"
 
-#: src/exif-common.c:451
-#, fuzzy
+#: src/exif-common.c:553
 msgid "Resolution"
-msgstr "Í¼Ïñ¼¯Îª¿Õ"
+msgstr "åˆ†è¾¨ç‡"
 
-#: src/exif-common.c:452
-#, fuzzy
+#: src/exif-common.c:554
 msgid "Color profile"
-msgstr "ËùÓĞÎÄ¼ş"
+msgstr "è‰²å½©é…ç½®"
 
-#: src/filedata.c:86
-#, fuzzy, c-format
+#: src/exif-common.c:555
+msgid "GPS position"
+msgstr "GPS ä½ç½®"
+
+#: src/exif-common.c:556
+msgid "GPS altitude"
+msgstr "GPSæµ·æ‹”é«˜åº¦"
+
+#: src/exif-common.c:557
+msgid "File size"
+msgstr "æ–‡ä»¶å¤§å°"
+
+#: src/exif-common.c:558
+msgid "File date"
+msgstr "æ–‡ä»¶æ—¥æœŸ"
+
+#: src/exif-common.c:559
+msgid "File mode"
+msgstr "æ–‡ä»¶æ¨¡å¼"
+
+#: src/filedata.c:93
+#, c-format
 msgid "%d bytes"
-msgstr "%d ÎÄ¼ş"
+msgstr "%d å­—èŠ‚"
 
-#: src/filedata.c:90
-#, c-format
-msgid "%.1f K"
-msgstr ""
+#: src/filedata.c:2239
+msgid "file or directory does not exist"
+msgstr "æ–‡ä»¶æˆ–ç›®å½•ä¸å­˜åœ¨"
 
-#: src/filedata.c:94
-#, c-format
-msgid "%.1f MB"
-msgstr ""
+#: src/filedata.c:2245
+msgid "destination already exists"
+msgstr "ç›®æ ‡æ–‡ä»¶å·²å­˜åœ¨"
 
-#: src/filedata.c:99
-#, c-format
-msgid "%.1f GB"
-msgstr ""
+#: src/filedata.c:2251
+msgid "destination can't be overwritten"
+msgstr "ç›®æ ‡æ–‡ä»¶ä¸èƒ½è¦†ç›–"
 
-#: src/fullscreen.c:243 src/preferences.c:1329
-#, fuzzy
+#: src/filedata.c:2257
+msgid "destination directory is not writable"
+msgstr "ç›®æ ‡ç›®å½•ä¸å¯å†™"
+
+#: src/filedata.c:2263
+msgid "destination directory does not exist"
+msgstr "ç›®æ ‡ç›®å½•ä¸å­˜åœ¨"
+
+#: src/filedata.c:2269
+msgid "source directory is not writable"
+msgstr "æºç›®å½•ä¸å¯å†™"
+
+#: src/filedata.c:2275
+msgid "no read permission"
+msgstr "æ— è¯»å–æƒé™"
+
+#: src/filedata.c:2281
+msgid "file is readonly"
+msgstr "æ–‡ä»¶ä¸ºåªè¯»"
+
+#: src/filedata.c:2287
+msgid "destination already exists and will be overwritten"
+msgstr "ç›®æ ‡æ–‡ä»¶å·²å­˜åœ¨å¹¶å°†è¢«è¦†ç›–"
+
+#: src/filedata.c:2293
+msgid "source and destination are the same"
+msgstr "æºå’Œç›®æ ‡ç›¸åŒ"
+
+#: src/filedata.c:2299
+msgid "source and destination have different extension"
+msgstr "æºå’Œç›®æ ‡æ‰©å±•åä¸ä¸€è‡´"
+
+#: src/filedata.c:2305
+msgid "there are unsaved metadata changes for the file"
+msgstr "æ–‡ä»¶æœ‰æœªä¿å­˜çš„å…ƒæ•°æ®æ›´æ”¹"
+
+#: src/fullscreen.c:243
+#: src/layout_util.c:1368
+#: src/layout_util.c:1369
+#: src/layout_util.c:1370
+#: src/preferences.c:1460
 msgid "Full screen"
-msgstr "È«ÆÁ"
-
-#: src/fullscreen.c:395
-#, fuzzy
-msgid "Full size"
-msgstr "Æ½ÆÌ"
+msgstr "å…¨å±"
 
 #: src/fullscreen.c:400
+msgid "Full size"
+msgstr "å…¨å°ºå¯¸"
+
+#: src/fullscreen.c:405
 msgid "Monitor"
-msgstr ""
+msgstr "æ˜¾ç¤ºå™¨"
 
-#: src/fullscreen.c:405 src/layout.c:455
+#: src/fullscreen.c:410
 msgid "Screen"
-msgstr ""
+msgstr "å±å¹•"
 
-#: src/fullscreen.c:642
-#, fuzzy
+#: src/fullscreen.c:647
 msgid "Stay above other windows"
-msgstr "½«Í¼ÏñÌîÂú´°¿Ú"
+msgstr "åœç•™åœ¨å…¶å®ƒçª—å£ä¹‹ä¸Š"
 
-#: src/fullscreen.c:649
+#: src/fullscreen.c:654
 msgid "Determined by Window Manager"
-msgstr ""
+msgstr "ç”±çª—å£ç®¡ç†å™¨å†³å®š"
 
-#: src/fullscreen.c:650
+#: src/fullscreen.c:655
 msgid "Active screen"
-msgstr ""
+msgstr "å½“å‰å±å¹•"
 
-#: src/fullscreen.c:652
+#: src/fullscreen.c:657
 msgid "Active monitor"
-msgstr ""
+msgstr "å½“å‰æ˜¾ç¤ºå™¨"
 
-#: src/histogram.c:86
-msgid "logarithmical histogram on red"
-msgstr ""
+#: src/histogram.c:113
+msgid "Log Histogram on Red"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾ çº¢"
 
-#: src/histogram.c:87
-msgid "logarithmical histogram on green"
-msgstr ""
+#: src/histogram.c:114
+msgid "Log Histogram on Green"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾ ç»¿"
 
-#: src/histogram.c:88
-msgid "logarithmical histogram on blue"
-msgstr ""
+#: src/histogram.c:115
+msgid "Log Histogram on Blue"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾ è“"
 
-#: src/histogram.c:89
-msgid "logarithmical histogram on value"
-msgstr ""
+#: src/histogram.c:116
+msgid "Log Histogram on RGB"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾ RGB"
 
-#: src/histogram.c:90
-msgid "logarithmical histogram on RGB"
-msgstr ""
+#: src/histogram.c:117
+msgid "Log Histogram on value"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾ å€¼"
 
-#: src/histogram.c:91
-msgid "logarithmical histogram on max value"
-msgstr ""
+#: src/histogram.c:122
+msgid "Linear Histogram on Red"
+msgstr "çº¿æ€§ç›´æ–¹å›¾ çº¢"
 
-#: src/histogram.c:96
-msgid "linear histogram on red"
-msgstr ""
+#: src/histogram.c:123
+msgid "Linear Histogram on Green"
+msgstr "çº¿æ€§ç›´æ–¹å›¾ ç»¿"
 
-#: src/histogram.c:97
-msgid "linear histogram on green"
-msgstr ""
+#: src/histogram.c:124
+msgid "Linear Histogram on Blue"
+msgstr "çº¿æ€§ç›´æ–¹å›¾ è“"
 
-#: src/histogram.c:98
-msgid "linear histogram on blue"
-msgstr ""
+#: src/histogram.c:125
+msgid "Linear Histogram on RGB"
+msgstr "çº¿æ€§ç›´æ–¹å›¾ RGB"
 
-#: src/histogram.c:99
-msgid "linear histogram on value"
-msgstr ""
+#: src/histogram.c:126
+msgid "Linear Histogram on value"
+msgstr "çº¿æ€§ç›´æ–¹å›¾ å€¼"
 
-#: src/histogram.c:100
-msgid "linear histogram on RGB"
-msgstr ""
+#: src/history_list.c:131
+#, c-format
+msgid "Unable to write history lists to: %s\n"
+msgstr "æ— æ³•ä¿å­˜å†å²è®°å½•è‡³: %s\n"
 
-#: src/histogram.c:101
-msgid "linear histogram on max value"
-msgstr ""
+#: src/image.c:161
+#, c-format
+msgid " (Collection %s)"
+msgstr " (å›¾ç‰‡é›† %s)"
 
-#: src/img-view.c:1268 src/layout_image.c:743 src/layout_util.c:1105
-#: src/layout_util.c:1106 src/layout_util.c:1107 src/pan-view.c:2800
-#, fuzzy
+#: src/image_load_jpeg.c:177
+#, c-format
+msgid "Error interpreting JPEG image file (%s)"
+msgstr "è§£ç  JPEG å›¾åƒæ–‡ä»¶å‡ºé”™ (%s)"
+
+#: src/img-view.c:1274
+#: src/layout_image.c:489
+#: src/layout_util.c:1335
+#: src/layout_util.c:1336
+#: src/layout_util.c:1351
+#: src/layout_util.c:1352
+#: src/pan-view.c:2830
 msgid "Zoom _in"
-msgstr "·Å´ó"
+msgstr "æ”¾å¤§ (_i)"
 
-#: src/img-view.c:1269 src/layout_image.c:744 src/layout_util.c:1108
-#: src/layout_util.c:1109 src/pan-view.c:2802
-#, fuzzy
+#: src/img-view.c:1275
+#: src/layout_image.c:490
+#: src/layout_util.c:1337
+#: src/layout_util.c:1338
+#: src/layout_util.c:1353
+#: src/layout_util.c:1354
+#: src/pan-view.c:2832
 msgid "Zoom _out"
-msgstr "ËõĞ¡"
+msgstr "ç¼©å° (_o)"
 
-#: src/img-view.c:1270 src/layout_image.c:745 src/layout_util.c:1110
-#: src/layout_util.c:1111 src/pan-view.c:2804
-#, fuzzy
+#: src/img-view.c:1276
+#: src/layout_image.c:491
+#: src/layout_util.c:1339
+#: src/layout_util.c:1340
+#: src/layout_util.c:1355
+#: src/layout_util.c:1356
+#: src/pan-view.c:2834
 msgid "Zoom _1:1"
-msgstr "Ëõ·Åµ½ 1:1"
+msgstr "ç¼©æ”¾ _1:1"
 
-#: src/img-view.c:1271 src/layout_image.c:746
-#, fuzzy
+#: src/img-view.c:1277
+#: src/layout_image.c:492
 msgid "Fit image to _window"
-msgstr "½«Í¼ÏñÌîÂú´°¿Ú"
+msgstr "é€‚åº”å›¾åƒåˆ°çª—å£ (_w)"
 
-#: src/img-view.c:1276 src/layout_image.c:752 src/layout_util.c:1103
-#, fuzzy
+#: src/img-view.c:1285
+#: src/layout_image.c:501
+#: src/layout_util.c:1333
 msgid "Set as _wallpaper"
-msgstr "ÉèÖÃÎªÇ½Ö½"
+msgstr "è®¾ç½®ä¸ºå¢™çº¸ (_w)"
 
-#: src/img-view.c:1283 src/layout_image.c:762
+#: src/img-view.c:1290
+#: src/layout_image.c:508
 msgid "_Go to directory view"
-msgstr ""
+msgstr "è½¬è‡³ç›®å½•æŸ¥çœ‹"
 
-#: src/img-view.c:1297 src/layout_image.c:786
-#, fuzzy
+#: src/img-view.c:1303
+#: src/layout_image.c:529
 msgid "_Stop slideshow"
-msgstr "Í£Ö¹²¥·Å»ÃµÆÆ¬"
+msgstr "åœæ­¢æ’­ç‰‡ (_S)"
 
-#: src/img-view.c:1300 src/layout_image.c:789
-#, fuzzy
+#: src/img-view.c:1306
+#: src/layout_image.c:532
 msgid "Continue slides_how"
-msgstr "¼ÌĞø²¥·Å»ÃµÆÆ¬"
+msgstr "ç»§ç»­æ’­ç‰‡ (_h)"
 
-#: src/img-view.c:1305 src/img-view.c:1313 src/layout_image.c:794
-#: src/layout_image.c:801
-#, fuzzy
+#: src/img-view.c:1311
+#: src/img-view.c:1319
+#: src/layout_image.c:537
+#: src/layout_image.c:544
 msgid "Pause slides_how"
-msgstr "ÔİÍ£²¥·Å»ÃµÆÆ¬"
+msgstr "æš‚åœæ’­ç‰‡ (_h)"
 
-#: src/img-view.c:1311 src/layout_image.c:800
-#, fuzzy
+#: src/img-view.c:1317
+#: src/layout_image.c:543
 msgid "_Start slideshow"
-msgstr "¿ªÊ¼²¥·Å»ÃµÆÆ¬"
+msgstr "å¼€å§‹æ’­ç‰‡ (_S)"
 
-#: src/img-view.c:1319 src/layout_image.c:811 src/pan-view.c:2873
-#, fuzzy
+#: src/img-view.c:1325
+#: src/layout_image.c:554
+#: src/pan-view.c:2903
 msgid "Exit _full screen"
-msgstr "ÍË³öÈ«ÆÁ"
+msgstr "é€€å‡ºå…¨å± (_f)"
 
-#: src/img-view.c:1323 src/layout_image.c:807 src/pan-view.c:2877
-#, fuzzy
+#: src/img-view.c:1329
+#: src/layout_image.c:550
+#: src/pan-view.c:2907
 msgid "_Full screen"
-msgstr "È«ÆÁ"
+msgstr "å…¨å± (_F)"
 
-#: src/img-view.c:1327 src/layout_util.c:1074 src/pan-view.c:2881
-#, fuzzy
+#: src/img-view.c:1333
+#: src/layout_util.c:1318
+#: src/pan-view.c:2911
 msgid "C_lose window"
-msgstr "¹Ø±Õ´°¿Ú"
+msgstr "å…³é—­çª—å£ (_l)"
 
-#: src/info.c:392
-#, fuzzy
-msgid "File size:"
-msgstr "Æ½ÆÌ"
-
-#: src/info.c:394
-#, fuzzy
-msgid "Dimensions:"
-msgstr "³ß´ç"
-
-#: src/info.c:395
-msgid "Transparent:"
-msgstr ""
-
-#: src/info.c:396 src/print.c:3419
-#, fuzzy
-msgid "Image size:"
-msgstr "Í¼Ïñ"
-
-#: src/info.c:398
-#, fuzzy
-msgid "Compress ratio:"
-msgstr "ÓëÖ®±È½Ï£º"
-
-#: src/info.c:399
-#, fuzzy
-msgid "File type:"
-msgstr "¹ıÂËÆ÷£º"
-
-#: src/info.c:401
-msgid "Owner:"
-msgstr ""
-
-#: src/info.c:402
-msgid "Group:"
-msgstr ""
-
-#: src/info.c:405 src/preferences.c:858
-msgid "General"
-msgstr "³£¹æ"
-
-#: src/info.c:531
-#, c-format
-msgid "Image %d of %d"
-msgstr ""
-
-#: src/info.c:778
-#, fuzzy
-msgid "Image properties"
-msgstr "ÎŞĞ§µÄÄ¿±ê"
-
-#: src/layout.c:282 src/view_file.c:585
+#: src/layout.c:363
+#: src/view_file.c:613
 msgid "Ascending"
-msgstr "ÉıĞò"
+msgstr "å‡åº"
 
-#: src/layout.c:384
-#, c-format
-msgid "This installation of %s was not built with support for color profiles."
-msgstr ""
-
-#: src/layout.c:385
-msgid "Color profiles not supported"
-msgstr ""
-
-#: src/layout.c:410
-msgid "Use _color profiles"
-msgstr ""
-
-#: src/layout.c:415
-msgid "Use profile from _image"
-msgstr ""
-
-#: src/layout.c:421 src/layout.c:439
-#, c-format
-msgid "Input _%d:"
-msgstr ""
-
-#: src/layout.c:422
-msgid "AdobeRGB compatible"
-msgstr ""
-
-#: src/layout.c:464
-msgid "_Screen profile"
-msgstr ""
-
-#: src/layout.c:531
+#: src/layout.c:433
 msgid " Slideshow"
-msgstr " »ÃµÆÆ¬"
+msgstr "æ’­ç‰‡"
 
-#: src/layout.c:535
+#: src/layout.c:437
 msgid " Paused"
-msgstr " ÒÑÔİÍ£"
+msgstr "æš‚åœ"
 
-#: src/layout.c:552
-#, fuzzy, c-format
+#: src/layout.c:453
+#, c-format
 msgid "%s, %d files (%s, %d)%s"
-msgstr "%d ÎÄ¼ş (%d)%s"
+msgstr "%s, %d æ–‡ä»¶ (%s, %d)%s"
 
-#: src/layout.c:559
-#, fuzzy, c-format
+#: src/layout.c:460
+#, c-format
 msgid "%s, %d files%s"
-msgstr "%d ÎÄ¼ş%s"
+msgstr "%s, %d æ–‡ä»¶%s"
 
-#: src/layout.c:564
+#: src/layout.c:465
 #, c-format
 msgid "%d files%s"
-msgstr "%d ÎÄ¼ş%s"
+msgstr "%d æ–‡ä»¶%s"
 
-#: src/layout.c:593
+#: src/layout.c:511
 #, c-format
 msgid "(no read permission) %s bytes"
-msgstr ""
+msgstr "(æ— è¯»å–æƒé™) %s å­—èŠ‚"
 
-#: src/layout.c:597
+#: src/layout.c:515
 #, c-format
 msgid "( ? x ? ) %s bytes"
-msgstr "( ? x ? ) %s ×Ö½Ú"
+msgstr "( ? x ? ) %s å­—èŠ‚"
 
-#: src/layout.c:605
+#: src/layout.c:523
 #, c-format
 msgid "( %d x %d ) %s bytes"
-msgstr "( %d x %d ) %s ×Ö½Ú"
+msgstr "( %d x %d ) %s å­—èŠ‚"
 
-#: src/layout.c:1301 src/layout_config.c:58
-#, fuzzy
+#: src/layout.c:1244
+#: src/layout_config.c:58
 msgid "Tools"
-msgstr "Æ½ÆÌ"
+msgstr "å·¥å…·æ "
 
-#: src/layout.c:1983
-#, fuzzy
+#: src/layout.c:1874
+msgid "Window options and layout"
+msgstr "çª—å£é€‰é¡¹å’Œå¸ƒå±€"
+
+#: src/layout.c:1933
+msgid "General options"
+msgstr "ä¸€èˆ¬é€‰é¡¹"
+
+#: src/layout.c:1935
+msgid "Home path (empty to use your home directory)"
+msgstr "ä¸»è·¯å¾„ (ç•™ç©ºä¸ºä½¿ç”¨ä½ çš„ä¸»ç›®å½•)"
+
+#: src/layout.c:1943
+msgid "Use current"
+msgstr "ä½¿ç”¨å½“å‰ç›®å½•"
+
+#: src/layout.c:1946
+msgid "Show date in directories list view"
+msgstr "ç›®å½•åˆ—è¡¨æŸ¥çœ‹æ—¶æ˜¾ç¤ºæ—¥æœŸ"
+
+#: src/layout.c:1949
+msgid "Exit program when this window is closed"
+msgstr "æ­¤çª—å£å…³é—­åé€€å‡ºç¨‹åº"
+
+#: src/layout.c:1952
+msgid "Start-up directory:"
+msgstr "å¯åŠ¨ç›®å½•:"
+
+#: src/layout.c:1954
+msgid "No change"
+msgstr "ä¸ä½œæ›´æ”¹"
+
+#: src/layout.c:1957
+msgid "Restore last path"
+msgstr "æ¢å¤ä¸Šæ¬¡çš„ç›®å½•"
+
+#: src/layout.c:1960
+msgid "Home path"
+msgstr "ä¸»è·¯å¾„"
+
+#: src/layout.c:1964
+#: src/print.c:3381
+#: src/print.c:3388
+msgid "Layout"
+msgstr "å¸ƒå±€"
+
+#: src/layout.c:2208
 msgid "Invalid geometry\n"
-msgstr "·Ç·¨ÎÄ¼şÃû"
+msgstr "æ— æ•ˆçš„å½¢çŠ¶\n"
 
-#: src/layout_config.c:58 src/ui_pathsel.c:1183
-#, fuzzy
+#: src/layout_config.c:58
+#: src/preferences.c:1557
+#: src/ui_pathsel.c:1186
 msgid "Files"
-msgstr "Æ½ÆÌ"
+msgstr "æ–‡ä»¶"
 
-#: src/layout_config.c:58 src/preferences.c:941 src/print.c:116
+#: src/layout_config.c:58
+#: src/preferences.c:91
+#: src/preferences.c:1351
+#: src/print.c:123
 msgid "Image"
-msgstr "Í¼Ïñ"
+msgstr "å›¾åƒ"
 
 #: src/layout_config.c:364
 msgid "(drag to change order)"
-msgstr ""
+msgstr "(æ‹–æ”¾æ¥æ”¹å˜é¡ºåº)"
 
-#: src/layout_image.c:816
-#, fuzzy
+#: src/layout_image.c:559
 msgid "Hide file _list"
-msgstr "(²»)Òş²ØÎÄ¼şÁĞ±í"
+msgstr "éšè—æ–‡ä»¶åˆ—è¡¨(_l)"
 
-#: src/layout_util.c:879 src/menu.c:76
-#, fuzzy, c-format
-msgid "_%d %s..."
-msgstr "ÔÚ %s..."
-
-#: src/layout_util.c:883 src/menu.c:78
-#, fuzzy, c-format
-msgid "_%d (unknown)..."
-msgstr "ÔÚ (Î´Öª)..."
-
-#: src/layout_util.c:893
-#, fuzzy, c-format
-msgid "_%d empty"
-msgstr "¿Õ"
-
-#: src/layout_util.c:1037
-#, fuzzy
+#: src/layout_util.c:1272
 msgid "_File"
-msgstr "/ÎÄ¼ş(_F)"
+msgstr "æ–‡ä»¶ (_F)"
 
-#: src/layout_util.c:1038
+#: src/layout_util.c:1273
 msgid "_Go"
-msgstr ""
+msgstr "è½¬è‡³ (_G)"
 
-#: src/layout_util.c:1039 src/menu.c:93
-#, fuzzy
+#: src/layout_util.c:1274
+#: src/menu.c:109
 msgid "_Edit"
-msgstr "/±à¼­(_E)"
+msgstr "ç¼–è¾‘ (_E)"
 
-#: src/layout_util.c:1040
-#, fuzzy
+#: src/layout_util.c:1275
 msgid "_Select"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "é€‰æ‹© (_S)"
 
-#: src/layout_util.c:1041 src/menu.c:265
-#, fuzzy
-msgid "_Adjust"
-msgstr "µ÷Õû"
+#: src/layout_util.c:1276
+#: src/menu.c:276
+msgid "_Orientation"
+msgstr "æ–¹å‘ (_O)"
 
-#: src/layout_util.c:1043
-#, fuzzy
-msgid "_View Directory as"
-msgstr "ĞÂ½¨Ä¿Â¼"
+#: src/layout_util.c:1277
+msgid "E_xternal Editors"
+msgstr "å¤–éƒ¨ç¼–è¾‘å™¨ (_x)"
 
-#: src/layout_util.c:1044
-#, fuzzy
+#: src/layout_util.c:1278
+msgid "P_references"
+msgstr "åå¥½è®¾ç½® (_r)"
+
+#: src/layout_util.c:1280
+msgid "_Files and Folders"
+msgstr "æ–‡ä»¶å’Œæ–‡ä»¶å¤¹ (_F)"
+
+#: src/layout_util.c:1281
 msgid "_Zoom"
-msgstr "·Å´ó"
+msgstr "ç¼©æ”¾ (_Z)"
 
-#: src/layout_util.c:1045
-msgid "_Split"
-msgstr ""
+#: src/layout_util.c:1282
+msgid "_Color Management"
+msgstr "è‰²å½©ç®¡ç† (_C)"
 
-#: src/layout_util.c:1046
-#, fuzzy
+#: src/layout_util.c:1283
+msgid "_Connected Zoom"
+msgstr "å…³è”ç¼©æ”¾ (_C)"
+
+#: src/layout_util.c:1284
+msgid "Spli_t"
+msgstr "åˆ†å‰² (_t)"
+
+#: src/layout_util.c:1285
+msgid "Stere_o"
+msgstr "ç«‹ä½“å›¾ç‰‡ (_o)"
+
+#: src/layout_util.c:1286
+#: src/layout_util.c:1401
+msgid "Image _Overlay"
+msgstr "æ˜¾ç¤ºå åŠ  (_O)"
+
+#: src/layout_util.c:1287
 msgid "_Help"
-msgstr "/ÇóÖú(_H)"
+msgstr "å¸®åŠ© (_H)"
 
-#: src/layout_util.c:1048
-#, fuzzy
+#: src/layout_util.c:1289
 msgid "_First Image"
-msgstr "%d Í¼Ïñ"
+msgstr "é¦–ä¸ªå›¾ç‰‡ (_F)"
 
-#: src/layout_util.c:1049 src/layout_util.c:1050 src/layout_util.c:1051
+#: src/layout_util.c:1290
+#: src/layout_util.c:1291
+#: src/layout_util.c:1292
 msgid "_Previous Image"
-msgstr ""
+msgstr "ä¸Šä¸€å›¾ç‰‡ (_P)"
 
-#: src/layout_util.c:1052 src/layout_util.c:1053 src/layout_util.c:1054
-#, fuzzy
+#: src/layout_util.c:1293
+#: src/layout_util.c:1294
+#: src/layout_util.c:1295
 msgid "_Next Image"
-msgstr "Ô¤ÏÈ×°ÈëÏÂÒ»ÕÅÍ¼"
+msgstr "ä¸‹ä¸€å›¾ç‰‡ (_N)"
 
-#: src/layout_util.c:1055
-#, fuzzy
+#: src/layout_util.c:1296
 msgid "_Last Image"
-msgstr "Ô¤ÏÈ×°ÈëÏÂÒ»ÕÅÍ¼"
+msgstr "æœ€åå›¾ç‰‡ (_L)"
 
-#: src/layout_util.c:1058
-#, fuzzy
+#: src/layout_util.c:1297
+msgid "_Back"
+msgstr "è¿”å› (_B)"
+
+#: src/layout_util.c:1298
+msgid "_Home"
+msgstr "ä¸»ç›®å½• (_H)"
+
+#: src/options.c:143
+#: src/ui_bookmark.c:543
+#: src/ui_pathsel.c:1054
+msgid "Home"
+msgstr "ä¸»ç›®å½•"
+
+#: src/layout_util.c:1300
 msgid "New _window"
-msgstr "/ÎÄ¼ş/ĞÂÍ¼Ïñ¼¯"
+msgstr "æ–°å»ºçª—å£ (_w)"
 
-#: src/layout_util.c:1059
-#, fuzzy
+#: src/layout_util.c:1301
 msgid "_New collection"
-msgstr "±£´æÍ¼Ïñ¼¯"
+msgstr "æ–°å»ºå›¾ç‰‡é›† (_N)"
 
-#: src/layout_util.c:1060
-#, fuzzy
+#: src/layout_util.c:1302
 msgid "_Open collection..."
-msgstr "´ò¿ªÍ¼Ïñ¼¯"
+msgstr "æ‰“å¼€å›¾ç‰‡é›†... (_O)"
 
-#: src/layout_util.c:1061
-#, fuzzy
-msgid "Open _recent"
-msgstr "/ÎÄ¼ş/´ò¿ª½üÆÚ·ÃÎÊÄÚÈİ(_R)"
+#: src/layout_util.c:1303
+msgid "Open recen_t"
+msgstr "æœ€è¿‘æ‰“å¼€çš„æ–‡ä»¶ (_t)"
 
-#: src/layout_util.c:1062
-#, fuzzy
+#: src/layout_util.c:1304
 msgid "_Search..."
-msgstr "ÕıÔÚ±È½Ï..."
+msgstr "æœç´¢... (_S)"
 
-#: src/layout_util.c:1064
-#, fuzzy
-msgid "Pan _view"
-msgstr "ÇóÖú - Geeqie"
+#: src/layout_util.c:1306
+msgid "Pa_n view"
+msgstr "å›¾ç‰‡æ¦‚è§ˆ (_n)"
 
-#: src/layout_util.c:1065
-#, fuzzy
+#: src/layout_util.c:1307
 msgid "_Print..."
-msgstr "/ÎÄ¼ş/ÖØÃüÃû(_R)..."
+msgstr "æ‰“å°... (_P)"
 
-#: src/layout_util.c:1066
-#, fuzzy
+#: src/layout_util.c:1308
 msgid "N_ew folder..."
-msgstr "ÇóÖú - Geeqie"
+msgstr "æ–°å»ºæ–‡ä»¶å¤¹... (_e)"
 
-#: src/layout_util.c:1075
-#, fuzzy
+#: src/layout_util.c:1315
+#: src/view_file.c:603
+msgid "Enable file _grouping"
+msgstr "å…è®¸æ–‡ä»¶ç¼–ç»„ (_g)"
+
+#: src/layout_util.c:1316
+#: src/view_file.c:605
+msgid "Disable file groupi_ng"
+msgstr "ç¦æ­¢æ–‡ä»¶ç¼–ç»„ (_n)"
+
+#: src/layout_util.c:1317
+msgid "_Copy path to clipboard"
+msgstr "å¤åˆ¶è·¯å¾„åˆ°å‰ªè´´æ¿ (_C)"
+
+#: src/layout_util.c:1319
 msgid "_Quit"
-msgstr "Æ·ÖÊ"
+msgstr "é€€å‡º(_Q)"
 
-#: src/layout_util.c:1088 src/menu.c:203
-#, fuzzy
+#: src/layout_util.c:1320
+#: src/menu.c:218
 msgid "_Rotate clockwise"
-msgstr "Ë³Ê±ÕëĞı×ª"
+msgstr "é¡ºæ—¶é’ˆæ—‹è½¬ (_R)"
 
-#: src/layout_util.c:1089 src/menu.c:206
-#, fuzzy
+#: src/layout_util.c:1321
+#: src/menu.c:221
 msgid "Rotate _counterclockwise"
-msgstr "ÄæÊ±ÕëĞı×ª"
+msgstr "é€†æ—¶é’ˆæ—‹è½¬ (_c)"
 
-#: src/layout_util.c:1090
-#, fuzzy
+#: src/layout_util.c:1322
 msgid "Rotate 1_80"
-msgstr "Ğı×ª 180 ¶È"
+msgstr "æ—‹è½¬ 1_80"
 
-#: src/layout_util.c:1091 src/menu.c:212
-#, fuzzy
+#: src/layout_util.c:1323
+#: src/menu.c:227
 msgid "_Mirror"
-msgstr "¾µÏñ"
+msgstr "å·¦å³ç¿»è½¬ (_M)"
 
-#: src/layout_util.c:1092 src/menu.c:215
-#, fuzzy
+#: src/layout_util.c:1324
+#: src/menu.c:230
 msgid "_Flip"
-msgstr "·­×ª"
+msgstr "ä¸Šä¸‹ç¿»è½¬ (_F)"
 
-#: src/layout_util.c:1093 src/menu.c:218
-#, fuzzy
-msgid "Toggle _grayscale"
-msgstr "Í£Ö¹²¥·Å»ÃµÆÆ¬"
-
-#: src/layout_util.c:1094 src/menu.c:221
-#, fuzzy
+#: src/layout_util.c:1325
+#: src/menu.c:233
 msgid "_Original state"
-msgstr "ÖØÃüÃû£º"
+msgstr "åˆå§‹çŠ¶æ€ (_O)"
 
-#: src/layout_util.c:1097
-#, fuzzy
+#: src/layout_util.c:1326
 msgid "Select _all"
-msgstr "È«Ñ¡"
+msgstr "å…¨é€‰ (_a)"
 
-#: src/layout_util.c:1098
-#, fuzzy
+#: src/layout_util.c:1327
 msgid "Select _none"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "ä¸é€‰ (_n)"
 
-#: src/layout_util.c:1099
-#, fuzzy
+#: src/layout_util.c:1328
 msgid "_Invert Selection"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "åé€‰ (_I)"
 
-#: src/layout_util.c:1101
-#, fuzzy
+#: src/layout_util.c:1329
 msgid "P_references..."
-msgstr "/±à¼­/Ñ¡Ïî(_O)..."
+msgstr "åå¥½è®¾ç½®... (_r)"
 
-#: src/layout_util.c:1102
+#: src/layout_util.c:1330
+msgid "Configure _Editors..."
+msgstr "è®¾ç½®å¤–éƒ¨ç¼–è¾‘å™¨... (_E)"
+
+#: src/layout_util.c:1331
+msgid "_Configure this window..."
+msgstr "è®¾ç½®æ­¤çª—å£... (_C)"
+
+#: src/layout_util.c:1332
 msgid "_Thumbnail maintenance..."
-msgstr ""
+msgstr "ç¼©ç•¥å›¾ç»´æŠ¤... (_T)"
 
-#: src/layout_util.c:1112 src/layout_util.c:1113
-#, fuzzy
+#: src/layout_util.c:1334
+msgid "_Save metadata"
+msgstr "ä¿å­˜å…ƒæ•°æ® (_S)"
+
+#: src/layout_util.c:1335
+#: src/layout_util.c:1336
+msgid "Zoom in"
+msgstr "æ”¾å¤§"
+
+#: src/layout_util.c:1337
+#: src/layout_util.c:1338
+msgid "Zoom out"
+msgstr "ç¼©å°"
+
+#: src/layout_util.c:1339
+#: src/layout_util.c:1340
+msgid "Zoom 1:1"
+msgstr "ç¼©æ”¾ 1:1"
+
+#: src/layout_util.c:1341
+#: src/layout_util.c:1342
+#: src/layout_util.c:1357
+#: src/layout_util.c:1358
 msgid "_Zoom to fit"
-msgstr "/²é¿´/Ëõ·Åµ½ÊÊµ±´óĞ¡(_Z)"
+msgstr "ç¼©æ”¾ä»¥é€‚åº” (_Z)"
 
-#: src/layout_util.c:1114
+#: src/layout_util.c:1341
+#: src/layout_util.c:1342
+msgid "Zoom to fit"
+msgstr "ç¼©æ”¾ä»¥é€‚åº”"
+
+#: src/layout_util.c:1343
+#: src/layout_util.c:1359
 msgid "Fit _Horizontally"
-msgstr ""
+msgstr "é€‚åº”å®½åº¦ (_H)"
 
-#: src/layout_util.c:1115
-msgid "Fit _Vorizontally"
-msgstr ""
+#: src/layout_util.c:1344
+#: src/layout_util.c:1360
+msgid "Fit _Vertically"
+msgstr "é€‚åº”é«˜åº¦ (_V)"
 
-#: src/layout_util.c:1116
-#, fuzzy
+#: src/layout_util.c:1345
+#: src/layout_util.c:1361
 msgid "Zoom _2:1"
-msgstr "Ëõ·Åµ½ 1:1"
+msgstr "ç¼©æ”¾ _2:1"
 
-#: src/layout_util.c:1117
-#, fuzzy
+#: src/layout_util.c:1346
+#: src/layout_util.c:1362
 msgid "Zoom _3:1"
-msgstr "Ëõ·Åµ½ 1:1"
+msgstr "ç¼©æ”¾ _3:1"
 
-#: src/layout_util.c:1118
-#, fuzzy
+#: src/layout_util.c:1347
+#: src/layout_util.c:1363
 msgid "Zoom _4:1"
-msgstr "Ëõ·Åµ½ 1:1"
+msgstr "ç¼©æ”¾ _4:1"
 
-#: src/layout_util.c:1119
-#, fuzzy
+#: src/layout_util.c:1348
+#: src/layout_util.c:1364
 msgid "Zoom 1:2"
-msgstr "Ëõ·Åµ½ 1:1"
+msgstr "ç¼©æ”¾ 1:2"
 
-#: src/layout_util.c:1120
-#, fuzzy
+#: src/layout_util.c:1349
+#: src/layout_util.c:1365
 msgid "Zoom 1:3"
-msgstr "Ëõ·Åµ½ 1:1"
+msgstr "ç¼©æ”¾ 1:3"
 
-#: src/layout_util.c:1121
-#, fuzzy
+#: src/layout_util.c:1350
+#: src/layout_util.c:1366
 msgid "Zoom 1:4"
-msgstr "Ëõ·Åµ½ 1:1"
+msgstr "ç¼©æ”¾ 1:4"
 
-#: src/layout_util.c:1124
-#, fuzzy
-msgid "_View in new window"
-msgstr "ÔÚĞÂ´°¿ÚÖĞ²é¿´"
+#: src/layout_util.c:1351
+#: src/layout_util.c:1352
+msgid "Connected Zoom in"
+msgstr "å…³è”æ”¾å¤§"
 
-#: src/layout_util.c:1126 src/layout_util.c:1127 src/layout_util.c:1128
-#, fuzzy
-msgid "F_ull screen"
-msgstr "È«ÆÁ"
-
-#: src/layout_util.c:1129 src/layout_util.c:1130
-msgid "Escape"
-msgstr ""
-
-#: src/layout_util.c:1131
-msgid "_Image Overlay"
-msgstr ""
-
-#: src/layout_util.c:1132
-msgid "Histogram _channels"
-msgstr ""
-
-#: src/layout_util.c:1133
-msgid "Histogram _log mode"
-msgstr ""
-
-#: src/layout_util.c:1134
-#, fuzzy
-msgid "_Hide file list"
-msgstr "(²»)Òş²ØÎÄ¼şÁĞ±í"
-
-#: src/layout_util.c:1135
-#, fuzzy
-msgid "_Pause slideshow"
-msgstr "ÔİÍ£²¥·Å»ÃµÆÆ¬"
-
-#: src/layout_util.c:1136
-#, fuzzy
-msgid "_Refresh"
-msgstr "Ë¢ĞÂ"
-
-#: src/layout_util.c:1138
-#, fuzzy
-msgid "_Contents"
-msgstr "/ÇóÖú/¹ØÓÚ(_A)"
-
-#: src/layout_util.c:1139
-#, fuzzy
-msgid "_Keyboard shortcuts"
-msgstr "/ÇóÖú/¼üÅÌ¿ì½İ¼ü(_K)"
-
-#: src/layout_util.c:1140
-#, fuzzy
-msgid "_Release notes"
-msgstr "/ÇóÖú/·¢ĞĞËµÃ÷(_R)"
-
-#: src/layout_util.c:1141
-#, fuzzy
-msgid "_About"
-msgstr "¹ØÓÚ"
-
-#: src/layout_util.c:1145 src/layout_util.c:1546
-#, fuzzy
-msgid "_Thumbnails"
-msgstr "ËõÂÔÍ¼"
-
-#: src/layout_util.c:1146
-#, fuzzy
-msgid "Show _Marks"
-msgstr "ÏÔÊ¾Òş²ØÎÄ¼ş"
-
-#: src/layout_util.c:1147
-#, fuzzy
-msgid "_Float file list"
-msgstr "/²é¿´/(²»)¸¡¶¯ÎÄ¼şÁĞ±í(_F)"
-
-#: src/layout_util.c:1148
-#, fuzzy
-msgid "Hide tool_bar"
-msgstr "/²é¿´/Æ¬¶Î1"
-
-#: src/layout_util.c:1149
-#, fuzzy
-msgid "_Keywords"
-msgstr "³ß´ç"
-
-#: src/layout_util.c:1150
-#, fuzzy
-msgid "E_xif data"
-msgstr "/²é¿´/¸üĞÂÁĞ±í(_R)"
-
-#: src/layout_util.c:1151
-#, fuzzy
-msgid "Sort _manager"
-msgstr "°´Ãû³ÆÅÅĞò"
-
-#: src/layout_util.c:1152
-msgid "Co_nnected scroll"
-msgstr ""
-
-#: src/layout_util.c:1153
-msgid "C_onnected zoom"
-msgstr ""
-
-#: src/layout_util.c:1154
-#, fuzzy
-msgid "Toggle _slideshow"
-msgstr "Í£Ö¹²¥·Å»ÃµÆÆ¬"
-
-#: src/layout_util.c:1158 src/view_dir.c:29
-#, fuzzy
-msgid "_List"
-msgstr "/²é¿´/¸üĞÂÁĞ±í(_R)"
-
-#: src/layout_util.c:1159
-#, fuzzy
-msgid "I_cons"
-msgstr "³ß´ç"
-
-#: src/layout_util.c:1163
-msgid "Horizontal"
-msgstr ""
-
-#: src/layout_util.c:1164
-msgid "Vertical"
-msgstr ""
-
-#: src/layout_util.c:1165
-msgid "Quad"
-msgstr ""
-
-#: src/layout_util.c:1166
-#, fuzzy
-msgid "Single"
-msgstr "´óĞ¡"
-
+#: src/layout_util.c:1353
 #: src/layout_util.c:1354
+msgid "Connected Zoom out"
+msgstr "å…³è”ç¼©å°"
+
+#: src/layout_util.c:1355
+#: src/layout_util.c:1356
+msgid "Connected Zoom 1:1"
+msgstr "å…³è”ç¼©æ”¾ 1:1"
+
+#: src/layout_util.c:1357
+#: src/layout_util.c:1358
+msgid "Connected Zoom to fit"
+msgstr "å…³è”ç¼©æ”¾ä»¥é€‚åº”çª—å£"
+
+#: src/layout_util.c:1359
+msgid "Connected Fit Horizontally"
+msgstr "å…³è”ç¼©æ”¾é€‚åº”å®½åº¦"
+
+#: src/layout_util.c:1360
+msgid "Connected Fit Vertically"
+msgstr "å…³è”ç¼©æ”¾é€‚åº”é«˜åº¦"
+
+#: src/layout_util.c:1361
+msgid "Connected Zoom 2:1"
+msgstr "å…³è”ç¼©æ”¾ 2:1"
+
+#: src/layout_util.c:1362
+msgid "Connected Zoom 3:1"
+msgstr "å…³è”ç¼©æ”¾ 3:1"
+
+#: src/layout_util.c:1363
+msgid "Connected Zoom 4:1"
+msgstr "å…³è”ç¼©æ”¾ 4:1"
+
+#: src/layout_util.c:1364
+msgid "Connected Zoom 1:2"
+msgstr "å…³è”ç¼©æ”¾ 1:2"
+
+#: src/layout_util.c:1365
+msgid "Connected Zoom 1:3"
+msgstr "å…³è”ç¼©æ”¾ 1:3"
+
+#: src/layout_util.c:1366
+msgid "Connected Zoom 1:4"
+msgstr "å…³è”ç¼©æ”¾ 1:4"
+
+#: src/layout_util.c:1367
+msgid "_View in new window"
+msgstr "åœ¨æ–°çª—å£ä¸­æŸ¥çœ‹(_V)"
+
+#: src/layout_util.c:1368
+#: src/layout_util.c:1369
+#: src/layout_util.c:1370
+msgid "F_ull screen"
+msgstr "å…¨å± (_u)"
+
+#: src/layout_util.c:1371
+#: src/layout_util.c:1372
+msgid "_Leave full screen"
+msgstr "é€€å‡ºå…¨å± (_L)"
+
+#: src/layout_util.c:1373
+msgid "_Cycle through overlay modes"
+msgstr "åˆ‡æ¢æ˜¾ç¤ºè¦†ç›–æ¨¡å¼ (_C)"
+
+#: src/layout_util.c:1374
+msgid "Cycle through histogram ch_annels"
+msgstr "åˆ‡æ¢ç›´æ–¹å›¾é€šé“ (_a)"
+
+#: src/layout_util.c:1375
+msgid "Cycle through histogram mo_des"
+msgstr "åˆ‡æ¢ç›´æ–¹å›¾æ¨¡å¼ (_d)"
+
+#: src/layout_util.c:1376
+msgid "_Hide file list"
+msgstr "éšè—æ–‡ä»¶åˆ—è¡¨ (_H)"
+
+#: src/layout_util.c:1377
+msgid "_Pause slideshow"
+msgstr "æš‚åœæ’­ç‰‡ (_P)"
+
+#: src/layout_util.c:1378
+msgid "_Refresh"
+msgstr "åˆ·æ–° (_R)"
+
+#: src/layout_util.c:1378
+msgid "Refresh"
+msgstr "åˆ·æ–°"
+
+#: src/layout_util.c:1379
+msgid "_Contents"
+msgstr "å†…å®¹(_C)"
+
+#: src/layout_util.c:1380
+msgid "_Keyboard shortcuts"
+msgstr "å¿«æ·é”®(_K)"
+
+#: src/layout_util.c:1381
+msgid "_Release notes"
+msgstr "ç‰ˆæœ¬è¯´æ˜(_P)"
+
+#: src/layout_util.c:1382
+msgid "_About"
+msgstr "å…³äº(_A)"
+
+#: src/preferences.c:2297
+msgid "About"
+msgstr "å…³äº"
+
+#: src/layout_util.c:1383
+msgid "_Log Window"
+msgstr "æ—¥å¿—çª—å£(_L)"
+
+#: src/layout_util.c:1384
+msgid "_Exif window"
+msgstr "Exif çª—å£ (_E)"
+
+#: src/layout_util.c:1385
+msgid "_Cycle through stereo modes"
+msgstr "åˆ‡æ¢ç«‹ä½“å›¾ç‰‡æ¨¡å¼ (_C)"
+
+#: src/layout_util.c:1390
+msgid "Show _Thumbnails"
+msgstr "æ˜¾ç¤ºç¼©ç•¥å›¾(_T)"
+
+#: src/layout_util.c:1391
+msgid "Show _Marks"
+msgstr "æ˜¾ç¤ºæ ‡è®° (_M)"
+
+#: src/layout_util.c:1392
+msgid "Pi_xel Info"
+msgstr "åƒç´ ä¿¡æ¯ (_x)"
+
+#: src/layout_util.c:1392
+msgid "Show Pixel Info"
+msgstr "æ˜¾ç¤ºåƒç´ ä¿¡æ¯"
+
+#: src/layout_util.c:1393
+msgid "_Float file list"
+msgstr "æµ®åŠ¨æ–‡ä»¶åˆ—è¡¨(_F)"
+
+#: src/layout_util.c:1394
+msgid "Hide tool_bar"
+msgstr "éšè—å·¥å…·æ (_b)"
+
+#: src/layout_util.c:1395
+msgid "_Info sidebar"
+msgstr "ä¿¡æ¯è¾¹æ  (_I)"
+
+#: src/layout_util.c:1396
+msgid "Sort _manager"
+msgstr "å¿«æ·æ•´ç† (_m)"
+
+#: src/layout_util.c:1397
+msgid "Toggle _slideshow"
+msgstr "åˆ‡æ¢æ’­ç‰‡å¼€å¯/å…³é—­ (_s)"
+
+#: src/layout_util.c:1398
+msgid "Use _color profiles"
+msgstr "ä½¿ç”¨è‰²å½©é…ç½® (_c)"
+
+#: src/layout_util.c:1399
+msgid "Use profile from _image"
+msgstr "ä½¿ç”¨å›¾åƒæ–‡ä»¶çš„è‰²å½©é…ç½® (_i)"
+
+#: src/layout_util.c:1400
+msgid "Toggle _grayscale"
+msgstr "åˆ‡æ¢ç°åº¦æ¨¡å¼ (_g)"
+
+#: src/layout_util.c:1402
+msgid "_Show Histogram"
+msgstr "æ˜¾ç¤ºç›´æ–¹å›¾ (_S)"
+
+#: src/layout_util.c:1406
+msgid "Image _List"
+msgstr "å›¾ç‰‡åˆ—è¡¨(_L)"
+
+#: src/layout_util.c:1407
+msgid "I_cons"
+msgstr "å›¾æ ‡(_c)"
+
+#: src/layout_util.c:1411
+msgid "Folder Li_st"
+msgstr "æ–‡ä»¶å¤¹åˆ—è¡¨(_i)"
+
+#: src/layout_util.c:1412
+msgid "Folder T_ree"
+msgstr "æ–‡ä»¶å¤¹æ ‘(_r)"
+
+#: src/layout_util.c:1416
+msgid "_Horizontal"
+msgstr "æ°´å¹³ (_H)"
+
+#: src/layout_util.c:1417
+msgid "_Vertical"
+msgstr "å‚ç›´ (_V)"
+
+#: src/layout_util.c:1418
+msgid "_Quad"
+msgstr "å››åˆ† (_Q)"
+
+#: src/layout_util.c:1419
+msgid "_Single"
+msgstr "å•å¼  (_S)"
+
+#: src/layout_util.c:1423
+msgid "Input _0: sRGB"
+msgstr "è¾“å…¥ _0: sRGB"
+
+#: src/layout_util.c:1424
+msgid "Input _1: AdobeRGB compatible"
+msgstr "è¾“å…¥ _1: AdobeRGB å…¼å®¹"
+
+#: src/layout_util.c:1425
+msgid "Input _2"
+msgstr "è¾“å…¥ _2"
+
+#: src/layout_util.c:1426
+msgid "Input _3"
+msgstr "è¾“å…¥ _3"
+
+#: src/layout_util.c:1427
+msgid "Input _4"
+msgstr "è¾“å…¥ _4"
+
+#: src/layout_util.c:1428
+msgid "Input _5"
+msgstr "è¾“å…¥ _5"
+
+#: src/layout_util.c:1441
+msgid "_Log Histogram"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾ (_L)"
+
+#: src/layout_util.c:1445
+msgid "_Auto"
+msgstr "è‡ªåŠ¨ (_A)"
+
+#: src/layout_util.c:1446
+msgid "_Side by Side"
+msgstr "å¹¶æ’ (_S)"
+
+#: src/layout_util.c:1447
+msgid "_Cross"
+msgstr "äº¤å‰ (_C)"
+
+#: src/layout_util.c:1448
+msgid "_Off"
+msgstr "å…³é—­ (_O)"
+
+#: src/layout_util.c:1722
 #, c-format
 msgid "Mark _%d"
-msgstr ""
+msgstr "æ ‡è®° _%d"
 
-#: src/layout_util.c:1355 src/view_file.c:515
+#: src/layout_util.c:1723
+#: src/view_file.c:540
 #, c-format
 msgid "_Set mark %d"
-msgstr ""
+msgstr "è®¾ç½®æ ‡è®° %d (_S)"
 
-#: src/layout_util.c:1356 src/view_file.c:516
+#: src/layout_util.c:1724
+#: src/view_file.c:541
 #, c-format
 msgid "_Reset mark %d"
-msgstr ""
+msgstr "é‡ç½®æ ‡è®° %d (_R)"
 
-#: src/layout_util.c:1357 src/layout_util.c:1358 src/view_file.c:517
+#: src/layout_util.c:1725
+#: src/layout_util.c:1726
+#: src/view_file.c:542
 #, c-format
 msgid "_Toggle mark %d"
-msgstr ""
+msgstr "åˆ‡æ¢æ ‡è®° %d (_T)"
 
-#: src/layout_util.c:1359 src/layout_util.c:1360 src/view_file.c:518
-#, fuzzy, c-format
+#: src/layout_util.c:1727
+#, c-format
+msgid "Se_lect mark %d"
+msgstr "é€‰æ‹©æ ‡è®° %d (_l)"
+
+#: src/layout_util.c:1728
+#: src/view_file.c:543
+#, c-format
 msgid "_Select mark %d"
-msgstr "È«Ñ¡"
+msgstr "é€‰æ‹©æ ‡è®° %d (_S)"
 
-#: src/layout_util.c:1361 src/view_file.c:519
-#, fuzzy, c-format
+#: src/layout_util.c:1729
+#: src/view_file.c:544
+#, c-format
 msgid "_Add mark %d"
-msgstr "±à¼­Æ÷"
+msgstr "æ·»åŠ æ ‡è®° %d (_A)"
 
-#: src/layout_util.c:1362 src/view_file.c:520
+#: src/layout_util.c:1730
+#: src/view_file.c:545
 #, c-format
 msgid "_Intersection with mark %d"
-msgstr ""
+msgstr "ä¸æ ‡è®° %d å…±æœ‰çš„ (_I)"
 
-#: src/layout_util.c:1363 src/view_file.c:521
+#: src/layout_util.c:1731
+#: src/view_file.c:546
 #, c-format
 msgid "_Unselect mark %d"
-msgstr ""
+msgstr "å–æ¶ˆé€‰æ‹©æ ‡è®° %d (_U)"
 
-#: src/layout_util.c:1547
-#, fuzzy
-msgid "Show thumbnails"
-msgstr "»º´æËõÂÔÍ¼"
-
-#: src/layout_util.c:1552
-#, fuzzy
-msgid "Change to home folder"
-msgstr "»Øµ½¼ÒÄ¿Â¼"
-
-#: src/layout_util.c:1554
-msgid "Refresh file list"
-msgstr "Ë¢ĞÂÎÄ¼şÁĞ±í"
-
-#: src/layout_util.c:1556
-msgid "Zoom in"
-msgstr "·Å´ó"
-
-#: src/layout_util.c:1558
-msgid "Zoom out"
-msgstr "ËõĞ¡"
-
-#: src/layout_util.c:1560 src/preferences.c:978
-msgid "Fit image to window"
-msgstr "½«Í¼ÏñÌîÂú´°¿Ú"
-
-#: src/layout_util.c:1562
-msgid "Set zoom 1:1"
-msgstr "ÉèÖÃ±ÈÀı 1:1"
-
-#: src/layout_util.c:1564
-msgid "Configure options"
-msgstr "ÅäÖÃÑ¡Ïî"
-
-#: src/layout_util.c:1565
-#, fuzzy
-msgid "_Float"
-msgstr "ÆÕÍ¨"
-
-#: src/layout_util.c:1566
-msgid "Float Controls"
-msgstr "¸¡¶¯¿ØÖÆ"
-
-#. something went badly wrong
-#: src/lirc.c:184
+#: src/layout_util.c:1732
 #, c-format
-msgid "disconnected from LIRC\n"
-msgstr ""
+msgid "_Filter mark %d"
+msgstr "è¿‡æ»¤ä¸ºæ ‡è®° %d (_F)"
 
-#: src/lirc.c:199
+#: src/layout_util.c:2263
 #, c-format
-msgid "Could not init LIRC support\n"
-msgstr ""
+msgid "Number of files with unsaved metadata: %d"
+msgstr "æœªä¿å­˜å…ƒæ•°æ®çš„æ–‡ä»¶æ•°: %d"
 
-#: src/lirc.c:206
+#: src/layout_util.c:2269
+msgid "No unsaved metadata"
+msgstr "æ²¡æœ‰æœªä¿å­˜çš„å…ƒæ•°æ®"
+
+#: src/layout_util.c:2316
 #, c-format
 msgid ""
-"could not read LIRC config file\n"
-"please read the documentation of LIRC to \n"
-"know how to create a proper config file\n"
+"Image profile: %s\n"
+"Screen profile: %s"
 msgstr ""
+"å›¾åƒè‰²å½©é…ç½®: %s\n"
+"å±å¹•è‰²å½©é…ç½®: %s"
 
-#: src/main.c:391
-#, fuzzy, c-format
-msgid ""
-"Usage: %s [options] [path]\n"
-"\n"
-msgstr ""
-"ÓÃ·¨: gqview [Ñ¡Ïî] [Â·¾¶]\n"
-"\n"
+#: src/layout_util.c:2324
+msgid "Click to enable color management"
+msgstr "ç‚¹å‡»å¯ç”¨è‰²å½©ç®¡ç†"
 
-#: src/main.c:392
-msgid "valid options are:\n"
-msgstr "ÓĞĞ§µÄÑ¡ÏîÎª£º\n"
+#: src/layout_util.c:2329
+msgid "Color profiles not supported"
+msgstr "è‰²å½©é…ç½®æ–‡ä»¶ä¸æ”¯æŒ"
 
-#: src/main.c:393
-msgid "  +t, --with-tools           force show of tools\n"
-msgstr "  +t, --with-tools           Ç¿ĞĞÏÔÊ¾¹¤¾ß\n"
-
-#: src/main.c:394
-msgid "  -t, --without-tools        force hide of tools\n"
-msgstr "  -t, --without-tools        Ç¿ĞĞÒş²Ø¹¤¾ß\n"
-
-#: src/main.c:395
-msgid "  -f, --fullscreen           start in full screen mode\n"
-msgstr "  -f, --fullscreen           ÒÔÈ«ÆÁÄ£Ê½Æô¶¯\n"
-
-#: src/main.c:396
-msgid "  -s, --slideshow            start in slideshow mode\n"
-msgstr "  -s, --slidehosw            ÒÔ»ÃµÆÄ£Ê½Æô¶¯\n"
-
-#: src/main.c:397
-msgid "  -l, --list                 open collection window for command line\n"
-msgstr "  -l, --list                 ÎªÃüÁîĞĞ¿ªÆôÍ¼Ïñ¼¯´°¿Ú\n"
-
-#: src/main.c:398
-msgid "      --geometry=GEOMETRY    set main window location\n"
-msgstr ""
-
-#: src/main.c:399
-#, fuzzy
-msgid "  -r, --remote               send following commands to open window\n"
-msgstr "  -l, --list                 ÎªÃüÁîĞĞ¿ªÆôÍ¼Ïñ¼¯´°¿Ú\n"
-
-#: src/main.c:400
-msgid "  -rh,--remote-help          print remote command list\n"
-msgstr ""
-
-#: src/main.c:402
-#, fuzzy
-msgid "  --debug[=level]            turn on debug output\n"
-msgstr "  --debug                    ´ò¿ªµ÷ÊÔĞÅÏ¢Êä³ö\n"
-
-#: src/main.c:404
-msgid "  -v, --version              print version info\n"
-msgstr "  -v, --version              ´òÓ¡°æ±¾ĞÅÏ¢\n"
-
-#: src/main.c:405
-msgid ""
-"  -h, --help                 show this message\n"
-"\n"
-msgstr ""
-"  -h, --help                 ÏÔÊ¾¸ÃÏûÏ¢\n"
-"\n"
-
-#: src/main.c:417
+#: src/layout_util.c:2351
 #, c-format
-msgid ""
-"invalid or ignored: %s\n"
-"Use --help for options\n"
-msgstr ""
-"ÎŞĞ§»òºöÂÔ£º%s\n"
-"Ê¹ÓÃ --help ²é¿´Ñ¡Ïî\n"
+msgid "Input _%d: %s"
+msgstr "è¾“å…¥ _%d: %s"
 
-#: src/main.c:445
-#, fuzzy
-msgid "Invalid or ignored remote options: "
-msgstr ""
-"ÎŞĞ§»òºöÂÔ£º%s\n"
-"Ê¹ÓÃ --help ²é¿´Ñ¡Ïî\n"
+#: src/logwindow.c:76
+msgid "Log"
+msgstr "æ—¥å¿—"
 
-#: src/main.c:454
-msgid ""
-"\n"
-"Use --remote-help for valid remote options.\n"
-msgstr ""
-
-#: src/main.c:539
-#, fuzzy, c-format
-msgid "Creating %s dir:%s\n"
-msgstr "ÕıÔÚ´´½¨ Geeqie Ä¿Â¼£º%s\n"
-
-#: src/main.c:543
-#, c-format
-msgid "Could not create dir:%s\n"
-msgstr "ÎŞ·¨´´½¨Ä¿Â¼£º%s\n"
-
-#: src/main.c:562 src/ui_bookmark.c:856 src/ui_pathsel.c:1051
-msgid "Home"
-msgstr "¼Ò"
-
-#: src/main.c:564 src/ui_bookmark.c:863
-#, fuzzy
-msgid "Desktop"
-msgstr "µ½£º"
-
-#: src/main.c:680
-#, fuzzy
+#: src/main.c:670
 msgid "exit"
-msgstr "ÍË³ö"
+msgstr "é€€å‡º"
 
-#: src/main.c:685
-#, fuzzy, c-format
+#: src/main.c:675
+#, c-format
 msgid "Quit %s"
-msgstr "Æ·ÖÊ"
+msgstr "é€€å‡º %s"
 
-#: src/main.c:687
-#, fuzzy
+#: src/main.c:677
 msgid "Collections have been modified. Quit anyway?"
-msgstr ""
-"Í¼Ïñ¼¯ÒÑ¾­±»¸Ä±ä¡£\n"
-"Ç¿ĞĞÍË³ö£¿"
+msgstr "å›¾ç‰‡é›†å·²ä¿®æ”¹. ä¸ä¿å­˜é€€å‡ºå—ï¼Ÿ"
 
-#: src/main.c:836 src/remote.c:536
+#: src/main.c:881
 msgid "Command line"
-msgstr "ÃüÁîĞĞ"
-
-#: src/menu.c:117
-#, fuzzy
-msgid "Sort by size"
-msgstr "°´´óĞ¡ÅÅĞò"
-
-#: src/menu.c:120
-#, fuzzy
-msgid "Sort by date"
-msgstr "°´ÈÕÆÚÅÅĞò"
-
-#: src/menu.c:123
-msgid "Unsorted"
-msgstr "Î´ÅÅĞò"
-
-#: src/menu.c:126
-#, fuzzy
-msgid "Sort by path"
-msgstr "°´Â·¾¶ÅÅĞò"
-
-#: src/menu.c:129
-#, fuzzy
-msgid "Sort by number"
-msgstr "°´±àºÅÅÅĞò"
+msgstr "å‘½ä»¤è¡Œ"
 
 #: src/menu.c:133
-#, fuzzy
+msgid "Sort by size"
+msgstr "æŒ‰å¤§å°æ’åº"
+
+#: src/menu.c:136
+msgid "Sort by date"
+msgstr "æŒ‰æ—¥æœŸæ’åº"
+
+#: src/menu.c:139
+msgid "Unsorted"
+msgstr "æœªæ’åº"
+
+#: src/menu.c:142
+msgid "Sort by path"
+msgstr "æŒ‰è·¯å¾„æ’åº"
+
+#: src/menu.c:145
+msgid "Sort by number"
+msgstr "æŒ‰æ•°å­—æ’åº"
+
+#: src/menu.c:149
 msgid "Sort by name"
-msgstr "°´Ãû³ÆÅÅĞò"
+msgstr "æŒ‰åç§°æ’åº"
 
-#: src/menu.c:184
+#: src/menu.c:199
 msgid "Sort"
-msgstr "ÅÅĞò"
+msgstr "æ’åº"
 
-#: src/menu.c:209
-#, fuzzy
+#: src/menu.c:224
 msgid "Rotate _180"
-msgstr "Ğı×ª 180 ¶È"
+msgstr "æ—‹è½¬ _180"
 
-#: src/pan-view.c:470
-#, fuzzy, c-format
+#: src/print.c:375
+msgid "Landscape"
+msgstr "æ¨ªå‘"
+
+#: src/print.c:374
+msgid "Portrait"
+msgstr "çºµå‘"
+
+#: src/pan-view.c:472
+#, c-format
 msgid "%d images, %s"
-msgstr "%d Í¼Ïñ"
+msgstr "%d æ–‡ä»¶, %s"
 
-#: src/pan-view.c:480
+#: src/pan-view.c:482
 #, c-format
 msgid "The pan view does not support the folder \"%s\"."
-msgstr ""
+msgstr "å›¾ç‰‡æ¦‚è§ˆä¸æ”¯æŒæ–‡ä»¶å¤¹ \"%s\"."
 
-#: src/pan-view.c:481
+#: src/pan-view.c:483
 msgid "Folder not supported"
-msgstr ""
+msgstr "æ–‡ä»¶å¤¹ä¸æ”¯æŒ"
 
-#: src/pan-view.c:1083 src/pan-view.c:1099
-#, fuzzy
+#: src/pan-view.c:1084
+#: src/pan-view.c:1100
 msgid "Reading image data..."
-msgstr "ÕıÔÚ¶ÁÈ¡ÏàËÆĞÔÊı¾İ..."
+msgstr "è¯»å–å›¾åƒæ•°æ®..."
 
-#: src/pan-view.c:1158
-#, fuzzy
+#: src/pan-view.c:1159
 msgid "Sorting images..."
-msgstr "ÕıÔÚ±È½Ï..."
+msgstr "æ’åºå›¾åƒ..."
 
-#: src/pan-view.c:1546 src/pan-view.c:1912
-#, fuzzy
-msgid "Date:"
-msgstr "ÈÕÆÚ"
+#: src/pan-view.c:1552
+#: src/print.c:2609
+msgid "Filename:"
+msgstr "æ–‡ä»¶å:"
 
-#: src/pan-view.c:1548 src/preferences.c:887 src/print.c:3245 src/print.c:3456
-msgid "Size:"
-msgstr "´óĞ¡£º"
-
-#: src/pan-view.c:1650
-msgid "path found"
-msgstr ""
-
-#: src/pan-view.c:1650
-#, fuzzy
-msgid "filename found"
-msgstr "ÖØÃüÃû£º"
-
-#: src/pan-view.c:1698
-msgid "partial match"
-msgstr ""
-
-#: src/pan-view.c:1909 src/pan-view.c:1942
-msgid "no match"
-msgstr ""
-
-#: src/pan-view.c:2268 src/search.c:2150
-msgid "Folder not found"
-msgstr ""
-
-#: src/pan-view.c:2269
-msgid "The entered path is not a folder"
-msgstr ""
-
-#: src/pan-view.c:2368
-#, fuzzy
-msgid "Pan View"
-msgstr "ÇóÖú - Geeqie"
-
-#: src/pan-view.c:2393
-#, fuzzy
-msgid "Timeline"
-msgstr "Ë«ÏßĞÔ"
-
-#: src/pan-view.c:2394
-#, fuzzy
-msgid "Calendar"
-msgstr "Çå³ı"
-
-#: src/pan-view.c:2396
-#, fuzzy
-msgid "Folders (flower)"
-msgstr "Æ½ÆÌ"
-
-#: src/pan-view.c:2397
-msgid "Grid"
-msgstr ""
-
+#: src/pan-view.c:1554
 #: src/pan-view.c:2406
-#, fuzzy
-msgid "Dots"
-msgstr "Xpaint"
+#: src/preferences.c:1464
+msgid "Location:"
+msgstr "ä½ç½®:"
 
-#: src/pan-view.c:2407
-#, fuzzy
-msgid "No Images"
-msgstr "Í¼Ïñ"
+#: src/pan-view.c:1556
+#: src/pan-view.c:1922
+msgid "Date:"
+msgstr "æ—¥æœŸ:"
 
-#: src/pan-view.c:2408
-#, fuzzy
-msgid "Small Thumbnails"
-msgstr "ËõÂÔÍ¼"
+#: src/pan-view.c:1558
+#: src/preferences.c:1285
+#: src/print.c:3222
+#: src/print.c:3433
+msgid "Size:"
+msgstr "å¤§å°:"
 
-#: src/pan-view.c:2409
-#, fuzzy
-msgid "Normal Thumbnails"
-msgstr "ËõÂÔÍ¼"
+#: src/pan-view.c:1660
+msgid "path found"
+msgstr "å‘ç°è·¯å¾„"
 
-#: src/pan-view.c:2410
-#, fuzzy
-msgid "Large Thumbnails"
-msgstr "Çå³ıËõÂÔÍ¼"
+#: src/pan-view.c:1660
+msgid "filename found"
+msgstr "æœªæ‰¾åˆ°æ–‡ä»¶å"
 
-#: src/pan-view.c:2411 src/pan-view.c:2863
-msgid "1:10 (10%)"
-msgstr ""
+#: src/pan-view.c:1708
+msgid "partial match"
+msgstr "éƒ¨åˆ†åŒ¹é…"
 
-#: src/pan-view.c:2412 src/pan-view.c:2859
-msgid "1:4 (25%)"
-msgstr ""
+#: src/pan-view.c:1919
+#: src/pan-view.c:1952
+msgid "no match"
+msgstr "æ— åŒ¹é…"
 
-#: src/pan-view.c:2413 src/pan-view.c:2855
-msgid "1:3 (33%)"
-msgstr ""
+#: src/pan-view.c:2294
+#: src/search.c:2219
+msgid "Folder not found"
+msgstr "æ–‡ä»¶å¤¹æœªæ‰¾åˆ°"
 
-#: src/pan-view.c:2414 src/pan-view.c:2851
-msgid "1:2 (50%)"
-msgstr ""
+#: src/pan-view.c:2295
+msgid "The entered path is not a folder"
+msgstr "è¾“å…¥çš„è·¯å¾„ä¸æ˜¯æ–‡ä»¶å¤¹"
+
+#: src/pan-view.c:2390
+msgid "Pan View"
+msgstr "å›¾ç‰‡æ¦‚è§ˆ"
 
 #: src/pan-view.c:2415
-msgid "1:1 (100%)"
-msgstr ""
+msgid "Timeline"
+msgstr "æ—¶é—´è½´"
 
-#: src/pan-view.c:2463
-#, fuzzy
+#: src/pan-view.c:2416
+msgid "Calendar"
+msgstr "æ—¥å†"
+
+#: src/pan-view.c:2418
+msgid "Folders (flower)"
+msgstr "æ–‡ä»¶å¤¹ (èŠ±)"
+
+#: src/pan-view.c:2419
+msgid "Grid"
+msgstr "ç½‘æ ¼"
+
+#: src/pan-view.c:2428
+msgid "Dots"
+msgstr "ç‚¹"
+
+#: src/pan-view.c:2429
+msgid "No Images"
+msgstr "æ— å›¾åƒ"
+
+#: src/pan-view.c:2430
+msgid "Small Thumbnails"
+msgstr "å°ç¼©ç•¥å›¾"
+
+#: src/pan-view.c:2431
+msgid "Normal Thumbnails"
+msgstr "æ ‡å‡†ç¼©ç•¥å›¾"
+
+#: src/pan-view.c:2432
+msgid "Large Thumbnails"
+msgstr "å¤§ç¼©ç•¥å›¾"
+
+#: src/pan-view.c:2485
 msgid "Find:"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æŸ¥æ‰¾:"
 
-#: src/pan-view.c:2506
-#, fuzzy
+#: src/pan-view.c:2528
 msgid "Use Exif date"
-msgstr "/²é¿´/¸üĞÂÁĞ±í(_R)"
+msgstr "ä½¿ç”¨ Exif æ—¥æœŸ"
 
-#: src/pan-view.c:2519
+#: src/pan-view.c:2541
 msgid "Find"
-msgstr ""
+msgstr "æŸ¥æ‰¾"
 
-#: src/pan-view.c:2586
+#: src/pan-view.c:2608
 msgid "Pan View Performance"
-msgstr ""
+msgstr "å›¾ç‰‡æ¦‚è§ˆæ€§èƒ½"
 
-#: src/pan-view.c:2593
+#: src/pan-view.c:2615
 msgid "Pan view performance may be poor."
-msgstr ""
+msgstr "å›¾ç‰‡æ¦‚è§ˆæ€§èƒ½å¯èƒ½å¾ˆä½."
 
-#: src/pan-view.c:2594
-msgid ""
-"To improve performance of thumbnails in the pan view the following options "
-"can be enabled. Note that both options must be enabled to notice a change in "
-"performance."
-msgstr ""
+#: src/pan-view.c:2616
+msgid "To improve performance of thumbnails in the pan view the following options can be enabled. Note that both options must be enabled to notice a change in performance."
+msgstr "ä¸ºäº†æé«˜å›¾ç‰‡æ¦‚è§ˆæ˜¾ç¤ºç¼©ç•¥å›¾çš„æ€§èƒ½ï¼Œå¯ä»¥å¼€å¯ä»¥ä¸‹é€‰é¡¹ï¼æ³¨æ„åªæœ‰ä¸¤ä¸ªé€‰é¡¹éƒ½å¯ç”¨æ‰èƒ½å‘ç°æ€§èƒ½çš„æ˜æ˜¾æé«˜."
 
-#: src/pan-view.c:2602 src/preferences.c:890
+#: src/pan-view.c:2624
+#: src/preferences.c:1288
 msgid "Cache thumbnails"
-msgstr "»º´æËõÂÔÍ¼"
+msgstr "ç¼“å­˜ç¼©ç•¥å›¾"
 
-#: src/pan-view.c:2604 src/preferences.c:896
+#: src/pan-view.c:2626
 msgid "Use shared thumbnail cache"
-msgstr ""
+msgstr "ä½¿ç”¨å…±äº«çš„ç¼©ç•¥å›¾ç¼“å­˜"
 
-#: src/pan-view.c:2610
+#: src/pan-view.c:2632
 msgid "Do not show this dialog again"
-msgstr ""
+msgstr "ä¸è¦å†æ˜¾ç¤ºæ­¤å¯¹è¯æ¡†"
 
-#: src/pan-view.c:2831
-#, fuzzy
+#: src/pan-view.c:2861
 msgid "Sort by E_xif date"
-msgstr "°´ÈÕÆÚÅÅĞò"
+msgstr "ä»¥ Exif æ—¥æœŸæ’åº (_x)"
 
-#: src/pan-view.c:2837
+#: src/pan-view.c:2867
 msgid "_Show Exif information"
-msgstr ""
+msgstr "æ˜¾ç¤º Exif ä¿¡æ¯ (_S)"
 
-#: src/pan-view.c:2839
-#, fuzzy
+#: src/pan-view.c:2869
 msgid "Show im_age"
-msgstr "ÏÔÊ¾Òş²ØÎÄ¼ş"
+msgstr "æ˜¾ç¤ºå›¾åƒ (_a)"
 
-#: src/pan-view.c:2843
-#, fuzzy
+#: src/pan-view.c:2873
 msgid "_None"
-msgstr "ÎŞ"
+msgstr "æ—  (_N)"
 
-#: src/pan-view.c:2847
-#, fuzzy
+#: src/pan-view.c:2877
 msgid "_Full size"
-msgstr "Æ½ÆÌ"
+msgstr "å…¨å°ºå¯¸ (_F)"
 
-#. note: the order is important, it must match the values of
-#. * EXIF_UI_OFF, _IFSET, _ON
-#: src/preferences.c:402
-msgid "Never"
-msgstr ""
+#: src/preferences.c:90
+msgid "Unknown"
+msgstr "æœªçŸ¥"
 
-#: src/preferences.c:403
-msgid "If set"
-msgstr ""
+#: src/preferences.c:92
+msgid "RAW Image"
+msgstr "RAW å›¾åƒ"
 
-#: src/preferences.c:404
-msgid "Always"
-msgstr ""
-
-#: src/preferences.c:451
+#: src/preferences.c:438
 msgid "Nearest (worst, but fastest)"
-msgstr "×î½ü (×îÔã£¬µ«×î¿ì)"
+msgstr "ç›¸é‚»çš„ (æœ€å·®ä½†é€Ÿåº¦æœ€å¿«)"
 
-#: src/preferences.c:453
+#: src/preferences.c:440
 msgid "Tiles"
-msgstr "Æ½ÆÌ"
+msgstr "åŒºå—"
 
-#: src/preferences.c:455
+#: src/preferences.c:442
 msgid "Bilinear"
-msgstr "Ë«ÏßĞÔ"
+msgstr "åŒçº¿æ€§"
 
-#: src/preferences.c:457
+#: src/preferences.c:444
 msgid "Hyper (best, but slowest)"
-msgstr "³¬¼¶ (×îºÃ£¬µ«×îÂı)"
+msgstr "é¡¶çº§çš„ (æœ€å¥½ä½†é€Ÿåº¦æœ€æ…¢)"
 
-#: src/preferences.c:485
+#: src/preferences.c:472
 msgid "None"
-msgstr "ÎŞ"
+msgstr "æ— "
 
-#: src/preferences.c:486
+#: src/preferences.c:473
 msgid "Normal"
-msgstr "ÆÕÍ¨"
+msgstr "æ ‡å‡†"
 
-#: src/preferences.c:487
+#: src/preferences.c:474
 msgid "Best"
-msgstr "×î¼Ñ"
+msgstr "æœ€å¥½"
 
-#: src/preferences.c:548 src/print.c:372
+#: src/preferences.c:536
+#: src/print.c:380
 msgid "Custom"
-msgstr ""
+msgstr "è‡ªå®šä¹‰"
 
-#: src/preferences.c:712 src/preferences.c:715
-#, fuzzy
+#: src/preferences.c:601
+msgid "Single image"
+msgstr "å•å¼ å›¾ç‰‡"
+
+#: src/preferences.c:603
+msgid "Anaglyph Red-Cyan"
+msgstr "Anaglyph çº¢-è“"
+
+#: src/preferences.c:605
+msgid "Anaglyph Gray Red-Cyan"
+msgstr "Anaglyph ç° çº¢-è“"
+
+#: src/preferences.c:610
+msgid "Side by Side"
+msgstr "å¹¶æ’"
+
+#: src/preferences.c:611
+msgid "Side by Side Half size"
+msgstr "å¹¶æ’ ä¸€åŠå¤§å°"
+
+#: src/preferences.c:618
+msgid "Top - Bottom"
+msgstr "ä¸Š-ä¸‹"
+
+#: src/preferences.c:619
+msgid "Top - Bottom Half size"
+msgstr "ä¸Š-ä¸‹ ä¸€åŠå¤§å°"
+
+#: src/preferences.c:628
+#: src/preferences.c:2138
+msgid "Fixed position"
+msgstr "å›ºå®šä½ç½®"
+
+#: src/preferences.c:868
+#: src/preferences.c:871
 msgid "Reset filters"
-msgstr "É¾³ıÎÄ¼ş"
+msgstr "é‡ç½®è¿‡æ»¤å™¨"
 
-#: src/preferences.c:716
+#: src/preferences.c:872
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
 msgstr ""
+"å°†ä¼šé‡ç½®æ–‡ä»¶è¿‡æ»¤å™¨åˆ°é»˜è®¤è®¾ç½®:\n"
+"è¦ç»§ç»­å—ï¼Ÿ"
 
-#: src/preferences.c:750 src/preferences.c:753
-#, fuzzy
-msgid "Reset editors"
-msgstr "É¾³ıÎÄ¼ş"
-
-#: src/preferences.c:754
-msgid ""
-"This will reset the edit commands to the defaults.\n"
-"Continue?"
-msgstr ""
-
-#: src/preferences.c:778 src/preferences.c:781
-#, fuzzy
+#: src/preferences.c:899
+#: src/preferences.c:902
 msgid "Clear trash"
-msgstr "Çå³ı»º³åÇø"
+msgstr "æ¸…ç†å›æ”¶ç«™"
 
-#: src/preferences.c:782
+#: src/preferences.c:903
 msgid "This will remove the trash contents."
-msgstr ""
+msgstr "å°†ä¼šç§»é™¤å›æ”¶ç«™å†…å®¹."
 
-#: src/preferences.c:826 src/preferences.c:829
+#: src/preferences.c:947
+#: src/preferences.c:950
 msgid "Reset image overlay template string"
-msgstr ""
+msgstr "é‡ç½®æ˜¾ç¤ºå åŠ æ¨¡æ¿å­—ç¬¦ä¸²"
 
-#: src/preferences.c:830
+#: src/preferences.c:951
 msgid ""
 "This will reset the image overlay template string to the default.\n"
 "Continue?"
 msgstr ""
+"å°†ä¼šé‡ç½®æ˜¾ç¤ºå åŠ æ¨¡æ¿å­—ç¬¦ä¸²åˆ°é»˜è®¤è®¾ç½®.\n"
+"è¦ç»§ç»­å—ï¼Ÿ"
 
-#: src/preferences.c:861
-msgid "Startup"
-msgstr ""
+#: src/preferences.c:1280
+msgid "General"
+msgstr "å¸¸è§„"
 
-#: src/preferences.c:863
-msgid "Restore folder on startup"
-msgstr ""
-
-#: src/preferences.c:876
-msgid "Use current"
-msgstr "Ê¹ÓÃµ±Ç°Ä¿Â¼"
-
-#: src/preferences.c:879
-#, fuzzy
-msgid "Use last path"
-msgstr "È«Ñ¡"
-
-#: src/preferences.c:888 src/preferences.c:950
+#: src/preferences.c:1286
+#: src/preferences.c:1359
 msgid "Quality:"
-msgstr "Æ·ÖÊ£º"
+msgstr "æ˜¾ç¤ºå“è´¨:"
 
-#: src/preferences.c:902
-msgid "Cache thumbnails into .thumbnails"
-msgstr "½«ËõÂÔÍ¼»º´æµ½ .thumbnails ÖĞ"
+#: src/preferences.c:1294
+msgid "Use standard thumbnail cache, shared with other applications"
+msgstr "ä½¿ç”¨æ ‡å‡†ç¼©ç•¥å›¾ç¼“å­˜ï¼Œä¸å…¶ä»–åº”ç”¨ç¨‹åºå…±äº«çš„"
 
-#: src/preferences.c:906
+#: src/preferences.c:1300
+msgid "Store thumbnails in '.thumbnails' folder, local to image folder (non-standard)"
+msgstr "å‚¨å­˜ç¼©ç•¥å›¾åˆ° '.thumbnails' æ–‡ä»¶å¤¹ï¼Œä½äºå›¾åƒæ‰€åœ¨æ–‡ä»¶å¤¹ (éæ ‡å‡†)"
+
+#: src/preferences.c:1304
 msgid "Use xvpics thumbnails when found (read only)"
-msgstr "Èç¹ûÕÒµ½xvpicsËõÂÔÍ¼¼´Ê¹ÓÃ(Ö»¶Á)"
+msgstr "å¦‚å‘ç° xvpics ç¼©ç•¥å›¾å°±ä½¿ç”¨ (åªè¯»)"
 
-#: src/preferences.c:910
-msgid "Faster jpeg thumbnailing (may reduce quality)"
-msgstr ""
+#: src/preferences.c:1308
+msgid "Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"
+msgstr "ä½¿ç”¨ EXIF å†…åµŒç¼©ç•¥å›¾å½“å¯ç”¨ (EXIF å†…åµŒç¼©ç•¥å›¾å¯èƒ½æ˜¯è¿‡æœŸçš„)"
 
-#: src/preferences.c:913
+#: src/preferences.c:1311
 msgid "Slide show"
-msgstr "Õ¹Ê¾»ÃµÆÆ¬"
+msgstr "æ’­ç‰‡"
 
-#: src/preferences.c:916
-#, fuzzy
+#: src/preferences.c:1314
 msgid "Delay between image change:"
-msgstr "Í¼Ïñ¸Ä±äÊ±¼ä¼ä¸ô(Ãë)£º"
+msgstr "å›¾åƒå˜æ¢å»¶è¿Ÿ:"
 
-#: src/preferences.c:916
+#: src/preferences.c:1314
 msgid "seconds"
-msgstr ""
+msgstr "ç§’"
 
-#: src/preferences.c:922
+#: src/preferences.c:1320
 msgid "Random"
-msgstr "Ëæ»ú"
+msgstr "éšæœºçš„"
 
-#: src/preferences.c:923
+#: src/preferences.c:1321
 msgid "Repeat"
-msgstr "ÖØ¸´"
+msgstr "é‡å¤çš„"
 
-#: src/preferences.c:944
-#, fuzzy
-msgid "Zoom"
-msgstr "·Å´ó"
+#: src/preferences.c:1323
+msgid "Image loading and caching"
+msgstr "å›¾åƒè½½å…¥å’Œç¼“å†²"
 
-#: src/preferences.c:947
-msgid "Dithering method:"
-msgstr "¶¶¶¯·½·¨£º"
+#: src/preferences.c:1326
+msgid "Offscreen cache size (Mb per image):"
+msgstr "å±å¹•å¤–ç¼“å†²å¤§å° (Mb æ¯å›¾åƒ):"
 
-#: src/preferences.c:952
-msgid "Two pass zooming"
-msgstr ""
+#: src/preferences.c:1330
+msgid "Decoded image cache size (Mb):"
+msgstr "å›¾åƒè§£ç ç¼“å­˜å¤§å° (Mb):"
 
-#: src/preferences.c:955
-#, fuzzy
-msgid "Allow enlargement of image for zoom to fit"
-msgstr "ÎªËõ·ÅÀ©Õ¹Í¼ÏñÒÔ±ãÆ¥Åä¡£"
-
-#: src/preferences.c:959
-#, fuzzy
-msgid "Limit image size when autofitting (%):"
-msgstr "×Ô¶¯¸Ä±ä´°¿Ú´óĞ¡Ê±ÏŞÖÆ³ß´ç (%)£º"
-
-#: src/preferences.c:967
-msgid "Zoom increment:"
-msgstr "Ëõ·ÅÔöÁ¿£º"
-
-#: src/preferences.c:972
-msgid "When new image is selected:"
-msgstr "µ±Ñ¡ÔñĞÂÍ¼ÏñÊ±£º"
-
-#: src/preferences.c:975
-msgid "Zoom to original size"
-msgstr "Ëõ·Åµ½Ô­³ß´ç"
-
-#: src/preferences.c:981
-msgid "Leave Zoom at previous setting"
-msgstr "±£ÁôÉÏÒ»´ÎµÄËõ·ÅÉèÖÃ"
-
-#: src/preferences.c:985
-#, fuzzy
-msgid "Appearance"
-msgstr "×·¼Ó"
-
-#: src/preferences.c:987
-#, fuzzy
-msgid "Custom border color"
-msgstr "¶¨ÖÆÎÄ¼şÀàĞÍ£º"
-
-#: src/preferences.c:990
-msgid "Border color"
-msgstr ""
-
-#: src/preferences.c:993
-#, fuzzy
-msgid "Convenience"
-msgstr "¼ÌĞø"
-
-#: src/preferences.c:995
-#, fuzzy
-msgid "Refresh on file change"
-msgstr "Ë¢ĞÂÎÄ¼şÁĞ±í"
-
-#: src/preferences.c:997
+#: src/preferences.c:1332
 msgid "Preload next image"
-msgstr "Ô¤ÏÈ×°ÈëÏÂÒ»ÕÅÍ¼"
+msgstr "é¢„è½½å…¥ä¸‹ä¸€å¼ å›¾ç‰‡"
 
-#: src/preferences.c:999
-msgid "Auto rotate image using Exif information"
-msgstr ""
+#: src/preferences.c:1335
+msgid "Refresh on file change"
+msgstr "å½“æ–‡ä»¶æ”¹å˜æ—¶åˆ·æ–°"
 
-#: src/preferences.c:1016
-msgid "Windows"
-msgstr "´°¿Ú"
+#: src/preferences.c:1353
+msgid "Zoom"
+msgstr "ç¼©æ”¾"
 
-#: src/preferences.c:1019
-#, fuzzy
-msgid "State"
-msgstr "ÈÕÆÚ"
-
-#: src/preferences.c:1021
-msgid "Remember window positions"
-msgstr "¼Ç×¡´°¿ÚÎ»ÖÃ"
-
-#: src/preferences.c:1023
-msgid "Remember tool state (float/hidden)"
-msgstr "¼Ç×¡¹¤¾ßÀ¸×´Ì¬(¸¡¶¯/Òş²Ø)"
-
-#: src/preferences.c:1028
-msgid "Fit window to image when tools are hidden/floating"
-msgstr "µ±¹¤¾ßµµÒş²Ø/¸¡¶¯Ê±,Ê¹´°¿ÚÊÊÓ¦Í¼Ïñ"
-
-#: src/preferences.c:1032
-msgid "Limit size when auto-sizing window (%):"
-msgstr "×Ô¶¯¸Ä±ä´°¿Ú´óĞ¡Ê±ÏŞÖÆ³ß´ç (%)£º"
-
-#: src/preferences.c:1039 src/print.c:3404 src/print.c:3411
-msgid "Layout"
-msgstr ""
-
-#: src/preferences.c:1066
-msgid "Filtering"
-msgstr "¹ıÂË"
-
-#: src/preferences.c:1071
-msgid "Show hidden files or folders"
-msgstr ""
-
-#: src/preferences.c:1073
-#, fuzzy
-msgid "Show dot directory"
-msgstr "ĞÂ½¨Ä¿Â¼"
-
-#: src/preferences.c:1075
-msgid "Case sensitive sort"
-msgstr ""
-
-#: src/preferences.c:1078
-msgid "Disable File Filtering"
-msgstr "½ûÖ¹ÎÄ¼ş¹ıÂË"
-
-#: src/preferences.c:1082
-msgid "Grouping sidecar extensions"
-msgstr ""
-
-#: src/preferences.c:1089
-#, fuzzy
-msgid "File types"
-msgstr "¹ıÂËÆ÷£º"
-
-#: src/preferences.c:1111
-#, fuzzy
-msgid "Filter"
-msgstr "¹ıÂËÆ÷£º"
-
-#: src/preferences.c:1148 src/preferences.c:1234 src/preferences.c:1378
-msgid "Defaults"
-msgstr ""
-
-#: src/preferences.c:1177
-msgid "Editors"
-msgstr "±à¼­Æ÷"
-
-#: src/preferences.c:1183
-msgid "#"
-msgstr "#"
-
-#: src/preferences.c:1186 src/preferences.c:1497
-msgid "Menu name"
-msgstr "²Ëµ¥Ãû"
-
-#: src/preferences.c:1189
-msgid "Command Line"
-msgstr "ÃüÁîĞĞ"
-
-#: src/preferences.c:1261
-#, fuzzy
-msgid "Properties"
-msgstr "/±à¼­/Ñ¡Ïî(_O)..."
-
-#: src/preferences.c:1279
-msgid "What to show in properties dialog:"
-msgstr ""
-
-#: src/preferences.c:1316
-msgid "Advanced"
-msgstr ""
-
-#: src/preferences.c:1337
-#, fuzzy
-msgid "Smooth image flip"
-msgstr "Í¼Ïñ"
-
-#: src/preferences.c:1339
-msgid "Disable screen saver"
-msgstr ""
-
-#: src/preferences.c:1343
-msgid "Overlay Screen Display"
-msgstr ""
-
-#: src/preferences.c:1345
-msgid "Always show image overlay at startup"
-msgstr ""
-
-#: src/preferences.c:1347
-msgid "Image overlay template"
-msgstr ""
+#: src/preferences.c:1356
+msgid "Dithering method:"
+msgstr "è‰²å½©æŠ–åŠ¨æ–¹å¼:"
 
 #: src/preferences.c:1361
-msgid ""
-"<i>%name%</i> results in the filename of the picture.\n"
-"Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%"
-"date%</i>,\n"
-"<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> "
-"(resolution)\n"
-"To access exif data use the exif name, e. g. <i>%formatted.Camera%</i> is "
-"the formatted camera name,\n"
-"<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
-"<i>%formatted.Camera:20</i> notation will truncate the displayed data to 20 "
-"characters and will add 3 dots at the end to denote the truncation.\n"
-"If two or more variables are connected with the |-sign, it prints available "
-"variables with a separator.\n"
-"<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%"
-"formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - "
-"80 mm\",\n"
-"if there's no ISO information in the Exif data.\n"
-"If a line is empty, it is removed. This allows to add lines that totally "
-"disappear when no data is available.\n"
-msgstr ""
+msgid "Two pass rendering (apply HQ zoom and color correction in second pass)"
+msgstr "åŒé‡æ¸²æŸ“ (åœ¨ç¬¬äºŒéå¤„ç†æ—¶åº”ç”¨é«˜è´¨é‡ç¼©æ”¾å’Œè‰²å½©æ ¡æ­£)"
 
-#: src/preferences.c:1393
-msgid "Delete"
-msgstr "É¾³ı"
+#: src/preferences.c:1364
+msgid "Allow enlargement of image for zoom to fit"
+msgstr "å½“ç¼©æ”¾ä»¥é€‚åº”çª—å£æ—¶å…è®¸æ”¾å¤§å›¾åƒ"
 
-#: src/preferences.c:1395
-msgid "Confirm file delete"
-msgstr "È·ÈÏÉ¾³ıÎÄ¼ş"
+#: src/preferences.c:1368
+msgid "Limit image size when autofitting (%):"
+msgstr "å½“è‡ªåŠ¨é€‚åº”æ—¶å›¾åƒå¤§å°é™åˆ¶ (%):"
+
+#: src/preferences.c:1376
+msgid "Zoom increment:"
+msgstr "ç¼©æ”¾å¢é‡:"
+
+#: src/preferences.c:1381
+msgid "When new image is selected:"
+msgstr "å½“æ–°å›¾åƒè¢«é€‰æ‹©æ—¶:"
+
+#: src/preferences.c:1385
+msgid "Zoom to original size"
+msgstr "ç¼©æ”¾åˆ°åŸå°ºå¯¸"
+
+#: src/preferences.c:1388
+msgid "Fit image to window"
+msgstr "é€‚åº”å›¾åƒåˆ°çª—å£"
+
+#: src/preferences.c:1391
+msgid "Leave Zoom at previous setting"
+msgstr "ä¿æŒä¹‹å‰ç¼©æ”¾æ¯”ç‡"
 
 #: src/preferences.c:1397
-msgid "Enable Delete key"
-msgstr "ÆôÓÃÉ¾³ı¼ü"
+msgid "Scroll to top left corner"
+msgstr "æ»šåŠ¨è‡³å·¦ä¸Šè§’"
 
 #: src/preferences.c:1400
-#, fuzzy
-msgid "Safe delete"
-msgstr "È·ÈÏÉ¾³ıÎÄ¼ş"
+msgid "Scroll to image center"
+msgstr "æ»šåŠ¨è‡³å›¾åƒä¸­å¿ƒ"
 
-#: src/preferences.c:1418
-#, fuzzy
-msgid "Maximum size:"
-msgstr "Æ½ÆÌ"
+#: src/preferences.c:1403
+msgid "Keep the region from previous image"
+msgstr "ä¿æŒä¹‹å‰å›¾åƒæ‰€åœ¨åŒºåŸŸ"
 
-#: src/preferences.c:1418
-msgid "MB"
-msgstr ""
+#: src/preferences.c:1408
+msgid "Appearance"
+msgstr "å¤–è§‚"
+
+#: src/preferences.c:1410
+msgid "Use custom border color in window mode"
+msgstr "å½“çª—å£æ¨¡å¼æ—¶ä½¿ç”¨è‡ªå®šçš„è¾¹æ¡†é¢œè‰²"
+
+#: src/preferences.c:1413
+msgid "Use custom border color in fullscreen mode"
+msgstr "å½“å…¨å±æ¨¡å¼æ—¶ä½¿ç”¨è‡ªå®šçš„è¾¹æ¡†é¢œè‰²"
+
+#: src/preferences.c:1416
+msgid "Border color"
+msgstr "è¾¹æ¡†é¢œè‰²"
+
+#: src/preferences.c:1419
+msgid "Convenience"
+msgstr "ä¾¿æ·"
 
 #: src/preferences.c:1421
-msgid "Set to 0 for unlimited size"
-msgstr ""
+msgid "Auto rotate image using Exif information"
+msgstr "æ ¹æ® Exif ä¿¡æ¯è‡ªåŠ¨æ—‹è½¬å›¾åƒ"
 
-#: src/preferences.c:1423
-msgid "View"
-msgstr "²é¿´"
+#: src/preferences.c:1438
+msgid "Windows"
+msgstr "çª—å£"
 
-#: src/preferences.c:1434
-msgid "Behavior"
-msgstr ""
-
-#: src/preferences.c:1436
-#, fuzzy
-msgid "Rectangular selection in icon view"
-msgstr "Õı·½ĞÎÑ¡Ôñ"
-
-#: src/preferences.c:1439
-msgid "Descend folders in tree view"
-msgstr ""
+#: src/preferences.c:1440
+msgid "State"
+msgstr "çŠ¶æ€"
 
 #: src/preferences.c:1442
-msgid "In place renaming"
-msgstr "¼´Ê±ÖØÃüÃû"
+msgid "Remember window positions"
+msgstr "è®°ä½çª—å£ä½ç½®"
 
-#: src/preferences.c:1445
-msgid ""
-"Show \"Copy path\" menu item which write the path of selected files to "
-"clipboard"
-msgstr ""
+#: src/preferences.c:1444
+msgid "Remember tool state (float/hidden)"
+msgstr "è®°ä½å·¥å…·æ çŠ¶æ€ (æµ®åŠ¨/éšè—)"
 
-#: src/preferences.c:1448
-msgid "Open recent list maximum size"
-msgstr ""
+#: src/preferences.c:1449
+msgid "Fit window to image when tools are hidden/floating"
+msgstr "å½“å·¥å…·æ éšè—/æµ®åŠ¨æ—¶é€‚åº”çª—å£åˆ°å›¾åƒå¤§å°"
 
-#: src/preferences.c:1451
-msgid "Drag'n drop icon size"
-msgstr ""
+#: src/preferences.c:1453
+msgid "Limit size when auto-sizing window (%):"
+msgstr "å½“è‡ªåŠ¨è°ƒæ•´çª—å£å¤§å°æ—¶é™åˆ¶å¤§å°ä¸º (%):"
 
-#: src/preferences.c:1454
-msgid "Navigation"
-msgstr ""
+#: src/preferences.c:1468
+msgid "Smooth image flip"
+msgstr "å¹³æ»‘å›¾ç‰‡åˆ‡æ¢"
 
-#: src/preferences.c:1456
-msgid "Progressive keyboard scrolling"
-msgstr "ÀÛ½ø¼üÅÌ¹ö¶¯"
-
-#: src/preferences.c:1458
-msgid "Mouse wheel scrolls image"
-msgstr "ÓÃÊó±êÂÖ¹ö¶¯Í¼Ïñ"
-
-#: src/preferences.c:1461
-msgid "Miscellaneous"
-msgstr ""
-
-#: src/preferences.c:1463
-msgid "Store metadata and cache files in source image's directory"
-msgstr ""
-
-#: src/preferences.c:1466
-msgid "Store keywords and comments as XMP tags in image files"
-msgstr ""
-
-#: src/preferences.c:1469
-#, fuzzy
-msgid "Custom similarity threshold:"
-msgstr "¶¨ÖÆÎÄ¼şÀàĞÍ£º"
-
-#: src/preferences.c:1472
-msgid "Image loading and caching"
-msgstr ""
+#: src/preferences.c:1470
+msgid "Disable screen saver"
+msgstr "ç¦ç”¨å±ä¿"
 
 #: src/preferences.c:1474
-msgid "Offscreen cache size (Mb per image):"
-msgstr "·ÇÆÁÄ»»º³åÇø´óĞ¡ (Ã¿¸öÍ¼ÏñµÄ Mb Êı)£º"
+msgid "Overlay Screen Display"
+msgstr "æ˜¾ç¤ºå åŠ å†…å®¹"
 
-#: src/preferences.c:1477
-msgid "Image read buffer size (bytes):"
+#: src/preferences.c:1476
+msgid "Image overlay template"
+msgstr "æ˜¾ç¤ºå åŠ æ¨¡æ¿"
+
+#: src/preferences.c:1490
+msgid ""
+"<i>%name%</i> results in the filename of the picture.\n"
+"Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
+"<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution)\n"
+"To access exif data use the exif name, e. g. <i>%formatted.Camera%</i> is the formatted camera name,\n"
+"<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
+"<i>%formatted.Camera:20</i> notation will truncate the displayed data to 20 characters and will add 3 dots at the end to denote the truncation.\n"
+"If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
+"<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
+"if there's no ISO information in the Exif data.\n"
+"If a line is empty, it is removed. This allows to add lines that totally disappear when no data is available.\n"
 msgstr ""
+"<i>%name%</i> å¼•ç”¨å›¾åƒçš„æ–‡ä»¶å.\n"
+"å…¶å®ƒå¯ç”¨: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
+"<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution)\n"
+"ä½¿ç”¨ exif åç§°è·å– exif æ•°æ®ï¼Œæ¯”å¦‚: <i>%formatted.Camera%</i> æ˜¾ç¤ºç›¸æœºåç§°,\n"
+"<i>%Exif.Photo.DateTimeOriginal%</i> æœ€åˆæ‹æ‘„çš„æ—¥æœŸ.\n"
+"<i>%formatted.Camera:20</i> è®°å·å°†æˆªçŸ­æ˜¾ç¤ºä¿¡æ¯åˆ°20ä¸ªå­—ç¬¦å¹¶åœ¨æœ«å°¾åŠ ä¸‰ä¸ªç‚¹æ¥è¡¨æ˜é•¿åº¦å·²æˆªçŸ­.\n"
+"å¦‚æœä¸¤ä¸ªæˆ–æ›´å¤šå˜é‡ä½¿ç”¨ | ç¬¦å·è¿æ¥, å°†ä¼šæ˜¾ç¤ºè¿™äº›å˜é‡å¹¶ç”¨åˆ†éš”ç¬¦è¿æ¥èµ·æ¥.\n"
+"<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> å°†æ˜¾ç¤º \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
+"å¦‚æœæœ‰ç©ºè¡Œ, å®ƒå°†è¢«ç§»é™¤. è¿™æ ·æ‰€æ·»åŠ çš„å¤šè¡Œè®°å½•æ²¡æœ‰ä¿¡æ¯æ—¶ä¸ä¼šæ˜¾ç¤º.\n"
 
-#: src/preferences.c:1481
-msgid "Image idle loop read count:"
-msgstr ""
+#: src/preferences.c:1507
+#: src/preferences.c:1680
+#: src/preferences.c:2052
+msgid "Defaults"
+msgstr "é»˜è®¤è®¾ç½®"
 
-#: src/preferences.c:1486
-#, fuzzy
-msgid "Color profiles"
-msgstr "ËùÓĞÎÄ¼ş"
+#: src/preferences.c:1561
+msgid "Show hidden files or folders"
+msgstr "æ˜¾ç¤ºéšè—æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹"
 
-#: src/preferences.c:1494
+#: src/preferences.c:1564
+msgid "Show dot directory"
+msgstr "æ˜¾ç¤ºå¸¦ . çš„ç›®å½•"
+
+#: src/preferences.c:1567
+msgid "Case sensitive sort"
+msgstr "å¤§å°å†™åŒºåˆ«æ’åº"
+
+#: src/preferences.c:1570
+msgid "Disable File Filtering"
+msgstr "å–æ¶ˆæ–‡ä»¶è¿‡æ»¤"
+
+#: src/preferences.c:1574
+msgid "Grouping sidecar extensions"
+msgstr "ç¼–ç»„çš„ sidecaræ‰©å±•å"
+
+#: src/preferences.c:1581
+msgid "File types"
+msgstr "æ–‡ä»¶ç±»å‹"
+
+#: src/preferences.c:1603
+msgid "Filter"
+msgstr "è¿‡æ»¤å™¨"
+
+#: src/preferences.c:1635
+msgid "Class"
+msgstr "ç±»å‹"
+
+#: src/preferences.c:1652
+msgid "Writable"
+msgstr "å¯å†™çš„"
+
+#: src/preferences.c:1663
+msgid "Sidecar is allowed"
+msgstr "å…è®¸Sidecar"
+
+#: src/preferences.c:1709
+msgid "Metadata writing process"
+msgstr "å…ƒæ•°æ®å†™å…¥è¿‡ç¨‹"
+
+#: src/preferences.c:1711
+msgid "Warning: Geeqie is built without Exiv2. Some options are disabled."
+msgstr "è­¦å‘Š: Geeqie åœ¨æ²¡æœ‰ Exiv2 ä¸‹åˆ›å»ºï¼Œä¸€äº›é€‰é¡¹è¢«ç¦ç”¨."
+
+#: src/preferences.c:1713
+msgid "Metadata are written in the following order. The process ends after first success."
+msgstr "å…ƒæ•°æ®æŒ‰ä»¥ä¸‹é¡ºåºå°è¯•å†™å…¥. å½“ä¸€æ—¦å†™å…¥æˆåŠŸåè¿‡ç¨‹å°±ç»ˆæ­¢."
+
+#: src/preferences.c:1716
+msgid "1) Save metadata in image files, resp. sidecar files, according to the XMP standard"
+msgstr "1) ä¿å­˜å…ƒæ•°æ®åˆ°å›¾åƒæ–‡ä»¶æˆ–ç›¸åº”çš„ sidecar æ–‡ä»¶, ä¾ç…§ XMP æ ‡å‡†"
+
+#: src/preferences.c:1722
+msgid "2) Save metadata in '.metadata' folder, local to image folder (non-standard)"
+msgstr "2) ä¿å­˜å…ƒæ•°æ®åˆ° '.metadata' æ–‡ä»¶å¤¹, ä½äºå›¾åƒæ–‡ä»¶å¤¹å†… (éæ ‡å‡†)"
+
+#: src/preferences.c:1725
+#, c-format
+msgid "3) Save metadata in Geeqie private directory '%s'"
+msgstr "3) ä¿å­˜å…ƒæ•°æ®åˆ° Geeqie ç§æœ‰ç›®å½• '%s' å†…"
+
+#: src/preferences.c:1730
+msgid "Step 1: Write to image files"
+msgstr "æ­¥éª¤1: å†™å…¥å›¾åƒæ–‡ä»¶"
+
+#: src/preferences.c:1738
+msgid "Store metadata also in legacy IPTC tags (converted according to IPTC4XMP standard)"
+msgstr "åŒæ—¶ä»¥æ—§å¼ IPTC æ ‡ç­¾å‚¨å­˜å…ƒæ•°æ® (ä¾ç…§ IPTC4XMP æ ‡å‡†è½¬æ¢)"
+
+#: src/preferences.c:1741
+msgid "Warn if the image files are unwritable"
+msgstr "å½“æ–‡ä»¶ä¸å¯å†™æ—¶å‘å‡ºè­¦å‘Š"
+
+#: src/preferences.c:1744
+msgid "Ask before writing to image files"
+msgstr "å†™å…¥å›¾åƒæ–‡ä»¶å‰è¯¢é—®"
+
+#: src/preferences.c:1747
+msgid "Step 2 and 3: write to Geeqie private files"
+msgstr "æ­¥éª¤2å’Œ3: å†™å…¥ Geeqie ç§æœ‰æ–‡ä»¶"
+
+#: src/preferences.c:1752
+msgid "Use GQview legacy metadata format (supports only keywords and comments) instead of XMP"
+msgstr "ä½¿ç”¨æ—§å¼ GQview å…ƒæ•°æ®æ ¼å¼ (ä»…æ”¯æŒå…³é”®è¯å’Œæ³¨é‡Š) è€Œä¸æ˜¯ XMP"
+
+#: src/preferences.c:1756
+#: src/preferences.c:1944
+msgid "Miscellaneous"
+msgstr "æ‚é¡¹"
+
+#: src/preferences.c:1757
+msgid "Write the same description tags (keywords, comment, etc.) to all grouped sidecars"
+msgstr "å†™å…¥ç›¸åŒçš„æè¿°æ ‡ç­¾ (å…³é”®è¯,æ³¨é‡Šç­‰) åˆ°æ‰€æœ‰ç¼–ç»„çš„ sidecar"
+
+#: src/preferences.c:1760
+msgid "Allow keywords to differ only in case"
+msgstr "å…è®¸å…³é”®è¯åªæœ‰å¤§å°å†™åŒºåˆ«"
+
+#: src/preferences.c:1763
+msgid "Write altered image orientation to the metadata"
+msgstr "å†™å…¥æ”¹å˜çš„å›¾åƒæ–¹å‘åˆ°å…ƒæ•°æ®"
+
+#: src/preferences.c:1769
+msgid "Auto-save options"
+msgstr "è‡ªåŠ¨ä¿å­˜é€‰é¡¹"
+
+#: src/preferences.c:1771
+msgid "Write metadata after timeout"
+msgstr "å†™å…¥å…ƒæ•°æ®åœ¨è¶…æ—¶å"
+
+#: src/preferences.c:1777
+msgid "Timeout (seconds):"
+msgstr "è¶…æ—¶ (ç§’):"
+
+#: src/preferences.c:1780
+msgid "Write metadata on image change"
+msgstr "å†™å…¥å…ƒæ•°æ®å½“å›¾åƒæ”¹å˜"
+
+#: src/preferences.c:1783
+msgid "Write metadata on directory change"
+msgstr "å†™å…¥å…ƒæ•°æ®å½“ç›®å½•æ”¹å˜"
+
+#: src/preferences.c:1797
+msgid "Color management"
+msgstr "è‰²å½©ç®¡ç†"
+
+#: src/preferences.c:1799
+msgid "Input profiles"
+msgstr "è¾“å…¥é…ç½®"
+
+#: src/preferences.c:1807
 msgid "Type"
-msgstr ""
+msgstr "ç±»åˆ«"
 
-#: src/preferences.c:1500
-#, fuzzy
+#: src/preferences.c:1810
+msgid "Menu name"
+msgstr "èœå•å"
+
+#: src/preferences.c:1813
 msgid "File"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ–‡ä»¶"
 
-#: src/preferences.c:1525 src/preferences.c:1536
-#, fuzzy
+#: src/preferences.c:1821
+#, c-format
+msgid "Input %d:"
+msgstr "è¾“å…¥ %d:"
+
+#: src/preferences.c:1838
+#: src/preferences.c:1858
 msgid "Select color profile"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "é€‰æ‹©è‰²å½©é…ç½®æ–‡ä»¶"
 
-#: src/preferences.c:1533
+#: src/preferences.c:1846
+msgid "Screen profile"
+msgstr "å±å¹•é…ç½®"
+
+#: src/preferences.c:1850
+msgid "Use system screen profile if available"
+msgstr "ä½¿ç”¨ç³»ç»Ÿå±å¹•é…ç½®å¦‚æœå¯ç”¨"
+
+#: src/preferences.c:1855
 msgid "Screen:"
-msgstr ""
+msgstr "å±å¹•:"
 
-#: src/preferences.c:1544
+#: src/preferences.c:1877
+#: src/preferences.c:1920
+msgid "Behavior"
+msgstr "è¡Œä¸º"
+
+#: src/preferences.c:1879
+#: src/utilops.c:1985
+msgid "Delete"
+msgstr "åˆ é™¤"
+
+#: src/preferences.c:1881
+msgid "Confirm file delete"
+msgstr "åˆ é™¤æ—¶è¦æ±‚ç¡®è®¤"
+
+#: src/preferences.c:1883
+msgid "Enable Delete key"
+msgstr "å…è®¸ä½¿ç”¨ Delete æŒ‰é”®"
+
+#: src/preferences.c:1886
+msgid "Safe delete"
+msgstr "å®‰å…¨åˆ é™¤"
+
+#: src/preferences.c:1904
+msgid "Maximum size:"
+msgstr "æœ€å¤§å®¹é‡:"
+
+#: src/preferences.c:1907
+msgid "Set to 0 for unlimited size"
+msgstr "è®¾ç½®ä¸º 0 å–æ¶ˆå®¹é‡é™åˆ¶"
+
+#: src/preferences.c:1909
+msgid "View"
+msgstr "æŸ¥çœ‹"
+
+#: src/preferences.c:1922
+msgid "Rectangular selection in icon view"
+msgstr "å›¾æ ‡å½¢å¼æŸ¥çœ‹æ—¶å—çŠ¶é€‰å–"
+
+#: src/preferences.c:1925
+msgid "Descend folders in tree view"
+msgstr "æ ‘çŠ¶æŸ¥çœ‹æ—¶æ–‡ä»¶å¤¹é™åº"
+
+#: src/preferences.c:1928
+msgid "In place renaming"
+msgstr "å°±åœ°é‡å‘½åä¿®æ”¹"
+
+#: src/preferences.c:1931
+msgid "Open recent list maximum size"
+msgstr "æœ€è¿‘æ‰“å¼€æ–‡ä»¶çš„åˆ—è¡¨æœ€å¤§æ•°é‡"
+
+#: src/preferences.c:1934
+msgid "Drag'n drop icon size"
+msgstr "æ‹–æ”¾å›¾æ ‡å¤§å°"
+
+#: src/preferences.c:1937
+msgid "Navigation"
+msgstr "å¯¼èˆª"
+
+#: src/preferences.c:1939
+msgid "Progressive keyboard scrolling"
+msgstr "é€æ¸åŠ é€Ÿåœ°é”®ç›˜æ»šåŠ¨"
+
+#: src/preferences.c:1941
+msgid "Mouse wheel scrolls image"
+msgstr "é¼ æ ‡é£è½®æ»šåŠ¨å›¾åƒ"
+
+#: src/preferences.c:1946
+msgid "Custom similarity threshold:"
+msgstr "è‡ªå®šç›¸ä¼¼åº¦é˜€å€¼:"
+
+#: src/preferences.c:1951
 msgid "Debugging"
-msgstr ""
+msgstr "è°ƒè¯•"
 
-#: src/preferences.c:1546
+#: src/preferences.c:1953
 msgid "Debug level:"
-msgstr ""
+msgstr "è°ƒè¯•ç­‰çº§:"
 
-#: src/preferences.c:1562
-#, fuzzy
+#: src/preferences.c:1972
+msgid "Keyboard"
+msgstr "é”®ç›˜"
+
+#: src/preferences.c:1974
+msgid "Accelerators"
+msgstr "å¿«æ·é”®"
+
+#: src/preferences.c:1993
+msgid "Action"
+msgstr "åŠ¨ä½œ"
+
+#: src/preferences.c:2015
+msgid "KEY"
+msgstr "æŒ‰é”®"
+
+#: src/preferences.c:2026
+msgid "Tooltip"
+msgstr "æç¤ºä¿¡æ¯"
+
+#: src/preferences.c:2064
+msgid "Reset selected"
+msgstr "é‡ç½®æ‰€é€‰é¡¹"
+
+#: src/preferences.c:2070
+msgid "Add Alt"
+msgstr "åŠ  Alt"
+
+#: src/preferences.c:2088
+msgid "Stereo"
+msgstr "ç«‹ä½“å›¾ç‰‡"
+
+#: src/preferences.c:2090
+#: src/preferences.c:2093
+msgid "Windowed stereo mode"
+msgstr "çª—å£ç«‹ä½“å›¾ç‰‡æ¨¡å¼"
+
+#: src/preferences.c:2097
+#: src/preferences.c:2122
+msgid "Mirror left image"
+msgstr "æ°´å¹³ç¿»è½¬å·¦è¾¹å›¾åƒ"
+
+#: src/preferences.c:2100
+#: src/preferences.c:2125
+msgid "Flip left image"
+msgstr "ä¸Šä¸‹ç¿»è½¬å·¦è¾¹å›¾åƒ"
+
+#: src/preferences.c:2103
+#: src/preferences.c:2128
+msgid "Mirror right image"
+msgstr "æ°´å¹³ç¿»è½¬å³è¾¹å›¾åƒ"
+
+#: src/preferences.c:2106
+#: src/preferences.c:2131
+msgid "Flip right image"
+msgstr "ä¸Šä¸‹ç¿»è½¬å³è¾¹å›¾åƒ"
+
+#: src/preferences.c:2108
+#: src/preferences.c:2133
+msgid "Swap left and right images"
+msgstr "äº¤æ¢å·¦å³å›¾åƒ"
+
+#: src/preferences.c:2110
+#: src/preferences.c:2135
+msgid "Disable stereo mode on single image source"
+msgstr "å½“æºæ–‡ä»¶å”¯ä¸€æ—¶å–æ¶ˆç«‹ä½“å›¾ç‰‡æ¨¡å¼"
+
+#: src/preferences.c:2113
+#: src/preferences.c:2119
+msgid "Fullscreen stereo mode"
+msgstr "å…¨å±ç«‹ä½“å›¾ç‰‡æ¨¡å¼"
+
+#: src/preferences.c:2114
+msgid "Use different settings for fullscreen"
+msgstr "å…¨å±æ—¶ä½¿ç”¨ä¸åŒè®¾ç½®"
+
+#: src/preferences.c:2144
+msgid "Left X"
+msgstr "å·¦å›¾ X"
+
+#: src/preferences.c:2146
+msgid "Left Y"
+msgstr "å·¦å›¾ Y"
+
+#: src/preferences.c:2148
+msgid "Right X"
+msgstr "å³è¾¹ X"
+
+#: src/preferences.c:2150
+msgid "Right Y"
+msgstr "å³å›¾ Y"
+
+#: src/preferences.c:2166
 msgid "Preferences"
-msgstr "/±à¼­/Ñ¡Ïî(_O)..."
+msgstr "åå¥½è®¾ç½®"
 
-#: src/preferences.c:1685
-#, fuzzy
-msgid "About"
-msgstr "¹ØÓÚ"
-
-#: src/preferences.c:1702
-#, fuzzy, c-format
+#: src/preferences.c:2314
+#, c-format
 msgid ""
 "%s %s\n"
 "\n"
@@ -3342,737 +3161,602 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"Geeqie %s\n"
+"%s %s\n"
 "\n"
-"°æÈ¨ËùÓĞ (c) 2003 John Ellis\n"
-"http://gqview.sourceforge.net\n"
-"gqview@users.sourceforge.net\n"
+"ç‰ˆæƒ (c) 2006 John Ellis\n"
+"ç‰ˆæƒ (c) %s The Geeqie Team\n"
+"ç½‘ç«™: %s\n"
+"é‚®ä»¶: %s\n"
 "\n"
-"°´Í¨ÓÃ¹«¹²Ğí¿ÉÖ¤·¢ĞĞ"
+"ä»¥GNU GPLè®¸å¯æ–¹å¼å‘è¡Œ"
 
-#: src/preferences.c:1721
-#, fuzzy
+#: src/preferences.c:2333
 msgid "Credits..."
-msgstr "/±à¼­/Ñ¡Ïî(_O)..."
+msgstr "è£èª‰..."
 
-#: src/print.c:117
-#, fuzzy
+#: src/print.c:124
 msgid "Selection"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "é€‰æ‹©é¡¹"
 
-#: src/print.c:118
+#: src/print.c:125
 msgid "All"
-msgstr ""
+msgstr "å…¨éƒ¨"
 
-#: src/print.c:129
+#: src/print.c:136
 msgid "One image per page"
-msgstr ""
+msgstr "æ¯é¡µä¸€å¼ å›¾ç‰‡"
 
-#: src/print.c:130
+#: src/print.c:137
 msgid "Proof sheet"
-msgstr ""
+msgstr "è¯•æ ·"
 
-#: src/print.c:143
+#: src/print.c:150
 msgid "Default printer"
-msgstr ""
+msgstr "é»˜è®¤æ‰“å°æœº"
 
-#: src/print.c:144
-#, fuzzy
+#: src/print.c:151
 msgid "Custom printer"
-msgstr "¶¨ÖÆÎÄ¼şÀàĞÍ£º"
+msgstr "è‡ªå®šä¹‰æ‰“å°æœº"
 
-#: src/print.c:145
+#: src/print.c:152
 msgid "PostScript file"
-msgstr ""
+msgstr "PostScript æ–‡ä»¶"
 
-#: src/print.c:146
-#, fuzzy
+#: src/print.c:153
 msgid "Image file"
-msgstr "Í¼Ïñ"
+msgstr "å›¾åƒæ–‡ä»¶"
 
-#: src/print.c:160
+#: src/print.c:167
 msgid "jpeg, low quality"
-msgstr ""
+msgstr "jpeg, ä½è´¨é‡"
 
-#: src/print.c:161
+#: src/print.c:168
 msgid "jpeg, normal quality"
-msgstr ""
+msgstr "jpeg, æ ‡å‡†è´¨é‡"
 
-#: src/print.c:162
+#: src/print.c:169
 msgid "jpeg, high quality"
-msgstr ""
+msgstr "jpeg, é«˜è´¨é‡"
 
-#: src/print.c:357 src/print.c:3245
-#, fuzzy
+#: src/print.c:365
+#: src/print.c:3222
 msgid "points"
-msgstr "Xpaint"
-
-#: src/print.c:358
-msgid "millimeters"
-msgstr ""
-
-#: src/print.c:359
-msgid "centimeters"
-msgstr ""
-
-#: src/print.c:360
-msgid "inches"
-msgstr ""
-
-#: src/print.c:361
-msgid "picas"
-msgstr ""
+msgstr "pt"
 
 #: src/print.c:366
-msgid "Portrait"
-msgstr ""
+msgid "millimeters"
+msgstr "æ¯«ç±³"
 
 #: src/print.c:367
-msgid "Landscape"
-msgstr ""
+msgid "centimeters"
+msgstr "å˜ç±³"
 
-#: src/print.c:373
+#: src/print.c:368
+msgid "inches"
+msgstr "è‹±å¯¸"
+
+#: src/print.c:369
+msgid "picas"
+msgstr "æ¯”å¡"
+
+#: src/print.c:381
 msgid "Letter"
-msgstr ""
+msgstr "ä¿¡"
 
-#. in 8.5 x 11
-#: src/print.c:374
-msgid "Legal"
-msgstr ""
-
-#. in 8.5 x 14
-#: src/print.c:375
-msgid "Executive"
-msgstr ""
-
-#. in 7.25x 10.5
-#. mm 841 x 1189
-#. mm 594 x 841
-#. mm 420 x 594
-#. mm 297 x 420
-#. mm 210 x 297
-#. mm 148 x 210
-#. mm 105 x 148
-#. mm 353 x 500
-#. mm 250 x 353
-#. mm 176 x 250
-#. mm 125 x 176
-#: src/print.c:387
-msgid "Envelope #10"
-msgstr ""
-
-#. in 4.125 x 9.5
-#: src/print.c:388
-msgid "Envelope #9"
-msgstr ""
-
-#. in 3.875 x 8.875
-#: src/print.c:389
-msgid "Envelope C4"
-msgstr ""
-
-#. mm 229 x 324
-#: src/print.c:390
-msgid "Envelope C5"
-msgstr ""
-
-#. mm 162 x 229
-#: src/print.c:391
-msgid "Envelope C6"
-msgstr ""
-
-#. mm 114 x 162
-#: src/print.c:392
-msgid "Photo 6x4"
-msgstr ""
-
-#. in 6   x 4
-#: src/print.c:393
-msgid "Photo 8x10"
-msgstr ""
-
-#. in 8   x 10
-#: src/print.c:394
-msgid "Postcard"
-msgstr ""
-
-#. mm 100 x 148
 #: src/print.c:395
-msgid "Tabloid"
-msgstr ""
+msgid "Envelope #10"
+msgstr "ä¿¡å° #10"
 
-#: src/print.c:551
+#: src/print.c:396
+msgid "Envelope #9"
+msgstr "ä¿¡å° #9"
+
+#: src/print.c:397
+msgid "Envelope C4"
+msgstr "ä¿¡å° C4"
+
+#: src/print.c:398
+msgid "Envelope C5"
+msgstr "ä¿¡å° C5"
+
+#: src/print.c:399
+msgid "Envelope C6"
+msgstr "ä¿¡å° C6"
+
+#: src/print.c:400
+msgid "Photo 6x4"
+msgstr "ç…§ç‰‡ 6x4"
+
+#: src/print.c:401
+msgid "Photo 8x10"
+msgstr "ç…§ç‰‡ 8x10"
+
+#: src/print.c:402
+msgid "Postcard"
+msgstr "æ˜ä¿¡ç‰‡"
+
+#: src/print.c:403
+msgid "Tabloid"
+msgstr "å°æŠ¥"
+
+#: src/print.c:559
 #, c-format
 msgid "page %d of %d"
-msgstr ""
+msgstr "ç¬¬ %d é¡µ å…± %d é¡µ"
 
-#: src/print.c:743 src/utilops.c:2462
+#: src/print.c:751
 msgid "Preview"
-msgstr ""
+msgstr "é¢„è§ˆ"
 
-#: src/print.c:1051
+#: src/print.c:1059
 #, c-format
 msgid ""
 "Unable to open pipe for writing.\n"
 "\"%s\""
 msgstr ""
+"æ— æ³•æ‰“å¼€å†™å…¥é€šé“.\n"
+"\"%s\""
 
-#: src/print.c:1066 src/print.c:1506 src/ui_pathsel.c:432
-#: src/view_file_list.c:396
-#, fuzzy, c-format
+#: src/print.c:1074
+#: src/print.c:1466
+#: src/ui_pathsel.c:432
+#, c-format
 msgid "A file with name %s already exists."
-msgstr "ÎÄ¼şÃû %s ÒÑ´æÔÚ¡£"
+msgstr "æ–‡ä»¶ %s å·²å­˜åœ¨."
 
-#: src/print.c:1081 src/print.c:1561
+#: src/print.c:1089
+#: src/print.c:1521
 #, c-format
 msgid "Failure writing to file %s"
-msgstr ""
+msgstr "å†™å…¥æ–‡ä»¶ %s å¤±è´¥"
 
-#: src/print.c:1135 src/print.c:1172 src/print.c:1208 src/print.c:1325
-#: src/print.c:1416 src/print.c:1447
-msgid "SIGPIPE error writing to printer."
-msgstr ""
-
-#: src/print.c:1982
+#: src/print.c:1942
 #, c-format
 msgid "Page %d"
-msgstr ""
+msgstr "ç¬¬ %d é¡µ"
 
-#: src/print.c:2004 src/print.c:2009
-#, fuzzy
+#: src/print.c:1968
+#: src/print.c:1973
 msgid "Printing error"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ‰“å°å‡ºé”™"
 
-#: src/print.c:2008
+#: src/print.c:1972
 #, c-format
 msgid "An error occured printing to %s."
-msgstr ""
+msgstr "æ‰“å° %s æ—¶å‘ç”Ÿé”™è¯¯."
 
-#: src/print.c:2012
-#, fuzzy
+#: src/print.c:1976
 msgid "Details"
-msgstr "É¾³ıÎÄ¼ş"
+msgstr "è¯¦æƒ…"
 
-#: src/print.c:2617 src/print.c:3377
-#, fuzzy
+#: src/print.c:2597
+#: src/print.c:3357
 msgid "Print"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ‰“å°"
 
-#: src/print.c:2624
+#: src/print.c:2601
 #, c-format
 msgid "Printing %d pages to %s."
-msgstr ""
+msgstr "æ‰“å°ç¬¬ %d é¡µåˆ°ç¬¬ %s é¡µ."
 
-#: src/print.c:2724
-#, fuzzy
+#: src/print.c:2701
 msgid "Format:"
-msgstr "ÆÕÍ¨"
+msgstr "ç±»å‹:"
 
-#: src/print.c:2799
+#: src/print.c:2776
 msgid "Units:"
-msgstr ""
+msgstr "å•ä½"
 
-#: src/print.c:2843
-#, fuzzy
+#: src/print.c:2820
 msgid "Orientation:"
-msgstr "³ß´ç"
+msgstr "æ–¹å‘:"
 
-#: src/print.c:2975
-#, fuzzy
+#: src/print.c:2952
 msgid "Destination:"
-msgstr "ÎŞĞ§µÄÄ¿±ê"
+msgstr "ç›®æ ‡:"
 
-#: src/print.c:3023
-#, fuzzy
+#: src/print.c:3000
 msgid "<printer name>"
-msgstr "ÖØÃüÃû£º"
+msgstr "<æ‰“å°æœºåç§°>"
 
-#: src/print.c:3112
-#, fuzzy
+#: src/print.c:3089
 msgid "Unlimited"
-msgstr "ÎŞ±êÌâ"
+msgstr "æ— é™çš„"
 
-#: src/print.c:3230
+#: src/print.c:3207
 msgid "Show"
-msgstr ""
+msgstr "æ˜¾ç¤º"
 
-#: src/print.c:3243
-#, fuzzy
+#: src/print.c:3220
 msgid "Font"
-msgstr "ÎŞ"
+msgstr "å­—ä½“"
 
-#: src/print.c:3407
-#, fuzzy
+#: src/print.c:3384
 msgid "Source"
-msgstr "ÅÅĞò"
+msgstr "æº"
 
-#: src/print.c:3423
-#, fuzzy
+#: src/print.c:3396
+msgid "Image size:"
+msgstr "å›¾åƒå¤§å°:"
+
+#: src/print.c:3400
 msgid "Proof size:"
-msgstr "Í¼Ïñ"
+msgstr "è¯•æ ·å¤§å°:"
+
+#: src/print.c:3416
+msgid "Text"
+msgstr "æ–‡å­—"
+
+#: src/print.c:3426
+msgid "Paper"
+msgstr "çº¸å¼ "
 
 #: src/print.c:3449
-#, fuzzy
-msgid "Paper"
-msgstr "¹ıÂËÆ÷£º"
-
-#: src/print.c:3472
 msgid "Margins"
-msgstr ""
+msgstr "è¾¹è·"
 
-#: src/print.c:3474
+#: src/print.c:3451
 msgid "Left:"
-msgstr ""
+msgstr "å·¦:"
 
-#: src/print.c:3477
+#: src/print.c:3454
 msgid "Right:"
-msgstr ""
+msgstr "å³:"
 
-#: src/print.c:3480
+#: src/print.c:3457
 msgid "Top:"
-msgstr ""
+msgstr "ä¸Š:"
 
-#: src/print.c:3483
-#, fuzzy
+#: src/print.c:3460
 msgid "Bottom:"
-msgstr "µ½£º"
+msgstr "ä¸‹:"
 
-#: src/print.c:3492
-#, fuzzy
+#: src/print.c:3469
 msgid "Printer"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ‰“å°æœº"
 
-#: src/print.c:3498
-#, fuzzy
+#: src/print.c:3475
 msgid "Custom printer:"
-msgstr "¶¨ÖÆÎÄ¼şÀàĞÍ£º"
+msgstr "è‡ªå®šä¹‰æ‰“å°æœº:"
 
-#: src/print.c:3507
-#, fuzzy
+#: src/print.c:3484
 msgid "File:"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ–‡ä»¶:"
 
-#: src/print.c:3516
-#, fuzzy
+#: src/print.c:3493
 msgid "File format:"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ–‡ä»¶æ ¼å¼:"
 
-#: src/print.c:3521
-msgid "DPI:"
-msgstr ""
-
-#: src/print.c:3529
-#, fuzzy
+#: src/print.c:3506
 msgid "Remember print settings"
-msgstr "¼Ç×¡´°¿ÚÎ»ÖÃ"
+msgstr "è®°ä½æ‰“å°çš„è®¾ç½®"
 
-#: src/rcfile.c:309
+#: src/rcfile.c:504
 #, c-format
 msgid "error saving config file: %s\n"
-msgstr "±£´æÅäÖÃÎÄ¼ş³ö´í£º%s\n"
+msgstr "ä¿å­˜è®¾ç½®æ–‡ä»¶å‡ºé”™: %s\n"
 
-#: src/rcfile.c:583
-#, fuzzy, c-format
+#: src/rcfile.c:562
+#, c-format
 msgid ""
 "error saving config file: %s\n"
 "error: %s\n"
-msgstr "±£´æÅäÖÃÎÄ¼ş³ö´í£º%s\n"
-
-#. short, long                  callback,               extra, prefer,description
-#: src/remote.c:574
-#, fuzzy
-msgid "next image"
-msgstr "Ô¤ÏÈ×°ÈëÏÂÒ»ÕÅÍ¼"
-
-#: src/remote.c:575
-msgid "previous image"
 msgstr ""
+"ä¿å­˜é…ç½®æ–‡ä»¶å‡ºé”™: %s\n"
+"é”™è¯¯: %s\n"
 
-#: src/remote.c:576
-#, fuzzy
-msgid "first image"
-msgstr "%d Í¼Ïñ"
-
-#: src/remote.c:577
-#, fuzzy
-msgid "last image"
-msgstr "Ô¤ÏÈ×°ÈëÏÂÒ»ÕÅÍ¼"
-
-#: src/remote.c:578
-#, fuzzy
-msgid "toggle full screen"
-msgstr "ÍË³öÈ«ÆÁ"
-
-#: src/remote.c:579
-#, fuzzy
-msgid "start full screen"
-msgstr "ÍË³öÈ«ÆÁ"
-
-#: src/remote.c:580
-#, fuzzy
-msgid "stop full screen"
-msgstr "ÍË³öÈ«ÆÁ"
-
-#: src/remote.c:581
-#, fuzzy
-msgid "toggle slide show"
-msgstr "Í£Ö¹²¥·Å»ÃµÆÆ¬"
-
-#: src/remote.c:582
-#, fuzzy
-msgid "start slide show"
-msgstr "¿ªÊ¼²¥·Å»ÃµÆÆ¬"
-
-#: src/remote.c:583
-#, fuzzy
-msgid "stop slide show"
-msgstr "Í£Ö¹²¥·Å»ÃµÆÆ¬"
-
-#: src/remote.c:584
-#, fuzzy
-msgid "start recursive slide show"
-msgstr "¿ªÊ¼²¥·Å»ÃµÆÆ¬"
-
-#: src/remote.c:585
-msgid "set slide show delay in seconds"
-msgstr ""
-
-#: src/remote.c:586
-msgid "show tools"
-msgstr ""
-
-#: src/remote.c:587
-#, fuzzy
-msgid "hide tools"
-msgstr "Geeqie ¹¤¾ßÀ¸"
-
-#: src/remote.c:588
-msgid "quit"
-msgstr ""
-
-#: src/remote.c:589
-#, fuzzy
-msgid "open file"
-msgstr ""
-"½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÖØÃüÃûÎª£º"
-
-#: src/remote.c:590
-#, fuzzy
-msgid "open file in new window"
-msgstr "ÔÚĞÂ´°¿ÚÖĞ²é¿´"
-
-#: src/remote.c:656
-msgid "Remote command list:\n"
-msgstr ""
-
-#: src/remote.c:713
-#, c-format
-msgid "Remote %s not running, starting..."
-msgstr ""
-
-#: src/remote.c:849
-msgid "Remote not available\n"
-msgstr ""
-
-#: src/search.c:202
-#, fuzzy
+#: src/search.c:212
 msgid "folder"
-msgstr "Æ½ÆÌ"
+msgstr "æ–‡ä»¶å¤¹"
 
-#: src/search.c:203
-#, fuzzy
+#: src/search.c:213
 msgid "comments"
-msgstr "Ìí¼ÓÄÚÈİ"
-
-#: src/search.c:204
-msgid "results"
-msgstr ""
-
-#: src/search.c:208
-#, fuzzy
-msgid "contains"
-msgstr "¼ÌĞø"
-
-#: src/search.c:209
-msgid "is"
-msgstr ""
-
-#: src/search.c:213 src/search.c:220
-msgid "equal to"
-msgstr ""
+msgstr "æ³¨é‡Š"
 
 #: src/search.c:214
+msgid "results"
+msgstr "ç»“æœ"
+
+#: src/search.c:218
+#: src/search.c:243
+msgid "contains"
+msgstr "åŒ…å«"
+
+#: src/search.c:219
+msgid "is"
+msgstr "æ˜¯"
+
+#: src/search.c:223
+#: src/search.c:230
+msgid "equal to"
+msgstr "ç­‰äº"
+
+#: src/search.c:224
 msgid "less than"
-msgstr ""
+msgstr "å°‘äº"
 
-#: src/search.c:215
-#, fuzzy
+#: src/search.c:225
 msgid "greater than"
-msgstr "´´½¨ËõÂÔÍ¼"
+msgstr "å¤§äº"
 
-#: src/search.c:216 src/search.c:223
+#: src/search.c:226
+#: src/search.c:233
 msgid "between"
-msgstr ""
+msgstr "ä»‹äº"
 
-#: src/search.c:221
+#: src/search.c:231
 msgid "before"
-msgstr ""
+msgstr "æ—©äº"
 
-#: src/search.c:222
-#, fuzzy
+#: src/search.c:232
 msgid "after"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ™šäº"
 
-#: src/search.c:227
+#: src/search.c:237
 msgid "match all"
-msgstr ""
+msgstr "åŒ¹é…æ‰€æœ‰"
 
-#: src/search.c:228
+#: src/search.c:238
 msgid "match any"
-msgstr ""
+msgstr "åŒ¹é…ä»»ä¸€"
 
-#: src/search.c:229
+#: src/search.c:239
 msgid "exclude"
-msgstr ""
+msgstr "ä¸åŒ…æ‹¬"
 
-#: src/search.c:279
-#, fuzzy, c-format
+#: src/search.c:244
+msgid "miss"
+msgstr "æ¼è¿‡"
+
+#: src/search.c:295
+#, c-format
 msgid "%s, %d files (%s, %d)"
-msgstr "%d ÎÄ¼ş (%d)%s"
+msgstr "%s, %d æ–‡ä»¶ (%s, %d)"
 
-#: src/search.c:284
-#, fuzzy, c-format
+#: src/search.c:300
+#, c-format
 msgid "%s, %d files"
-msgstr "%d ÎÄ¼ş%s"
+msgstr "%s, %d æ–‡ä»¶"
 
-#: src/search.c:302
-#, fuzzy
+#: src/search.c:318
 msgid "Searching..."
-msgstr "ÕıÔÚ±È½Ï..."
+msgstr "æŸ¥æ‰¾ä¸­..."
 
-#: src/search.c:2100
+#: src/search.c:2170
 msgid "File not found"
-msgstr ""
+msgstr "æ–‡ä»¶æœªæ‰¾åˆ°"
 
-#: src/search.c:2101
-#, fuzzy
+#: src/search.c:2171
 msgid "Please enter an existing file for image content."
-msgstr "ÇëÑ¡ÔñÒ»¸öÒÑ´æÔÚµÄÄ¿Â¼"
+msgstr "è¯·è¾“å…¥ä¸€ä¸ªå­˜åœ¨çš„æ–‡ä»¶ä½œä¸ºå›¾åƒå†…å®¹."
 
-#: src/search.c:2151
-#, fuzzy
+#: src/search.c:2220
 msgid "Please enter an existing folder to search."
-msgstr "ÇëÑ¡ÔñÒ»¸öÒÑ´æÔÚµÄÄ¿Â¼"
-
-#: src/search.c:2576
-#, fuzzy
-msgid "Image search"
-msgstr "Í¼Ïñ"
-
-#: src/search.c:2606
-#, fuzzy
-msgid "Search:"
-msgstr "ÕıÔÚ±È½Ï..."
-
-#: src/search.c:2620
-msgid "Recurse"
-msgstr ""
-
-#: src/search.c:2624
-#, fuzzy
-msgid "File name"
-msgstr "ÖØÃüÃû£º"
-
-#: src/search.c:2630
-msgid "Match case"
-msgstr ""
-
-#: src/search.c:2634
-#, fuzzy
-msgid "File size is"
-msgstr "Æ½ÆÌ"
-
-#: src/search.c:2641 src/search.c:2656 src/search.c:2674
-#, fuzzy
-msgid "and"
-msgstr "Ëæ»ú"
+msgstr "è¯·è¾“å…¥ä¸€ä¸ªå­˜åœ¨çš„æ–‡ä»¶å¤¹æ¥æŸ¥æ‰¾."
 
 #: src/search.c:2646
-#, fuzzy
+msgid "Image search"
+msgstr "å›¾åƒæœç´¢"
+
+#: src/search.c:2676
+msgid "Search:"
+msgstr "æœç´¢:"
+
+#: src/search.c:2690
+msgid "Recurse"
+msgstr "åŒ…æ‹¬å­ç›®å½•"
+
+#: src/search.c:2695
+msgid "File name"
+msgstr "æ–‡ä»¶å"
+
+#: src/search.c:2701
+#: src/search.c:2796
+msgid "Match case"
+msgstr "åŒ¹é…å¤§å°å†™"
+
+#: src/search.c:2706
+msgid "File size is"
+msgstr "æ–‡ä»¶å¤§å°ä¸º"
+
+#: src/search.c:2713
+#: src/search.c:2729
+#: src/search.c:2748
+msgid "and"
+msgstr "ä¸"
+
+#: src/search.c:2719
 msgid "File date is"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "æ–‡ä»¶æ—¥æœŸä¸º"
 
-#: src/search.c:2663
-#, fuzzy
+#: src/search.c:2737
 msgid "Image dimensions are"
-msgstr "ÎŞĞ§µÄÄ¿±ê"
-
-#: src/search.c:2683
-#, fuzzy
-msgid "Image content is"
-msgstr "Ìí¼ÓÄÚÈİ"
-
-#: src/search.c:2689
-#, fuzzy, no-c-format
-msgid "% similar to"
-msgstr "ÏàËÆĞÔ"
+msgstr "å›¾åƒå°ºå¯¸ä¸º"
 
 #: src/search.c:2758
-#, fuzzy
+msgid "Image content is"
+msgstr "å›¾åƒå†…å®¹ä¸º"
+
+#: src/search.c:2764
+#, no-c-format
+msgid "% similar to"
+msgstr "% ç›¸ä¼¼äº"
+
+#: src/search.c:2850
 msgid "Rank"
-msgstr "Ëæ»ú"
+msgstr "è¯„çº§"
 
-#: src/secure_save.c:398
-#, fuzzy
+#: src/secure_save.c:397
 msgid "Cannot read the file"
-msgstr "ÎŞ·¨´´½¨Ä¿Â¼"
+msgstr "ä¸èƒ½è¯»å–æ–‡ä»¶"
 
-#: src/secure_save.c:400
-#, fuzzy
+#: src/secure_save.c:399
 msgid "Cannot get file status"
-msgstr "±È½ÏÁ½¸öÎÄ¼ş¼¯"
+msgstr "ä¸èƒ½è·å–æ–‡ä»¶çŠ¶æ€"
 
-#: src/secure_save.c:402
+#: src/secure_save.c:401
 msgid "Cannot access the file"
-msgstr ""
+msgstr "ä¸èƒ½æ‰“å¼€æ–‡ä»¶"
 
-#: src/secure_save.c:404
-#, fuzzy
+#: src/secure_save.c:403
 msgid "Cannot create temp file"
-msgstr "ÎŞ·¨´´½¨Ä¿Â¼"
+msgstr "ä¸èƒ½åˆ›å»ºä¸´æ—¶æ–‡ä»¶"
 
-#: src/secure_save.c:406
-#, fuzzy
+#: src/secure_save.c:405
 msgid "Cannot rename the file"
-msgstr "ÎŞ·¨´´½¨Ä¿Â¼"
+msgstr "ä¸èƒ½é‡å‘½åæ–‡ä»¶"
 
-#: src/secure_save.c:408
+#: src/secure_save.c:407
 msgid "File saving disabled by option"
-msgstr ""
+msgstr "æ–‡ä»¶ä¿å­˜è¢«é€‰é¡¹ç¦æ­¢"
 
-#: src/secure_save.c:410
+#: src/secure_save.c:409
 msgid "Out of memory"
-msgstr ""
+msgstr "å†…å­˜ä¸å¤Ÿ"
 
-#: src/secure_save.c:412
+#: src/secure_save.c:411
 msgid "Cannot write the file"
-msgstr ""
+msgstr "ä¸èƒ½å†™å…¥æ–‡ä»¶"
 
-#: src/secure_save.c:416
+#: src/secure_save.c:415
 msgid "Secure file saving error"
-msgstr ""
+msgstr "å®‰å…¨æ–‡ä»¶ä¿å­˜å‡ºé”™"
 
-#: src/thumb.c:382
+#: src/thumb.c:396
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
-msgstr "×°Èë»º³åµÄËõÂÔÍ¼Ê§°Ü£¬ÕıÊÔÍ¼ÖØ½¨¡£\n"
+msgstr "ç¼“å­˜ä¸­çš„ç¼©ç•¥å›¾ä¸èƒ½è½½å…¥ï¼Œæ­£åœ¨å°è¯•é‡å»º.\n"
 
-#: src/trash.c:74 src/utilops.c:1402 src/utilops.c:1415 src/utilops.c:1494
-#: src/utilops.c:1511 src/utilops.c:3095 src/utilops.c:3146 src/utilops.c:3232
-#: src/utilops.c:3243
+#: src/trash.c:80
+#: src/utilops.c:2448
+#: src/utilops.c:2459
+#: src/utilops.c:2516
 msgid "Delete failed"
-msgstr "É¾³ıÊ§°Ü"
+msgstr "åˆ é™¤å¤±è´¥"
 
-#: src/trash.c:75
-#, fuzzy
+#: src/trash.c:81
 msgid "Unable to remove old file from trash folder"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÒÆ¶¯µ½×ÔÉí¡£"
+msgstr "ä¸èƒ½ç§»é™¤å›æ”¶éƒ¨æ–‡ä»¶å¤¹çš„æ—§æ–‡ä»¶"
 
-#: src/trash.c:126 src/utilops.c:2755
-#, fuzzy
+#: src/trash.c:138
 msgid "Could not create folder"
-msgstr "ÎŞ·¨´´½¨Ä¿Â¼"
+msgstr "ä¸èƒ½åˆ›å»ºæ–‡ä»¶å¤¹"
 
-#: src/trash.c:148
+#: src/trash.c:160
 msgid "Permission denied"
-msgstr ""
+msgstr "æ‹’ç»æƒé™è¯·æ±‚"
 
-#: src/trash.c:158
-#, fuzzy, c-format
+#: src/trash.c:170
+#, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
 "\"%s\""
 msgstr ""
-"ÎŞ·¨´´½¨Ä¿Â¼£º\n"
-"%s"
+"ä¸èƒ½è¿›å…¥æˆ–åˆ›å»ºå›æ”¶éƒ¨æ–‡ä»¶å¤¹.\n"
+"\"%s\""
 
-#: src/trash.c:162
-#, fuzzy
+#: src/trash.c:174
 msgid "Turn off safe delete"
-msgstr "È·ÈÏÉ¾³ıÎÄ¼ş"
-
-#: src/trash.c:181
-msgid "Deletion by external command"
-msgstr ""
-
-#: src/trash.c:189
-#, c-format
-msgid " (max. %d MB)"
-msgstr ""
+msgstr "å…³é—­å®‰å…¨åˆ é™¤"
 
 #: src/trash.c:193
-#, fuzzy, c-format
+msgid "Deletion by external command"
+msgstr "è¢«å¤–éƒ¨å‘½ä»¤åˆ é™¤"
+
+#: src/trash.c:201
+#, c-format
+msgid " (max. %d MB)"
+msgstr " (æœ€å¤§. %d MB)"
+
+#: src/trash.c:205
+#, c-format
 msgid ""
 "Safe delete: %s%s\n"
 "Trash: %s"
-msgstr "È·ÈÏÉ¾³ıÎÄ¼ş"
+msgstr ""
+"å®‰å…¨åˆ é™¤: %s%s\n"
+"å›æ”¶ç«™: %s"
 
-#: src/trash.c:198
-#, fuzzy, c-format
-msgid "Safe delete: %s"
-msgstr "È·ÈÏÉ¾³ıÎÄ¼ş"
-
-#: src/ui_bookmark.c:151
+#: src/trash.c:210
 #, c-format
-msgid "Unable to write history lists to: %s\n"
-msgstr "ÎŞ·¨½«ÀúÊ·ÁĞ±íĞ´Èë£º%s\n"
+msgid "Safe delete: %s"
+msgstr "å®‰å…¨åˆ é™¤: %s"
 
-#: src/ui_bookmark.c:443 src/ui_bookmark.c:506
+#: src/ui_bookmark.c:130
+#: src/ui_bookmark.c:193
 msgid "New Bookmark"
-msgstr ""
+msgstr "æ–°ä¹¦ç­¾"
 
-#: src/ui_bookmark.c:589 src/ui_bookmark.c:595
-#, fuzzy
+#: src/ui_bookmark.c:276
+#: src/ui_bookmark.c:282
 msgid "Edit Bookmark"
-msgstr "±à¼­Æ÷"
+msgstr "ç¼–è¾‘ä¹¦ç­¾"
 
-#: src/ui_bookmark.c:610
-#, fuzzy
+#: src/ui_bookmark.c:297
 msgid "Path:"
-msgstr "Â·¾¶"
+msgstr "è·¯å¾„:"
 
-#: src/ui_bookmark.c:619
+#: src/ui_bookmark.c:306
 msgid "Icon:"
-msgstr ""
+msgstr "å›¾æ ‡:"
 
-#: src/ui_bookmark.c:625
-#, fuzzy
+#: src/ui_bookmark.c:312
 msgid "Select icon"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
+msgstr "é€‰æ‹©å›¾æ ‡"
 
-#: src/ui_bookmark.c:716
-#, fuzzy
+#: src/ui_bookmark.c:403
 msgid "_Properties..."
-msgstr "/±à¼­/Ñ¡Ïî(_O)..."
+msgstr "å±æ€§(_P)"
 
-#: src/ui_bookmark.c:718
-#, fuzzy
-msgid "Move _up"
-msgstr "ÒÆ¶¯"
-
-#: src/ui_bookmark.c:720
-#, fuzzy
-msgid "Move _down"
-msgstr "ÒÆ¶¯"
-
-#: src/ui_bookmark.c:722
-#, fuzzy
+#: src/ui_bookmark.c:409
 msgid "_Remove"
-msgstr "É¾³ı"
+msgstr "ç§»å»(_R)"
+
+#: src/ui_fileops.c:94
+msgid "One or more filenames are not encoded with the preferred locale character set.\n"
+msgstr "ä¸€ä¸ªæˆ–å¤šä¸ªæ–‡ä»¶åæœªä»¥æ¨èçš„ locale å­—ç¬¦é›†è¿›è¡Œç¼–ç .\n"
+
+#: src/ui_fileops.c:95
+#, c-format
+msgid "Operations on, and display of these files with %s may not succeed.\n"
+msgstr "æ“ä½œå¼€å¯, ä½†æ˜¯è¿™äº›æ–‡ä»¶å’Œ %s æ˜¾ç¤ºæˆ–è®¸ä¸æˆåŠŸ.\n"
+
+#: src/ui_fileops.c:103
+#, c-format
+msgid ""
+"The locale appears to be set to \"%s\"\n"
+"(set by the LANG environment variable)\n"
+msgstr ""
+"The locale appears to be set to \"%s\"\n"
+"(set by the LANG environment variable)\n"
+
+#: src/ui_fileops.c:108
+msgid ""
+"\n"
+"Preferred encoding appears to be UTF-8, however the file:\n"
+msgstr ""
+"\n"
+"æœ€ä½³ç¼–ç åº”è¯¥æ˜¯ UTF-8, ä½†è¿™ä¸ªæ–‡ä»¶:\n"
+
+#: src/ui_fileops.c:109
+#: src/ui_fileops.c:112
+#: src/ui_fileops.c:114
+msgid "[name not displayable]"
+msgstr "[åç§°ä¸èƒ½æ˜¾ç¤º]"
+
+#: src/ui_fileops.c:112
+#, c-format
+msgid "\"%s\" is encoded in valid UTF-8."
+msgstr "\"%s\" è¢«æ­£ç¡®ç¼–ç ä¸º UTF-8 ."
+
+#: src/ui_fileops.c:114
+#, c-format
+msgid "\"%s\" is not encoded in valid UTF-8."
+msgstr "\"%s\" ä¸æ˜¯æœ‰æ•ˆçš„ UTF-8 ç¼–ç ."
+
+#: src/ui_fileops.c:119
+#: src/ui_fileops.c:124
+msgid "Filename encoding locale mismatch"
+msgstr "æ–‡ä»¶å locale ç¼–ç ä¸åŒ¹é…"
 
 #: src/ui_help.c:114
 #, c-format
@@ -4080,656 +3764,361 @@ msgid ""
 "Unable to load:\n"
 "%s"
 msgstr ""
-"ÎŞ·¨×°Èë£º\n"
+"ä¸èƒ½è½½å…¥:\n"
 "%s"
 
-#: src/ui_pathsel.c:438 src/utilops.c:2859
+#: src/ui_pathsel.c:433
+#: src/ui_pathsel.c:439
+#: src/utilops.c:2147
+#: src/utilops.c:2174
+#: src/utilops.c:2640
+msgid "Rename failed"
+msgstr "é‡å‘½åå¤±è´¥"
+
+#: src/ui_pathsel.c:438
 #, c-format
 msgid "Failed to rename %s to %s."
-msgstr "½« %s ÖØÃüÃûÎª %s Ê§°Ü¡£"
+msgstr "é‡å‘½å %s ä¸º %s å¤±è´¥."
 
-#: src/ui_pathsel.c:494 src/utilops.c:1510 src/utilops.c:1703
-#, c-format
-msgid ""
-"Unable to delete file:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨É¾³ıÎÄ¼ş£º\n"
-"%s"
-
-#: src/ui_pathsel.c:495 src/utilops.c:1452 src/utilops.c:1472
-#: src/utilops.c:1684 src/utilops.c:1696 src/utilops.c:1704
-msgid "File deletion failed"
-msgstr "ÎÄ¼şÉ¾³ıÊ§°Ü"
-
-#: src/ui_pathsel.c:537 src/ui_pathsel.c:545 src/utilops.c:1734
-msgid "Delete file"
-msgstr "É¾³ıÎÄ¼ş"
-
-#: src/ui_pathsel.c:543
-#, c-format
-msgid ""
-"About to delete the file:\n"
-" %s"
-msgstr ""
-"½«ÒªÉ¾³ıÎÄ¼ş£º\n"
-" %s"
-
-#: src/ui_pathsel.c:634 src/ui_pathsel.c:642 src/utilops.c:2428
-#: src/utilops.c:2690
-#, fuzzy
+#: src/ui_pathsel.c:634
+#: src/ui_pathsel.c:642
 msgid "_Rename"
-msgstr "ÖØÃüÃû"
+msgstr "é‡å‘½å (_R)"
 
-#: src/ui_pathsel.c:636 src/ui_pathsel.c:646
-#, fuzzy
+#: src/ui_pathsel.c:636
+#: src/ui_pathsel.c:646
 msgid "Add _Bookmark"
-msgstr "±à¼­Æ÷"
+msgstr "æ·»åŠ ä¹¦ç­¾ (_B)"
 
 #: src/ui_pathsel.c:644
-#, fuzzy
 msgid "_Delete"
-msgstr "É¾³ı"
+msgstr "åˆ é™¤ (_D)"
 
-#: src/ui_pathsel.c:748 src/ui_pathsel.c:1053 src/utilops.c:2807
-#, fuzzy
+#: src/ui_pathsel.c:751
+#: src/ui_pathsel.c:1056
+#: src/utilops.c:2674
 msgid "New folder"
-msgstr "ÇóÖú - Geeqie"
+msgstr "æ–°å»ºæ–‡ä»¶å¤¹"
 
-#: src/ui_pathsel.c:758 src/utilops.c:2762 src/view_dir.c:511
-#, fuzzy, c-format
+#: src/ui_pathsel.c:761
+#, c-format
 msgid ""
 "Unable to create folder:\n"
 "%s"
 msgstr ""
-"ÎŞ·¨´´½¨Ä¿Â¼£º\n"
+"ä¸èƒ½åˆ›å»ºæ–‡ä»¶å¤¹:\n"
 "%s"
 
-#: src/ui_pathsel.c:759 src/utilops.c:2763 src/view_dir.c:512
-#, fuzzy
+#: src/ui_pathsel.c:762
 msgid "Error creating folder"
-msgstr "´´½¨Ä¿Â¼´íÎó"
+msgstr "åˆ›å»ºæ–‡ä»¶å¤¹å‡ºé”™"
 
-#: src/ui_pathsel.c:980
+#: src/ui_pathsel.c:987
 msgid "All Files"
-msgstr "ËùÓĞÎÄ¼ş"
+msgstr "æ‰€æœ‰æ–‡ä»¶"
 
-#: src/ui_pathsel.c:1056
+#: src/ui_pathsel.c:1059
 msgid "Show hidden"
-msgstr "ÏÔÊ¾Òş²ØÎÄ¼ş"
+msgstr "æ˜¾ç¤ºéšè—æ–‡ä»¶"
 
-#: src/ui_pathsel.c:1140
+#: src/ui_pathsel.c:1143
 msgid "Filter:"
-msgstr "¹ıÂËÆ÷£º"
+msgstr "è¿‡æ»¤å™¨:"
 
-#: src/ui_tabcomp.c:858
-#, fuzzy
+#: src/ui_tabcomp.c:933
 msgid "Select path"
-msgstr "È«Ñ¡"
+msgstr "é€‰æ‹©è·¯å¾„"
 
-#: src/ui_tabcomp.c:874
-#, fuzzy
+#: src/ui_tabcomp.c:949
 msgid "All files"
-msgstr "ËùÓĞÎÄ¼ş"
+msgstr "æ‰€æœ‰æ–‡ä»¶"
 
-#: src/utilops.c:346 src/utilops.c:811 src/utilops.c:1048
-msgid "Error copying file"
-msgstr "¸´ÖÆÎÄ¼ş´íÎó"
-
-#: src/utilops.c:347
-#, fuzzy, c-format
+#: src/utilops.c:547
 msgid ""
-"%s\n"
-"Unable to copy file:\n"
-"%s\n"
-"to:\n"
-"%s"
+"\n"
+" Continue multiple file operation?"
 msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"¸´ÖÆµ½£º\n"
-"%s"
+"\n"
+" ç»§ç»­å¯¹å¤šä¸ªæ–‡ä»¶æ‰§è¡Œæ“ä½œå—?"
 
-#: src/utilops.c:390 src/utilops.c:816 src/utilops.c:1053
-msgid "Error moving file"
-msgstr "ÒÆ¶¯ÎÄ¼ş´íÎó"
-
-#: src/utilops.c:391
-#, fuzzy, c-format
-msgid ""
-"%s\n"
-"Unable to move file:\n"
-"%s\n"
-"to:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÒÆ¶¯µ½£º\n"
-"%s"
-
-#: src/utilops.c:439 src/utilops.c:1920 src/utilops.c:2642
-#: src/view_file_list.c:391 src/view_file_list.c:397 src/view_file_list.c:411
-msgid "Error renaming file"
-msgstr "ÖØÃüÃûÎÄ¼ş´íÎó"
-
-#: src/utilops.c:440
-#, fuzzy, c-format
-msgid ""
-"%s\n"
-"Unable to rename file:\n"
-"%s\n"
-"to:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÖØÃüÃûÎª£º\n"
-"%s"
-
-#: src/utilops.c:651 src/utilops.c:981 src/utilops.c:1893 src/utilops.c:2613
-msgid "Overwrite file"
-msgstr "¸²¸ÇÎÄ¼ş"
-
-#: src/utilops.c:656 src/utilops.c:986 src/utilops.c:1898 src/utilops.c:2618
-#, fuzzy
-msgid "Overwrite file?"
-msgstr "¸²¸ÇÎÄ¼ş"
-
-#: src/utilops.c:657 src/utilops.c:987
-msgid "Replace existing file with new file."
-msgstr ""
-
-#: src/utilops.c:661
-#, fuzzy
-msgid "Overwrite _all"
-msgstr "¸²¸ÇÎÄ¼ş"
-
-#: src/utilops.c:663
-#, fuzzy
-msgid "S_kip all"
-msgstr "Ìø¹ı"
-
-#: src/utilops.c:664
-#, fuzzy
-msgid "_Skip"
-msgstr "Ìø¹ı"
-
-#: src/utilops.c:665 src/utilops.c:991 src/utilops.c:1904 src/utilops.c:2624
-#, fuzzy
-msgid "Existing file"
-msgstr "ÒÆ¶¯ÎÄ¼ş´íÎó"
-
-#: src/utilops.c:665 src/utilops.c:991 src/utilops.c:1905 src/utilops.c:2625
-#, fuzzy
-msgid "New file"
-msgstr "ÇóÖú - Geeqie"
-
-#: src/utilops.c:675 src/utilops.c:1000 src/utilops.c:2038 src/utilops.c:2094
-#: src/utilops.c:2167 src/utilops.c:2501
-#, fuzzy
-msgid "Auto rename"
-msgstr "²Ëµ¥Ãû"
-
-#: src/utilops.c:683 src/utilops.c:1008 src/utilops.c:2423 src/utilops.c:2682
-msgid "Rename"
-msgstr "ÖØÃüÃû"
-
-#: src/utilops.c:724
-msgid "Source to copy matches destination"
-msgstr "¸´ÖÆµÄÔ´ÓëÄ¿±êÏàÍ¬"
-
-#: src/utilops.c:725
-#, c-format
-msgid ""
-"Unable to copy file:\n"
-"%s\n"
-"to itself."
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"¸´ÖÆµ½×ÔÉí¡£"
-
-#: src/utilops.c:729
-msgid "Source to move matches destination"
-msgstr "ÒÆ¶¯µÄÔ´ÓëÄ¿±êÏàÍ¬"
-
-#: src/utilops.c:730
-#, c-format
-msgid ""
-"Unable to move file:\n"
-"%s\n"
-"to itself."
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÒÆ¶¯µ½×ÔÉí¡£"
-
-#: src/utilops.c:738 src/utilops.c:825 src/utilops.c:1408 src/utilops.c:1502
-#, fuzzy
+#: src/utilops.c:554
+#: src/utilops.c:989
 msgid "Co_ntinue"
-msgstr "¼ÌĞø"
+msgstr "ç»§ç»­ (_n)"
 
-#: src/utilops.c:812
-#, fuzzy, c-format
-msgid ""
-"Unable to copy file:\n"
-"%s\n"
-"to:\n"
-"%s\n"
-"during multiple file copy."
-msgstr ""
-"ÔÚ¶àÎÄ¼ş¸´ÖÆÊ±£¬ÎŞ·¨½«£º\n"
-"%s ¸´ÖÆµ½£º\n"
-"%s\n"
-"¡£"
-
-#: src/utilops.c:817
-#, fuzzy, c-format
-msgid ""
-"Unable to move file:\n"
-"%s\n"
-"to:\n"
-"%s\n"
-"during multiple file move."
-msgstr ""
-"ÔÚ¶àÎÄ¼şÒÆ¶¯Ê±£¬ÎŞ·¨½«\n"
-"%s ÒÆ¶¯µ½£º\n"
-"%s\n"
-"¡£"
-
-#: src/utilops.c:972
-msgid "Source matches destination"
-msgstr "Ô´ÓëÄ¿±êÏàÍ¬"
-
-#: src/utilops.c:973
-msgid "Source and destination are the same, operation cancelled."
-msgstr "Ô´ºÍÄ¿±êÏàÍ¬£¬²Ù×÷·ÅÆú¡£"
-
-#: src/utilops.c:1049
-#, c-format
-msgid ""
-"Unable to copy file:\n"
-"%s\n"
-"to:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"¸´ÖÆµ½£º\n"
-"%s"
-
-#: src/utilops.c:1054
-#, c-format
-msgid ""
-"Unable to move file:\n"
-"%s\n"
-"to:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÒÆ¶¯µ½£º\n"
-"%s"
-
-#: src/utilops.c:1102
-msgid "Invalid destination"
-msgstr "ÎŞĞ§µÄÄ¿±ê"
-
-#: src/utilops.c:1103
-#, fuzzy
-msgid ""
-"When operating with multiple files, please select\n"
-"a folder, not a file."
-msgstr ""
-"¶ÔÓÚ¶àÎÄ¼ş²Ù×÷£¬ÇëÑ¡ÔñÄ¿Â¼£¬\n"
-"¶ø²»ÊÇÎÄ¼ş¡£"
-
-#: src/utilops.c:1108
-#, fuzzy
-msgid "Please select an existing folder."
-msgstr "ÇëÑ¡ÔñÒ»¸öÒÑ´æÔÚµÄÄ¿Â¼"
-
-#: src/utilops.c:1178 src/view_dir.c:338
-#, fuzzy
-msgid "_Copy"
-msgstr "¸´ÖÆ"
-
-#: src/utilops.c:1181
-#, fuzzy
-msgid "Copy file"
-msgstr ""
-"½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÖØÃüÃûÎª£º"
-
-#: src/utilops.c:1185
-#, fuzzy
-msgid "Copy multiple files"
-msgstr "½«¶à¸öÎÄ¼ş¸´ÖÆµ½£º"
-
-#: src/utilops.c:1192 src/view_dir.c:340
-#, fuzzy
-msgid "_Move"
-msgstr "ÒÆ¶¯"
-
-#: src/utilops.c:1195
-#, fuzzy
-msgid "Move file"
-msgstr ""
-"½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÖØÃüÃûÎª£º"
-
-#: src/utilops.c:1199
-#, fuzzy
-msgid "Move multiple files"
-msgstr "½«¶à¸öÎÄ¼şÒÆ¶¯µ½£º"
-
-#: src/utilops.c:1214 src/utilops.c:1744
-#, fuzzy
-msgid "File name:"
-msgstr "ÖØÃüÃû£º"
-
-#: src/utilops.c:1218
-#, fuzzy
-msgid "Choose the destination folder."
-msgstr "Ô´ÓëÄ¿±êÏàÍ¬"
-
-#: src/utilops.c:1389
-#, fuzzy
-msgid ""
-"\n"
-"Unable to delete file by external command:\n"
-msgstr ""
-"ÎŞ·¨É¾³ıÎÄ¼ş£º\n"
-"%s"
-
-#: src/utilops.c:1401
-#, fuzzy
-msgid ""
-"\n"
-" Continue multiple delete operation?"
-msgstr ""
-"ÎŞ·¨É¾³ıÎÄ¼ş£º\n"
-" %s\n"
-" ¼ÌĞø½øĞĞ¶àÎÄ¼şÉ¾³ı²Ù×÷£¿"
-
-#: src/utilops.c:1452 src/utilops.c:1684
-msgid "Another operation in progress.\n"
-msgstr ""
-
-#: src/utilops.c:1471
-#, fuzzy, c-format
-msgid ""
-"%s\n"
-"Unable to delete files by external command.\n"
-msgstr ""
-"ÎŞ·¨É¾³ıÎÄ¼ş£º\n"
-"%s"
-
-#: src/utilops.c:1498
-#, c-format
-msgid ""
-"Unable to delete file:\n"
-" %s\n"
-" Continue multiple delete operation?"
-msgstr ""
-"ÎŞ·¨É¾³ıÎÄ¼ş£º\n"
-" %s\n"
-" ¼ÌĞø½øĞĞ¶àÎÄ¼şÉ¾³ı²Ù×÷£¿"
-
-#: src/utilops.c:1569
-#, c-format
-msgid "File %d of %d"
-msgstr ""
-
-#: src/utilops.c:1637
-#, fuzzy
-msgid "Delete files"
-msgstr "É¾³ıÎÄ¼ş"
-
-#: src/utilops.c:1643
-#, fuzzy
-msgid "Delete multiple files"
-msgstr "ÖØÃüÃû¶à¸öÎÄ¼ş£º"
-
-#: src/utilops.c:1661
-#, fuzzy, c-format
-msgid "Review %d files"
-msgstr "%d ÎÄ¼ş"
-
-#: src/utilops.c:1695
-#, fuzzy, c-format
-msgid ""
-"%s\n"
-"Unable to delete file by external command:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨É¾³ıÎÄ¼ş£º\n"
-"%s"
-
-#: src/utilops.c:1740
-#, fuzzy
-msgid "Delete file?"
-msgstr "É¾³ıÎÄ¼ş"
-
-#: src/utilops.c:1899 src/utilops.c:2619
-msgid "Replace existing file by renaming new file."
-msgstr ""
-
-#: src/utilops.c:1917
-#, c-format
-msgid ""
-"Unable to rename file:\n"
-"%s\n"
-" to:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-" ÖØÃüÃûÎª£º\n"
-"%s"
-
-#: src/utilops.c:2039
-msgid "Format must include at least one of the symbol characters '*' or '#'.\n"
-msgstr ""
-
-#: src/utilops.c:2095
-msgid ""
-"Can not auto rename with the selected\n"
-"number set, one or more files exist that\n"
-"match the resulting name list.\n"
-msgstr ""
-
-#: src/utilops.c:2166
-#, fuzzy, c-format
-msgid ""
-"Failed to rename\n"
-"%s\n"
-"The number was %d."
-msgstr "½« %s ÖØÃüÃûÎª %s Ê§°Ü¡£"
-
-#: src/utilops.c:2427
-#, fuzzy
-msgid "Rename multiple files"
-msgstr "ÖØÃüÃû¶à¸öÎÄ¼ş£º"
-
-#: src/utilops.c:2461
-msgid "Original Name"
-msgstr ""
-
-#: src/utilops.c:2499
-#, fuzzy
-msgid "Manual rename"
-msgstr "²Ëµ¥Ãû"
-
-#: src/utilops.c:2500
-msgid "Formatted rename"
-msgstr ""
-
-#: src/utilops.c:2513 src/utilops.c:2697
-#, fuzzy
-msgid "Original name:"
-msgstr "ÖØÃüÃû£º"
-
-#: src/utilops.c:2516 src/utilops.c:2700
-#, fuzzy
-msgid "New name:"
-msgstr "ÖØÃüÃû£º"
-
-#: src/utilops.c:2534
-msgid "Begin text"
-msgstr ""
-
-#: src/utilops.c:2542 src/utilops.c:2574
-msgid "Start #"
-msgstr ""
-
-#: src/utilops.c:2548
-msgid "End text"
-msgstr ""
-
-#: src/utilops.c:2556
-msgid "Padding:"
-msgstr ""
-
-#: src/utilops.c:2566
-msgid "Format (* = original name, ## = numbers)"
-msgstr ""
-
-#: src/utilops.c:2641 src/view_file_list.c:410
-#, c-format
-msgid ""
-"Unable to rename file:\n"
-"%s\n"
-"to:\n"
-"%s"
-msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÖØÃüÃûÎª£º\n"
-"%s"
-
-#: src/utilops.c:2687
-#, fuzzy
-msgid "Rename file"
-msgstr ""
-"½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÖØÃüÃûÎª£º"
-
-#: src/utilops.c:2748 src/utilops.c:2841
-#, fuzzy, c-format
-msgid ""
-"The folder:\n"
-"%s\n"
-"already exists."
-msgstr ""
-"Ä¿Â¼£º\n"
-"%s\n"
-"ÒÑ´æÔÚ¡£"
-
-#: src/utilops.c:2749 src/utilops.c:2842
-#, fuzzy
-msgid "Folder exists"
-msgstr "Æ½ÆÌ"
-
-#: src/utilops.c:2754 src/utilops.c:2850
-#, c-format
-msgid ""
-"The path:\n"
-"%s\n"
-"already exists as a file."
-msgstr ""
-"Â·¾¶£º\n"
-"%s\n"
-"ÊÇÒ»¸öÒÑ´æÔÚµÄÎÄ¼ş¡£"
-
-#: src/utilops.c:2812
-#, fuzzy, c-format
-msgid ""
-"Create folder in:\n"
-"%s\n"
-"named:"
-msgstr ""
-"ÔÚ\n"
-"%s\n"
-"´´½¨Ä¿Â¼£¬²¢ÃüÃûÎª£º"
-
-#: src/utilops.c:2851 src/utilops.c:2860
-#, fuzzy
-msgid "Rename failed"
-msgstr ""
-"½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÖØÃüÃûÎª£º"
-
-#: src/utilops.c:2967
-#, fuzzy
-msgid "Location"
-msgstr "Í¼Ïñ¼¯"
-
-#: src/utilops.c:3145
-#, fuzzy, c-format
-msgid ""
-"Unable to delete folder:\n"
-"\n"
-"%s"
-msgstr ""
-"ÎŞ·¨É¾³ıÎÄ¼ş£º\n"
-"%s"
-
-#: src/utilops.c:3152
+#: src/utilops.c:731
 #, c-format
 msgid ""
 "Removal of folder contents failed at this file:\n"
 "\n"
 "%s"
 msgstr ""
+"åˆ é™¤æ–‡ä»¶å¤¹å†…å®¹å¤±è´¥äºæ–‡ä»¶:\n"
+"\n"
+"%s"
 
-#: src/utilops.c:3207 src/utilops.c:3291
-#, fuzzy
-msgid "Delete folder"
-msgstr "Çå³ıËùÓĞÑ¡Ôñ"
-
-#: src/utilops.c:3211
+#: src/utilops.c:877
 #, c-format
 msgid ""
-"This will delete the symbolic link:\n"
-"\n"
 "%s\n"
+"Unable to start external command.\n"
+msgstr ""
+"%s\n"
+"ä¸èƒ½æ‰§è¡Œå¤–éƒ¨å‘½ä»¤.\n"
+
+#: src/utilops.c:957
+#, c-format
+msgid "%s is not a directory"
+msgstr "%s ä¸æ˜¯ç›®å½•"
+
+#: src/utilops.c:987
+msgid "Really continue?"
+msgstr "çœŸå¾—è¦ç»§ç»­å—ï¼Ÿ"
+
+#: src/utilops.c:1001
+msgid "This operation can't continue:"
+msgstr "è¿™ä¸ªæ“ä½œä¸èƒ½ç»§ç»­"
+
+#: src/utilops.c:1364
+#: src/utilops.c:1477
+#: src/utilops.c:1861
+msgid "Discard changes"
+msgstr "æ”¾å¼ƒæ›´æ”¹"
+
+#: src/utilops.c:1365
+#: src/utilops.c:1478
+#: src/utilops.c:1811
+#: src/utilops.c:1827
+msgid "File details"
+msgstr "æ–‡ä»¶è¯¦æƒ…"
+
+#: src/utilops.c:1389
+msgid "Write to file"
+msgstr "å†™å…¥æ–‡ä»¶"
+
+#: src/utilops.c:1429
+msgid "Choose the destination folder."
+msgstr "é€‰æ‹©ç›®æ ‡æ–‡ä»¶å¤¹."
+
+#: src/utilops.c:1487
+msgid "New name"
+msgstr "æ–°åç§°"
+
+#: src/utilops.c:1517
+msgid "Manual rename"
+msgstr "æ‰‹åŠ¨é‡å‘½å"
+
+#: src/utilops.c:1522
+msgid "Original name:"
+msgstr "åŸåç§°:"
+
+#: src/utilops.c:1525
+msgid "New name:"
+msgstr "æ–°åç§°:"
+
+#: src/utilops.c:1538
+msgid "Auto rename"
+msgstr "è‡ªåŠ¨é‡å‘½å"
+
+#: src/utilops.c:1544
+msgid "Begin text"
+msgstr "å‰ç¼€"
+
+#: src/utilops.c:1552
+#: src/utilops.c:1584
+msgid "Start #"
+msgstr "å¼€å§‹æ•°å­—"
+
+#: src/utilops.c:1558
+msgid "End text"
+msgstr "åç¼€"
+
+#: src/utilops.c:1566
+msgid "Padding:"
+msgstr "å¡«å……ä½æ•°:"
+
+#: src/utilops.c:1571
+msgid "Formatted rename"
+msgstr "æ ¼å¼åŒ–é‡å‘½å"
+
+#: src/utilops.c:1576
+msgid "Format (* = original name, ## = numbers)"
+msgstr "æ ¼å¼ (* = åŸåç§°, ## = æ•°å­—)"
+
+#: src/utilops.c:1714
+msgid "Another operation in progress.\n"
+msgstr "å¦ä¸€ä¸ªæ“ä½œæ‰§è¡Œä¸­.\n"
+
+#: src/utilops.c:1770
+#, c-format
+msgid "File: '%s'\n"
+msgstr "æ–‡ä»¶: '%s'\n"
+
+#: src/utilops.c:1775
+msgid "with sidecar files:\n"
+msgstr "ä¸ sidecar æ–‡ä»¶:\n"
+
+#: src/utilops.c:1785
+msgid ""
 "\n"
+"Status: "
+msgstr ""
+"\n"
+"çŠ¶æ€: "
+
+#: src/utilops.c:1797
+msgid "no problem detected"
+msgstr "æ²¡æœ‰å‘ç°é—®é¢˜"
+
+#: src/utilops.c:1813
+#: src/utilops.c:1860
+msgid "Exclude file"
+msgstr "ä¸åŒ…æ‹¬æ­¤æ–‡ä»¶"
+
+#: src/utilops.c:1858
+#: src/utilops.c:1883
+msgid "Overview of changed metadata"
+msgstr "æµè§ˆå·²æ”¹åŠ¨çš„å…ƒæ•°æ®"
+
+#: src/utilops.c:1876
+#, c-format
+msgid ""
+"The following metadata tags will be written to\n"
+"'%s'."
+msgstr ""
+"ä¸‹åˆ—å…ƒæ•°æ®æ ‡ç­¾å°†è¢«å†™å…¥\n"
+"'%s'."
+
+#: src/utilops.c:1880
+msgid "The following metadata tags will be written to the image file itself."
+msgstr "ä¸‹åˆ—å…ƒæ•°æ®æ ‡ç­¾å°†è¢«å†™å…¥å›¾åƒæ–‡ä»¶æœ¬èº«."
+
+#: src/utilops.c:1986
+msgid "Delete files?"
+msgstr "åˆ é™¤æ–‡ä»¶å—ï¼Ÿ"
+
+#: src/utilops.c:1987
+msgid "This will delete the following files"
+msgstr "å°†è¦åˆ é™¤ä¸‹åˆ—æ–‡ä»¶"
+
+#: src/utilops.c:2006
+msgid "Can't write metadata"
+msgstr "ä¸èƒ½å†™å…¥å…ƒæ•°æ®"
+
+#: src/utilops.c:2029
+msgid "Write metadata"
+msgstr "å†™å…¥å…ƒæ•°æ®"
+
+#: src/utilops.c:2030
+msgid "Write metadata?"
+msgstr "å†™å…¥å…ƒæ•°æ®å—?"
+
+#: src/utilops.c:2031
+msgid "This will write the changed metadata into the following files"
+msgstr "å°†è¦æŠŠå·²æ›´æ”¹çš„å…ƒæ•°æ®å†™å…¥ä¸‹åˆ—æ–‡ä»¶"
+
+#: src/utilops.c:2033
+msgid "Metadata writting failed"
+msgstr "å…ƒæ•°æ®å†™å…¥å¤±è´¥"
+
+#: src/utilops.c:2052
+#: src/utilops.c:2079
+msgid "Move failed"
+msgstr "ç§»åŠ¨å¤±è´¥"
+
+#: src/utilops.c:2076
+msgid "Move files?"
+msgstr "ç§»åŠ¨æ–‡ä»¶å—ï¼Ÿ"
+
+#: src/utilops.c:2077
+msgid "This will move the following files"
+msgstr "å°†ä¼šç§»åŠ¨ä¸‹åˆ—æ–‡ä»¶"
+
+#: src/utilops.c:2101
+#: src/utilops.c:2128
+msgid "Copy failed"
+msgstr "å¤åˆ¶å¤±è´¥"
+
+#: src/utilops.c:2125
+msgid "Copy files?"
+msgstr "å¤åˆ¶æ–‡ä»¶å—ï¼Ÿ"
+
+#: src/utilops.c:2126
+#: src/utilops.c:2260
+msgid "This will copy the following files"
+msgstr "å°†ä¼šå¤åˆ¶ä¸‹åˆ—æ–‡ä»¶"
+
+#: src/utilops.c:2170
+#: src/utilops.c:2636
+msgid "Rename"
+msgstr "é‡å‘½å"
+
+#: src/utilops.c:2171
+msgid "Rename files?"
+msgstr "é‡å‘½åæ–‡ä»¶å—ï¼Ÿ"
+
+#: src/utilops.c:2172
+msgid "This will rename the following files"
+msgstr "è¿™å°†ä¼šé‡å‘½åä»¥ä¸‹æ–‡ä»¶"
+
+#: src/utilops.c:2224
+msgid "Can't run external editor"
+msgstr "ä¸èƒ½è¿è¡Œå¤–éƒ¨ç¼–è¾‘å™¨"
+
+#: src/utilops.c:2258
+msgid "Editor"
+msgstr "å¤–éƒ¨ç¼–è¾‘å™¨"
+
+#: src/utilops.c:2259
+msgid "Run editor?"
+msgstr "è¿è¡Œç¼–è¾‘å™¨å—ï¼Ÿ"
+
+#: src/utilops.c:2262
+msgid "External command failed"
+msgstr "å¤–éƒ¨å‘½ä»¤å¤±è´¥"
+
+#: src/utilops.c:2431
+#: src/utilops.c:2504
+msgid "Delete folder"
+msgstr "åˆ é™¤æ–‡ä»¶å¤¹"
+
+#: src/utilops.c:2432
+msgid "Delete symbolic link?"
+msgstr "åˆ é™¤è½¯é“¾æ¥å—?"
+
+#: src/utilops.c:2434
+msgid ""
+"This will delete the symbolic link.\n"
 "The folder this link points to will not be deleted."
 msgstr ""
+"å°†ä¼šåˆ é™¤è½¯é“¾æ¥.\n"
+"è½¯é“¾æ¥æ‰€æŒ‡å‘çš„æ–‡ä»¶å¤¹ä¸ä¼šè¢«åˆ é™¤."
 
-#: src/utilops.c:3215
-msgid "Delete symbolic link to folder?"
-msgstr ""
+#: src/utilops.c:2436
+msgid "Link deletion failed"
+msgstr "é“¾æ¥åˆ é™¤å¤±è´¥"
 
-#: src/utilops.c:3230
-#, fuzzy, c-format
+#: src/utilops.c:2446
+#, c-format
 msgid ""
 "Unable to remove folder %s\n"
 "Permissions do not allow writing to the folder."
 msgstr ""
-"ÎŞ·¨½«ÎÄ¼ş£º\n"
-"%s\n"
-"ÒÆ¶¯µ½×ÔÉí¡£"
+"ä¸èƒ½ç§»é™¤æ–‡ä»¶å¤¹ %s\n"
+"æƒé™ä¸å…è®¸å†™å…¥è¯¥æ–‡ä»¶å¤¹."
 
-#: src/utilops.c:3242
-#, fuzzy, c-format
+#: src/utilops.c:2458
+#: src/utilops.c:2515
+#, c-format
 msgid "Unable to list contents of folder %s"
-msgstr ""
-"ÎŞ·¨´´½¨Ä¿Â¼£º\n"
-"%s"
+msgstr "ä¸èƒ½åˆ—å‡ºæ–‡ä»¶å¤¹çš„å†…å®¹"
 
-#: src/utilops.c:3256 src/utilops.c:3264
-#, fuzzy
+#: src/utilops.c:2472
+#: src/utilops.c:2480
 msgid "Folder contains subfolders"
-msgstr "·Ç·¨ÎÄ¼şÃû"
+msgstr "æ–‡ä»¶å¤¹åŒ…æ‹¬å­ç›®å½•"
 
-#: src/utilops.c:3260
+#: src/utilops.c:2476
 #, c-format
 msgid ""
 "Unable to delete the folder:\n"
@@ -4738,606 +4127,513 @@ msgid ""
 "\n"
 "This folder contains subfolders which must be moved before it can be deleted."
 msgstr ""
-
-#: src/utilops.c:3268
-#, fuzzy
-msgid "Subfolders:"
-msgstr "Æ½ÆÌ"
-
-#: src/utilops.c:3295
-#, c-format
-msgid ""
-"This will delete the folder:\n"
+"ä¸èƒ½åˆ é™¤è¯¥æ–‡ä»¶å¤¹:\n"
 "\n"
 "%s\n"
 "\n"
+"æ­¤æ–‡ä»¶å¤¹åŒ…å«å­ç›®å½•ï¼Œåœ¨åˆ é™¤å‰å¿…éœ€ç§»å‡ºå­ç›®å½•."
+
+#: src/utilops.c:2484
+msgid "Subfolders:"
+msgstr "å­ç›®å½•:"
+
+#: src/utilops.c:2505
+msgid "Delete folder?"
+msgstr "åˆ é™¤æ–‡ä»¶å¤¹å—ï¼Ÿ"
+
+#: src/utilops.c:2506
+msgid "The folder contains these files:"
+msgstr "æ­¤æ–‡ä»¶å¤¹åŒ…å«ä»¥ä¸‹æ–‡ä»¶:"
+
+#: src/utilops.c:2507
+msgid ""
+"This will delete the folder.\n"
 "The contents of this folder will also be deleted."
 msgstr ""
+"å°†ä¼šåˆ é™¤æ­¤æ–‡ä»¶å¤¹.\n"
+"æ–‡ä»¶å¤¹å†…çš„æ–‡ä»¶ä¹Ÿå°†è¢«åˆ é™¤."
 
-#: src/utilops.c:3299
-#, fuzzy
-msgid "Delete folder?"
-msgstr "É¾³ıÎÄ¼ş"
+#: src/utilops.c:2637
+msgid "Rename folder?"
+msgstr "é‡å‘½åæ–‡ä»¶å¤¹å—?"
 
-#: src/utilops.c:3303
-#, fuzzy
-msgid "Contents:"
-msgstr "/ÇóÖú/¹ØÓÚ(_A)"
+#: src/utilops.c:2638
+msgid "The folder contains the following files"
+msgstr "è¯¥æ–‡ä»¶å¤¹åŒ…å«ä¸‹åˆ—æ–‡ä»¶"
 
-#: src/view_dir.c:30
-#, fuzzy
-msgid "_Tree"
-msgstr "/²é¿´/µÚÈı¶Î"
+#: src/utilops.c:2684
+msgid "Create Folder"
+msgstr "åˆ›å»ºæ–‡ä»¶å¤¹"
 
-#: src/view_dir.c:502
-msgid "new_folder"
-msgstr ""
+#: src/utilops.c:2685
+msgid "Create folder?"
+msgstr "åˆ›å»ºæ–‡ä»¶å¤¹å—?"
 
-#: src/view_dir.c:587
+#: src/utilops.c:2688
+msgid "Can't create folder"
+msgstr "ä¸èƒ½åˆ›å»ºæ–‡ä»¶å¤¹"
+
+#: src/view_dir.c:397
+msgid "_Copy"
+msgstr "å¤åˆ¶ (_C)"
+
+#: src/view_dir.c:399
+msgid "_Move"
+msgstr "ç§»åŠ¨ (_M)"
+
+#: src/view_dir.c:645
 msgid "_Up to parent"
-msgstr ""
+msgstr "ä¸Šä¸€çº§ç›®å½•"
 
-#: src/view_dir.c:592
-#, fuzzy
+#: src/view_dir.c:650
 msgid "_Slideshow"
-msgstr "»ÃµÆÆ¬"
+msgstr "æ’­ç‰‡ (_S)"
 
-#: src/view_dir.c:594
+#: src/view_dir.c:652
 msgid "Slideshow recursive"
-msgstr "µİ¹é»ÃµÆÆ¬"
+msgstr "æ’­ç‰‡ åŒ…æ‹¬å­ç›®å½•"
 
-#: src/view_dir.c:598
-#, fuzzy
+#: src/view_dir.c:656
 msgid "Find _duplicates..."
-msgstr "Ñ°ÕÒ¸±±¾..."
+msgstr "æŸ¥æ‰¾é‡å¤é¡¹"
 
-#: src/view_dir.c:600
+#: src/view_dir.c:658
 msgid "Find duplicates recursive..."
-msgstr "µİ¹éÑ°ÕÒ¸±±¾..."
+msgstr "æŸ¥æ‰¾é‡å¤é¡¹ åŒ…æ‹¬å­ç›®å½•..."
 
-#: src/view_dir.c:605
+#: src/view_dir.c:663
 msgid "_New folder..."
-msgstr ""
+msgstr "æ–°å»ºæ–‡ä»¶å¤¹...(_N)"
 
-#: src/view_dir.c:619
-#, fuzzy
-msgid "_View as"
-msgstr "/²é¿´(_V)"
+#: src/view_dir.c:677
+#: src/view_file.c:619
+msgid "View as _List"
+msgstr "ä»¥åˆ—è¡¨å½¢å¼æŸ¥çœ‹"
 
-#: src/view_dir.c:631
-#, fuzzy
+#: src/view_dir.c:680
+msgid "View as _Tree"
+msgstr "ä»¥æ ‘çŠ¶å½¢å¼æŸ¥çœ‹"
+
+#: src/view_dir.c:685
 msgid "Show _hidden files"
-msgstr "ÏÔÊ¾Òş²ØÎÄ¼ş"
+msgstr "æ˜¾ç¤ºéšè—æ–‡ä»¶ (_h)"
 
-#: src/view_dir.c:634 src/view_file.c:606
-#, fuzzy
+#: src/view_dir.c:688
+#: src/view_file.c:637
 msgid "Re_fresh"
-msgstr "Ë¢ĞÂ"
+msgstr "åˆ·æ–° (_f)"
 
-#: src/view_file.c:588
-#, fuzzy
-msgid "_Sort"
-msgstr "ÅÅĞò"
+#: src/view_file.c:622
+msgid "View as _Icons"
+msgstr "ä»¥å›¾æ ‡å½¢å¼æŸ¥çœ‹"
 
-#: src/view_file.c:591
-#, fuzzy
-msgid "View as _icons"
-msgstr "³ß´ç"
-
-#: src/view_file.c:597
-#, fuzzy
+#: src/view_file.c:628
 msgid "Show _thumbnails"
-msgstr "»º´æËõÂÔÍ¼"
+msgstr "æ˜¾ç¤ºç¼©ç•¥å›¾ (_t)"
 
-#: src/view_file_list.c:390
+#: src/view_file_icon.c:2199
+#: src/view_file_list.c:899
+msgid " [NO GROUPING]"
+msgstr " [ä¸ç¼–ç»„]"
+
+#: src/view_file_list.c:512
 #, c-format
 msgid ""
 "Invalid file name:\n"
 "%s"
 msgstr ""
-"·Ç·¨ÎÄ¼şÃû£º\n"
+"æ— æ•ˆæ–‡ä»¶å:\n"
 "%s"
 
-#: src/view_file_list.c:1821
-msgid "SC"
-msgstr ""
+#: src/view_file_list.c:513
+msgid "Error renaming file"
+msgstr "é‡å‘½åæ–‡ä»¶å‡ºé”™"
 
-#: src/window.c:226
-#, fuzzy
+#: src/window.c:252
 msgid "Help"
-msgstr "/ÇóÖú(_H)"
+msgstr "å¸®åŠ©"
+
+#: layout_util.c:1447
+msgid "Stereo Cross"
+msgstr "ç«‹ä½“å›¾ç‰‡-äº¤å‰"
+
+#: layout_util.c:1384
+msgid "Exif window"
+msgstr "Exif çª—å£"
+
+#: layout_util.c:1399
+msgid "Use profile from image"
+msgstr "ä½¿ç”¨å›¾åƒæ–‡ä»¶çš„è‰²å½©é…ç½®"
+
+#: layout_util.c:1290 layout_util.c:1291 layout_util.c:1292
+msgid "Previous Image"
+msgstr "ä¸Šä¸€å›¾ç‰‡"
+
+#: layout_util.c:1293 layout_util.c:1294 layout_util.c:1295
+msgid "Next Image"
+msgstr "ä¸‹ä¸€å›¾ç‰‡"
+
+#: layout_util.c:1441
+msgid "Log Histogram"
+msgstr "å¯¹æ•°ç›´æ–¹å›¾"
+
+#: layout_util.c:1729
+#, c-format
+msgid "Add mark %d"
+msgstr "æ·»åŠ æ ‡è®° %d"
+
+#: layout_util.c:1727 layout_util.c:1728
+#, c-format
+msgid "Select mark %d"
+msgstr "é€‰æ‹©æ ‡è®° %d"
+
+#: layout_util.c:1305
+msgid "Find duplicates..."
+msgstr "æŸ¥æ‰¾é‡å¤é¡¹"
+
+#: layout_util.c:1730
+#, c-format
+msgid "Intersection with mark %d"
+msgstr "ä¸æ ‡è®° %d å…±æœ‰çš„"
+
+#: layout_util.c:1417
+msgid "Split Vertical"
+msgstr "å‚ç›´åˆ†å‰²"
+
+#: layout_util.c:1416
+msgid "Split Horizontal"
+msgstr "æ°´å¹³åˆ†å‰²"
+
+#: layout_util.c:1374
+msgid "Cycle through histogram channels"
+msgstr "åˆ‡æ¢ç›´æ–¹å›¾é€šé“"
+
+#: layout_util.c:1345
+msgid "Zoom 2:1"
+msgstr "ç¼©æ”¾ 2:1"
+
+#: layout_util.c:1345
+msgid "Zoom 3:1"
+msgstr "ç¼©æ”¾ 3:1"
+
+#: layout_util.c:1345
+msgid "Zoom 4:1"
+msgstr "ç¼©æ”¾ 4:1"
+
+#: layout_util.c:1406
+msgid "View Images as List"
+msgstr "ä»¥åˆ—è¡¨æŸ¥çœ‹å›¾åƒ"
+
+#: layout_util.c:1407
+msgid "View Images as Icons"
+msgstr "ä»¥å›¾æ ‡æŸ¥çœ‹å›¾åƒ"
+
+#: layout_util.c:1411
+msgid "View Folders as List"
+msgstr "ä»¥åˆ—è¡¨æŸ¥çœ‹æ–‡ä»¶å¤¹"
+
+#: layout_util.c:1412
+msgid "View Folders as Tree"
+msgstr "ä»¥æ ‘çŠ¶æŸ¥çœ‹æ–‡ä»¶å¤¹"
+
+#: layout_util.c:1367
+msgid "View in new window"
+msgstr "åœ¨æ–°çª—å£ä¸­æŸ¥çœ‹"
+
+#: layout_util.c:1731
+#, c-format
+msgid "Unselect mark %d"
+msgstr "å–æ¶ˆé€‰æ‹©æ ‡è®° %d"
+
+#: layout_util.c:1397
+msgid "Toggle slideshow"
+msgstr "åˆ‡æ¢æ’­ç‰‡å¼€å¯/å…³é—­"
+
+#: layout_util.c:1725 layout_util.c:1726
+#, c-format
+msgid "Toggle mark %d"
+msgstr "åˆ‡æ¢æ ‡è®° %d"
+
+#: layout_util.c:1332
+msgid "Thumbnail maintenance..."
+msgstr "ç¼©ç•¥å›¾ç»´æŠ¤..."
+
+#: layout_util.c:1446
+msgid "Stereo Side by Side"
+msgstr "ç«‹ä½“å›¾ç‰‡-å¹¶æ’"
+
+#: layout_util.c:1445
+msgid "Stereo Auto"
+msgstr "ç«‹ä½“å›¾ç‰‡-è‡ªåŠ¨"
+
+#: layout_util.c:1732
+#, c-format
+msgid "Filter mark %d"
+msgstr "è¿‡æ»¤ä¸ºæ ‡è®° %d"
+
+#: layout_util.c:1432
+msgid "Histogram on Red"
+msgstr "ç›´æ–¹å›¾ çº¢"
+
+#: layout_util.c:1433
+msgid "Histogram on Green"
+msgstr "ç›´æ–¹å›¾ ç»¿"
+
+#: layout_util.c:1434
+msgid "Histogram on Blue"
+msgstr "ç›´æ–¹å›¾ è“"
+
+#: layout_util.c:1400
+msgid "Toggle grayscale"
+msgstr "åˆ‡æ¢ç°åº¦æ¨¡å¼"
+
+#: layout_util.c:1448
+msgid "Stereo Off"
+msgstr "ç«‹ä½“å›¾ç‰‡-å…³"
+
+#: layout_util.c:1419
+msgid "Split Single"
+msgstr "åˆ†å‰²-å•å¼ "
+
+#: layout_util.c:1418
+msgid "Split Quad"
+msgstr "åˆ†å‰²-å››åˆ†"
+
+#: layout_util.c:1396
+msgid "Sort manager"
+msgstr "å¿«æ·æ•´ç†"
+
+#: layout_util.c:1390
+msgid "Show Thumbnails"
+msgstr "æ˜¾ç¤ºç¼©ç•¥å›¾"
+
+#: layout_util.c:1391
+msgid "Show Marks"
+msgstr "æ˜¾ç¤ºæ ‡è®°"
+
+#: layout_util.c:1402
+msgid "Show Histogram"
+msgstr "æ˜¾ç¤ºç›´æ–¹å›¾"
+
+#: layout_util.c:1723
+#, c-format
+msgid "Set mark %d"
+msgstr "è®¾ç½®æ ‡è®° %d"
+
+#: layout_util.c:1724
+#, c-format
+msgid "Reset mark %d"
+msgstr "é‡ç½®æ ‡è®° %d"
+
+#: layout_util.c:1423
+msgid "Input 0: sRGB"
+msgstr "è¾“å…¥ 0: sRGB"
+
+#: layout_util.c:1424
+msgid "Input 1: AdobeRGB compatible"
+msgstr "è¾“å…¥ 1: AdobeRGBå…¼å®¹"
+
+#: layout_util.c:1425
+msgid "Input 2"
+msgstr "è¾“å…¥ 2"
+
+#: layout_util.c:1425
+msgid "Input 3"
+msgstr "è¾“å…¥ 3"
+
+#: layout_util.c:1425
+msgid "Input 4"
+msgstr "è¾“å…¥ 4"
+
+#: layout_util.c:1425
+msgid "Input 5"
+msgstr "è¾“å…¥ 5"
+
+#: layout_util.c:1333
+msgid "Set as wallpaper"
+msgstr "è®¾ç½®ä¸ºå¢™çº¸"
+
+#: layout_util.c:1304
+msgid "Search..."
+msgstr "æœç´¢..."
+
+#: layout_util.c:1329
+msgid "Preferences..."
+msgstr "åå¥½è®¾ç½®..."
+
+#: layout_util.c:1381
+msgid "Release notes"
+msgstr "ç‰ˆæœ¬è¯´æ˜"
+
+#: layout_util.c:1311
+msgid "Rename..."
+msgstr "é‡å‘½å..."
+
+#: layout_util.c:1319
+msgid "Quit"
+msgstr "é€€å‡º"
+
+#: layout_util.c:1320
+msgid "Rotate clockwise"
+msgstr "é¡ºæ—¶é’ˆæ—‹è½¬"
+
+#: layout_util.c:1321
+msgid "Rotate counterclockwise"
+msgstr "é€†æ—¶é’ˆæ—‹è½¬"
+
+#: layout_util.c:1322
+msgid "Rotate 180"
+msgstr "æ—‹è½¬ 180"
+
+#: layout_util.c:1377
+msgid "Pause slideshow"
+msgstr "æš‚åœæ’­ç‰‡"
+
+#: layout_util.c:1306
+msgid "Pan view"
+msgstr "å›¾ç‰‡æ¦‚è§ˆ"
+
+#: layout_util.c:1325
+msgid "Original state"
+msgstr "åˆå§‹çŠ¶æ€"
+
+#: layout_util.c:1303
+msgid "Open recent"
+msgstr "æ‰“å¼€æœ€è¿‘æ‰“å¼€çš„æ–‡ä»¶"
+
+#: layout_util.c:1302
+msgid "Open collection..."
+msgstr "æ‰“å¼€å›¾ç‰‡é›†..."
+
+#: layout_util.c:1300
+msgid "New window"
+msgstr "æ–°å»ºçª—å£"
+
+#: layout_util.c:1301
+msgid "New collection"
+msgstr "æ–°å»ºå›¾ç‰‡é›†"
+
+#: layout_util.c:1308
+msgid "New folder..."
+msgstr "æ–°å»ºæ–‡ä»¶å¤¹..."
+
+#: layout_util.c:1310
+msgid "Move..."
+msgstr "ç§»åŠ¨..."
+
+#: layout_util.c:1323
+msgid "Mirror"
+msgstr "å·¦å³ç¿»è½¬"
+
+#: layout_util.c:1324
+msgid "Flip"
+msgstr "ä¸Šä¸‹ç¿»è½¬"
+
+#: layout_util.c:1383
+msgid "Log Window"
+msgstr "æ—¥å¿—çª—å£"
+
+#: layout_util.c:1440
+msgid "Linear Histogram"
+msgstr "çº¿æ€§ç›´æ–¹å›¾"
+
+#: layout_util.c:1371 layout_util.c:1372
+msgid "Leave full screen"
+msgstr "é€€å‡ºå…¨å±"
+
+#: layout_util.c:1296
+msgid "Last Image"
+msgstr "æœ€åå›¾ç‰‡"
+
+#: layout_util.c:1328
+msgid "Invert Selection"
+msgstr "åé€‰"
+
+#: layout_util.c:1380
+msgid "Keyboard shortcuts"
+msgstr "å¿«æ·é”®"
+
+#: layout_util.c:1395
+msgid "Info sidebar"
+msgstr "ä¿¡æ¯è¾¹æ "
+
+#: layout_util.c:1401
+msgid "Image Overlay"
+msgstr "æ˜¾ç¤ºå åŠ "
+
+#: layout_util.c:1435
+msgid "Histogram on RGB"
+msgstr "ç›´æ–¹å›¾ RGB"
+
+#: layout_util.c:1436
+msgid "Histogram on Value"
+msgstr "ç›´æ–¹å›¾ å€¼"
+
+#: layout_util.c:1394
+msgid "Hide toolbar"
+msgstr "éšè—å·¥å…·æ "
+
+#: layout_util.c:1393
+msgid "Float file list"
+msgstr "æµ®åŠ¨æ–‡ä»¶åˆ—è¡¨"
+
+#: layout_util.c:1343
+msgid "Fit Horizontally"
+msgstr "é€‚åº”å®½åº¦"
+
+#: layout_util.c:1344
+msgid "Fit Vertically"
+msgstr "é€‚åº”é«˜åº¦"
+
+#: layout_util.c:1312 layout_util.c:1313 layout_util.c:1314
+msgid "Delete..."
+msgstr "åˆ é™¤..."
+
+#: layout_util.c:1309
+msgid "Copy..."
+msgstr "å¤åˆ¶..."
+
+#: layout_util.c:1330
+msgid "Configure Editors..."
+msgstr "è®¾ç½®å¤–éƒ¨ç¼–è¾‘å™¨"
+
+#: layout_util.c:1331
+msgid "Configure this window..."
+msgstr "è®¾ç½®æ­¤çª—å£"
+
+#: layout_util.c:1318
+msgid "Close window"
+msgstr "å…³é—­çª—å£"
+
+#: layout_util.c:1297
+msgid "Back"
+msgstr "è¿”å›"
+
+#: layout_util.c:1379
+msgid "Contents"
+msgstr "å†…å®¹"
+
+#: layout_util.c:1376
+msgid "Hide file list"
+msgstr "éšè—æ–‡ä»¶åˆ—è¡¨"
+
+#: layout_util.c:1385
+msgid "Cycle through stereo modes"
+msgstr "åˆ‡æ¢ç«‹ä½“å›¾ç‰‡æ¨¡å¼"
+
+#: layout_util.c:1373
+msgid "Cycle through Overlay modes"
+msgstr "åˆ‡æ¢æ˜¾ç¤ºå åŠ æ¨¡å¼"
+
+#: layout_util.c:1375
+msgid "Cycle through histogram modes"
+msgstr "åˆ‡æ¢ç›´æ–¹å›¾æ¨¡å¼"
+
+#: layout_util.c:1289
+msgid "First Image"
+msgstr "é¦–ä¸ªå›¾ç‰‡"
+
+#: layout_util.c:1317
+msgid "Copy path to clipboard"
+msgstr "å¤åˆ¶è·¯å¾„åˆ°å‰ªè´´æ¿"
 
-#, fuzzy
-#~ msgid "Change to folder:"
-#~ msgstr "»Øµ½¼ÒÄ¿Â¼"
-
-#, fuzzy
-#~ msgid "Reset fullscreen info string"
-#~ msgstr "È«ÆÁ"
-
-#, fuzzy
-#~ msgid "Always show fullscreen info"
-#~ msgstr "ÍË³öÈ«ÆÁ"
-
-#, fuzzy
-#~ msgid "Fullscreen info string"
-#~ msgstr "È«ÆÁ"
-
-#, fuzzy
-#~ msgid "List"
-#~ msgstr "/²é¿´/¸üĞÂÁĞ±í(_R)"
-
-#, fuzzy
-#~ msgid "View as _tree"
-#~ msgstr "/²é¿´/È«ÆÁ(_U)"
-
-#~ msgid "Show entries that begin with a dot"
-#~ msgstr "ÏÔÊ¾Òş²ØÎÄ¼ş"
-
-#~ msgid "Find duplicates - Geeqie"
-#~ msgstr "ÎÄ¼ş¸´ÖÆ - Geeqie"
-
-#~ msgid "Geeqie full screen"
-#~ msgstr "Geeqie È«ÆÁ"
-
-#~ msgid "Geeqie Tools"
-#~ msgstr "Geeqie ¹¤¾ßÀ¸"
-
-#~ msgid "Help - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#~ msgid "Geeqie - exit"
-#~ msgstr "Geeqie - ÍË³ö"
-
-#, fuzzy
-#~ msgid "Quit Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#, fuzzy
-#~ msgid "Pan View - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#, fuzzy
-#~ msgid "About - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#, fuzzy
-#~ msgid "Print - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#, fuzzy
-#~ msgid "Copy - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#, fuzzy
-#~ msgid "Move - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#, fuzzy
-#~ msgid "Delete files - Geeqie"
-#~ msgstr "É¾³ıÎÄ¼ş"
-
-#, fuzzy
-#~ msgid "Delete file - Geeqie"
-#~ msgstr "É¾³ıÎÄ¼ş"
-
-#, fuzzy
-#~ msgid "Rename - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#, fuzzy
-#~ msgid "New folder - Geeqie"
-#~ msgstr "ÇóÖú - Geeqie"
-
-#~ msgid "/File/tear1"
-#~ msgstr "/ÎÄ¼ş/Æ¬¶Î1"
-
-#~ msgid "/File/_New collection"
-#~ msgstr "/ÎÄ¼ş/ĞÂÍ¼Ïñ¼¯"
-
-#~ msgid "/File/_Open collection..."
-#~ msgstr "/ÎÄ¼ş/´ò¿ªÍ¼Ïñ¼¯(_O)..."
-
-#~ msgid "/File/sep1"
-#~ msgstr "/ÎÄ¼ş/µÚÒ»¶Î"
-
-#, fuzzy
-#~ msgid "/File/_Search..."
-#~ msgstr "/ÎÄ¼ş/ÖØÃüÃû(_R)..."
-
-#~ msgid "/File/_Find duplicates..."
-#~ msgstr "/ÎÄ¼ş/Ñ°ÕÒ¸±±¾(_F)..."
-
-#~ msgid "/File/sep2"
-#~ msgstr "/ÎÄ¼ş/µÚ¶ş¶Î"
-
-#, fuzzy
-#~ msgid "/File/_Print..."
-#~ msgstr "/ÎÄ¼ş/ÖØÃüÃû(_R)..."
-
-#, fuzzy
-#~ msgid "/File/N_ew folder..."
-#~ msgstr "/ÎÄ¼ş/É¾³ı(_D)..."
-
-#~ msgid "/File/sep3"
-#~ msgstr "/ÎÄ¼ş/µÚÈı¶Î"
-
-#~ msgid "/File/_Copy..."
-#~ msgstr "/ÎÄ¼ş/¸´ÖÆ(_C)..."
-
-#~ msgid "/File/_Move..."
-#~ msgstr "/ÎÄ¼ş/ÒÆ¶¯(_M)..."
-
-#~ msgid "/File/_Rename..."
-#~ msgstr "/ÎÄ¼ş/ÖØÃüÃû(_R)..."
-
-#~ msgid "/File/_Delete..."
-#~ msgstr "/ÎÄ¼ş/É¾³ı(_D)..."
-
-#~ msgid "/File/sep4"
-#~ msgstr "/ÎÄ¼ş/µÚËÄ¶Î"
-
-#, fuzzy
-#~ msgid "/File/C_lose window"
-#~ msgstr "¹Ø±Õ´°¿Ú"
-
-#, fuzzy
-#~ msgid "/File/_Quit"
-#~ msgstr "/ÎÄ¼ş/ÍË³ö(_X)"
-
-#~ msgid "/_Edit"
-#~ msgstr "/±à¼­(_E)"
-
-#~ msgid "/Edit/tear1"
-#~ msgstr "/±à¼­/Æ¬¶Î1"
-
-#~ msgid "/Edit/editor1"
-#~ msgstr "/±à¼­/±à¼­Æ÷1"
-
-#~ msgid "/Edit/editor2"
-#~ msgstr "/±à¼­/±à¼­Æ÷2"
-
-#~ msgid "/Edit/editor3"
-#~ msgstr "/±à¼­/±à¼­Æ÷3"
-
-#~ msgid "/Edit/editor4"
-#~ msgstr "/±à¼­/±à¼­Æ÷4"
-
-#~ msgid "/Edit/editor5"
-#~ msgstr "/±à¼­/±à¼­Æ÷5"
-
-#~ msgid "/Edit/editor6"
-#~ msgstr "/±à¼­/±à¼­Æ÷6"
-
-#~ msgid "/Edit/editor7"
-#~ msgstr "/±à¼­/±à¼­Æ÷7"
-
-#~ msgid "/Edit/editor8"
-#~ msgstr "/±à¼­/±à¼­Æ÷8"
-
-#, fuzzy
-#~ msgid "/Edit/editor9"
-#~ msgstr "/±à¼­/±à¼­Æ÷1"
-
-#, fuzzy
-#~ msgid "/Edit/editor0"
-#~ msgstr "/±à¼­/±à¼­Æ÷1"
-
-#~ msgid "/Edit/sep1"
-#~ msgstr "/±à¼­/µÚÒ»¶Î"
-
-#~ msgid "/Edit/_Adjust"
-#~ msgstr "/±à¼­/µ÷Õû(_A)"
-
-#, fuzzy
-#~ msgid "/Edit/_Properties"
-#~ msgstr "/±à¼­/Ñ¡Ïî(_O)..."
-
-#~ msgid "/Edit/Adjust/tear1"
-#~ msgstr "/±à¼­/µ÷Õû/Æ¬¶Î1"
-
-#~ msgid "/Edit/Adjust/_Rotate clockwise"
-#~ msgstr "/±à¼­/µ÷Õû/Ë³Ê±ÕëĞı×ª(_R)"
-
-#~ msgid "/Edit/Adjust/Rotate _counterclockwise"
-#~ msgstr "/±à¼­/µ÷Õû/ÄæÊ±ÕëĞı×ª(_C)"
-
-#~ msgid "/Edit/Adjust/Rotate 1_80"
-#~ msgstr "/±à¼­/µ÷Õû/Ğı×ª 180 ¶È"
-
-#~ msgid "/Edit/Adjust/_Mirror"
-#~ msgstr "/±à¼­/µ÷Õû/¾µÏñ(_M)"
-
-#~ msgid "/Edit/Adjust/_Flip"
-#~ msgstr "/±à¼­/µ÷Õû/·­×ª(_F)"
-
-#~ msgid "/Edit/sep2"
-#~ msgstr "/±à¼­/µÚ¶ş¶Î"
-
-#~ msgid "/Edit/Select _all"
-#~ msgstr "/±à¼­/È«Ñ¡(_A)"
-
-#~ msgid "/Edit/Select _none"
-#~ msgstr "/±à¼­/Çå³ıËùÓĞÑ¡Ôñ(_N)"
-
-#~ msgid "/Edit/sep3"
-#~ msgstr "/±à¼­/µÚÈı¶Î"
-
-#~ msgid "/Edit/_Options..."
-#~ msgstr "/±à¼­/Ñ¡Ïî(_O)..."
-
-#~ msgid "/Edit/sep4"
-#~ msgstr "/±à¼­/µÚËÄ¶Î"
-
-#~ msgid "/Edit/Set as _wallpaper"
-#~ msgstr "/±à¼­/ÉèÖÃÎªÇ½Ö½(_W)"
-
-#~ msgid "/_View"
-#~ msgstr "/²é¿´(_V)"
-
-#~ msgid "/View/tear1"
-#~ msgstr "/²é¿´/Æ¬¶Î1"
-
-#~ msgid "/View/Zoom _in"
-#~ msgstr "/²é¿´/·Å´ó(_I)"
-
-#~ msgid "/View/Zoom _out"
-#~ msgstr "/²é¿´/ËõĞ¡(_O)"
-
-#~ msgid "/View/Zoom _1:1"
-#~ msgstr "/²é¿´/Ëõ·Åµ½ 1:1(_1)"
-
-#~ msgid "/View/sep1"
-#~ msgstr "/²é¿´/µÚÒ»¶Î"
-
-#~ msgid "/View/_Thumbnails"
-#~ msgstr "/²é¿´/ËõÂÔÍ¼(_T)"
-
-#~ msgid "/View/sep2"
-#~ msgstr "/²é¿´/µÚ¶ş¶Î"
-
-#~ msgid "/View/F_ull screen"
-#~ msgstr "/²é¿´/È«ÆÁ(_U)"
-
-#~ msgid "/View/sep3"
-#~ msgstr "/²é¿´/µÚÈı¶Î"
-
-#, fuzzy
-#~ msgid "/View/_Hide file list"
-#~ msgstr "/²é¿´/(²»)Òş²ØÎÄ¼şÁĞ±í(_H)"
-
-#, fuzzy
-#~ msgid "/View/sep4"
-#~ msgstr "/²é¿´/µÚÒ»¶Î"
-
-#, fuzzy
-#~ msgid "/View/Sort _manager"
-#~ msgstr "/²é¿´/·Å´ó(_I)"
-
-#, fuzzy
-#~ msgid "/View/sep5"
-#~ msgstr "/²é¿´/µÚÒ»¶Î"
-
-#~ msgid "/View/Toggle _slideshow"
-#~ msgstr "/²é¿´/ÇĞ»»»ÃµÆÏÔÊ¾(_S)"
-
-#~ msgid "/View/_Refresh Lists"
-#~ msgstr "/²é¿´/¸üĞÂÁĞ±í(_R)"
-
-#~ msgid "/Help/tear1"
-#~ msgstr "/ÇóÖú/Æ¬¶Î1"
-
-#~ msgid "/Help/sep1"
-#~ msgstr "/ÇóÖú/µÚÒ»¶Î"
-
-#~ msgid "/Help/_About"
-#~ msgstr "/ÇóÖú/¹ØÓÚ(_A)"
-
-#~ msgid "Geeqie configuration"
-#~ msgstr "Geeqie ÅäÖÃ"
-
-#~ msgid "/Edit/_Remove old thumbnails"
-#~ msgstr "/±à¼­/É¾³ıÔ­À´µÄËõÂÔÍ¼(_R)"
-
-#, fuzzy
-#~ msgid "path"
-#~ msgstr "Â·¾¶"
-
-#~ msgid "Save"
-#~ msgstr "±£´æ"
-
-#~ msgid ""
-#~ "Overwrite collection file:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "¸²¸ÇÍ¼Ïñ¼¯ÎÄ¼ş£º\n"
-#~ "%s"
-
-#~ msgid "Save collection as:"
-#~ msgstr "½«Í¼Ïñ¼¯Áí´æÎª£º"
-
-#~ msgid "Open collection from:"
-#~ msgstr "´Ó´Ë´¦´ò¿ªÍ¼Ïñ¼¯£º"
-
-#~ msgid "Open"
-#~ msgstr "´ò¿ª"
-
-#~ msgid "Append collection from:"
-#~ msgstr "´Ó´Ë´¦×·¼ÓÍ¼Ïñ¼¯£º"
-
-#~ msgid "Exit"
-#~ msgstr "ÍË³ö"
-
-#~ msgid "Ok"
-#~ msgstr "È·¶¨"
-
-#, fuzzy
-#~ msgid "Initial folder"
-#~ msgstr "·Ç·¨ÎÄ¼şÃû"
-
-#, fuzzy
-#~ msgid "On startup, change to this folder:"
-#~ msgstr "µ±Æô¶¯Ê±¸Ä±äµ½´ËÄ¿Â¼£º"
-
-#~ msgid "Zoom (scaling):"
-#~ msgstr "Ëõ·Å£º"
-
-#~ msgid "Place dialogs under mouse"
-#~ msgstr "½«¶Ô»°¿òÖÃÓÚÊó±êÎ»ÖÃ"
-
-#~ msgid "Include files of type:"
-#~ msgstr "°üº¬ÎÄ¼şÀàĞÍ£º"
-
-#~ msgid "Remove"
-#~ msgstr "É¾³ı"
-
-#, fuzzy
-#~ msgid "Point size:"
-#~ msgstr "Æ½ÆÌ"
-
-#~ msgid ""
-#~ "Overwrite file:\n"
-#~ " %s\n"
-#~ " with:\n"
-#~ " %s"
-#~ msgstr ""
-#~ "¸²¸ÇÎÄ¼ş£º\n"
-#~ " %s\n"
-#~ " ÒÔ£º\n"
-#~ " %s"
-
-#~ msgid "Yes"
-#~ msgstr "ÊÇ"
-
-#~ msgid "Yes to all"
-#~ msgstr "È«¶¼ÊÇ"
-
-#~ msgid ""
-#~ "Overwrite file:\n"
-#~ "%s\n"
-#~ " with:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "¸²¸ÇÎÄ¼ş£º\n"
-#~ " %s\n"
-#~ " ÒÔ£º\n"
-#~ " %s"
-
-#~ msgid ""
-#~ "Copy file:\n"
-#~ "%s\n"
-#~ "to:"
-#~ msgstr ""
-#~ "½«ÎÄ¼ş£º\n"
-#~ "%s\n"
-#~ "µ½£º"
-
-#~ msgid ""
-#~ "Move file:\n"
-#~ "%s\n"
-#~ "to:"
-#~ msgstr ""
-#~ "½«ÎÄ¼ş£º\n"
-#~ "%s\n"
-#~ "ÒÆ¶¯µ½£º"
-
-#~ msgid "About to delete multiple files..."
-#~ msgstr "½«ÒªÉ¾³ı¶à¸öÎÄ¼ş..."
-
-#~ msgid ""
-#~ "Overwrite file:\n"
-#~ "%s\n"
-#~ "by renaming:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "¸²¸ÇÎÄ¼ş£º\n"
-#~ "%s\n"
-#~ "¸üÃûÎª£º\n"
-#~ "%s"
-
-#~ msgid "to:"
-#~ msgstr "µ½£º"
-
-#~ msgid "Create"
-#~ msgstr "´´½¨"
-
-#~ msgid "Initial directory"
-#~ msgstr "³õÊ¼Ä¿Â¼"
-
-#~ msgid ""
-#~ "Unable to create directory:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "ÎŞ·¨´´½¨Ä¿Â¼£º\n"
-#~ "%s"
-
-#~ msgid "Error creating directory"
-#~ msgstr "´´½¨Ä¿Â¼´íÎó"
-
-#, fuzzy
-#~ msgid "/View/Image _details"
-#~ msgstr "/²é¿´/ÇĞ»»»ÃµÆÏÔÊ¾(_S)"
-
-#~ msgid "Add contents"
-#~ msgstr "Ìí¼ÓÄÚÈİ"
-
-#~ msgid "Add contents recursive"
-#~ msgstr "µİ¹éÌí¼ÓÄÚÈİ"
-
-#~ msgid "Skip directories"
-#~ msgstr "ºöÂÔÄ¿Â¼"
-
-#~ msgid "Invalid directory"
-#~ msgstr "ÎŞĞ§µÄÄ¿Â¼"
-
-#~ msgid "Geeqie - copy"
-#~ msgstr "Geeqie - ¸´ÖÆ"
-
-#~ msgid "Geeqie - move"
-#~ msgstr "Geeqie - ÒÆ¶¯"
-
-#~ msgid "Directory exists"
-#~ msgstr "Ä¿Â¼ÒÑ´æÔÚ"
-
-#~ msgid "Geeqie - new directory"
-#~ msgstr "Geeqie - ĞÂ½¨Ä¿Â¼"
-
-#~ msgid "/File/Create _Dir..."
-#~ msgstr "/ÎÄ¼ş/´´½¨Ä¿Â¼(_D)..."
-
-#~ msgid "Edit"
-#~ msgstr "±à¼­"
-
-#~ msgid "Insert file drops at pointer location"
-#~ msgstr "ÔÚÊó±ê¹â±êÎ»ÖÃ²åÈëÍÏ·ÅÎÄ¼ş"
-
-#~ msgid "File named %s already exists."
-#~ msgstr "ÃûÎª %s µÄÎÄ¼şÒÑ´æÔÚ¡£"
-
-#, fuzzy
-#~ msgid "top"
-#~ msgstr "µ½£º"
-
-#~ msgid "Geeqie running: %s\n"
-#~ msgstr "Geeqie ÔËĞĞ£º%s\n"
-
-#~ msgid "Electric Eyes"
-#~ msgstr "µçÑÛ"
-
-#~ msgid "Apply"
-#~ msgstr "Ó¦ÓÃ"
-
-#~ msgid "format: [.foo;.bar]"
-#~ msgstr "¸ñÊ½£º[.foo;.bar]"
-
-#~ msgid "Unable to delete dir: %s\n"
-#~ msgstr "ÎŞ·¨É¾³ıÄ¿Â¼: %s\n"
-
-#~ msgid "create dir failed: %s\n"
-#~ msgstr "´´½¨Ä¿Â¼Ê§°Ü: %s\n"
-
-#~ msgid "     Ok     "
-#~ msgstr "    È·¶¨    "
-
-#~ msgid "External Editors"
-#~ msgstr "ÄÚ²¿±à¼­Æ÷"
