@@ -101,12 +101,17 @@ static const AltKey alt_keys[] = {
 	{NULL, NULL, NULL}
 	};
 
-static void debug_exception(Exiv2::AnyError& e)
+static void _debug_exception(const char* file,
+                             int line,
+                             const char* func,
+                             Exiv2::AnyError& e)
 {
 	gchar *str = g_locale_from_utf8(e.what(), -1, NULL, NULL, NULL);
-	DEBUG_1("Exiv2: %s", str);
+	DEBUG_1("%s:%d:%s:Exiv2: %s", file, line, func, str);
 	g_free(str);
 }
+
+#define debug_exception(e) _debug_exception(__FILE__, __LINE__, __func__, e)
 
 struct _ExifData
 {

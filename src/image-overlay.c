@@ -262,7 +262,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 
 	new = g_string_new(str);
 
-	prev = 0;
+	prev = -1;
 
 	while (TRUE)
 		{
@@ -273,7 +273,7 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 		gchar *extrapos = NULL;
 		gchar *p;
 
-		start = strchr(new->str, delim);
+		start = strchr(new->str + (prev + 1), delim);
 		if (!start)
 			break;
 		end = strchr(start+1, delim);
