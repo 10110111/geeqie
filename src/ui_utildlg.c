@@ -90,7 +90,7 @@ static gboolean generic_dialog_key_press_cb(GtkWidget *widget, GdkEventKey *even
 	if (event->keyval == GDK_KEY_Escape)
 		{
 		if (gd->cancel_cb) gd->cancel_cb(gd, gd->data);
-		if (gd->auto_close) generic_dialog_click_cb(widget, data);
+		else if (gd->auto_close) generic_dialog_click_cb(widget, data);
 		return TRUE;
 		}
 	return FALSE;
