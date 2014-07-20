@@ -26,6 +26,10 @@
 
 #include <errno.h>
 
+#ifdef DEBUG_FILEDATA
+gint global_file_data_count = 0;
+#endif
+
 static GHashTable *file_data_pool = NULL;
 static GHashTable *file_data_planned_change_hash = NULL;
 
@@ -383,6 +387,10 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 		}
 
 	fd = g_new0(FileData, 1);
+#ifdef DEBUG_FILEDATA
+	global_file_data_count++;
+	DEBUG_2("file data count++: %d", global_file_data_count);
+#endif
 
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
@@ -532,6 +540,12 @@ static void file_data_free(FileData *fd)
 {
 	g_assert(fd->magick == FD_MAGICK);
 	g_assert(fd->ref == 0);
+	g_assert(!fd->locked);
+
+#ifdef DEBUG_FILEDATA
+	global_file_data_count--;
+	DEBUG_2("file data count--: %d", global_file_data_count);
+#endif
 
 	metadata_cache_free(fd);
 	g_hash_table_remove(file_data_pool, fd->original_path);
@@ -547,6 +561,57 @@ static void file_data_free(FileData *fd)
 
 	file_data_change_info_free(NULL, fd);
 	g_free(fd);
+}
+
+/**
+ * \brief Checks if the FileData is referenced
+ *
+ * Checks the refcount and whether the FileData is locked.
+ */
+static gboolean file_data_check_has_ref(FileData *fd)
+{
+	return fd->ref > 0 || fd->locked;
+}
+
+/**
+ * \brief Consider freeing a FileData.
+ *
+ * This function will free a FileData and its children provided that neither its parent nor it has
+ * a positive refcount, and provided that neither is locked.
+ */
+static void file_data_consider_free(FileData *fd)
+{
+	GList *work;
+	FileData *parent = fd->parent ? fd->parent : fd;
+
+	g_assert(fd->magick == FD_MAGICK);
+	if (file_data_check_has_ref(fd)) return;
+	if (file_data_check_has_ref(parent)) return;
+
+	work = parent->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		if (file_data_check_has_ref(sfd)) return;
+		work = work->next;
+		}
+
+	/* Neither the parent nor the siblings are referenced, so we can free everything */
+	DEBUG_2("file_data_consider_free: deleting '%s', parent '%s'",
+		fd->path, fd->parent ? parent->path : "-");
+
+	work = parent->sidecar_files;
+	while (work)
+		{
+		FileData *sfd = work->data;
+		file_data_free(sfd);
+		work = work->next;
+		}
+
+	g_list_free(parent->sidecar_files);
+	parent->sidecar_files = NULL;
+
+	file_data_free(parent);
 }
 
 #ifdef DEBUG_FILEDATA
@@ -566,45 +631,92 @@ void file_data_unref(FileData *fd)
 
 	fd->ref--;
 #ifdef DEBUG_FILEDATA
-	DEBUG_2("file_data_unref fd=%p (%d): '%s' @ %s:%d", fd, fd->ref, fd->path, file, line);
+	DEBUG_2("file_data_unref fd=%p (%d:%d): '%s' @ %s:%d", fd, fd->ref, fd->locked, fd->path,
+		file, line);
 #else
-	DEBUG_2("file_data_unref fd=%p (%d): '%s'", fd, fd->ref, fd->path);
+	DEBUG_2("file_data_unref fd=%p (%d:%d): '%s'", fd, fd->ref, fd->locked, fd->path);
 #endif
-	if (fd->ref == 0)
+
+	// Free FileData if it's no longer ref'd
+	file_data_consider_free(fd);
+}
+
+/**
+ * \brief Lock the FileData in memory.
+ *
+ * This allows the caller to prevent a FileData from being freed, even after its refcount is zero.
+ * This is intended to be used in cases where a FileData _should_ stay in memory as an optimization,
+ * even if the code would continue to function properly even if the FileData were freed.  Code that
+ * _requires_ the FileData to remain in memory should continue to use file_data_(un)ref.
+ * <p />
+ * Note: This differs from file_data_ref in that the behavior is reentrant -- after N calls to
+ * file_data_lock, a single call to file_data_unlock will unlock the FileData.
+ */
+void file_data_lock(FileData *fd)
+{
+	if (fd == NULL) return;
+	if (fd->magick != FD_MAGICK) DEBUG_0("fd magick mismatch fd=%p", fd);
+
+	g_assert(fd->magick == FD_MAGICK);
+	fd->locked = TRUE;
+
+	DEBUG_2("file_data_ref fd=%p (%d): '%s'", fd, fd->ref, fd->path);
+}
+
+/**
+ * \brief Reset the maintain-FileData-in-memory lock
+ *
+ * This again allows the FileData to be freed when its refcount drops to zero.  Automatically frees
+ * the FileData if its refcount is already zero (which will happen if the lock is the only thing
+ * keeping it from being freed.
+ */
+void file_data_unlock(FileData *fd)
+{
+	if (fd == NULL) return;
+	if (fd->magick != FD_MAGICK) DEBUG_0("fd magick mismatch fd=%p", fd);
+
+	g_assert(fd->magick == FD_MAGICK);
+	fd->locked = FALSE;
+
+	// Free FileData if it's no longer ref'd
+	file_data_consider_free(fd);
+}
+
+/**
+ * \brief Lock all of the FileDatas in the provided list
+ *
+ * \see file_data_lock(FileData)
+ */
+void file_data_lock_list(GList *list)
+{
+	GList *work;
+
+	work = list;
+	while (work)
 		{
-		GList *work;
-		FileData *parent = fd->parent ? fd->parent : fd;
-
-		if (parent->ref > 0) return;
-
-		work = parent->sidecar_files;
-		while (work)
-			{
-			FileData *sfd = work->data;
-			if (sfd->ref > 0) return;
-			work = work->next;
-			}
-
-		/* none of parent/children is referenced, we can free everything */
-
-		DEBUG_2("file_data_unref: deleting '%s', parent '%s'", fd->path, fd->parent ? parent->path : "-");
-
-		work = parent->sidecar_files;
-		while (work)
-			{
-			FileData *sfd = work->data;
-			file_data_free(sfd);
-			work = work->next;
-			}
-
-		g_list_free(parent->sidecar_files);
-		parent->sidecar_files = NULL;
-
-		file_data_free(parent);
+		FileData *fd = work->data;
+		work = work->next;
+		file_data_lock(fd);
 		}
 }
 
+/**
+ * \brief Unlock all of the FileDatas in the provided list
+ *
+ * \see file_data_unlock(FileData)
+ */
+void file_data_unlock_list(GList *list)
+{
+	GList *work;
 
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+		file_data_unlock(fd);
+		}
+}
 
 /*
  *-----------------------------------------------------------------------------

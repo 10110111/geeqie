@@ -148,9 +148,25 @@ static gboolean vflist_store_clear_cb(GtkTreeModel *model, GtkTreePath *path, Gt
 	return FALSE;
 }
 
-static void vflist_store_clear(ViewFile *vf)
+static void vflist_store_clear(ViewFile *vf, gboolean unlock_files)
 {
 	GtkTreeModel *store;
+	GList *files = NULL;
+
+	if (unlock_files && vf->marks_enabled)
+		{
+		// unlock locked files in this directory
+		filelist_read(vf->dir_fd, &files, NULL);
+		while (files)
+			{
+			FileData *fd = files->data;
+			files = files->next;
+			file_data_unlock(fd);
+			file_data_unref(fd);  // undo the ref that got added in filelist_read
+			}
+		}
+
+	g_list_free(files);
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 	gtk_tree_model_foreach(store, vflist_store_clear_cb, NULL);
 	gtk_tree_store_clear(GTK_TREE_STORE(store));
@@ -1649,7 +1665,7 @@ static void vflist_populate_view(ViewFile *vf, gboolean force)
 
 	if (!vf->list)
 		{
-		vflist_store_clear(vf);
+		vflist_store_clear(vf, FALSE);
 		vf_send_update(vf);
 		return;
 		}
@@ -1686,6 +1702,20 @@ gboolean vflist_refresh(ViewFile *vf)
 		file_data_unregister_notify_func(vf_notify_cb, vf); /* we don't need the notification of changes detected by filelist_read */
 
 		ret = filelist_read(vf->dir_fd, &vf->list, NULL);
+
+		if (vf->marks_enabled)
+		        {
+		        // When marks are enabled, lock FileDatas so that we don't end up re-parsing XML
+		        // each time a mark is changed.
+		        file_data_lock_list(vf->list);
+		        }
+	        else
+			{
+			// FIXME: only do this when needed (aka when we just switched from
+			// FIXME: marks-enabled to marks-disabled)
+			file_data_unlock_list(vf->list);
+			}
+
 		vf->list = file_data_filter_marks_list(vf->list, vf_marks_get_filter(vf));
 		file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
@@ -1696,6 +1726,8 @@ gboolean vflist_refresh(ViewFile *vf)
 	DEBUG_1("%s vflist_refresh: populate view", get_exec_time());
 
 	vflist_populate_view(vf, FALSE);
+
+	DEBUG_1("%s vflist_refresh: free filelist", get_exec_time());
 
 	filelist_free(old_list);
 	DEBUG_1("%s vflist_refresh: done", get_exec_time());
@@ -1868,7 +1900,7 @@ gboolean vflist_set_fd(ViewFile *vf, FileData *dir_fd)
 	vf->dir_fd = file_data_ref(dir_fd);
 
 	/* force complete reload */
-	vflist_store_clear(vf);
+	vflist_store_clear(vf, TRUE);
 
 	filelist_free(vf->list);
 	vf->list = NULL;
@@ -1993,6 +2025,16 @@ void vflist_marks_set(ViewFile *vf, gboolean enable)
 
 		if (col_idx <= FILE_COLUMN_MARKS_LAST && col_idx >= FILE_COLUMN_MARKS)
 			gtk_tree_view_column_set_visible(column, enable);
+		}
+
+	if (enable)
+		{
+		// Previously disabled, which means that vf->list is complete
+		file_data_lock_list(vf->list);
+		}
+	else
+		{
+		// Previously enabled, which means that vf->list is incomplete
 		}
 
 	g_list_free(columns);
