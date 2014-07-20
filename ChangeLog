@@ -1,3 +1,1328 @@
+commit d6c33614c45e38845a0bcfd702e38e18d5dcec0b
+Merge: e79d354 dcf1a1b 0ac5716
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jul 20 13:57:40 2014 +0100
+
+    Merge remote-tracking branches 'merge-requests/6' and 'merge-requests/7'
+    
+    * merge-requests/6:
+      Bug 3594998: make lirc initialization quieter
+    
+    * merge-requests/7:
+      Add filedata counting to watch for filedata leaks
+      Use FileData locks to avoid expensive reloads with marks enabled
+      Add "lock" functionality to keep FileDatas in memory
+
+commit e79d3547fb650e5f45cb9c30707724c221fdfc20
+Merge: 900e65e 11b6ce5
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jul 20 13:54:56 2014 +0100
+
+    Merge remote-tracking branch 'origin/merge-requests/5'
+    
+    * origin/merge-requests/5:
+      Fix crash when loading collection listing inexistent files.
+    
+    This is now a combination of Leons patch 900e65e and merge request of
+    Laurent. Hopefully that is now a bit more stable.
+
+commit 900e65e7e83060b5a4fa0b4b6a2a38d747fbec2c
+Author: Leon Winter <winter@bfw-online.de>
+Date:   Mon May 26 23:33:52 2014 +0100
+
+    Fix for the assertion when file gives an empty lookup
+    
+    Thanks Leon for this patch.
+
+commit fd0a1d0af48392c459fd04ce1f213965f1b6af0d
+Author: Petr Vorel <petr.vorel@gmail.com>
+Date:   Tue Mar 4 00:31:04 2014 +0100
+
+    fix segfault while cancel rename dialog
+    
+    Patch prevents calling gtk_widget_destroy(gd->dialog) twice - second is
+    in generic_dialog_click_cb:58
+    
+    Steps to reproduce:
+    select more images on left section then is seen in on page (need to
+    scroll), roll to the top, click by right mouse button, select Rename
+    from menu and cancel it by key Esc (button Cancel is working).
+    
+    Program received signal SIGSEGV, Segmentation fault.
+    0x00007ffff79b2b16 in gtk_widget_destroy () from /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+    
+    (gdb) bt
+     #0  0x00007ffff79b2b16 in gtk_widget_destroy () from /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+     #1  0x0000000000429c6f in generic_dialog_close (gd=0x118d700) at ui_utildlg.c:44
+     #2  0x0000000000429cf2 in generic_dialog_click_cb (widget=0xb12220, data=0x118d700) at ui_utildlg.c:58
+     #3  0x0000000000429e4a in generic_dialog_key_press_cb (widget=0xb12220, event=0x11f0800, data=0x118d700) at ui_utildlg.c:93
+     #4  0x00007ffff78942bc in ?? () from /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+     #5  0x00007ffff6123f28 in g_closure_invoke () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+     #6  0x00007ffff6134edd in ?? () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+     #7  0x00007ffff613c922 in g_signal_emit_valist () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+     #8  0x00007ffff613cf32 in g_signal_emit () from /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0
+     #9  0x00007ffff79b4664 in ?? () from /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+     #10 0x00007ffff78927cf in ?? () from /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+     #11 0x00007ffff7893f95 in gtk_main_do_event () from /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+     #12 0x00007ffff74cee12 in ?? () from /usr/lib/x86_64-linux-gnu/libgdk-3.so.0
+     #13 0x00007ffff5e5cea6 in g_main_context_dispatch () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+     #14 0x00007ffff5e5d1f8 in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+     #15 0x00007ffff5e5d5fa in g_main_loop_run () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
+     #16 0x00007ffff789344d in gtk_main () from /usr/lib/x86_64-linux-gnu/libgtk-3.so.0
+     #17 0x0000000000492cf1 in main (argc=2, argv=0x7fffffffd4c8) at main.c:921
+
+commit 08e7733863b0dec7d20dd479e58c459bc7e4725c
+Author: Levin <zjlevin@hotmail.com>
+Date:   Sun Jan 26 13:46:01 2014 +0100
+
+    Updated Chinese locales
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit de24ca6e169fc08e2bc6db1ee9054bd77b6623b0
+Merge: 89d8c20 d3621de
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jan 26 13:30:18 2014 +0100
+
+    Merge remote-tracking branches 'origin/merge-requests/10' and 'origin/merge-requests/9'
+    
+    Merge in some trivial but useful merge requests. (Note that 9 includes 8.)
+    
+    * origin/merge-requests/10:
+      transifex config file allowing to easily use transifex-client
+    
+    * origin/merge-requests/9:
+      Skip over expanded keys.
+      Annotate debug_exception() with source file, line, and function.
+
+commit 89d8c20e495e2b59fd98899f772aafa361c0cbec
+Author: Iune Trecet <iunetrecet@gisa-elkartea.org>
+Date:   Wed Aug 7 18:38:16 2013 +0200
+
+    transifex config file allowing to easily use transifex-client
+
+commit d3621deb49713aad7c9758322b34316f4134a74f
+Author: Emil Mikulic <emikulic@gmail.com>
+Date:   Sun Apr 21 15:13:40 2013 +1000
+
+    Skip over expanded keys.
+    
+    This fixes handling of filenames with % in them.
+
+commit c1808fdcda565bf94f5ff59d84d0985b54883648
+Author: Emil Mikulic <emikulic@gmail.com>
+Date:   Sun Apr 21 14:57:37 2013 +1000
+
+    Annotate debug_exception() with source file, line, and function.
+
+commit dcf1a1bf00f27440ae8d333e345f3a562f03459b
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Dec 13 13:17:47 2012 +0100
+
+    Bug 3594998: make lirc initialization quieter
+    
+    Increasing debug level to 1 or 2 will give more information, level 0
+    will only output a message to user if lirc is initialized but can't
+    read config file.
+
+commit 11b6ce5218bca998f5a9a6b24fc5ce1beb87412d
+Author: Laurent Monin <zas@norz.org>
+Date:   Mon Nov 26 09:29:17 2012 +0100
+
+    Fix crash when loading collection listing inexistent files.
+
+commit 0ac57169c3c70c9b6c7e68033982a03511b79640
+Author: Omari Stephens <xsdg@xsdg.org>
+Date:   Tue Nov 13 06:08:21 2012 +0000
+
+    Add filedata counting to watch for filedata leaks
+    
+    This basically counts the number of filedata instances in existence at
+    any given point in time.  If the number doesn't drop down to where it's
+    supposed to be, there are leaks.
+
+commit 1ea92516e2f91b7f99b1d41d44853f941d98e114
+Author: Omari Stephens <xsdg@xsdg.org>
+Date:   Mon Nov 12 18:44:44 2012 +0000
+
+    Use FileData locks to avoid expensive reloads with marks enabled
+
+commit 710b009f5c61e7d1643a2a474e5020c760bf6462
+Author: Omari Stephens <xsdg@xsdg.org>
+Date:   Mon Nov 12 06:03:02 2012 +0000
+
+    Add "lock" functionality to keep FileDatas in memory
+    
+    Adds two primitives to keep a FileData in memory even after its refcount
+    drops to zero.  Intended to be used in situations when an entire group of
+    FileDatas _should_ stay in memory as an optimization, even if the code
+    would continue to function properly even if the FileData were freed.
+
+commit cf90f247aceadb444297c3c66e2215e8c209ca69
+Author: Vedran Rodic <vrodic@gmail.com>
+Date:   Sun Oct 28 12:07:41 2012 +0100
+
+    Fix a segfault caused by .desktop file with no exec= line.
+    
+    https://bugs.launchpad.net/ubuntu/+source/geeqie/+bug/1056532
+
+commit 336210a46a6e7de9a439b576f9cd45c9d95b3718
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Oct 2 23:07:47 2012 +0100
+
+    Reapply 'call notify functions in in an idle call'
+    
+    085be43cb79e04341102a9922e0e0f531454089a did some regression that should
+    have fixed this.
+
+commit 0e46881846cb13fad7218d04b32ed95249c641ab
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Oct 2 22:49:52 2012 +0100
+
+    Whitespace cleanup
+
+commit 6e6c1b5c8465f322476705fbb8d590565d6eddf5
+Merge: e8cd71d 632d092
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Oct 2 22:27:22 2012 +0100
+
+    Merge branch 'ke-lua'
+    
+    Mostly implementing lua integration.
+    
+    * ke-lua:
+      Revert "call notify functions in in an idle call"
+      Implementing some usefull data structures for lua
+      First usable lua callback
+      Using common path for lua files
+      Overlay info with lua
+      Adding support for lua scripting
+
+commit 632d09215f133ab09c1f56de26b12cb35a794806
+Merge: b107d00 e8cd71d
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Oct 2 22:19:13 2012 +0100
+
+    Merge branch 'master' into ke-lua
+    
+    * master: (185 commits)
+      better fix for big-endian architectures
+      Minor indentation fixes.
+      Cleanup checker shader code.
+      Fix exif orientation in clutter rendering mode.
+      Silent 2 warnings using explicit type casting.
+      Polish translation was updated, thanks to Grzegorz Gibas.
+      Update pt_BR translation.
+      Add *~, *.rej, *.orig files to git ignore list.
+      Fix for support >=automake-1.11.4
+      Trim trailing white spaces on empty lines.
+      Trim trailing white spaces.
+      Add missing vim modeline.
+      Fix indentation and few trailing white spaces.
+      Clear few more warnings, unused variables mostly.
+      Drop unused variable.
+      Remove commented out code.
+      Remove commented out code.
+      Remove commented out code.
+      Remove commented out code.
+      Remove commented out code.
+      ...
+
+commit e8cd71d6f52967d7dd63efcb186834aa9e6e53e5
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Sep 23 11:19:36 2012 +0200
+
+    better fix for big-endian architectures
+
+commit c6793b7a83cd1e3187661a2ffd7b949ee6dfa852
+Author: Laurent Monin <zas@norz.org>
+Date:   Tue Sep 4 15:05:41 2012 +0200
+
+    Minor indentation fixes.
+
+commit bae504cd9948c91c785e5b402c1da7cfd2ab52e2
+Author: Laurent Monin <zas@norz.org>
+Date:   Tue Sep 4 15:02:42 2012 +0200
+
+    Cleanup checker shader code.
+    
+    Size and colors can now be set outside the shader code.
+
+commit 8693961eb43ea9fbd7a916b7cf528c1668d717f7
+Author: Laurent Monin <zas@norz.org>
+Date:   Tue Sep 4 11:15:45 2012 +0200
+
+    Fix exif orientation in clutter rendering mode.
+
+commit 7628d75a4b525cc77c827f2f9eca2e66c9bf0a5d
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 22:16:43 2012 +0200
+
+    Silent 2 warnings using explicit type casting.
+
+commit bfe962ba4dfebc74362154c5464e8887272595d0
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 20:38:31 2012 +0200
+
+    Polish translation was updated, thanks to Grzegorz Gibas.
+    
+    https://sourceforge.net/tracker/?func=detail&aid=2982159&group_id=222125&atid=1054682
+
+commit 58e75f40e19e60edbf562d57d490c48af6cdeb7e
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 20:33:01 2012 +0200
+
+    Update pt_BR translation.
+    
+    I just polished the translation a bit making some menu entries more clear to understand.
+    Michal Čihař
+
+commit 99fdd5fde9828400076a3047bb6fa903c4e7eb2d
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 18:51:22 2012 +0200
+
+    Add *~, *.rej, *.orig files to git ignore list.
+
+commit c5600d6e82bf2c53bef1e6e876e76b407a5fd59f
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 18:46:00 2012 +0200
+
+    Fix for support >=automake-1.11.4
+    
+    Patch by Marien Zwart
+    
+    https://bugs.gentoo.org/show_bug.cgi?id=414863
+    http://sourceforge.net/tracker/?func=detail&aid=3562437&group_id=222125&atid=1054680
+
+commit db38d12f83128e9890ce2d2c7acc5ad62062bc7e
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 18:32:32 2012 +0200
+
+    Trim trailing white spaces on empty lines.
+
+commit e436ea53511e1dadab981af18b237fee83fde39b
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 18:31:41 2012 +0200
+
+    Trim trailing white spaces.
+
+commit 2dfa5f58107ba16e171e2e65524859a42b057742
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 18:26:06 2012 +0200
+
+    Add missing vim modeline.
+
+commit 79a32b2f9955bbb6a6a28da8e167bae2aada12ab
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 18:22:50 2012 +0200
+
+    Fix indentation and few trailing white spaces.
+
+commit 8de6122502695be2f4247e0d258e72f1b877cc6b
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 18:10:47 2012 +0200
+
+    Clear few more warnings, unused variables mostly.
+
+commit 0d1b46f2476f33312d2e6a96de86ceb697e52050
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 17:34:14 2012 +0200
+
+    Drop unused variable.
+
+commit 998be83ddbc750710e4e4464c62c1fe99f56bed2
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 6914416f3367d1c81a8061b3c7574fa59ed8c93e
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 998d7438ddb832124dc2ef02a09bd28b417e4abe
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 065f8505a49848248fca6e4baf200ff32c76d44b
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit b2767f1a5b12e2513b25e7217db3bba4daf696dc
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit d183c70667dae4e1b9c14274f87008140705f77d
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit ec7a96144eacd2962e001b9f9509f0b87cba1fad
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit e24d1d84215f757a49950ddcb6a0a431215d9899
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit a23decd0c110c10fe4514f6739033f0e615203f1
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit d34b6e3930db0e0545989fc02ce9d8948be7278a
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 7197eb36d57c04a5990165253a5342962217de82
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 686b5bed543c5abd0310eff74d3d8083ab1ff01c
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit bb4cf084d5405157c29562589824196f413ab4a8
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 3e99d738911cf527d28e06d48ef3d0d3eff19665
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 173d2143484c3360284a81425a312c41f82114a6
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 45f1cb3fbaffa831d2e1d61a1e854c18e8b689e1
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 69c450f528c4a97336928b3874ae89681773eb07
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit e826f76dba8d57420edcfcf4bf47612798aadfa7
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit c3c6a1c5f1d2cf069a95c8e13db3370df49abb08
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 9a98f594d50179e5fda8434b474e8646a1101be9
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit a40d8f1e7f4bace37758d6f0bc4f598652b77b69
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 3b69b99bf1e46fe67787290a266a514ab4ebeb02
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit f5dbbe98d06523111d56cc5c4147249ab8f4c1a0
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 78373c788d9a9fc130ef0f039d8e15e1742da77e
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 4dab5333331e96b14ae9f871dfd1188984d9fea5
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 0beb16d6e79c9c053f2750a345f2f1187e2d24b1
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit 6a614ca243412a39479c4fcd43f7a1b161f247e1
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:29 2012 +0200
+
+    Remove commented out code.
+
+commit cb50eb752ddb8a381770066e2aed5edc4d1d7098
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit e23cc764544e07ddb495468bcf5ebb135464d617
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit fe6bdd98e608a5501d8308850bd2b2d1699f696f
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit 07edd520432046277c9517363e8a13c77d69a80e
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit 778b816f64effac3f60c5c374fa1d1dea98e2fc2
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit 208263f33c3d06ef97c5b1de12bd760426ead9ad
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit fc188f358bb25dfd550896a96733e3dbe428ed0c
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit 2d84366d1d5bfa920a9565f224aafc632f552f09
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit a2756cb29e1e1c3380a4047e680f12b579640850
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:53:28 2012 +0200
+
+    Remove commented out code.
+
+commit 7bf2341f0892456aeea8b724c5345f9560e79b19
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:20:31 2012 +0200
+
+    Drop unused variable.
+
+commit fedac9b5d07eadf22a59da5f2b54f9069f8b5d25
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:19:10 2012 +0200
+
+    Cleanup, drop WRITE_SUBTITLE() macro, remove commented out code.
+
+commit 138cf42cc6b36d2d335fbccdc6a0acf0ad731afa
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 15:03:01 2012 +0200
+
+    Those stereo image options are of type int, not uint, use appropriate macros.
+
+commit 1130f7a65f849f02b7205b591ab69349453b8ccf
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:50:59 2012 +0200
+
+    Drop unused variable and code.
+
+commit d5defb169abd3ffbe1248dcfb68a67618c6933d6
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:48:08 2012 +0200
+
+    Drop commented out code.
+
+commit 191f1be7abe96e0add71a4f860f35cbde2c0735d
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:40:45 2012 +0200
+
+    Drop commented out code.
+
+commit 398ef4821b3700a0f423c67b8234232f435c22b8
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:39:55 2012 +0200
+
+    Drop unused variables.
+
+commit e3eddd60273f9c51efbaaa1d371c29a37ad79de0
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:39:33 2012 +0200
+
+    Drop unused variables.
+
+commit 0439e10bf01d764bc9c694b4373b2fce0ceb2ea8
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:39:21 2012 +0200
+
+    Drop unused variables.
+
+commit 177aaa75226e85083c33f15d7f27c728f5051694
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:30:57 2012 +0200
+
+    Drop unused variables and code.
+    
+    pan-view.c: In function ‘pan_grid_build’:
+    pan-view.c:753:14: attention : variable ‘ah’ set but not used [-Wunused-but-set-variable]
+    pan-view.c:753:10: attention : variable ‘aw’ set but not used [-Wunused-but-set-variable]
+    pan-view.c: In function ‘pan_window_key_press_cb’:
+    pan-view.c:1217:2: attention : suggest parentheses around ‘&&’ within ‘||’ [-Wparentheses]
+    pan-view.c:1271:8: attention : variable ‘n’ set but not used [-Wunused-but-set-variable]
+    pan-view.c: In function ‘pan_window_set_dnd_data’:
+    pan-view.c:2939:8: attention : unused variable ‘len’ [-Wunused-variable]
+    pan-view.c:2938:10: attention : unused variable ‘text’ [-Wunused-variable]
+
+commit a528475df781869194c7c12a7f9e68299231e044
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:26:21 2012 +0200
+
+    Drop unused variables and associated code.
+
+commit 9a6cccf9676b10f3750d99f1c895c7664d21b20d
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:21:41 2012 +0200
+
+    Silent a warning when compiling with GTK+ >= 3.0.0.
+    
+    unused variable ‘success’ [-Wunused-variable]
+
+commit 71731cbf926798a66607e3480bd453331edbd42b
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:18:53 2012 +0200
+
+    Remove useless variable and code.
+
+commit 9f9030d5503a6dc32820dfb94572a8cfcd64612b
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:17:47 2012 +0200
+
+    Remove commented out code.
+
+commit 815ae1a95341ef7f485b6318e0a155c1f0f208b5
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:17:20 2012 +0200
+
+    Add parenthesis to silent a possible warning.
+    
+    suggest parentheses around ‘&&’ within ‘||’ [-Wparentheses]
+
+commit bf1aa8041aa87b5a414a95fb5cb55e0cbdbd4dd1
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:15:15 2012 +0200
+
+    Drop 2 unused variables.
+
+commit 7e9262a4c018f3a7a5056ae7e2dc6daaced87222
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:14:22 2012 +0200
+
+    Drop 2 unused variables.
+
+commit a9f22e8996edf6ef0c903df502accca39795b567
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:13:00 2012 +0200
+
+    Drop 2 unused variables.
+
+commit d926faf2470884776bb637a666b9d5418782ad32
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:12:02 2012 +0200
+
+    Drop unused variable.
+
+commit c1e6a77e48c6fd5c3a4d6b217f3523e50a3f7c1e
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:10:29 2012 +0200
+
+    Silent a warning.
+    
+    ‘histmap’ may be used uninitialized in this function
+
+commit e195aada701568e50bb15f8dc07c6c4fff808007
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:08:21 2012 +0200
+
+    Drop unused variable.
+
+commit 332edbe346175c3f77454566328251d597669837
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:06:24 2012 +0200
+
+    Drop unused code and variables (transform/orientation).
+
+commit b2a77abd1953f0f69ac5606cdb93c5aa83867827
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 14:01:41 2012 +0200
+
+    Fix up indentation and coding style.
+
+commit 4f9e7512c57ca43523437e462b662b1d59bb47d2
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 13:47:03 2012 +0200
+
+    Drop unused variables.
+
+commit bb6e66cc8defe8f9e25b67f9196682a9c2944129
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 13:45:31 2012 +0200
+
+    Drop dead code.
+
+commit a88879d1eb413ede6937b6a354da5a4ce581ad9c
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 13:44:07 2012 +0200
+
+    Drop unused variables.
+
+commit d1ed5cab8cbf90546ef13a69bafebd686ff2a054
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 13:40:13 2012 +0200
+
+    Drop useless code (since f94b569b1831c052099295c861f9d3f502072622).
+
+commit e48a30b284f42bf5183332e4f5ce48ec813bfe3d
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 13:17:40 2012 +0200
+
+    Fix few warnings when building with GTK+ >= 3.0.0, mostly unused vars.
+
+commit 502c19f72e810a57ef19cfaf1ef0bad18e46710b
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 13:15:40 2012 +0200
+
+    Drop dead code.
+
+commit 384d5890ff08ce83b97ba39fcfed16124705152f
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 30 04:22:32 2012 +0200
+
+    Use new constant FD_MAGICK = 0x12345678u
+
+commit f5e2bc6ad3ec9876532a6904c706fbc1f29fc31f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Wed Aug 29 23:27:52 2012 +0200
+
+    better filedata ref debug messages
+    
+    The idea is this:
+    with --debug=2 geeqie writes log with pointers. If it crashes on
+    fd->magick, it writes the invalid pointer as a hex value before
+    the crash. Then the log can be grepped for this value to see
+    what happened with this fd in the past.
+
+commit 2d51dd3a2bc18199726de6ed43fc024001852826
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Wed Aug 29 23:27:06 2012 +0200
+
+    fixed crash in file list
+
+commit edb1e373979c41df56bee73358a5f34aab12f4cf
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 28 19:23:54 2012 +0200
+
+    added GDK_SCROLL_MASK to pixbuf renderer
+    
+    gtk3 apparently needs GDK_SCROLL_MASK added to the event mask for
+    mouse wheel events
+    https://bugzilla.gnome.org/show_bug.cgi?id=671305
+
+commit 8b8c885f66ca81096fd18a91f67627bb92ec0f18
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 28 18:48:10 2012 +0200
+
+    fixed crash in icon list
+
+commit bafd4bd22cd26498175a0481a4f201921f8480b5
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 21 22:31:05 2012 +0200
+
+    fixed scroll of fullscreen image
+
+commit 085be43cb79e04341102a9922e0e0f531454089a
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 21 20:39:03 2012 +0200
+
+    fixed updating of comment and keyword pane
+    
+    - temporary disabling of notifications does no longer work because
+    the notification is called later, in idle cb.
+    - regression introduced in 78cde6934008f79fe498e4adc64d187b0ed47417
+    - now the update function checks if the new value is really different
+
+commit 428c4a49f5a66ce0c5ced8c09a611e410587ba76
+Merge: e292e72 902157e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 21 19:25:58 2012 +0200
+
+    Merge commit 'refs/merge-requests/2' of git://gitorious.org/geeqie/geeqie into merge-requests/2
+
+commit 902157eeea55c4fe7e626977f8d2b161352b63dc
+Author: Michal Čihař <mcihar@suse.cz>
+Date:   Tue Aug 21 14:53:05 2012 +0200
+
+    Fix big endian support in tiff loader
+
+commit e292e7252ae49cf4c34a48a000fe10dc06797cfb
+Author: Laurent Monin <zas@norz.org>
+Date:   Tue Aug 21 12:47:06 2012 +0200
+
+    Fix 2 compilation warnings due to missing type casting.
+    
+    Use GTK_WIDGET().
+
+commit 54238463f62d59be26ddbf4b40cbcb48b4e7341d
+Author: Laurent Monin <zas@norz.org>
+Date:   Tue Aug 21 12:43:43 2012 +0200
+
+    Fix 2 warnings due to unmatched gtk+ functions prototypes.
+    
+    gtk_cell_renderer_get_size(): missing const in parameter
+    gtk_cell_renderer_activate(): wrong return type + missing consts in parameters
+
+commit 5bc47e5f1723ff39cbcd13cfbdb95d2348363219
+Author: Michal Čihař <mcihar@suse.cz>
+Date:   Tue Aug 21 11:40:57 2012 +0200
+
+    Whitespace cleanup
+
+commit 1548a68d26046b6aa467e56ca2c8f5444b95a23b
+Author: Michal Čihař <mcihar@suse.cz>
+Date:   Tue Aug 21 11:40:19 2012 +0200
+
+    Add support for LCMS2
+    
+    Both LCMS1 and LCMS2 are supported.
+
+commit f71645adf90f613bafbfe6c9ebdd41850dc9d523
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 21 10:43:09 2012 +0200
+
+    fixed typo that caused build failure
+
+commit 2b091f51194576999f78c8ef4bc69dd031829e6b
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Mon Aug 20 22:42:33 2012 +0200
+
+    implemented presentation mode
+    
+    This is first version of presentation mode. It basically works
+    but the current caching and preload algorithms do not work well
+    with it.
+
+commit a7fba2298fc652380b105fa3981fe132ccc54bf8
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Mon Aug 20 18:29:31 2012 +0200
+
+    clutter compatibility fixes
+
+commit af6326dd1794cd36fc7c2293d695efac34e842ec
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Mon Aug 20 17:18:34 2012 +0200
+
+    more gtk3 drawing fixes
+
+commit 5698b4a2c9655662afdb25504bca1987e10e25d8
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 19 00:34:20 2012 +0200
+
+    fixed segfault with gtk2
+
+commit 1ff687c9c2e6f97053ccd0d4d60079440ba678fb
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 19 00:28:42 2012 +0200
+
+    dropped support for gtk < 2.20
+
+commit 8788844a7d5ab5f9ee1b1182abdc100093249ce4
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 23:02:36 2012 +0200
+
+    disable stereo mode in Pan View
+
+commit a68e43b9a1710ec2df2165a8723ce6f11407b9eb
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 19:11:57 2012 +0200
+
+    speed improvements
+    
+    GBRA textures are faster
+    added some debug output
+
+commit b8ac089b37bb86881fbc1ecb8712f6a6f04f1c6f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 18:43:06 2012 +0200
+
+    use gtk_widget_set_app_paintable for renderer
+
+commit a03ef4ab807fd2e4866d591b1fefb6de7fb76f07
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 18:12:50 2012 +0200
+
+    dropped renderer->overlay_draw
+
+commit 8316b45a3d18ecf4220d4623d46c4d2cfb3da0b9
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 18:05:20 2012 +0200
+
+    renamed renderer->update_sizes to update_viewport
+
+commit 10cc4eb03df17d1d452bc102aa1c7b8a04f7899c
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 17:52:39 2012 +0200
+
+    simplified pr_zoom_clamp
+
+commit a059e7f6ab07b5bfeeecc2c8dd28a70293544158
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 17:10:08 2012 +0200
+
+    fixed unnecessary renderer backend calls
+
+commit 7e575385c45d5e54580bec15b47d6ce3138c3f24
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 16:37:40 2012 +0200
+
+    clutter renderer code cleanup
+
+commit cecac3e83b528238b00861f6318d9215489f2be4
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 16:25:18 2012 +0200
+
+    dynamic change of texture upload priority
+
+commit c39c4d4b36f786ef26ea5c4ab0462d61d1d0b553
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 18 00:33:54 2012 +0200
+
+    implemented post-processing via 3d texture
+
+commit 5124a23c3eff171e45e8473b66e24c816bbc6550
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Aug 17 23:08:34 2012 +0200
+
+    added option for clutter renderer
+
+commit 60370f4565f012349b3ebf6343adda7cbffd2979
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Thu Aug 16 23:15:17 2012 +0200
+
+    draw background checkboard using fragment shader
+
+commit 165d4724e586706fc7584d2797a78761927bc5ee
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Wed Aug 15 22:28:02 2012 +0200
+
+    clutter drawing improvement
+    
+    use clutter_actor_set_scale instead of clutter_actor_set_size
+    clip to the initialized part of texture during loading
+
+commit 5bafddf0f968594e7cd0d55f7c210573b4544de0
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Wed Aug 15 21:30:56 2012 +0200
+
+    added overlay and stereo input
+
+commit 17567ffee44220d9b99d9c0d1bd8e5dd166620dc
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 14 23:55:16 2012 +0200
+
+    update the texture with lower priority
+
+commit 11bdc439465bef94c0f44bc90505b14994077ccd
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 14 23:03:26 2012 +0200
+
+    try to preserve original texture
+
+commit 5f36bf52245175e396ee64e78e7863a25e33f559
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 14 22:52:03 2012 +0200
+
+    try to merge pending area_ready notifications
+
+commit 269a04d54949a71b15704cc16001390b78277a00
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 12 21:07:49 2012 +0200
+
+    added autoconf test for clutter
+
+commit 8a7f96c0ae1bf813e1b892e80285a0092424b4d0
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 12 19:33:46 2012 +0200
+
+    simplified mirrored stereo drawing
+
+commit 266814d3a437d1900bc7399268d44811a9daa608
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 12 00:47:24 2012 +0200
+
+    expose/draw method moved to renderer-tiles
+
+commit ceb0eefbcf257ad4967ead2e441c6feb8d46f4ff
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 11 23:46:42 2012 +0200
+
+    implemented clutter-based renderer
+
+commit ec7e78f239e733a7b5e8f9a0407b19710fd0d8c7
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 16 23:33:24 2012 +0200
+
+    Update french translation.
+
+commit bb35f83926c37e14b24931b03164d09b38b36a00
+Author: Laurent Monin <zas@norz.org>
+Date:   Wed Aug 15 00:48:35 2012 +0200
+
+    Add read_dummy_option() to handle old/deprecated options.
+    
+    It is better to keep a trace of old options, for now, just display
+    a message about the option to be ignored, and the reason.
+
+commit 20544048d99f4074e1aec280101b973bb2003cee
+Author: Laurent Monin <zas@norz.org>
+Date:   Mon May 14 23:01:01 2012 +0200
+
+    More use of const, fix up a warning.
+
+commit 14c50cf1c22927ca1aea5054908fbd6b86cfc894
+Author: Laurent Monin <zas@norz.org>
+Date:   Mon May 14 23:00:19 2012 +0200
+
+    Fix 4 warnings due to function prototype mismatches.
+
+commit 977a7c75f623d87fe50ba36b40185e3b0f15528b
+Author: Laurent Monin <zas@norz.org>
+Date:   Mon May 14 22:34:22 2012 +0200
+
+    Don't discard const
+
+commit 44b81fb2b45e57e294914f49ce1ea0d0f8bdeb31
+Author: Laurent Monin <geeqie@norz.org>
+Date:   Thu Dec 23 01:56:47 2010 +0100
+
+    Cleanup Exif Date sorting patch.
+    
+    Fix a memleak, and move a part of the code from set_exif_time_data() to read_exif_time_data()
+
+commit 92c6523db91dd8f148ecc30f20fcde8f4818401d
+Author: Juuso R�s�nen <juusora@gmail.com>
+Date:   Thu Dec 23 00:38:40 2010 +0100
+
+    Allow to sort files according to Exif-date
+    
+    I also like the idea about sorting files according to Exif-date. This
+    behaviour seemed to be implemented in the pan-view but not in the main
+    browser view. I created a little patch to "correct" this issue.  ;)
+    
+    This satisfies my own needs, although the exif-date reading could be
+    probably somehow optimised(?).. now the GUI becomes unresponsive for
+    few seconds if there are a lot of pictures in the directory...
+
+commit b73335c511e8e299d37e43935173a9a089b2fc0c
+Author: Jonathan Woithe <jwoithe@physics.adelaide.edu.au>
+Date:   Fri Apr 2 20:47:34 2010 +0930
+
+    exif autorotate for proofs
+    
+    Find below a patch which adds auto-rotation of proof images based on image
+    EXIF information.  It is a revision of a proof-of-concept patch I did up for
+    gqview 2.0.4 which, for well documented reasons, didn't get anywhere after
+    submission.  The patch below is against geeqie 1.0.
+    
+    The proof auto-rotation feature is controlled by a new setting in the
+    "convenience" section of the image preferences dialog.  This way the
+    existing behaviour is still available for those who want to use it.
+    
+    I find this new feature very useful when preparing proofing sheets and I
+    suspect others would too.  Please consider this for inclusion in geeqie.
+
+commit cbdf3ece854a15cd59d858355df2e681c3b111ac
+Author: �ngel Momp� <mecatxis@gmail.com>
+Date:   Mon Aug 13 12:25:18 2012 +0200
+
+    Update catalan translation
+
+commit a7e8746f7a2d61d09839590382da12a4183314df
+Author: Laurent Monin <zas@norz.org>
+Date:   Tue Mar 6 18:03:01 2012 +0100
+
+    Update french translation.
+
+commit d56650e2fe8b77862c69b51c9550eba0b1fe07f7
+Author: Daniel van Vugt <vanvugt@gmail.com>
+Date:   Thu Aug 18 22:46:55 2011 +0200
+
+    Display more descriptive screen names
+    
+    Display names like VGA1, DVI1, ... in fullscreen preferences instead of "Monitor 1", "Monitor 2".
+    
+    Author: Daniel van Vugt <vanvugt@gmail.com>
+
+commit 04b70c636ab45a99518a2f8b238984d0aaef1606
+Author: Daniel van Vugt <vanvugt@gmail.com>
+Date:   Thu Aug 18 22:43:29 2011 +0200
+
+    Make fullscreen mode actually use the full screen.
+    
+    Use override-redirect to ensure fullscreen windows are drawn over any
+    docks and panels.
+    
+    Bug: http://sourceforge.net/support/tracker.php?aid=2925034
+    Bug-Ubuntu: https://launchpad.net/bugs/788321
+
+commit b0a5325e18cf8d454582f935fdc29b60fe83c179
+Author: Peter Tuh�rsky <tuharsky@misbb.sk>
+Date:   Tue Mar 8 20:51:56 2011 +0100
+
+    Updated Slovak (SK_sk) translation
+    
+    From http://sourceforge.net/tracker/?func=detail&aid=3105396&group_id=222125&atid=1054682
+
+commit a204856e521dcf66afa88530f1a92cb5404e98ba
+Author: Laurent Monin <geeqie@norz.org>
+Date:   Thu Dec 30 09:42:27 2010 +0100
+
+    Fix overlay formatting example in README.
+
+commit 4e606d1c2253859462aef1fb8c09b7d93e6b611f
+Author: Laurent Monin <geeqie@norz.org>
+Date:   Wed Dec 29 16:06:20 2010 +0100
+
+    Whitespaces fixes.
+
+commit dea40dd784e784e424993cdf0305241b2a48e815
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Dec 29 15:59:53 2010 +0100
+
+    Implement the scroll to/select row stuff for tree view in Preferences dialog
+    
+    In the Files tab:
+    - when Add is pressed scroll to the new entry and set focus
+      to the file-type field
+    - when Defaults is selected scroll to column 0, row 0
+    
+    In the Keyboard tab:
+    - when Defaults is pressed scroll to column 0, row 0
+    
+    Patch by Colin Clark, tidy up by Laurent Monin.
+
+commit 7b9fce3728d3fa19f5efefb28e52560feca84ab5
+Author: Laurent Monin <geeqie@norz.org>
+Date:   Thu Dec 23 16:45:09 2010 +0100
+
+    Align "3) Save metadata in Geeqie private directory" with previous entries.
+
+commit 231db8a35193a26e6e63398e7f26615c4fa78204
+Author: Laurent Monin <geeqie@norz.org>
+Date:   Thu Dec 23 16:44:25 2010 +0100
+
+    Set fixed (but resizeable) width for Description column in Preferences > Files table
+
+commit af5e94048f2cc40204ac5b799701a4bf1664e818
+Author: Laurent Monin <geeqie@norz.org>
+Date:   Thu Dec 23 15:35:24 2010 +0100
+
+    Fix a snprintf() warning regarding unsigned int64 format string.
+    
+    Solved by using "%llu" and type cast to (unsigned long long)
+
+commit 0266294671bf3565740ac4b7b6d443ac4c81cb7a
+Author: Laurent Monin <geeqie@norz.org>
+Date:   Thu Dec 16 20:18:32 2010 +0100
+
+    Remove obsolete .cvsignore from tree.
+
+commit 7a32d301ab1ecdd4c3b39822202ed9731779b3bc
+Author: Michal Čihař <nijel@debian.org>
+Date:   Sun Dec 12 13:35:54 2010 +0100
+
+    Fix bashism
+
+commit 0795905fc4bdf9393b3e20e604c9a9ab992132da
+Author: Andreas Metzler <ametzler@downhill.at.eu.org>
+Date:   Thu Aug 16 23:26:31 2012 +0200
+
+    Typo fix: s/allows to/allows one to/
+
+commit a551bc7257b9eab410ac66c31a1cac411d6a2e4a
+Author: Andreas Metzler <ametzler@downhill.at.eu.org>
+Date:   Thu Aug 16 23:23:38 2012 +0200
+
+    Fix typo "writting" (instead of "writing").
+
+commit b51b25ccec2d1d08fbbee47c15fabefd0744b4a5
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 16 23:20:25 2012 +0200
+
+    Revert "Fix typo "writting" (instead of "writing")."
+    
+    This reverts commit fffad3bfc36e6378f4d109f4400f921b4146947d.
+
+commit f66795e86f64ae015faf318b844cd4d16f406b50
+Author: Laurent Monin <zas@norz.org>
+Date:   Thu Aug 16 23:20:17 2012 +0200
+
+    Revert "Typo fix: s/allows to/allows one to/"
+    
+    This reverts commit 5a59ad6d17ce1112c3026cd6b4b4b32c044a1e9b.
+
+commit 5a59ad6d17ce1112c3026cd6b4b4b32c044a1e9b
+Author: Andreas Metzler <ametzler@downhill.at.eu.org>
+Date:   Wed Aug 15 15:30:40 2012 +0200
+
+    Typo fix: s/allows to/allows one to/
+
+commit fffad3bfc36e6378f4d109f4400f921b4146947d
+Author: Andreas Metzler <ametzler@downhill.at.eu.org>
+Date:   Wed Aug 15 15:26:50 2012 +0200
+
+    Fix typo "writting" (instead of "writing").
+
+commit 68619b544a553fcaf636894ec894553a0c8f650e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Thu Aug 16 21:50:39 2012 +0200
+
+    added Samsung and Panasonic raw extensions
+    
+    thanks Štěpán Roučka for the report
+
+commit a2e7d1772a5ab89dd1f1825f2cc27c6dc711fd05
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 14 21:58:57 2012 +0200
+
+    more compilation fixes
+
+commit 48d7bdaed133cd4adadcfdf3973e74056ff666fd
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Aug 14 20:22:37 2012 +0200
+
+    fixed compilation with gtk 2.20
+
+commit 3531bfc74fd7293101af797ddf05956066d62ee6
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Mon Aug 13 21:06:06 2012 +0200
+
+    dropped deprecated dither_quality code
+
+commit e4c8d346f59d81c029679148f0a0e2f4556401f0
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 12 18:43:57 2012 +0200
+
+    fixed keyboard controll of image widget
+
+commit f5e9151bcfce23bae199a5a995033b5c12805813
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 12 01:30:28 2012 +0200
+
+    fixed pan-view drawing
+
+commit fd606fb2679c0c186e8fe7d5ba0105d0ade7b865
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Aug 10 21:55:29 2012 +0200
+
+    fixed dnd
+    
+    used glib functions for uri manipulation
+
+commit db57b78baf8ae8e8b1f7694a3efb804f1e5547b9
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 4 22:13:33 2012 +0200
+
+    selectable image drawing for gtk3
+
+commit 05547f582d702e7f91acf73186498bae0973c49c
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Aug 4 20:51:56 2012 +0200
+
+    selectable image cleanup
+
+commit 7e51e32badcd3c3429ddb94b202d70ed2afd37d2
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Aug 3 23:33:18 2012 +0200
+
+    updated libchamplain code
+
+commit 34807099f71cd420b1dc5e141cb436bd01cf8c37
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Thu Aug 2 20:04:16 2012 +0200
+
+    changed GDK_<key> to GDK_KEY_<key>
+
+commit b4c4a924121c3aa6b2f1eb7570dd3f419d2f4d83
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Thu Aug 2 00:15:16 2012 +0200
+
+    use cairo for drawing
+    
+    cairo is the only supported drawing method in gtk3
+
+commit dc0a8b78729966b1e85f5a385bd258ba63e20bb7
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Wed Aug 1 00:17:18 2012 +0200
+
+    use accessor functions
+    
+    gtk3 does not allow direct use of data structures,
+    use accessor functions instead
+
+commit 55ccc0fa0ae6758a103b02af07140787c813d9b2
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Aug 10 22:51:57 2012 +0200
+
+    detect both gtk2 and 3 in autoconf
+
+commit 5658d2901c72c2da36007036dfa9e6776632b389
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Aug 12 22:07:51 2012 +0200
+
+    updated ChangeLog file
+
 commit 529b1126534cc664e8f88f028fa56190cc8debf3
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Sun Aug 12 22:06:03 2012 +0200
@@ -144,6 +1469,16 @@ Date:   Thu Jul 26 16:02:52 2012 +0200
     
     this fixes a crash on images specified on commandline
 
+commit b107d0080d2f88a28bc4f06df64d86e747614f1a
+Merge: 0c470b9 97bddb3
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun May 27 18:41:56 2012 +0100
+
+    Merge branch 'ke' into ke-lua
+    
+    * ke:
+      exif autorotate for proofs
+
 commit cb758c2979a2a096c45ab0cb691cd063d81ae703
 Merge: af76525 6f70188
 Author: Klaus Ethgen <Klaus@Ethgen.de>
@@ -153,6 +1488,24 @@ Date:   Thu May 17 18:28:56 2012 +0100
     
     * git://gitorious.org/geeqie/geeqie:
       Ignore duplicates with same path
+
+commit 97bddb361bf518b632cb4cf3145d311a94112886
+Author: Jonathan Woithe <jwoithe@physics.adelaide.edu.au>
+Date:   Fri Apr 2 20:47:34 2010 +0930
+
+    exif autorotate for proofs
+    
+    Find below a patch which adds auto-rotation of proof images based on image
+    EXIF information.  It is a revision of a proof-of-concept patch I did up for
+    gqview 2.0.4 which, for well documented reasons, didn't get anywhere after
+    submission.  The patch below is against geeqie 1.0.
+    
+    The proof auto-rotation feature is controlled by a new setting in the
+    "convenience" section of the image preferences dialog.  This way the
+    existing behaviour is still available for those who want to use it.
+    
+    I find this new feature very useful when preparing proofing sheets and I
+    suspect others would too.  Please consider this for inclusion in geeqie.
 
 commit af76525a87cc636cdf7f5454f4e32969ef903534
 Merge: 5ef3084 dc3dea1
@@ -168,6 +1521,16 @@ Date:   Mon May 14 17:33:21 2012 +0100
     
     Merged on request of Tore.
 
+commit 0c470b926e37d814af9afa34081c78392d2d62bd
+Merge: 988b891 0922b29
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Jan 6 02:25:47 2012 +0100
+
+    Merge branch 'ke' into ke-lua
+    
+    * ke:
+      Fix directory walking bug
+
 commit 5ef30846a7bc94585771a6d08284b771320b33d4
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Fri Jan 6 02:23:57 2012 +0100
@@ -176,11 +1539,53 @@ Date:   Fri Jan 6 02:23:57 2012 +0100
     
     There was a annoying bug when walking up more than one directory level.
 
+commit 0922b292f3e67e4b52c7377199c2617511be7a38
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Jan 6 02:23:57 2012 +0100
+
+    Fix directory walking bug
+    
+    There was a annoying bug when walking up more than one directory level.
+
+commit 988b89175eb9703d8116b719e0baf036793a33c3
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Dec 30 13:59:53 2011 +0100
+
+    Revert "call notify functions in in an idle call"
+    
+    Breaks type in of keywords.
+    
+    This reverts commit 78cde6934008f79fe498e4adc64d187b0ed47417.
+
 commit 6f701885de29cc7ce188fdd3be50cdab253d5f98
 Author: cybjit <cybjit@gmail.com>
 Date:   Mon Apr 25 12:53:35 2011 +0200
 
     Ignore duplicates with same path
+
+commit c629a93801ac4e90402c0a6b7dda2f86b9534ef6
+Merge: 38e1cc5 3c9da3a
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Dec 9 19:21:18 2011 +0100
+
+    Merge branch 'ke' into ke-lua
+    
+    * ke:
+      Various errors in the translation (typo, etc.)
+      call size signal indirectly via idle_call
+      call log window functions indirectly via idle callbacks
+
+commit 3c9da3aa08ed276561d5f9d445213cade0ec7b9d
+Merge: ba645d1 ce2d11c
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Dec 9 19:21:02 2011 +0100
+
+    Merge branch 'master' into ke
+    
+    * master:
+      Various errors in the translation (typo, etc.)
+      call size signal indirectly via idle_call
+      call log window functions indirectly via idle callbacks
 
 commit ce2d11c4d9df655a4fff053373b724d985a25db0
 Author: Vincent Blut <vincent.debian@free.fr>
@@ -206,6 +1611,66 @@ Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Sat Nov 12 11:34:55 2011 +0100
 
     call log window functions indirectly via idle callbacks
+
+commit 38e1cc50039d6876045ffbed2a84aa73161a8d35
+Merge: ba07caf ba645d1
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Oct 29 23:41:36 2011 +0100
+
+    Merge branch 'ke' into ke-lua
+    
+    * ke: (74 commits)
+      rename file_data_new_simple to file_data_new_group, filedata.c cleanup
+      recognize all registered extensions, even if they contain dots
+      sidecar_file_priority function is already called with extension as an argument
+      call notify functions in in an idle call
+      move the grouping code from file_data_new to filelist_read
+      separate function fortesting changed files without sidecars
+      consistent use of fd->extension
+      simplified grouping of sidecars
+      fixed filelist_sort_compare_filedata to not return 0 no different files
+      always check for sidecars by readdir
+      do not use FileData entries with empty path
+      updated copyright notice
+      added custom tiff loader
+      added long-term cache for keywords
+      set stereo.fixed default values to hdmi stereo standard
+      fixed stereo.fixed preferences
+      fixed stereo_temp_disable functionality
+      ignore raw image support reported by the pixbuf loader
+      fixed using DEBUG_N from multiple threads
+      Fix bug 3006812: ensure exif cache is initialized even when all files are unreadable.
+      ...
+
+commit ba645d1fe84bb87385f0121613a85a08c14a676d
+Merge: dd77e02 04bb6f2
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Oct 29 23:37:28 2011 +0100
+
+    Merge branch 'master' into ke
+    
+    * master: (71 commits)
+      rename file_data_new_simple to file_data_new_group, filedata.c cleanup
+      recognize all registered extensions, even if they contain dots
+      sidecar_file_priority function is already called with extension as an argument
+      call notify functions in in an idle call
+      move the grouping code from file_data_new to filelist_read
+      separate function fortesting changed files without sidecars
+      consistent use of fd->extension
+      simplified grouping of sidecars
+      fixed filelist_sort_compare_filedata to not return 0 no different files
+      always check for sidecars by readdir
+      do not use FileData entries with empty path
+      updated copyright notice
+      added custom tiff loader
+      added long-term cache for keywords
+      set stereo.fixed default values to hdmi stereo standard
+      fixed stereo.fixed preferences
+      fixed stereo_temp_disable functionality
+      ignore raw image support reported by the pixbuf loader
+      fixed using DEBUG_N from multiple threads
+      Fix bug 3006812: ensure exif cache is initialized even when all files are unreadable.
+      ...
 
 commit 04bb6f2326f58139c22d3bb8de7e639c8efb40ba
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
@@ -310,280 +1775,11 @@ Date:   Tue Sep 27 21:12:02 2011 +0200
     fixed stereo_temp_disable functionality
 
 commit f5470bbc26b15ce585c8f1cedfad3adfa611ef85
+Merge: a8c5cb2 a3a0697
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Tue Sep 27 10:29:36 2011 +0200
 
     added panorama .pto file to the list of known files
-
-commit 0736b5d6b3b31bb24531284b44b90b7b225d9e7c
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jul 29 15:27:09 2011 +0200
-
-    fixed crash on incomplete jpeg file
-
-commit 10f4b603e6b8ad553a7b9c9afb4aa92e43dccae6
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat May 14 22:16:49 2011 +0200
-
-    added Cycle through stereo modes menu entry
-
-commit e9780e09d7e57bd5f5c3594bdd773bb2541ec232
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat May 14 21:53:45 2011 +0200
-
-    do not mix autodetected and user-defined stereo mode
-
-commit c447b43b8f8291da9d941718afaa0b2c9d950efc
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Apr 10 21:11:50 2011 +0200
-
-    more compilation fixes
-
-commit 7a8a4c7e4448572ba18d4ded8cf7e86dbd5bf8e7
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Apr 10 20:30:17 2011 +0200
-
-    compilation fixes
-
-commit 0ec34da9df56efdd6963a0f3569fe24299a8ba0d
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Apr 9 19:27:43 2011 +0200
-
-    fixed libjpeg in autoconf
-
-commit 18f8e33ac8681cd297a980a936bd2ce2467614da
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Apr 9 16:07:31 2011 +0200
-
-    improved mpo parser, consider individual image type code
-
-commit e5235578ba189827610cec22c9ca8bc17c433113
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Apr 8 21:16:41 2011 +0200
-
-    fixed to compile with other libjpeg versions
-
-commit dd008ca74ba4a924b202021a7d0dbd11cf0dc542
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 19:22:29 2011 +0200
-
-    allocate tile pixbuf allways
-
-commit 43b479c1042930d616cb4c8fb9e80ee5fd0900ec
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 18:20:19 2011 +0200
-
-    updated copyright notices
-
-commit a7efe96305e0e1847c2e20b119c86cac03fd9e56
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 18:14:17 2011 +0200
-
-    free mpo data
-
-commit 85dbc07da126d6229f37821e5dd49c3b8546e80e
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 13:53:23 2011 +0200
-
-    fixed jpeg_segment_find to support more app2 segments with different signatures
-
-commit c2378af08d9bb0b9ee1f958c9a4b50bc65abbed8
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 12:52:09 2011 +0200
-
-    store stereo flag in loader data
-
-commit 2f3197170c42959552141b2600c9d828542792a8
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 12:02:30 2011 +0200
-
-    fixed freed data access
-
-commit 091dae0b7d6e602da76f624ddac3e335e262e1fa
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 11:58:29 2011 +0200
-
-    load mpo files as SBS
-
-commit c546114c635f93ff254b4d479a1b6370377d054b
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 10:57:08 2011 +0200
-
-    added mpo parser
-
-commit 3b1800b11fd5f98ce268b358f17585d43641c3ea
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 26 22:13:39 2011 +0100
-
-    split jpeg parser functions to separate file
-
-commit ec75c814d6f79ec16426ee40aacbf7d0aded8e41
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 26 22:03:30 2011 +0100
-
-    added custom jpeg loader
-
-commit b5b810393f0fae5071a0263db376dadaf595d4c5
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 26 17:57:25 2011 +0100
-
-    infrastructure for image loader backend
-
-commit 09037ad50bd7a839794df37034bcd3dd378cab13
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Mar 25 23:25:15 2011 +0100
-
-    renderer interface cleanup
-
-commit c9965882aeed23e72cf019f6d3859a69d1d4aebd
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Mar 25 23:14:01 2011 +0100
-
-    fixed redrawing on expose event
-
-commit a5a53debed949e9511e6e6fcd454aa324334a8cf
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Mar 25 22:09:59 2011 +0100
-
-    fixed area_changed handling
-
-commit 8a3733bbabbca537e1f741984fa8b5e94cca08c6
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 19:16:07 2011 +0100
-
-    added more anaglyph modes
-
-commit 19f041e7e105a568a57b22cc36e30590ccc75de7
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 12:49:00 2011 +0100
-
-    added half-size (3dtv) stereo mode
-
-commit 797e4dbd59e944c3d3b78d25b44dfe7ae8bb287e
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 11:31:08 2011 +0100
-
-    fixed sbs mode
-
-commit e82e902ed059b5ed4e12a1c48e816cdf3c514940
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 11:11:08 2011 +0100
-
-    save and load stereo options
-
-commit f2ee23371ea8a95eb54cd39bf191e658f99cae7e
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 10:52:41 2011 +0100
-
-    improved preferences dialog
-
-commit bd4b6cfb641e52f646931b69ddccbcacb0f85a5f
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 10:15:07 2011 +0100
-
-    added fixed stereo mode
-
-commit 826ea8c822093a131c5c44c9c02252aff5d60d2e
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 00:23:54 2011 +0100
-
-    removed 'swap' entry from menu
-
-commit 28fd30edc8bf0a4d0a62c2732d37f512affaf87b
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 00:18:13 2011 +0100
-
-    temporarily disable stereo mode, added more stereo prefs
-
-commit 623bc05945e68c9242a69290de12501435a1bc18
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 19 21:42:13 2011 +0100
-
-    type of source stereo image made adjustable from menu
-
-commit bab7032f6f11847e68ce1ac42d68a18d50aed220
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 19 19:53:30 2011 +0100
-
-    stereo mode preferences
-
-commit f5f37819bf9ede89c68114b079feb24d19e49343
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Feb 5 22:22:12 2011 +0100
-
-    change stereo mode from menu
-
-commit 68dc88956d7b42a3ced0e0256d075307e866494f
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Feb 5 18:20:16 2011 +0100
-
-    swap stereo images
-
-commit 8ea74ae53b6c32d3d5492340fe16fdeeedd12f26
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Feb 4 23:49:13 2011 +0100
-
-    added mirrored stereo mode
-
-commit 086196582749a9f9fd254399665c56a892348ce3
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 17:43:05 2011 +0100
-
-    fixed overlay position - part2
-
-commit a081296160a39396e395eab36c091cddfb9f216e
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 17:35:29 2011 +0100
-
-    fixed overlay position
-
-commit cb324a14505d277f8c2def3512e71f64d151531b
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 17:15:39 2011 +0100
-
-    do not draw tiles outside the viewport
-
-commit 589a4cb49ae1b9c0a8618ca3918a579ef9e517ae
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 14:49:38 2011 +0100
-
-    display pixel aspect ratio support
-
-commit 0a5ec68af089d4b79c3816d3e7df0434ea0ad5e8
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 14:34:57 2011 +0100
-
-    anaglyph support
-
-commit fa7103087ac4eaf5d2ddd560fa472d4c4d8a1fa2
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 13:13:27 2011 +0100
-
-    rt_tile_render cleanup part 3
-
-commit 3dd0e08368b389250b15790036be7f00075a1d74
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 13:05:14 2011 +0100
-
-    rt_tile_render cleanup part 2
-
-commit 808d8558b3d5e2ec8791ca3ea2a0ba14e5e18823
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 12:44:32 2011 +0100
-
-    rt_tile_render cleanup part 1
-
-commit 6b9ed5a71fc7230c795e4edd541fb79a5d022220
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 11:05:07 2011 +0100
-
-    first stereo support
-
-commit 63fdb63ce1470f08c4be2d7a2ff02582c331560e
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Thu Jan 27 13:40:05 2011 +0100
-
-    separated tile renderer
 
 commit a8c5cb269996f35d4877e31514956c198c3bd2e5
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
@@ -591,11 +1787,17 @@ Date:   Mon Sep 26 15:02:05 2011 +0200
 
     ignore raw image support reported by the pixbuf loader
 
+Notes:
+    cherry-picked to stable e43240dfd58b2df57ce3d20f39c763efe3e1eb65
+
 commit d2c78b7a8dadc45b958e1b74242d64766e9f6e9f
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Sat Apr 9 16:38:46 2011 +0200
 
     fixed using DEBUG_N from multiple threads
+
+Notes:
+    cherry-picked to stable 20fab72e9ed2b9ae20967d5126556252e40c4dcf
 
 commit 8a55b69211b5866025f66c514f34ad697d3d1909
 Author: Laurent Monin <geeqie@norz.org>
@@ -606,6 +1808,9 @@ Date:   Thu Dec 16 22:26:36 2010 +0100
     Add a new function exif_init_cache() and call it at top of exif_read_fd(),
     the issue was caused by a return NULL on unreadable file, before initializinf exif_cache
     and when exif_free_fd() is called, file_cache_put() was called on invalid cache.
+
+Notes:
+    cherry-picked to stable 5f29231b525166cf2a4a63c1872f3d27e8f1e413
 
 commit 138e31f328408ac88f1162999c8fcb24298ab37a
 Author: Vladislav Naumov <vnaum@vnaum.com>
@@ -630,11 +1835,54 @@ Date:   Thu Dec 16 21:55:03 2010 +0100
     http://sourceforge.net/tracker/?func=detail&aid=2999830&group_id=222125&atid=1054680
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=574853 (original report)
 
+Notes:
+    cherry-picked to stable dc8933e3c0ae3e0021d13beb666d6729267c7624
+
+commit a3a06975ec99beac1b2f1f16445679dd56fae053
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Sep 27 10:29:36 2011 +0200
+
+    added panorama .pto file to the list of known files
+
+commit 8560f48335b79764ce38fe0518bc0ca571e83c97
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Mon Sep 26 15:02:05 2011 +0200
+
+    ignore raw image support reported by the pixbuf loader
+
+commit df06d685ee882ad294d2581bb635ae1f7e010c7f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jul 29 15:27:09 2011 +0200
+
+    fixed crash on incomplete jpeg file
+
 commit bd374b070d437d6319946c49ae0166ee4621e737
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sun Jul 24 13:17:34 2011 +0100
 
-    Change the image size from 10×20 to 20×20
+    Change the image size from 10�20 to 20�20
+    
+    Now the image should not be scaled anymore. Fix Bug Debian:614607 and
+    SF:3191174.
+
+Notes:
+    cherry-picked to stable b2db13f420feb4a69a90be9ebd94ddebfb25c5a5
+
+commit dd77e0242c78780f18fbdba4538008c7c0d1a665
+Merge: 4858999 a11e5ce
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jul 24 13:28:50 2011 +0100
+
+    Merge branch 'debian-614607' into ke
+    
+    * debian-614607:
+      Change the image size from 10�20 to 20�20
+
+commit a11e5ce5f336e6fad747cafc8efea09a69e4cdbb
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jul 24 13:17:34 2011 +0100
+
+    Change the image size from 10�20 to 20�20
     
     Now the image should not be scaled anymore. Fix Bug Debian:614607 and
     SF:3191174.
@@ -644,6 +1892,67 @@ Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sun May 15 19:44:04 2011 +0100
 
     Fix a remote command bug
+
+Notes:
+    cherry-picked to stable 0c1fdf3613e9c885bbea9f5997da7a0e3a2f75d1
+
+commit 4858999bc0b165211656849e174e9b0149cb33e7
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun May 22 09:40:51 2011 +0100
+
+    Typo, forgotten bracket
+
+commit d4660d7669ddb5e3312164cfdf5907f4e7dbb349
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun May 15 19:44:04 2011 +0100
+
+    Fix a remote command bug
+
+commit 6f3d9d81d7f801188d056f5e839e2509f871d4e4
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat May 14 22:16:49 2011 +0200
+
+    added Cycle through stereo modes menu entry
+
+commit 4aa85ebde8aaadc9d0608ce18185bdb535e99f7c
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat May 14 21:53:45 2011 +0200
+
+    do not mix autodetected and user-defined stereo mode
+
+commit ba07cafe7ae515da81a3f4cb4a39a679305a62b2
+Merge: 83ae99a 943d16a
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Apr 22 11:29:35 2011 +0100
+
+    Merge branches 'master' and 'ke' into ke-lua
+    
+    * master:
+      Do not delete path settings when adding new directory
+      Fix compiling issue
+      Fix the windowsize
+      Fix wrong line ending
+    
+    * ke:
+      Do not delete path settings when adding new directory
+      Fix compiling issue
+      Fix the windowsize
+      Fix wrong line ending
+      Do not delete path settings when adding new directory
+      Swedish tranlation
+
+commit 943d16a89d107e4619175597f4e83c953094f28b
+Merge: 556bd46 31f6b82
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Apr 22 11:29:12 2011 +0100
+
+    Merge branch 'master' into ke
+    
+    * master:
+      Do not delete path settings when adding new directory
+      Fix compiling issue
+      Fix the windowsize
+      Fix wrong line ending
 
 commit 31f6b82dbee7f4456371a1b527161ebc81342577
 Author: Klaus Ethgen <Klaus@Ethgen.de>
@@ -680,6 +1989,196 @@ Date:   Thu Apr 21 18:44:15 2011 +0100
 
     Fix wrong line ending
 
+commit b467f6ff37f2bfb7665200b9057241318ca13d09
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Apr 10 21:11:50 2011 +0200
+
+    more compilation fixes
+
+commit a99a24ea8d76dc65d64a119d6ef289052e459316
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Apr 10 20:30:17 2011 +0200
+
+    compilation fixes
+
+commit 556bd46ba743932fd29c225918d8aae722f6a054
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Apr 9 19:47:30 2011 +0100
+
+    Do not delete path settings when adding new directory
+    
+    This patch will change the way, geeqie is mangling the path name in the
+    rename (copy) dialog when creating new directory. Will fix the bugs
+    Debian:529531 and SF:2795791.
+
+commit 843f61148dc90c97dc32e679a122827c41b16dc8
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Apr 9 19:27:43 2011 +0200
+
+    fixed libjpeg in autoconf
+
+commit cf3bcd415010e28d2829430cb7a72be6d03af513
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Apr 9 16:38:46 2011 +0200
+
+    fixed using DEBUG_N from multiple threads
+
+commit d7521059d000c8d93b8debcfe938510ce3c6441f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Apr 9 16:07:31 2011 +0200
+
+    improved mpo parser, consider individual image type code
+
+commit a745785c1947ad588b53db69a3fc776a34980b18
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Apr 8 21:16:41 2011 +0200
+
+    fixed to compile with other libjpeg versions
+
+commit 787d25f23d5617375351aa5c39acab43856c6bbc
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 19:22:29 2011 +0200
+
+    allocate tile pixbuf allways
+
+commit fd9329870f85d5f189fb18d39144cc103cd055f7
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 18:20:19 2011 +0200
+
+    updated copyright notices
+
+commit 6a4851f99de3d77a5938a213b28855158f2735c9
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 18:14:17 2011 +0200
+
+    free mpo data
+
+commit 11f270dcd05962aee1515d7a64036c21826ef2da
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 13:53:23 2011 +0200
+
+    fixed jpeg_segment_find to support more app2 segments with different signatures
+
+commit f1d8356504bde2e7808f6e537cdf2473d495f573
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 12:52:09 2011 +0200
+
+    store stereo flag in loader data
+
+commit df0bac9a96ebefab2b06f7f64e0bca40474122b5
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 12:02:30 2011 +0200
+
+    fixed freed data access
+
+commit a31cfe80ee313f56cd208fead1b96655272bb92f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 11:58:29 2011 +0200
+
+    load mpo files as SBS
+
+commit 455dfdd5e7a1f2f850014a013a17c86c64b3deae
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 10:57:08 2011 +0200
+
+    added mpo parser
+
+commit e1c487d09182d2e2cd4221d0c627293392709b4b
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 26 22:13:39 2011 +0100
+
+    split jpeg parser functions to separate file
+
+commit f5f26251424cc70bdf972a70b45f9d14315b6420
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 26 22:03:30 2011 +0100
+
+    added custom jpeg loader
+
+commit 3fbd5d8f5f63895c095019485498d2858d925f4b
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 26 17:57:25 2011 +0100
+
+    infrastructure for image loader backend
+
+commit 0ee2027ed427de1155d2b295c4bf564ad61675b0
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Mar 25 23:25:15 2011 +0100
+
+    renderer interface cleanup
+
+commit 484192f435b34976259418735dccef4c1e69b27c
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Mar 25 23:14:01 2011 +0100
+
+    fixed redrawing on expose event
+
+commit 1ed7ba5576c6b1776f27e043de246275331e0bee
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Mar 25 22:09:59 2011 +0100
+
+    fixed area_changed handling
+
+commit 5fcc3c968e80b546f013735a2ee07d0dc5ba0aa2
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 19:16:07 2011 +0100
+
+    added more anaglyph modes
+
+commit 75c23adfa440b4cef19878d35284d0038b77a044
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 12:49:00 2011 +0100
+
+    added half-size (3dtv) stereo mode
+
+commit 2925d1ded2746c3d8416187a0db1ccd6905b5dd3
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 11:31:08 2011 +0100
+
+    fixed sbs mode
+
+commit c6ddf7e73a470f28ebe3fc7e7962e194a1ee7794
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 11:11:08 2011 +0100
+
+    save and load stereo options
+
+commit 4a39e00a4d5927a6344fed1f464798c9f63eb6cc
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 10:52:41 2011 +0100
+
+    improved preferences dialog
+
+commit 3bbfb5ae860e193d4a5221c97e187cf546b06ade
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 10:15:07 2011 +0100
+
+    added fixed stereo mode
+
+commit c156c8a38dda21b3be84f312dbaf9927d1432bab
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 00:23:54 2011 +0100
+
+    removed 'swap' entry from menu
+
+commit 6aef4f63382dde18b88601ee1e6ff0c4ed423dbd
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 00:18:13 2011 +0100
+
+    temporarily disable stereo mode, added more stereo prefs
+
+commit f6091ebefead1a4170a64a4f988b8e618e4fc29c
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 19 21:42:13 2011 +0100
+
+    type of source stereo image made adjustable from menu
+
+commit bc35f9f7d92fbcfcd82bb050808f590110f0ad5f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 19 19:53:30 2011 +0100
+
+    stereo mode preferences
+
 commit dc3dea1297365981d2e206fd8afbb84a781ced20
 Author: Tore Ericsson <tore.ericsson@telia.com>
 Date:   Mon Feb 14 21:21:55 2011 +0100
@@ -703,6 +2202,169 @@ Author: Tore Ericsson <tore.ericsson@telia.com>
 Date:   Mon Feb 14 14:51:44 2011 +0100
 
     Started with Swedish translation
+
+commit 66e79a3db0f88576f11d34d15afef16418177913
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Feb 5 22:22:12 2011 +0100
+
+    change stereo mode from menu
+
+commit ac29d24529dc2ec61c6c98bcb334932f4a8a8850
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Feb 5 18:20:16 2011 +0100
+
+    swap stereo images
+
+commit 44f99597e8e26da1c1ac784b14a9956249543c38
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Feb 4 23:49:13 2011 +0100
+
+    added mirrored stereo mode
+
+commit 12302100dd0db0f03444b2a6834c2a6470089c57
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 17:43:05 2011 +0100
+
+    fixed overlay position - part2
+
+commit 8734f816e3735ee0731059bb57fd01a1087c4ac5
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 17:35:29 2011 +0100
+
+    fixed overlay position
+
+commit 572fb571e10fec6e617518b2a404ea9b10517fd6
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 17:15:39 2011 +0100
+
+    do not draw tiles outside the viewport
+
+commit c95c27d4285bf60a27fe5f72cc7ca6724819ba99
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 14:49:38 2011 +0100
+
+    display pixel aspect ratio support
+
+commit f727555d47c89ada005e87bc54fc7533a865a1ee
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 14:34:57 2011 +0100
+
+    anaglyph support
+
+commit 18c37b0f1dfe7a697c7371ace784ed3959a8a574
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 13:13:27 2011 +0100
+
+    rt_tile_render cleanup part 3
+
+commit 55a53285c955e316106b5629ee282986033523f6
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 13:05:14 2011 +0100
+
+    rt_tile_render cleanup part 2
+
+commit 96a6858d3085c50aea7962fda3d9a40abda2fdca
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 12:44:32 2011 +0100
+
+    rt_tile_render cleanup part 1
+
+commit fd265dfbff4365d519595eee9f95a402a7eadd26
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 11:05:07 2011 +0100
+
+    first stereo support
+
+commit a1751b3fb98dc6dfdfee2b2770f1d4f5dca92b6f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Thu Jan 27 13:40:05 2011 +0100
+
+    separated tile renderer
+
+commit 60c56ec5c852ea4b0d8b7df80507bbfbaf4e7610
+Author: Tore Ericsson <tore.ericsson@telia.com>
+Date:   Thu Jan 13 20:38:20 2011 +0100
+
+    Swedish tranlation
+    
+    Hi all,
+    
+    Here is my translation into Swedish so far, inluding conversion into UTF-8
+    coding.
+    
+    Can somebody advice me how I can test my translations in an own Geeqie
+    installation? (I'm running Kubuntu 10.04)
+    
+    Tore
+    
+    From 00535721f160491b094c60070afb35c439234512 Mon Sep 17 00:00:00 2001
+    From: Tore Ericsson <tore.ericsson@telia.com>
+    Date: Thu, 13 Jan 2011 20:18:28 +0100
+    Subject: [PATCH] Started with Swedish translation
+
+commit 83ae99a601593bf1161d07da7ef03892f03a7df9
+Merge: c6d82fb e504820
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Dec 23 18:19:36 2010 +0100
+
+    Merge branch 'ke' into ke-lua
+    
+    * ke:
+      Fix compiling issue
+      Fix the windowsize
+
+commit e504820e7afff00efe7937b7b9a5fd830ae1d79e
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Jul 16 13:30:53 2010 +0100
+
+    Fix compiling issue
+    
+    img-view.c: In function 'real_view_window_new':
+    img-view.c:889: error: 'for' loop initial declarations are only allowed in C99 mode
+    img-view.c:889: note: use option -std=c99 or -std=gnu99 to compile your code
+
+commit 6e695dd61e5fc1ed8d0688d4b72bd87c10f6e0f5
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat May 8 23:52:09 2010 +0100
+
+    Fix the windowsize
+    
+    Opening a new window from a collection should not set the default size.
+    Unfortunately the size of the image is not available in the early state.
+
+commit c6d82fb33aef7282e1b7977357a27e92122d42d5
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Mon Mar 8 22:01:44 2010 +0100
+
+    Implementing some usefull data structures for lua
+
+commit de4f59037f1d026e11760a7847c5b187e89351ea
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Mar 7 20:04:23 2010 +0100
+
+    First usable lua callback
+    
+    Implementing get_datum to get a named exif datum from the image.
+
+commit 4e679cd9f9cb725773053295eedc75adb8ebe41c
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Mar 7 14:57:00 2010 +0100
+
+    Using common path for lua files
+
+commit ee7d5c882dd136b160c94359fb3182e49df0fbee
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Mar 4 21:05:13 2010 +0100
+
+    Overlay info with lua
+
+commit c5c0aa1566e7c95c4e3d009067b1e5133aa8736f
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Jun 27 22:38:09 2009 +0100
+
+    Adding support for lua scripting
+    
+    Until now this is without any functionality.
 
 commit 55de20b6bd7a666ab63ee9d1f60e8fd1833a74c5
 Author: Laurent Monin <geeqie@norz.org>
@@ -971,7 +2633,7 @@ Date:   Thu Dec 10 17:48:43 2009 +0000
 
     Move "Add Keyword" menu item at top of Keywords bar contextual menu.
     
-    Suggested by Lars Täuber.
+    Suggested by Lars T�uber.
 
 commit e6fe9db8a728c2188e7276f3cea001981120ed80
 Author: Laurent Monin <geeqie@norz.org>
@@ -9281,7 +10943,7 @@ Date:   Thu Apr 24 20:29:09 2008 +0000
 
     Allow to copy the path of a directory to clipboard from directory views.
     Show Copy path option has to be enabled.
-    Suggested by Frédéric Mantegazza.
+    Suggested by Fr�d�ric Mantegazza.
 
 commit 76747275b6e719dbb4efb93d414f82ab2f177d79
 Author: Laurent Monin <geeqie@norz.org>
@@ -10608,7 +12270,7 @@ Author: Laurent Monin <geeqie@norz.org>
 Date:   Sat Apr 12 06:42:47 2008 +0000
 
     Add Exif.Photo.ColorSpace tag in Preferences > Properties > Exif.
-    Requested by Frédéric Mantegazza.
+    Requested by Fr�d�ric Mantegazza.
 
 commit 165c0da79cf3bad89da98b574c1eb6709c47dd38
 Author: Laurent Monin <geeqie@norz.org>
@@ -11016,7 +12678,7 @@ commit cf45b42ee7dbd8287eecd728cf225c2f45aed5db
 Author: Laurent Monin <geeqie@norz.org>
 Date:   Mon Apr 7 19:06:17 2008 +0000
 
-    Fix a segfault on fullscreen file deletion reported by Frédéric Mantegazza.
+    Fix a segfault on fullscreen file deletion reported by Fr�d�ric Mantegazza.
 
 commit da12ecf1747a682afe776cf99ea76f4342fd9876
 Author: Laurent Monin <geeqie@norz.org>
