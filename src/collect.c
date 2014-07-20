@@ -595,6 +595,10 @@ gboolean collection_add_check(CollectionData *cd, FileData *fd, gboolean sorted,
 	struct stat st;
 	gboolean valid;
 
+	if (!fd) return FALSE;
+
+	g_assert(fd->magick == FD_MAGICK);
+
 	if (must_exist)
 		{
 		valid = (stat_utf8(fd->path, &st) && !S_ISDIR(st.st_mode));

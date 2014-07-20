@@ -1151,7 +1151,10 @@ FileData *file_data_new_group(const gchar *path_utf8)
 
 	fd = g_hash_table_lookup(file_data_pool, path_utf8);
 	if (!fd) fd = file_data_new(path_utf8, &st, TRUE);
-	file_data_ref(fd);
+	if (fd)
+		{
+		file_data_ref(fd);
+		}
 
 	filelist_free(files);
 	g_free(dir);
