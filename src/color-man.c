@@ -432,10 +432,12 @@ static gchar *color_man_get_profile_name(ColorManProfileType type, cmsHPROFILE p
 			if (profile)
 				{
 #ifdef HAVE_LCMS2
-				cmsUInt8Number profileID[17];
-				profileID[16] = '\0';
-				cmsGetHeaderProfileID(profile, profileID);
-				return g_strdup((gchar *) profileID);
+				cmsUInt32Number r;
+				char buffer[20];
+				buffer[0] = '\0';
+				r = cmsGetProfileInfoASCII(profile, cmsInfoDescription, "en", "US", &buffer, 20);
+				buffer[19] = '\0'; /* Just to be sure */
+				return g_strdup(buffer);
 #else
 				return g_strdup(cmsTakeProductName(profile));
 #endif
