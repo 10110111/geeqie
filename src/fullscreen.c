@@ -301,12 +301,12 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	if (fs->same_region)
 		{
-		DEBUG_0("Original vindow is not visible, enabling std. fullscreen mode");
+		DEBUG_0("Original window is not visible, enabling std. fullscreen mode");
 		image_move_from_image(fs->imd, fs->normal_imd);
 		}
 	else
 		{
-		DEBUG_0("Original vindow is still visible, enabling presentation fullscreen mode");
+		DEBUG_0("Original window is still visible, enabling presentation fullscreen mode");
 		image_copy_from_image(fs->imd, fs->normal_imd);
 		}
 
