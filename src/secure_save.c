@@ -9,12 +9,12 @@
  * This software comes with no warranty of any kind, use at your own risk!
  */
 
+#include "main.h"
 #include <glib/gprintf.h>
 #include <glib/gstdio.h>
 #include <errno.h>
 #include <utime.h>
 
-#include "main.h"
 #include "secure_save.h"
 
 
