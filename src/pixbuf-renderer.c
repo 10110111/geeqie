@@ -2150,7 +2150,11 @@ static void pr_signals_connect(PixbufRenderer *pr)
  */
 
 #define COLOR_BYTES 3   /* rgb */
-static void pr_create_anaglyph_RC(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h)
+#define RC 0            /* Red-Cyan */
+#define GM 1            /* Green-Magenta */
+#define YB 2            /* Yellow-Blue */
+
+static void pr_create_anaglyph_color(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h, guint mode)
 {
 	gint srs, drs;
 	guchar *s_pix, *d_pix;
@@ -2172,14 +2176,26 @@ static void pr_create_anaglyph_RC(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, g
 		dp = dpi + (i * drs);
 		for (j = 0; j < w; j++)
 			{
-			*dp = *sp; /* copy red channel */
+			switch(mode)
+				{
+				case RC:
+					dp[0] = sp[0]; /* copy red channel */
+					break;
+				case GM:
+					dp[1] = sp[1];
+					break;
+				case YB:
+					dp[0] = sp[0];
+					dp[1] = sp[1];
+					break;
+				}
 			sp += COLOR_BYTES;
 			dp += COLOR_BYTES;
 			}
 		}
 }
 
-static void pr_create_anaglyph_gray(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h)
+static void pr_create_anaglyph_gray(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h, guint mode)
 {
 	gint srs, drs;
 	guchar *s_pix, *d_pix;
@@ -2204,28 +2220,63 @@ static void pr_create_anaglyph_gray(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x,
 			{
 			guchar g1 = dp[0] * gc[0] + dp[1] * gc[1] + dp[2] * gc[2];
 			guchar g2 = sp[0] * gc[0] + sp[1] * gc[1] + sp[2] * gc[2];
-			dp[0] = g2; /* red channel from sp */
-			dp[1] = g1; /* green and blue from dp */
-			dp[2] = g1;
+			switch(mode)
+				{
+				case RC:
+					dp[0] = g2; /* red channel from sp */
+					dp[1] = g1; /* green and blue from dp */
+					dp[2] = g1;
+					break;
+				case GM:
+					dp[0] = g1;
+					dp[1] = g2;
+					dp[2] = g1;
+					break;
+				case YB:
+					dp[0] = g2;
+					dp[1] = g2;
+					dp[2] = g1;
+					break;
+				}
 			sp += COLOR_BYTES;
 			dp += COLOR_BYTES;
 			}
 		}
 }
 
-const double pr_dubois_matrix[3][6] = {
-	{ 0.456,  0.500,  0.176, -0.043, -0.088, -0.002},
-	{-0.040, -0.038, -0.016,  0.378,  0.734, -0.018},
-	{-0.015, -0.021, -0.005, -0.072, -0.113,  1.226}
-	};
-
-static void pr_create_anaglyph_dubois(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h)
+static void pr_create_anaglyph_dubois(GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h, guint mode)
 {
 	gint srs, drs;
 	guchar *s_pix, *d_pix;
 	guchar *sp, *dp;
 	guchar *spi, *dpi;
 	gint i, j, k;
+	double pr_dubois_matrix[3][6];
+	const static double pr_dubois_matrix_RC[3][6] = {
+		{ 0.456,  0.500,  0.176, -0.043, -0.088, -0.002},
+		{-0.040, -0.038, -0.016,  0.378,  0.734, -0.018},
+		{-0.015, -0.021, -0.005, -0.072, -0.113,  1.226}};
+	const static double pr_dubois_matrix_GM[3][6] = {
+		{-0.062, -0.158, -0.039,  0.529,  0.705,  0.024},
+		{ 0.284,  0.668,  0.143, -0.016, -0.015, -0.065},
+		{-0.015, -0.027,  0.021,  0.009,  0.075,  0.937}};
+	const static double pr_dubois_matrix_YB[3][6] = {
+		{ 1.000, -0.193,  0.282, -0.015, -0.116, -0.016},
+		{-0.024,  0.855,  0.064,  0.006,  0.058, -0.016},
+		{-0.036, -0.163,  0.021,  0.089,  0.174,  0.858}};
+
+	switch(mode)
+		{
+		case RC:
+			memcpy(pr_dubois_matrix, pr_dubois_matrix_RC, sizeof pr_dubois_matrix);
+			break;
+		case GM:
+			memcpy(pr_dubois_matrix, pr_dubois_matrix_GM, sizeof pr_dubois_matrix);
+			break;
+		case YB:
+			memcpy(pr_dubois_matrix, pr_dubois_matrix_YB, sizeof pr_dubois_matrix);
+			break;
+		}
 
 	srs = gdk_pixbuf_get_rowstride(right);
 	s_pix = gdk_pixbuf_get_pixels(right);
@@ -2261,11 +2312,23 @@ static void pr_create_anaglyph_dubois(GdkPixbuf *pixbuf, GdkPixbuf *right, gint 
 void pr_create_anaglyph(guint mode, GdkPixbuf *pixbuf, GdkPixbuf *right, gint x, gint y, gint w, gint h)
 {
 	if (mode & PR_STEREO_ANAGLYPH_RC)
-		pr_create_anaglyph_RC(pixbuf, right, x, y, w, h);
-	else if (mode & PR_STEREO_ANAGLYPH_GRAY)
-		pr_create_anaglyph_gray(pixbuf, right, x, y, w, h);
-	else if (mode & PR_STEREO_ANAGLYPH_DB)
-		pr_create_anaglyph_dubois(pixbuf, right, x, y, w, h);
+		pr_create_anaglyph_color(pixbuf, right, x, y, w, h, RC);
+	else if (mode & PR_STEREO_ANAGLYPH_GM)
+		pr_create_anaglyph_color(pixbuf, right, x, y, w, h, GM);
+	else if (mode & PR_STEREO_ANAGLYPH_YB)
+		pr_create_anaglyph_color(pixbuf, right, x, y, w, h, YB);
+	else if (mode & PR_STEREO_ANAGLYPH_GRAY_RC)
+		pr_create_anaglyph_gray(pixbuf, right, x, y, w, h, RC);
+	else if (mode & PR_STEREO_ANAGLYPH_GRAY_GM)
+		pr_create_anaglyph_gray(pixbuf, right, x, y, w, h, GM);
+	else if (mode & PR_STEREO_ANAGLYPH_GRAY_YB)
+		pr_create_anaglyph_gray(pixbuf, right, x, y, w, h, YB);
+	else if (mode & PR_STEREO_ANAGLYPH_DB_RC)
+		pr_create_anaglyph_dubois(pixbuf, right, x, y, w, h, RC);
+	else if (mode & PR_STEREO_ANAGLYPH_DB_GM)
+		pr_create_anaglyph_dubois(pixbuf, right, x, y, w, h, GM);
+	else if (mode & PR_STEREO_ANAGLYPH_DB_YB)
+		pr_create_anaglyph_dubois(pixbuf, right, x, y, w, h, YB);
 }
 
 /*
