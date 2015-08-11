@@ -1333,21 +1333,6 @@ static void rt_tile_render(RendererTiles *rt, ImageTile *it,
 		{
 		draw = rt_source_tile_render(rt, it, x, y, w, h, new_data, fast);
 		}
-	else if ((pr->zoom == 1.0 || pr->scale == 1.0) &&
-		 pr->aspect_ratio == 1.0 &&
-		 !has_alpha &&
-		 orientation == EXIF_ORIENTATION_TOP_LEFT &&
-		 !(pr->func_post_process && !(pr->post_process_slow && fast)) &&
-		 !(rt->stereo_mode & PR_STEREO_ANAGLYPH))
-		{
-		/* special case: faster, simple, scale 1.0, base orientation, no postprocessing */
-		cairo_t *cr;
-		cr = cairo_create(it->surface);
-		cairo_rectangle (cr, x, y, w, h);
-		gdk_cairo_set_source_pixbuf(cr, pr->pixbuf, -it->x - GET_RIGHT_PIXBUF_OFFSET(rt), -it->y);
-		cairo_fill (cr);
-		cairo_destroy (cr);
-		}
 	else
 		{
 		gdouble scale_x, scale_y;
