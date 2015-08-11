@@ -528,24 +528,42 @@ static void stereo_mode_menu_cb(GtkWidget *combo, gpointer data)
 			*option = PR_STEREO_ANAGLYPH_RC;
 			break;
 		case 2:
-			*option = PR_STEREO_ANAGLYPH_GRAY;
+			*option = PR_STEREO_ANAGLYPH_GM;
 			break;
 		case 3:
-			*option = PR_STEREO_ANAGLYPH_DB;
+			*option = PR_STEREO_ANAGLYPH_YB;
 			break;
 		case 4:
-			*option = PR_STEREO_HORIZ;
+			*option = PR_STEREO_ANAGLYPH_GRAY_RC;
 			break;
 		case 5:
-			*option = PR_STEREO_HORIZ | PR_STEREO_HALF;
+			*option = PR_STEREO_ANAGLYPH_GRAY_GM;
 			break;
 		case 6:
-			*option = PR_STEREO_VERT;
+			*option = PR_STEREO_ANAGLYPH_GRAY_YB;
 			break;
 		case 7:
-			*option = PR_STEREO_VERT | PR_STEREO_HALF;
+			*option = PR_STEREO_ANAGLYPH_DB_RC;
 			break;
 		case 8:
+			*option = PR_STEREO_ANAGLYPH_DB_GM;
+			break;
+		case 9:
+			*option = PR_STEREO_ANAGLYPH_DB_YB;
+			break;
+		case 10:
+			*option = PR_STEREO_HORIZ;
+			break;
+		case 11:
+			*option = PR_STEREO_HORIZ | PR_STEREO_HALF;
+			break;
+		case 12:
+			*option = PR_STEREO_VERT;
+			break;
+		case 13:
+			*option = PR_STEREO_VERT | PR_STEREO_HALF;
+			break;
+		case 14:
 			*option = PR_STEREO_FIXED;
 			break;
 		}
@@ -567,31 +585,43 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Red-Cyan"));
 	if (option & PR_STEREO_ANAGLYPH_RC) current = 1;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Green-Magenta"));
+	if (option & PR_STEREO_ANAGLYPH_GM) current = 2;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Yellow-Blue"));
+	if (option & PR_STEREO_ANAGLYPH_YB) current = 3;
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Gray Red-Cyan"));
-	if (option & PR_STEREO_ANAGLYPH_GRAY) current = 2;
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Dubois"));
-	if (option & PR_STEREO_ANAGLYPH_DB) current = 3;
+	if (option & PR_STEREO_ANAGLYPH_GRAY_RC) current = 4;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Gray Green-Magenta"));
+	if (option & PR_STEREO_ANAGLYPH_GRAY_GM) current = 5;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Gray Yellow-Blue"));
+	if (option & PR_STEREO_ANAGLYPH_GRAY_YB) current = 6;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Dubois Red-Cyan"));
+	if (option & PR_STEREO_ANAGLYPH_DB_RC) current = 7;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Dubois Green-Magenta"));
+	if (option & PR_STEREO_ANAGLYPH_DB_GM) current = 8;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Anaglyph Dubois Yellow-Blue"));
+	if (option & PR_STEREO_ANAGLYPH_DB_YB) current = 9;
 
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Side by Side Half size"));
 	if (option & PR_STEREO_HORIZ)
 		{
-		current = 4;
-		if (option & PR_STEREO_HALF) current = 5;
+		current = 10;
+		if (option & PR_STEREO_HALF) current = 11;
 		}
 
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Top - Bottom Half size"));
 	if (option & PR_STEREO_VERT)
 		{
-		current = 6;
-		if (option & PR_STEREO_HALF) current = 7;
+		current = 12;
+		if (option & PR_STEREO_HALF) current = 13;
 		}
 
 	if (add_fixed)
 		{
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("Fixed position"));
-		if (option & PR_STEREO_FIXED) current = 8;
+		if (option & PR_STEREO_FIXED) current = 14;
 		}
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
