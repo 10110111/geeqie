@@ -475,6 +475,8 @@ static void image_read_ahead_done_cb(ImageLoader *il, gpointer data)
 {
 	ImageWindow *imd = data;
 
+	if (!imd->read_ahead_fd || !imd->read_ahead_il) return;
+
 	DEBUG_1("%s read ahead done for :%s", get_exec_time(), imd->read_ahead_fd->path);
 
 	if (!imd->read_ahead_fd->pixbuf)
