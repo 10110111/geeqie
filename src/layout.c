@@ -271,11 +271,10 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 
 	menu_bar = layout_actions_menu_bar(lw);
 	gtk_box_pack_start(GTK_BOX(box), menu_bar, FALSE, FALSE, 0);
-	gtk_widget_show(menu_bar);
 
 	toolbar = layout_actions_toolbar(lw, TOOLBAR_MAIN);
 	gtk_box_pack_start(GTK_BOX(box), toolbar, FALSE, FALSE, 0);
-	if (!lw->options.toolbar_hidden) gtk_widget_show(toolbar);
+	if (lw->options.toolbar_hidden) gtk_widget_hide(toolbar);
 
 	tabcomp = tab_completion_new_with_history(&lw->path_entry, NULL, "path_list", -1,
 						  layout_path_entry_cb, lw);
