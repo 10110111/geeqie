@@ -260,7 +260,8 @@ geeqie_SOURCES = \
 	view_file_icon.h	\
 	window.c	\
 	window.h	\
-	lua.c
+	lua.c		\
+	glua.h
 
 geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS) $(CLUTTER_LIBS) $(CLUTTER_GTK_LIBS)
 
