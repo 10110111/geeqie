@@ -5,10 +5,28 @@ if [ "${PWD##*/}" != "web" ] ; then
   exit 1;
 fi
 
-# later we can include user manual 
+# later we can include user manual
 # ln -sf ../doc
 
-echo -n "SF username: "
-read username
-
-rsync -avP -C --copy-links --exclude "*.sh" --exclude "Makefile*" -e ssh ./ $username,geeqie@web.sourceforge.net:htdocs/
+chmod -R a+rX .
+rsync --archive \
+   --verbose \
+   --partial \
+   --progress \
+   --copy-links \
+   --keep-dirlinks \
+   --delete \
+   --exclude "*.bak" \
+   --exclude .xvpics \
+   --exclude .thumbnails \
+   --exclude .wml \
+   --exclude "*.wml" \
+   --exclude "*~" \
+   --exclude .gitignore \
+   --exclude Makefile \
+   --exclude .wmlrc \
+   --exclude .wmkrc \
+   --exclude sync \
+   --exclude "*.sh" \
+   --exclude ".*.swp" \
+   ./ tschil:/srv/www/geeqie.org/
