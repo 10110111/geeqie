@@ -69,7 +69,7 @@
 
 #define GQ_APPNAME "Geeqie"
 #define GQ_APPNAME_LC "geeqie"
-#define GQ_WEBSITE "geeqie.sourceforge.net"
+#define GQ_WEBSITE "www.geeqie.org"
 #define GQ_EMAIL_ADDRESS "geeqie-devel@lists.sourceforge.net"
 
 #define GQ_RC_DIR		"." GQ_APPNAME_LC

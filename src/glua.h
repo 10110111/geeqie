@@ -4,7 +4,7 @@
  */
 
 /*
- *  This file is a part of Geeqie project (http://geeqie.sourceforge.net/).
+ *  This file is a part of Geeqie project (http://www.geeqie.org/).
  *  Copyright (C) 2008 - 2010 The Geeqie Team
  *
  *  This program is free software; you can redistribute it and/or modify it
