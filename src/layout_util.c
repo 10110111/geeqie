@@ -1066,6 +1066,25 @@ static void layout_menu_home_cb(GtkAction *action, gpointer data)
 		}
 }
 
+static void layout_menu_up_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	ViewDir *vd = lw->vd;
+	gchar *path;
+
+	if (!vd->dir_fd || strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) == 0) return;
+	path = remove_level_from_path(vd->dir_fd->path);
+
+	if (vd->select_func)
+		{
+		FileData *fd = file_data_new_dir(path);
+		vd->select_func(vd, fd, vd->select_data);
+		file_data_unref(fd);
+		}
+
+	g_free(path);
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -1275,6 +1294,7 @@ static GtkActionEntry menu_entries[] = {
   { "LastImage",	GTK_STOCK_GOTO_BOTTOM,	N_("_Last Image"),			"End",			N_("Last Image"),			CB(layout_menu_image_last_cb) },
   { "Back",		GTK_STOCK_GO_BACK,	N_("_Back"),				NULL,			N_("Back"),				CB(layout_menu_back_cb) },
   { "Home",		GTK_STOCK_HOME,		N_("_Home"),				NULL,			N_("Home"),				CB(layout_menu_home_cb) },
+  { "Up",		GTK_STOCK_GO_UP,		N_("_Up"),				NULL,			N_("Up"),				CB(layout_menu_up_cb) },
 
   { "NewWindow",	GTK_STOCK_NEW,		N_("New _window"),			"<control>N",		N_("New window"),			CB(layout_menu_new_window_cb) },
   { "NewCollection",	GTK_STOCK_INDEX,	N_("_New collection"),			"C",			N_("New collection"),			CB(layout_menu_new_cb) },
@@ -1466,6 +1486,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='LastImage'/>"
 "      <separator/>"
 "      <menuitem action='Back'/>"
+"      <menuitem action='Up'/>"
 "      <menuitem action='Home'/>"
 "      <separator/>"
 "    </menu>"
@@ -2152,6 +2173,7 @@ void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type)
 		case TOOLBAR_MAIN:
 			layout_toolbar_add(lw, type, "Thumbnails");
 			layout_toolbar_add(lw, type, "Back");
+			layout_toolbar_add(lw, type, "Up");
 			layout_toolbar_add(lw, type, "Home");
 			layout_toolbar_add(lw, type, "Refresh");
 			layout_toolbar_add(lw, type, "ZoomIn");
