@@ -497,8 +497,14 @@ static void collect_manager_entry_free_data(CollectManagerEntry *entry)
 		collect_manager_action_unref(action);
 		}
 	g_list_free(entry->add_list);
-	g_hash_table_destroy(entry->oldpath_hash);
-	g_hash_table_destroy(entry->newpath_hash);
+	if (g_hash_table_size(entry->oldpath_hash) > 0)
+		g_hash_table_destroy(entry->oldpath_hash);
+	else
+		g_hash_table_unref(entry->oldpath_hash);
+	if (g_hash_table_size(entry->newpath_hash) > 0)
+		g_hash_table_destroy(entry->newpath_hash);
+	else
+		g_hash_table_unref(entry->newpath_hash);
 }
 
 static void collect_manager_entry_init_data(CollectManagerEntry *entry)
@@ -704,6 +710,8 @@ static void collect_manager_refresh(void)
 			else
 				{
 				collect_manager_entry_free(entry);
+
+				entry = NULL;
 				}
 			}
 		}
