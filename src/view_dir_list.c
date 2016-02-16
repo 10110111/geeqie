@@ -146,7 +146,15 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 	ret = filelist_read(vd->dir_fd, NULL, &VDLIST(vd)->list);
 	VDLIST(vd)->list = filelist_sort(VDLIST(vd)->list, sort_type, sort_ascend);
 
-	/* add . */
+	/* add . and .. */
+
+	if (options->file_filter.show_parent_directory && strcmp(vd->dir_fd->path, G_DIR_SEPARATOR_S) != 0)
+		{
+		filepath = g_build_filename(vd->dir_fd->path, "..", NULL);
+		fd = file_data_new_dir(filepath);
+		VDLIST(vd)->list = g_list_prepend(VDLIST(vd)->list, fd);
+		g_free(filepath);
+		}
 
 	if (options->file_filter.show_dot_directory)
 		{

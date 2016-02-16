@@ -42,6 +42,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_filter.disable = FALSE;
 	options->file_filter.show_dot_directory = FALSE;
 	options->file_filter.show_hidden_files = FALSE;
+	options->file_filter.show_parent_directory = TRUE;
 
 	options->save_window_positions = TRUE;
 	options->tools_restore_state = TRUE;
