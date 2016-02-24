@@ -31,7 +31,7 @@
 typedef struct _CollectManagerEntry CollectManagerEntry;
 
 static void collection_load_thumb_step(CollectionData *cd);
-static gint collection_save_private(CollectionData *cd, const gchar *path);
+static gboolean collection_save_private(CollectionData *cd, const gchar *path);
 
 static CollectManagerEntry *collect_manager_get_entry(const gchar *path);
 static void collect_manager_entry_reset(CollectManagerEntry *entry);
