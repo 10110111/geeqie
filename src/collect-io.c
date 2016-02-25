@@ -91,11 +91,12 @@ static gboolean collection_load_private(CollectionData *cd, const gchar *path, C
 
 	if (!path) path = cd->path;
 
+	pathl = path_from_utf8(path);
+
 	DEBUG_1("collection load: append=%d flush=%d only_geometry=%d path=%s",
-			  append, flush, only_geometry, path);
+			  append, flush, only_geometry, pathl);
 
 	/* load it */
-	pathl = path_from_utf8(path);
 	f = fopen(pathl, "r");
 	g_free(pathl);
 	if (!f)
@@ -148,6 +149,7 @@ static gboolean collection_load_private(CollectionData *cd, const gchar *path, C
 		if (only_geometry) continue;
 
 		/* Read filenames */
+		/* TODO: This is not safe! */
 		while (*p && *p != '"') p++;
 		if (*p) p++;
 		buf = p;
