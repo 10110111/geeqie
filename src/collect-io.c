@@ -162,7 +162,7 @@ static gboolean collection_load_private(CollectionData *cd, const gchar *path, C
 			if (!flush)
 				changed |= collect_manager_process_action(entry, &buf);
 
-			valid = (buf[0] == G_DIR_SEPARATOR && collection_add_check(cd, file_data_new_group(buf), FALSE, TRUE));
+			valid = (buf[0] == G_DIR_SEPARATOR && collection_add_check(cd, file_data_new_simple(buf), FALSE, TRUE));
 			if (!valid) DEBUG_1("collection invalid file: %s", buf);
 
 			total++;

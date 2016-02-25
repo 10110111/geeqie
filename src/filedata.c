@@ -414,6 +414,27 @@ static FileData *file_data_new_local(const gchar *path, struct stat *st, gboolea
 	return ret;
 }
 
+FileData *file_data_new_simple(const gchar *path_utf8)
+{
+	struct stat st;
+	FileData *fd;
+
+	if (!stat_utf8(path_utf8, &st))
+		{
+		st.st_size = 0;
+		st.st_mtime = 0;
+		}
+
+	fd = g_hash_table_lookup(file_data_pool, path_utf8);
+	if (!fd) fd = file_data_new(path_utf8, &st, TRUE);
+	if (fd)
+		{
+		file_data_ref(fd);
+		}
+
+	return fd;
+}
+
 void init_exif_time_data(GList *files)
 {
 	FileData *file;
