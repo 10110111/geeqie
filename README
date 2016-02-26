@@ -1,7 +1,7 @@
 ###################################################################
-##                            Geeqie 1.1                         ##
+##                          Geeqie x.x                           ##
 ##                                                               ##
-##              Copyright (C) 2008 - 2012 The Geeqie Team        ##
+##              Copyright (C) 2008 - 2016 The Geeqie Team        ##
 ##              Copyright (C) 1999 - 2006 John Ellis.            ##
 ##                                                               ##
 ##                      Use at your own risk!                    ##
@@ -52,17 +52,18 @@ geeqie-devel@lists.sourceforge.net
     GTK+ 2.20: ftp://ftp.gtk.org/pub/gtk
 
   Optional libraries:
-    lcms, for color management support: http://www.littlecms.com
+    lcms or lcms2, for color management support: http://www.littlecms.com
         (disable with configure option: '--without-lcms')
     exiv2, for enhanced exif support: http://www.exiv2.org/
         (disable with configure option: '--without-exiv2')
         - due to fast development, newer versions work significantly better
         FIXME: minimal version ?
     lirc, for remote control support: http://www.lirc.org/
-    	(disable with configure option: '--disable-lirc')
+	(disable with configure option: '--disable-lirc')
     libchamplain - experimental map support, dissabled by default
         http://projects.gnome.org/libchamplain/
         WARNING: this library has a lot of dependencise
+    lua - Support for lua scripting
 
 ======== Notes and changes for this release            [section:release_notes]
 
