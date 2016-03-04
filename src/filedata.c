@@ -165,6 +165,7 @@ static gboolean file_data_check_changed_single_file(FileData *fd, struct stat *s
 		{
 		fd->size = st->st_size;
 		fd->date = st->st_mtime;
+		fd->cdate = st->st_ctime;
 		fd->mode = st->st_mode;
 		if (fd->thumb_pixbuf) g_object_unref(fd->thumb_pixbuf);
 		fd->thumb_pixbuf = NULL;
@@ -394,6 +395,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 
 	fd->size = st->st_size;
 	fd->date = st->st_mtime;
+	fd->cdate = st->st_ctime;
 	fd->mode = st->st_mode;
 	fd->ref = 1;
 	fd->magick = FD_MAGICK;
@@ -995,6 +997,11 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 		case SORT_TIME:
 			if (fa->date < fb->date) return -1;
 			if (fa->date > fb->date) return 1;
+			/* fall back to name */
+			break;
+		case SORT_CTIME:
+			if (fa->cdate < fb->cdate) return -1;
+			if (fa->cdate > fb->cdate) return 1;
 			/* fall back to name */
 			break;
 		case SORT_EXIFTIME:
