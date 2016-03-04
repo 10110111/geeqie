@@ -160,6 +160,7 @@ protected:
 	unsigned char *cp_data_;
 	guint cp_length_;
 	gboolean valid_;
+	gchar *pathl_;
 
 	Exiv2::ExifData emptyExifData_;
 	Exiv2::IptcData emptyIptcData_;
@@ -182,10 +183,10 @@ public:
 		cp_length_ = 0;
 		valid_ = TRUE;
 
-		gchar *pathl = path_from_utf8(path);
+		pathl_ = path_from_utf8(path);
 		try
 			{
-			image_ = Exiv2::ImageFactory::open(pathl);
+			image_ = Exiv2::ImageFactory::open(pathl_);
 //			g_assert (image.get() != 0);
 			image_->readMetadata();
 
@@ -219,12 +220,12 @@ public:
 			{
 			valid_ = FALSE;
 			}
-		g_free(pathl);
 	}
 
 	virtual ~_ExifDataOriginal()
 	{
 		if (cp_data_) g_free(cp_data_);
+		if (pathl_) g_free(pathl_);
 	}
 
 	virtual Exiv2::Image *image()
@@ -1130,9 +1131,8 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 
 	if (!exif->image()) return NULL;
 
-	const char* path = exif->image()->io().path().c_str();
 	/* given image pathname, first do simple (and fast) file extension test */
-	gboolean is_raw = filter_file_class(path, FORMAT_CLASS_RAWIMAGE);
+	gboolean is_raw = filter_file_class(exif->image()->io().path().c_str(), FORMAT_CLASS_RAWIMAGE);
 
 	if (!is_raw && requested_width == 0) return NULL;
 
