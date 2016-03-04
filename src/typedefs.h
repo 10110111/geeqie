@@ -49,6 +49,7 @@ typedef enum {
 	SORT_NAME,
 	SORT_SIZE,
 	SORT_TIME,
+	SORT_CTIME,
 	SORT_PATH,
 	SORT_NUMBER,
 	SORT_EXIFTIME
@@ -511,6 +512,7 @@ struct _FileData {
 	gchar *collate_key_name_nocase;
 	gint64 size;
 	time_t date;
+	time_t cdate;
 	mode_t mode; /* this is needed at least for notification in view_dir because it is preserved after the file/directory is deleted */
 	gint sidecar_priority;
 

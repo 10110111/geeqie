@@ -135,6 +135,9 @@ gchar *sort_type_get_text(SortType method)
 		case SORT_TIME:
 			return _("Sort by date");
 			break;
+		case SORT_CTIME:
+			return _("Sort by file creation date");
+			break;
 		case SORT_EXIFTIME:
 			return _("Sort by Exif-date");
 			break;
@@ -191,6 +194,7 @@ GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
 	submenu_add_sort_item(submenu, func, SORT_NUMBER, show_current, type);
 #endif
 	submenu_add_sort_item(submenu, func, SORT_TIME, show_current, type);
+	submenu_add_sort_item(submenu, func, SORT_CTIME, show_current, type);
 	submenu_add_sort_item(submenu, func, SORT_EXIFTIME, show_current, type);
 	submenu_add_sort_item(submenu, func, SORT_SIZE, show_current, type);
 	if (include_path) submenu_add_sort_item(submenu, func, SORT_PATH, show_current, type);
