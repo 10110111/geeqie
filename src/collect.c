@@ -141,6 +141,11 @@ static gint collection_list_sort_cb(gconstpointer a, gconstpointer b)
 			if (cia->fd->date > cib->fd->date) return 1;
 			return 0;
 			break;
+		case SORT_CTIME:
+			if (cia->fd->cdate < cib->fd->cdate) return -1;
+			if (cia->fd->cdate > cib->fd->cdate) return 1;
+			return 0;
+			break;
 		case SORT_PATH:
 			return utf8_compare(cia->fd->path, cib->fd->path, options->file_sort.case_sensitive);
 			break;
