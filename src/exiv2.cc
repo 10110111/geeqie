@@ -124,7 +124,7 @@ struct _ExifData
 	virtual ~_ExifData()
 	{
 	}
-	
+
 	virtual void writeMetadata(gchar *path = NULL)
 	{
 		g_critical("Unsupported method of writing metadata");
@@ -136,7 +136,7 @@ struct _ExifData
 	}
 
 	virtual Exiv2::Image *image() = 0;
-	
+
 	virtual Exiv2::ExifData &exifData() = 0;
 
 	virtual Exiv2::IptcData &iptcData() = 0;
@@ -181,9 +181,9 @@ public:
 		cp_data_ = NULL;
 		cp_length_ = 0;
 		valid_ = TRUE;
-		
+
 		gchar *pathl = path_from_utf8(path);
-		try 
+		try
 			{
 			image_ = Exiv2::ImageFactory::open(pathl);
 //			g_assert (image.get() != 0);
@@ -215,24 +215,24 @@ public:
 				}
 #endif
 			}
-		catch (Exiv2::AnyError& e) 
+		catch (Exiv2::AnyError& e)
 			{
 			valid_ = FALSE;
 			}
 		g_free(pathl);
 	}
-	
+
 	virtual ~_ExifDataOriginal()
 	{
 		if (cp_data_) g_free(cp_data_);
 	}
-	
+
 	virtual Exiv2::Image *image()
 	{
 		if (!valid_) return NULL;
 		return image_.get();
 	}
-	
+
 	virtual Exiv2::ExifData &exifData ()
 	{
 		if (!valid_) return emptyExifData_;
@@ -339,7 +339,7 @@ public:
 		if (!path)
 			{
 #if EXIV2_TEST_VERSION(0,17,0)
-			if (options->metadata.save_legacy_IPTC) 
+			if (options->metadata.save_legacy_IPTC)
 				copyXmpToIptc(xmpData_, iptcData_);
 			else
 				iptcData_.clear();
@@ -347,7 +347,7 @@ public:
 			copyXmpToExif(xmpData_, exifData_);
 #endif
 			Exiv2::Image *image = imageData_->image();
-			
+
 			if (!image) Exiv2::Error(21);
 			image->setExifData(exifData_);
 			image->setIptcData(iptcData_);
@@ -355,14 +355,14 @@ public:
 			image->setXmpData(xmpData_);
 #endif
 			image->writeMetadata();
-			} 
+			}
 		else
 			{
 #if EXIV2_TEST_VERSION(0,17,0)
 			gchar *pathl = path_from_utf8(path);;
 
 			Exiv2::Image::AutoPtr sidecar = Exiv2::ImageFactory::create(Exiv2::ImageType::xmp, pathl);
-				
+
 			g_free(pathl);
 
 			sidecar->setXmpData(xmpData_);
@@ -372,12 +372,12 @@ public:
 #endif
 			}
 	}
-	
+
 	virtual Exiv2::Image *image()
 	{
 		return imageData_->image();
 	}
-	
+
 	virtual Exiv2::ExifData &exifData ()
 	{
 		return exifData_;
@@ -436,7 +436,7 @@ ExifData *exif_read(gchar *path, gchar *sidecar_path, GHashTable *modified_xmp)
 		debug_exception(e);
 		return NULL;
 	}
-	
+
 }
 
 gboolean exif_write(ExifData *exif)
@@ -461,7 +461,7 @@ gboolean exif_write_sidecar(ExifData *exif, gchar *path)
 		debug_exception(e);
 		return FALSE;
 	}
-	
+
 }
 
 
@@ -579,7 +579,7 @@ ExifItem *exif_get_first_item(ExifData *exif)
 			}
 #endif
 		return NULL;
-			
+
 	}
 	catch (Exiv2::AnyError& e) {
 		debug_exception(e);
@@ -713,8 +713,8 @@ static guint format_id_trans_tbl [] = {
 	EXIF_FORMAT_STRING,
 	EXIF_FORMAT_STRING
 	};
-	
-	
+
+
 
 guint exif_item_get_format_id(ExifItem *item)
 {
@@ -860,7 +860,7 @@ gchar *exif_get_tag_description_by_key(const gchar *key)
 static const AltKey *find_alt_key(const gchar *xmp_key)
 {
 	gint i = 0;
-	
+
 	while (alt_keys[i].xmp_key)
 		{
 		if (strcmp(xmp_key, alt_keys[i].xmp_key) == 0) return &alt_keys[i];
@@ -876,7 +876,7 @@ static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const 
 
 		try {
 			Exiv2::ExifKey ekey(key);
-			
+
 			Exiv2::ExifData::iterator pos = exif->exifData().findKey(ekey);
 			while (pos != exif->exifData().end())
 				{
@@ -892,7 +892,7 @@ static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const 
 		}
 		catch (Exiv2::AnyError& e) {
 #if EXIV2_TEST_VERSION(0,16,0)
-			try 
+			try
 #endif
 			{
 				Exiv2::IptcKey ekey(key);
@@ -938,7 +938,7 @@ static gint exif_update_metadata_simple(ExifData *exif, const gchar *key, const 
 gint exif_update_metadata(ExifData *exif, const gchar *key, const GList *values)
 {
 	gint ret = exif_update_metadata_simple(exif, key, values);
-	
+
 	if (
 #if !EXIV2_TEST_VERSION(0,17,0)
 	    TRUE || /* no conversion support */
@@ -975,17 +975,17 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item, Metad
 	    id == Exiv2::comment
 	    )
 		{
-#endif 
+#endif
 		/* read as a single entry */
 		std::string str;
-		
+
 		if (format == METADATA_FORMATTED)
 			{
 #if EXIV2_TEST_VERSION(0,17,0)
 			str = item.print(
 #if EXIV2_TEST_VERSION(0,18,0)
 					metadata
-#endif 
+#endif
 					);
 #else
 			std::stringstream stream;
@@ -1020,7 +1020,7 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item, Metad
 			std::string::size_type pos = str.find_first_of(' ');
 			if (pos != std::string::npos) str = str.substr(pos+1);
 			}
-		list = g_list_append(list, utf8_validate_or_convert(str.c_str())); 
+		list = g_list_append(list, utf8_validate_or_convert(str.c_str()));
 #if EXIV2_TEST_VERSION(0,16,0)
 		}
 	else
@@ -1028,9 +1028,9 @@ static GList *exif_add_value_to_glist(GList *list, Exiv2::Metadatum &item, Metad
 		/* read as a list */
 		gint i;
 		for (i = 0; i < item.count(); i++)
-			list = g_list_append(list, utf8_validate_or_convert(item.toString(i).c_str())); 
+			list = g_list_append(list, utf8_validate_or_convert(item.toString(i).c_str()));
 		}
-#endif 
+#endif
 	return list;
 }
 
@@ -1086,9 +1086,9 @@ GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format
 		text = exif_get_formatted_by_key(exif, key, &key_valid);
 		if (key_valid) return g_list_append(NULL, text);
 		}
-		
+
 	list = exif_get_metadata_simple(exif, key, format);
-	
+
 	/* the following code can be ifdefed out as soon as Exiv2 supports it */
 	if (!list)
 		{
@@ -1096,7 +1096,7 @@ GList *exif_get_metadata(ExifData *exif, const gchar *key, MetadataFormat format
 		if (alt_key && alt_key->iptc_key)
 			list = exif_get_metadata_simple(exif, alt_key->iptc_key, format);
 
-#if !EXIV2_TEST_VERSION(0,17,0)	
+#if !EXIV2_TEST_VERSION(0,17,0)
 		/* with older Exiv2 versions exif is not synced */
 		if (!list && alt_key && alt_key->exif_key)
 			list = exif_get_metadata_simple(exif, alt_key->exif_key, format);
@@ -1129,11 +1129,11 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 	if (!exif) return NULL;
 
 	if (!exif->image()) return NULL;
-	
+
 	const char* path = exif->image()->io().path().c_str();
 	/* given image pathname, first do simple (and fast) file extension test */
 	gboolean is_raw = filter_file_class(path, FORMAT_CLASS_RAWIMAGE);
-	
+
 	if (!is_raw && requested_width == 0) return NULL;
 
 	try {
@@ -1146,7 +1146,7 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 			{
 			Exiv2::PreviewPropertiesList::iterator pos;
 			Exiv2::PreviewPropertiesList::iterator last = --list.end();
-			
+
 			if (requested_width == 0)
 				{
 				pos = last; // the largest
@@ -1160,11 +1160,11 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 					    pos->height_ >= (uint32_t)requested_height) break;
 					++pos;
 					}
-				
+
 				// we are not interested in smaller thumbnails in normal image formats - we can use full image instead
-				if (!is_raw) 
+				if (!is_raw)
 					{
-					if (pos->width_ < (uint32_t)requested_width || pos->height_ < (uint32_t)requested_height) return NULL; 
+					if (pos->width_ < (uint32_t)requested_width || pos->height_ < (uint32_t)requested_height) return NULL;
 					}
 				}
 
@@ -1243,11 +1243,11 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 		size_t map_len;
 		UnmapData *ud;
 		int fd;
-		
+
 		RawFile rf(exif->image()->io());
 		offset = rf.preview_offset();
 		DEBUG_1("%s: offset %lu", path, offset);
-		
+
 		fd = open(path, O_RDONLY);
 		if (fd == -1)
 			{
@@ -1271,10 +1271,10 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 		ud->ptr = map_data + offset;
 		ud->map_data = map_data;
 		ud->map_len = map_len;
-		
+
 		exif_unmap_list = g_list_prepend(exif_unmap_list, ud);
 		return ud->ptr;
-		
+
 	}
 	catch (Exiv2::AnyError& e) {
 		debug_exception(e);
@@ -1286,7 +1286,7 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 void exif_free_preview(guchar *buf)
 {
 	GList *work = exif_unmap_list;
-	
+
 	while (work)
 		{
 		UnmapData *ud = (UnmapData *)work->data;
@@ -1322,7 +1322,7 @@ RawFile::RawFile(BasicIo &io) : io_(io), map_data(NULL), map_len(0), offset(0)
         if (io.open() != 0) {
             throw Error(9, io.path(), strError());
         }
-        
+
         map_data = io.mmap();
         map_len = io.size();
 
@@ -1376,7 +1376,7 @@ RawFile::RawFile(BasicIo &io) : io_(io), map_data(NULL), map_len(0), offset(0)
 	if (0 == rootDir.get()) {
 		throw Error(1, "No root element defined in TIFF structure");
 	}
-	
+
 	if (tiffHeader)
 		{
 		if (!tiffHeader->read(map_data, map_len)) throw Error(3, "TIFF");
@@ -1386,12 +1386,12 @@ RawFile::RawFile(BasicIo &io) : io_(io), map_data(NULL), map_len(0), offset(0)
 		rootDir->setStart(map_data + tiffHeader->ifdOffset());
 #endif
 		}
-		
+
 	if (cr2Header)
 		{
 		rootDir->setStart(map_data + cr2Header->offset());
 		}
-	
+
 	TiffRwState::AutoPtr state(new TiffRwState(tiffHeader ? tiffHeader->byteOrder() : littleEndian, 0, createFct));
 
 	TiffReader reader(map_data,
@@ -1400,7 +1400,7 @@ RawFile::RawFile(BasicIo &io) : io_(io), map_data(NULL), map_len(0), offset(0)
 			  state);
 
 	rootDir->accept(reader);
-	
+
 	if (tiffHeader)
 		delete tiffHeader;
 	if (cr2Header)
@@ -1431,7 +1431,7 @@ unsigned long RawFile::preview_offset(void)
 {
 	const Value *val;
 	if (offset) return offset;
-	
+
 	if (type == Exiv2::ImageType::cr2)
 		{
 		val = find(0x111, Group::ifd0);
@@ -1439,7 +1439,7 @@ unsigned long RawFile::preview_offset(void)
 
 		return 0;
 		}
-	
+
 	val = find(0x201, Group::sub0_0);
 	if (val) return val->toLong();
 
