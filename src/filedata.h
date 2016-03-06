@@ -33,6 +33,8 @@ FileData *file_data_new_no_grouping(const gchar *path_utf8);
 /* should be used on dirs */
 FileData *file_data_new_dir(const gchar *path_utf8);
 
+FileData *file_data_new_simple(const gchar *path_utf8);
+
 #ifdef DEBUG_FILEDATA
 FileData *file_data_ref_debug(const gchar *file, gint line, FileData *fd);
 void file_data_unref_debug(const gchar *file, gint line, FileData *fd);
