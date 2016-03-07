@@ -737,7 +737,7 @@ gint main(gint argc, gchar *argv[])
 	CollectionData *cd = NULL;
 
 #ifdef HAVE_GTHREAD
-#if !GTK_CHECK_VERSION(2,32,0)
+#if !GLIB_CHECK_VERSION(2,32,0)
 	g_thread_init(NULL);
 #endif
 	gdk_threads_init();
