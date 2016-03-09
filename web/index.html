@@ -1,9 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
    <head>
-      <title>Geeqie Image Viewer</title>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /=true>
-      <link rel="stylesheet" type="text/css" href="default.css" /=true>
+      <title>Geeqie Image Viewer -- Main Project Page</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="description" content="Geeqie -- aiming to be the The Best Image/Photo Collection Viewer." />
+      <link rel="stylesheet" type="text/css" href="default.css" />
    </head>
    <body>
       <div id="header">
@@ -11,67 +12,73 @@
       </div>
       <div id="side">
 	 <ul>
-	    <li><a href="//geeqie.org">Main Page</a></li>
-	    <li><a href="//sourceforge.net/apps/trac/geeqie/wiki">Trac Wiki</a>
-	       <ul>
-		  <li><a href="//sourceforge.net/apps/trac/geeqie/wiki/GuideIndex">User Manual</a></li>
-		  <li><a href="//sourceforge.net/apps/trac/geeqie/wiki/roadmap">Roadmap</a></li>
-		  <li><a href="//sourceforge.net/apps/trac/geeqie/wiki/new_features">New Features</a></li>
-		  <li><a href="//sourceforge.net/apps/trac/geeqie/wiki/TODO">TODO List</a></li>
-		  <li><a href="//sourceforge.net/apps/trac/geeqie/wiki/screenshots">Screenshots</a></li>
-		  <li><a href="//sourceforge.net/apps/trac/geeqie/wiki/links">Links</a></li>
-	       </ul>
-	    </li>
-	    <li><a href="//sourceforge.net/mail/?group_id=222125">Mailinglists</a></li>
-	    <li><a href="geeqie-1.2.2.tar.xz">Download</a>
-	       <ul>
-		  <li><a href="/cgi-bin/gitweb.cgi?p=geeqie.git">Git Source</a></li>
-	       </ul>
-	    </li>
-	    <li><a href="geeqie-1.2.2.tar.xz.asc">GnuPG sig.</a></li>
+	    <li><a href="http://geeqie.org">Main Page</a></li>
+	    <li><a href="geeqie-1.2.2.tar.xz" rel="nofollow">Tarball</a> and <a href="geeqie-1.2.2.tar.xz.asc" rel="nofollow">GnuPG sig.</a></li>
+	    <li><a href="http://cgi-bin/gitweb.cgi?p=geeqie.git" rel="nofollow">Git Source</a></li>
+	    <!-- only while we still host the ML at sf. -->
+	    <li><a href="https://lists.sourceforge.net/lists/listinfo/geeqie-devel">Mailinglist</a></li>
+	    <!-- sf links dropped: apps trac geeqie wiki GuideIndex, roadmap, new_features, TODO, screenshots, links, DocStatus -->
+	    <li><a href="https://www.mail-archive.com/geeqie-devel@lists.sourceforge.net/">mail-archive</a></li>
+	    <li><a href="http://news.gmane.org/gmane.comp.gnome.apps.geeqie.devel">gmane.org</a></li>
 	 </ul>
       </div>
-      <div id="main"> Geeqie is a lightweight Gtk+ based image viewer for Unix like operating systems.
-	 <h3>Main features</h3>
+      <div id="main"> Geeqie is a lightweight image viewer for Linux, BSDs and "compatibles".
+	 <h1>Geeqie Project Status</h1>
+	 <p>Geeqie is currently (February 2016) on stable release 1.2.2,
+	 and actively being developed by a number of contributors,
+	 with upcoming maintenance release v1.2.3 and feature release 1.3.
+	 both expected in March 2016.</p>
+	 <p>
+	 However, there is a big mess with the old project pages at SF.
+	 Even though we still use their mailing list infrastructure for now,
+	 the canonical Geeqie project information, Geeqie help and
+	 documentation, relevant links and other things of interest for
+	 Geeqie users, contributors and developers is, or will be, here.</p>
+	 <h1>Main features</h1>
 	 <ul>
-	    <li><A href="//en.wikipedia.org/wiki/Exif">EXIF</A>,
-	       <A href="//en.wikipedia.org/wiki/IPTC">IPTC</A>
-	       and <A href="//en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</A>
+	    <li><A href="http://en.wikipedia.org/wiki/Exif">EXIF</A>,
+	       <A href="http://en.wikipedia.org/wiki/IPTC">IPTC</A>
+	       and <A href="http://en.wikipedia.org/wiki/Extensible_Metadata_Platform">XMP</A>
 	       metadata browsing and editing</li>
 	    <li>interoperability, easy integration with other software</li>
 	    <li>geeqie works on files and directories, there is no need to import images</li>
-	    <li>fast preview for many <A href="//en.wikipedia.org/wiki/Raw_image_format">raw image formats</A></li>
+	    <li>fast preview for many <A href="http://en.wikipedia.org/wiki/Raw_image_format">raw image formats</A></li>
 	    <li>tools for image comparison, sorting and managing photo collection</li>
 	 </ul>
 
-	 <h1><A href="//sourceforge.net/apps/trac/geeqie/wiki/DocStatus">We are looking for translators and documentation writers.</A></h1>
+	 <h2>Want to contribute?</h2>
+
+	 <ul>
+	 <li>We are looking for translators and documentation writers.</li>
+	 <li>Obviously this project page could do with some fancy webdesign,
+	 screenshots, documentation and testimonials.</li>
+         </ul>
+	 <p>If you think you can help us out here, contact us on the mailing list.</p>
 
 	 <h3>Requirements</h3>
 	 Required libraries:
 	 <ul>
-	    <li><A href="//www.gtk.org">GTK 2</A></li>
+	    <li><A href="http://www.gtk.org">GTK 2</A></li>
 	 </ul>
 	 Optional libraries
 	 <ul>
-	    <li><A href="//www.exiv2.org">Exiv2</A></li>
-	    <li><A href="//www.littlecms.com">lcms</A></li>
-	    <li><A href="//projects.gnome.org/libchamplain/">libchamplain</A></li>
-	    <li><a href="//www.lua.org/">liblua</a></li>
+	    <li><A href="http://www.exiv2.org">Exiv2</A></li>
+	    <li><A href="http://www.littlecms.com">lcms</A></li>
+	    <li><A href="http://projects.gnome.org/libchamplain/">libchamplain</A></li>
+	    <li><a href="http://www.lua.org/">liblua</a></li>
 	 </ul>
 
 	 <h3>History</h3>
-	 <p>Geeqie has been forked from <a href="//gqview.sourceforge.net">gqview</a>
-	 project, because it was not possible to contact gqview author and the only maintainer.
-	 Geeqie projects goal is to move the development forward and also integrate the existing patches.</p>
-	 <p>We had this project on sourceforge for long time and then moved to
-	 Gitosis when sourceforge decided to bundle downloads with malware.
-	 After the closing of Gitosis we moved to this place here to have a
+	 <p>Back in 2008, Geeqie has been forked from the GQview
+	 project, because it was not possible to contact the GQview author and only maintainer.</p>
+	 <p>Geeqie has quickly integrated existing patches, and keeps moving the development forward.</p>
+	 <p>We had this project on SF for a long time, then moved to
+	 Gitosis when SF decided to bundle malware with downloads.</p>
+	 <p>After the closing of Gitosis we moved to this place here, to have a
 	 stable address for the project. However, there are still many links to
 	 the old locations out there.</p>
-
-	 <h3>Project Status</h3>
-	 <p>Geeqie is currently on stable release 1.2.2. However, there is a big
-	 mess with sourceforge. We still use mailing list from sourceforge but
-	 all the rest is here.</p>
+	 <p>There used to be some links to Source Forge here.
+	 Those are unmaintained, and anyone who might be able
+	 to actually still maintain them is no longer responsive.</p>
    </body>
 </html>
