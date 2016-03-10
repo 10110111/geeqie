@@ -18,8 +18,8 @@ Geeqie projects goal is to move the development forward and
 also integrate the existing patches.
 
 Geeqie is currently considered stable.
-Please report any crash or odd behavior to the bugtracker:
-https://sourceforge.net/tracker/?group_id=222125&atid=1054680
+Please report any crash or odd behavior to the mailing list:
+https://lists.sourceforge.net/lists/listinfo/geeqie-devel
 
 For more info see:
 http://www.geeqie.org/
@@ -67,7 +67,7 @@ geeqie-devel@lists.sourceforge.net
 
 ======== Notes and changes for this release            [section:release_notes]
 
-See http://geeqie.wiki.sourceforge.net/new_features
+See NEWS file.
 
 
   Code hackers:
@@ -271,8 +271,7 @@ in the Preferences dialog.
 
 ======== Editor command macros                               [section:editors]
 
-Editors are configured via standard desktop files, see
-https://sourceforge.net/apps/trac/geeqie/wiki/GuideEditorsConfig
+Editors are configured via standard desktop files.
 
 
 ======== Overlay Info                                        [section:overlay]
