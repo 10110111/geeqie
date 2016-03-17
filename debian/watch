@@ -1,6 +1,6 @@
 # watch control file for uscan
-
 # Compulsory line, this is a version 3 file
 version=3
-
-http://sf.net/geeqie/geeqie-(.*)\.tar\.gz
+# see: https://wiki.debian.org/debian/watch#GitHub
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/geeqie-$1\.tar\.gz/ \
+  https://github.com/BestImageViewer/geeqie/tags .*/v?(\d\S*)\.tar\.gz
