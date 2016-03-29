@@ -234,7 +234,19 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 	g_object_unref(tmp_pixbuf);
 
 	DEBUG_0("%s clut upload start", get_exec_time());
-#if CLUTTER_CHECK_VERSION(1,10,0)
+#if COGL_VERSION_CHECK(1,18,2)
+	{
+	CoglContext *ctx = clutter_backend_get_cogl_context(clutter_get_default_backend ());
+
+	tex3d = cogl_texture_3d_new_from_data(ctx,
+					      CLUT_SIZE, CLUT_SIZE, CLUT_SIZE,
+					      COGL_PIXEL_FORMAT_RGB_888,
+					      CLUT_SIZE * 3,
+					      CLUT_SIZE * CLUT_SIZE * 3,
+					      clut,
+					      NULL);
+	}
+#elif COGL_VERSION_CHECK(1,10,4)
 	{
 	CoglContext *ctx = clutter_backend_get_cogl_context(clutter_get_default_backend ());
 
