@@ -113,6 +113,7 @@ struct _PaneKeywordsData
 	guint idle_id; /* event source id */
 	FileData *fd;
 	gchar *key;
+	gint height;
 };
 
 typedef struct _ConfDialogData ConfDialogData;
@@ -249,6 +250,7 @@ static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gin
 	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(pkd->pane.title)));
 	WRITE_BOOL(pkd->pane, expanded);
 	WRITE_CHAR(*pkd, key);
+	WRITE_INT(*pkd, height);
 	WRITE_STRING("/>");
 }
 
@@ -1263,7 +1265,7 @@ static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 }
 
 
-static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded)
+static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded, gint height)
 {
 	PaneKeywordsData *pkd;
 	GtkWidget *hbox;
@@ -1285,6 +1287,7 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 
 	pkd->pane.expanded = expanded;
 
+	pkd->height = height;
 	pkd->key = g_strdup(key);
 
 	pkd->expand_checked = TRUE;
@@ -1295,6 +1298,7 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	g_object_set_data(G_OBJECT(pkd->widget), "pane_data", pkd);
 	g_signal_connect(G_OBJECT(pkd->widget), "destroy",
 			 G_CALLBACK(bar_pane_keywords_destroy), pkd);
+	gtk_widget_set_size_request(pkd->widget, -1, height);
 	gtk_widget_show(hbox);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -1417,6 +1421,7 @@ GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, cons
 	gchar *title = NULL;
 	gchar *key = g_strdup(COMMENT_KEY);
 	gboolean expanded = TRUE;
+	gint height = 200;
 	GtkWidget *ret;
 
 	while (*attribute_names)
@@ -1428,13 +1433,14 @@ GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, cons
 		if (READ_CHAR_FULL("title", title)) continue;
 		if (READ_CHAR_FULL("key", key)) continue;
 		if (READ_BOOL_FULL("expanded", expanded)) continue;
+		if (READ_INT_FULL("height", height)) continue;
 
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
 	bar_pane_translate_title(PANE_KEYWORDS, id, &title);
-	ret = bar_pane_keywords_new(id, title, key, expanded);
+	ret = bar_pane_keywords_new(id, title, key, expanded, height);
 	g_free(id);
 	g_free(title);
 	g_free(key);
