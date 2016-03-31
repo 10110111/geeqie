@@ -631,34 +631,35 @@ struct _RemoteCommandEntry {
 	void (*func)(const gchar *text, GIOChannel *channel, gpointer data);
 	gboolean needs_extra;
 	gboolean prefer_command_line;
+	gchar *parameter;
 	gchar *description;
 };
 
 static RemoteCommandEntry remote_commands[] = {
-	/* short, long                  callback,               extra, prefer,description */
-	{ "-n", "--next",               gr_image_next,          FALSE, FALSE, N_("next image") },
-	{ "-b", "--back",               gr_image_prev,          FALSE, FALSE, N_("previous image") },
-	{ NULL, "--first",              gr_image_first,         FALSE, FALSE, N_("first image") },
-	{ NULL, "--last",               gr_image_last,          FALSE, FALSE, N_("last image") },
-	{ "-f", "--fullscreen",         gr_fullscreen_toggle,   FALSE, TRUE,  N_("toggle full screen") },
-	{ "-fs","--fullscreen-start",   gr_fullscreen_start,    FALSE, FALSE, N_("start full screen") },
-	{ "-fS","--fullscreen-stop",    gr_fullscreen_stop,     FALSE, FALSE, N_("stop full screen") },
-	{ "-s", "--slideshow",          gr_slideshow_toggle,	FALSE, TRUE,  N_("toggle slide show") },
-	{ "-ss","--slideshow-start",    gr_slideshow_start,     FALSE, FALSE, N_("start slide show") },
-	{ "-sS","--slideshow-stop",     gr_slideshow_stop,      FALSE, FALSE, N_("stop slide show") },
-	{ NULL, "--slideshow-recurse:", gr_slideshow_start_rec, TRUE,  FALSE, N_("start recursive slide show") },
-	{ "-d", "--delay=",             gr_slideshow_delay,     TRUE,  FALSE, N_("set slide show delay in seconds") },
-	{ "+t", "--tools-show",         gr_tools_show,          FALSE, TRUE,  N_("show tools") },
-	{ "-t", "--tools-hide",	        gr_tools_hide,          FALSE, TRUE,  N_("hide tools") },
-	{ "-q", "--quit",               gr_quit,                FALSE, FALSE, N_("quit") },
-	{ NULL, "--config-load:",       gr_config_load,         TRUE,  FALSE, N_("load config file") },
-	{ NULL, "--get-sidecars:",      gr_get_sidecars,        TRUE,  FALSE, N_("get list of sidecars of the given file") },
-	{ NULL, "--get-destination:",  	gr_get_destination,     TRUE,  FALSE, N_("get destination path for the given file") },
-	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("open file") },
-	{ NULL, "view:",		gr_file_view,		TRUE,  FALSE, N_("open file in new window") },
-	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL },
-	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, NULL },
-	{ NULL, "raise",		gr_raise,		FALSE, FALSE, NULL },
+	/* short, long                  callback,               extra, prefer, parameter, description */
+	{ "-n", "--next",               gr_image_next,          FALSE, FALSE, NULL, N_("next image") },
+	{ "-b", "--back",               gr_image_prev,          FALSE, FALSE, NULL, N_("previous image") },
+	{ NULL, "--first",              gr_image_first,         FALSE, FALSE, NULL, N_("first image") },
+	{ NULL, "--last",               gr_image_last,          FALSE, FALSE, NULL, N_("last image") },
+	{ "-f", "--fullscreen",         gr_fullscreen_toggle,   FALSE, TRUE,  NULL, N_("toggle full screen") },
+	{ "-fs","--fullscreen-start",   gr_fullscreen_start,    FALSE, FALSE, NULL, N_("start full screen") },
+	{ "-fS","--fullscreen-stop",    gr_fullscreen_stop,     FALSE, FALSE, NULL, N_("stop full screen") },
+	{ "-s", "--slideshow",          gr_slideshow_toggle,    FALSE, TRUE,  NULL, N_("toggle slide show") },
+	{ "-ss","--slideshow-start",    gr_slideshow_start,     FALSE, FALSE, NULL, N_("start slide show") },
+	{ "-sS","--slideshow-stop",     gr_slideshow_stop,      FALSE, FALSE, NULL, N_("stop slide show") },
+	{ NULL, "--slideshow-recurse:", gr_slideshow_start_rec, TRUE,  FALSE, N_("<FOLDER>"), N_("start recursive slide show in FOLDER") },
+	{ "-d", "--delay=",             gr_slideshow_delay,     TRUE,  FALSE, N_("<[N][.M]>"), N_("set slide show delay to N.M seconds") },
+	{ "+t", "--tools-show",         gr_tools_show,          FALSE, TRUE,  NULL, N_("show tools") },
+	{ "-t", "--tools-hide",	        gr_tools_hide,          FALSE, TRUE,  NULL, N_("hide tools") },
+	{ "-q", "--quit",               gr_quit,                FALSE, FALSE, NULL, N_("quit") },
+	{ NULL, "--config-load:",       gr_config_load,         TRUE,  FALSE, N_("<FILE>"), N_("load configuration from FILE") },
+	{ NULL, "--get-sidecars:",      gr_get_sidecars,        TRUE,  FALSE, N_("<FILE>"), N_("get list of sidecars of FILE") },
+	{ NULL, "--get-destination:",  	gr_get_destination,     TRUE,  FALSE, N_("<FILE>"), N_("get destination path of FILE") },
+	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE") },
+	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
+	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
+	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },
+	{ NULL, "raise",                gr_raise,               FALSE, FALSE, NULL, N_("bring the Geeqie window to the top") },
 	{ NULL, NULL, NULL, FALSE, FALSE, NULL }
 };
 
@@ -720,6 +721,8 @@ static void remote_cb(RemoteConnection *rc, const gchar *text, GIOChannel *chann
 void remote_help(void)
 {
 	gint i;
+	gchar *s_opt_param;
+	gchar *l_opt_param;
 
 	print_term(_("Remote command list:\n"));
 
@@ -728,11 +731,15 @@ void remote_help(void)
 		{
 		if (remote_commands[i].description)
 			{
-			printf_term("  %-3s%s %-20s %s\n",
-				    (remote_commands[i].opt_s) ? remote_commands[i].opt_s : "",
+			s_opt_param = g_strconcat(remote_commands[i].opt_s, remote_commands[i].parameter, NULL);
+			l_opt_param = g_strconcat(remote_commands[i].opt_l, remote_commands[i].parameter, NULL);
+			printf_term("  %-11s%-1s %-30s%-s\n",
+				    (remote_commands[i].opt_s) ? s_opt_param : "",
 				    (remote_commands[i].opt_s && remote_commands[i].opt_l) ? "," : " ",
-				    (remote_commands[i].opt_l) ? remote_commands[i].opt_l : "",
+				    (remote_commands[i].opt_l) ? l_opt_param : "",
 				    _(remote_commands[i].description));
+			g_free(s_opt_param);
+			g_free(l_opt_param);
 			}
 		i++;
 		}

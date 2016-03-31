@@ -42,12 +42,22 @@
           Start up in slideshow mode.
         </entry></row>
 <row><entry>
-          -l
+          -l [filelist] [collectionlist]
         </entry><entry>
-          --list
+          --list [filelist] [collectionlist]
         </entry><entry>
           Open collection window containing images specified on the command line. Any collections on the command line will also be appended to this collection.
         </entry></row>
+<row><entry/><entry>
+          --blank
+        </entry><entry>
+          Start with file list blank.
+        </entry></row>
+<row><entry/><entry>
+          --geometry=&lt;w&gt;x&lt;h&gt;+&lt;x&gt;+&lt;y&gt;
+          </entry><entry>
+          Set the &lt;width&gt; &lt;height&gt; &lt;xoffset&gt; &lt;yoffset&gt; of the window. The parameters are in pixels.
+          </entry></row>
 <row><entry>
           -r
         </entry><entry>
@@ -77,9 +87,14 @@
           Display version of Geeqie.
         </entry></row>
 <row><entry/><entry>
-          --debug
+          --debug[=&lt;level&gt;]
         </entry><entry>
-          Enable Debug output to console.
+          Turn on debugging output (when compiled with Debug enabled). &lt;level&gt; is 0 to 4.
+        </entry></row>
+<row><entry/><entry>
+          --alternate
+        </entry><entry>
+          Use alternate similarity algorithm - experimental - requires re-compile.
         </entry></row>
 </tbody></tgroup></informaltable>
     <para/><section id="Remotecommands"><title>
@@ -161,19 +176,17 @@
         </entry><entry>
           Stop slide show for main window.
         </entry></row>
-<row><entry>
-          -sr&amp;lt;folder&amp;gt;
+<row><entry/><entry>
+          --slideshow-recurse:&lt;folder&gt;
         </entry><entry>
-          --slideshow-recurse&amp;lt;folder&amp;gt;
-        </entry><entry>
-          Start recursive slide show for &amp;lt;folder&amp;gt; in main window.
+          Start recursive slide show for &lt;folder&gt; in main window.
         </entry></row>
 <row><entry>
-          -d&amp;lt;n&amp;gt;
+          -d&lt;[n][.m]&gt;
         </entry><entry>
-          --delay=&amp;lt;n&amp;gt;
+          --delay=&lt;[n][.m]&gt;
         </entry><entry>
-          Set slide show delay to &amp;lt;n&amp;gt; seconds, range is 0.1 to 3600
+          Set slide show delay to &lt;[n][.m]&gt; seconds, range is 0.1 to 3600
         </entry></row>
 <row><entry>
           +t
@@ -197,14 +210,44 @@
           Quit Geeqie.
         </entry></row>
 <row><entry/><entry>
-          file:&amp;lt;filename&amp;gt;
+          --config-load:&lt;file&gt;
         </entry><entry>
-          Change main window to display &amp;lt;filename&amp;gt;
+          Load configuration from &lt;file&gt;.
         </entry></row>
 <row><entry/><entry>
-          view:&amp;lt;filename&amp;gt;
+          --get-sidecars:&lt;file&gt;
         </entry><entry>
-          Open new window containing &amp;lt;filename&amp;gt;
+          Get list of sidecars of &lt;file&gt;.
+        </entry></row>
+<row><entry/><entry>
+          --get-destination:&lt;file&gt;
+        </entry><entry>
+          Get destination path of &lt;file&gt;. This is used by the symlink desktop file to implement the symbolic link operation. There is no useful function for the user.
+        </entry></row>
+<row><entry/><entry>
+          file:&lt;file&gt;
+        </entry><entry>
+          Change main window to display &lt;file&gt;
+        </entry></row>
+<row><entry/><entry>
+          view:&lt;file&gt;
+        </entry><entry>
+          Open new window containing &lt;file&gt;
+        </entry></row>
+<row><entry/><entry>
+          --list-clear
+        </entry><entry>
+          Clear command line collection list
+        </entry></row>
+<row><entry/><entry>
+          --list-add:&lt;file&gt;
+        </entry><entry>
+          Add &lt;file&gt; to command line collection list
+        </entry></row>
+<row><entry/><entry>
+          raise
+        </entry><entry>
+          Bring the geeqie window to the top
         </entry></row>
 </tbody></tgroup></informaltable>
   <para/></section></section>

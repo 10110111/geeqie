@@ -320,25 +320,27 @@ static void parse_command_line(gint argc, gchar *argv[])
 				printf_term("%s %s\n", GQ_APPNAME, VERSION);
 				printf_term(_("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
 				print_term(_("valid options are:\n"));
-				print_term(_("  +t, --with-tools           force show of tools\n"));
-				print_term(_("  -t, --without-tools        force hide of tools\n"));
-				print_term(_("  -f, --fullscreen           start in full screen mode\n"));
-				print_term(_("  -s, --slideshow            start in slideshow mode\n"));
-				print_term(_("  -l, --list                 open collection window for command line\n"));
-				print_term(_("      --geometry=GEOMETRY    set main window location\n"));
-				print_term(_("  -r, --remote               send following commands to open window\n"));
-				print_term(_("  -rh,--remote-help          print remote command list\n"));
+				print_term(_("  +t, --with-tools                 force show of tools\n"));
+				print_term(_("  -t, --without-tools              force hide of tools\n"));
+				print_term(_("  -f, --fullscreen                 start in full screen mode\n"));
+				print_term(_("  -s, --slideshow                  start in slideshow mode\n"));
+				print_term(_("  -l, --list [files] [collections] open collection window for command line\n"));
+				print_term(_("      --blank                      start with blank file list\n"));
+				print_term(_("      --geometry=XxY+XOFF+YOFF     set main window location\n"));
+				print_term(_("  -r, --remote                     send following commands to open window\n"));
+				print_term(_("  -rh,--remote-help                print remote command list\n"));
 #ifdef DEBUG
-				print_term(_("  --debug[=level]            turn on debug output\n"));
+				print_term(_("      --debug[=level]              turn on debug output\n"));
 #endif
-				print_term(_("  -v, --version              print version info\n"));
-				print_term(_("  -h, --help                 show this message\n\n"));
+				print_term(_("  -v, --version                    print version info\n"));
+				print_term(_("  -h, --help                       show this message\n\n"));
 
 #if 0
 				/* these options are not officially supported!
 				 * only for testing new features, no need to translate them */
 				print_term(  "  --alternate                use alternate similarity algorithm\n");
 #endif
+
 
 				exit(0);
 				}
