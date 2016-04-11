@@ -550,6 +550,10 @@ static void bookmark_populate(BookMarkData *bm)
 			history_list_add_to_key(bm->key, buf, 0);
 			g_free(buf);
 
+			buf = bookmark_string(".", g_strdup(history_list_find_last_path_by_key("path_list")), NULL);
+			history_list_add_to_key(bm->key, buf, 0);
+			g_free(buf);
+
 			path = g_build_filename(homedir(), "Desktop", NULL);
 			if (isname(path))
 				{
@@ -570,7 +574,14 @@ static void bookmark_populate(BookMarkData *bm)
 			path = work->data;
 			work = work->next;
 
-			buf = bookmark_string(name, path, NULL);
+			if (strcmp(name, ".") == 0)
+				{
+				buf = bookmark_string(name, g_strdup(history_list_find_last_path_by_key("path_list")), NULL);
+				}
+			else
+				{
+				buf = bookmark_string(name, path, NULL);
+				}
 			history_list_add_to_key(bm->key, buf, 0);
 			g_free(buf);
 			}
@@ -585,6 +596,16 @@ static void bookmark_populate(BookMarkData *bm)
 		b = bookmark_from_string(work->data);
 		if (b)
 			{
+			if (strcmp(b->name, ".") == 0)
+				{
+				gchar *buf;
+
+				b->path = g_strdup(history_list_find_last_path_by_key("path_list"));
+				buf = bookmark_string(".", b->path, b->icon);
+				history_list_item_change("bookmarks", b->key, buf);
+				b->key = g_strdup(buf);
+				g_free(buf);
+				}
 			GtkWidget *box;
 
 			b->button = gtk_button_new();
