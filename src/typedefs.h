@@ -165,6 +165,7 @@ typedef enum {
 	CHANGE_NO_READ_PERM            = 1 << 8,
 	CHANGE_NO_WRITE_PERM_DIR       = 1 << 9,
 	CHANGE_NO_DEST_DIR             = 1 << 10,
+	CHANGE_DUPLICATE_DEST          = 1 << 11,
 	CHANGE_NO_WRITE_PERM_DEST      = 1 << 12,
 	CHANGE_DEST_EXISTS             = 1 << 13,
 	CHANGE_NO_SRC                  = 1 << 14,

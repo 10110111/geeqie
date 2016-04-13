@@ -125,7 +125,7 @@ gboolean file_data_sc_update_ci_unspecified(FileData *fd, const gchar *dest_path
 
 gchar *file_data_get_error_string(gint error);
 
-gint file_data_verify_ci(FileData *fd);
+gint file_data_verify_ci(FileData *fd, GList *list);
 gint file_data_verify_ci_list(GList *list, gchar **desc, gboolean with_sidecars);
 
 gboolean file_data_perform_ci(FileData *fd);
@@ -135,7 +135,7 @@ void file_data_free_ci_list(GList *fd_list);
 
 void file_data_set_regroup_when_finished(FileData *fd, gboolean enable);
 
-gint file_data_sc_verify_ci(FileData *fd);
+gint file_data_sc_verify_ci(FileData *fd, GList *list);
 
 gboolean file_data_sc_perform_ci(FileData *fd);
 gboolean file_data_sc_apply_ci(FileData *fd);

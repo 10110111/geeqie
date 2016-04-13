@@ -2184,10 +2184,12 @@ gboolean file_data_sc_update_ci_unspecified_list(GList *fd_list, const gchar *de
  * it should detect all possible problems with the planned operation
  */
 
-gint file_data_verify_ci(FileData *fd)
+gint file_data_verify_ci(FileData *fd, GList *list)
 {
 	gint ret = CHANGE_OK;
 	gchar *dir;
+	GList *work = NULL;
+	FileData *fd1 = NULL;
 
 	if (!fd->change)
 		{
@@ -2397,6 +2399,26 @@ gint file_data_verify_ci(FileData *fd)
 		g_free(dest_dir);
 		}
 
+	/* During a rename operation, check if another planned destination file has
+	 * the same filename
+	 */
+ 	if(fd->change->type == FILEDATA_CHANGE_RENAME)
+		{
+		work = list;
+		while (work)
+			{
+			fd1 = work->data;
+			work = work->next;
+			if (fd1 != NULL && fd != fd1 )
+				{
+				if (!strcmp(fd->change->dest, fd1->change->dest))
+					{
+					ret |= CHANGE_DUPLICATE_DEST;
+					}
+				}
+			}
+		}
+
 	fd->change->error = ret;
 	if (ret == 0) DEBUG_1("Change checked: OK: %s", fd->path);
 
@@ -2405,19 +2427,19 @@ gint file_data_verify_ci(FileData *fd)
 }
 
 
-gint file_data_sc_verify_ci(FileData *fd)
+gint file_data_sc_verify_ci(FileData *fd, GList *list)
 {
 	GList *work;
 	gint ret;
 
-	ret = file_data_verify_ci(fd);
+	ret = file_data_verify_ci(fd, list);
 
 	work = fd->sidecar_files;
 	while (work)
 		{
 		FileData *sfd = work->data;
 
-		ret |= file_data_verify_ci(sfd);
+		ret |= file_data_verify_ci(sfd, list);
 		work = work->next;
 		}
 
@@ -2500,6 +2522,12 @@ gchar *file_data_get_error_string(gint error)
 		g_string_append(result, _("there are unsaved metadata changes for the file"));
 		}
 
+	if (error & CHANGE_DUPLICATE_DEST)
+		{
+		if (result->len > 0) g_string_append(result, ", ");
+		g_string_append(result, _("another destination file has the same filename"));
+		}
+
 	return g_string_free(result, FALSE);
 }
 
@@ -2526,7 +2554,7 @@ gint file_data_verify_ci_list(GList *list, gchar **desc, gboolean with_sidecars)
 		fd = work->data;
 		work = work->next;
 
-		error = with_sidecars ? file_data_sc_verify_ci(fd) : file_data_verify_ci(fd);
+		error = with_sidecars ? file_data_sc_verify_ci(fd, list) : file_data_verify_ci(fd, list);
 		all_errors |= error;
 		common_errors &= error;
 
