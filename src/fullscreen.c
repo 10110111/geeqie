@@ -628,7 +628,6 @@ GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value,
 	GtkWidget *combo;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
-	GtkWidget *button = NULL;
 	GList *list;
 	GList *work;
 	gint current = 0;
@@ -648,15 +647,6 @@ GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value,
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
 				       "text", FS_MENU_COLUMN_NAME, NULL);
-
-	if (above_value)
-		{
-		button = pref_checkbox_new_int(vbox, _("Stay above other windows"),
-					       *above_value, above_value);
-		gtk_widget_set_sensitive(button, *screen_value != -1);
-
-		g_object_set_data(G_OBJECT(combo), BUTTON_ABOVE_KEY, button);
-		}
 
 	fullscreen_prefs_selection_add(store, _("Determined by Window Manager"), -1);
 	fullscreen_prefs_selection_add(store, _("Active screen"), 0);
