@@ -707,13 +707,19 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 {
 	BookMarkData *bm = data;
 	GList *list = NULL;
+	GList *errors = NULL;
 	GList *work;
 	gchar **uris;
 
 	if (!bm->editable) return;
 
 	uris = gtk_selection_data_get_uris(selection_data);
-	list = uri_filelist_from_uris(uris);
+	list = uri_filelist_from_uris(uris, &errors);
+	if(errors)
+		{
+		warning_dialog_dnd_uri_error(errors);
+		string_list_free(errors);
+		}
 	g_strfreev(uris);
 
 	work = list;
