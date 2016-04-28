@@ -200,6 +200,7 @@ static void config_window_apply(void)
 	if (options->file_filter.show_parent_directory != c_options->file_filter.show_parent_directory) refresh = TRUE;
 	if (options->file_filter.show_dot_directory != c_options->file_filter.show_dot_directory) refresh = TRUE;
 	if (options->file_sort.case_sensitive != c_options->file_sort.case_sensitive) refresh = TRUE;
+	if (options->file_filter.disable_file_extension_checks != c_options->file_filter.disable_file_extension_checks) refresh = TRUE;
 	if (options->file_filter.disable != c_options->file_filter.disable) refresh = TRUE;
 
 	options->file_ops.confirm_delete = c_options->file_ops.confirm_delete;
@@ -237,6 +238,7 @@ static void config_window_apply(void)
 	options->file_filter.show_hidden_files = c_options->file_filter.show_hidden_files;
 	options->file_filter.show_parent_directory = c_options->file_filter.show_parent_directory;
 	options->file_filter.show_dot_directory = c_options->file_filter.show_dot_directory;
+	options->file_filter.disable_file_extension_checks = c_options->file_filter.disable_file_extension_checks;
 
 	options->file_sort.case_sensitive = c_options->file_sort.case_sensitive;
 	options->file_filter.disable = c_options->file_filter.disable;
@@ -1508,6 +1510,8 @@ static void config_tab_files(GtkWidget *notebook)
 			      options->file_filter.show_parent_directory, &c_options->file_filter.show_parent_directory);
 	pref_checkbox_new_int(group, _("Case sensitive sort"),
 			      options->file_sort.case_sensitive, &c_options->file_sort.case_sensitive);
+	pref_checkbox_new_int(group, _("Disable file extension checks"),
+			      options->file_filter.disable_file_extension_checks, &c_options->file_filter.disable_file_extension_checks);
 
 	ct_button = pref_checkbox_new_int(group, _("Disable File Filtering"),
 					  options->file_filter.disable, &c_options->file_filter.disable);

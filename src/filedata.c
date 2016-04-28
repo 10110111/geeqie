@@ -2346,11 +2346,13 @@ gint file_data_verify_ci(FileData *fd, GList *list)
 			{
 			const gchar *dest_ext = extension_from_path(fd->change->dest);
 			if (!dest_ext) dest_ext = "";
-
-			if (g_ascii_strcasecmp(fd->extension, dest_ext) != 0)
+			if (!options->file_filter.disable_file_extension_checks)
 				{
-				ret |= CHANGE_WARN_CHANGED_EXT;
-				DEBUG_1("Change checked: source and destination have different extensions: %s -> %s", fd->path, fd->change->dest);
+				if (g_ascii_strcasecmp(fd->extension, dest_ext) != 0)
+					{
+					ret |= CHANGE_WARN_CHANGED_EXT;
+					DEBUG_1("Change checked: source and destination have different extensions: %s -> %s", fd->path, fd->change->dest);
+					}
 				}
 			}
 		else

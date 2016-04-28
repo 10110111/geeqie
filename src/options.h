@@ -91,6 +91,7 @@ struct _ConfOptions
 		gboolean show_hidden_files;
 		gboolean show_parent_directory;
 		gboolean show_dot_directory;
+		gboolean disable_file_extension_checks;
 		gboolean disable;
 	} file_filter;
 

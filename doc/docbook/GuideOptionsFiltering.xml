@@ -11,32 +11,37 @@
     </title>
     <variablelist><varlistentry><term>
         Show hidden files or folders
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
+      </term><listitem><para>
       Enables the display of hidden files and folders, also known as dot files.
-    </para>
+    </para></listitem></varlistentry></variablelist>
+
     <variablelist><varlistentry><term>
-        Show dot directory
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
-      Enables the display of the current directory as a dot in the directories views. It may be useful for some drag'n'drop operations.
-    </para>
+        Show parent folder
+      </term><listitem><para>
+      Enables the display of the parent folder as a double dot in the directories views.
+    </para></listitem></varlistentry></variablelist>
+
     <variablelist><varlistentry><term>
         Case sensitive sort
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
+      </term><listitem><para>
       Files and folders are sorted such that upper case letters occur before lower case letters.
-    </para>
-    <para>
+    </para><para>
       Enabled result: A, B, C, a, b, c<?db2html element="br"?>
       Disabled result: A, a, B, b, C, c
-    </para>
+    </para></listitem></varlistentry></variablelist>
+
+    <variablelist><varlistentry><term>
+        Disable file extension checks
+      </term><listitem><para>
+      During rename operations, allows files to be renamed to a different extension with no warning issued.
+    </para></listitem></varlistentry></variablelist>
+
     <variablelist><varlistentry><term>
         Disable file filtering
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
+      </term><listitem><para>
       Enable this to allow Geeqie to list all files, even those that do not contain images.
-    </para>
+    </para></listitem></varlistentry></variablelist>
+
     <para/></section><section id="Groupingsidecarextensions"><title>
       Grouping sidecar extensions
     </title>
