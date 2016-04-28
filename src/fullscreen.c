@@ -214,7 +214,6 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gint x, y;
 	gint w, h;
 	GdkGeometry geometry;
-	GdkWindow *gdkwin;
 
 	if (!window || !imd) return NULL;
 
@@ -234,35 +233,30 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 
 	fs->window = window_new(GTK_WINDOW_TOPLEVEL, "fullscreen", NULL, NULL, _("Full screen"));
 
-	/* this requests no decorations, if you still have them complain to the window manager author(s) */
-	gtk_window_set_decorated(GTK_WINDOW(fs->window), FALSE);
-
-	if (options->fullscreen.screen < 0)
-		{
-		/* If we want control of the window size and position this is not what we want.
-		 * Geeqie needs control of which monitor(s) to use for full screen.
-		 */
-		gtk_window_fullscreen(GTK_WINDOW(fs->window));
-		}
-	else
-		{
-		gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
-		if (options->fullscreen.above)
-			gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
-		}
-
-	gtk_window_set_resizable(GTK_WINDOW(fs->window), FALSE);
-	gtk_container_set_border_width(GTK_CONTAINER(fs->window), 0);
 	g_signal_connect(G_OBJECT(fs->window), "delete_event",
 			 G_CALLBACK(fullscreen_delete_cb), fs);
 
-	geometry.min_width = w;
-	geometry.min_height = h;
-	geometry.max_width = w;
-	geometry.max_height = h;
-	geometry.base_width = w;
-	geometry.base_height = h;
-	geometry.win_gravity = GDK_GRAVITY_STATIC;
+	/* few cosmetic details */
+	gtk_window_set_decorated(GTK_WINDOW(fs->window), FALSE);
+	gtk_container_set_border_width(GTK_CONTAINER(fs->window), 0);
+
+	/* make window fullscreen -- let Gtk do it's job, don't screw it in any way */
+	gtk_window_fullscreen(GTK_WINDOW(fs->window));
+
+	/* move it to requested screen */
+	if (options->fullscreen.screen >= 0) {
+		gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
+	}
+
+	/* keep window above others, if requested */
+	if (options->fullscreen.above) {
+		gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
+	}
+
+	/* set default size and position, so the window appears where it was before */
+	gtk_window_set_default_size(GTK_WINDOW(fs->window), w, h);
+	gtk_window_move(GTK_WINDOW(fs->window), x, y);
+
 	/* By setting USER_POS and USER_SIZE, most window managers will
 	 * not request positioning of the full screen window (for example twm).
 	 *
@@ -270,18 +264,15 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	 * decorations of twm to not effect the requested window position,
 	 * the decorations will simply be off screen, except in multi monitor setups :-/
 	 */
+	geometry.min_width = 1;
+	geometry.min_height = 1;
+	geometry.base_width = w;
+	geometry.base_height = h;
+	geometry.win_gravity = GDK_GRAVITY_STATIC;
 	gtk_window_set_geometry_hints(GTK_WINDOW(fs->window), fs->window, &geometry,
-				      GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE | GDK_HINT_BASE_SIZE |
-				      GDK_HINT_WIN_GRAVITY |
-				      GDK_HINT_USER_POS);
-
-	gtk_window_set_default_size(GTK_WINDOW(fs->window), w, h);
-	gtk_window_move(GTK_WINDOW(fs->window), x, y);
+			GDK_HINT_WIN_GRAVITY | GDK_HINT_USER_POS | GDK_HINT_USER_SIZE);
 
 	gtk_widget_realize(fs->window);
-	gdkwin = gtk_widget_get_window(fs->window);
-	if (gdkwin != NULL)
-		gdk_window_set_override_redirect(gdkwin, TRUE);
 
 	fs->imd = image_new(FALSE);
 
@@ -637,7 +628,6 @@ GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value,
 	GtkWidget *combo;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
-	GtkWidget *button = NULL;
 	GList *list;
 	GList *work;
 	gint current = 0;
@@ -657,15 +647,6 @@ GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value,
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
 				       "text", FS_MENU_COLUMN_NAME, NULL);
-
-	if (above_value)
-		{
-		button = pref_checkbox_new_int(vbox, _("Stay above other windows"),
-					       *above_value, above_value);
-		gtk_widget_set_sensitive(button, *screen_value != -1);
-
-		g_object_set_data(G_OBJECT(combo), BUTTON_ABOVE_KEY, button);
-		}
 
 	fullscreen_prefs_selection_add(store, _("Determined by Window Manager"), -1);
 	fullscreen_prefs_selection_add(store, _("Active screen"), 0);
