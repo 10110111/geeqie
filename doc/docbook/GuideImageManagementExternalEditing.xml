@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section id="GuideImageManagementExternalEditing"><title/>
+<section id="GuideImageManagementExternalEditing">
+    <title>
+      External Editors
+    </title>
+    <para>
+      This section describes the external editor facility.
+    </para>
     <para/><section id="ExternalEditing"><title>
       External Editing
     </title>
@@ -22,12 +28,12 @@
       <ulink url="http://standards.freedesktop.org/menu-spec/">http://standards.freedesktop.org/menu-spec/</ulink>
     </para>
     <para>
-      It is also possible to add Geeqie-specific editors with the <link linkend="GuideEditorsConfig">Editor configuration dialog?</link>
+      It is also possible to add Geeqie-specific editors with the Editor Configuration Dialog.
     </para>
     <para>
       Editors appear in menu Edit / External Editors, unless specified otherwise in the desktop file.
     </para>
-    <para/><section id="Resultdialog"><title>
+    <para/></section><section id="Resultdialog"><title>
       Result dialog
     </title>
     <para>
@@ -39,4 +45,6 @@
     <para>
       Once all commands have completed, or if the Stop button was pressed and the pending command has completed, you can use the Close button, or press Escape, to close the Result dialog. The Result dialog can not be closed while a command is still running.
     </para>
-  <para/></section></section></section>
+    </section><section id="GuideEditorsConfig"><title>Editor Configuration</title><para>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideEditorsConfig.xml"/></para></section>
+</section>

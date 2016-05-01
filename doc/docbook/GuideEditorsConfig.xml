@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideEditorsConfig">
+    <title>
+      External Editors
+    </title>
+    <para/><section id="EditorsConfigurationDialog"><title>Editors Configuration Dialog</title>
+    <para>
+    This dialog allows user to add new editors or modify the system ones. It is available in the menu under Edit / Preferences / Configure Editors.
+    </para>
+    <para>
+    The Editors dialog shows list of all considerable editors, that is all installed desktop files that have Categories=Graphics or Categories=X-Geeqie.
+    </para>
+    <para>Name</para>
+    <para>Editor name as specified in desktop file.
+    </para>
+    <para>Hidden</para>
+    <para>An editor can be "Hidden" for one of these reasons:
+    </para><para>
+    <itemizedlist spacing="compact"><listitem>the desktop file contains <literal>Hidden=TRUE</literal> or <literal>NoDisplay=TRUE</literal> entry
+    </listitem><listitem><literal>TryExec</literal> binary was not found
+    </listitem><listitem><literal>MimeType</literal> list does not contain images
+    </listitem><listitem><literal>MimeType</literal> list is empty and <literal>Categories</literal> does not contain <literal>X-Geeqie</literal>
+    </listitem></itemizedlist></para>
+    <para>Desktop file</para>
+    <para>
+    Name of the desktop file, it is used as an identifier in hotkey configuration and in config file.
+    </para>
+    <para>Path</para>
+    <para>
+    Full path to the desktop file. Desktop files in user directories override the system ones with the same name.
+    </para></section>
+    <section id="Addingneweditor"><title>Adding new editor</title>
+    <para>
+    This button opens a text editor with a desktop file template.
+    </para><para>
+    <programlisting>[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Template
+#Name[cs]=
+#Name[fr]=
+
+# %f	 A single file name, even if multiple files are selected. The
+# system reading the desktop entry should recognize that the program in
+# question cannot handle multiple file arguments, and it should should
+# probably spawn and execute multiple copies of a program for each
+# selected file if the program is not able to handle additional file
+# arguments. If files are not on the local file system (i.e. are on HTTP
+# or FTP locations), the files will be copied to the local file system and
+# %f will be expanded to point at the temporary file. Used for programs
+# that do not understand the URL syntax.
+# 
+# %F	A list of files. Use for apps that can open several local files
+# at once. Each file is passed as a separate argument to the executable
+# program.
+# 
+# %u	A single URL. Local files may either be passed as file: URLs or
+# as file path.
+# 
+# %U	A list of URLs. Each URL is passed as a separate argument to
+# the executable program. Local files may either be passed as file: URLs
+# or as file path.
+#
+# "$GEEQIE_DESTINATION" destination set by Geeqie
+Exec=ln -s %f "$GEEQIE_DESTINATION"
+
+# Desktop files that are usable only in Geeqie should be marked like this:
+Categories=X-Geeqie;
+OnlyShowIn=X-Geeqie;
+
+# Show in menu "File"
+X-Geeqie-Menu-Path=FileMenu/FileOpsSection
+
+# This is a filter - $GEEQIE_DESTINATION is required
+X-Geeqie-Filter=true
+
+# It can be made verbose
+# X-Geeqie-Verbose=true
+    </programlisting></para></section>
+    <section id="Modifyinganexistingeditor"><title>Modifying an existing editor</title>
+    <para>
+    Edit button opens a text editor with existing desktop file. For desktop files that are not writable by user, it allows saving to Geeqie specific directory, where it overrides the system file (but only for Geeqie).
+    </para></section>
+    <section id="Deletinganeditor"><title>Deleting an  editor</title>
+    <para>
+    Delete buttons can delete user writable desktop files. System desktop files can't be deleted directly, but it is possible to edit them and set Hidden=TRUE, see above.
+    </para></section>
+    <section id="Specialeditors"><title>Special editors</title>
+    <para>
+    Desktop file with one of the following name has a special function. It replaces the corresponding internal command.
+    </para><para>
+    <programlisting>geeqie-copy-command.desktop
+geeqie-move-command.desktop
+geeqie-rename-command.desktop
+geeqie-delete-command.desktop
+geeqie-folder-command.desktop
+    </programlisting></para><para>
+    This can be used for example for custom trash command or for manipulation with files under version control.
+    </para></section>
+    <section id="Geeqieextensions"><title>Geeqie extensions</title>
+    <para>X-Geeqie</para>
+    <para>
+    This can be specified in Categories, OnlyShowIn and NotShowIn fields
+    </para>
+    <para>X-Geeqie-Menu-Path</para>
+    <para>
+    This can specify the menu path where the editor appears, instead of the default Edit / External editors. Possible values are:
+    </para><para>
+    <programlisting>FileMenu
+FileMenu/OpenSection
+FileMenu/SearchSection
+FileMenu/PrintSection
+FileMenu/FileOpsSection
+FileMenu/QuitSection
+GoMenu
+SelectMenu
+SelectMenu/SelectSection
+SelectMenu/ClipboardSection
+SelectMenu/MarksSection
+SelectMenu/EditMenu
+SelectMenu/ExternalMenu
+SelectMenu/EditSection
+SelectMenu/OrientationMenu
+SelectMenu/PropertiesSection
+SelectMenu/PreferencesMenu
+SelectMenu/PreferencesSection
+ViewMenu
+ViewMenu/WindowSection
+ViewMenu/FileDirMenu
+ViewMenu/FileDirMenu/FolderSection
+ViewMenu/FileDirMenu/ListSection
+ViewMenu/DirSection
+ViewMenu/ZoomMenu
+ViewMenu/ZoomMenu/ConnectZoomMenu
+ViewMenu/SplitMenu
+ViewMenu/ColorMenu
+ViewMenu/OverlayMenu
+ViewMenu/ViewSection
+ViewMenu/ToolsSection
+ViewMenu/SlideShowSection
+HelpMenu
+HelpMenu/HelpSection
+    </programlisting></para><para>X-Geeqie-Filter</para>
+    <para>
+    Specifies that the editor is a filter - it requires source and destination path. The destination path is in shell variable $GEEQIE_DESTINATION or, more correctly, it can be
+    queried be geeqie -r, like in the geeqie-symlink command:
+    </para><para>
+    <programlisting>#!/bin/sh
+
+# This is a helper script that symlinks grouped files
+# it uses geeqie remote connection to get details about grouped files
+
+
+# iterate over files on commandline
+for file in "$@" ; do
+    # we got only one file for each group, typically the main one
+    # get the sidecars:
+    geeqie -r --get-sidecars:"$file" |while read sidecar ; do
+        # the main file is included in the sidecar file list, no special handling is required
+        # get destination path for each sidecar file:
+        geeqie -r --get-destination:"$sidecar" | if read destination ; then
+            ln -s "$sidecar" "$destination"
+        fi
+    done
+done
+    </programlisting></para></section>
+</section>
+
