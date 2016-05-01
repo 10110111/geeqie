@@ -7,5 +7,6 @@
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceKeyboardShortcuts.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceThumbnails.xml"/>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceManagement.xml"/>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceToolbar.xml"/>
 
   <para/></chapter>
