@@ -562,8 +562,6 @@ cat > config.report << END
 Package:
   Name:          $PACKAGE_NAME
   Version:       $PACKAGE_VERSION
-  Patch version: $GQ_PATCH_VERSION
-  Date:          $GQ_PATCH_DATE
 
 Architecture:
   UNIX:          $os_unix
