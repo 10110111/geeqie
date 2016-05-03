@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideReferenceToolbar">
+    <title>
+      Toolbar
+    </title>
+    <para/><section id="AddingIconsToToolbar"><title>How to set up new toolbar icons
+    </title>
+    <para>This section describes how to put additional icons on the toolbar.<para/>The functions these icons may initiate are as described in <link linkend="GuideImageManagementExternalEditing">External Editors</link>.
+    </para>
+    <para>
+      Edit the toolbar section of the file geeqierc.xml to include a reference to the new icon:</para>
+    <para><programlisting>
+    &lt;toolitem action = "new_icon_1.desktop" /&gt;
+    </programlisting></para><para>
+      Create a corresponding desktop file as described in <link linkend="GuideImageManagementExternalEditing">External Editors</link>.
+    </para>
+    <para/>
+    <para>Within the desktop file it is recommended that two additional items are included:</para>
+    <para><programlisting>Icon=new_icon_1.png</programlisting></para>
+    <para>The icon displayed. If an icon is not defined, it is likely that the display of the entire toolbar will be distorted by additional text.</para>
+    <para><programlisting>Comment=descriptive text</programlisting></para>
+    <para>The tooltip text displayed when the mouse is hovered over the icon.</para>
+    </section>
+</section>
