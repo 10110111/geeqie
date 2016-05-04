@@ -73,3 +73,6 @@ Makefile.in
 /debian/geeqie*
 /debian/files
 /doc/html/
+
+# That two files are autocreated(!)
+/src/gq-marshal.[ch]
