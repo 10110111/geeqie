@@ -271,7 +271,7 @@ EXTRA_DIST = \
 gq-marshal.h: gq-marshal.list
 	$(GLIB_GENMARSHAL) --prefix=gq_marshal $(srcdir)/gq-marshal.list --header >$@
 
-gq-marshal.c: gq-marshal.list
+gq-marshal.c: gq-marshal.list gq-marshal.h
 	(echo "#include \"gq-marshal.h\"" ; $(GLIB_GENMARSHAL) --prefix=gq_marshal $(srcdir)/gq-marshal.list --body ) >$@
 
 
