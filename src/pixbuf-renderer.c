@@ -1160,7 +1160,7 @@ void pixbuf_renderer_set_tiles(PixbufRenderer *pr, gint width, gint height,
 			       gdouble zoom)
 {
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
-	g_return_if_fail(tile_width >= 32 && tile_width >= 32);
+	g_return_if_fail(tile_width >= 32 && tile_height >= 32);
 	g_return_if_fail(width >= 32 && height > 32);
 	g_return_if_fail(func_request != NULL);
 
