@@ -1,0 +1,2271 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 2009-11-02\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-02 20:43-0500\n"
+"PO-Revision-Date: 2009-11-26 16:57+0200\n"
+"Last-Translator: nikos papadopoulos <translators_team@mandrivalinux.gr>\n"
+"Language-Team: el <www.mandrivalinux.gr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Greek\n"
+"X-Poedit-Country: GREECE\n"
+
+msgid "      --geometry=GEOMETRY    set main window location\n"
+msgstr "      --geometry=ΓΕΩΜΕΤΡΙΑ    ορισμός της θέσης του κύριου παράθυρου\n"
+
+msgid "  +t, --with-tools           force show of tools\n"
+msgstr "  +t, --with-tools           εξαναγκαστική προβολή των εργαλείων\n"
+
+msgid "  --debug                    turn on debug output\n"
+msgstr ""
+"  --debug                    ενεργοποίηση του αποτελέσματος εξόδου της "
+"απασφαλμάτωσης\n"
+
+msgid "  -f, --fullscreen           start in full screen mode\n"
+msgstr ""
+"  -f, --fullscreen           εκκίνηση σε κατάσταση λειτουργίας πλήρης "
+"οθόνης\n"
+
+msgid ""
+"  -h, --help                 show this message\n"
+"\n"
+msgstr ""
+"  -h, --help                 εμφάνιση του παρόντος μηνύματος\n"
+"\n"
+
+msgid "  -l, --list                 open collection window for command line\n"
+msgstr ""
+"  -l, --list                 άνοιγμα του παράθυρου συλλογής, για τη γραμμή "
+"εντολών\n"
+
+msgid "  -r, --remote               send following commands to open window\n"
+msgstr ""
+"  -r, --remote               αποστολή των εντολών που ακολουθούν, στο "
+"ανοιχτό παράθυρο\n"
+
+msgid "  -rh,--remote-help          print remote command list\n"
+msgstr ""
+"  -rh,--remote-help          εκτύπωση του καταλόγου με τις «απομακρυσμένες» "
+"εντολές\n"
+
+msgid "  -s, --slideshow            start in slideshow mode\n"
+msgstr ""
+"  -s, --slideshow            εκκίνηση σε κατάσταση λειτουργίας συνεχόμενης "
+"προβολής εικόνων\n"
+
+msgid "  -t, --without-tools        force hide of tools\n"
+msgstr "  -t, --without-tools        εξαναγκαστική απόκρυψη των εργαλείων\n"
+
+msgid "  -v, --version              print version info\n"
+msgstr "  -v, --version              εκτύπωση των πληροφοριών έκδοσης\n"
+
+msgid " Paused"
+msgstr "Παυμένο"
+
+msgid " Slideshow"
+msgstr "Συνεχόμενη προβολή εικόνων"
+
+msgid "#"
+msgstr "#"
+
+msgid "% similar to"
+msgstr "% παρόμοιο με"
+
+msgid "%.1f GB"
+msgstr "%.1f GB"
+
+msgid "%.1f K"
+msgstr "%.1f K"
+
+msgid "%.1f MB"
+msgstr "%.1f MB"
+
+msgid "%d bytes"
+msgstr "%d bytes"
+
+msgid "%d files"
+msgstr "%d αρχεία"
+
+msgid "%d files%s"
+msgstr "%d αρχεία%s"
+
+msgid "%d images"
+msgstr "%d εικόνες"
+
+msgid "%d images (%d)"
+msgstr "%d εικόνες (%d)"
+
+msgid "%d images, %s"
+msgstr "%d εικόνες, %s"
+
+msgid "%s - GQview Collection"
+msgstr "%s - Συλλογή GQview"
+
+msgid "%s, %d files"
+msgstr "%s, %d αρχεία"
+
+msgid "%s, %d files (%s, %d)"
+msgstr "%s, %d αρχεία (%s, %d)"
+
+msgid "%s, %d files (%s, %d)%s"
+msgstr "%s, %d αρχεία (%s, %d)%s"
+
+msgid "%s, %d files%s"
+msgstr "%s, %d αρχεία%s"
+
+msgid "( %d x %d ) %s bytes"
+msgstr "( %d x %d ) %s bytes"
+
+msgid "( ? x ? ) %s bytes"
+msgstr "( ? x ? ) %s bytes"
+
+msgid "(drag to change order)"
+msgstr "(σύρε για να αλλάξεις την σειρά)"
+
+msgid "(no read permission) %s bytes"
+msgstr "(χωρίς δικαίωμα ανάγνωσης) %s bytes"
+
+msgid "1:1 (100%)"
+msgstr "1:1 (100%)"
+
+msgid "1:10 (10%)"
+msgstr "1:10 (10%)"
+
+msgid "1:2 (50%)"
+msgstr "1:2 (50%)"
+
+msgid "1:3 (33%)"
+msgstr "1:3 (33%)"
+
+msgid "1:4 (25%)"
+msgstr "1:4 (25%)"
+
+msgid "<printer name>"
+msgstr "<το όνομα του εκτυπωτή>"
+
+msgid "A file with name %s already exists."
+msgstr "Ένα αρχείο με το όνομα %s υπάρχει ήδη."
+
+msgid "About - GQview"
+msgstr "Σχετικά με - GQview"
+
+msgid ""
+"About to delete the file:\n"
+" %s"
+msgstr ""
+"Πρόκειται να διαγράψεις το αρχείο:\n"
+" %s"
+
+msgid "Active monitor"
+msgstr "Ενεργή οθόνη"
+
+msgid "Active screen"
+msgstr "Ενεργή οθόνη"
+
+msgid "Add Bookmark"
+msgstr "Προσθήκη Σελιδοδείκτη"
+
+msgid "Add Collection"
+msgstr "Προσθήκη Συλλογής"
+
+msgid "Add _Bookmark"
+msgstr "Προσθήκη _Σελιδοδείκτη"
+
+msgid "Add image"
+msgstr "Προσθήκη εικόνας"
+
+msgid "Add keywords to selected files"
+msgstr "Προσθήκη λέξεων-κλειδιών στα επιλεγμένα αρχεία"
+
+msgid "Add selection"
+msgstr "Προσθήκη συλλογής"
+
+msgid "Add to new collection"
+msgstr "Προσθήκη σε νέα συλλογή"
+
+msgid "Advanced"
+msgstr "Προχωρημένα"
+
+msgid "Advanced view"
+msgstr "Προχωρημένη εμφάνιση"
+
+msgid "All"
+msgstr "Όλα"
+
+msgid "All Files"
+msgstr "Όλα τα Αρχεία"
+
+msgid "All files"
+msgstr "Όλα τα αρχεία"
+
+msgid "Allow enlargement of image for zoom to fit"
+msgstr "Να επιτρέπεται η μεγέθυνση της εικόνας, ώστε η εστίαση να ταιριάζει"
+
+msgid "An error occured printing to %s."
+msgstr "Συνέβη κάποιο σφάλμα στην εκτύπωση στο %s."
+
+msgid "Aperture"
+msgstr "Οπή"
+
+msgid "Appearance"
+msgstr "Εμφάνιση"
+
+msgid "Append collection"
+msgstr "Προσθήκη συλλογής"
+
+msgid "Art"
+msgstr "Τέχνη"
+
+msgid "Ascending"
+msgstr "Αύξουσα"
+
+msgid "Auto rename"
+msgstr "Αυτόματη μετονομασία"
+
+msgid "Auto rotate image using Exif information"
+msgstr "Αυτόματη περιστροφή της εικόνας, με τη χρήση των πληροφοριών Exif"
+
+msgid "Behavior"
+msgstr "Συμπεριφορά"
+
+msgid "Best"
+msgstr "Καλύτερο"
+
+msgid "Bilinear"
+msgstr "Διγραμμική"
+
+msgid "Black background"
+msgstr "Μαύρο παρασκήνιο"
+
+msgid "Bottom:"
+msgstr "Κάτω:"
+
+msgid "C_lear"
+msgstr "Εκκα_θάριση"
+
+msgid "C_lose window"
+msgstr "Κ_λείσιμο του παραθύρου"
+
+msgid "Cache Maintenance - GQview"
+msgstr "Διατήρηση Μικροαποθήκευσης - GQview"
+
+msgid "Cache and Data Maintenance"
+msgstr "Διατήρηση Μικροαποθήκευσης και Δεδομένων"
+
+msgid "Cache thumbnails"
+msgstr "Αποθήκευση των μικρογραφιών"
+
+msgid "Cache thumbnails into .thumbnails"
+msgstr "Αποθήκευση των μικρογραφιών στο .thumbnails"
+
+msgid "Calendar"
+msgstr "Ημερολόγιο"
+
+msgid "Camera"
+msgstr "Κάμερα"
+
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgid "Case sensitive sort"
+msgstr "Ταξινόμηση με διάκριση πεζών/κεφαλαίων"
+
+msgid "Change to folder:"
+msgstr "Αλλαγή στο φάκελο:"
+
+msgid "Change to home folder"
+msgstr "Μεταβολή στον αρχικό κατάλογο"
+
+msgid "Checksum"
+msgstr "Άθροισμα Ελέγχου"
+
+msgid "Choose the destination folder."
+msgstr "Επέλεξε τον φάκελο προορισμού."
+
+msgid "Clean up"
+msgstr "Ξεκαθάρισμα"
+
+msgid "Clear cache"
+msgstr "Εκκαθάριση της μικροαποθήκευσης"
+
+msgid "Clear trash"
+msgstr "Εκκαθάριση των απορριμμάτων"
+
+msgid "Clearing cached thumbnails..."
+msgstr "Εκκαθάριση όλων των μικρογραφιών..."
+
+msgid "Clearing thumbnails..."
+msgstr "Εκκαθάριση των μικρογραφιών..."
+
+msgid "Close _window"
+msgstr "Κλείσιμο του _παραθύρου"
+
+msgid "Close collection"
+msgstr "Κλείσιμο της συλλογής"
+
+msgid "Co_ntinue"
+msgstr "Συ_νέχιση"
+
+msgid "Collection Files"
+msgstr "Αρχεία συλλογής"
+
+msgid "Collection empty"
+msgstr "Άδεια συλλογή"
+
+msgid "Collection exists"
+msgstr "Η συλλογή υπάρχει"
+
+msgid ""
+"Collection has been modified.\n"
+"Save first?"
+msgstr ""
+"Η συλλογή μετατράπηκε.\n"
+"Να αποθηκευθεί, πρώτα;"
+
+msgid "Collections"
+msgstr "Συλλογές"
+
+msgid "Collections have been modified. Quit anyway?"
+msgstr "Οι συλλογές έχουν μετατραπεί. Να γίνει τερματισμός, έτσι κι αλλιώς;"
+
+msgid "Color profiles"
+msgstr "Προφίλ χρωμάτων"
+
+msgid "Color profiles not supported"
+msgstr "Δεν υποστηρίζονται τα προφίλ χρωμάτων"
+
+msgid "Command Line"
+msgstr "Γραμμή Εντολών"
+
+msgid "Command line"
+msgstr "Γραμμή εντολών"
+
+msgid "Comment:"
+msgstr "Σχόλιο:"
+
+msgid "Compare by:"
+msgstr "Σύγκριση κατά:"
+
+msgid "Compare to:"
+msgstr "Σύγκριση με:"
+
+msgid "Comparing..."
+msgstr "Σύγκριση..."
+
+msgid "Compress ratio:"
+msgstr "Αναλογία συμπίεσης:"
+
+msgid "Configure options"
+msgstr "Ρύθμιση των επιλογών"
+
+msgid "Confirm file delete"
+msgstr "Επιβεβαίωση της διαγραφής αρχείου"
+
+msgid "Contents:"
+msgstr "Περιεχόμενα:"
+
+msgid "Continue slides_how"
+msgstr "Συνέχιση της συνεχόμενης προβολής των εικόνων"
+
+msgid "Convenience"
+msgstr "Ευκολίες"
+
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+msgid "Copy - GQview"
+msgstr "Αντιγραφή - GQview"
+
+msgid "Copy file"
+msgstr "Αντιγραφή αρχείου"
+
+msgid "Copy multiple files"
+msgstr "Αντιγραφή πολλαπλών αρχείων"
+
+msgid "Copyright"
+msgstr "Πνευματικά Δικαιώματα"
+
+msgid "Could not create dir:%s\n"
+msgstr "Αδυναμία δημιουργίας του καταλόγου:%s\n"
+
+msgid "Could not create folder"
+msgstr "Αδυναμία δημιουργίας του φακέλου"
+
+msgid ""
+"Create folder in:\n"
+"%s\n"
+"named:"
+msgstr ""
+"Δημιουργία φακέλου στο:\n"
+"%s\n"
+"ονομάζεται:"
+
+msgid "Create thumbnails"
+msgstr "Δημιουργία μικρογραφιών"
+
+msgid "Creating GQview dir:%s\n"
+msgstr "Δημιουργίας του καταλόγου του GQview:%s\n"
+
+msgid "Credits..."
+msgstr "Μνεία..."
+
+msgid "Custom"
+msgstr "Προσαρμοσμένο"
+
+msgid "Custom printer"
+msgstr "Προσαρμοσμένος εκτυπωτής"
+
+msgid "Custom printer:"
+msgstr "Προσαρμοσμένος εκτυπωτής:"
+
+msgid "Custom similarity threshold:"
+msgstr "Προσαρμοσμένο κατώφλι ομοιότητας:"
+
+msgid "DPI:"
+msgstr "DPI:"
+
+msgid "Date"
+msgstr "Ημερομηνία"
+
+msgid "Date digitized"
+msgstr "Ημερομηνία ψηφιοποίησης"
+
+msgid "Date original"
+msgstr "Αρχική ημερομηνία"
+
+msgid "Date:"
+msgstr "Ημερομηνία:"
+
+msgid "Default printer"
+msgstr "Προεπιλεγμένος εκτυπωτής"
+
+msgid "Defaults"
+msgstr "Προκαθορισμένα"
+
+msgid "Delay between image change:"
+msgstr "Καθυστέρηση ανάμεσα στην αλλαγή των εικόνων:"
+
+msgid "Delete"
+msgstr "Διαγραφή"
+
+msgid "Delete all cached thumbnails."
+msgstr "Διαγραφή όλων των αποθηκευμένων μικρογραφιών."
+
+msgid "Delete failed"
+msgstr "Αποτυχία της διαγραφής"
+
+msgid "Delete file"
+msgstr "Διαγραφή αρχείου"
+
+msgid "Delete file - GQview"
+msgstr "Διαγραφή αρχείου - GQview"
+
+msgid "Delete file?"
+msgstr "Διαγραφή του αρχείου;"
+
+msgid "Delete files - GQview"
+msgstr "Διαγραφή αρχείων - GQview"
+
+msgid "Delete folder"
+msgstr "Διαγραφή φακέλου"
+
+msgid "Delete folder?"
+msgstr "Διαγραφή του φακέλου;"
+
+msgid "Delete multiple files"
+msgstr "Διαγραφή πολλαπλών αρχείων"
+
+msgid "Delete symbolic link to folder?"
+msgstr "Διαγραφή του συμβολικού δεσμού προς το φάκελο;"
+
+msgid "Descend folders in tree view"
+msgstr "Ανάπτυξη των φακέλων σε προβολή δένδρου"
+
+msgid "Description"
+msgstr "Περιγραφή"
+
+msgid "Desktop"
+msgstr "Επιφάνεια Eργασίας"
+
+msgid "Destination:"
+msgstr "Προορισμός:"
+
+msgid "Details"
+msgstr "Λεπτομέρειες"
+
+msgid "Determined by Window Manager"
+msgstr "Να ορίζεται από το διαχειριστή παραθύρων"
+
+msgid "Dimensions"
+msgstr "Διαστάσεις"
+
+msgid "Dimensions:"
+msgstr "Διαστάσεις:"
+
+msgid "Disable File Filtering"
+msgstr "Απενεργοποίηση της Διαλογής των Αρχείων"
+
+msgid "Disable screen saver"
+msgstr "Απενεργοποίηση της προφύλαξης οθόνης"
+
+msgid "Do not show this dialog again"
+msgstr "Να μην εμφανιστεί ξανά αυτός ο διάλογος"
+
+msgid "Dots"
+msgstr "Σημεία"
+
+msgid "E_xif data"
+msgstr "Δεδομένα e_xif"
+
+msgid "Edit Bookmark"
+msgstr "Επεξεργασία Σελιδοδείκτη"
+
+msgid "Edit command results"
+msgstr "Επεξεργασία των αποτελεσμάτων εντολής"
+
+msgid "Edit favorite keywords list."
+msgstr "Επεξεργασία της λίστας με τις αγαπημένες λέξεις-κλειδιά."
+
+msgid "Editors"
+msgstr "Επεξεργαστές"
+
+msgid "Elements"
+msgstr "Στοιχεία"
+
+msgid "Empty"
+msgstr "Κενό"
+
+msgid "Enable Delete key"
+msgstr "Ενεργοποίηση του πλήκτρου διαγραφής (Delete)"
+
+msgid "Envelope #10"
+msgstr "Φάκελος #10"
+
+msgid "Envelope #9"
+msgstr "Φάκελος #9"
+
+msgid "Envelope C4"
+msgstr "Φάκελος C4"
+
+msgid "Envelope C5"
+msgstr "Φάκελος C5"
+
+msgid "Envelope C6"
+msgstr "Φάκελος C6"
+
+msgid "Error copying file"
+msgstr "Σφάλμα κατά την αντιγραφή του αρχείου"
+
+msgid "Error creating folder"
+msgstr "Σφάλμα κατά τη δημιουργία του φακέλου"
+
+msgid "Error moving file"
+msgstr "Σφάλμα κατά τη μετακίνηση του αρχείου"
+
+msgid "Error renaming file"
+msgstr "Σφάλμα κατά τη μετονομασία του αρχείου"
+
+msgid "Exif"
+msgstr "Exif"
+
+msgid "Existing file"
+msgstr "Υπάρχον αρχείο"
+
+msgid "Exit _full screen"
+msgstr "Έξοδος από λειτουργία _πλήρους οθόνης"
+
+msgid "Exposure bias"
+msgstr "Βαθμός έκθεσης"
+
+msgid "Exposure program"
+msgstr "Πρόγραμμα έκθεσης"
+
+msgid "F_ull screen"
+msgstr "Π_λήρης οθόνη"
+
+msgid ""
+"Failed to rename\n"
+"%s\n"
+"The number was %d."
+msgstr ""
+"Αδυναμία μετονομασίας\n"
+"%s\n"
+"Ο αριθμός ήταν %d."
+
+msgid "Failed to rename %s to %s."
+msgstr "Αποτυχία μετανομασίας του %s σε %s."
+
+msgid ""
+"Failed to run command:\n"
+"%s\n"
+msgstr ""
+"Αποτυχία εκτέλεσης της εντολής:\n"
+"%s\n"
+
+msgid ""
+"Failed to save the collection:\n"
+"%s"
+msgstr ""
+"Αποτυχία αποθήκευσης της συλλογής:\n"
+"%s"
+
+msgid "Failure writing to file %s"
+msgstr "Αποτυχία εγγραφής στο αρχείο %s"
+
+msgid "Faster jpeg thumbnailing (may reduce quality)"
+msgstr ""
+"Γρηγορότερη δημιουργία μικρογραφιών για jpeg (ίσως να μειωθεί η ποιότητα)"
+
+msgid "Favorite"
+msgstr "Αγαπημένο"
+
+msgid "Favorite keywords list"
+msgstr "Λίστα με τις αγαπημένες λέξεις-κλειδιά"
+
+msgid "File"
+msgstr "Αρχείο"
+
+msgid "File %d of %d"
+msgstr "Αρχείο %d από %d"
+
+msgid "File date is"
+msgstr "Η ημερομηνία του αρχείου είναι"
+
+msgid "File date:"
+msgstr "Ημερομηνίας αρχείου:"
+
+msgid "File deletion failed"
+msgstr "Η διαγραφή απέτυχε"
+
+msgid "File format:"
+msgstr "Μορφή αρχείου:"
+
+msgid "File name"
+msgstr "Όνομα αρχείου"
+
+msgid "File name:"
+msgstr "Όνομα αρχείου:"
+
+msgid "File not found"
+msgstr "Το αρχείο δε βρέθηκε"
+
+msgid "File size is"
+msgstr "Το μέγεθος του αρχείου είναι"
+
+msgid "File size:"
+msgstr "Μέγεθος αρχείου:"
+
+msgid "File type:"
+msgstr "Τύπος αρχείου:"
+
+msgid "File types"
+msgstr "Τύποι αρχείων"
+
+msgid "File:"
+msgstr "Αρχείο:"
+
+msgid "Filename:"
+msgstr "Όνομα αρχείου:"
+
+msgid "Files"
+msgstr "Αρχεία"
+
+msgid "Filter"
+msgstr "Φίλτρο"
+
+msgid "Filter:"
+msgstr "Φίλτρο:"
+
+msgid "Filtering"
+msgstr "Διαλογή"
+
+msgid "Find"
+msgstr "Αναζήτηση"
+
+msgid "Find _duplicates..."
+msgstr "Αναζήτηση _πανομοιότυπων..."
+
+msgid "Find duplicates - GQview"
+msgstr "Αναζήτηση πανομοιότυπων  - GQview"
+
+msgid "Find duplicates recursive..."
+msgstr "Αναζήτηση πανομοιότυπων, εις βάθος..."
+
+msgid "Find:"
+msgstr "Αναζήτηση:"
+
+msgid "Fit image to _window"
+msgstr "Ταίριασμα της εικόνας στο _παράθυρο"
+
+msgid "Fit image to window"
+msgstr "Ταίριασμα της εικόνας στο παράθυρο"
+
+msgid "Fit window to image when tools are hidden/floating"
+msgstr ""
+"Ταίριασμα του παράθυρου στην εικόνα, όταν τα εργαλεία είναι κρυφά ή "
+"επιπλέοντα"
+
+msgid "Flash"
+msgstr "Φλας"
+
+msgid "Float Controls"
+msgstr "Επιπλέοντα χειριστήρια"
+
+msgid "Focal length"
+msgstr "Απόσταση εστίασης"
+
+msgid "Folder contains subfolders"
+msgstr "Ο φάκελος περιέχει υποφακέλους"
+
+msgid "Folder exists"
+msgstr "Ο φάκελος υπάρχει"
+
+msgid "Folder not found"
+msgstr "Ο φάκελος δεν βρέθηκε"
+
+msgid "Folder not supported"
+msgstr "Ο φάκελος δεν υποστηρίζεται"
+
+msgid "Folder:"
+msgstr "Φάκελος:"
+
+msgid "Folders"
+msgstr "Φάκελοι"
+
+msgid "Font"
+msgstr "Γραμματοσειρά"
+
+msgid "Format"
+msgstr "Μορφή"
+
+msgid "Format (* = original name, ## = numbers)"
+msgstr "Μορφή (* = αρχικό όνομα, ## = αριθμοί)"
+
+msgid "Format:"
+msgstr "Μορφή:"
+
+msgid "Full screen"
+msgstr "Πλήρη οθόνη"
+
+msgid "Full size"
+msgstr "Πλήρες μέγεθος"
+
+msgid ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"website: %s\n"
+"email: %s\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GQview %s\n"
+"\n"
+"Copyright (c) %s John Ellis\n"
+"ιστότοπος: %s\n"
+"ηλεκτρονικό ταχυδρομείο: %s\n"
+"ηλεκτρονικό ταχυδρομείο μετάφρασης: translators_team@mandrivalinux.gr\n"
+"Εκδίδεται υπό την GNU Γενική Δημόσια Άδεια"
+
+msgid "GQview - exit"
+msgstr "GQview - έξοδος"
+
+msgid "GQview Preferences"
+msgstr "Προτιμήσεις GQview"
+
+msgid "GQview Tools"
+msgstr "Εργαλεία GQview"
+
+msgid "GQview full screen"
+msgstr "Πλήρης οθόνη GQview"
+
+msgid "GQview thumbnail cache"
+msgstr "Μικροαποθήκευση των μικρογραφιών από το GQview"
+
+msgid "General"
+msgstr "Γενικά"
+
+msgid "Grid"
+msgstr "Πλέγμα"
+
+msgid "Group:"
+msgstr "Ομάδα:"
+
+msgid "Height"
+msgstr "Ύψος"
+
+msgid "Help - GQview"
+msgstr "Βοήθεια - GQview"
+
+msgid "Hide file _list"
+msgstr "Κρύψιμο της _λίστας αρχείων"
+
+msgid "Hide tool_bar"
+msgstr "Απόκρυψη της γραμμής ε_ργαλείων"
+
+msgid "Home"
+msgstr "Αρχική"
+
+msgid "Hyper (best, but slowest)"
+msgstr "Υψηλή (το καλύτερο, αλλά το πιο αργό)"
+
+msgid "ISO sensitivity"
+msgstr "Ευαισθησία ISO"
+
+msgid "I_cons"
+msgstr "Ει_κονίδια"
+
+msgid "Icon:"
+msgstr "Εικονίδιο:"
+
+msgid "Image"
+msgstr "Εικόνα"
+
+msgid "Image %d of %d"
+msgstr "Εικόνα %d από %d"
+
+msgid "Image content is"
+msgstr "Το περιεχόμενο της εικόνας είναι"
+
+msgid "Image description"
+msgstr "Περιγραφή εικόνας"
+
+msgid "Image dimensions are"
+msgstr "Οι διαστάσεις της εικόνας είναι"
+
+msgid "Image file"
+msgstr "Αρχείο εικόνας"
+
+msgid "Image properties - GQview"
+msgstr "Ιδιότητες εικόνας - GQview"
+
+msgid "Image search - GQview"
+msgstr "Αναζήτηση εικόνας - GQview"
+
+msgid "Image size:"
+msgstr "Μέγεθος εικόνας:"
+
+msgid "In place renaming"
+msgstr "Μετονομασία στη θέση"
+
+msgid "Include subfolders"
+msgstr "Να συμπεριληφθούν και οι υποφάκελοι"
+
+msgid "Input _%d:"
+msgstr "Εισαγωγή _%d:"
+
+msgid "Invalid destination"
+msgstr "Μη έγκυρος προορισμός"
+
+msgid ""
+"Invalid file name:\n"
+"%s"
+msgstr ""
+"Μη έγκυρο όνομα αρχείου:\n"
+"%s"
+
+msgid "Invalid filename"
+msgstr "Μη έγκυρο όνομα αρχείου"
+
+msgid "Invalid folder"
+msgstr "Μη έγκυρος φάκελος"
+
+msgid "Invalid geometry\n"
+msgstr "Μη έγκυρη γεωμετρία\n"
+
+msgid "Keywords"
+msgstr "Λέξεις-κλειδιά"
+
+msgid "Keywords:"
+msgstr "Λέξεις-κλειδιά:"
+
+msgid "Landscape"
+msgstr "Τοπίο"
+
+msgid "Large Thumbnails"
+msgstr "Μεγάλες Μικρογραφίες"
+
+msgid "Layout"
+msgstr "Διάταξη"
+
+msgid "Leave Zoom at previous setting"
+msgstr "Διατήρηση της εστίασης στην προηγούμενη ρύθμιση"
+
+msgid "Left:"
+msgstr "Αριστερά:"
+
+msgid "Letter"
+msgstr "Γράμμα"
+
+msgid "Light source"
+msgstr "Πηγή φωτός"
+
+msgid "Limit size when auto-sizing window (%):"
+msgstr ""
+"Περιορισμός του μεγέθους, όταν γίνεται αυτόματη μεγέθυνση του παραθύρου (%):"
+
+msgid "Link"
+msgstr "Δεσμός"
+
+msgid "Link failed"
+msgstr "Απέτυχε η δημιουργία του δεσμού"
+
+msgid "Loading thumbs..."
+msgstr "Φόρτωση των μικρογραφιών..."
+
+msgid "Location"
+msgstr "Τοποθεσία"
+
+msgid "Location:"
+msgstr "Τοποθεσία:"
+
+msgid "MB"
+msgstr "MB"
+
+msgid "Maintenance"
+msgstr "Διατήρηση"
+
+msgid "Margins"
+msgstr "Περιθώρια"
+
+msgid "Match case"
+msgstr "Ταίριασμα πεζών/κεφαλαίων"
+
+msgid "Maximum size:"
+msgstr "Μέγιστο μέγεθος:"
+
+msgid "Menu name"
+msgstr "Ονομασία στο μενού"
+
+msgid "Metadata"
+msgstr "Μεταδεδομένα"
+
+msgid "Metering mode"
+msgstr "Κατάσταση λειτουργίας μέτρησης"
+
+msgid "Miscellaneous"
+msgstr "Διάφορα"
+
+msgid "Monitor"
+msgstr "Οθόνη"
+
+msgid "Mouse wheel scrolls image"
+msgstr "Η ρόδα του ποντικιού εναλλάσσει τις εικόνες"
+
+msgid "Move"
+msgstr "Μετακίνηση"
+
+msgid "Move - GQview"
+msgstr "Μετακίνηση - GQview"
+
+msgid "Move _down"
+msgstr "Μετακίνηση _κάτω"
+
+msgid "Move _up"
+msgstr "Μετακίνηση _πάνω"
+
+msgid "Move file"
+msgstr "Μετακίνηση αρχείου"
+
+msgid "Move multiple files"
+msgstr "Μετακίνηση πολλαπλών αρχείων"
+
+msgid "N_ew folder..."
+msgstr "_Νέος φάκελος..."
+
+msgid "Name"
+msgstr "Όνομα"
+
+msgid "Name:"
+msgstr "Όνομα:"
+
+msgid "Nature"
+msgstr "Φύση"
+
+msgid "Navigation"
+msgstr "Πλοήγηση"
+
+msgid "Nearest (worst, but fastest)"
+msgstr "Κοντινότερη (χειρότερο, αλλά γρηγορότερο)"
+
+msgid "New Bookmark"
+msgstr "Νέος Σελιδοδείκτης"
+
+msgid "New _window"
+msgstr "Νέο _παράθυρο"
+
+msgid "New file"
+msgstr "Νέο αρχείο"
+
+msgid "New folder"
+msgstr "Νέος φάκελος"
+
+msgid "New folder - GQview"
+msgstr "Νέος φακέλος - GQview"
+
+msgid "New name:"
+msgstr "Νέο όνομα:"
+
+msgid "No Images"
+msgstr "Καθόλου Εικόνες"
+
+msgid "None"
+msgstr "Κανένα"
+
+msgid "Normal"
+msgstr "Κανονικό"
+
+msgid "Normal Thumbnails"
+msgstr "Κανονικές Μικρογραφίες"
+
+msgid "One image per page"
+msgstr "Μια εικόνα ανά σελίδα"
+
+msgid "Open _recent"
+msgstr "Άνοιγμα πρόσ_φατου"
+
+msgid "Open collection"
+msgstr "Άνοιγμα συλλογής"
+
+msgid "Orientation"
+msgstr "Προσανατολισμός"
+
+msgid "Orientation:"
+msgstr "Προσανατολισμός:"
+
+msgid "Original Name"
+msgstr "Αρχικό Όνομα"
+
+msgid "Original name:"
+msgstr "Αρχικό όνομα:"
+
+msgid "Output of %s"
+msgstr "Αποτέλεσμα εξόδου του %s"
+
+msgid "Overwrite File"
+msgstr "Αντικατάσταση Αρχείου"
+
+msgid "Overwrite _all"
+msgstr "Αντικατάσταση όλ_ων"
+
+msgid "Overwrite existing file?"
+msgstr "Αντικατάσταση του υπάρχοντος αρχείου;"
+
+msgid "Overwrite file"
+msgstr "Αντικατάσταση αρχείου"
+
+msgid "Overwrite file?"
+msgstr "Αντικατάσταση του αρχείου;"
+
+msgid "Owner:"
+msgstr "Ιδιοκτήτης:"
+
+msgid "P_references..."
+msgstr "_Προτιμήσεις"
+
+msgid "Padding:"
+msgstr "Γέμισμα:"
+
+msgid "Page %d"
+msgstr "Σελίδα %d"
+
+msgid "Pan View - GQview"
+msgstr "Πανόψη - GQview"
+
+msgid "Pan View Performance"
+msgstr "Απόδοσης της Πανόψης"
+
+msgid "Pan _view"
+msgstr "Πανόψη"
+
+msgid "Pan view performance may be poor."
+msgstr "Η απόδοση της πανόψης μπορεί να είναι μειωμένη."
+
+msgid "Paper"
+msgstr "Χαρτί"
+
+msgid "Path"
+msgstr "Διαδρομή"
+
+msgid "Path:"
+msgstr "Διαδρομή:"
+
+msgid "Pause slides_how"
+msgstr "Παύση της συνεχόμενης προβολής των εικόνων"
+
+msgid "People"
+msgstr "Άνθρωποι"
+
+msgid "Permission denied"
+msgstr "Άρνηση πρόσβασης"
+
+msgid "Photo 6x4"
+msgstr "Φωτογραφία 6x4"
+
+msgid "Photo 8x10"
+msgstr "Φωτογραφία 8x10"
+
+msgid "Places"
+msgstr "Τοποθεσίες"
+
+msgid "Please select an existing folder."
+msgstr "Παρακαλώ επιλέξτε έναν υπάρχον φάκελο:"
+
+msgid "Portrait"
+msgstr "Πορτραίτο"
+
+msgid "PostScript file"
+msgstr "Αρχείο PostScript"
+
+msgid "Postcard"
+msgstr "Ταχυδρομική κάρτα"
+
+msgid "Preload next image"
+msgstr "Προφόρτωση της επόμενης εικόνας"
+
+msgid "Preview"
+msgstr "Προεπισκόπηση"
+
+msgid "Print - GQview"
+msgstr "Εκτύπωση - GQview"
+
+msgid "Print..."
+msgstr "Εκτύπωση..."
+
+msgid "Printer"
+msgstr "Εκτυπωτής"
+
+msgid "Printing %d pages to %s."
+msgstr "Εκτύπωση %d σελίδων στο %s."
+
+msgid "Printing error"
+msgstr "Σφάλμα εκτύπωσης"
+
+msgid "Progressive keyboard scrolling"
+msgstr "Χρήση ομαλής κύλισης πληκτρολογίου"
+
+msgid "Quality:"
+msgstr "Ποιότητα:"
+
+msgid "Quit GQview"
+msgstr "Τερματισμός του GQview"
+
+msgid "Random"
+msgstr "Στη τύχη"
+
+msgid "Rank"
+msgstr "Κατάταξη"
+
+msgid "Re_fresh"
+msgstr "Α_νανέωση"
+
+msgid "Reading checksums..."
+msgstr "Ανάγνωση των αθροισμάτων ακεραιότητας (checksums)..."
+
+msgid "Reading dimensions..."
+msgstr "Ανάγνωση των διαστάσεων..."
+
+msgid "Reading image data..."
+msgstr "Ανάγνωση των δεδομένων της εικόνας..."
+
+msgid "Reading similarity data..."
+msgstr "Ανάγνωση των δεδομένων ομοιότητας..."
+
+msgid "Rectangular selection in icon view"
+msgstr "Τετράγωνη επιλογή στην προβολή ως εικονίδια"
+
+msgid "Refresh file list"
+msgstr "Ανανέωση της λίστας αρχείων"
+
+msgid "Refresh on file change"
+msgstr "Επαναφόρτωση κατά την αλλαγή του αρχείου"
+
+msgid "Rem_ove"
+msgstr "Αφαί_ρεση"
+
+msgid "Remember print settings"
+msgstr "Απομνημόνευση των ρυθμίσεων του εκτυπωτή"
+
+msgid "Remember tool state (float/hidden)"
+msgstr ""
+"Απομνημόνευση της κατάστασης λειτουργίας των εργαλείων (επιπλέοντα/κρυφά)"
+
+msgid "Remember window positions"
+msgstr "Απομνημόνευση της θέσης των παραθύρων"
+
+msgid "Remove orphaned keywords and comments."
+msgstr "Αφαίρεση των ορφανών λέξεων-κλειδιών, και των σχολίων."
+
+msgid "Remove orphaned or outdated thumbnails."
+msgstr "Αφαίρεση των ορφανών και των παλιών μικρογραφιών."
+
+msgid "Removing old metadata..."
+msgstr "Αφαίρεση των πεπαλαιωμένων μεταδεδομένων..."
+
+msgid "Removing old thumbnails..."
+msgstr "Αφαίρεση των πεπαλαιωμένων μικρογραφιών..."
+
+msgid "Rename"
+msgstr "Μετονομασία"
+
+msgid "Rename - GQview"
+msgstr "Μετονομασία - GQview"
+
+msgid "Rename failed"
+msgstr "Αποτυχία μετονομασίας"
+
+msgid "Rename file"
+msgstr "Μετονομασία αρχείου"
+
+msgid "Rename multiple files"
+msgstr "Μετονομασία πολλαπλών αρχείων"
+
+msgid "Render"
+msgstr "Αποτύπωση"
+
+msgid "Render thumbnails for a specific folder."
+msgstr "Αποτύπωση των μικρογραφιών ενός συγκεκριμένου φακέλου."
+
+msgid "Repeat"
+msgstr "Επανάληψη"
+
+msgid "Replace existing file with new file."
+msgstr "Αντικατάσταση του υπάρχοντος αρχείου από ένα νέο."
+
+msgid "Reset editors"
+msgstr "Επαναφορά των επεξεργαστών"
+
+msgid "Reset filters"
+msgstr "Επαναφορά των φίλτρων"
+
+msgid "Resolution"
+msgstr "Ανάλυση"
+
+msgid "Review %d files"
+msgstr "Επιθεώρηση %d αρχείων"
+
+msgid "Right:"
+msgstr "Δεξιά:"
+
+msgid "Rotate 1_80"
+msgstr "Περιστροφή 1_80"
+
+msgid "Rotate _180"
+msgstr "Περιστροφή _180°"
+
+msgid "Rotate _counterclockwise"
+msgstr "Περιστροφή _αντίστροφα από τη φορά του ρολογιού"
+
+msgid "Rotate jpeg clockwise"
+msgstr "Περιστροφή της jpeg κατά τη φορά του ρολογιού"
+
+msgid "Rotate jpeg counterclockwise"
+msgstr "Περιστροφή της jpeg αντίστροφα από τη φορά του ρολογιού"
+
+msgid "SIGPIPE error writing to printer."
+msgstr "Σφάλμα SIGPIPE στην εγγραφή στον εκτυπωτή."
+
+msgid "S_kip all"
+msgstr "_Παράλειψη όλων"
+
+msgid "S_tart"
+msgstr "Έναρ_ξη"
+
+msgid "Safe delete"
+msgstr "Ασφαλής διαγραφή"
+
+msgid "Safe delete: %s"
+msgstr "Ασφαλής διαγραφή: %s"
+
+msgid "Save Failed"
+msgstr "Η Αποθήκευση Απέτυχε"
+
+msgid "Save collection"
+msgstr "Αποθήκευση της συλλογής"
+
+msgid "Save collection _as..."
+msgstr "Αποθήκευση της συλλογής _ως..."
+
+msgid "Save comment now"
+msgstr "Αποθήκευση των σχολίων, τώρα"
+
+msgid "Screen"
+msgstr "Οθόνη"
+
+msgid "Screen:"
+msgstr "Οθόνη:"
+
+msgid "Search:"
+msgstr "Αναζήτηση:"
+
+msgid "Searching..."
+msgstr "Γίνεται αναζήτηση..."
+
+msgid "Select _all"
+msgstr "Επιλ_ογή όλων"
+
+msgid "Select _none"
+msgstr "Επιλογή _κανενός"
+
+msgid "Select all"
+msgstr "Επιλογή όλων"
+
+msgid "Select color profile"
+msgstr "Επιλογή χρωματικού προφίλ"
+
+msgid "Select folder"
+msgstr "Επιλογή φακέλου"
+
+msgid "Select group _1 duplicates"
+msgstr "Επιλογή των πανομοιότυπων της ομάδας _1"
+
+msgid "Select group _2 duplicates"
+msgstr "Επιλογή των πανομοιότυπων της ομάδας _2"
+
+msgid "Select icon"
+msgstr "Επιλογή εικονιδίου"
+
+msgid "Select none"
+msgstr "Επιλογή κανενός"
+
+msgid "Select path"
+msgstr "Επιλογή διαδρομής"
+
+msgid "Selection"
+msgstr "Επιλογή"
+
+msgid "Set as _wallpaper"
+msgstr "Ορισμός ως ταπετ_σαρία"
+
+msgid "Set zoom 1:1"
+msgstr "Ορισμός εστίασης σε 1:1"
+
+msgid "Shared thumbnail cache"
+msgstr "Κοινή αποθήκευση των μικρογραφιών"
+
+msgid "Show"
+msgstr "Εμφάνιση"
+
+msgid "Show _thumbnails"
+msgstr "Προβολή _μικρογραφιών"
+
+msgid "Show entries that begin with a dot"
+msgstr "Εμφάνιση των αντικειμένων που ξεκινούν με τελεία"
+
+msgid "Show filename _text"
+msgstr "Εμφάνιση _κειμένου με το όνομα"
+
+msgid "Show hidden"
+msgstr "Προβολή κρυφών"
+
+msgid "Show im_age"
+msgstr "Προβολή ει_κόνας"
+
+msgid "Show thumbnails"
+msgstr "Προβολή μικρογραφιών "
+
+msgid "Shutter speed"
+msgstr "Ταχύτητα διαφράγματος"
+
+msgid "Similarity"
+msgstr "Ομοιότητα"
+
+msgid "Similarity (custom)"
+msgstr "Ομοιότητα (προσαρμοσμένη)"
+
+msgid "Similarity (high)"
+msgstr "Ομοιότητα (υψηλή)"
+
+msgid "Similarity (low)"
+msgstr "Ομοιότητα (χαμηλή)"
+
+msgid "Size"
+msgstr "Μέγεθος"
+
+msgid "Size:"
+msgstr "Μέγεθος:"
+
+msgid "Slide show"
+msgstr "Συνεχόμενη προβολή εικόνων"
+
+msgid "Slideshow recursive"
+msgstr "Εις βάθος συνεχόμενη προβολή εικόνων"
+
+msgid "Small Thumbnails"
+msgstr "Μικρές Μικρογραφίες"
+
+msgid "Smooth image flip"
+msgstr "Ομαλό αναποδογύρισμα εικόνας"
+
+msgid "Sort"
+msgstr "Ταξινόμηση"
+
+msgid "Sort Manager"
+msgstr "Διαχειριστής Ταξινόμησης"
+
+msgid "Sort _manager"
+msgstr "Διαχειριστής _ταξινόμησης"
+
+msgid "Sort by E_xif date"
+msgstr "Ταξινόμηση κατά τις πληροφορίες Exif"
+
+msgid "Sort by date"
+msgstr "Ταξινόμηση κατά ημερομηνία"
+
+msgid "Sort by name"
+msgstr "Ταξινόμηση κατά όνομα"
+
+msgid "Sort by number"
+msgstr "Ταξινόμηση κατά αριθμό"
+
+msgid "Sort by path"
+msgstr "Ανακατανομή κατά διαδρομή"
+
+msgid "Sort by size"
+msgstr "Ταξινόμηση κατά μέγεθος "
+
+msgid "Sorting images..."
+msgstr "Ταξινόμηση των εικόνων..."
+
+msgid "Sorting..."
+msgstr "Ταξινόμηση..."
+
+msgid "Source"
+msgstr "Πηγή"
+
+msgid "Source and destination are the same, operation cancelled."
+msgstr "Η πηγή και ο προορισμός είναι τα ίδια. Η διαδικασία ακυρώθηκε."
+
+msgid "Source matches destination"
+msgstr "Η πηγή ταιριάζει με τον προορισμό"
+
+msgid "Source to copy matches destination"
+msgstr "Η προς αντιγραφή πηγή ταιριάζει με τον προορισμό"
+
+msgid "Start #"
+msgstr "Έναρξη #"
+
+msgid "Startup"
+msgstr "Εκκίνηση"
+
+msgid "State"
+msgstr "Κατάσταση"
+
+msgid "Stay above other windows"
+msgstr "Διατήρηση πάνω από τα άλλα παράθυρα"
+
+msgid "Store keywords and comments local to source images"
+msgstr ""
+"Αποθήκευση των λέξεων-κλειδιών και των σχολίων, τοπικά, στις πηγαίες εικόνες"
+
+msgid "Subfolders:"
+msgstr "Υποφάκελοι:"
+
+msgid "Subject distance"
+msgstr "Απόσταση υποκειμένου"
+
+msgid "Tag"
+msgstr "Ετικέτα"
+
+msgid "Text"
+msgstr "Κείμενο"
+
+msgid "The Gimp"
+msgstr "Το GIMP"
+
+msgid ""
+"The collection:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Η συλλογή:\n"
+"%s\n"
+"υπάρχει ήδη."
+
+msgid "The current collection is empty, save aborted."
+msgstr "Η παρούσα συλλογή είναι κενή. Η αποθήκευση ακυρώθηκε."
+
+msgid "The entered path is not a folder"
+msgstr "Η εισηγμένη διαδρομή δεν είναι φάκελος"
+
+msgid ""
+"The folder:\n"
+"%s\n"
+"already exists."
+msgstr ""
+"Ο φάκελος:\n"
+"%s\n"
+"υπάρχει, ήδη."
+
+msgid "The pan view does not support the folder \"%s\"."
+msgstr "Η πανόψη δεν υποστηρίζει το φάκελο \"%s\"."
+
+msgid ""
+"The path:\n"
+"%s\n"
+"already exists as a file."
+msgstr ""
+"Η διαδρομή:\n"
+"%s\n"
+"υπάρχει, ήδη, σαν φάκελος."
+
+msgid "The specified folder can not be found."
+msgstr "Ο καθορισμένος φάκελος δε μπορεί να βρεθεί."
+
+msgid ""
+"This will remove all thumbnails that have\n"
+"been saved to disk, continue?"
+msgstr ""
+"Αυτό θα απομακρύνει όλες τις μικρογραφίες που έχουν αποθηκευθεί στο δίσκο.\n"
+"Να συνεχίσω;"
+
+msgid "This will remove the trash contents."
+msgstr "Αυτό θα απομακρύνει τα περιεχόμενα του κάδου απορριμμάτων."
+
+msgid ""
+"This will reset the edit commands to the defaults.\n"
+"Continue?"
+msgstr ""
+"Αυτό θα επαναφέρει τις εντολές επεξεργασίας στις προεπιλεγμένες.\n"
+"Να συνεχίσω;"
+
+msgid ""
+"This will reset the file filters to the defaults.\n"
+"Continue?"
+msgstr ""
+"Αυτό θα επαναφέρει τα φίλτρα αρχείων στα προεπιλεγμένα.\n"
+"Να συνεχίσω;"
+
+msgid "Thumbnails"
+msgstr "Μικρογραφίες"
+
+msgid "Tiles"
+msgstr "Πλακίδια"
+
+msgid "Timeline"
+msgstr "Χρονοδιάγραμμα"
+
+msgid ""
+"To improve performance of thumbnails in the pan view the following options "
+"can be enabled. Note that both options must be enabled to notice a change in "
+"performance."
+msgstr ""
+"Για τη βελτίωση της απόδοσης των μικρογραφιών, κατά την πανόψη, μπορούν να "
+"χρησιμοποιηθούν οι παρακάτω επιλογές. Έχε υπόψη σου, ότι θα πρέπει να "
+"ενεργοποιηθούν καί οι δύο επιλογές για να δεις διαφορά στην απόδοση."
+
+msgid "Todo"
+msgstr "Προς υλοποίηση"
+
+msgid "Toggle _slideshow"
+msgstr "Ενα_λλαγή της συνεχόμενης προβολής των εικόνων"
+
+msgid "Tools"
+msgstr "Εργαλεία"
+
+msgid "Top:"
+msgstr "Κορυφή:"
+
+msgid "Tr_ee"
+msgstr "_Δένδρο"
+
+msgid "Transparent:"
+msgstr "Διαφανές:"
+
+msgid "Turn off safe delete"
+msgstr "Απενεργοποίηση της ασφαλής διαγραφής"
+
+msgid "Two pass zooming"
+msgstr "Εστίαση διπλού περάσματος"
+
+msgid "Type"
+msgstr "Τύπος"
+
+msgid ""
+"Unable to access or create the trash folder.\n"
+"\"%s\""
+msgstr ""
+"Αδύνατη η πρόσβαση ή δημιουργία του καταλόγου των απορριμμάτων.\n"
+"\"%s\""
+
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"Αδυναμία αντιγραφής του αρχείου:\n"
+"%s\n"
+"στον εαυτό του."
+
+msgid ""
+"Unable to copy file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Αδυναμία αντιγραφής του αρχείου:\n"
+"%s\n"
+"στο:\n"
+"%s"
+
+msgid ""
+"Unable to create folder:\n"
+"%s"
+msgstr ""
+"Αδυναμία δημιουργίας του φακέλου:\n"
+"%s"
+
+msgid ""
+"Unable to create symbolic link:\n"
+"%s"
+msgstr ""
+"Αποτυχία δημιουργίας του συμβολικού δεσμού:\n"
+"%s"
+
+msgid ""
+"Unable to delete file:\n"
+"%s"
+msgstr ""
+"Αποτυχία διαγραφής του αρχείου:\n"
+"%s"
+
+msgid ""
+"Unable to delete folder:\n"
+"\n"
+"%s"
+msgstr ""
+"Αδυναμία διαγραφής του φακέλου:\n"
+"\n"
+"%s"
+
+msgid "Unable to list contents of folder %s"
+msgstr "Αδυναμία καταλογισμού των περιεχομένων του φακέλου %s"
+
+msgid ""
+"Unable to load:\n"
+"%s"
+msgstr ""
+"Αδυναμία φόρτωσης:\n"
+"%s"
+
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to itself."
+msgstr ""
+"Αδυναμία μετακίνησης του αρχείου:\n"
+"%s\n"
+"στον εαυτό του."
+
+msgid ""
+"Unable to move file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Αδυναμία μετακίνησης του αρχείου:\n"
+"%s\n"
+"στο:\n"
+"%s"
+
+msgid ""
+"Unable to remove symbolic link:\n"
+"%s"
+msgstr ""
+"Αποτυχία απομάκρυνσης του συμβολικού δεσμού:\n"
+"%s"
+
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+" to:\n"
+"%s"
+msgstr ""
+"Αδυναμία μετονομασίας του αρχείου:\n"
+"%s\n"
+" σε:\n"
+"%s"
+
+msgid ""
+"Unable to rename file:\n"
+"%s\n"
+"to:\n"
+"%s"
+msgstr ""
+"Αδυναμία μετονομασίας του αρχείου:\n"
+"%s\n"
+"σε:\n"
+"%s"
+
+msgid "Unable to write history lists to: %s\n"
+msgstr "Αδυναμία εγγραφής λιστών ιστορικού στο: %s\n"
+
+msgid "Undo last image"
+msgstr "Αναίρεση της τελευταίας εικόνας"
+
+msgid "Units:"
+msgstr "Μονάδες:"
+
+msgid "Unlimited"
+msgstr "Χωρίς όριο"
+
+msgid "Unlink failed"
+msgstr "Απέτυχε η κατάργηση του δεσμού"
+
+msgid "Unsorted"
+msgstr "Χωρίς ταξινόμηση"
+
+msgid "Untitled"
+msgstr "Χωρίς τίτλο"
+
+msgid "Untitled (%d)"
+msgstr "Χωρίς τίτλο (%d)"
+
+msgid ""
+"Usage: gqview [options] [path]\n"
+"\n"
+msgstr ""
+"Χρήση: gqview [επιλογές] [διαδρομή]\n"
+"\n"
+
+msgid "Use Exif date"
+msgstr "Χρήση της ημερομηνίας Exif"
+
+msgid "Use _color profiles"
+msgstr "Χρήση προφίλ χρωμάτων"
+
+msgid "Use current"
+msgstr "Χρήση παρόντος"
+
+msgid "Use profile from _image"
+msgstr "Χρήση προφίλ από την _εικόνα"
+
+msgid "Use shared thumbnail cache"
+msgstr "Χρήση της κοινής μικροαποθήκευσης των μικρογραφιών"
+
+msgid "Use xvpics thumbnails when found (read only)"
+msgstr "Χρήση μικρογραφιών xvpics, αν βρεθούν (μόνο για ανάγνωση)"
+
+msgid "Value"
+msgstr "Τιμή"
+
+msgid "View"
+msgstr "Προβολή"
+
+msgid "View as _icons"
+msgstr "Προβολή ως ε_ικονίδια"
+
+msgid "View as _tree"
+msgstr "Προβολή ως _δέντρο"
+
+msgid "View in _new window"
+msgstr "Προβολή σε _νέο παράθυρο"
+
+msgid "When new image is selected:"
+msgstr "Όταν επιλέγεται μια νέα εικόνα:"
+
+msgid "Width"
+msgstr "Πλάτος"
+
+msgid "Windows"
+msgstr "Παράθυρα"
+
+msgid "XV"
+msgstr "XV"
+
+msgid "Xpaint"
+msgstr "Xpaint"
+
+msgid "Zoom"
+msgstr "Εστίαση"
+
+msgid "Zoom _1:1"
+msgstr "Εστίαση _1:1"
+
+msgid "Zoom _in"
+msgstr "Με_γέθυνση"
+
+msgid "Zoom _out"
+msgstr "Σ_μίκρυνση"
+
+msgid "Zoom in"
+msgstr "Μεγέθυνση"
+
+msgid "Zoom increment:"
+msgstr "Βαθμός μεταβολής της εστίασης:"
+
+msgid "Zoom out"
+msgstr "Σμίκρυνση"
+
+msgid "Zoom to original size"
+msgstr "Κλιμάκωση στο αρχικό μέγεθος"
+
+msgid "_About"
+msgstr "Σ_χετικά με"
+
+msgid "_Add contents"
+msgstr "_Προσθήκη περιεχομένων"
+
+msgid "_Adjust"
+msgstr "_Προσαρμογή"
+
+msgid "_Append"
+msgstr "_Προσθήκη"
+
+msgid "_Contents"
+msgstr "_Περιεχόμενα"
+
+msgid "_Copy"
+msgstr "Αντιγρα_φή"
+
+msgid "_Copy..."
+msgstr "Αντιγρα_φή..."
+
+msgid "_Delete"
+msgstr "_Διαγραφή"
+
+msgid "_Delete..."
+msgstr "_Διαγραφή..."
+
+msgid "_Discard"
+msgstr "Από_ρριψη"
+
+msgid "_Edit"
+msgstr "_Επεξεργασία"
+
+msgid "_File"
+msgstr "_Αρχείο"
+
+msgid "_Find duplicates..."
+msgstr "Ανα_ζήτηση πανομοιότυπων..."
+
+msgid "_Flip"
+msgstr "_Αναποδογύρισμα"
+
+msgid "_Float"
+msgstr "_Επιπλέουσα"
+
+msgid "_Float file list"
+msgstr "Επι_πλέουσα λίστα αρχείων"
+
+msgid "_Full screen"
+msgstr "_Πλήρης οθόνη"
+
+msgid "_Full size"
+msgstr "_Πλήρες μέγεθος"
+
+msgid "_Grayscale"
+msgstr "Αποχρώσεις του _γκρι"
+
+msgid "_Help"
+msgstr "_Βοήθεια"
+
+msgid "_Hide file list"
+msgstr "_Απόκρυψη της λίστας αρχείων"
+
+msgid "_Keyboard shortcuts"
+msgstr "Συντομεύσεις _πληκτρολογίου"
+
+msgid "_Keywords"
+msgstr "Λέξεις-_κλειδιά"
+
+msgid "_List"
+msgstr "_Λίστα"
+
+msgid "_Mirror"
+msgstr "_Καθρεπτισμός"
+
+msgid "_Move"
+msgstr "_Μετακίνηση"
+
+msgid "_Move..."
+msgstr "Μετα_κίνηση..."
+
+msgid "_New collection"
+msgstr "_Νέα συλλογή"
+
+msgid "_New folder..."
+msgstr "_Νέος φάκελος..."
+
+msgid "_None"
+msgstr "_Κανένα"
+
+msgid "_Open collection..."
+msgstr "_Άνοιγμα συλλογής..."
+
+msgid "_Overwrite"
+msgstr "_Αντικατάσταση"
+
+msgid "_Print..."
+msgstr "_Εκτύπωση..."
+
+msgid "_Properties"
+msgstr "_Ιδιότητες"
+
+msgid "_Properties..."
+msgstr "_Ιδιότητες..."
+
+msgid "_Quit"
+msgstr "_Τερματισμός"
+
+msgid "_Refresh"
+msgstr "_Ανανέωση"
+
+msgid "_Release notes"
+msgstr "Σημειώσεις _έκδοσης"
+
+msgid "_Remove"
+msgstr "_Απομάκρυνση"
+
+msgid "_Rename"
+msgstr "_Μετονομασία"
+
+msgid "_Rename..."
+msgstr "_Μετονομασία..."
+
+msgid "_Rotate clockwise"
+msgstr "Περιστροφή _κατά τη φορά του ρολογιού"
+
+msgid "_Save collection"
+msgstr "Απο_θήκευση της συλλογής"
+
+msgid "_Screen profile"
+msgstr "Προφίλ _οθόνης"
+
+msgid "_Search..."
+msgstr "_Αναζήτηση..."
+
+msgid "_Show Exif information"
+msgstr "Εμ_φάνιση των πληροφοριών Exif"
+
+msgid "_Skip"
+msgstr "_Παράλειψη"
+
+msgid "_Skip folders"
+msgstr "_Παράλειψη φακέλων"
+
+msgid "_Slideshow"
+msgstr "_Συνεχόμενη προβολή εικόνων"
+
+msgid "_Sort"
+msgstr "_Ταξινόμηση"
+
+msgid "_Start slideshow"
+msgstr "_Εκκίνηση της συνεχόμενης προβολής των εικόνων"
+
+msgid "_Stop slideshow"
+msgstr "_Σταμάτημα της συνεχόμενης προβολής των εικόνων"
+
+msgid "_Thumbnail maintenance..."
+msgstr "Διατήρηση _μικρογραφιών"
+
+msgid "_Thumbnails"
+msgstr "Μικρο_γραφίες"
+
+msgid "_View"
+msgstr "_Προβολή"
+
+msgid "_Zoom to fit"
+msgstr "Εστίαση ώστε να _χωράει"
+
+msgid "action"
+msgstr "ενέργεια"
+
+msgid "after"
+msgstr "μετά"
+
+msgid "and"
+msgstr "και"
+
+msgid "aperture"
+msgstr "οπή"
+
+msgid "auto"
+msgstr "αυτόματο"
+
+msgid "average"
+msgstr "μέσος όρος"
+
+msgid "before"
+msgstr "πριν"
+
+msgid "between"
+msgstr "ανάμεσα"
+
+msgid "bottom left"
+msgstr "κάτω αριστερά"
+
+msgid "bottom right"
+msgstr "κάτω δεξιά"
+
+msgid "center weighted"
+msgstr "κεντραρισμένο"
+
+msgid "centimeter"
+msgstr "εκατοστόμετρο"
+
+msgid "centimeters"
+msgstr "εκατοστόμετρα"
+
+msgid "click start to begin"
+msgstr "πάτησε το «Έναρξη» για να ξεκινήσεις"
+
+msgid "comments"
+msgstr "σχόλια"
+
+msgid "contains"
+msgstr "περιέχει"
+
+msgid "daylight"
+msgstr "φως ημέρας"
+
+msgid "detected by strobe"
+msgstr "ανιχνεύθηκε από το στροβοσκόπιο"
+
+msgid "done"
+msgstr "έγινε"
+
+msgid "empty"
+msgstr "κενό"
+
+msgid "equal to"
+msgstr "ίσο με"
+
+msgid "error saving config file: %s\n"
+msgstr "σφάλμα κατά την αποθήκευση του αρχείου config: %s\n"
+
+msgid "exclude"
+msgstr "εξαίρεση"
+
+msgid "filename found"
+msgstr "βρέθηκε το όνομα αρχείου"
+
+msgid "first image"
+msgstr "πρώτη εικόνα"
+
+msgid "flash"
+msgstr "φλας"
+
+msgid "fluorescent"
+msgstr "φθορίζον"
+
+msgid "folder"
+msgstr "φάκελος"
+
+msgid "greater than"
+msgstr "μεγαλύτερο από"
+
+msgid "hide tools"
+msgstr "απόκρυψη των εργαλείων"
+
+msgid "in %s..."
+msgstr "με %s..."
+
+msgid "in (unknown)..."
+msgstr "με (άγνωστο)..."
+
+msgid "inch"
+msgstr "ίντσα"
+
+msgid "inches"
+msgstr "ίντσες"
+
+msgid "infinity"
+msgstr "άπειρο"
+
+msgid ""
+"invalid or ignored: %s\n"
+"Use --help for options\n"
+msgstr ""
+"ή άκυρο, ή παραλείπεται: %s\n"
+"Χρησιμοποίησε την εντολή --help για να δεις τις επιλογές\n"
+
+msgid "is"
+msgstr "είναι"
+
+msgid "jpeg, high quality"
+msgstr "jpeg, υψηλής ποιότητας"
+
+msgid "jpeg, low quality"
+msgstr "jpeg, χαμηλής ποιότητας"
+
+msgid "jpeg, normal quality"
+msgstr "jpeg, κανονικής ποιότητας"
+
+msgid "landscape"
+msgstr "τοπίο"
+
+msgid "last image"
+msgstr "τελευταία εικόνα"
+
+msgid "left bottom"
+msgstr "αριστερά κάτω"
+
+msgid "left top"
+msgstr "αριστερά πάνω"
+
+msgid "less than"
+msgstr "μικρότερο από"
+
+msgid "manual"
+msgstr "χειροκίνητο"
+
+msgid "match all"
+msgstr "ταίριασμα με όλα"
+
+msgid "match any"
+msgstr "ταίριασμα με οποιοδήποτε"
+
+msgid "millimeters"
+msgstr "χιλιοστόμετρα"
+
+msgid "mode:"
+msgstr "kατάσταση λειτουργίας: "
+
+msgid "multi-segment"
+msgstr "πολλαπλών τμημάτων"
+
+msgid "multi-spot"
+msgstr "πολλαπλών σημείων"
+
+msgid "new_folder"
+msgstr "νέος_φάκελος"
+
+msgid "next image"
+msgstr "επόμενη εικόνα"
+
+msgid "no"
+msgstr "όχι"
+
+msgid "no match"
+msgstr "kαμία αντιστοιχία"
+
+msgid "normal"
+msgstr "κανονικό"
+
+msgid "not defined"
+msgstr "δεν προσδιορίστικε"
+
+msgid "not detected by strobe"
+msgstr "δεν ανιχνεύθηκε από το στροβοσκόπιο"
+
+msgid "off"
+msgstr "απενεργοποιημένο"
+
+msgid "on"
+msgstr "ενεργοποιημένο"
+
+msgid "open file"
+msgstr "άνοιγμα αρχείου"
+
+msgid "open file in new window"
+msgstr "άνοιγμα αρχείου σε νέο παράθυρο"
+
+msgid "other"
+msgstr "άλλο"
+
+msgid "page %d of %d"
+msgstr "σελίδα %d από %d"
+
+msgid "partial"
+msgstr "μερικό"
+
+msgid "partial match"
+msgstr "μερική αντιστοιχία"
+
+msgid "path found"
+msgstr "βρέθηκε η διαδρομή"
+
+msgid "points"
+msgstr "σημεία"
+
+msgid "portrait"
+msgstr "πορτραίτο"
+
+msgid "previous image"
+msgstr "προηγούμενη εικόνα"
+
+msgid "quit"
+msgstr "τερματισμός"
+
+msgid "red-eye reduction"
+msgstr "μείωση κόκκινου ματιού"
+
+msgid "results"
+msgstr "αποτελέσματα"
+
+msgid "right bottom"
+msgstr "δεξιά κάτω"
+
+msgid "right top"
+msgstr "δεξιά πάνω"
+
+msgid "running..."
+msgstr "εκτελείται..."
+
+msgid "seconds"
+msgstr "δευτερόλεπτα"
+
+msgid "set slide show delay in seconds"
+msgstr ""
+"ορισμός της καθυστέρησης της συνεχόμενης προβολής των εικόνων (σε "
+"δευτερόλεπτα)"
+
+msgid "show tools"
+msgstr "προβολή των εργαλείων"
+
+msgid "shutter"
+msgstr "διάφραγμα"
+
+msgid "spot"
+msgstr "σημείο"
+
+msgid "start full screen"
+msgstr "εκκίνηση πλήρους οθόνης"
+
+msgid "start recursive slide show"
+msgstr "εκκίνηση εις βάθος συνεχόμενης προβολής των εικόνων"
+
+msgid "start slide show"
+msgstr "εκκίνηση της συνεχόμενης προβολής των εικόνων"
+
+msgid "stop full screen"
+msgstr "διακοπή πλήρους οθόνης"
+
+msgid "stop slide show"
+msgstr "σταμάτημα της συνεχόμενης προβολής των εικόνων"
+
+msgid "stopped by user"
+msgstr "διακόπηκε από το χρήστη"
+
+msgid "stopping..."
+msgstr "διακοπή..."
+
+msgid "toggle full screen"
+msgstr "εναλλαγή λειτουργίας πλήρους οθόνης"
+
+msgid "toggle slide show"
+msgstr "εναλλαγή της συνεχόμενης προβολής των εικόνων"
+
+msgid "top left"
+msgstr "πάνω αριστερά"
+
+msgid "top right"
+msgstr "πάνω δεξιά"
+
+msgid "unknown"
+msgstr "άγνωστο"
+
+msgid "valid options are:\n"
+msgstr "οι έγκυρες επιλογές είναι:\n"
+
+msgid "yes"
+msgstr "ναι"
+
+msgid "yes, detected by strobe"
+msgstr "ναι, ανιχνεύθηκε από το στροβοσκόπιο"
+
+msgid "yes, not detected by strobe"
+msgstr "ναι, δεν ανιχνεύθηκε από το στροβοσκόπιο"
