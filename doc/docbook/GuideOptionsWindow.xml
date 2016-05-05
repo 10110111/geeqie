@@ -82,9 +82,9 @@
       Overlay info format string syntax is: <literal>%tag[:max_length][:extra]%</literal>
     </para>
     <informaltable><tgroup cols="2"><tbody><row><entry>
-          Tag
+          <emphasis role="strong">Tag</emphasis>
         </entry><entry>
-          Replaced by
+          <emphasis role="strong">Replaced by</emphasis>
         </entry></row>
 <row><entry>
           name
@@ -141,17 +141,39 @@
         </entry><entry>
           Image comment from metadata
         </entry></row>
+<row><entry>
+          &lt;exif_tag&gt;
+        </entry><entry>
+          The exif tag from metadata
+        </entry></row>
+<row><entry>
+          lua/&lt;lua_script&gt;/
+        </entry><entry>
+          The output of a Lua script file
+        </entry></row>
+<row><entry>
+          lua//&lt;lua_command&gt;
+        </entry><entry>
+          The output of a Lua command
+        </entry></row>
 </tbody></tgroup></informaltable>
     <para>
-      To access exif data use the exif name, for example: <literal>%Exif.Photo.DateTimeOriginal%</literal> to get the date of the original shot
-    </para>
+      Examples of usage are:
+    </para><para><programlisting>
+%keywords%
+%Exif.Photo.DateTimeOriginal%
+%lua/jpeg_comment.lua/:12%
+%lua//return(os.date())%
+    </programlisting></para>
+    <para>Refer to <link linkend="GuideReferenceLua">Lua Extensions</link> for further information.</para>
+    <para/>
     <para>
       Pre-formatted exif data is also available:
     </para>
     <informaltable><tgroup cols="2"><tbody><row><entry>
-          Tag
+          <emphasis role="strong">Tag</emphasis>
         </entry><entry>
-          Replaced by exif data
+          <emphasis role="strong">Replaced by exif data</emphasis>
         </entry></row>
 <row><entry>
           formatted.Camera
