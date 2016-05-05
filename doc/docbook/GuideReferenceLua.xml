@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideReferenceLua">
+    <title>
+      Lua Extensions
+    </title><para>Lua scripts allow the functionality of Geeqie to be extended. Lua scripts may only be used in conjunction with the Overlay Screen Display.
+    </para><para/>
+    <para>Some knowledge of the Lua programming language is required.</para>
+    <section id="Requirements"><title>Requirements</title><para>Use of Lua within Geeqie requires Lua 5.1 to be installed. If you are compiling from sources, Lua functionality will be available if the development files dependencies are met.</para>
+    <para>If you are using a pre-compiled distribution, availability depends on the package maintainer.</para></section>
+    <section id="HowToUseLua"><title>How to use Lua</title><para>Lua scripts must be stored in a single folder:<programlisting>
+    ~/.config/geeqie/lua/</programlisting></para>
+    <para>A link to a Lua script must be inserted into the overlay template. Refer to the Overlay Screen Display section of <link linkend="GuideOptionsWindow">Window Options</link>.</para>
+    <para>The full extent of the Lua language is available.</para></section>
+    <section id="GeeqieBuiltIn Functions"><title>Geeqie Lua built-in functions
+    </title><para>The following functions are built in to Geeqie:</para><para>
+    <informaltable><tgroup cols="2"><tbody><row><entry>
+        <emphasis role="strong">Function</emphasis>
+        </entry><entry>
+          <emphasis role="strong">Returns</emphasis>
+        </entry></row>
+    <row><entry>
+          Image:get_path()
+        </entry><entry>
+          The full path of the file, including filename and extension
+        </entry></row>
+    <row><entry>
+          Image:get_name()
+        </entry><entry>
+          The full filename including extension
+        </entry></row>
+    <row><entry>
+          Image:get_extension
+        </entry><entry>
+          The file extension including preceeding dot
+        </entry></row>
+    <row><entry>
+          Image:get_date()
+        </entry><entry>
+          The file date in Unix timestamp format.
+        </entry></row>
+    <row><entry>
+          Image:get_size()
+        </entry><entry>
+          The file size in bytes
+        </entry></row>
+    <row><entry>
+          Image:get_exif()
+        </entry><entry>
+          A data structure containing the entire exif data
+        </entry></row>
+    <row><entry>
+          &lt;exif_str&gt;:get_datum("&lt;exif_tag&gt;")
+        </entry><entry>
+          A single exif tag extracted from a structure output by the above command
+        </entry></row>
+    </tbody></tgroup></informaltable>
+    </para><para>The keyword "Image" refers to the file currently being displayed by Geeqie.</para></section>
+    <section id="Examples"><title>Examples
+    </title><para>The following example, which outputs the jpeg comment of a file, demonstrates the use of a built-in function and how to call a system command from a Lua script:<programlisting>
+--Retrieve the jpeg comment of a file
+path=Image:get_path()
+commentfile=io.popen("exiv2 -p c \"" .. path .. "\"" )
+comment = commentfile:read("*a")
+commentfile:close()
+return (comment)</programlisting></para>
+    <para>Note that it is necessary to have escape characters surrounding path and filenames.</para>
+    <para>The following example demonstrates how to extract exif data from a file:<programlisting>
+--Retrieve the DateTimeDigitized exif tag
+exif_structure = Image:get_exif();
+DateTimeDigitized = exif_structure:get_datum("Exif.Photo.DateTimeDigitized");
+return (os.date(DateTimeDigitized))
+    </programlisting></para></section>
+    <section id="Warning"><title>Warning
+    </title><para>Lua is a powerful programming language. Errors in script files, besides having undesirable side-effects, may cause Geeqie to crash.</para></section>
+</section>
