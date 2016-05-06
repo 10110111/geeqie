@@ -598,8 +598,7 @@ Support:
   Lua:	         $HAVE_LUA
 
 Documentation:
-  Doxygen:       $DOXYGEN
-  Formats:       $doxy_formats_report
+  Doxygen:       $DX_DOXYGEN
   doc-tool:      $GNOME_DOC_TOOL
 
 END
