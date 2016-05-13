@@ -308,33 +308,60 @@ static gdouble alternate_image_sim_compare_fast(ImageSimilarityData *a, ImageSim
 }
 #endif
 
-gdouble image_sim_compare(ImageSimilarityData *a, ImageSimilarityData *b)
+gdouble image_sim_compare_transfo(ImageSimilarityData *a, ImageSimilarityData *b, gchar transfo)
 {
 	gint sim;
-	gint i;
+	gint i1, i2, *i;
+	gint j1, j2, *j;
 
 	if (!a || !b || !a->filled || !b->filled) return 0.0;
 
 	sim = 0.0;
 
-	for (i = 0; i < 1024; i++)
+	if (transfo & 1) { i = &j2; j = &i2; } else { i = &i2; j = &j2; }
+	for (j1 = 0; j1 < 32; j1++)
 		{
-		sim += abs(a->avg_r[i] - b->avg_r[i]);
-		sim += abs(a->avg_g[i] - b->avg_g[i]);
-		sim += abs(a->avg_b[i] - b->avg_b[i]);
+		if (transfo & 2) *j = 31-j1; else *j = j1;
+		for (i1 = 0; i1 < 32; i1++)
+			{
+			if (transfo & 4) *i = 31-i1; else *i = i1;
+			sim += abs(a->avg_r[i1*32+j1] - b->avg_r[i2*32+j2]);
+			sim += abs(a->avg_g[i1*32+j1] - b->avg_g[i2*32+j2]);
+			sim += abs(a->avg_b[i1*32+j1] - b->avg_b[i2*32+j2]);
+			}
 		}
 
 	return 1.0 - ((gdouble)sim / (255.0 * 1024.0 * 3.0));
 }
 
-/* this uses a cutoff point so that it can abort early when it gets to
- * a point that can simply no longer make the cut-off point.
- */
-gdouble image_sim_compare_fast(ImageSimilarityData *a, ImageSimilarityData *b, gdouble min)
+gdouble image_sim_compare(ImageSimilarityData *a, ImageSimilarityData *b)
+{
+	gboolean test_transformations = TRUE; /* could be a function parameter */
+	gint max_t = (test_transformations ? 8 : 1);
+
+	gint t;
+	gdouble score, max_score = 0;
+
+	for(t = 0; t < max_t; t++)
+	{
+		score = image_sim_compare_transfo(a, b, t);
+		if (score > max_score) max_score = score;
+	}
+	return max_score;
+}
+
+
+/*
+4 rotations (0, 90, 180, 270) combined with two mirrors (0, H)
+generate all possible isometric transformations
+= 8 tests
+= change dir of x, change dir of y, exchange x and y = 2^3 = 8
+*/
+gdouble image_sim_compare_fast_transfo(ImageSimilarityData *a, ImageSimilarityData *b, gdouble min, gchar transfo)
 {
 	gint sim;
-	gint i;
-	gint j;
+	gint i1, i2, *i;
+	gint j1, j2, *j;
 
 #ifdef ALTERNATE_INCLUDE_COMPARE_CHANGE
 	if (alternate_enabled) return alternate_image_sim_compare_fast(a, b, min);
@@ -345,18 +372,40 @@ gdouble image_sim_compare_fast(ImageSimilarityData *a, ImageSimilarityData *b, g
 	min = 1.0 - min;
 	sim = 0.0;
 
-	for (j = 0; j < 1024; j += 32)
+	if (transfo & 1) { i = &j2; j = &i2; } else { i = &i2; j = &j2; }
+	for (j1 = 0; j1 < 32; j1++)
 		{
-		for (i = j; i < j + 32; i++)
+		if (transfo & 2) *j = 31-j1; else *j = j1;
+		for (i1 = 0; i1 < 32; i1++)
 			{
-			sim += abs(a->avg_r[i] - b->avg_r[i]);
-			sim += abs(a->avg_g[i] - b->avg_g[i]);
-			sim += abs(a->avg_b[i] - b->avg_b[i]);
+			if (transfo & 4) *i = 31-i1; else *i = i1;
+			sim += abs(a->avg_r[i1*32+j1] - b->avg_r[i2*32+j2]);
+			sim += abs(a->avg_g[i1*32+j1] - b->avg_g[i2*32+j2]);
+			sim += abs(a->avg_b[i1*32+j1] - b->avg_b[i2*32+j2]);
 			}
 		/* check for abort, if so return 0.0 */
 		if ((gdouble)sim / (255.0 * 1024.0 * 3.0) > min) return 0.0;
 		}
 
 	return (1.0 - ((gdouble)sim / (255.0 * 1024.0 * 3.0)) );
+}
+
+/* this uses a cutoff point so that it can abort early when it gets to
+ * a point that can simply no longer make the cut-off point.
+ */
+gdouble image_sim_compare_fast(ImageSimilarityData *a, ImageSimilarityData *b, gdouble min)
+{
+	gboolean test_transformations = TRUE; /* could be a function parameter */
+	gint max_t = (test_transformations ? 8 : 1);
+
+	gint t;
+	gdouble score, max_score = 0;
+
+	for(t = 0; t < max_t; t++)
+	{
+		score = image_sim_compare_fast_transfo(a, b, min, t);
+		if (score > max_score) max_score = score;
+	}
+	return max_score;
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
