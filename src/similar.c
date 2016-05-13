@@ -348,8 +348,7 @@ gdouble image_sim_compare_transfo(ImageSimilarityData *a, ImageSimilarityData *b
 
 gdouble image_sim_compare(ImageSimilarityData *a, ImageSimilarityData *b)
 {
-	gboolean test_transformations = TRUE; /* could be a function parameter */
-	gint max_t = (test_transformations ? 8 : 1);
+	gint max_t = (options->rot_invariant_sim ? 8 : 1);
 
 	gint t;
 	gdouble score, max_score = 0;
@@ -407,8 +406,7 @@ gdouble image_sim_compare_fast_transfo(ImageSimilarityData *a, ImageSimilarityDa
  */
 gdouble image_sim_compare_fast(ImageSimilarityData *a, ImageSimilarityData *b, gdouble min)
 {
-	gboolean test_transformations = TRUE; /* could be a function parameter */
-	gint max_t = (test_transformations ? 8 : 1);
+	gint max_t = (options->rot_invariant_sim ? 8 : 1);
 
 	gint t;
 	gdouble score, max_score = 0;
