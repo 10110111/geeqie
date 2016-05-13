@@ -169,6 +169,13 @@ void image_sim_alternate_processing(ImageSimilarityData *sd)
 #endif
 }
 
+gint mround(gdouble x)
+{
+	gint ipart = x;
+	gdouble fpart = x-ipart;
+	return (fpart < 0.5 ? ipart : ipart+1);
+}
+
 void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 {
 	gint w, h;
@@ -182,10 +189,10 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 	gint j;
 	gint x_inc, y_inc, xy_inc;
 	gint xs, ys;
+	gint w_left, h_left;
 
 	gboolean x_small = FALSE;	/* if less than 32 w or h, set TRUE */
 	gboolean y_small = FALSE;
-
 	if (!sd || !pixbuf) return;
 
 	w = gdk_pixbuf_get_width(pixbuf);
@@ -197,6 +204,8 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 	p_step = has_alpha ? 4 : 3;
 	x_inc = w / 32;
 	y_inc = h / 32;
+	w_left = w;
+	h_left = h;
 
 	if (x_inc < 1)
 		{
@@ -209,16 +218,16 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 		y_small = TRUE;
 		}
 
-	xy_inc = x_inc * y_inc;
-
 	j = 0;
 
+	h_left = h;
 	for (ys = 0; ys < 32; ys++)
 		{
 		if (y_small) j = (gdouble)h / 32 * ys;
-
+		        else y_inc = mround((gdouble)h_left/(32-ys));
 		i = 0;
 
+		w_left = w;
 		for (xs = 0; xs < 32; xs++)
 			{
 			gint x, y;
@@ -227,7 +236,8 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 			guchar *xpos;
 
 			if (x_small) i = (gdouble)w / 32 * xs;
-
+			        else x_inc = mround((gdouble)w_left/(32-xs));
+			xy_inc = x_inc * y_inc;
 			r = g = b = 0;
 			xpos = pix + (i * p_step);
 
@@ -253,9 +263,11 @@ void image_sim_fill_data(ImageSimilarityData *sd, GdkPixbuf *pixbuf)
 			sd->avg_b[t] = b;
 
 			i += x_inc;
+			w_left -= x_inc;
 			}
 
 		j += y_inc;
+		h_left -= y_inc;
 		}
 
 	sd->filled = TRUE;
