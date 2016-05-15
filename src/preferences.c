@@ -290,6 +290,7 @@ static void config_window_apply(void)
 	options->image.exif_proof_rotate_enable = c_options->image.exif_proof_rotate_enable;
 
 	options->duplicates_similarity_threshold = c_options->duplicates_similarity_threshold;
+	options->rot_invariant_sim = c_options->rot_invariant_sim;
 
 	options->tree_descend_subdirs = c_options->tree_descend_subdirs;
 
@@ -1888,11 +1889,12 @@ static void config_tab_behavior(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Mouse wheel scrolls image"),
 			      options->mousewheel_scrolls, &c_options->mousewheel_scrolls);
 
-	group = pref_group_new(vbox, FALSE, _("Miscellaneous"), GTK_ORIENTATION_VERTICAL);
+	group = pref_group_new(vbox, FALSE, _("Similarities"), GTK_ORIENTATION_VERTICAL);
 
 	pref_spin_new_int(group, _("Custom similarity threshold:"), NULL,
 			  0, 100, 1, options->duplicates_similarity_threshold, (int *)&c_options->duplicates_similarity_threshold);
-
+	pref_checkbox_new_int(group, _("Rotation invariant duplicate check"),
+			      options->rot_invariant_sim, &c_options->rot_invariant_sim);
 
 #ifdef DEBUG
 	group = pref_group_new(vbox, FALSE, _("Debugging"), GTK_ORIENTATION_VERTICAL);
