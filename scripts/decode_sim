@@ -1,0 +1,70 @@
+#! /usr/bin/perl
+#
+
+use strict;
+use warnings;
+
+my $file = shift or die;
+
+open my $in_fh, '<', $file or die;
+my $type = <$in_fh>;
+chomp $type;
+
+die unless $type eq 'SIMcache';
+
+while (<$in_fh>)
+{
+   my $raw = $_;
+   chomp;
+   if (/^#(.*)/)
+   {
+      printf "Comment: %s\n", $1;
+   }
+   elsif (/^Dimensions=\[(\d+) x (\d+)\]$/)
+   {
+      printf "Original image dimensions: %d×%d\n", $1, $2;
+   }
+   elsif (/^Date=(.*)/)
+   {
+      printf "Date (used for pan-view): %s\n", $1;
+   }
+   elsif (/^Checksum=(.*)/)
+   {
+      printf "Checksum (never seen): %s\n", $1;
+   }
+   elsif (/^MD5sum=\[(.*)\]$/)
+   {
+      printf "MD5 sum: %s\n", $1;
+   }
+   elsif ($raw =~ /^SimilarityGrid\[(\d+) x (\d+)\]=(.*)$/s)
+   {
+      printf "Similarity image %d×%d\n", $1, $2;
+      if ($1 != 32 or $2 != 32)
+      {
+	 print "Warning, similarity data are not size 32×32!\n";
+      }
+
+      my $simn = $1 * $2 * 3;
+      my $simdata = $3;
+
+      $simdata = substr($simdata, 0, -1) if length($simdata) == $simn + 1; # In case all fits to one line
+
+      if (length($simdata) < $simn)
+      {
+	 read $in_fh, $simdata, $simn - length($simdata), length($simdata) or die;
+	 my $dummy;
+	 read $in_fh, $dummy, 1 or die;
+      }
+
+      printf "Warning, similarity data is not %d bytes", $simn unless length($simdata) == $simn;
+   } ## end elsif (/^SimilarityGrid\[(\d+)...
+   else
+   {
+      my $field = $_;
+      $field = $1 if /^(.*)=/;
+
+      printf "Unknown Field '$field'\n";
+   } ## end elsif (/^SimilarityGrid\[(\d+)...
+} ## end while (<$in_fh>)
+
+close $in_fh;
