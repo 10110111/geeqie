@@ -404,10 +404,6 @@ static void dupe_item_read_cache(DupeItem *di)
 			di->width = cd->width;
 			di->height = cd->height;
 			}
-		if (di->checksum == 0 && cd->have_checksum)
-			{
-			di->checksum = cd->checksum;
-			}
 		if (!di->md5sum && cd->have_md5sum)
 			{
 			di->md5sum = md5_digest_to_text(cd->md5sum);
@@ -432,7 +428,6 @@ static void dupe_item_write_cache(DupeItem *di)
 		cd->path = cache_get_location(CACHE_TYPE_SIM, di->fd->path, TRUE, NULL);
 
 		if (di->width != 0) cache_sim_data_set_dimensions(cd, di->width, di->height);
-		if (di->checksum != 0) cache_sim_data_set_checksum(cd, di->checksum);
 		if (di->md5sum)
 			{
 			guchar digest[16];
