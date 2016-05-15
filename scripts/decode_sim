@@ -4,9 +4,12 @@
 use strict;
 use warnings;
 
+use GD;
+
 my $file = shift or die;
 
 open my $in_fh, '<', $file or die;
+binmode $in_fh;
 my $type = <$in_fh>;
 chomp $type;
 
@@ -45,6 +48,7 @@ while (<$in_fh>)
       }
 
       my $simn = $1 * $2 * 3;
+      my ($width, $height) = ($1, $2);
       my $simdata = $3;
 
       $simdata = substr($simdata, 0, -1) if length($simdata) == $simn + 1; # In case all fits to one line
@@ -57,6 +61,28 @@ while (<$in_fh>)
       }
 
       printf "Warning, similarity data is not %d bytes", $simn unless length($simdata) == $simn;
+
+      if (length($simdata) == $simn)
+      {
+	 my $gd = GD::Image->new($width, $height, 1);
+
+	 for (my $x = 0; $x < $width; $x++)
+	 {
+	    for (my $y = 0; $y < $height; $y++)
+	    {
+	       my $colors = substr($simdata, ($x + $y * $width) * 3, 3);
+	       my @rgb = unpack("CCC", $colors);
+	       my $index = $gd->colorAllocate(@rgb);
+	       $gd->setPixel($x, $y, $index);
+	    }
+	 } ## end for (my $x = 0; $x < $width; $...
+
+	 my $png = $gd->png;
+	 open my $display_fh, '|-', qw(display -resize), sprintf("%dx%d", $width*10, $height*10), '-' or die;
+	 binmode $display_fh;
+	 print {$display_fh} $png;
+	 close $display_fh;
+      } ## end if (length($simdata) == $simn)
    } ## end elsif (/^SimilarityGrid\[(\d+)...
    else
    {
