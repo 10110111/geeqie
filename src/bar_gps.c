@@ -208,7 +208,6 @@ static gboolean bar_pane_gps_create_markers_cb(gpointer data)
 	PaneGPSData *pgd = data;
 	gdouble latitude;
 	gdouble longitude;
-	GList *work;
 	ClutterActor *marker;
 	FileData *fd;
 	ClutterColor marker_colour = { MARKER_COLOUR };
@@ -337,7 +336,6 @@ void bar_pane_gps_set_map_source(PaneGPSData *pgd, const gchar *map_id)
 	if (map_source != NULL)
 		{
 		g_object_set(G_OBJECT(pgd->gps_view), "map-source", map_source, NULL);
-		//g_object_unref(map_source);
 		}
 
 	g_object_unref(map_factory);
@@ -546,7 +544,6 @@ static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
 {
 	GtkWidget *menu;
 	GtkWidget *map_centre;
-	GtkWidget *parent;
 	ChamplainMapSourceFactory *map_factory;
 	GSList *map_list;
 	ChamplainMapSourceDesc *map_desc;
@@ -583,7 +580,6 @@ static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
 
 	g_slist_free(map_list);
 	g_object_unref(map_factory);
-	//g_object_unref(map_centre);
 
 	return menu;
 }
@@ -670,11 +666,11 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 {
 	PaneGPSData *pgd;
 	GtkWidget *vbox, *frame;
-	GtkWidget *gpswidget, *viewport;
+	GtkWidget *gpswidget;
 	GtkWidget *status, *state, *progress, *slider;
 	ChamplainMarkerLayer *layer;
 	ChamplainView *view;
-	const gchar *slider_list[] = {GTK_STOCK_ZOOM_IN, GTK_STOCK_ZOOM_OUT, NULL};
+	const gchar *slider_list[] = {"zoom-in", "zoom-out", NULL};
 	const gchar **slider_icons = slider_list;
 
 	pgd = g_new0(PaneGPSData, 1);
@@ -690,7 +686,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	pgd->height = height;
 
 	frame = gtk_frame_new(NULL);
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
 	gpswidget = gtk_champlain_embed_new();
 	view = gtk_champlain_embed_get_view(GTK_CHAMPLAIN_EMBED(gpswidget));
@@ -698,7 +694,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	gtk_box_pack_start(GTK_BOX(vbox), gpswidget, TRUE, TRUE, 0);
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-	status = gtk_hbox_new(FALSE,0);
+	status = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	slider = gtk_scale_button_new(GTK_ICON_SIZE_SMALL_TOOLBAR, 1, 17, 1, slider_icons);
 	gtk_widget_set_tooltip_text(slider, "Zoom");
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(slider), (gdouble)zoom);
@@ -727,9 +723,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	g_object_set(G_OBJECT(view), "kinetic-mode", TRUE,
 				     "zoom-level", zoom,
 				     "keep-center-on-resize", TRUE,
-/* This seems to be broken, https://bugzilla.gnome.org/show_bug.cgi?id=596419
-				     "decel-rate", 1.0,
-*/
+				     "deceleration", 1.1,
 				     "zoom-on-double-click", FALSE,
 				     "max-zoom-level", 17,
 				     "min-zoom-level", 1,
@@ -743,7 +737,6 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 
 	gtk_widget_set_size_request(pgd->widget, -1, height);
 
-	clutter_set_motion_events_enabled(TRUE);
 	g_signal_connect(G_OBJECT(gpswidget), "button_press_event", G_CALLBACK(bar_pane_gps_map_keypress_cb), pgd);
 	g_signal_connect(pgd->gps_view, "notify::state", G_CALLBACK(bar_pane_gps_view_state_changed_cb), pgd);
 	g_signal_connect(pgd->gps_view, "notify::zoom-level", G_CALLBACK(bar_pane_gps_view_state_changed_cb), pgd);
@@ -784,10 +777,7 @@ GtkWidget *bar_pane_gps_new_from_config(const gchar **attribute_names, const gch
 			continue;
 		if (READ_CHAR_FULL("map-id", map_id))
 			continue;
-		/* There is a bug in the libchamplain libraries which prevents correct
-		 * initialisation if the zoom level starts higher than 8
-		 */
-		if (READ_INT_CLAMP_FULL("zoom-level", zoom, 1, 8))
+		if (READ_INT_CLAMP_FULL("zoom-level", zoom, 1, 20))
 			continue;
 		if (READ_INT_CLAMP_FULL("latitude", int_latitude, -90000000, +90000000))
 			continue;
