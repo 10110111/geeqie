@@ -354,6 +354,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 
 	WRITE_NL(); WRITE_INT(*options, image_overlay.x);
 	WRITE_NL(); WRITE_INT(*options, image_overlay.y);
+	WRITE_NL(); WRITE_CHAR(*options, image_overlay.font);
 
 	/* Slideshow Options */
 	WRITE_NL(); WRITE_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION);
@@ -615,6 +616,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_CHAR(*options, image_overlay.template_string)) continue;
 		if (READ_INT(*options, image_overlay.x)) continue;
 		if (READ_INT(*options, image_overlay.y)) continue;
+		if (READ_CHAR(*options, image_overlay.font)) continue;
 
 		/* Slideshow options */
 		if (READ_INT_UNIT(*options, slideshow.delay, SLIDESHOW_SUBSECOND_PRECISION)) continue;

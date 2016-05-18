@@ -284,7 +284,9 @@ static void config_window_apply(void)
 	if (c_options->image_overlay.template_string)
 		set_image_overlay_template_string(&options->image_overlay.template_string,
 						  c_options->image_overlay.template_string);
-
+	if (c_options->image_overlay.font)
+		set_image_overlay_font_string(&options->image_overlay.font,
+						  c_options->image_overlay.font);
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
 	options->image.exif_proof_rotate_enable = c_options->image.exif_proof_rotate_enable;
@@ -1015,6 +1017,27 @@ static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 	help_window_show("overlay");
 }
 
+static void image_overlay_set_font_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *dialog;
+	char *font;
+	PangoFontDescription *font_desc;
+
+	dialog = gtk_font_chooser_dialog_new("Image Overlay Font", gtk_widget_get_toplevel(widget));
+	gtk_font_chooser_set_font(dialog, options->image_overlay.font);
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) != GTK_RESPONSE_CANCEL)
+		{
+		font_desc = gtk_font_chooser_get_font_desc(GTK_FONT_CHOOSER(dialog));
+		font = pango_font_description_to_string(font_desc);
+		g_free(c_options->image_overlay.font);
+		c_options->image_overlay.font = g_strdup(font);
+		g_free(font);
+		}
+
+	gtk_widget_destroy(dialog);
+}
+
 static void accel_store_populate(void)
 {
 	LayoutWindow *lw;
@@ -1450,6 +1473,11 @@ static void config_tab_windows(GtkWidget *notebook)
 	gtk_widget_show(image_overlay_template_view);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+
+	button = pref_button_new(NULL, GTK_STOCK_SELECT_FONT, _("Font"), FALSE,
+				 G_CALLBACK(image_overlay_set_font_cb), notebook);
+	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, NULL, 0);
+	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
 				 G_CALLBACK(image_overlay_default_template_cb), image_overlay_template_view);

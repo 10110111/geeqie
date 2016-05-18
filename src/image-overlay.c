@@ -100,6 +100,14 @@ void set_default_image_overlay_template_string(gchar **template_string)
 	set_image_overlay_template_string(template_string, DEFAULT_OVERLAY_INFO);
 }
 
+void set_image_overlay_font_string(gchar **font_string, const gchar *value)
+{
+	g_assert(font_string);
+
+	g_free(*font_string);
+	*font_string = g_strdup(value);
+}
+
 static OverlayStateData *image_get_osd_data(ImageWindow *imd)
 {
 	OverlayStateData *osd;
@@ -493,6 +501,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 	const HistMap *histmap = NULL;
 	ImageWindow *imd = osd->imd;
 	FileData *fd = image_get_fd(imd);
+	PangoFontDescription *font_desc;
 
 	if (!fd) return NULL;
 
@@ -653,7 +662,10 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 			}
 	}
 
+	font_desc = pango_font_description_from_string(options->image_overlay.font);
 	layout = gtk_widget_create_pango_layout(imd->pr, NULL);
+	pango_layout_set_font_description(layout, font_desc);
+
 	pango_layout_set_markup(layout, text, -1);
 	g_free(text);
 

@@ -88,6 +88,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image_overlay.template_string = NULL;
 	options->image_overlay.x = 10;
 	options->image_overlay.y = -10;
+	options->image_overlay.font = NULL;
 
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;

@@ -138,6 +138,7 @@ struct _ConfOptions
 		gchar *template_string;
 		gint x;
 		gint y;
+		gchar *font;
 	} image_overlay;
 
 	/* properties dialog */
