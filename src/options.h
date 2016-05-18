@@ -138,6 +138,14 @@ struct _ConfOptions
 		gchar *template_string;
 		gint x;
 		gint y;
+		gint text_red;
+		gint text_green;
+		gint text_blue;
+		gint text_alpha;
+		gint background_red;
+		gint background_green;
+		gint background_blue;
+		gint background_alpha;
 		gchar *font;
 	} image_overlay;
 

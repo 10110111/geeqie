@@ -44,6 +44,7 @@
 #define EDITOR_NAME_MAX_LENGTH 32
 #define EDITOR_COMMAND_MAX_LENGTH 1024
 
+static void image_overlay_set_text_colours();
 
 typedef struct _ThumbSize ThumbSize;
 struct _ThumbSize
@@ -287,6 +288,14 @@ static void config_window_apply(void)
 	if (c_options->image_overlay.font)
 		set_image_overlay_font_string(&options->image_overlay.font,
 						  c_options->image_overlay.font);
+	options->image_overlay.text_red = c_options->image_overlay.text_red;
+	options->image_overlay.text_green = c_options->image_overlay.text_green;
+	options->image_overlay.text_blue = c_options->image_overlay.text_blue;
+	options->image_overlay.text_alpha = c_options->image_overlay.text_alpha;
+	options->image_overlay.background_red = c_options->image_overlay.background_red;
+	options->image_overlay.background_green = c_options->image_overlay.background_green;
+	options->image_overlay.background_blue = c_options->image_overlay.background_blue;
+	options->image_overlay.background_alpha = c_options->image_overlay.background_alpha;
 	options->update_on_time_change = c_options->update_on_time_change;
 	options->image.exif_rotate_enable = c_options->image.exif_rotate_enable;
 	options->image.exif_proof_rotate_enable = c_options->image.exif_proof_rotate_enable;
@@ -1038,6 +1047,52 @@ static void image_overlay_set_font_cb(GtkWidget *widget, gpointer data)
 	gtk_widget_destroy(dialog);
 }
 
+static void image_overlay_set_text_colour_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *dialog;
+	GdkRGBA colour;
+
+	dialog = gtk_color_chooser_dialog_new("Image Overlay Text Colour", gtk_widget_get_toplevel(widget));
+	colour.red = options->image_overlay.text_red;
+	colour.green = options->image_overlay.text_green;
+	colour.blue = options->image_overlay.text_blue;
+	colour.alpha = options->image_overlay.text_alpha;
+	gtk_color_chooser_set_rgba(dialog, &colour);
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) != GTK_RESPONSE_CANCEL)
+		{
+		gtk_color_chooser_get_rgba(dialog, &colour);
+		c_options->image_overlay.text_red = colour.red*255;
+		c_options->image_overlay.text_green = colour.green*255;
+		c_options->image_overlay.text_blue = colour.blue*255;
+		c_options->image_overlay.text_alpha = colour.alpha*255;
+		}
+	gtk_widget_destroy (dialog);
+}
+
+static void image_overlay_set_background_colour_cb(GtkWidget *widget, gpointer data)
+{
+	GenericDialog *dialog;
+	GdkRGBA colour;
+
+	dialog = gtk_color_chooser_dialog_new("Image Overlay Background Colour", gtk_widget_get_toplevel(widget));
+	colour.red = options->image_overlay.background_red;
+	colour.green = options->image_overlay.background_green;
+	colour.blue = options->image_overlay.background_blue;
+	colour.alpha = options->image_overlay.background_alpha;
+	gtk_color_chooser_set_rgba(dialog, &colour);
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) != GTK_RESPONSE_CANCEL)
+		{
+		gtk_color_chooser_get_rgba(dialog, &colour);
+		c_options->image_overlay.background_red = colour.red*255;
+		c_options->image_overlay.background_green = colour.green*255;
+		c_options->image_overlay.background_blue = colour.blue*255;
+		c_options->image_overlay.background_alpha = colour.alpha*255;
+		}
+	gtk_widget_destroy (dialog);
+}
+
 static void accel_store_populate(void)
 {
 	LayoutWindow *lw;
@@ -1478,6 +1533,17 @@ static void config_tab_windows(GtkWidget *notebook)
 				 G_CALLBACK(image_overlay_set_font_cb), notebook);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, NULL, 0);
 	gtk_widget_show(button);
+
+	button = pref_button_new(NULL, GTK_STOCK_COLOR_PICKER, _("Text"), FALSE,
+				 G_CALLBACK(image_overlay_set_text_colour_cb), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+
+	button = pref_button_new(NULL, GTK_STOCK_COLOR_PICKER, _("Background"), FALSE,
+				 G_CALLBACK(image_overlay_set_background_colour_cb), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+	image_overlay_set_text_colours();
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
 				 G_CALLBACK(image_overlay_default_template_cb), image_overlay_template_view);
@@ -2305,5 +2371,17 @@ void show_about_window(void)
 	gtk_widget_show(button);
 
 	gtk_widget_show(about);
+}
+
+static void image_overlay_set_text_colours()
+{
+	c_options->image_overlay.text_red = options->image_overlay.text_red;
+	c_options->image_overlay.text_green = options->image_overlay.text_green;
+	c_options->image_overlay.text_blue = options->image_overlay.text_blue;
+	c_options->image_overlay.text_alpha = options->image_overlay.text_alpha;
+	c_options->image_overlay.background_red = options->image_overlay.background_red;
+	c_options->image_overlay.background_green = options->image_overlay.background_green;
+	c_options->image_overlay.background_blue = options->image_overlay.background_blue;
+	c_options->image_overlay.background_alpha = options->image_overlay.background_alpha;
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
