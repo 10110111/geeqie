@@ -2193,56 +2193,6 @@ void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type)
 		}
 }
 
-void layout_toolbar_write_config(LayoutWindow *lw, ToolbarType type, GString *outstr, gint indent)
-{
-	const gchar *name = NULL;
-	GList *work = lw->toolbar_actions[type];
-
-	switch (type)
-		{
-		case TOOLBAR_MAIN:
-			name = "toolbar";
-			break;
-		case TOOLBAR_STATUS:
-			name = "statusbar";
-			break;
-		default:
-			break;
-		}
-
-	WRITE_NL(); WRITE_STRING("<%s>", name);
-	indent++;
-	WRITE_NL(); WRITE_STRING("<clear/>");
-	while (work)
-		{
-		gchar *action = work->data;
-		work = work->next;
-		WRITE_NL(); WRITE_STRING("<toolitem ");
-		write_char_option(outstr, indent + 1, "action", action);
-		WRITE_STRING("/>");
-		}
-	indent--;
-	WRITE_NL(); WRITE_STRING("</%s>", name);
-}
-
-void layout_toolbar_add_from_config(LayoutWindow *lw, ToolbarType type, const gchar **attribute_names, const gchar **attribute_values)
-{
-	gchar *action = NULL;
-
-	while (*attribute_names)
-		{
-		const gchar *option = *attribute_names++;
-		const gchar *value = *attribute_values++;
-
-		if (READ_CHAR_FULL("action", action)) continue;
-
-		log_printf("unknown attribute %s = %s\n", option, value);
-		}
-
-	layout_toolbar_add(lw, type, action);
-	g_free(action);
-}
-
 /*
  *-----------------------------------------------------------------------------
  * misc

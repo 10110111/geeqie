@@ -2278,9 +2278,6 @@ void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 	bar_sort_write_config(lw->bar_sort, outstr, indent + 1);
 	bar_write_config(lw->bar, outstr, indent + 1);
 
-	layout_toolbar_write_config(lw, TOOLBAR_MAIN, outstr, indent + 1);
-	layout_toolbar_write_config(lw, TOOLBAR_STATUS, outstr, indent + 1);
-
 	WRITE_NL(); WRITE_STRING("</layout>");
 }
 
