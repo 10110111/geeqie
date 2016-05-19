@@ -138,7 +138,7 @@ static void scroll_reset_cb(GtkWidget *widget, gpointer data)
 
 static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 {
-	c_options->image.zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 10.0 + 0.01);
+	c_options->image.zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 100.0 + 0.01);
 }
 
 static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
@@ -1400,7 +1400,7 @@ static void config_tab_image(GtkWidget *notebook)
 
 	c_options->image.zoom_increment = options->image.zoom_increment;
 	spin = pref_spin_new(group, _("Zoom increment:"), NULL,
-			     0.1, 4.0, 0.1, 1, (gdouble)options->image.zoom_increment / 10.0,
+			     0.01, 4.0, 0.01, 2, (gdouble)options->image.zoom_increment / 100.0,
 			     G_CALLBACK(zoom_increment_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 

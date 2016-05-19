@@ -1404,8 +1404,8 @@ gchar *image_zoom_get_as_text(ImageWindow *imd)
 		approx = "~";
 		}
 
-	if (rint(l) != l) pl = 1;
-	if (rint(r) != r) pr = 1;
+	if (rint(l) != l) pl = 2;
+	if (rint(r) != r) pr = 2;
 
 	return g_strdup_printf("%.*f :%s%.*f", pl, l, approx, pr, r);
 }
