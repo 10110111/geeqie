@@ -2045,7 +2045,6 @@ void layout_free(LayoutWindow *lw)
 	for (i = 0; i < TOOLBAR_COUNT; i++)
 		{
 		if (lw->toolbar[i]) g_object_unref(lw->toolbar[i]);
-		string_list_free(lw->toolbar_actions[i]);
 		}
 
 	gtk_widget_destroy(lw->window);

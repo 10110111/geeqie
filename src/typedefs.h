@@ -623,7 +623,6 @@ struct _LayoutWindow
 	GtkActionGroup *action_group_editors;
 	guint ui_editors_id;
 	GtkUIManager *ui_manager;
-	guint toolbar_merge_id[TOOLBAR_COUNT];
 	GList *toolbar_actions[TOOLBAR_COUNT];
 
 	GtkWidget *path_entry;

@@ -45,7 +45,6 @@
 #include "view_dir.h"
 #include "window.h"
 #include "metadata.h"
-#include "rcfile.h"
 #include "desktop_file.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
@@ -1650,8 +1649,22 @@ static const gchar *menu_ui_description =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='ToolBar'>"
+"    <toolitem action='Thumbnails'/>"
+"    <toolitem action='Back'/>"
+"    <toolitem action='Up'/>"
+"    <toolitem action='Home'/>"
+"    <toolitem action='Refresh'/>"
+"    <toolitem action='ZoomIn'/>"
+"    <toolitem action='ZoomOut'/>"
+"    <toolitem action='ZoomFit'/>"
+"    <toolitem action='Zoom100'/>"
+"    <toolitem action='Preferences'/>"
+"    <toolitem action='FloatTools'/>"
 "  </toolbar>"
 "  <toolbar name='StatusBar'>"
+"    <toolitem action='ShowInfoPixel'/>"
+"    <toolitem action='UseColorProfiles'/>"
+"    <toolitem action='SaveMetadata'/>"
 "  </toolbar>"
 "<accelerator action='PrevImageAlt1'/>"
 "<accelerator action='PrevImageAlt2'/>"
@@ -1976,14 +1989,6 @@ void layout_actions_setup(LayoutWindow *lw)
 		exit(EXIT_FAILURE);
 		}
 
-	DEBUG_1("%s layout_actions_setup: add toolbar", get_exec_time());
-	for (i = 0; i < TOOLBAR_COUNT; i++)
-		{
-		layout_toolbar_clear(lw, i);
-		layout_toolbar_add_default(lw, i);
-		}
-
-
 	DEBUG_1("%s layout_actions_setup: marks", get_exec_time());
 	layout_actions_setup_marks(lw);
 
@@ -2103,94 +2108,6 @@ GtkWidget *layout_actions_toolbar(LayoutWindow *lw, ToolbarType type)
 		}
 	g_object_ref(lw->toolbar[type]);
 	return lw->toolbar[type];
-}
-
-void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type)
-{
-	if (lw->toolbar_merge_id[type])
-		{
-		gtk_ui_manager_remove_ui(lw->ui_manager, lw->toolbar_merge_id[type]);
-		gtk_ui_manager_ensure_update(lw->ui_manager);
-		}
-	string_list_free(lw->toolbar_actions[type]);
-	lw->toolbar_actions[type] = NULL;
-
-	lw->toolbar_merge_id[type] = gtk_ui_manager_new_merge_id(lw->ui_manager);
-}
-
-
-void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
-{
-	const gchar *path = NULL;
-	if (!action || !lw->ui_manager) return;
-
-	if (g_list_find_custom(lw->toolbar_actions[type], action, (GCompareFunc)strcmp)) return;
-
-	switch (type)
-		{
-		case TOOLBAR_MAIN:
-			path = "/ToolBar";
-			break;
-		case TOOLBAR_STATUS:
-			path = "/StatusBar";
-			break;
-		default:
-			break;
-		}
-
-
-	if (g_str_has_suffix(action, ".desktop"))
-		{
-		/* this may be called before the external editors are read
-		   create a dummy action for now */
-
-		if (!lw->action_group_editors)
-			{
-			lw->action_group_editors = gtk_action_group_new("MenuActionsExternal");
-			gtk_ui_manager_insert_action_group(lw->ui_manager, lw->action_group_editors, 1);
-			}
-		if (!gtk_action_group_get_action(lw->action_group_editors, action))
-			{
-			GtkActionEntry entry = { action,
-			                         GTK_STOCK_MISSING_IMAGE,
-			                         action,
-			                         NULL,
-			                         NULL,
-			                         NULL };
-			DEBUG_1("Creating temporary action %s", action);
-			gtk_action_group_add_actions(lw->action_group_editors, &entry, 1, lw);
-			}
-		}
-	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id[type], path, action, action, GTK_UI_MANAGER_TOOLITEM, FALSE);
-	lw->toolbar_actions[type] = g_list_append(lw->toolbar_actions[type], g_strdup(action));
-}
-
-
-void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type)
-{
-	switch (type)
-		{
-		case TOOLBAR_MAIN:
-			layout_toolbar_add(lw, type, "Thumbnails");
-			layout_toolbar_add(lw, type, "Back");
-			layout_toolbar_add(lw, type, "Up");
-			layout_toolbar_add(lw, type, "Home");
-			layout_toolbar_add(lw, type, "Refresh");
-			layout_toolbar_add(lw, type, "ZoomIn");
-			layout_toolbar_add(lw, type, "ZoomOut");
-			layout_toolbar_add(lw, type, "ZoomFit");
-			layout_toolbar_add(lw, type, "Zoom100");
-			layout_toolbar_add(lw, type, "Preferences");
-			layout_toolbar_add(lw, type, "FloatTools");
-			break;
-		case TOOLBAR_STATUS:
-			layout_toolbar_add(lw, type, "ShowInfoPixel");
-			layout_toolbar_add(lw, type, "UseColorProfiles");
-			layout_toolbar_add(lw, type, "SaveMetadata");
-			break;
-		default:
-			break;
-		}
 }
 
 /*

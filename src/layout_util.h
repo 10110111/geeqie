@@ -41,13 +41,7 @@ GtkWidget *layout_actions_menu_bar(LayoutWindow *lw);
 
 GtkWidget *layout_actions_toolbar(LayoutWindow *lw, ToolbarType type);
 
-void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type);
-void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action);
-void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type);
-
-
 void layout_keyboard_init(LayoutWindow *lw, GtkWidget *window);
-
 
 void layout_bar_toggle(LayoutWindow *lw);
 void layout_bar_set(LayoutWindow *lw, GtkWidget *bar);
