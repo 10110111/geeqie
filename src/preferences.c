@@ -1026,6 +1026,7 @@ static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 	help_window_show("overlay");
 }
 
+#if GTK_CHECK_VERSION(3,4,0)
 static void image_overlay_set_font_cb(GtkWidget *widget, gpointer data)
 {
 	GenericDialog *dialog;
@@ -1092,6 +1093,7 @@ static void image_overlay_set_background_colour_cb(GtkWidget *widget, gpointer d
 		}
 	gtk_widget_destroy (dialog);
 }
+#endif
 
 static void accel_store_populate(void)
 {
@@ -1529,6 +1531,7 @@ static void config_tab_windows(GtkWidget *notebook)
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
+#if GTK_CHECK_VERSION(3,4,0)
 	button = pref_button_new(NULL, GTK_STOCK_SELECT_FONT, _("Font"), FALSE,
 				 G_CALLBACK(image_overlay_set_font_cb), notebook);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, NULL, 0);
@@ -1544,6 +1547,7 @@ static void config_tab_windows(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 	image_overlay_set_text_colours();
+#endif
 
 	button = pref_button_new(NULL, NULL, _("Defaults"), FALSE,
 				 G_CALLBACK(image_overlay_default_template_cb), image_overlay_template_view);
