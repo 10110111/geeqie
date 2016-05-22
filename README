@@ -83,7 +83,7 @@ See NEWS file.
 
 ======== Installation
 
-  Compilation: ./configure ; make
+  Compilation: ./autogen.sh ; make
   General install: make install
   Removal: make uninstall
 
