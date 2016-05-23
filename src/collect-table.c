@@ -519,6 +519,7 @@ static void tip_show(CollectTable *ct)
 {
 	GtkWidget *label;
 	gint x, y;
+	gint x_win = 0, y_win = 0;
 
 	if (ct->tip_window) return;
 
@@ -537,10 +538,14 @@ static void tip_show(CollectTable *ct)
 	gtk_container_add(GTK_CONTAINER(ct->tip_window), label);
 	gtk_widget_show(label);
 
+#if GTK_CHECK_VERSION(3,0,0)
+	gdk_window_get_origin(gtk_widget_get_window(ct->listview), &x_win, &y_win);
+#else
 	gdk_window_get_pointer(NULL, &x, &y, NULL);
+#endif
 
 	if (!gtk_widget_get_realized(ct->tip_window)) gtk_widget_realize(ct->tip_window);
-	gtk_window_move(GTK_WINDOW(ct->tip_window), x + 16, y + 16);
+	gtk_window_move(GTK_WINDOW(ct->tip_window), x_win + x + 16, y_win + y + 16);
 	gtk_widget_show(ct->tip_window);
 }
 
