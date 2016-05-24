@@ -49,21 +49,59 @@ geeqie-devel@lists.sourceforge.net
 ======== Requirements
 
   Required libraries:
-    GTK+ 2.20: ftp://ftp.gtk.org/pub/gtk
+    GTK+ 3.00
+               www.gtk.org
+               enabled by default
+               disable with configure option: --disable-gtk3
+    or
+    GTK+ 2.20
+               disabled by default
+               enable with configure option: --disable-gtk3
+               optional items map display and GPU acceleration
+               are not available with GTK2
 
   Optional libraries:
-    lcms or lcms2, for color management support: http://www.littlecms.com
-        (disable with configure option: '--without-lcms')
-    exiv2, for enhanced exif support: http://www.exiv2.org/
-        (disable with configure option: '--without-exiv2')
-        - due to fast development, newer versions work significantly better
-        FIXME: minimal version ?
-    lirc, for remote control support: http://www.lirc.org/
-	(disable with configure option: '--disable-lirc')
-    libchamplain - experimental map support, dissabled by default
-        http://projects.gnome.org/libchamplain/
-        WARNING: this library has a lot of dependencise
-    lua - Support for lua scripting
+    lcms2 2.0
+    or
+    lcms 1.14
+               www.littlecms.com
+               for color management support
+               enabled by default
+               disable with configure option: --disable-lcms
+
+    exiv2 0.11
+               www.exiv2.org
+               for enhanced exif support
+               enabled by default
+               disable with configure option: --disable-exiv2
+
+    lirc
+               www.lirc.org
+               for remote control support
+               enabled by default
+               disable with configure option: --disable-lirc
+
+    libchamplain-gtk 0.12
+    libchamplain 0.12
+    libclutter 1.0
+               wiki.gnome.org/Projects/libchamplain
+               for map display
+               disabled by default
+               enable with configure option: --enable-map
+               enabling will also enable GPU acceleration
+
+    libclutter 1.0
+               www.clutter-project.org
+               for GPU acceleration (a check-box on Preferences/Image must also be ticked)
+               disabled by default
+               enable with configure option: --enable-gpu-accel
+               explicitly disabling will also disable the map feature
+
+    lua 5.1
+               www.lua.org
+               support for lua scripting
+               enabled by default
+               disable with configure option: --disable-lua
 
 ======== Notes and changes for this release            [section:release_notes]
 

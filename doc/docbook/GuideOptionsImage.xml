@@ -9,13 +9,12 @@
     <para/><section id="Zoom"><title>
       Zoom
     </title>
+
     <variablelist><varlistentry><term>
         Quality
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
-      Selects the method used to scale the size of an image.
-    </para>
-    <variablelist><varlistentry><term>
+      </term><listitem><para>
+       Selects the method used to scale the size of an image.
+      </para></listitem></varlistentry><varlistentry><term>
         Nearest
       </term><listitem><para>
         Fastest scaler, but results in poor image quality.
@@ -31,31 +30,27 @@
         Hyper
       </term><listitem><para>
         Slowest scaler, sometimes gives better results than bilinear.
-      </para></listitem></varlistentry></variablelist>
-    <variablelist><varlistentry><term>
-        Two pass zooming
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
-      Enables Geeqie to first display a scaled image using the nearest zoom quality. After image decoding is complete, the image is scaled again using the selected “Zoom (scaling)” method. This allows faster display of an image as it is decoded from the source file.
-    </para>
-    <variablelist><varlistentry><term>
+      </para></listitem></varlistentry><varlistentry><term>
+       Use GPU acceleration via Clutter library
+       </term><listitem><para>
+       Use alternate renderer. Geeqie must be compiled with the --enable-gpu-accel option.
+      </para></listitem></varlistentry><varlistentry><term>
+       Two pass zooming
+       </term><listitem><para>
+       Enables Geeqie to first display a scaled image using the nearest zoom quality. After image decoding is complete, the image is scaled again using the selected “Zoom (scaling)” method. This allows faster display of an image as it is decoded from the source file.
+      </para></listitem></varlistentry><varlistentry><term>
         Allow enlargement of image for zoom to fit
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
-      Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to “Fit to Window”.
-    </para>
-    <variablelist><varlistentry><term>
+      </term><listitem><para>
+        Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to “Fit to Window”.
+      </para></listitem></varlistentry><varlistentry><term>
         Limit image size when autofitting
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
+      </term><listitem><para>
       This percentage will affect the size of the image when Fit image to window is set, instead of using 100% of the window, it will use the specified percentage. It allows one to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.
-    </para>
-    <variablelist><varlistentry><term>
+      </para></listitem></varlistentry><varlistentry><term>
         Zoom increment
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
+      </term><listitem><para>
       Adjusts the step size when zooming in or out on an image. This value corresponds to the percentage of the original image.
-    </para>
+    </para></listitem></varlistentry></variablelist>
     <para/></section><section id="Zoomcontrol"><title>
       Zoom control
     </title>
