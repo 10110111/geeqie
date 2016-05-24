@@ -1,28 +1,23 @@
 /*
- * Geeqie
- * (C) 2006 John Ellis
- *  Copyright (C) 2008 - 2012 The Geeqie Team
+ * Copyright (C) 2006 John Ellis
+ * Copyright (C) 2008 - 2016 The Geeqie Team
  *
- *  Authors:
- *    Support for Exif file format, originally written by Eric Swalens.
- *    Modified by Quy Tonthat
- *    Reimplemented with generic data storage by John Ellis
+ * Authors: Eric Swalens, Quy Tonthat, John Ellis
  *
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
 #ifndef __EXIF_INT_H
 #define __EXIF_INT_H

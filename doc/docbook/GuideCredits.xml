@@ -7,7 +7,7 @@
       Authors
     </title>
     <para>
-      Geeqie is maintained by The Geeqie Team (Vladimir Nadvornik, Petr Ostadal, Laurent Monin).
+      Geeqie is maintained by The Geeqie Team (Colin Clark, Klaus Ethgen, Laurent Monin, Petr Ostadal, Vladimir Nadvornik and others).
     </para>
     <para>
       This software is a fork of GQview project by John Ellis.
@@ -20,7 +20,7 @@
       Copyright
     </title>
     <para>
-      Geeqie and this accompanying documentation is copyright (c) 2008 - 2009 The Geeqie Team and (c) 2006 John Ellis.
+      Geeqie and this accompanying documentation is copyright (c) 2008 - 2016 The Geeqie Team and (c) 2006 John Ellis.
     </para>
     <para/></section><section id="License"><title>
       License
@@ -35,7 +35,7 @@
       Legal Notice
     </title>
     <para>
-      Copyright (c) 2008 - 2009 The Geeqie Team.<?db2html element="br"?>
+      Copyright (c) 2008 - 2016 The Geeqie Team.<?db2html element="br"?>
       Copyright (c) 2006 John Ellis.
     </para>
     <para>

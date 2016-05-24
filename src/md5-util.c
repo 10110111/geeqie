@@ -1,4 +1,24 @@
 /*
+ * Copyright (C) 1993 Branko Lankester
+ * Copyright (C) 1993 Colin Plumb
+ * Copyright (C) 1995 Erik Troan
+ * Copyright (C) 2004 John Ellis
+ * Copyright (C) 2008 - 2016 The Geeqie Team
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
  * This code implements the MD5 message-digest algorithm.
  * The algorithm is due to Ron Rivest.  This code was
  * written by Colin Plumb in 1993, no copyright is claimed.
@@ -14,18 +34,6 @@
  * needed on buffers full of bytes, and then call md5_Final, which
  * will fill a supplied 16-byte array with the digest.
  */
-
-/* parts of this file are :
- * Written March 1993 by Branko Lankester
- * Modified June 1993 by Colin Plumb for altered md5.c.
- * Modified October 1995 by Erik Troan for RPM
- */
-
-/*
- * Pulled from evolution for use in Geeqie, their version is nicely glib'ed
- * GNOME CVS HEAD evolution/e-util/md5-utils.[ch] September 8, 2004
- */
-
 
 #include <stdio.h>
 #include <string.h>

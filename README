@@ -12,27 +12,18 @@
 
 This is Geeqie, a successor of GQview.
 
-Geeqie has been forked from GQview project, because it was not
-possible to contact gqview author and the only maintainer.
-Geeqie projects goal is to move the development forward and
-also integrate the existing patches.
+Geeqie has been forked from GQview project, because it was not possible to
+contact gqview author and the only maintainer. Geeqie projects goal is to move
+the development forward and also integrate the existing patches.
 
-Geeqie is currently considered stable.
-Please report any crash or odd behavior to the mailing list:
-https://lists.sourceforge.net/lists/listinfo/geeqie-devel
+Geeqie is currently considered stable. Please report any crash or odd behavior
+to the mailing list: https://lists.sourceforge.net/lists/listinfo/geeqie-devel
 
 For more info see:
 http://www.geeqie.org/
 
-Vladimir Nadvornik
-Petr Ostadal
-Klaus Ethgen
-
-Please send any question or suggestions to
-geeqie-devel@lists.sourceforge.net
-
-
-
+Please send any question or suggestions to geeqie-devel@lists.sourceforge.net or
+open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
 
 ======== README contents:
 
@@ -110,9 +101,9 @@ See NEWS file.
 
   Code hackers:
 
-    If you plan on making any major changes to the code that will be offered
-    for inclusion to the main source, please contact us first - so that we
-    can avoid duplication of effort.
+    If you plan on making any major changes to the code that will be offered for
+    inclusion to the main source, please contact us first - so that we can avoid
+    duplication of effort.
                                                          The Geeqie Team
 
   Known bugs:
@@ -213,7 +204,7 @@ in the Preferences dialog.
     [Ctrl] - S                         toggle sort manager sidebar
     F, V                               toggle full screen
     S                                  toggle slide show
-    P                      	       (Un)pause slideshow
+    P				       (Un)pause slideshow
     [Ctrl] - V                         display current image in new window
 
   Collection windows:
@@ -375,9 +366,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   "%collection: Collection <b>*</b>\n%" -> display collection name in bold prefixed by
                              "Collection " and a newline is appended
 
-
 ======== Credits                                             [section:credits]
-
 
   Translations:
 
@@ -556,9 +545,11 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
          for random slide show speedup patch
 
      Klaus Ethgen <Klaus@Ethgen.de>
-         for GPS integration, Search enhancement and other patches
+	 for GPS integration, Search enhancement, Lua integration and other
+	 patches
+
+     Colin Clark <cclark@mcb.net>
+	 for GPS map integration and more
 
      And...
          Thanks to the users for finding Geeqie useful.
-
-

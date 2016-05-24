@@ -1,19 +1,22 @@
 /*
- * Geeqie
- * (C) 2005 John Ellis
- * Copyright (C) 2008 - 2012 The Geeqie Team
+ * Copyright (C) 2005 John Ellis
+ * Copyright (C) 2008 - 2016 The Geeqie Team
  *
- * This software is released under the GNU General Public License (GNU GPL).
- * Please read the included file COPYING for more information.
- * This software comes with no warranty of any kind, use at your own risk!
+ * Author: Daniel M. German <dmgerman@uvic.ca>
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- * Code to add support for Canon CR2 and CRW files, version 0.2
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Developed by Daniel M. German, dmgerman at uvic.ca
- *
- * you can find the sources for this patch at http://turingmachine.org/~dmg/libdcraw/gqview/
- *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
 #ifndef __FORMAT_CANON_H

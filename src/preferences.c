@@ -1,15 +1,23 @@
 /*
- * Geeqie
- * (C) 2006 John Ellis
- * Copyright (C) 2008 - 2012 The Geeqie Team
+ * Copyright (C) 2006 John Ellis
+ * Copyright (C) 2008 - 2016 The Geeqie Team
  *
  * Author: John Ellis
  *
- * This software is released under the GNU General Public License (GNU GPL).
- * Please read the included file COPYING for more information.
- * This software comes with no warranty of any kind, use at your own risk!
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-
 
 #include "main.h"
 #include "preferences.h"
@@ -2409,7 +2417,7 @@ void show_about_window(void)
 	buf = g_strdup_printf(_("%s %s\n\nCopyright (c) 2006 John Ellis\nCopyright (c) %s The Geeqie Team\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
 			      GQ_APPNAME,
 			      VERSION,
-			      "2008 - 2012",
+			      "2008 - 2016",
 			      GQ_WEBSITE,
 			      GQ_EMAIL_ADDRESS);
 	label = gtk_label_new(buf);
