@@ -1196,6 +1196,17 @@ void image_move_from_image(ImageWindow *imd, ImageWindow *source)
 	imd->color_profile_use_image = source->color_profile_use_image;
 	color_man_free((ColorMan *)imd->cm);
 	imd->cm = NULL;
+	if (source->cm)
+		{
+		ColorMan *cm;
+
+		imd->cm = source->cm;
+		source->cm = NULL;
+
+		cm = (ColorMan *)imd->cm;
+		cm->imd = imd;
+		cm->func_done_data = imd;
+		}
 
 	file_data_unref(imd->read_ahead_fd);
 	source->read_ahead_fd = NULL;
