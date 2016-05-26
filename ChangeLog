@@ -1,30 +1,851 @@
-commit d6c33614c45e38845a0bcfd702e38e18d5dcec0b
-Merge: e79d354 dcf1a1b 0ac5716
+commit bb44257b22e9249bec08823252ab76ad38adda54
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Thu May 26 09:23:06 2016 +0100
+
+    Updated polish translation
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit 8722e5f50a561d3d611bd0db0efa8ee459db17e3
 Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Sun Jul 20 13:57:40 2014 +0100
+Date:   Tue May 24 14:47:56 2016 +0100
 
-    Merge remote-tracking branches 'merge-requests/6' and 'merge-requests/7'
-    
-    * merge-requests/6:
-      Bug 3594998: make lirc initialization quieter
-    
-    * merge-requests/7:
-      Add filedata counting to watch for filedata leaks
-      Use FileData locks to avoid expensive reloads with marks enabled
-      Add "lock" functionality to keep FileDatas in memory
+    Update copyright in all files
 
-commit e79d3547fb650e5f45cb9c30707724c221fdfc20
-Merge: 900e65e 11b6ce5
+commit 9f16a7d1eec47001133dff47d0a6a1426447f4c2
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue May 24 14:22:28 2016 +0100
+
+    Configuration options and documentation
+    
+    Configuration option changes:
+    --enable-gps is now --enable-map
+    --enable-clutter is now --enable-gpu-accel
+    
+    If --disable-gtk3 is issued, both map and gpu-accel options are also
+    disabled.
+    
+    --enable-map is the only option required to compile in the map.
+    
+    README updated accordingly.
+
+commit a255fd188e175aa53a8d0ac122b8ba54b3104ba4
 Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Sun Jul 20 13:54:56 2014 +0100
+Date:   Tue May 24 13:59:50 2016 +0100
 
-    Merge remote-tracking branch 'origin/merge-requests/5'
+    German translation completed
+
+commit 5a2c041e29c38b7761d65fe29818b19e685196e4
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue May 24 12:42:42 2016 +0100
+
+    Enable color manager in all fullscreen methods
     
-    * origin/merge-requests/5:
-      Fix crash when loading collection listing inexistent files.
+    For some reasons, that got lost when moving the image instead of
+    copying.
     
-    This is now a combination of Leons patch 900e65e and merge request of
-    Laurent. Hopefully that is now a bit more stable.
+    Fixes #375.
+
+commit 1bfcecb1cb06ab7968385737ddccd910025dd1fe
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon May 23 09:49:25 2016 +0100
+
+    Collections mouse hover
+    
+    Partial solution to #396
+    https://github.com/BestImageViewer/geeqie/issues/396
+    
+    When the mouse is hovered over a thumbnail in a collections window, the
+    tooltip (the filename and path) is in the correct position.
+    
+    Not a good solution, but there will be more problems with GTK 3.20
+
+commit 0b03539c8ffc72e1d515d15fc17ff80dc36f4652
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun May 22 10:35:21 2016 +0100
+
+    Image overlay configurable items GTK2
+    
+    Supports GTK2 and GTK3
+
+commit e3acbed5edae6dcb809115140c8a568ad71c773d
+Author: ode79 <oemmerson@gmx.com>
+Date:   Sun May 22 01:17:14 2016 +0100
+
+    Fix compilation instructions.
+    
+    There is no configure file, you have to run autogen.sh before make.
+
+commit 17324f0bfe75bbb727b64ad87903314ba0abc06c
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 19 17:40:50 2016 +0100
+
+    Updated all .po files with current strings
+
+commit f282fd9f308b201e220e4827c04a5d8358ee8305
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 19 17:26:05 2016 +0100
+
+    Refined zoom step
+    
+    I would give the credentials to the orignal author but he is only known
+    as "unqwist".
+    
+    Closes #359.
+
+commit a9ce4ed464e072ae258b6436c2ded2b066ba907a
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 19 16:27:35 2016 +0100
+
+    Remove some leftover from toolbar rc entries
+    
+    This revert (partly) c95bd69 and d5b911c.
+
+commit 7978f86304a572e67a6cdb56c3f6113724b0cdd2
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 19 14:35:25 2016 +0100
+
+    Don't store toolbars in config file
+    
+    It makes no sense to save that information in config file. Even more, it
+    makes more troubles than it is worth.
+    
+    Starting from here, just drop that information and use the configured in
+    values all the time.
+    
+    This also fixes the troubles with e9fc136.
+
+commit 08e352717c3bbe9c39f8aec4428878256f995d0b
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 19 14:29:22 2016 +0100
+
+    Fixing some whitespace issues
+
+commit 9c915b12551c614c90766f785ee5e3d6bc98cb97
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu May 19 15:27:16 2016 +0100
+
+    Image overlay configurable items
+    
+    The gui items require GTK+ 3.4.
+    For GTK+ 2 the effects are neverthless obtainable by editing the
+    relevant lines in geeqierc.xml
+
+commit dc382f017b5142740609ea75848e679977722a88
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed May 18 22:19:52 2016 +0100
+
+    Update de and pl po files from pot
+
+commit 215bb15c4ff15c31140aa3e527f2b8c55e512942
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed May 18 20:36:07 2016 +0100
+
+    Image overlay configurable colours
+    
+    User configurable options to set the colours of the Image Overlay text
+    and background
+
+commit 8b7898a557a8100abf84923f9d10a5285d67368f
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed May 18 12:13:12 2016 +0100
+
+    Image overlay configurable font
+    
+    User configurable option to set the font of the Image Overlay text
+
+commit 14c30e3cdf2421011c23254fff62deb33b53a542
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon May 16 11:45:51 2016 +0100
+
+    Code clean up
+    
+    Uncomment code: https://bugzilla.gnome.org/show_bug.cgi?id=596419 fixed
+    Uncomment code: champlain zoom fixed
+    Deprecated code updated
+    Unused variables deleted
+
+commit b4fa20f1ff16ff48cc593f24a48431ec4631191b
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun May 15 12:20:34 2016 +0100
+
+    Display the similarity image
+
+commit 316293b29ac822c5887a8afd57e9a2b7c4a4f6ab
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun May 15 11:00:52 2016 +0100
+
+    Removing obsolete checksum stuff
+    
+    That checksum stuff for similarity check is replaced with MD5 from the
+    very begin. Removing that ancient code.
+
+commit 79e0c64de9c103a39cf6e991b9041af03db98abf
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun May 15 10:47:45 2016 +0100
+
+    Simple script to decode similarity data
+    
+    This is just for debugging.
+
+commit d38fdd09a09fdb80313bc5073755dfa69bb78be1
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri May 13 16:44:10 2016 +0100
+
+    Allow to configure rotation invariance
+
+commit 49df4e25014e2ce1792ad0c0fd01f7d781b0e491
+Author: Cyril Roussillon <>
+Date:   Fri May 13 13:43:41 2016 +0100
+
+    Slightly better similarity samples
+    
+    Slight modification of the image_sim_fill_data, that creates the
+    similarity signature. When the image size is not a multiple of 32, all
+    cells had size w/32, so the last w%32 pixels were just ignored, and more
+    importantly it was not symmetric at all when the signature was built
+    from the other side, which is annoying for my comparison algorithm. So I
+    changed the cell size (x_inc) from a constant one to
+    "round(w_left/n_left)", in order to spread the spare pixels (eg to split
+    42 pixels into 4 cells, it results in 11,10,11,10 instead of
+    10,10,10,10). With an image of size w with w%32=16, my
+    rotation-invariant algorithm results in a similarity of
+    0.951000 with the original version, and 0.999968 with this modification
+    (apparently lossless jpeg rotation is not perfectly lossless).
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit 3d8ad9bdcd0685452c6891e9040b8cdbbe4c1b55
+Author: Cyril Roussillon <>
+Date:   Fri May 13 13:41:02 2016 +0100
+
+    Implementing rotation invariant duplicates search
+    
+    Modifies the functions image_sim_compare and image_sim_compare_fast so
+    that it compares with the eight possible isometric transformations
+    (compositions of 90Â°-rotations, mirrors, transpose,...), using the same
+    similarity signature.
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit 9559a0c96c11681d4c664ab50de287526f5b568a
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri May 6 17:29:06 2016 +0100
+
+    Better configure
+
+commit 42c80e2c74d6331e1d6086b3ff5fda5a96dfbd39
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri May 6 17:09:18 2016 +0100
+
+    Remove obsolete and outdated debian directory
+    
+    Debian replaces the content of this directory anyway and it does not
+    match the current project state anymore. So lets remove it.
+    
+    That does not mean that it is gone forever but then I will most likely
+    use the original debian one.
+
+commit 1c952102042e4e56afd9bed6ee0e55eaf93856fe
+Author: Lars Ellenberg <lars.ellenberg@linbit.com>
+Date:   Thu Mar 17 13:14:57 2016 +0100
+
+    debian: point watch file to github
+
+commit 8a2a3697a9c356169ff25945bd85f824d4d737fd
+Author: Michael Schwendt <mschwendt@fedoraproject.org>
+Date:   Fri Feb 1 18:44:12 2013 +0100
+
+    Patch to fix duplicate window update
+    
+    Fixes #190.
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit db07c98328999549907492a4c78f82ee964d93c1
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu May 5 18:40:59 2016 +0100
+
+    Lua Documentation
+    
+    Basic Lua documentation.
+    
+    Requires expansion and re-work.
+
+commit 2a564f2db255af2ef85174a81bfba3c084b88f4f
+Author: Michael Schwendt <mschwendt@fedoraproject.org>
+Date:   Mon Dec 24 14:24:27 2012 +0100
+
+    Avoids a double-free
+    
+    Avoids a double-free due to a boolean that would be retrieved from a
+    deleted/freed structure.
+    
+    Fix #361.
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit 82a1755fd2387f5b400df78949fe67e0d031ad65
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 5 12:26:05 2016 +0100
+
+    Removed some obsolete tools
+
+commit 050ec33a8731008a652075d44edc17b281b2ec45
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 5 11:19:53 2016 +0100
+
+    Improving desktop template
+
+commit bd568d6ad2d620925c2fde2f31d7877191501a85
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed May 4 17:47:34 2016 +0100
+
+    Small dependency to fully mitigate the marshaler stuff
+
+commit 6287845db8020995c7c7f7504925075bc5de557d
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed May 4 17:34:43 2016 +0100
+
+    Remove autocreated files from git
+    
+    That is a nasty bug. The files gq-marshal.[ch] gets created from
+    gq-marshal.list but are checked in to git.
+    
+    I removed that files now from git so they get recreated properly every
+    time. (Closes #383)
+    
+    Thanks Russel Winder for the insistent nagging about that.
+
+commit ce7e589e7de8fdfcee47d5c02c2d4ac88e08663e
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed May 4 15:59:25 2016 +0100
+
+    Update German translations
+    
+    Issue: #387
+
+commit 8936cb5043904be5808a5cfa609c766a8241c406
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed May 4 13:50:27 2016 +0100
+
+    Update from pot file
+    
+    Fixes #364.
+
+commit 70751974f24ad6928175c0efc91c2117218bed72
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed May 4 13:35:31 2016 +0100
+
+    Enable greek translation
+    
+    Thanks to Nikos Papadopoulos.
+    
+    See #364.
+
+commit d78ae721afc4e2ad9828e03011599dbc8e5e0067
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed May 4 08:30:12 2016 +0100
+
+    Fix a typo
+    
+    This bug was introduced in fe69cac by John (2005-03-19).
+    
+    Fixes #386.
+
+commit d739cc3c9c20a13fbc7096d25c9bf554e839d0f7
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue May 3 11:17:49 2016 +0100
+
+    Set git version in master branch
+
+commit 6446b9ce501d681af2389dcd11783c9b51bc5b52
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue May 3 10:54:00 2016 +0100
+
+    Removing not used configure variables
+    
+    $GQ_PATCH_VERSION and $GQ_PATCH_DATE was never used.
+
+commit 67ced95378d984c30f53d33c14d7f7427de80f25
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun May 1 17:44:01 2016 +0100
+
+    Document toolbar enhancements
+    
+    Update help file to describe how to put additional icons on the toolbar.
+    
+    Requires re-work.
+
+commit e64b20d1d3753a2c78ac9f1d55ed7060f1788dcf
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun May 1 12:05:59 2016 +0100
+
+    Fix #211 Corrupt help file
+    
+    https://github.com/BestImageViewer/geeqie/issues/211
+    
+    Section 4.4 External Editors now displayed.
+    
+    Requires much more re-work.
+
+commit 4c94608d1f48c724e84a2c3b527444e42c68d6b2
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Apr 30 10:32:25 2016 +0100
+
+    Update German po file
+
+commit a687cf566e0f9eb5b399afc262b59ee2c9f47bf8
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Apr 30 10:17:52 2016 +0100
+
+    Adding Klingon po file
+    
+    Searching for native speakers. ;-)
+
+commit cabf8f15de5a995d3c336d226f3b559e455e2fbd
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Apr 28 21:00:14 2016 +0100
+
+    Fix #333 Renaming file extensions
+    
+    https://github.com/BestImageViewer/geeqie/issues/333
+    
+    The Preferences/Files tab has an additional checkbox:
+    Disable file extension checks
+    
+    When checked, files can be renamed to a different extension with no
+    warning issued.
+
+commit c6633ff42b46ec42d6757df147280c1f6f872260
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Apr 26 15:52:12 2016 +0100
+
+    Fix crash on drag and drop from Xfe
+    
+    The issue is that when dragging and dropping from Xfe, paths aren't
+    escaped like they are when dnd'ing from a GTK app.
+
+commit e022222394ff294e3147967581b6c5754d3c55b4
+Author: Josef Kufner <josef@kufner.cz>
+Date:   Thu Apr 21 00:22:00 2016 +0200
+
+    'Stay above' option now works independently of screen for fullscreen window
+
+commit a16635ca1d8fe42349f9e22bd311d3118eff2608
+Author: Josef Kufner <josef@kufner.cz>
+Date:   Wed Apr 20 23:58:40 2016 +0200
+
+    Fix fullscreen - remove all the garbage which breaks things and let Gtk do its job.
+    
+    The most problematic thing was the `gdk_window_set_override_redirect`
+    call. That was what made most of the mess. Another bad idea was to deny
+    resizing of the fullscreen window, which causes window manager to fail
+    to adjust window size to screen size.
+    
+    Fixes #222, #218, #103.
+
+commit b5fef3db36186993d711878b5ae687138747c732
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Apr 14 14:25:44 2016 +0100
+
+    Work around GCC6
+    
+    This problem is really annoying. Left shifting a value does not require
+    it to be positive in C. However, some specifications define that as
+    undefined behaviour.
+    
+    Nevertheless, as used in this case it is perfectly fine and widely used
+    construct.
+    
+    Closes #230, #378
+
+commit 010ed5dddef21c17e2ced71d38d7ff6597f4f438
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Apr 13 18:53:12 2016 +0100
+
+    Issue #332 Rename function can delete files
+    
+    https://github.com/BestImageViewer/geeqie/issues/332
+    
+    During a Rename operation, if the user assigns a single destination
+    filename to multiple source files, an error dialog is shown and the
+    operation is aborted.
+
+commit cd4334e6059838cb6f5b9c48256e3e70934f3b2f
+Author: Beep6581 <entertheyoni@gmail.com>
+Date:   Tue Apr 12 21:35:11 2016 +0200
+
+    Updated web.
+
+commit 1b5028cd6f24c56784a8c01f7f39e8bf7a8f5ea3
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Apr 12 10:39:00 2016 +0100
+
+    Tuning file types for Github
+
+commit e9a17eb53a13f8d1247e2b0ee7a41ba90ebcd976
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Apr 12 10:38:49 2016 +0100
+
+    Updating web
+
+commit 1797b9e1a522b077f852aa560b35d0fca018c603
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Apr 11 19:14:29 2016 +0100
+
+    Issue #329 easier way to get cwd when copying
+    
+    https://github.com/BestImageViewer/geeqie/issues/329
+    
+    A bookmark with the name "." (a single full-stop) is treated as a
+    special case. Each time it is displayed, its path is loaded with
+    Geeqie's current working folder. This bookmark, like any other, can be
+    deleted and re-created at any time.
+
+commit 6e3b2edff8cfeebac2c47d40d20d583b91016de8
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Mar 31 16:58:51 2016 +0100
+
+    Update command line options documentation
+    
+    Update both the Help file documentation for command line options, and
+    the output of the -h and -rh command line parameters.
+
+commit a174e816ae993e7ee9731651b2674dbfdec9ed95
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Mar 30 15:36:32 2016 +0100
+
+    Bug fix #227 + enable user to set height of Keywords pane
+    
+    Bug #227 Keywords section of Info sidebar doesn't work on GTK3 build
+    https://sourceforge.net/p/geeqie/bugs/227/
+    
+    Permit the user to set the height of the Keywords pane in the Info
+    sidebar by editing the line:
+    
+    <pane_keywords id = "keywords" title = "Keywords" expanded = "true" key
+    = "Xmp.dc.subject" height = "200"/>
+    
+    in the configuration file geeqierc.xml
+
+commit 411ef45d8fbda079d51abeba997017e9508fa7a7
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Mar 29 18:18:05 2016 +0100
+
+    Update for new cogl version
+    
+    Parameters for cogl_texture_3d_new_from_data have changed.
+
+commit 352ec11ea5b46dbdb126b15553fb7f64a918bad9
+Author: Simon Frei <freisim93@gmail.com>
+Date:   Thu Mar 10 21:36:58 2016 +0100
+
+    cleanup of sourceforge references
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit cbcf4618c412e45eb3c7a9fe24fca349e9d2d583
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed Mar 9 23:16:01 2016 +0100
+
+    Fix web page
+    
+    one slash too much
+
+commit 352fee7b5cdaa8bc362b5888cc3158429a3e7860
+Author: Lars Ellenberg <lars.ellenberg@linbit.com>
+Date:   Wed Mar 9 22:59:37 2016 +0100
+
+    Web page update
+    
+    How about dropping as much sf links as possible from the index page?
+    
+    I attached an updated geeqie.org/index.html.
+    
+    Re-arranged a bit,
+    only kept the direct link to the lists.sf subscribe page,
+    dropped all other sf links,
+    added two ML archive links,
+    and re-worded to be more "proud" and self-confident.
+    
+    It has been eight years since the fork from GQview,
+    that should not be the one distinct point to make.
+    
+    Rather, (cl)aim to be the best image viewer.
+    Sometimes it's not enough to be good.
+    Sometimes people need to also notice it.
+
+commit 7ca48dae2f85ea977e1854419b4f439665f2703a
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Mon Mar 7 22:53:52 2016 +0100
+
+    Updating web page
+
+commit 7cb8d87ff2d0cf146d316ce2c0a21f4263a0fa6c
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Mon Mar 7 10:17:47 2016 +0100
+
+    Really fix issue in 2a9e4d6
+
+commit 2a9e4d6a22b6756904b4afbf02d28fc841b9ab95
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Mar 6 23:49:43 2016 +0100
+
+    This potentially fixes most deprecated warnings
+    
+    However, I tested it with gtk 2.46.2 on debian that pretend to be
+    version 2.24.29. So I still get that warnings.
+
+commit 8fdabfeaeafbda5b28367bf3dc85811a70b8b92c
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Mar 6 23:48:42 2016 +0100
+
+    Fix wrong gtk3 function calls in gtk2
+
+commit 81568b6668dde9496d1eb7336bd3f314f541b026
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Mar 6 23:47:14 2016 +0100
+
+    Export file_data_new_simple into other source files
+
+commit 89f172d57a8b48aebedf93ebdfaf29172e78a60f
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Mar 6 23:45:10 2016 +0100
+
+    Fixed one wrongly function call with pointer
+    
+    This is a potentional dangerous call to LCMS function. There was a
+    compiler warning but nobody cared about before.
+
+commit 620b15ae9bec4003fe8047ec99595ac47d2fa3bc
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Mar 4 11:44:47 2016 +0100
+
+    Applying that sort method also to collections
+
+commit 0c87c52dbbb1dc1f89300b004526d94b24bd6d56
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Mar 4 11:21:09 2016 +0100
+
+    Implementing sorting by file creation
+
+commit 96db62d2afb70a4cba99a424122667d61ac6028b
+Author: Solomon Peachy <pizza@shaftnet.org>
+Date:   Thu Mar 3 19:47:26 2016 -0500
+
+    exiv2: Fix use-after-free of the image filename/path.
+    
+    This caused garbage to be returned when we attempted to use the path to
+    determine if the file is a RAW image.  Now, RAWs are detected properly
+    and the proper full-res previews are used.
+    
+    Signed-off-by:  Solomon Peachy <pizza@shaftnet.org>
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit ed2c824fa32c3ae49b8e8bd4ae2dc7ee2bcbd17d
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Mar 4 09:14:17 2016 +0100
+
+    Remove some useless spaces in exiv2.cc
+
+commit 4b995829ab13176884c26e2ec4c6b2924eed9c0d
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Feb 26 12:37:28 2016 +0100
+
+    Updating README
+
+commit ecb56e91a1e7d333162b668e5facf4a9fc6377d3
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Feb 25 16:48:22 2016 +0100
+
+    Reintroduce file_data_new_simple()
+    
+    This was removed by Vladimir with
+    efc8096527d6f743d17c44b9982616a169973f39 to always check for sidecars.
+    
+    However, the newly introduced function file_data_new_group() is very
+    expensive. Having it in collection (in sort manager) where the dirs of
+    that files have huge amount of files inside, that is simply blocking
+    whole geeqie.
+    
+    It might be that the file_data_new_group() function need to be disarmed
+    on other places too.
+
+commit 539d4e3860c78302aa6778179bce1f45d6f11454
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Feb 25 16:46:32 2016 +0100
+
+    Tune some debug info
+
+commit 67ba18658568f8ae2b1807a9c1b5b629c589e695
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Wed Feb 24 08:32:54 2016 +0100
+
+    Correcting return type
+
+commit 91260cd94d33d9e60d08a457fdddfd46ef3de8bb
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Feb 16 15:42:38 2016 +0100
+
+    Allow to choose to show parent folder
+    
+    With e9fc136 we learned buttons for parent folder in directory list.
+    This disabled the ".." handle in the view itself.
+    
+    This was found to be not optimal as the users are used to it.
+    
+    With this patch, that entry is now configurable in preferences. It is
+    enabled by default but could be disabled if the user don't like it.
+
+commit 4ca4c1ffa10b6af17517911402a25f76e5c8e32b
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Mon Feb 15 22:09:52 2016 +0100
+
+    Fix nasty double free crashes
+    
+    Old GTK+ versions seemed to be robust about this double free so we seen
+    that crashes or 100% CPU usages just with modern versions.
+    
+    This patch takes care of it on two places:
+    1. Hashes will not be freed by g_hash_table_destroy when empty
+    2. NULLify the enty variable after free
+
+commit e9fc1363be4852aac7705a4423e7dceee84af892
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Feb 2 13:15:49 2016 +0000
+
+    Feature Request #70 Navigation menu option and button for parent directory
+    
+    This request was made some years ago:
+    
+    https://sourceforge.net/p/geeqie/feature-requests/70/
+    
+    I have attached a patch which implements this. Also, keyboard-only users
+    will be able to use keyboard-accelerators to map a key to the Up function.
+    
+    Unfortunately there is a usability problem. If the configuration file
+    geeqirc.xml exists (which it will except for first-time installations)
+    geeqie will not look at the programmed defaults, but will create the
+    toolbar from the config file - and the Up icon will not be displayed.
+    
+    If the user first executes a command such as this:
+    
+    sed -i '/toolitem action = "Back"/a <toolitem action = "Up" />'
+    ~/.config/geeqie/geeqierc.xml
+    
+    then all will be well.
+    
+    This is not ideal, but I see no other solution.
+    
+    Colin Clark
+
+commit 285c2da9dcfac06cd82abecd243a91e226c6850f
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri Sep 18 18:49:43 2015 +0100
+
+    Changing reference to sourceforge
+    
+    Change sourceforge to geeqie.org.
+
+commit 1e962d0bef8a5041751d593271a6e6d3165767c8
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Sep 10 15:34:59 2015 +0100
+
+    Include missing glua.h
+
+commit 4ae8cedc25458271024c4f6ea13e8035cfacff0c
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Sep 10 14:32:18 2015 +0100
+
+    Updating web site
+
+commit 4069dd4fa59523179e0141751013df6192609b69
+Author: Vitaly Sinilin <vs@kp4.ru>
+Date:   Tue Sep 8 00:18:56 2015 +0300
+
+    Fix toolbar visibility
+    
+    The toolbar should not be visible on startup when the
+    configuration file has the line
+    
+        toolbar_hidden = "true"
+    
+    Its visibility state at startup should be the same it
+    was at the last shutdown.
+
+commit 4749987ff8a0e32047a2db6b0ffb02b1ed27e192
+Author: Michael Schwendt <mschwendt@gmail.com>
+Date:   Tue Aug 11 23:21:37 2015 +0100
+
+    NULL-ptr crash in image_read_ahead_done_cb()
+    
+    It's not easy to reproduce, but if one is mad and follows the steps and
+    presses the keys a few dozens times, there's a slight chance one can
+    trigger it. Not much to investigate it further.
+    
+    Forwarding from Sami Farin 2015-08-07 16:40:44 EDT:
+    
+     | to reproduce: quickly keep pressing f (fullscreen) and page down
+     | (next file) keys.
+     |
+     | attached patch is a kind of workaround, I did not inspect further
+     | is this threading issue etc
+    
+    Full backtrace: https://bugzilla.redhat.com/attachment.cgi?id=1027647
+    
+    Patch: https://bugzilla.redhat.com/attachment.cgi?id=1060482&action=diff&context=patch&collapsed=&headers=1&format=raw
+
+commit 70bc3c82b656397e0d02214cf2741e0b64131f5e
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Tue Aug 11 23:19:25 2015 +0100
+
+    Remove over optimization
+    
+    Thanks Uwe Ohse <uwe@ohse.de> for this find.
+    
+    "it looks good, but is dead slow, for each and every call to
+    gdk_cairo_set_source_pixbuf takes at least 15 milliseconds on my not
+    really slow machine, which amounts to over 2 seconds if 144 tiles have
+    to be drawn (tested with many jpegs and a few large pngs).
+    
+    i propose to remove this optimization until someone fixes it. After
+    removal geeqie is fast, again."
+
+commit a22d0360d80834054c3333e02b08b0d2859ecb29
+Author: Alexey Akishin <alex@science.su>
+Date:   Mon Dec 8 11:46:18 2014 +0000
+
+    Add support for Green-Magenta and Yellow-Blue anaglyph modes
+
+commit 80ef0b166b97cc24588ac16360517d97ed1f7a30
+Author: Michael Schwendt <mschwendt@fedoraproject.org>
+Date:   Sun Nov 30 13:09:37 2014 +0100
+
+    fix include statements for large file support on 32-bit
+
+commit 760fe40cd4ed56a80f2c6b8f93e699951357ded6
+Author: Volker Grabsch <v@njh.eu>
+Date:   Tue Nov 4 08:41:30 2014 +0100
+
+    Fix typo in debug messages
+    
+    vindow -> window
+
+commit a1afabd3ce740872a857234b91eeb64fcf239f6a
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Sep 27 12:07:10 2014 +0100
+
+    Fix lcms2 integration
+    
+    Thanks Michael Schwendt <mschwendt@gmail.com> for the bug reporting and
+    the patch.
+
+commit ca42d65be013f9bcded858b656c594d45c7f8e1d
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jul 20 14:16:02 2014 +0100
+
+    updated ChangeLog file
 
 commit 900e65e7e83060b5a4fa0b4b6a2a38d747fbec2c
 Author: Leon Winter <winter@bfw-online.de>
@@ -78,22 +899,6 @@ Date:   Sun Jan 26 13:46:01 2014 +0100
     Updated Chinese locales
     
     Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
-
-commit de24ca6e169fc08e2bc6db1ee9054bd77b6623b0
-Merge: 89d8c20 d3621de
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Sun Jan 26 13:30:18 2014 +0100
-
-    Merge remote-tracking branches 'origin/merge-requests/10' and 'origin/merge-requests/9'
-    
-    Merge in some trivial but useful merge requests. (Note that 9 includes 8.)
-    
-    * origin/merge-requests/10:
-      transifex config file allowing to easily use transifex-client
-    
-    * origin/merge-requests/9:
-      Skip over expanded keys.
-      Annotate debug_exception() with source file, line, and function.
 
 commit 89d8c20e495e2b59fd98899f772aafa361c0cbec
 Author: Iune Trecet <iunetrecet@gisa-elkartea.org>
@@ -180,53 +985,6 @@ Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Tue Oct 2 22:49:52 2012 +0100
 
     Whitespace cleanup
-
-commit 6e6c1b5c8465f322476705fbb8d590565d6eddf5
-Merge: e8cd71d 632d092
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Tue Oct 2 22:27:22 2012 +0100
-
-    Merge branch 'ke-lua'
-    
-    Mostly implementing lua integration.
-    
-    * ke-lua:
-      Revert "call notify functions in in an idle call"
-      Implementing some usefull data structures for lua
-      First usable lua callback
-      Using common path for lua files
-      Overlay info with lua
-      Adding support for lua scripting
-
-commit 632d09215f133ab09c1f56de26b12cb35a794806
-Merge: b107d00 e8cd71d
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Tue Oct 2 22:19:13 2012 +0100
-
-    Merge branch 'master' into ke-lua
-    
-    * master: (185 commits)
-      better fix for big-endian architectures
-      Minor indentation fixes.
-      Cleanup checker shader code.
-      Fix exif orientation in clutter rendering mode.
-      Silent 2 warnings using explicit type casting.
-      Polish translation was updated, thanks to Grzegorz Gibas.
-      Update pt_BR translation.
-      Add *~, *.rej, *.orig files to git ignore list.
-      Fix for support >=automake-1.11.4
-      Trim trailing white spaces on empty lines.
-      Trim trailing white spaces.
-      Add missing vim modeline.
-      Fix indentation and few trailing white spaces.
-      Clear few more warnings, unused variables mostly.
-      Drop unused variable.
-      Remove commented out code.
-      Remove commented out code.
-      Remove commented out code.
-      Remove commented out code.
-      Remove commented out code.
-      ...
 
 commit e8cd71d6f52967d7dd63efcb186834aa9e6e53e5
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
@@ -793,13 +1551,6 @@ Date:   Tue Aug 21 20:39:03 2012 +0200
     - regression introduced in 78cde6934008f79fe498e4adc64d187b0ed47417
     - now the update function checks if the new value is really different
 
-commit 428c4a49f5a66ce0c5ced8c09a611e410587ba76
-Merge: e292e72 902157e
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Tue Aug 21 19:25:58 2012 +0200
-
-    Merge commit 'refs/merge-requests/2' of git://gitorious.org/geeqie/geeqie into merge-requests/2
-
 commit 902157eeea55c4fe7e626977f8d2b161352b63dc
 Author: Michal ÄŒihaÅ™ <mcihar@suse.cz>
 Date:   Tue Aug 21 14:53:05 2012 +0200
@@ -1051,7 +1802,7 @@ Date:   Thu Dec 23 01:56:47 2010 +0100
     Fix a memleak, and move a part of the code from set_exif_time_data() to read_exif_time_data()
 
 commit 92c6523db91dd8f148ecc30f20fcde8f4818401d
-Author: Juuso Räsänen <juusora@gmail.com>
+Author: Juuso RÃ¤sÃ¤nen <juusora@gmail.com>
 Date:   Thu Dec 23 00:38:40 2010 +0100
 
     Allow to sort files according to Exif-date
@@ -1083,7 +1834,7 @@ Date:   Fri Apr 2 20:47:34 2010 +0930
     suspect others would too.  Please consider this for inclusion in geeqie.
 
 commit cbdf3ece854a15cd59d858355df2e681c3b111ac
-Author: Àngel Mompó <mecatxis@gmail.com>
+Author: Ã€ngel MompÃ³ <mecatxis@gmail.com>
 Date:   Mon Aug 13 12:25:18 2012 +0200
 
     Update catalan translation
@@ -1117,7 +1868,7 @@ Date:   Thu Aug 18 22:43:29 2011 +0200
     Bug-Ubuntu: https://launchpad.net/bugs/788321
 
 commit b0a5325e18cf8d454582f935fdc29b60fe83c179
-Author: Peter Tuhársky <tuharsky@misbb.sk>
+Author: Peter TuhÃ¡rsky <tuharsky@misbb.sk>
 Date:   Tue Mar 8 20:51:56 2011 +0100
 
     Updated Slovak (SK_sk) translation
@@ -1469,26 +2220,6 @@ Date:   Thu Jul 26 16:02:52 2012 +0200
     
     this fixes a crash on images specified on commandline
 
-commit b107d0080d2f88a28bc4f06df64d86e747614f1a
-Merge: 0c470b9 97bddb3
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Sun May 27 18:41:56 2012 +0100
-
-    Merge branch 'ke' into ke-lua
-    
-    * ke:
-      exif autorotate for proofs
-
-commit cb758c2979a2a096c45ab0cb691cd063d81ae703
-Merge: af76525 6f70188
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Thu May 17 18:28:56 2012 +0100
-
-    Merge commit 'refs/merge-requests/1' of git://gitorious.org/geeqie/geeqie into merge-requests/1
-    
-    * git://gitorious.org/geeqie/geeqie:
-      Ignore duplicates with same path
-
 commit 97bddb361bf518b632cb4cf3145d311a94112886
 Author: Jonathan Woithe <jwoithe@physics.adelaide.edu.au>
 Date:   Fri Apr 2 20:47:34 2010 +0930
@@ -1506,30 +2237,6 @@ Date:   Fri Apr 2 20:47:34 2010 +0930
     
     I find this new feature very useful when preparing proofing sheets and I
     suspect others would too.  Please consider this for inclusion in geeqie.
-
-commit af76525a87cc636cdf7f5454f4e32969ef903534
-Merge: 5ef3084 dc3dea1
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Mon May 14 17:33:21 2012 +0100
-
-    Merge remote-tracking branch 'origin/toer'
-    
-    * origin/toer:
-      Complete Swedish translation including bugs based on 55de20b 2010-12-11 version
-      Almost complete Swedish translation
-      Started with Swedish translation
-    
-    Merged on request of Tore.
-
-commit 0c470b926e37d814af9afa34081c78392d2d62bd
-Merge: 988b891 0922b29
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Fri Jan 6 02:25:47 2012 +0100
-
-    Merge branch 'ke' into ke-lua
-    
-    * ke:
-      Fix directory walking bug
 
 commit 5ef30846a7bc94585771a6d08284b771320b33d4
 Author: Klaus Ethgen <Klaus@Ethgen.de>
@@ -1563,30 +2270,6 @@ Date:   Mon Apr 25 12:53:35 2011 +0200
 
     Ignore duplicates with same path
 
-commit c629a93801ac4e90402c0a6b7dda2f86b9534ef6
-Merge: 38e1cc5 3c9da3a
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Fri Dec 9 19:21:18 2011 +0100
-
-    Merge branch 'ke' into ke-lua
-    
-    * ke:
-      Various errors in the translation (typo, etc.)
-      call size signal indirectly via idle_call
-      call log window functions indirectly via idle callbacks
-
-commit 3c9da3aa08ed276561d5f9d445213cade0ec7b9d
-Merge: ba645d1 ce2d11c
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Fri Dec 9 19:21:02 2011 +0100
-
-    Merge branch 'master' into ke
-    
-    * master:
-      Various errors in the translation (typo, etc.)
-      call size signal indirectly via idle_call
-      call log window functions indirectly via idle callbacks
-
 commit ce2d11c4d9df655a4fff053373b724d985a25db0
 Author: Vincent Blut <vincent.debian@free.fr>
 Date:   Sat Dec 3 15:46:20 2011 +0100
@@ -1611,66 +2294,6 @@ Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Sat Nov 12 11:34:55 2011 +0100
 
     call log window functions indirectly via idle callbacks
-
-commit 38e1cc50039d6876045ffbed2a84aa73161a8d35
-Merge: ba07caf ba645d1
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Sat Oct 29 23:41:36 2011 +0100
-
-    Merge branch 'ke' into ke-lua
-    
-    * ke: (74 commits)
-      rename file_data_new_simple to file_data_new_group, filedata.c cleanup
-      recognize all registered extensions, even if they contain dots
-      sidecar_file_priority function is already called with extension as an argument
-      call notify functions in in an idle call
-      move the grouping code from file_data_new to filelist_read
-      separate function fortesting changed files without sidecars
-      consistent use of fd->extension
-      simplified grouping of sidecars
-      fixed filelist_sort_compare_filedata to not return 0 no different files
-      always check for sidecars by readdir
-      do not use FileData entries with empty path
-      updated copyright notice
-      added custom tiff loader
-      added long-term cache for keywords
-      set stereo.fixed default values to hdmi stereo standard
-      fixed stereo.fixed preferences
-      fixed stereo_temp_disable functionality
-      ignore raw image support reported by the pixbuf loader
-      fixed using DEBUG_N from multiple threads
-      Fix bug 3006812: ensure exif cache is initialized even when all files are unreadable.
-      ...
-
-commit ba645d1fe84bb87385f0121613a85a08c14a676d
-Merge: dd77e02 04bb6f2
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Sat Oct 29 23:37:28 2011 +0100
-
-    Merge branch 'master' into ke
-    
-    * master: (71 commits)
-      rename file_data_new_simple to file_data_new_group, filedata.c cleanup
-      recognize all registered extensions, even if they contain dots
-      sidecar_file_priority function is already called with extension as an argument
-      call notify functions in in an idle call
-      move the grouping code from file_data_new to filelist_read
-      separate function fortesting changed files without sidecars
-      consistent use of fd->extension
-      simplified grouping of sidecars
-      fixed filelist_sort_compare_filedata to not return 0 no different files
-      always check for sidecars by readdir
-      do not use FileData entries with empty path
-      updated copyright notice
-      added custom tiff loader
-      added long-term cache for keywords
-      set stereo.fixed default values to hdmi stereo standard
-      fixed stereo.fixed preferences
-      fixed stereo_temp_disable functionality
-      ignore raw image support reported by the pixbuf loader
-      fixed using DEBUG_N from multiple threads
-      Fix bug 3006812: ensure exif cache is initialized even when all files are unreadable.
-      ...
 
 commit 04bb6f2326f58139c22d3bb8de7e639c8efb40ba
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
@@ -1774,30 +2397,17 @@ Date:   Tue Sep 27 21:12:02 2011 +0200
 
     fixed stereo_temp_disable functionality
 
-commit f5470bbc26b15ce585c8f1cedfad3adfa611ef85
-Merge: a8c5cb2 a3a0697
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Tue Sep 27 10:29:36 2011 +0200
-
-    added panorama .pto file to the list of known files
-
 commit a8c5cb269996f35d4877e31514956c198c3bd2e5
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Mon Sep 26 15:02:05 2011 +0200
 
     ignore raw image support reported by the pixbuf loader
 
-Notes:
-    cherry-picked to stable e43240dfd58b2df57ce3d20f39c763efe3e1eb65
-
 commit d2c78b7a8dadc45b958e1b74242d64766e9f6e9f
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Sat Apr 9 16:38:46 2011 +0200
 
     fixed using DEBUG_N from multiple threads
-
-Notes:
-    cherry-picked to stable 20fab72e9ed2b9ae20967d5126556252e40c4dcf
 
 commit 8a55b69211b5866025f66c514f34ad697d3d1909
 Author: Laurent Monin <geeqie@norz.org>
@@ -1808,9 +2418,6 @@ Date:   Thu Dec 16 22:26:36 2010 +0100
     Add a new function exif_init_cache() and call it at top of exif_read_fd(),
     the issue was caused by a return NULL on unreadable file, before initializinf exif_cache
     and when exif_free_fd() is called, file_cache_put() was called on invalid cache.
-
-Notes:
-    cherry-picked to stable 5f29231b525166cf2a4a63c1872f3d27e8f1e413
 
 commit 138e31f328408ac88f1162999c8fcb24298ab37a
 Author: Vladislav Naumov <vnaum@vnaum.com>
@@ -1835,9 +2442,6 @@ Date:   Thu Dec 16 21:55:03 2010 +0100
     http://sourceforge.net/tracker/?func=detail&aid=2999830&group_id=222125&atid=1054680
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=574853 (original report)
 
-Notes:
-    cherry-picked to stable dc8933e3c0ae3e0021d13beb666d6729267c7624
-
 commit a3a06975ec99beac1b2f1f16445679dd56fae053
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Tue Sep 27 10:29:36 2011 +0200
@@ -1860,29 +2464,16 @@ commit bd374b070d437d6319946c49ae0166ee4621e737
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sun Jul 24 13:17:34 2011 +0100
 
-    Change the image size from 10×20 to 20×20
+    Change the image size from 10Ã—20 to 20Ã—20
     
     Now the image should not be scaled anymore. Fix Bug Debian:614607 and
     SF:3191174.
-
-Notes:
-    cherry-picked to stable b2db13f420feb4a69a90be9ebd94ddebfb25c5a5
-
-commit dd77e0242c78780f18fbdba4538008c7c0d1a665
-Merge: 4858999 a11e5ce
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Sun Jul 24 13:28:50 2011 +0100
-
-    Merge branch 'debian-614607' into ke
-    
-    * debian-614607:
-      Change the image size from 10×20 to 20×20
 
 commit a11e5ce5f336e6fad747cafc8efea09a69e4cdbb
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sun Jul 24 13:17:34 2011 +0100
 
-    Change the image size from 10×20 to 20×20
+    Change the image size from 10Ã—20 to 20Ã—20
     
     Now the image should not be scaled anymore. Fix Bug Debian:614607 and
     SF:3191174.
@@ -1892,9 +2483,6 @@ Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sun May 15 19:44:04 2011 +0100
 
     Fix a remote command bug
-
-Notes:
-    cherry-picked to stable 0c1fdf3613e9c885bbea9f5997da7a0e3a2f75d1
 
 commit 4858999bc0b165211656849e174e9b0149cb33e7
 Author: Klaus Ethgen <Klaus@Ethgen.de>
@@ -1919,40 +2507,6 @@ Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Sat May 14 21:53:45 2011 +0200
 
     do not mix autodetected and user-defined stereo mode
-
-commit ba07cafe7ae515da81a3f4cb4a39a679305a62b2
-Merge: 83ae99a 943d16a
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Fri Apr 22 11:29:35 2011 +0100
-
-    Merge branches 'master' and 'ke' into ke-lua
-    
-    * master:
-      Do not delete path settings when adding new directory
-      Fix compiling issue
-      Fix the windowsize
-      Fix wrong line ending
-    
-    * ke:
-      Do not delete path settings when adding new directory
-      Fix compiling issue
-      Fix the windowsize
-      Fix wrong line ending
-      Do not delete path settings when adding new directory
-      Swedish tranlation
-
-commit 943d16a89d107e4619175597f4e83c953094f28b
-Merge: 556bd46 31f6b82
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Fri Apr 22 11:29:12 2011 +0100
-
-    Merge branch 'master' into ke
-    
-    * master:
-      Do not delete path settings when adding new directory
-      Fix compiling issue
-      Fix the windowsize
-      Fix wrong line ending
 
 commit 31f6b82dbee7f4456371a1b527161ebc81342577
 Author: Klaus Ethgen <Klaus@Ethgen.de>
@@ -2302,17 +2856,6 @@ Date:   Thu Jan 13 20:38:20 2011 +0100
     Date: Thu, 13 Jan 2011 20:18:28 +0100
     Subject: [PATCH] Started with Swedish translation
 
-commit 83ae99a601593bf1161d07da7ef03892f03a7df9
-Merge: c6d82fb e504820
-Author: Klaus Ethgen <Klaus@Ethgen.de>
-Date:   Thu Dec 23 18:19:36 2010 +0100
-
-    Merge branch 'ke' into ke-lua
-    
-    * ke:
-      Fix compiling issue
-      Fix the windowsize
-
 commit e504820e7afff00efe7937b7b9a5fd830ae1d79e
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Fri Jul 16 13:30:53 2010 +0100
@@ -2633,7 +3176,7 @@ Date:   Thu Dec 10 17:48:43 2009 +0000
 
     Move "Add Keyword" menu item at top of Keywords bar contextual menu.
     
-    Suggested by Lars Täuber.
+    Suggested by Lars TÃ¤uber.
 
 commit e6fe9db8a728c2188e7276f3cea001981120ed80
 Author: Laurent Monin <geeqie@norz.org>
@@ -10943,7 +11486,7 @@ Date:   Thu Apr 24 20:29:09 2008 +0000
 
     Allow to copy the path of a directory to clipboard from directory views.
     Show Copy path option has to be enabled.
-    Suggested by Frédéric Mantegazza.
+    Suggested by FrÃ©dÃ©ric Mantegazza.
 
 commit 76747275b6e719dbb4efb93d414f82ab2f177d79
 Author: Laurent Monin <geeqie@norz.org>
@@ -12270,7 +12813,7 @@ Author: Laurent Monin <geeqie@norz.org>
 Date:   Sat Apr 12 06:42:47 2008 +0000
 
     Add Exif.Photo.ColorSpace tag in Preferences > Properties > Exif.
-    Requested by Frédéric Mantegazza.
+    Requested by FrÃ©dÃ©ric Mantegazza.
 
 commit 165c0da79cf3bad89da98b574c1eb6709c47dd38
 Author: Laurent Monin <geeqie@norz.org>
@@ -12678,7 +13221,7 @@ commit cf45b42ee7dbd8287eecd728cf225c2f45aed5db
 Author: Laurent Monin <geeqie@norz.org>
 Date:   Mon Apr 7 19:06:17 2008 +0000
 
-    Fix a segfault on fullscreen file deletion reported by Frédéric Mantegazza.
+    Fix a segfault on fullscreen file deletion reported by FrÃ©dÃ©ric Mantegazza.
 
 commit da12ecf1747a682afe776cf99ea76f4342fd9876
 Author: Laurent Monin <geeqie@norz.org>
