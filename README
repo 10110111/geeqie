@@ -1,31 +1,31 @@
-###################################################################
-##                          Geeqie x.x                           ##
-##                                                               ##
-##              Copyright (C) 2008 - 2016 The Geeqie Team        ##
-##              Copyright (C) 1999 - 2006 John Ellis.            ##
-##                                                               ##
-##                      Use at your own risk!                    ##
-##                                                               ##
-##  This software released under the GNU General Public License. ##
-##       Please read the COPYING file for more information.      ##
-###################################################################
+      ###################################################################
+      ##                          Geeqie x.x                           ##
+      ##                                                               ##
+      ##              Copyright (C) 2008 - 2016 The Geeqie Team        ##
+      ##              Copyright (C) 1999 - 2006 John Ellis.            ##
+      ##                                                               ##
+      ##                      Use at your own risk!                    ##
+      ##                                                               ##
+      ##  This software released under the GNU General Public License. ##
+      ##       Please read the COPYING file for more information.      ##
+      ###################################################################
 
 This is Geeqie, a successor of GQview.
 
 Geeqie has been forked from GQview project, because it was not possible to
-contact gqview author and the only maintainer. Geeqie projects goal is to move
+contact GQview author and the only maintainer. Geeqie projects goal is to move
 the development forward and also integrate the existing patches.
 
 Geeqie is currently considered stable. Please report any crash or odd behavior
-to the mailing list: https://lists.sourceforge.net/lists/listinfo/geeqie-devel
+to the [mailing list](https://lists.sourceforge.net/lists/listinfo/geeqie-devel)
+and/or to [Github](https://github.com/BestImageViewer/geeqie/issues)
 
-For more info see:
-http://www.geeqie.org/
+For more info see: http://www.geeqie.org/
 
 Please send any question or suggestions to geeqie-devel@lists.sourceforge.net or
 open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
 
-======== README contents:
+# README contents:
 
     * Requirements
     * Notes and changes for this release
@@ -37,7 +37,7 @@ open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
     * Translation status
     * Credits
 
-======== Requirements
+## Requirements
 
   Required libraries:
     GTK+ 3.00
@@ -46,10 +46,17 @@ open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
                disable with configure option: --disable-gtk3
     or
     GTK+ 2.20
-               disabled by default
+               disabled by default when GTK+3 libraries are found.
                enable with configure option: --disable-gtk3
-               optional items map display and GPU acceleration
-               are not available with GTK2
+	       optional items map display and GPU acceleration are not available
+	       with GTK2
+
+	       Note: GTK+3 is still somehow experimental. It is needed for some
+	       features but we have several complains about the GTK+3 usability.
+
+	       So if you need a stable version, you are advised to compile it
+	       with GTK+2. If you want to play with the cool new features, use
+	       GTK+3.
 
   Optional libraries:
     lcms2 2.0
@@ -94,10 +101,9 @@ open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
                enabled by default
                disable with configure option: --disable-lua
 
-======== Notes and changes for this release            [section:release_notes]
+## Notes and changes for this release            [section:release_notes]
 
 See NEWS file.
-
 
   Code hackers:
 
@@ -108,15 +114,15 @@ See NEWS file.
 
   Known bugs:
 
-    see the Geeqie Bug Tracker at TODO file.
+    See the Geeqie Bug Tracker at TODO file.
 
-======== Installation
+## Installation
 
   Compilation: ./autogen.sh ; make
   General install: make install
   Removal: make uninstall
 
-======== Description / Features
+## Description / Features
 
   Geeqie is a graphics file viewer. Basic features:
 
@@ -131,17 +137,16 @@ See NEWS file.
     - Collections.
     - Comparison of images to find duplicates by name, size, date,
       dimensions, or image content similarity.
+      - Rotation invariant detection
     - EXIF support.
-
-  Geeqie 1.1:
     - support for stereoscopic images
       - input: side-by-side (JPS) and MPO format
       - output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
-======== Documentation (brief)                         [section:documentation]
+## Documentation (brief)                         [section:documentation]
 
-This sections lists default hotkeys. Most of the hotkeys can be redefined
-in the Preferences dialog.
+This sections lists default hotkeys. Most of the hotkeys can be redefined in the
+Preferences dialog.
 
   Keyboard commands:
     [PageDown], [Keypad PageDown]      next image
@@ -297,27 +302,26 @@ in the Preferences dialog.
     Wheel up/down + [Shift]            scroll image up/down
     Wheel up/down + [Control]          zoom image in/out
 
-
-======== Editor command macros                               [section:editors]
+## Editor command macros                               [section:editors]
 
 Editors are configured via standard desktop files.
 
-
-======== Overlay Info                                        [section:overlay]
+## Overlay Info                                        [section:overlay]
 
 Overlay info format string syntax is: %tag[:max_length][:extra]%
 
-  %name%       Filename of the picture.
-  %collection% Name of the collection
-  %number%     Current number of image in the list
-  %total%      Total number of images
-  %date%       File date
-  %size%       File size
-  %width%      Image width
-  %height%     Image height
-  %res%        Image resolution
-  %keywords%   Image keywords from metadata
-  %comment%    Image comment from metadata
+  %name%          Filename of the picture.
+  %collection%    Name of the collection
+  %number%        Current number of image in the list
+  %total%         Total number of images
+  %date%          File date
+  %size%          File size
+  %width%         Image width
+  %height%        Image height
+  %res%           Image resolution
+  %keywords%      Image keywords from metadata
+  %comment%       Image comment from metadata
+  %lua/file.lua/% Lua functionality
 
   To access exif data use the exif name:
   %Exif.Photo.DateTimeOriginal%	Date of the original shot
@@ -339,8 +343,8 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   formatted.GPSAltitude		GPS altitude
 
   You can limit the length of displayed data using :number notation:
-  %formatted.Camera:20% will truncate the displayed data to 20 characters
-  and will add 3 dots at the end to denote the truncation.
+  %formatted.Camera:20% will truncate the displayed data to 20 characters and
+  will add 3 dots at the end to denote the truncation.
 
   If two or more variables are connected with the |-sign, it prints available
   variables with a separator:
@@ -350,14 +354,13 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   or
     "1/200 - 80 mm" if there's no ISO information in the Exif data.
 
-  If a line is empty, it is removed.
-  This allows one to add lines that totally disappear when no data is available.
+  If a line is empty, it is removed. This allows one to add lines that totally
+  disappear when no data is available.
 
-  Extra string uses special character '*' to mark the position of the data.
-  If no '*' is present, then extra string is just appended to data.
-  Any "\n" is replaced by a newline on display.
-  Pango mark up is accepted in left and right parts.
-  If data is empty, nothing will be displayed.
+  Extra string uses special character '*' to mark the position of the data. If
+  no '*' is present, then extra string is just appended to data. Any "\n" is
+  replaced by a newline on display. Pango mark up is accepted in left and right
+  parts. If data is empty, nothing will be displayed.
 
   Examples:
   "%name:<i>*</i>\n%" -> name is displayed in italics ended with a newline
@@ -366,7 +369,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
   "%collection: Collection <b>*</b>\n%" -> display collection name in bold prefixed by
                              "Collection " and a newline is appended
 
-======== Credits                                             [section:credits]
+## Credits                                             [section:credits]
 
   Translations:
 
@@ -374,6 +377,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
      Zbigniew Chyla <cyba@gnome.pl>
      Emil Nowak <emil5@go2.pl>
      Wit Wilinski <wit.wilinski@gmail.com>
+     Tomasz Golinski <tomaszg@math.uwb.edu.pl>
          for Polish translation
 
      Christopher R. Gabriel <cgabriel@pluto.linux.it>
@@ -404,6 +408,7 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
      Kam Tik <kamtik@hongkong.com>
      Abel Cheung <deaddog@deaddog.ws>
      S.J. Luo <crystal@mickey.ee.nctu.edu.tw>
+     Levin <zjlevin@hotmail.com>
          for Traditional Chinese (Big5) translation
 
      Junichi Uekawa <dancer@debian.org>
@@ -501,6 +506,9 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
      Antonio C. Codazzi <f_sophia@libero.it>
          for Esperanto translation
 
+     Nikos Papadopoulos
+	 for Greek translation
+
  Fixes, additions, and patches:
 
      Eric Swalens
@@ -550,6 +558,9 @@ Overlay info format string syntax is: %tag[:max_length][:extra]%
 
      Colin Clark <cclark@mcb.net>
 	 for GPS map integration and more
+
+     Colin Clark <cclark@mcb.net>
+	 for GPS map support and more
 
      And...
          Thanks to the users for finding Geeqie useful.
