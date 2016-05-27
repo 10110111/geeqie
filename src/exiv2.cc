@@ -25,6 +25,7 @@
 #include <exiv2/image.hpp>
 #include <exiv2/exif.hpp>
 #include <iostream>
+#include <string>
 
 // EXIV2_TEST_VERSION is defined in Exiv2 0.15 and newer.
 #ifndef EXIV2_TEST_VERSION
@@ -1140,8 +1141,9 @@ guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, 
 
 	if (!exif->image()) return NULL;
 
+	std::string const path = exif->image()->io().path();
 	/* given image pathname, first do simple (and fast) file extension test */
-	gboolean is_raw = filter_file_class(exif->image()->io().path().c_str(), FORMAT_CLASS_RAWIMAGE);
+	gboolean is_raw = filter_file_class(path.c_str(), FORMAT_CLASS_RAWIMAGE);
 
 	if (!is_raw && requested_width == 0) return NULL;
 
@@ -1241,10 +1243,10 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 	if (!exif) return NULL;
 	if (!exif->image()) return NULL;
 
-	const char* path = exif->image()->io().path().c_str();
+	std::string const path = exif->image()->io().path();
 
 	/* given image pathname, first do simple (and fast) file extension test */
-	if (!filter_file_class(path, FORMAT_CLASS_RAWIMAGE)) return NULL;
+	if (!filter_file_class(path.c_str(), FORMAT_CLASS_RAWIMAGE)) return NULL;
 
 	try {
 		struct stat st;
@@ -1255,9 +1257,9 @@ extern "C" guchar *exif_get_preview(ExifData *exif, guint *data_len, gint reques
 
 		RawFile rf(exif->image()->io());
 		offset = rf.preview_offset();
-		DEBUG_1("%s: offset %lu", path, offset);
+		DEBUG_1("%s: offset %lu", path.c_str(), offset);
 
-		fd = open(path, O_RDONLY);
+		fd = open(path.c_str(), O_RDONLY);
 		if (fd == -1)
 			{
 			return NULL;
