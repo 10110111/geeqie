@@ -1,3 +1,25 @@
+Geeqie 1.3
+==========
+
+- Sort by creation date
+- Enhancements in mouse less operation
+- Rotation invariant duplication search
+- Better zoom steps
+- Easy access to working directory when copying ('.')
+- Updated documentation
+- Speed improvements
+- Stability improvements
+- Many bugfixes
+
+Geeqie 1.2
+==========
+
+- Support for lcms2
+- Basic support for lua scripting
+- limited map support
+- Initial GTK 3 implementation
+- Several bugfixes
+
 Geeqie 1.1
 ==========
 

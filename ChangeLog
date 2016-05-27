@@ -1,3 +1,19 @@
+commit eff44ead88b83c2b10db7308cda41bb09ddb21c3
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 26 20:58:35 2016 +0100
+
+    Reformat and reword README
+
+commit aafc9ecdbb6d97a8eeb47e85b7e00324ffc0fd8f
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 26 20:52:20 2016 +0100
+
+    Better Changelog
+    
+    - Don't show merges
+    - Don't show notes
+    - Force using UTF-8
+
 commit bb44257b22e9249bec08823252ab76ad38adda54
 Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
 Date:   Thu May 26 09:23:06 2016 +0100
