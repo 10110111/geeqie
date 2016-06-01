@@ -1,39 +1,38 @@
+# Nikos Papadopoulos <nikos <231036448@freemail.gr>>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-05-04 13:50+0100\n"
-"Last-Translator: Nikos Papadopoulos\n"
-"Language-Team: translators_team@mandrivalinux.gr\n"
+"PO-Revision-Date: 2016-06-01 21:15+0300\n"
+"Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
+"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el_GR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../geeqie.desktop.in.h:1
 msgid "Geeqie"
 msgstr ""
 
 #: ../geeqie.desktop.in.h:2
-#, fuzzy
 msgid "Image Viewer"
-msgstr "Αρχείο εικόνας"
+msgstr "Προβολέας Εικόνων"
 
 #: ../geeqie.desktop.in.h:3
-#, fuzzy
 msgid "View and manage images"
-msgstr "Προφόρτωση της επόμενης εικόνας"
+msgstr "Προβολή και διαχείριση εικόνων"
 
 #: ../plugins/import/geeqie-import-geeqie.desktop.in.h:1
 msgid "Import Geeqie 1.0alphaX metadata"
-msgstr ""
+msgstr "Εισαγωγή μεταδεδομένων του Geeqie 1.0alphaX"
 
 #: ../plugins/import/geeqie-import-gqview.desktop.in.h:1
 msgid "Import GQView metadata"
-msgstr ""
+msgstr "Εισαγωγή μεταδεδομένων του GQView"
 
 #: ../plugins/rotate/rotate.desktop.in.h:1
 msgid "Apply the orientation to image content"
@@ -5975,3 +5974,5 @@ msgstr "Σφάλμα κατά τη μετονομασία του αρχείου"
 #, fuzzy
 msgid "Help"
 msgstr "_Βοήθεια"
+
+
