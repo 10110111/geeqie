@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-06-01 21:15+0300\n"
+"PO-Revision-Date: 2016-06-01 21:51+0300\n"
 "Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el_GR\n"
@@ -36,23 +36,23 @@ msgstr "Εισαγωγή μεταδεδομένων του GQView"
 
 #: ../plugins/rotate/rotate.desktop.in.h:1
 msgid "Apply the orientation to image content"
-msgstr ""
+msgstr "Εφαρμογή του προσανατολισμού στο περιεχόμενο της εικόνας"
 
 #: ../plugins/symlink/symlink.desktop.in.h:1
 msgid "Symlink"
-msgstr ""
+msgstr "Εσωτερικός Δεσμός"
 
 #: ../plugins/ufraw/geeqie-ufraw.desktop.in.h:1
 msgid "UFRaw Batch"
-msgstr ""
+msgstr "Ομαδική UFRaw"
 
 #: ../plugins/ufraw/geeqie-ufraw-id.desktop.in.h:1
 msgid "Edit UFRaw ID file"
-msgstr ""
+msgstr "Επεξεργασία του αρχείου Ταυτότητας του UFRaw"
 
 #: ../plugins/ufraw/geeqie-ufraw-recursive.desktop.in.h:1
 msgid "UFRaw Batch recursive"
-msgstr ""
+msgstr "Ομαδική UFRaw, εις βάθος"
 
 #: ../src/advanced_exif.c:328 ../src/cache_maint.c:1111 ../src/preferences.c:94
 #: ../src/preferences.c:1754
@@ -88,21 +88,19 @@ msgstr "Στοιχεία"
 #. default sidebar
 #: ../src/bar.c:167
 msgid "Histogram"
-msgstr ""
+msgstr "Ιστόγραμμα"
 
 #: ../src/bar.c:168
-#, fuzzy
 msgid "Title"
-msgstr "Χωρίς τίτλο"
+msgstr "Τίτλος"
 
 #: ../src/bar.c:169 ../src/search.c:2717
 msgid "Keywords"
 msgstr "Λέξεις-κλειδιά"
 
 #: ../src/bar.c:170 ../src/search.c:2729
-#, fuzzy
 msgid "Comment"
-msgstr "Σχόλιο:"
+msgstr "Σχόλιο"
 
 #: ../src/bar.c:171
 msgid "Exif"
@@ -110,14 +108,12 @@ msgstr "Exif"
 
 #. other pre-configured panes
 #: ../src/bar.c:173
-#, fuzzy
 msgid "File info"
-msgstr "Το αρχείο δε βρέθηκε"
+msgstr "Πληροφορίες αρχείου"
 
 #: ../src/bar.c:174
-#, fuzzy
 msgid "Location and GPS"
-msgstr "Τοποθεσία"
+msgstr "Τοποθεσία και GPS"
 
 #: ../src/bar.c:175 ../src/exif.c:348
 msgid "Copyright"
@@ -125,10 +121,9 @@ msgstr "Πνευματικά Δικαιώματα"
 
 #: ../src/bar.c:178 ../src/bar_gps.c:756
 msgid "GPS Map"
-msgstr ""
+msgstr "Χάρτης GPS"
 
 #: ../src/bar.c:297
-#, fuzzy
 msgid "Move to _top"
 msgstr "Μετακίνηση _πάνω"
 
@@ -141,47 +136,41 @@ msgid "Move _down"
 msgstr "Μετακίνηση _κάτω"
 
 #: ../src/bar.c:300
-#, fuzzy
 msgid "Move to _bottom"
-msgstr "αριστερά κάτω"
+msgstr "Μεταφορά _κάτω"
 
 #: ../src/bar.c:302
-#, fuzzy
 msgid "Remove"
-msgstr "_Απομάκρυνση"
+msgstr "Απομάκρυνση"
 
 #: ../src/bar_comment.c:195
-#, fuzzy
 msgid "Add text to selected files"
-msgstr "Προσθήκη λέξεων-κλειδιών στα επιλεγμένα αρχεία"
+msgstr "Προσθήκη κειμένου στα επιλεγμένα αρχεία"
 
 #: ../src/bar_comment.c:196
-#, fuzzy
 msgid "Replace existing text in selected files"
-msgstr "Αντικατάσταση του υπάρχοντος αρχείου από ένα νέο."
+msgstr "Αντικατάσταση του υπάρχοντος κειμένου, στα επιλεγμένα αρχεία"
 
 #: ../src/bar_exif.c:213
 msgid "<empty label, fixme>"
 msgstr ""
 
 #: ../src/bar_exif.c:541 ../src/bar_exif.c:551
-#, fuzzy
 msgid "Configure entry"
-msgstr "Ρύθμιση των επιλογών"
+msgstr "Ρύθμιση των στοιχείων"
 
 #. for the pane
 #: ../src/bar_exif.c:541 ../src/bar_exif.c:551 ../src/bar_exif.c:624
-#, fuzzy
 msgid "Add entry"
-msgstr "_Προσθήκη περιεχομένων"
+msgstr "Προσθήκη στοιχείων"
 
 #: ../src/bar_exif.c:557
 msgid "Key:"
-msgstr ""
+msgstr "Πλήκτρο:"
 
 #: ../src/bar_exif.c:566
 msgid "Title:"
-msgstr ""
+msgstr "Τίτλος"
 
 #: ../src/bar_exif.c:575
 msgid "Show only if set"
@@ -193,34 +182,32 @@ msgstr ""
 
 #. for the entry
 #: ../src/bar_exif.c:612
-#, fuzzy, c-format
+#, c-format
 msgid "Configure \"%s\""
-msgstr "Ρύθμιση των επιλογών"
+msgstr "Ρύθμιση του \"%s\""
 
 #: ../src/bar_exif.c:613 ../src/bar_keywords.c:1189
-#, fuzzy, c-format
+#, c-format
 msgid "Remove \"%s\""
-msgstr "_Απομάκρυνση"
+msgstr "Απομάκρυνση του \"%s\""
 
 #: ../src/bar_exif.c:625
-#, fuzzy
 msgid "Show hidden entries"
-msgstr "Προβολή κρυφών"
+msgstr "Προβολή κρυφών στοιχείων"
 
 #: ../src/bar_gps.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "Zoom %i"
-msgstr "Μεγέθυνση"
+msgstr "Εστίαση %i"
 
 #: ../src/bar_gps.c:501
-#, fuzzy, c-format
+#, c-format
 msgid "Zoom level %i"
-msgstr "Μεγέθυνση"
+msgstr "Μέγεθος εστίασης %i"
 
 #: ../src/bar_gps.c:506
-#, fuzzy
 msgid "Loading map"
-msgstr "Φόρτωση των μικρογραφιών..."
+msgstr "Φόρτωση του χάρτη"
 
 #: ../src/bar_gps.c:572
 msgid "Enable markers"
@@ -280,54 +267,44 @@ msgid "Add keywords to selected files"
 msgstr "Προσθήκη λέξεων-κλειδιών στα επιλεγμένα αρχεία"
 
 #: ../src/bar_keywords.c:404
-#, fuzzy
 msgid "Replace existing keywords in selected files"
-msgstr "Προσθήκη λέξεων-κλειδιών στα επιλεγμένα αρχεία"
+msgstr "Αντικατάσταση των υπαρχόντων λέξεων-κλειδιών στα επιλεγμένα αρχεία"
 
 #: ../src/bar_keywords.c:875
-#, fuzzy
 msgid "Edit keyword"
-msgstr "Επεξεργαστές"
+msgstr "Επεξεργασία της λέξης-κλειδί"
 
 #: ../src/bar_keywords.c:875
-#, fuzzy
 msgid "Add keywords"
-msgstr "Λέξεις-κλειδιά"
+msgstr "Προσθήκη λέξεων-κλειδιά"
 
 #: ../src/bar_keywords.c:882
-#, fuzzy
 msgid "Configure keyword"
-msgstr "Ρύθμιση των επιλογών"
+msgstr "Ρύθμιση της λέξης-κλειδί"
 
 #: ../src/bar_keywords.c:882 ../src/bar_keywords.c:1143
-#, fuzzy
 msgid "Add keyword"
-msgstr "Λέξεις-κλειδιά"
+msgstr "Προσθήκη λέξης-κλειδί"
 
 #: ../src/bar_keywords.c:888
-#, fuzzy
 msgid "Keyword:"
-msgstr "Λέξεις-κλειδιά:"
+msgstr "Λέξη-κλειδί:"
 
 #: ../src/bar_keywords.c:897
-#, fuzzy
 msgid "Keyword type:"
-msgstr "Λέξεις-κλειδιά:"
+msgstr "Τύπος λέξης-κλειδί:"
 
 #: ../src/bar_keywords.c:899
-#, fuzzy
 msgid "Active keyword"
-msgstr "Ενεργή οθόνη"
+msgstr "Ενεργή λέξη-κλειδί"
 
 #: ../src/bar_keywords.c:902
-#, fuzzy
 msgid "Helper"
-msgstr "_Βοήθεια"
+msgstr "Βοηθός"
 
 #: ../src/bar_keywords.c:1147
-#, fuzzy
 msgid "Add keyword to all selected images"
-msgstr "Προσθήκη λέξεων-κλειδιών στα επιλεγμένα αρχεία"
+msgstr "Προσθήκη λέξης-κλειδί σε όλες τις επιλεγμένες εικόνες"
 
 #: ../src/bar_keywords.c:1167
 #, c-format
@@ -345,9 +322,9 @@ msgid "Connect \"%s\" to mark"
 msgstr ""
 
 #: ../src/bar_keywords.c:1186
-#, fuzzy, c-format
+#, c-format
 msgid "Edit \"%s\""
-msgstr "Επεξεργαστές"
+msgstr "Επεξεργασία του \"%s\""
 
 #: ../src/bar_keywords.c:1196
 #, c-format
@@ -368,9 +345,8 @@ msgid "Hide unchecked"
 msgstr ""
 
 #: ../src/bar_keywords.c:1211
-#, fuzzy
 msgid "Show all"
-msgstr "Εμφάνιση"
+msgstr "Εμφάνιση όλων"
 
 #: ../src/bar_keywords.c:1214
 msgid "On any change"
