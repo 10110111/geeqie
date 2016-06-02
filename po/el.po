@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-06-01 21:51+0300\n"
+"PO-Revision-Date: 2016-06-02 23:55+0300\n"
 "Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el_GR\n"
@@ -666,11 +666,13 @@ msgstr ""
 "%s"
 
 #: ../src/collect-io.c:373
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "error saving collection file: %s\n"
 "error: %s\n"
-msgstr "σφάλμα κατά την αποθήκευση του αρχείου config: %s\n"
+msgstr ""
+"σφάλμα κατά την αποθήκευση του αρχείου συλλογής: %s\n"
+"σφάλμα: %s\n"
 
 #: ../src/collect-table.c:211
 #, fuzzy, c-format
@@ -719,9 +721,8 @@ msgid "Append from collection..."
 msgstr "Προσθήκη συλλογής"
 
 #: ../src/collect-table.c:882
-#, fuzzy
 msgid "_Selection"
-msgstr "Επιλογή"
+msgstr "_Επιλογή"
 
 #: ../src/collect-table.c:884 ../src/dupe.c:2242 ../src/dupe.c:2555
 #: ../src/layout_util.c:1324 ../src/search.c:1001
@@ -766,9 +767,8 @@ msgstr "_Διαγραφή..."
 #: ../src/collect-table.c:908 ../src/dupe.c:2270 ../src/img-view.c:1276
 #: ../src/layout_image.c:516 ../src/pan-view.c:2629 ../src/search.c:1025
 #: ../src/view_dir.c:670 ../src/view_file.c:600
-#, fuzzy
 msgid "_Copy path"
-msgstr "Αντιγρα_φή"
+msgstr "_Αντιγραφή διαδρομής"
 
 #: ../src/collect-table.c:914
 #, fuzzy
@@ -882,9 +882,8 @@ msgstr ""
 " %s"
 
 #: ../src/desktop_file.c:374
-#, fuzzy
 msgid "new.desktop"
-msgstr "Επιφάνεια Eργασίας"
+msgstr "νέο.desktop"
 
 #: ../src/desktop_file.c:453
 msgid "Editors"
@@ -1254,24 +1253,20 @@ msgid "shade"
 msgstr ""
 
 #: ../src/exif.c:208
-#, fuzzy
 msgid "daylight fluorescent"
-msgstr "φθορίζον"
+msgstr "ημερήσιο φθορίζον"
 
 #: ../src/exif.c:209
-#, fuzzy
 msgid "day white fluorescent"
-msgstr "φθορίζον"
+msgstr "μέρας λευκό φθορίζον"
 
 #: ../src/exif.c:210
-#, fuzzy
 msgid "cool white fluorescent"
-msgstr "φθορίζον"
+msgstr "δροσερό λευκό φθορίζον"
 
 #: ../src/exif.c:211
-#, fuzzy
 msgid "white fluorescent"
-msgstr "φθορίζον"
+msgstr "λευκό φθορίζον"
 
 #: ../src/exif.c:212
 msgid "standard light A"
@@ -1334,9 +1329,8 @@ msgid "color sequential area"
 msgstr ""
 
 #: ../src/exif.c:244
-#, fuzzy
 msgid "trilinear"
-msgstr "Διγραμμική"
+msgstr "τριγραμμικό"
 
 #: ../src/exif.c:245
 msgid "color sequential linear"
@@ -1351,9 +1345,8 @@ msgid "direct photo"
 msgstr ""
 
 #: ../src/exif.c:261
-#, fuzzy
 msgid "custom"
-msgstr "Προσαρμοσμένο"
+msgstr "προσαρμοσμένο"
 
 #: ../src/exif.c:266 ../src/exif.c:273 ../src/exif-common.c:376
 msgid "auto"
@@ -1365,19 +1358,16 @@ msgid "auto bracket"
 msgstr "Αυτόματη μετονομασία"
 
 #: ../src/exif.c:279
-#, fuzzy
 msgid "standard"
-msgstr "Ημερολόγιο"
+msgstr "τυπικό"
 
 #: ../src/exif.c:282
-#, fuzzy
 msgid "night scene"
-msgstr "Πηγή φωτός"
+msgstr "νυχτερινή σκηνή"
 
 #: ../src/exif.c:287
-#, fuzzy
 msgid "none"
-msgstr "Κανένα"
+msgstr "κανένα"
 
 #: ../src/exif.c:288
 #, fuzzy
@@ -1872,12 +1862,8 @@ msgid "file or directory does not exist"
 msgstr ""
 
 #: ../src/filedata.c:2464
-#, fuzzy
 msgid "destination already exists"
-msgstr ""
-"Η συλλογή:\n"
-"%s\n"
-"υπάρχει ήδη."
+msgstr "ο προορισμός υπάρχει ήδη"
 
 #: ../src/filedata.c:2470
 msgid "destination can't be overwritten"
@@ -1896,9 +1882,8 @@ msgid "source directory is not writable"
 msgstr ""
 
 #: ../src/filedata.c:2494
-#, fuzzy
 msgid "no read permission"
-msgstr "(χωρίς δικαίωμα ανάγνωσης) %s bytes"
+msgstr "χωρίς δικαιώματα ανάγνωσης"
 
 #: ../src/filedata.c:2500
 msgid "file is readonly"
@@ -1909,14 +1894,12 @@ msgid "destination already exists and will be overwritten"
 msgstr ""
 
 #: ../src/filedata.c:2512
-#, fuzzy
 msgid "source and destination are the same"
-msgstr "Η πηγή και ο προορισμός είναι τα ίδια. Η διαδικασία ακυρώθηκε."
+msgstr "η πηγή και ο προορισμός είναι τα ίδια"
 
 #: ../src/filedata.c:2518
-#, fuzzy
 msgid "source and destination have different extension"
-msgstr "Η πηγή και ο προορισμός είναι τα ίδια. Η διαδικασία ακυρώθηκε."
+msgstr "η πηγή και ο προορισμός έχουν διαφορετική επέκταση"
 
 #: ../src/filedata.c:2524
 msgid "there are unsaved metadata changes for the file"
@@ -2206,14 +2189,12 @@ msgid "_Edit"
 msgstr "_Επεξεργασία"
 
 #: ../src/layout_util.c:1272
-#, fuzzy
 msgid "_Select"
-msgstr "Επιλογή όλων"
+msgstr "_Επιλογή"
 
 #: ../src/layout_util.c:1273 ../src/menu.c:284
-#, fuzzy
 msgid "_Orientation"
-msgstr "Προσανατολισμός:"
+msgstr "_Προσανατολισμός"
 
 #: ../src/layout_util.c:1274
 msgid "E_xternal Editors"
@@ -2229,14 +2210,12 @@ msgid "_Files and Folders"
 msgstr ""
 
 #: ../src/layout_util.c:1278
-#, fuzzy
 msgid "_Zoom"
-msgstr "Εστίαση"
+msgstr "_Εστίαση"
 
 #: ../src/layout_util.c:1279
-#, fuzzy
 msgid "_Color Management"
-msgstr "Διαχειριστής Ταξινόμησης"
+msgstr "_Διαχείριση Χρωμάτων"
 
 #: ../src/layout_util.c:1280
 msgid "_Connected Zoom"
@@ -2259,9 +2238,8 @@ msgid "_Help"
 msgstr "_Βοήθεια"
 
 #: ../src/layout_util.c:1286
-#, fuzzy
 msgid "_First Image"
-msgstr "πρώτη εικόνα"
+msgstr "_Πρώτη Εικόνα"
 
 #: ../src/layout_util.c:1286
 #, fuzzy
@@ -2270,9 +2248,8 @@ msgstr "πρώτη εικόνα"
 
 #: ../src/layout_util.c:1287 ../src/layout_util.c:1288
 #: ../src/layout_util.c:1289
-#, fuzzy
 msgid "_Previous Image"
-msgstr "προηγούμενη εικόνα"
+msgstr "_Προηγούμενη Εικόνα"
 
 #: ../src/layout_util.c:1287 ../src/layout_util.c:1288
 #: ../src/layout_util.c:1289
@@ -2282,9 +2259,8 @@ msgstr "προηγούμενη εικόνα"
 
 #: ../src/layout_util.c:1290 ../src/layout_util.c:1291
 #: ../src/layout_util.c:1292
-#, fuzzy
 msgid "_Next Image"
-msgstr "επόμενη εικόνα"
+msgstr "_Επόμενη Εικόνα"
 
 #: ../src/layout_util.c:1290 ../src/layout_util.c:1291
 #: ../src/layout_util.c:1292
@@ -2293,9 +2269,8 @@ msgid "Next Image"
 msgstr "επόμενη εικόνα"
 
 #: ../src/layout_util.c:1293
-#, fuzzy
 msgid "_Last Image"
-msgstr "τελευταία εικόνα"
+msgstr "_Τελευταία Εικόνα"
 
 #: ../src/layout_util.c:1293
 #, fuzzy
@@ -2313,7 +2288,7 @@ msgstr ""
 #: ../src/layout_util.c:1295
 #, fuzzy
 msgid "_Home"
-msgstr "Αρχική"
+msgstr "_Αρχική"
 
 #: ../src/layout_util.c:1295 ../src/options.c:156 ../src/ui_bookmark.c:549
 #: ../src/ui_pathsel.c:1045
@@ -2511,9 +2486,8 @@ msgid "Flip"
 msgstr "_Αναποδογύρισμα"
 
 #: ../src/layout_util.c:1323 ../src/menu.c:241
-#, fuzzy
 msgid "_Original state"
-msgstr "Αρχικό Όνομα"
+msgstr "_Αρχική κατάσταση"
 
 #: ../src/layout_util.c:1323
 #, fuzzy
@@ -2529,9 +2503,8 @@ msgid "Select _none"
 msgstr "Επιλογή _κανενός"
 
 #: ../src/layout_util.c:1326
-#, fuzzy
 msgid "_Invert Selection"
-msgstr "Επιλογή"
+msgstr "_Αντιστροφή της Επιλογής"
 
 #: ../src/layout_util.c:1326
 #, fuzzy
@@ -2558,9 +2531,8 @@ msgid "Configure Editors..."
 msgstr "Ρύθμιση των επιλογών"
 
 #: ../src/layout_util.c:1329
-#, fuzzy
 msgid "_Configure this window..."
-msgstr "Ρύθμιση των επιλογών"
+msgstr "_Ρύθμιση του παρόντος παράθυρου..."
 
 #: ../src/layout_util.c:1329
 #, fuzzy
@@ -2582,9 +2554,8 @@ msgid "Set as wallpaper"
 msgstr "Ορισμός ως ταπετ_σαρία"
 
 #: ../src/layout_util.c:1332
-#, fuzzy
 msgid "_Save metadata"
-msgstr "Μεταδεδομένα"
+msgstr "_Αποθήκευση των μεταδεδομένων"
 
 #: ../src/layout_util.c:1332
 #, fuzzy
@@ -2733,9 +2704,8 @@ msgid "Connected Zoom 1:4"
 msgstr "Ορισμός εστίασης σε 1:1"
 
 #: ../src/layout_util.c:1365
-#, fuzzy
 msgid "_View in new window"
-msgstr "Προβολή σε _νέο παράθυρο"
+msgstr "_Προβολή σε νέο παράθυρο"
 
 #: ../src/layout_util.c:1365
 #, fuzzy
@@ -2791,9 +2761,8 @@ msgid "Hide file list"
 msgstr "Κρύψιμο της _λίστας αρχείων"
 
 #: ../src/layout_util.c:1375
-#, fuzzy
 msgid "_Pause slideshow"
-msgstr "Παύση της συνεχόμενης προβολής των εικόνων"
+msgstr "_Παύση της συνεχόμενης προβολής των εικόνων"
 
 #: ../src/layout_util.c:1375
 #, fuzzy
@@ -2846,9 +2815,8 @@ msgid "About"
 msgstr "Σ_χετικά με"
 
 #: ../src/layout_util.c:1381
-#, fuzzy
 msgid "_Log Window"
-msgstr "Παράθυρα"
+msgstr "_Παράθυρο Καταγραφών"
 
 #: ../src/layout_util.c:1381
 #, fuzzy
@@ -2856,9 +2824,8 @@ msgid "Log Window"
 msgstr "Παράθυρα"
 
 #: ../src/layout_util.c:1382
-#, fuzzy
 msgid "_Exif window"
-msgstr "Κ_λείσιμο του παραθύρου"
+msgstr "_Παράθυρο πληροφοριών Exif"
 
 #: ../src/layout_util.c:1382
 #, fuzzy
@@ -3148,9 +3115,8 @@ msgid "Log Histogram"
 msgstr ""
 
 #: ../src/layout_util.c:1443
-#, fuzzy
 msgid "_Auto"
-msgstr "αυτόματο"
+msgstr "_Αυτόματο"
 
 #: ../src/layout_util.c:1443
 msgid "Stereo Auto"
@@ -3173,9 +3139,8 @@ msgid "Stereo Cross"
 msgstr ""
 
 #: ../src/layout_util.c:1446
-#, fuzzy
 msgid "_Off"
-msgstr "απενεργοποιημένο"
+msgstr "_Απενεργοποιημένο"
 
 #: ../src/layout_util.c:1446
 msgid "Stereo Off"
@@ -3444,21 +3409,22 @@ msgid "Could not create dir:%s\n"
 msgstr "Αδυναμία δημιουργίας του καταλόγου:%s\n"
 
 #: ../src/main.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "error saving file: %s\n"
-msgstr "σφάλμα κατά την αποθήκευση του αρχείου config: %s\n"
+msgstr "σφάλμα κατά την αποθήκευση του αρχείου: %s\n"
 
 #: ../src/main.c:564
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "error saving file: %s\n"
 "error: %s\n"
-msgstr "σφάλμα κατά την αποθήκευση του αρχείου config: %s\n"
+msgstr ""
+"σφάλμα κατά την αποθήκευση του αρχείου: %s\n"
+"σφάλμα: %s\n"
 
 #: ../src/main.c:672
-#, fuzzy
 msgid "exit"
-msgstr "Έξοδος από λειτουργία _πλήρους οθόνης"
+msgstr "έξοδος"
 
 #: ../src/main.c:677
 #, fuzzy, c-format
@@ -4990,11 +4956,13 @@ msgid "error saving config file: %s\n"
 msgstr "σφάλμα κατά την αποθήκευση του αρχείου config: %s\n"
 
 #: ../src/rcfile.c:526
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "error saving config file: %s\n"
 "error: %s\n"
-msgstr "σφάλμα κατά την αποθήκευση του αρχείου config: %s\n"
+msgstr ""
+"σφάλμα κατά την αποθήκευση του αρχείου ρυθμίσεων: %s\n"
+"σφάλμα: %s\n"
 
 #. short, long                  callback,               extra, prefer, parameter, description
 #: ../src/remote.c:640
@@ -5043,9 +5011,8 @@ msgid "<FOLDER>"
 msgstr "Φάκελος:"
 
 #: ../src/remote.c:650
-#, fuzzy
 msgid "start recursive slide show in FOLDER"
-msgstr "εκκίνηση εις βάθος συνεχόμενης προβολής των εικόνων"
+msgstr "εκκίνηση της συνεχόμενης προβολής των εικόνων, εις βάθος, στο ΦΑΚΕΛΟ"
 
 #: ../src/remote.c:651
 msgid "<[N][.M]>"
@@ -5089,14 +5056,12 @@ msgid "get destination path of FILE"
 msgstr ""
 
 #: ../src/remote.c:658
-#, fuzzy
 msgid "open FILE"
-msgstr "άνοιγμα αρχείου"
+msgstr "άνοιγμα του ΑΡΧΕΙΟΥ"
 
 #: ../src/remote.c:659
-#, fuzzy
 msgid "open FILE in new window"
-msgstr "άνοιγμα αρχείου σε νέο παράθυρο"
+msgstr "άνοιγμα του ΑΡΧΕΙΟΥ σε νέο παράθυρο"
 
 #: ../src/remote.c:660
 msgid "clear command line collection list"
