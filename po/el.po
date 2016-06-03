@@ -4,10 +4,10 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-06-02 23:55+0300\n"
+"PO-Revision-Date: 2016-06-03 22:31+0300\n"
 "Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
-"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
-"Language: el_GR\n"
+"Language-Team: Greek <mageia-gr.org>\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -481,10 +481,8 @@ msgid "Include subfolders"
 msgstr "Να συμπεριληφθούν και οι υποφάκελοι"
 
 #: ../src/cache_maint.c:721
-#, fuzzy
 msgid "Store thumbnails local to source images"
-msgstr ""
-"Αποθήκευση των λέξεων-κλειδιών και των σχολίων, τοπικά, στις πηγαίες εικόνες"
+msgstr "Αποθήκευση των μικρογραφιών, τοπικά, στις πηγαίες εικόνες"
 
 #: ../src/cache_maint.c:730 ../src/cache_maint.c:942
 msgid "click start to begin"
@@ -512,23 +510,21 @@ msgstr ""
 "Να συνεχίσω;"
 
 #: ../src/cache_maint.c:1030
-#, fuzzy, c-format
+#, c-format
 msgid "Location: %s"
-msgstr "Τοποθεσία:"
+msgstr "Τοποθεσία: %s"
 
 #: ../src/cache_maint.c:1055
-#, fuzzy
 msgid "Cache Maintenance"
-msgstr "Διατήρηση Μικροαποθήκευσης - GQview"
+msgstr "Διατήρηση Μικροαποθήκευσης"
 
 #: ../src/cache_maint.c:1065
 msgid "Cache and Data Maintenance"
 msgstr "Διατήρηση Μικροαποθήκευσης και Δεδομένων"
 
 #: ../src/cache_maint.c:1069
-#, fuzzy
 msgid "Thumbnail cache"
-msgstr "Μικροαποθήκευση των μικρογραφιών από το GQview"
+msgstr "Μικροαποθήκευση των μικρογραφιών"
 
 #: ../src/cache_maint.c:1075 ../src/cache_maint.c:1092
 #: ../src/cache_maint.c:1117
@@ -571,9 +567,9 @@ msgid "Untitled (%d)"
 msgstr "Χωρίς τίτλο (%d)"
 
 #: ../src/collect.c:968
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Collection - %s"
-msgstr "%s - Συλλογή GQview"
+msgstr "%s - Συλλογή - %s"
 
 #: ../src/collect.c:1080 ../src/collect.c:1084
 msgid "Close collection"
@@ -616,12 +612,9 @@ msgid "_Overwrite"
 msgstr "_Αντικατάσταση"
 
 #: ../src/collect-dlg.c:127
-#, fuzzy, c-format
+#, c-format
 msgid "No such file '%s'."
-msgstr ""
-"Αδυναμία αντιγραφής του αρχείου:\n"
-"%s\n"
-"στον εαυτό του."
+msgstr "Δεν υπάρχει τέτοιο αρχείο '%s'."
 
 #: ../src/collect-dlg.c:132
 #, c-format
@@ -634,9 +627,8 @@ msgid "You do not have read permissions on the file '%s'."
 msgstr ""
 
 #: ../src/collect-dlg.c:143
-#, fuzzy
 msgid "Can not open collection file"
-msgstr "Άνοιγμα συλλογής"
+msgstr "Αδυναμία ανοίγματος του αρχείου συλλογής"
 
 #: ../src/collect-dlg.c:195
 msgid "Save collection"
@@ -675,14 +667,14 @@ msgstr ""
 "σφάλμα: %s\n"
 
 #: ../src/collect-table.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "%s, %d images (%s, %d)"
-msgstr "%s, %d αρχεία (%s, %d)"
+msgstr "%s, %d εικόνες (%s, %d)"
 
 #: ../src/collect-table.c:218
 #, fuzzy, c-format
 msgid "%s, %d images"
-msgstr "%d εικόνες"
+msgstr "%s, %d εικόνες"
 
 #: ../src/collect-table.c:223 ../src/layout_util.c:1229
 #: ../src/layout_util.c:2153
@@ -735,9 +727,8 @@ msgid "Select none"
 msgstr "Επιλογή κανενός"
 
 #: ../src/collect-table.c:888
-#, fuzzy
 msgid "Invert selection"
-msgstr "Προσθήκη συλλογής"
+msgstr "Αντιστροφή της επιλογής"
 
 #: ../src/collect-table.c:900 ../src/dupe.c:2262 ../src/img-view.c:1272
 #: ../src/layout_image.c:507 ../src/layout_util.c:1307 ../src/pan-view.c:2621
@@ -771,9 +762,8 @@ msgid "_Copy path"
 msgstr "_Αντιγραφή διαδρομής"
 
 #: ../src/collect-table.c:914
-#, fuzzy
 msgid "Randomize"
-msgstr "Στη τύχη"
+msgstr "Τυχαιοποίηση"
 
 #: ../src/collect-table.c:916 ../src/view_file.c:616
 msgid "_Sort"
@@ -809,9 +799,8 @@ msgid "_Add contents"
 msgstr "_Προσθήκη περιεχομένων"
 
 #: ../src/collect-table.c:2098 ../src/dupe.c:3322 ../src/img-view.c:1433
-#, fuzzy
 msgid "Add contents _recursive"
-msgstr "_Προσθήκη περιεχομένων"
+msgstr "Προσθήκη περιεχομένων, εις _βάθος"
 
 #: ../src/collect-table.c:2100 ../src/dupe.c:3323 ../src/img-view.c:1434
 msgid "_Skip folders"
@@ -844,9 +833,8 @@ msgid "Please specify file name."
 msgstr ""
 
 #: ../src/desktop_file.c:86
-#, fuzzy
 msgid "Could not create directory"
-msgstr "Αδυναμία δημιουργίας του φακέλου"
+msgstr "Αδυναμία δημιουργίας του καταλόγου"
 
 #: ../src/desktop_file.c:182 ../src/desktop_file.c:534
 #, fuzzy
@@ -958,14 +946,13 @@ msgid "Close _window"
 msgstr "Κλείσιμο του _παραθύρου"
 
 #: ../src/dupe.c:2438
-#, fuzzy, c-format
+#, c-format
 msgid "%d files (set 2)"
-msgstr "%s, %d αρχεία (%s, %d)"
+msgstr "%d αρχεία ( ομάδες 2)"
 
 #: ../src/dupe.c:2643
-#, fuzzy
 msgid "Name case-insensitive"
-msgstr "Ταξινόμηση με διάκριση πεζών/κεφαλαίων"
+msgstr "Με διάκριση πεζών/κεφαλαίων"
 
 #: ../src/dupe.c:2644 ../src/dupe.c:3130 ../src/preferences.c:1476
 #: ../src/print.c:3205 ../src/search.c:2791 ../src/view_file_list.c:1984
@@ -1004,9 +991,8 @@ msgid "Similarity (custom)"
 msgstr "Ομοιότητα (προσαρμοσμένη)"
 
 #: ../src/dupe.c:3083
-#, fuzzy
 msgid "Find duplicates"
-msgstr "Αναζήτηση _πανομοιότυπων..."
+msgstr "Αναζήτηση πανομοιότυπων"
 
 #: ../src/dupe.c:3165
 msgid "Compare to:"
@@ -1021,9 +1007,8 @@ msgid "Thumbnails"
 msgstr "Μικρογραφίες"
 
 #: ../src/dupe.c:3193
-#, fuzzy
 msgid "Compare two file sets"
-msgstr "Σύγκριση με:"
+msgstr "Σύγκριση δύο ομάδων αρχείων"
 
 #: ../src/editors.c:281
 #, c-format
@@ -1066,20 +1051,17 @@ msgid "stopped by user"
 msgstr "διακόπηκε από το χρήστη"
 
 #: ../src/editors.c:1266
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "\"%s\""
 msgstr ""
-"Αδυναμία αντιγραφής του αρχείου:\n"
 "%s\n"
-"στο:\n"
-"%s"
+"\"%s\""
 
 #: ../src/editors.c:1268
-#, fuzzy
 msgid "Invalid editor command"
-msgstr "Μη έγκυρος προορισμός"
+msgstr "Μη έγκυρη εντολή επεξεργαστή"
 
 #: ../src/editors.c:1355
 msgid "Editor template is empty."
@@ -1395,14 +1377,12 @@ msgid "hard"
 msgstr ""
 
 #: ../src/exif.c:304
-#, fuzzy
 msgid "low"
-msgstr "jpeg, χαμηλής ποιότητας"
+msgstr "χαμηλή"
 
 #: ../src/exif.c:305
-#, fuzzy
 msgid "high"
-msgstr "jpeg, υψηλής ποιότητας"
+msgstr "υψηλή"
 
 #: ../src/exif.c:318
 msgid "macro"
@@ -1417,56 +1397,48 @@ msgid "distant"
 msgstr ""
 
 #: ../src/exif.c:330
-#, fuzzy
 msgid "Image Width"
-msgstr "Αρχείο εικόνας"
+msgstr "Πλάτος της Εικόνας"
 
 #: ../src/exif.c:331
-#, fuzzy
 msgid "Image Height"
-msgstr "Ύψος"
+msgstr "Ύψος της Εικόνας"
 
 #: ../src/exif.c:332
 msgid "Bits per Sample/Pixel"
 msgstr ""
 
 #: ../src/exif.c:333
-#, fuzzy
 msgid "Compression"
-msgstr "Αναλογία συμπίεσης:"
+msgstr "Συμπίεση"
 
 #: ../src/exif.c:334
 msgid "Image description"
 msgstr "Περιγραφή εικόνας"
 
 #: ../src/exif.c:335
-#, fuzzy
 msgid "Camera make"
-msgstr "Κάμερα"
+msgstr "Μάρκα της Κάμερας"
 
 #: ../src/exif.c:336
-#, fuzzy
 msgid "Camera model"
-msgstr "Κάμερα"
+msgstr "Μοντέλο της Κάμερας"
 
 #: ../src/exif.c:337
 msgid "Orientation"
 msgstr "Προσανατολισμός"
 
 #: ../src/exif.c:338
-#, fuzzy
 msgid "X resolution"
-msgstr "Ανάλυση"
+msgstr "Χ ανάλυση"
 
 #: ../src/exif.c:339
-#, fuzzy
 msgid "Y Resolution"
-msgstr "Ανάλυση"
+msgstr "Υ ανάλυση"
 
 #: ../src/exif.c:340
-#, fuzzy
 msgid "Resolution units"
-msgstr "Ανάλυση"
+msgstr "Μονάδες Ανάλυσης"
 
 #: ../src/exif.c:341
 msgid "Firmware"
@@ -1489,9 +1461,8 @@ msgid "YCbCr positioning"
 msgstr ""
 
 #: ../src/exif.c:347
-#, fuzzy
 msgid "Black white reference"
-msgstr "Προτιμήσεις GQview"
+msgstr "Αναφορά ασπρόμαυρου"
 
 #: ../src/exif.c:349
 msgid "SubIFD Exif offset"
@@ -1499,9 +1470,8 @@ msgstr ""
 
 #. subIFD follows
 #: ../src/exif.c:351
-#, fuzzy
 msgid "Exposure time (seconds)"
-msgstr "Βαθμός έκθεσης"
+msgstr "Βαθμός έκθεσης (δευτερόλεπτα)"
 
 #: ../src/exif.c:352
 msgid "FNumber"
@@ -1539,12 +1509,11 @@ msgstr "Ημερομηνία ψηφιοποίησης"
 #: ../src/exif.c:360
 #, fuzzy
 msgid "Pixel format"
-msgstr "Μορφή αρχείου:"
+msgstr "Μορφή "
 
 #: ../src/exif.c:361
-#, fuzzy
 msgid "Compression ratio"
-msgstr "Αναλογία συμπίεσης:"
+msgstr "Αναλογία συμπίεσης"
 
 #: ../src/exif.c:362 ../src/exif-common.c:554
 msgid "Shutter speed"
@@ -1597,9 +1566,8 @@ msgid "MakerNote"
 msgstr ""
 
 #: ../src/exif.c:374
-#, fuzzy
 msgid "UserComment"
-msgstr "Σχόλιο:"
+msgstr "ΣχόλιοΧρήστη"
 
 #: ../src/exif.c:375
 msgid "Subsecond time"
@@ -1633,18 +1601,16 @@ msgid "Height"
 msgstr "Ύψος"
 
 #: ../src/exif.c:383
-#, fuzzy
 msgid "Audio data"
-msgstr "Δεδομένα e_xif"
+msgstr "Ηχητικά δεδομένα"
 
 #: ../src/exif.c:384
 msgid "ExifR98 extension"
 msgstr ""
 
 #: ../src/exif.c:385
-#, fuzzy
 msgid "Flash strength"
-msgstr "Απόσταση εστίασης"
+msgstr "Ένταση λάμψης"
 
 #: ../src/exif.c:386
 msgid "Spatial frequency response"
@@ -1668,14 +1634,12 @@ msgid "Subject location"
 msgstr "Επιλογή"
 
 #: ../src/exif.c:392
-#, fuzzy
 msgid "Sensor type"
-msgstr "Χωρίς ταξινόμηση"
+msgstr "Τύπος αισθητήρα"
 
 #: ../src/exif.c:393
-#, fuzzy
 msgid "Source type"
-msgstr "Πηγή"
+msgstr "Τύπος πηγής"
 
 #: ../src/exif.c:394
 #, fuzzy
@@ -1688,9 +1652,8 @@ msgstr ""
 
 #. tags a4xx were added for Exif 2.2 (not just these - some above, as well)
 #: ../src/exif.c:397
-#, fuzzy
 msgid "Render process"
-msgstr "Αποτύπωση"
+msgstr "Διαδικασία αποτύπωσης"
 
 #: ../src/exif.c:398
 #, fuzzy
@@ -1715,18 +1678,16 @@ msgid "Scene capture type"
 msgstr ""
 
 #: ../src/exif.c:403
-#, fuzzy
 msgid "Gain control"
-msgstr "Επιπλέοντα χειριστήρια"
+msgstr "Ελεγκτής Κέρδους"
 
 #: ../src/exif.c:404
 msgid "Contrast"
 msgstr ""
 
 #: ../src/exif.c:405
-#, fuzzy
 msgid "Saturation"
-msgstr "ενέργεια"
+msgstr "Κορεσμός"
 
 #: ../src/exif.c:406
 msgid "Sharpness"
@@ -1742,9 +1703,8 @@ msgid "Subject range"
 msgstr "Απόσταση υποκειμένου"
 
 #: ../src/exif.c:409
-#, fuzzy
 msgid "Image serial number"
-msgstr "Αρχείο εικόνας"
+msgstr "Σειριακός αριθμός της εικόνας"
 
 #: ../src/exif-common.c:337
 msgid "infinity"
@@ -1823,19 +1783,16 @@ msgid "GPS altitude"
 msgstr ""
 
 #: ../src/exif-common.c:566
-#, fuzzy
 msgid "File size"
-msgstr "Μέγεθος αρχείου:"
+msgstr "Μέγεθος αρχείου"
 
 #: ../src/exif-common.c:567
-#, fuzzy
 msgid "File date"
-msgstr "Ημερομηνίας αρχείου:"
+msgstr "Ημερομηνίας αρχείου"
 
 #: ../src/exif-common.c:568
-#, fuzzy
 msgid "File mode"
-msgstr "Όνομα αρχείου"
+msgstr "Κατάσταση λειτουργίας του αρχείου"
 
 #: ../src/filedata.c:101
 #, c-format
@@ -1981,12 +1938,12 @@ msgstr ""
 #: ../src/history_list.c:131
 #, c-format
 msgid "Unable to write history lists to: %s\n"
-msgstr "Αδυναμία εγγραφής λιστών ιστορικού στο: %s\n"
+msgstr "Αδυναμία εγγραφής κατάστιχων ιστορικού στο: %s\n"
 
 #: ../src/image.c:161
-#, fuzzy, c-format
+#, c-format
 msgid " (Collection %s)"
-msgstr "Συλλογές"
+msgstr " (Συλλογή %s)"
 
 #: ../src/image_load_jpeg.c:177
 #, c-format
@@ -2103,9 +2060,8 @@ msgid "Window options and layout"
 msgstr ""
 
 #: ../src/layout.c:1924
-#, fuzzy
 msgid "General options"
-msgstr "Γενικά"
+msgstr "Γενικές επιλογές"
 
 #: ../src/layout.c:1926
 msgid "Home path (empty to use your home directory)"
@@ -2128,9 +2084,8 @@ msgid "Start-up directory:"
 msgstr ""
 
 #: ../src/layout.c:1945
-#, fuzzy
 msgid "No change"
-msgstr "(σύρε για να αλλάξεις την σειρά)"
+msgstr "Καμία αλλαγή"
 
 #: ../src/layout.c:1948
 msgid "Restore last path"
@@ -2164,7 +2119,7 @@ msgstr "(σύρε για να αλλάξεις την σειρά)"
 
 #: ../src/layout_image.c:553
 msgid "Hide file _list"
-msgstr "Κρύψιμο της _λίστας αρχείων"
+msgstr "Κρύψιμο του _κατάστιχου των αρχείων"
 
 #: ../src/layout_image.c:1616
 #, c-format
@@ -2201,7 +2156,6 @@ msgid "E_xternal Editors"
 msgstr ""
 
 #: ../src/layout_util.c:1275
-#, fuzzy
 msgid "P_references"
 msgstr "_Προτιμήσεις"
 
@@ -2242,9 +2196,8 @@ msgid "_First Image"
 msgstr "_Πρώτη Εικόνα"
 
 #: ../src/layout_util.c:1286
-#, fuzzy
 msgid "First Image"
-msgstr "πρώτη εικόνα"
+msgstr "Πρώτη Εικόνα"
 
 #: ../src/layout_util.c:1287 ../src/layout_util.c:1288
 #: ../src/layout_util.c:1289
@@ -2253,9 +2206,8 @@ msgstr "_Προηγούμενη Εικόνα"
 
 #: ../src/layout_util.c:1287 ../src/layout_util.c:1288
 #: ../src/layout_util.c:1289
-#, fuzzy
 msgid "Previous Image"
-msgstr "προηγούμενη εικόνα"
+msgstr "Προηγούμενη Εικόνα"
 
 #: ../src/layout_util.c:1290 ../src/layout_util.c:1291
 #: ../src/layout_util.c:1292
@@ -2264,18 +2216,16 @@ msgstr "_Επόμενη Εικόνα"
 
 #: ../src/layout_util.c:1290 ../src/layout_util.c:1291
 #: ../src/layout_util.c:1292
-#, fuzzy
 msgid "Next Image"
-msgstr "επόμενη εικόνα"
+msgstr "Επόμενη Εικόνα"
 
 #: ../src/layout_util.c:1293
 msgid "_Last Image"
 msgstr "_Τελευταία Εικόνα"
 
 #: ../src/layout_util.c:1293
-#, fuzzy
 msgid "Last Image"
-msgstr "τελευταία εικόνα"
+msgstr "Τελευταία Εικόνα"
 
 #: ../src/layout_util.c:1294
 msgid "_Back"
@@ -2308,59 +2258,50 @@ msgid "New _window"
 msgstr "Νέο _παράθυρο"
 
 #: ../src/layout_util.c:1298
-#, fuzzy
 msgid "New window"
-msgstr "Νέο _παράθυρο"
+msgstr "Νέο παράθυρο"
 
 #: ../src/layout_util.c:1299
 msgid "_New collection"
 msgstr "_Νέα συλλογή"
 
 #: ../src/layout_util.c:1299
-#, fuzzy
 msgid "New collection"
-msgstr "_Νέα συλλογή"
+msgstr "Νέα συλλογή"
 
 #: ../src/layout_util.c:1300
 msgid "_Open collection..."
 msgstr "_Άνοιγμα συλλογής..."
 
 #: ../src/layout_util.c:1300
-#, fuzzy
 msgid "Open collection..."
-msgstr "_Άνοιγμα συλλογής..."
+msgstr "Άνοιγμα συλλογής..."
 
 #: ../src/layout_util.c:1301
-#, fuzzy
 msgid "Open recen_t"
 msgstr "Άνοιγμα πρόσ_φατου"
 
 #: ../src/layout_util.c:1301
-#, fuzzy
 msgid "Open recent"
-msgstr "Άνοιγμα πρόσ_φατου"
+msgstr "Άνοιγμα πρόσφατου"
 
 #: ../src/layout_util.c:1302
 msgid "_Search..."
 msgstr "_Αναζήτηση..."
 
 #: ../src/layout_util.c:1302
-#, fuzzy
 msgid "Search..."
-msgstr "_Αναζήτηση..."
+msgstr "Αναζήτηση..."
 
 #: ../src/layout_util.c:1303
-#, fuzzy
 msgid "Find duplicates..."
-msgstr "Αναζήτηση _πανομοιότυπων..."
+msgstr "Αναζήτηση πανομοιότυπων..."
 
 #: ../src/layout_util.c:1304
-#, fuzzy
 msgid "Pa_n view"
-msgstr "Πανόψη"
+msgstr "Πα_νόψη"
 
 #: ../src/layout_util.c:1304
-#, fuzzy
 msgid "Pan view"
 msgstr "Πανόψη"
 
@@ -2373,50 +2314,41 @@ msgid "N_ew folder..."
 msgstr "_Νέος φάκελος..."
 
 #: ../src/layout_util.c:1306
-#, fuzzy
 msgid "New folder..."
-msgstr "_Νέος φάκελος..."
+msgstr "Νέος φάκελος..."
 
 #: ../src/layout_util.c:1307
-#, fuzzy
 msgid "Copy..."
-msgstr "Αντιγρα_φή..."
+msgstr "Αντιγραφή..."
 
 #: ../src/layout_util.c:1308
-#, fuzzy
 msgid "Move..."
-msgstr "Μετα_κίνηση..."
+msgstr "Μετακίνηση..."
 
 #: ../src/layout_util.c:1309
-#, fuzzy
 msgid "Rename..."
-msgstr "_Μετονομασία..."
+msgstr "Μετονομασία..."
 
 #: ../src/layout_util.c:1310 ../src/layout_util.c:1311
 #: ../src/layout_util.c:1312
-#, fuzzy
 msgid "Delete..."
-msgstr "_Διαγραφή..."
+msgstr "Διαγραφή..."
 
 #: ../src/layout_util.c:1313 ../src/view_file.c:603
-#, fuzzy
 msgid "Enable file _grouping"
-msgstr "Απενεργοποίηση της Διαλογής των Αρχείων"
+msgstr "Απενερ_γοποίηση της ομαδοποίησης των αρχείων"
 
 #: ../src/layout_util.c:1313
-#, fuzzy
 msgid "Enable file grouping"
-msgstr "Απενεργοποίηση της Διαλογής των Αρχείων"
+msgstr "Απενεργοποίηση της ομαδοποίησης των αρχείων"
 
 #: ../src/layout_util.c:1314 ../src/view_file.c:605
-#, fuzzy
 msgid "Disable file groupi_ng"
-msgstr "Απενεργοποίηση της Διαλογής των Αρχείων"
+msgstr "Απενεργοποίηση της ομαδοποίησης τω_ν αρχείων"
 
 #: ../src/layout_util.c:1314
-#, fuzzy
 msgid "Disable file grouping"
-msgstr "Απενεργοποίηση της Διαλογής των Αρχείων"
+msgstr "Απενεργοποίηση της ομαδοποίησης των αρχείων"
 
 #: ../src/layout_util.c:1315
 msgid "_Copy path to clipboard"
@@ -2427,72 +2359,64 @@ msgid "Copy path to clipboard"
 msgstr ""
 
 #: ../src/layout_util.c:1316
-#, fuzzy
 msgid "Close window"
-msgstr "Κλείσιμο του _παραθύρου"
+msgstr "Κλείσιμο του παράθυρου"
 
 #: ../src/layout_util.c:1317
 msgid "_Quit"
 msgstr "_Τερματισμός"
 
 #: ../src/layout_util.c:1317
-#, fuzzy
 msgid "Quit"
-msgstr "τερματισμός"
+msgstr "Τερματισμός"
 
 #: ../src/layout_util.c:1318 ../src/menu.c:226
 msgid "_Rotate clockwise"
 msgstr "Περιστροφή _κατά τη φορά του ρολογιού"
 
 #: ../src/layout_util.c:1318
-#, fuzzy
 msgid "Rotate clockwise"
-msgstr "Περιστροφή _κατά τη φορά του ρολογιού"
+msgstr "Περιστροφή κατά τη φορά του ρολογιού"
 
 #: ../src/layout_util.c:1319 ../src/menu.c:229
 msgid "Rotate _counterclockwise"
 msgstr "Περιστροφή _αντίστροφα από τη φορά του ρολογιού"
 
 #: ../src/layout_util.c:1319
-#, fuzzy
 msgid "Rotate counterclockwise"
-msgstr "Περιστροφή _αντίστροφα από τη φορά του ρολογιού"
+msgstr "Περιστροφή αντίστροφα από τη φορά του ρολογιού"
 
 #: ../src/layout_util.c:1320
 msgid "Rotate 1_80"
 msgstr "Περιστροφή 1_80"
 
 #: ../src/layout_util.c:1320
-#, fuzzy
 msgid "Rotate 180"
-msgstr "Περιστροφή _180°"
+msgstr "Περιστροφή 180°"
 
 #: ../src/layout_util.c:1321 ../src/menu.c:235
 msgid "_Mirror"
 msgstr "_Καθρεπτισμός"
 
 #: ../src/layout_util.c:1321
-#, fuzzy
 msgid "Mirror"
-msgstr "_Καθρεπτισμός"
+msgstr "Καθρεπτισμός"
 
 #: ../src/layout_util.c:1322 ../src/menu.c:238
 msgid "_Flip"
 msgstr "_Αναποδογύρισμα"
 
 #: ../src/layout_util.c:1322
-#, fuzzy
 msgid "Flip"
-msgstr "_Αναποδογύρισμα"
+msgstr "Αναποδογύρισμα"
 
 #: ../src/layout_util.c:1323 ../src/menu.c:241
 msgid "_Original state"
 msgstr "_Αρχική κατάσταση"
 
 #: ../src/layout_util.c:1323
-#, fuzzy
 msgid "Original state"
-msgstr "Αρχικό Όνομα"
+msgstr "Αρχική κατάσταση"
 
 #: ../src/layout_util.c:1324
 msgid "Select _all"
@@ -2507,60 +2431,52 @@ msgid "_Invert Selection"
 msgstr "_Αντιστροφή της Επιλογής"
 
 #: ../src/layout_util.c:1326
-#, fuzzy
 msgid "Invert Selection"
-msgstr "Επιλογή"
+msgstr "Αντιστροφή της Επιλογής"
 
 #: ../src/layout_util.c:1327
 msgid "P_references..."
 msgstr "_Προτιμήσεις"
 
 #: ../src/layout_util.c:1327
-#, fuzzy
 msgid "Preferences..."
-msgstr "Προτιμήσεις GQview"
+msgstr "Προτιμήσεις..."
 
 #: ../src/layout_util.c:1328
-#, fuzzy
 msgid "Configure _Editors..."
-msgstr "Ρύθμιση των επιλογών"
+msgstr "Ρύθμιση των _Επεξεργαστών..."
 
 #: ../src/layout_util.c:1328
-#, fuzzy
 msgid "Configure Editors..."
-msgstr "Ρύθμιση των επιλογών"
+msgstr "Ρύθμιση των Επεξεργαστών..."
 
 #: ../src/layout_util.c:1329
 msgid "_Configure this window..."
 msgstr "_Ρύθμιση του παρόντος παράθυρου..."
 
 #: ../src/layout_util.c:1329
-#, fuzzy
 msgid "Configure this window..."
-msgstr "Ρύθμιση των επιλογών"
+msgstr "Ρύθμιση αυτού του παράθυρου..."
 
 #: ../src/layout_util.c:1330
 msgid "_Thumbnail maintenance..."
 msgstr "Διατήρηση _μικρογραφιών"
 
 #: ../src/layout_util.c:1330
-#, fuzzy
 msgid "Thumbnail maintenance..."
-msgstr "Διατήρηση _μικρογραφιών"
+msgstr "Διατήρηση μικρογραφιών..."
 
 #: ../src/layout_util.c:1331
-#, fuzzy
 msgid "Set as wallpaper"
-msgstr "Ορισμός ως ταπετ_σαρία"
+msgstr "Ορισμός ως ταπετσαρία"
 
 #: ../src/layout_util.c:1332
 msgid "_Save metadata"
 msgstr "_Αποθήκευση των μεταδεδομένων"
 
 #: ../src/layout_util.c:1332
-#, fuzzy
 msgid "Save metadata"
-msgstr "Μεταδεδομένα"
+msgstr "Αποθήκευση των μεταδεδομένων"
 
 #: ../src/layout_util.c:1333 ../src/layout_util.c:1334
 msgid "Zoom in"
@@ -2571,9 +2487,8 @@ msgid "Zoom out"
 msgstr "Σμίκρυνση"
 
 #: ../src/layout_util.c:1337 ../src/layout_util.c:1338
-#, fuzzy
 msgid "Zoom 1:1"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση 1:1"
 
 #: ../src/layout_util.c:1339 ../src/layout_util.c:1340
 #: ../src/layout_util.c:1355 ../src/layout_util.c:1356
@@ -2581,9 +2496,8 @@ msgid "_Zoom to fit"
 msgstr "Εστίαση ώστε να _χωράει"
 
 #: ../src/layout_util.c:1339 ../src/layout_util.c:1340
-#, fuzzy
 msgid "Zoom to fit"
-msgstr "Εστίαση ώστε να _χωράει"
+msgstr "Εστίαση ώστε να χωράει"
 
 #: ../src/layout_util.c:1341 ../src/layout_util.c:1357
 msgid "Fit _Horizontally"
@@ -2602,49 +2516,40 @@ msgid "Fit Vertically"
 msgstr ""
 
 #: ../src/layout_util.c:1343 ../src/layout_util.c:1359
-#, fuzzy
 msgid "Zoom _2:1"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση _2:1"
 
 #: ../src/layout_util.c:1343
-#, fuzzy
 msgid "Zoom 2:1"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση 2:1"
 
 #: ../src/layout_util.c:1344 ../src/layout_util.c:1360
-#, fuzzy
 msgid "Zoom _3:1"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση _3:1"
 
 #: ../src/layout_util.c:1344
-#, fuzzy
 msgid "Zoom 3:1"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση 3:1"
 
 #: ../src/layout_util.c:1345 ../src/layout_util.c:1361
-#, fuzzy
 msgid "Zoom _4:1"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση _4:1"
 
 #: ../src/layout_util.c:1345
-#, fuzzy
 msgid "Zoom 4:1"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση 4:1"
 
 #: ../src/layout_util.c:1346 ../src/layout_util.c:1362
-#, fuzzy
 msgid "Zoom 1:2"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση 1:2"
 
 #: ../src/layout_util.c:1347 ../src/layout_util.c:1363
-#, fuzzy
 msgid "Zoom 1:3"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση 1:3"
 
 #: ../src/layout_util.c:1348 ../src/layout_util.c:1364
-#, fuzzy
 msgid "Zoom 1:4"
-msgstr "Εστίαση _1:1"
+msgstr "Εστίαση 1:4"
 
 #: ../src/layout_util.c:1349 ../src/layout_util.c:1350
 msgid "Connected Zoom in"
@@ -2708,9 +2613,8 @@ msgid "_View in new window"
 msgstr "_Προβολή σε νέο παράθυρο"
 
 #: ../src/layout_util.c:1365
-#, fuzzy
 msgid "View in new window"
-msgstr "Προβολή σε _νέο παράθυρο"
+msgstr "Προβολή σε νέο παράθυρο"
 
 #: ../src/layout_util.c:1366 ../src/layout_util.c:1367
 #: ../src/layout_util.c:1368
@@ -2718,14 +2622,12 @@ msgid "F_ull screen"
 msgstr "Π_λήρης οθόνη"
 
 #: ../src/layout_util.c:1369 ../src/layout_util.c:1370
-#, fuzzy
 msgid "_Leave full screen"
-msgstr "Πλήρης οθόνη GQview"
+msgstr "Έξοδος από την π_λήρη οθόνη"
 
 #: ../src/layout_util.c:1369 ../src/layout_util.c:1370
-#, fuzzy
 msgid "Leave full screen"
-msgstr "Πλήρης οθόνη GQview"
+msgstr "Έξοδος από την πλήρη οθόνη"
 
 #: ../src/layout_util.c:1371
 msgid "_Cycle through overlay modes"
@@ -2753,19 +2655,17 @@ msgstr ""
 
 #: ../src/layout_util.c:1374
 msgid "_Hide file list"
-msgstr "_Απόκρυψη της λίστας αρχείων"
+msgstr "_Απόκρυψη του κατάστιχου των αρχείων"
 
 #: ../src/layout_util.c:1374
-#, fuzzy
 msgid "Hide file list"
-msgstr "Κρύψιμο της _λίστας αρχείων"
+msgstr "Κρύψιμο του κατάστιχου των αρχείων"
 
 #: ../src/layout_util.c:1375
 msgid "_Pause slideshow"
 msgstr "_Παύση της συνεχόμενης προβολής των εικόνων"
 
 #: ../src/layout_util.c:1375
-#, fuzzy
 msgid "Pause slideshow"
 msgstr "Παύση της συνεχόμενης προβολής των εικόνων"
 
@@ -2774,54 +2674,48 @@ msgid "_Refresh"
 msgstr "_Ανανέωση"
 
 #: ../src/layout_util.c:1376
-#, fuzzy
 msgid "Refresh"
-msgstr "_Ανανέωση"
+msgstr "Ανανέωση"
 
 #: ../src/layout_util.c:1377
 msgid "_Contents"
 msgstr "_Περιεχόμενα"
 
 #: ../src/layout_util.c:1377
-#, fuzzy
 msgid "Contents"
-msgstr "Περιεχόμενα:"
+msgstr "Περιεχόμενα"
 
 #: ../src/layout_util.c:1378
 msgid "_Keyboard shortcuts"
 msgstr "Συντομεύσεις _πληκτρολογίου"
 
 #: ../src/layout_util.c:1378
-#, fuzzy
 msgid "Keyboard shortcuts"
-msgstr "Συντομεύσεις _πληκτρολογίου"
+msgstr "Συντομεύσεις πληκτρολογίου"
 
 #: ../src/layout_util.c:1379
 msgid "_Release notes"
 msgstr "Σημειώσεις _έκδοσης"
 
 #: ../src/layout_util.c:1379
-#, fuzzy
 msgid "Release notes"
-msgstr "Σημειώσεις _έκδοσης"
+msgstr "Σημειώσεις έκδοσης"
 
 #: ../src/layout_util.c:1380
 msgid "_About"
 msgstr "Σ_χετικά με"
 
 #: ../src/layout_util.c:1380 ../src/preferences.c:2328
-#, fuzzy
 msgid "About"
-msgstr "Σ_χετικά με"
+msgstr "Σχετικά με"
 
 #: ../src/layout_util.c:1381
 msgid "_Log Window"
 msgstr "_Παράθυρο Καταγραφών"
 
 #: ../src/layout_util.c:1381
-#, fuzzy
 msgid "Log Window"
-msgstr "Παράθυρα"
+msgstr "Παράθυρο Καταγραφών"
 
 #: ../src/layout_util.c:1382
 msgid "_Exif window"
@@ -2830,7 +2724,7 @@ msgstr "_Παράθυρο πληροφοριών Exif"
 #: ../src/layout_util.c:1382
 #, fuzzy
 msgid "Exif window"
-msgstr "Νέο _παράθυρο"
+msgstr "Παράθυρο των Exif"
 
 #: ../src/layout_util.c:1383
 msgid "_Cycle through stereo modes"
@@ -2841,14 +2735,12 @@ msgid "Cycle through stereo modes"
 msgstr ""
 
 #: ../src/layout_util.c:1388
-#, fuzzy
 msgid "Show _Thumbnails"
-msgstr "Προβολή _μικρογραφιών"
+msgstr "Προβολή των _Μικρογραφιών"
 
 #: ../src/layout_util.c:1388
-#, fuzzy
 msgid "Show Thumbnails"
-msgstr "Προβολή μικρογραφιών "
+msgstr "Προβολή  των μικρογραφιών"
 
 #: ../src/layout_util.c:1389
 #, fuzzy
@@ -2873,18 +2765,16 @@ msgid "_Float file list"
 msgstr "Επι_πλέουσα λίστα αρχείων"
 
 #: ../src/layout_util.c:1391
-#, fuzzy
 msgid "Float file list"
-msgstr "Επι_πλέουσα λίστα αρχείων"
+msgstr "Επιπλέον κατάστιχο αρχείων"
 
 #: ../src/layout_util.c:1392
 msgid "Hide tool_bar"
 msgstr "Απόκρυψη της γραμμής ε_ργαλείων"
 
 #: ../src/layout_util.c:1392
-#, fuzzy
 msgid "Hide toolbar"
-msgstr "Απόκρυψη της γραμμής ε_ργαλείων"
+msgstr "Απόκρυψη της γραμμής εργαλείων"
 
 #: ../src/layout_util.c:1393
 msgid "_Info sidebar"
@@ -2899,18 +2789,16 @@ msgid "Sort _manager"
 msgstr "Διαχειριστής _ταξινόμησης"
 
 #: ../src/layout_util.c:1394
-#, fuzzy
 msgid "Sort manager"
-msgstr "Διαχειριστής Ταξινόμησης"
+msgstr "Διαχειριστής ταξινόμησης"
 
 #: ../src/layout_util.c:1395
 msgid "Toggle _slideshow"
 msgstr "Ενα_λλαγή της συνεχόμενης προβολής των εικόνων"
 
 #: ../src/layout_util.c:1395
-#, fuzzy
 msgid "Toggle slideshow"
-msgstr "Ενα_λλαγή της συνεχόμενης προβολής των εικόνων"
+msgstr "Εναλλαγή της συνεχόμενης προβολής των εικόνων"
 
 #: ../src/layout_util.c:1396
 msgid "Use _color profiles"
@@ -2954,14 +2842,12 @@ msgid "Show Histogram"
 msgstr ""
 
 #: ../src/layout_util.c:1404
-#, fuzzy
 msgid "Image _List"
-msgstr "Αρχείο εικόνας"
+msgstr "Κατάστιχο _Εικόνων"
 
 #: ../src/layout_util.c:1404
-#, fuzzy
 msgid "View Images as List"
-msgstr "Προβολή ως ε_ικονίδια"
+msgstr "Προβολή των Εικόνων ως Κατάστιχο"
 
 #: ../src/layout_util.c:1405
 msgid "I_cons"
@@ -2978,9 +2864,8 @@ msgid "Folder Li_st"
 msgstr "Ο φάκελος υπάρχει"
 
 #: ../src/layout_util.c:1409
-#, fuzzy
 msgid "View Folders as List"
-msgstr "Ο φάκελος υπάρχει"
+msgstr "Προβολή του Φάκελου ως Κατάστιχο"
 
 #: ../src/layout_util.c:1410
 #, fuzzy
@@ -5078,7 +4963,7 @@ msgstr ""
 
 #: ../src/remote.c:727
 msgid "Remote command list:\n"
-msgstr ""
+msgstr "Κατάστιχο απομακρυσμένης εντολής:\n"
 
 #: ../src/remote.c:746
 msgid ""
@@ -5774,7 +5659,7 @@ msgstr ""
 #: ../src/utilops.c:2471 ../src/utilops.c:2528
 #, c-format
 msgid "Unable to list contents of folder %s"
-msgstr "Αδυναμία καταλογισμού των περιεχομένων του φακέλου %s"
+msgstr "Αδυναμία καταστίχισης των περιεχομένων του φακέλου %s"
 
 #: ../src/utilops.c:2485 ../src/utilops.c:2493
 msgid "Folder contains subfolders"
@@ -5867,9 +5752,8 @@ msgid "_New folder..."
 msgstr "_Νέος φάκελος..."
 
 #: ../src/view_dir.c:676 ../src/view_file.c:619
-#, fuzzy
 msgid "View as _List"
-msgstr "Προβολή ως ε_ικονίδια"
+msgstr "Προβολή ως _Κατάστιχο"
 
 #: ../src/view_dir.c:679
 #, fuzzy
