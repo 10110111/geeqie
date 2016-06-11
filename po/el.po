@@ -4,9 +4,9 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-06-03 22:31+0300\n"
+"PO-Revision-Date: 2016-06-11 20:27+0300\n"
 "Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
-"Language-Team: Greek <mageia-gr.org>\n"
+"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../geeqie.desktop.in.h:1
 msgid "Geeqie"
-msgstr ""
+msgstr "Τζήκιυ"
 
 #: ../geeqie.desktop.in.h:2
 msgid "Image Viewer"
@@ -28,7 +28,7 @@ msgstr "Προβολή και διαχείριση εικόνων"
 
 #: ../plugins/import/geeqie-import-geeqie.desktop.in.h:1
 msgid "Import Geeqie 1.0alphaX metadata"
-msgstr "Εισαγωγή μεταδεδομένων του Geeqie 1.0alphaX"
+msgstr "Εισαγωγή μεταδεδομένων του Τζήκιυ 1.0alphaX"
 
 #: ../plugins/import/geeqie-import-gqview.desktop.in.h:1
 msgid "Import GQView metadata"
@@ -170,7 +170,7 @@ msgstr "Πλήκτρο:"
 
 #: ../src/bar_exif.c:566
 msgid "Title:"
-msgstr "Τίτλος"
+msgstr "Τίτλος:"
 
 #: ../src/bar_exif.c:575
 msgid "Show only if set"
@@ -651,11 +651,9 @@ msgid "Collection Files"
 msgstr "Αρχεία συλλογής"
 
 #: ../src/collect-io.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open collection (write) \"%s\"\n"
-msgstr ""
-"Αποτυχία αποθήκευσης της συλλογής:\n"
-"%s"
+msgstr "αδυναμία ανοίγματος της συλλογής (εγγραφή) \"%s\"\n"
 
 #: ../src/collect-io.c:373
 #, c-format
@@ -672,7 +670,7 @@ msgid "%s, %d images (%s, %d)"
 msgstr "%s, %d εικόνες (%s, %d)"
 
 #: ../src/collect-table.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "%s, %d images"
 msgstr "%s, %d εικόνες"
 
@@ -703,14 +701,12 @@ msgid "Rem_ove"
 msgstr "Αφαί_ρεση"
 
 #: ../src/collect-table.c:876
-#, fuzzy
 msgid "Append from file list"
-msgstr "Ανανέωση της λίστας αρχείων"
+msgstr "Προσκόλληση από το κατάστιχο των αρχείων"
 
 #: ../src/collect-table.c:878
-#, fuzzy
 msgid "Append from collection..."
-msgstr "Προσθήκη συλλογής"
+msgstr "Προσκόλληση από συλλογή..."
 
 #: ../src/collect-table.c:882
 msgid "_Selection"
@@ -2722,9 +2718,8 @@ msgid "_Exif window"
 msgstr "_Παράθυρο πληροφοριών Exif"
 
 #: ../src/layout_util.c:1382
-#, fuzzy
 msgid "Exif window"
-msgstr "Παράθυρο των Exif"
+msgstr "Παράθυρο των πληροφοριών Exif"
 
 #: ../src/layout_util.c:1383
 msgid "_Cycle through stereo modes"
@@ -2819,14 +2814,12 @@ msgid "Use profile from image"
 msgstr "Χρήση προφίλ από την _εικόνα"
 
 #: ../src/layout_util.c:1398
-#, fuzzy
 msgid "Toggle _grayscale"
-msgstr "Αποχρώσεις του _γκρι"
+msgstr "Εναλλαγή της απόχρωσης του _γκρίζου"
 
 #: ../src/layout_util.c:1398
-#, fuzzy
 msgid "Toggle grayscale"
-msgstr "Αποχρώσεις του _γκρι"
+msgstr "Εναλλαγή της απόχρωσης του _γκρίζου"
 
 #: ../src/layout_util.c:1399
 #, fuzzy
@@ -2854,28 +2847,24 @@ msgid "I_cons"
 msgstr "Ει_κονίδια"
 
 #: ../src/layout_util.c:1405
-#, fuzzy
 msgid "View Images as Icons"
-msgstr "Προβολή ως ε_ικονίδια"
+msgstr "Προβολή των Εικόνων ως Μικρογραφίες"
 
 #: ../src/layout_util.c:1409
-#, fuzzy
 msgid "Folder Li_st"
-msgstr "Ο φάκελος υπάρχει"
+msgstr "Κατά_στιχο Φακέλων"
 
 #: ../src/layout_util.c:1409
 msgid "View Folders as List"
 msgstr "Προβολή του Φάκελου ως Κατάστιχο"
 
 #: ../src/layout_util.c:1410
-#, fuzzy
 msgid "Folder T_ree"
-msgstr "Ο φάκελος υπάρχει"
+msgstr "Δέντ_ρο Φακέλων"
 
 #: ../src/layout_util.c:1410
-#, fuzzy
 msgid "View Folders as Tree"
-msgstr "Προβολή ως _δέντρο"
+msgstr "Προβολή των Φακέλων ως Δέντρο"
 
 #: ../src/layout_util.c:1414
 msgid "_Horizontal"
@@ -2910,14 +2899,12 @@ msgid "Split Single"
 msgstr ""
 
 #: ../src/layout_util.c:1421
-#, fuzzy
 msgid "Input _0: sRGB"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή _0: sRGB"
 
 #: ../src/layout_util.c:1421
-#, fuzzy
 msgid "Input 0: sRGB"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή 0: sRGB"
 
 #: ../src/layout_util.c:1422
 msgid "Input _1: AdobeRGB compatible"
@@ -2928,44 +2915,36 @@ msgid "Input 1: AdobeRGB compatible"
 msgstr ""
 
 #: ../src/layout_util.c:1423
-#, fuzzy
 msgid "Input _2"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή _2"
 
 #: ../src/layout_util.c:1423
-#, fuzzy
 msgid "Input 2"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή 2"
 
 #: ../src/layout_util.c:1424
-#, fuzzy
 msgid "Input _3"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή _3"
 
 #: ../src/layout_util.c:1424
-#, fuzzy
 msgid "Input 3"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή 3"
 
 #: ../src/layout_util.c:1425
-#, fuzzy
 msgid "Input _4"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή _4"
 
 #: ../src/layout_util.c:1425
-#, fuzzy
 msgid "Input 4"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή 4"
 
 #: ../src/layout_util.c:1426
-#, fuzzy
 msgid "Input _5"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή _5"
 
 #: ../src/layout_util.c:1426
-#, fuzzy
 msgid "Input 5"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή 5"
 
 #: ../src/layout_util.c:1430
 msgid "Histogram on Red"
@@ -3146,9 +3125,9 @@ msgid "Color profiles not supported"
 msgstr "Δεν υποστηρίζονται τα προφίλ χρωμάτων"
 
 #: ../src/layout_util.c:2215
-#, fuzzy, c-format
+#, c-format
 msgid "Input _%d: %s"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή _%d: %s"
 
 #. something went badly wrong
 #: ../src/lirc.c:197
@@ -3169,12 +3148,12 @@ msgid "Log"
 msgstr ""
 
 #: ../src/main.c:321
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
 "\n"
 msgstr ""
-"Χρήση: gqview [επιλογές] [διαδρομή]\n"
+"Χρήση: %s [επιλογές] [διαδρομή]\n"
 "\n"
 
 #: ../src/main.c:322
@@ -3182,83 +3161,73 @@ msgid "valid options are:\n"
 msgstr "οι έγκυρες επιλογές είναι:\n"
 
 #: ../src/main.c:323
-#, fuzzy
 msgid "  +t, --with-tools                 force show of tools\n"
-msgstr "  +t, --with-tools           εξαναγκαστική προβολή των εργαλείων\n"
+msgstr ""
+"  +t, --with-tools                 εξαναγκαστική προβολή των εργαλείων\n"
 
 #: ../src/main.c:324
-#, fuzzy
 msgid "  -t, --without-tools              force hide of tools\n"
-msgstr "  -t, --without-tools        εξαναγκαστική απόκρυψη των εργαλείων\n"
+msgstr ""
+"  -t, --without-tools             εξαναγκαστική απόκρυψη των εργαλείων\n"
 
 #: ../src/main.c:325
-#, fuzzy
 msgid "  -f, --fullscreen                 start in full screen mode\n"
 msgstr ""
-"  -f, --fullscreen           εκκίνηση σε κατάσταση λειτουργίας πλήρης "
+"  -f, --fullscreen                εκκίνηση σε κατάσταση λειτουργίας πλήρης "
 "οθόνης\n"
 
 #: ../src/main.c:326
-#, fuzzy
 msgid "  -s, --slideshow                  start in slideshow mode\n"
 msgstr ""
-"  -s, --slideshow            εκκίνηση σε κατάσταση λειτουργίας συνεχόμενης "
-"προβολής εικόνων\n"
+"  -s, --slideshow                 εκκίνηση σε κατάσταση λειτουργίας "
+"συνεχόμενης προβολής των εικόνων\n"
 
 #: ../src/main.c:327
-#, fuzzy
 msgid ""
 "  -l, --list [files] [collections] open collection window for command line\n"
 msgstr ""
-"  -l, --list                 άνοιγμα του παράθυρου συλλογής, για τη γραμμή "
-"εντολών\n"
+"  -l, --list [αρχεία] [συλλογές]      άνοιγμα του παράθυρου συλλογής, για τη "
+"γραμμή εντολών\n"
 
 #: ../src/main.c:328
-#, fuzzy
 msgid "      --blank                      start with blank file list\n"
 msgstr ""
-"  --debug                    ενεργοποίηση του αποτελέσματος εξόδου της "
-"απασφαλμάτωσης\n"
+"      --blank                      εκκίνηση με κενό κατάστιχο των αρχείων\n"
 
 #: ../src/main.c:329
-#, fuzzy
 msgid "      --geometry=XxY+XOFF+YOFF     set main window location\n"
-msgstr "      --geometry=ΓΕΩΜΕΤΡΙΑ    ορισμός της θέσης του κύριου παράθυρου\n"
+msgstr ""
+"      --geometry=XxY+XOFF+YOFF    ορισμός της θέσης του κύριου παράθυρου\n"
 
 #: ../src/main.c:330
-#, fuzzy
 msgid ""
 "  -r, --remote                     send following commands to open window\n"
 msgstr ""
-"  -r, --remote               αποστολή των εντολών που ακολουθούν, στο "
+"  -r, --remote                    αποστολή των εντολών που ακολουθούν, στο "
 "ανοιχτό παράθυρο\n"
 
 #: ../src/main.c:331
-#, fuzzy
 msgid "  -rh,--remote-help                print remote command list\n"
 msgstr ""
-"  -rh,--remote-help          εκτύπωση του καταλόγου με τις «απομακρυσμένες» "
-"εντολές\n"
+"  -rh,--remote-help                εκτύπωση του κατάστιχου με τις "
+"απομακρυσμένες εντολές\n"
 
 #: ../src/main.c:333
-#, fuzzy
 msgid "      --debug[=level]              turn on debug output\n"
 msgstr ""
-"  --debug                    ενεργοποίηση του αποτελέσματος εξόδου της "
-"απασφαλμάτωσης\n"
+"      --debug[=επίπεδο]         ενεργοποίηση του αποτελέσματος εξόδου της "
+"αποσφαλμάτωσης\n"
 
 #: ../src/main.c:335
-#, fuzzy
 msgid "  -v, --version                    print version info\n"
-msgstr "  -v, --version              εκτύπωση των πληροφοριών έκδοσης\n"
+msgstr "  -v, --version                    εκτύπωση των πληροφοριών έκδοσης\n"
 
 #: ../src/main.c:336
-#, fuzzy
 msgid ""
 "  -h, --help                       show this message\n"
 "\n"
 msgstr ""
-"  -h, --help                 εμφάνιση του παρόντος μηνύματος\n"
+"  -h, --help                      εμφάνιση του παρόντος μηνύματος\n"
 "\n"
 
 #: ../src/main.c:349
@@ -3271,11 +3240,8 @@ msgstr ""
 "Χρησιμοποίησε την εντολή --help για να δεις τις επιλογές\n"
 
 #: ../src/main.c:378
-#, fuzzy
 msgid "Invalid or ignored remote options: "
-msgstr ""
-"ή άκυρο, ή παραλείπεται: %s\n"
-"Χρησιμοποίησε την εντολή --help για να δεις τις επιλογές\n"
+msgstr "Άκυρες, ή που θα αγνοηθούν, απομακρυσμένες επιλογές: "
 
 #: ../src/main.c:387
 msgid ""
@@ -3286,7 +3252,7 @@ msgstr ""
 #: ../src/main.c:489
 #, fuzzy, c-format
 msgid "Creating %s dir:%s\n"
-msgstr "Δημιουργίας του καταλόγου του GQview:%s\n"
+msgstr "Δημιουργία %s dir:%s\n"
 
 #: ../src/main.c:493
 #, c-format
@@ -3312,9 +3278,9 @@ msgid "exit"
 msgstr "έξοδος"
 
 #: ../src/main.c:677
-#, fuzzy, c-format
+#, c-format
 msgid "Quit %s"
-msgstr "_Τερματισμός"
+msgstr "Τερματισμός %s"
 
 #: ../src/main.c:679
 msgid "Collections have been modified. Quit anyway?"
@@ -3333,14 +3299,12 @@ msgid "Sort by date"
 msgstr "Ταξινόμηση κατά ημερομηνία"
 
 #: ../src/menu.c:139
-#, fuzzy
 msgid "Sort by file creation date"
-msgstr "Ταξινόμηση κατά τις πληροφορίες Exif"
+msgstr "Ταξινόμηση κατά την ημερομηνία δημιουργίας του αρχείου"
 
 #: ../src/menu.c:142
-#, fuzzy
 msgid "Sort by Exif-date"
-msgstr "Ταξινόμηση κατά τις πληροφορίες Exif"
+msgstr "Ταξινόμηση κατά την ημερομηνία-Exif"
 
 #: ../src/menu.c:145
 msgid "Unsorted"
@@ -3383,14 +3347,12 @@ msgid "Children"
 msgstr ""
 
 #: ../src/metadata.c:1603
-#, fuzzy
 msgid "Sport"
-msgstr "πορτραίτο"
+msgstr "Αθλήματα"
 
 #: ../src/metadata.c:1604
-#, fuzzy
 msgid "Culture"
-msgstr "Φύση"
+msgstr "Πολιτισμός"
 
 #: ../src/metadata.c:1605
 msgid "Festival"
@@ -3421,18 +3383,16 @@ msgid "Wildlife"
 msgstr ""
 
 #: ../src/metadata.c:1612
-#, fuzzy
 msgid "Zoo"
-msgstr "Εστίαση"
+msgstr "Ζωολογικός"
 
 #: ../src/metadata.c:1613
 msgid "Plant"
 msgstr ""
 
 #: ../src/metadata.c:1614
-#, fuzzy
 msgid "Tree"
-msgstr "Ανάπτυξη των φακέλων σε προβολή δένδρου"
+msgstr "Δένδρο"
 
 #: ../src/metadata.c:1615
 msgid "Flower"
@@ -3451,9 +3411,8 @@ msgid "Lake"
 msgstr ""
 
 #: ../src/metadata.c:1619
-#, fuzzy
 msgid "Sea"
-msgstr "Αναζήτηση:"
+msgstr "Θάλασσα"
 
 #: ../src/metadata.c:1620 ../src/print.c:375
 msgid "Landscape"
@@ -3464,14 +3423,12 @@ msgid "Art"
 msgstr "Τέχνη"
 
 #: ../src/metadata.c:1622
-#, fuzzy
 msgid "Statue"
-msgstr "Κατάσταση"
+msgstr "Άγαλμα"
 
 #: ../src/metadata.c:1623
-#, fuzzy
 msgid "Painting"
-msgstr "Σφάλμα εκτύπωσης"
+msgstr "Ζωγραφική"
 
 #: ../src/metadata.c:1624 ../src/metadata.c:1638
 msgid "Historic"
@@ -3498,9 +3455,8 @@ msgid "Square"
 msgstr ""
 
 #: ../src/metadata.c:1630
-#, fuzzy
 msgid "Architecture"
-msgstr "Οπή"
+msgstr "Αρχιτεκτονική"
 
 #: ../src/metadata.c:1631
 msgid "Buildings"
@@ -3515,9 +3471,8 @@ msgid "Cathedral"
 msgstr ""
 
 #: ../src/metadata.c:1634
-#, fuzzy
 msgid "Palace"
-msgstr "Τοποθεσίες"
+msgstr "Παλάτι"
 
 #: ../src/metadata.c:1635
 msgid "Castle"
@@ -3536,33 +3491,28 @@ msgid "Places"
 msgstr "Τοποθεσίες"
 
 #: ../src/metadata.c:1641
-#, fuzzy
 msgid "Conditions"
-msgstr "Συλλογές"
+msgstr "Συνθήκες"
 
 #: ../src/metadata.c:1642
-#, fuzzy
 msgid "Night"
-msgstr "Ύψος"
+msgstr "Νύχτα"
 
 #: ../src/metadata.c:1643
-#, fuzzy
 msgid "Lights"
-msgstr "Πηγή φωτός"
+msgstr "Φώτα"
 
 #: ../src/metadata.c:1644
-#, fuzzy
 msgid "Reflections"
-msgstr "Επιλογή"
+msgstr "Αντανακλάσεις"
 
 #: ../src/metadata.c:1645
 msgid "Sun"
 msgstr ""
 
 #: ../src/metadata.c:1646
-#, fuzzy
 msgid "Weather"
-msgstr "άλλο"
+msgstr "Καιρός"
 
 #: ../src/metadata.c:1647
 msgid "Fog"
@@ -3585,19 +3535,16 @@ msgid "Sunny weather"
 msgstr ""
 
 #: ../src/metadata.c:1652
-#, fuzzy
 msgid "Photo"
-msgstr "Φωτογραφία 6x4"
+msgstr "Φωτογραφία"
 
 #: ../src/metadata.c:1653
-#, fuzzy
 msgid "Edited"
-msgstr "_Επεξεργασία"
+msgstr "Επεξεργάστηκε"
 
 #: ../src/metadata.c:1654
-#, fuzzy
 msgid "Detail"
-msgstr "Λεπτομέρειες"
+msgstr "Λεπτομέρεια"
 
 #: ../src/metadata.c:1655
 msgid "Macro"
@@ -3683,7 +3630,6 @@ msgid "The entered path is not a folder"
 msgstr "Η εισηγμένη διαδρομή δεν είναι φάκελος"
 
 #: ../src/pan-view.c:2167
-#, fuzzy
 msgid "Pan View"
 msgstr "Πανόψη"
 
@@ -3696,9 +3642,8 @@ msgid "Calendar"
 msgstr "Ημερολόγιο"
 
 #: ../src/pan-view.c:2195
-#, fuzzy
 msgid "Folders (flower)"
-msgstr "Φάκελοι"
+msgstr "Φάκελοι (λουλούδι)"
 
 #: ../src/pan-view.c:2196
 msgid "Grid"
@@ -3803,14 +3748,12 @@ msgid "_Full size"
 msgstr "_Πλήρες μέγεθος"
 
 #: ../src/preferences.c:91
-#, fuzzy
 msgid "Unknown"
-msgstr "άγνωστο"
+msgstr "Άγνωστος"
 
 #: ../src/preferences.c:93
-#, fuzzy
 msgid "RAW Image"
-msgstr "Εικόνα"
+msgstr "Ωμή Εικόνα (RAW)"
 
 #: ../src/preferences.c:446
 msgid "Nearest (worst, but fastest)"
@@ -3833,9 +3776,8 @@ msgid "Custom"
 msgstr "Προσαρμοσμένο"
 
 #: ../src/preferences.c:600
-#, fuzzy
 msgid "Single image"
-msgstr "επόμενη εικόνα"
+msgstr "Μονή εικόνα"
 
 #: ../src/preferences.c:602
 msgid "Anaglyph Red-Cyan"
@@ -3882,9 +3824,8 @@ msgid "Side by Side Half size"
 msgstr ""
 
 #: ../src/preferences.c:629
-#, fuzzy
 msgid "Top - Bottom"
-msgstr "Κάτω:"
+msgstr "Κορυφή - Πάτος"
 
 #: ../src/preferences.c:630
 msgid "Top - Bottom Half size"
@@ -4002,10 +3943,9 @@ msgid "Allow enlargement of image for zoom to fit"
 msgstr "Να επιτρέπεται η μεγέθυνση της εικόνας, ώστε η εστίαση να ταιριάζει"
 
 #: ../src/preferences.c:1394
-#, fuzzy
 msgid "Limit image size when autofitting (%):"
 msgstr ""
-"Περιορισμός του μεγέθους, όταν γίνεται αυτόματη μεγέθυνση του παραθύρου (%):"
+"Περιορισμός του μέγεθους της εικόνας, όταν γίνεται αυτόματη προσαρμογή (%):"
 
 #: ../src/preferences.c:1402
 msgid "Zoom increment:"
@@ -4164,9 +4104,8 @@ msgid "Case sensitive sort"
 msgstr "Ταξινόμηση με διάκριση πεζών/κεφαλαίων"
 
 #: ../src/preferences.c:1612
-#, fuzzy
 msgid "Disable file extension checks"
-msgstr "Απενεργοποίηση της Διαλογής των Αρχείων"
+msgstr "Απενεργοποίηση των ελέγχων της επέκτασης των αρχείων"
 
 #: ../src/preferences.c:1615
 msgid "Disable File Filtering"
@@ -4203,6 +4142,8 @@ msgstr ""
 #: ../src/preferences.c:1759
 msgid "Warning: Geeqie is built without Exiv2. Some options are disabled."
 msgstr ""
+"Προειδοποίηση: το Τζήκιυ έχει συντεθεί χωρίς το Exiv2. Κάποιες επιλογές είναι "
+"απενεργοποιημένες."
 
 #: ../src/preferences.c:1761
 msgid ""
@@ -4224,7 +4165,7 @@ msgstr ""
 #: ../src/preferences.c:1773
 #, c-format
 msgid "3) Save metadata in Geeqie private directory '%s'"
-msgstr ""
+msgstr "3) Αποθήκευση των μεταδεδομένων στο ιδιωτικό κατάλογο του Τζήκιυ '%s'"
 
 #: ../src/preferences.c:1779
 msgid "Step 1: Write to image files"
@@ -4241,13 +4182,12 @@ msgid "Warn if the image files are unwritable"
 msgstr ""
 
 #: ../src/preferences.c:1793
-#, fuzzy
 msgid "Ask before writing to image files"
-msgstr "Αποτυχία εγγραφής στο αρχείο %s"
+msgstr "Ερώτηση πριν την εγγραφή στα αρχεία των εικόνων"
 
 #: ../src/preferences.c:1796
 msgid "Step 2 and 3: write to Geeqie private files"
-msgstr ""
+msgstr "Βήμα 2 και 3: εγγραφή στα ιδιωτικά αρχεία του Τζήκιυ"
 
 #: ../src/preferences.c:1801
 msgid ""
@@ -4286,18 +4226,16 @@ msgid "Timeout (seconds):"
 msgstr ""
 
 #: ../src/preferences.c:1829
-#, fuzzy
 msgid "Write metadata on image change"
-msgstr "Καθυστέρηση ανάμεσα στην αλλαγή των εικόνων:"
+msgstr "Εγγραφή των μεταδεδομένων κατά την αλλαγή της εικόνας"
 
 #: ../src/preferences.c:1832
 msgid "Write metadata on directory change"
 msgstr ""
 
 #: ../src/preferences.c:1846
-#, fuzzy
 msgid "Color management"
-msgstr "Διαχειριστής _ταξινόμησης"
+msgstr "Διαχειριστής χρωμάτων"
 
 #: ../src/preferences.c:1848
 #, fuzzy
@@ -4317,9 +4255,9 @@ msgid "File"
 msgstr "Αρχείο"
 
 #: ../src/preferences.c:1870
-#, fuzzy, c-format
+#, c-format
 msgid "Input %d:"
-msgstr "Εισαγωγή _%d:"
+msgstr "Εισαγωγή %d:"
 
 #: ../src/preferences.c:1886 ../src/preferences.c:1906
 msgid "Select color profile"
@@ -4376,7 +4314,7 @@ msgstr "Προβολή"
 
 #: ../src/preferences.c:1968
 msgid "Rectangular selection in icon view"
-msgstr "Τετράγωνη επιλογή στην προβολή ως εικονίδια"
+msgstr "Παραλληλόγραμμη επιλογή στην προβολή ως μικρογραφίες"
 
 #: ../src/preferences.c:1971
 msgid "Descend folders in tree view"
@@ -4392,7 +4330,7 @@ msgstr ""
 
 #: ../src/preferences.c:1980
 msgid "Drag'n drop icon size"
-msgstr ""
+msgstr "Αρπαγή και σύρσιμο του μέγεθους της μικρογραφίας"
 
 #: ../src/preferences.c:1983
 msgid "Navigation"
@@ -4407,9 +4345,8 @@ msgid "Mouse wheel scrolls image"
 msgstr "Η ρόδα του ποντικιού εναλλάσσει τις εικόνες"
 
 #: ../src/preferences.c:1990
-#, fuzzy
 msgid "Similarities"
-msgstr "Ομοιότητα"
+msgstr "Ομοιότητες"
 
 #: ../src/preferences.c:1992
 msgid "Custom similarity threshold:"
@@ -4428,32 +4365,28 @@ msgid "Debug level:"
 msgstr ""
 
 #: ../src/preferences.c:2018
-#, fuzzy
 msgid "Keyboard"
-msgstr "Χρήση ομαλής κύλισης πληκτρολογίου"
+msgstr "Πληκτρολόγιο"
 
 #: ../src/preferences.c:2020
 msgid "Accelerators"
 msgstr ""
 
 #: ../src/preferences.c:2039
-#, fuzzy
 msgid "Action"
-msgstr "ενέργεια"
+msgstr "Ενέργεια"
 
 #: ../src/preferences.c:2061
 msgid "KEY"
 msgstr ""
 
 #: ../src/preferences.c:2072
-#, fuzzy
 msgid "Tooltip"
-msgstr "Εργαλεία"
+msgstr "Επισήμανση"
 
 #: ../src/preferences.c:2103
-#, fuzzy
 msgid "Reset selected"
-msgstr "Επαναφορά των φίλτρων"
+msgstr "Επαναφορά της επιλογής"
 
 #: ../src/preferences.c:2119
 msgid "Stereo"
@@ -4464,24 +4397,20 @@ msgid "Windowed stereo mode"
 msgstr ""
 
 #: ../src/preferences.c:2128 ../src/preferences.c:2153
-#, fuzzy
 msgid "Mirror left image"
-msgstr "πρώτη εικόνα"
+msgstr "Καθρεφτισμός της αριστερής εικόνας"
 
 #: ../src/preferences.c:2131 ../src/preferences.c:2156
-#, fuzzy
 msgid "Flip left image"
-msgstr "τελευταία εικόνα"
+msgstr "Περιστροφή της αριστερής εικόνας"
 
 #: ../src/preferences.c:2134 ../src/preferences.c:2159
-#, fuzzy
 msgid "Mirror right image"
-msgstr "πρώτη εικόνα"
+msgstr "Καθρεφτισμός της δεξιάς εικόνας"
 
 #: ../src/preferences.c:2137 ../src/preferences.c:2162
-#, fuzzy
 msgid "Flip right image"
-msgstr "πρώτη εικόνα"
+msgstr "Περιστροφή της δεξιάς εικόνας"
 
 #: ../src/preferences.c:2139 ../src/preferences.c:2164
 msgid "Swap left and right images"
@@ -4501,32 +4430,27 @@ msgid "Use different settings for fullscreen"
 msgstr ""
 
 #: ../src/preferences.c:2175
-#, fuzzy
 msgid "Left X"
-msgstr "Αριστερά:"
+msgstr "Αριστερό Χ"
 
 #: ../src/preferences.c:2177
-#, fuzzy
 msgid "Left Y"
-msgstr "Αριστερά:"
+msgstr "Αριστερό Υ"
 
 #: ../src/preferences.c:2179
-#, fuzzy
 msgid "Right X"
-msgstr "Δεξιά:"
+msgstr "Δεξί Χ"
 
 #: ../src/preferences.c:2181
-#, fuzzy
 msgid "Right Y"
-msgstr "Δεξιά:"
+msgstr "Δεξί Υ"
 
 #: ../src/preferences.c:2197
-#, fuzzy
 msgid "Preferences"
-msgstr "Προτιμήσεις GQview"
+msgstr "Προτιμήσεις"
 
 #: ../src/preferences.c:2345
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s %s\n"
 "\n"
@@ -4537,12 +4461,13 @@ msgid ""
 "\n"
 "Released under the GNU General Public License"
 msgstr ""
-"GQview %s\n"
+"%s %s\n"
 "\n"
-"Copyright (c) %s John Ellis\n"
+"Copyright (c) 2006 Τζον Έλλις (John Ellis)\n"
+"Copyright (c) %s Η Ομάδα του Τζήκιυ\n"
 "ιστότοπος: %s\n"
 "ηλεκτρονικό ταχυδρομείο: %s\n"
-"ηλεκτρονικό ταχυδρομείο μετάφρασης: translators_team@mandrivalinux.gr\n"
+"\n"
 "Εκδίδεται υπό την GNU Γενική Δημόσια Άδεια"
 
 #: ../src/preferences.c:2364
@@ -4733,9 +4658,8 @@ msgid "Details"
 msgstr "Λεπτομέρειες"
 
 #: ../src/print.c:2587 ../src/print.c:3341
-#, fuzzy
 msgid "Print"
-msgstr "Εκτύπωση..."
+msgstr "Εκτύπωση"
 
 #: ../src/print.c:2591
 #, c-format
@@ -4923,10 +4847,10 @@ msgid "quit"
 msgstr "τερματισμός"
 
 #: ../src/remote.c:655 ../src/remote.c:656 ../src/remote.c:657
-#: ../src/remote.c:658 ../src/remote.c:659 ../src/remote.c:661
 #, fuzzy
+#: ../src/remote.c:658 ../src/remote.c:659 ../src/remote.c:661
 msgid "<FILE>"
-msgstr "Αρχείο:"
+msgstr ""
 
 #: ../src/remote.c:655
 msgid "load configuration from FILE"
@@ -4953,13 +4877,12 @@ msgid "clear command line collection list"
 msgstr ""
 
 #: ../src/remote.c:661
-#, fuzzy
 msgid "add FILE to command line collection list"
-msgstr "Προσθήκη σε νέα συλλογή"
+msgstr "προσθήκη του ΑΡΧΕΙΟΥ στο κατάστιχο συλλογής της γραμμής εντολών"
 
 #: ../src/remote.c:662
 msgid "bring the Geeqie window to the top"
-msgstr ""
+msgstr "μεταφορά του παράθυρου του Τζήκιυ στην κορυφή"
 
 #: ../src/remote.c:727
 msgid "Remote command list:\n"
@@ -5059,19 +4982,16 @@ msgid "File not found"
 msgstr "Το αρχείο δε βρέθηκε"
 
 #: ../src/search.c:2121
-#, fuzzy
 msgid "Please enter an existing file for image content."
-msgstr "Παρακαλώ επιλέξτε έναν υπάρχον φάκελο:"
+msgstr "Παρακαλώ επιλέξτε έναν υπάρχον αρχείο για περιεχόμενο εικόνας."
 
 #: ../src/search.c:2170
-#, fuzzy
 msgid "Please enter an existing folder to search."
-msgstr "Παρακαλώ επιλέξτε έναν υπάρχον φάκελο:"
+msgstr "Παρακαλώ επιλέξτε έναν υπάρχον φάκελο για αναζήτηση."
 
 #: ../src/search.c:2588
-#, fuzzy
 msgid "Image search"
-msgstr "Αναζήτηση εικόνας - GQview"
+msgstr "Αναζήτηση εικόνας"
 
 #: ../src/search.c:2618
 msgid "Search:"
@@ -5119,9 +5039,8 @@ msgid "Rank"
 msgstr "Κατάταξη"
 
 #: ../src/secure_save.c:397
-#, fuzzy
 msgid "Cannot read the file"
-msgstr "Αδυναμία δημιουργίας του φακέλου"
+msgstr "Αδυναμία ανάγνωσης του αρχείου"
 
 #: ../src/secure_save.c:399
 msgid "Cannot get file status"
@@ -5132,14 +5051,12 @@ msgid "Cannot access the file"
 msgstr ""
 
 #: ../src/secure_save.c:403
-#, fuzzy
 msgid "Cannot create temp file"
-msgstr "Αδυναμία δημιουργίας του φακέλου"
+msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
 #: ../src/secure_save.c:405
-#, fuzzy
 msgid "Cannot rename the file"
-msgstr "Αδυναμία δημιουργίας του φακέλου"
+msgstr "Αδυναμία μετονομασίας του αρχείου"
 
 #: ../src/secure_save.c:407
 msgid "File saving disabled by option"
@@ -5167,11 +5084,9 @@ msgid "Delete failed"
 msgstr "Αποτυχία της διαγραφής"
 
 #: ../src/trash.c:81
-#, fuzzy
 msgid "Unable to remove old file from trash folder"
 msgstr ""
-"Αδύνατη η πρόσβαση ή δημιουργία του καταλόγου των απορριμμάτων.\n"
-"\"%s\""
+"Αδυναμία απομάκρυνσης του παλιού αρχείου από τον φάκελο των απορριμμάτων"
 
 #: ../src/trash.c:138
 msgid "Could not create folder"
@@ -5204,11 +5119,13 @@ msgid " (max. %d MB)"
 msgstr ""
 
 #: ../src/trash.c:205
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Safe delete: %s%s\n"
 "Trash: %s"
-msgstr "Ασφαλής διαγραφή: %s"
+msgstr ""
+"Ασφαλής διαγραφή: %s%s\n"
+"Κάδος απορριμάτων: %s"
 
 #: ../src/trash.c:210
 #, c-format
@@ -5229,11 +5146,11 @@ msgstr "Διαδρομή:"
 
 #: ../src/ui_bookmark.c:306
 msgid "Icon:"
-msgstr "Εικονίδιο:"
+msgstr "Μικρογραφία:"
 
 #: ../src/ui_bookmark.c:312
 msgid "Select icon"
-msgstr "Επιλογή εικονιδίου"
+msgstr "Επιλογή μικρογραφίας"
 
 #: ../src/ui_bookmark.c:405
 msgid "_Properties..."
@@ -5411,38 +5328,33 @@ msgid "This operation can't continue:"
 msgstr ""
 
 #: ../src/utilops.c:1377 ../src/utilops.c:1490 ../src/utilops.c:1874
-#, fuzzy
 msgid "Discard changes"
-msgstr "Από_ρριψη"
+msgstr "Απόρριψη των αλλαγών"
 
 #: ../src/utilops.c:1378 ../src/utilops.c:1491 ../src/utilops.c:1824
 #: ../src/utilops.c:1840
-#, fuzzy
 msgid "File details"
-msgstr "Η ημερομηνία του αρχείου είναι"
+msgstr "Λεπτομέρειες του αρχείου"
 
 #: ../src/utilops.c:1400 ../src/utilops.c:1498
 msgid "Sidecars"
 msgstr ""
 
 #: ../src/utilops.c:1402
-#, fuzzy
 msgid "Write to file"
-msgstr "Αντικατάσταση αρχείου"
+msgstr "Εγγραφή στο αρχείο"
 
 #: ../src/utilops.c:1442
 msgid "Choose the destination folder."
 msgstr "Επέλεξε τον φάκελο προορισμού."
 
 #: ../src/utilops.c:1500
-#, fuzzy
 msgid "New name"
-msgstr "Νέο όνομα:"
+msgstr "Νέο όνομα"
 
 #: ../src/utilops.c:1530
-#, fuzzy
 msgid "Manual rename"
-msgstr "Ονομασία στο μενού"
+msgstr "Χειροκίνητη μετονομασία"
 
 #: ../src/utilops.c:1535
 msgid "Original name:"
@@ -5485,21 +5397,18 @@ msgid "Another operation in progress.\n"
 msgstr ""
 
 #: ../src/utilops.c:1783
-#, fuzzy, c-format
+#, c-format
 msgid "File: '%s'\n"
-msgstr ""
-"Αδυναμία αντιγραφής του αρχείου:\n"
-"%s\n"
-"στον εαυτό του."
+msgstr "Αρχείο: '%s'\n"
 
 #: ../src/utilops.c:1788
 msgid "with sidecar files:\n"
 msgstr ""
 
 #: ../src/utilops.c:1794
-#, fuzzy, c-format
+#, c-format
 msgid " '%s'\n"
-msgstr "με %s..."
+msgstr " '%s'\n"
 
 #: ../src/utilops.c:1798
 msgid ""
@@ -5512,9 +5421,8 @@ msgid "no problem detected"
 msgstr ""
 
 #: ../src/utilops.c:1826 ../src/utilops.c:1873
-#, fuzzy
 msgid "Exclude file"
-msgstr "εξαίρεση"
+msgstr "Εξαίρεση του αρχείου"
 
 #: ../src/utilops.c:1871 ../src/utilops.c:1896
 msgid "Overview of changed metadata"
@@ -5533,64 +5441,52 @@ msgid "The following metadata tags will be written to the image file itself."
 msgstr ""
 
 #: ../src/utilops.c:1999
-#, fuzzy
 msgid "Delete files?"
-msgstr "Διαγραφή αρχείων - GQview"
+msgstr "Διαγραφή των αρχείων;"
 
 #: ../src/utilops.c:2000
-#, fuzzy
 msgid "This will delete the following files"
-msgstr "Αυτό θα απομακρύνει τα περιεχόμενα του κάδου απορριμμάτων."
+msgstr "Αυτό θα διαγράψει τα ακόλουθα αρχεία"
 
 #: ../src/utilops.c:2019
 msgid "Can't write metadata"
 msgstr ""
 
 #: ../src/utilops.c:2042
-#, fuzzy
 msgid "Write metadata"
-msgstr "Μεταδεδομένα"
+msgstr "Εγγραφή μεταδεδομένων"
 
 #: ../src/utilops.c:2043
-#, fuzzy
 msgid "Write metadata?"
-msgstr "Μεταδεδομένα"
+msgstr "Εγγραφή μεταδεδομένων;"
 
 #: ../src/utilops.c:2044
-#, fuzzy
 msgid "This will write the changed metadata into the following files"
-msgstr ""
-"Αυτό θα επαναφέρει τις εντολές επεξεργασίας στις προεπιλεγμένες.\n"
-"Να συνεχίσω;"
+msgstr "Αυτό θα γράψει τα μεταδεδομένα στα ακόλουθα αρχεία"
 
 #: ../src/utilops.c:2046
 msgid "Metadata writing failed"
 msgstr ""
 
 #: ../src/utilops.c:2065 ../src/utilops.c:2092
-#, fuzzy
 msgid "Move failed"
-msgstr "Μετακίνηση αρχείου"
+msgstr "Αποτυχία μετακίνησης"
 
 #: ../src/utilops.c:2089
-#, fuzzy
 msgid "Move files?"
-msgstr "Μετακίνηση αρχείου"
+msgstr "Μετακίνηση των αρχείων;"
 
 #: ../src/utilops.c:2090
-#, fuzzy
 msgid "This will move the following files"
-msgstr "Αυτό θα απομακρύνει τα περιεχόμενα του κάδου απορριμμάτων."
+msgstr "Αυτό θα μετακινήσει τα ακόλουθα αρχεία"
 
 #: ../src/utilops.c:2114 ../src/utilops.c:2141
-#, fuzzy
 msgid "Copy failed"
-msgstr "Αντιγραφή αρχείου"
+msgstr "Αποτυχία αντιγραφής"
 
 #: ../src/utilops.c:2138
-#, fuzzy
 msgid "Copy files?"
-msgstr "Αντιγραφή αρχείου"
+msgstr "Αντιγραφή των αρχείων;"
 
 #: ../src/utilops.c:2139 ../src/utilops.c:2273
 msgid "This will copy the following files"
@@ -5601,42 +5497,36 @@ msgid "Rename"
 msgstr "Μετονομασία"
 
 #: ../src/utilops.c:2184
-#, fuzzy
 msgid "Rename files?"
-msgstr "Μετονομασία αρχείου"
+msgstr "Μετονομασία των αρχείων;"
 
 #: ../src/utilops.c:2185
-#, fuzzy
 msgid "This will rename the following files"
-msgstr "Αυτό θα απομακρύνει τα περιεχόμενα του κάδου απορριμμάτων."
+msgstr "Αυτό θα μετονομάσει τα ακόλουθα αρχεία"
 
 #: ../src/utilops.c:2237
 msgid "Can't run external editor"
 msgstr ""
 
 #: ../src/utilops.c:2271
-#, fuzzy
 msgid "Editor"
-msgstr "Επεξεργαστές"
+msgstr "Επεξεργαστής"
 
 #: ../src/utilops.c:2272
-#, fuzzy
 msgid "Run editor?"
-msgstr "Επαναφορά των επεξεργαστών"
+msgstr "Εκτέλεση του επεξεργαστή;"
 
 #: ../src/utilops.c:2275
-#, fuzzy
 msgid "External command failed"
-msgstr "Αποτυχία μετονομασίας"
+msgstr "Αποτυχία της εξωτερικής εντολής"
 
 #: ../src/utilops.c:2444 ../src/utilops.c:2517
 msgid "Delete folder"
 msgstr "Διαγραφή φακέλου"
 
 #: ../src/utilops.c:2445
-#, fuzzy
 msgid "Delete symbolic link?"
-msgstr "Διαγραφή του συμβολικού δεσμού προς το φάκελο;"
+msgstr "Διαγραφή του συμβολικού δεσμού;"
 
 #: ../src/utilops.c:2447
 msgid ""
@@ -5645,9 +5535,8 @@ msgid ""
 msgstr ""
 
 #: ../src/utilops.c:2449
-#, fuzzy
 msgid "Link deletion failed"
-msgstr "Η διαγραφή απέτυχε"
+msgstr "Αποτυχία διαγραφής του δεσμού"
 
 #: ../src/utilops.c:2459
 #, c-format
@@ -5684,9 +5573,8 @@ msgid "Delete folder?"
 msgstr "Διαγραφή του φακέλου;"
 
 #: ../src/utilops.c:2519
-#, fuzzy
 msgid "The folder contains these files:"
-msgstr "Ο φάκελος περιέχει υποφακέλους"
+msgstr "Ο φάκελος περιέχει τα εξής αρχεία:"
 
 #: ../src/utilops.c:2520
 msgid ""
@@ -5695,27 +5583,22 @@ msgid ""
 msgstr ""
 
 #: ../src/utilops.c:2650
-#, fuzzy
 msgid "Rename folder?"
-msgstr "Μετονομασία αρχείου"
+msgstr "Μετονομασία του φακέλου;"
 
 #: ../src/utilops.c:2651
-#, fuzzy
 msgid "The folder contains the following files"
-msgstr "Ο φάκελος περιέχει υποφακέλους"
+msgstr "Ο φάκελος περιέχει τα ακόλουθα αρχεία"
 
 #: ../src/utilops.c:2697
-#, fuzzy
 msgid "Create Folder"
-msgstr "Διαγραφή φακέλου"
+msgstr "Δημιουργία Φακέλου"
 
 #: ../src/utilops.c:2698
-#, fuzzy
 msgid "Create folder?"
-msgstr "Αδυναμία δημιουργίας του φακέλου"
+msgstr "Δημιουργία φακέλου;"
 
 #: ../src/utilops.c:2701
-#, fuzzy
 msgid "Can't create folder"
 msgstr "Αδυναμία δημιουργίας του φακέλου"
 
@@ -5756,23 +5639,20 @@ msgid "View as _List"
 msgstr "Προβολή ως _Κατάστιχο"
 
 #: ../src/view_dir.c:679
-#, fuzzy
 msgid "View as _Tree"
-msgstr "Προβολή ως _δέντρο"
+msgstr "Προβολή ως Δέν_τρο"
 
 #: ../src/view_dir.c:684
-#, fuzzy
 msgid "Show _hidden files"
-msgstr "Προβολή κρυφών"
+msgstr "Προβολή των _κρυφών αρχείων"
 
 #: ../src/view_dir.c:687 ../src/view_file.c:637
 msgid "Re_fresh"
 msgstr "Α_νανέωση"
 
 #: ../src/view_file.c:622
-#, fuzzy
 msgid "View as _Icons"
-msgstr "Προβολή ως ε_ικονίδια"
+msgstr "Προβολή ως Μ_ικρογραφίες"
 
 #: ../src/view_file.c:628
 msgid "Show _thumbnails"
@@ -5796,8 +5676,7 @@ msgid "Error renaming file"
 msgstr "Σφάλμα κατά τη μετονομασία του αρχείου"
 
 #: ../src/window.c:252
-#, fuzzy
 msgid "Help"
-msgstr "_Βοήθεια"
+msgstr "Βοήθεια"
 
 
