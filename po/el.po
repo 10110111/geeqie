@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-06-11 20:27+0300\n"
+"PO-Revision-Date: 2016-06-14 22:52+0300\n"
 "Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el\n"
@@ -174,11 +174,11 @@ msgstr "Τίτλος:"
 
 #: ../src/bar_exif.c:575
 msgid "Show only if set"
-msgstr ""
+msgstr "Εμφάνιση μόνο όταν ορίζεται"
 
 #: ../src/bar_exif.c:576
 msgid "Editable (supported only for XMP)"
-msgstr ""
+msgstr "Επεξεργάσιμο (υποστηρίζεται μόνο για XMP)"
 
 #. for the entry
 #: ../src/bar_exif.c:612
@@ -809,11 +809,11 @@ msgstr "Ακύρωση"
 
 #: ../src/color-man.c:426 ../src/exif.c:233 ../src/exif-common.c:436
 msgid "sRGB"
-msgstr ""
+msgstr "sRGB"
 
 #: ../src/color-man.c:428
 msgid "Adobe RGB compatible"
-msgstr ""
+msgstr "Adobe RGB συμβατό"
 
 #: ../src/color-man.c:445
 #, fuzzy
@@ -822,11 +822,11 @@ msgstr "Προσαρμοσμένος εκτυπωτής"
 
 #: ../src/desktop_file.c:74 ../src/desktop_file.c:86 ../src/desktop_file.c:92
 msgid "Can't save"
-msgstr ""
+msgstr "Αδυναμία αποθήκευσης"
 
 #: ../src/desktop_file.c:74
 msgid "Please specify file name."
-msgstr ""
+msgstr "Παρακαλώ προσδιόρισε το όνομα του αρχείου."
 
 #: ../src/desktop_file.c:86
 msgid "Could not create directory"
@@ -875,7 +875,7 @@ msgstr "Επεξεργαστές"
 
 #: ../src/desktop_file.c:524
 msgid "Hidden"
-msgstr ""
+msgstr "Κρυφό"
 
 #: ../src/desktop_file.c:543 ../src/dupe.c:2648 ../src/dupe.c:3133
 #: ../src/print.c:3201 ../src/search.c:2794 ../src/ui_pathsel.c:1109
@@ -884,8 +884,9 @@ msgid "Path"
 msgstr "Διαδρομή"
 
 #: ../src/dupe.c:100
+#, fuzzy
 msgid "Drop files to compare them."
-msgstr ""
+msgstr "Ρίξε τα αρχεία για να γίνει σύγκριση."
 
 #: ../src/dupe.c:104
 #, c-format
@@ -895,11 +896,11 @@ msgstr "%d αρχεία"
 #: ../src/dupe.c:108
 #, c-format
 msgid "%d matches found in %d files"
-msgstr ""
+msgstr "Βρέθηκαν %d ομοιότητες σε %d αρχεία"
 
 #: ../src/dupe.c:113
 msgid "[set 1]"
-msgstr ""
+msgstr "[όρισε 1]"
 
 #: ../src/dupe.c:1440
 msgid "Reading checksums..."
@@ -1010,6 +1011,8 @@ msgstr "Σύγκριση δύο ομάδων αρχείων"
 #, c-format
 msgid "Desktop file '%s' should not include extension in Icon key: '%s'\n"
 msgstr ""
+"Το αρχείο desktop '%s' δεν θα έπρεπε να περιλαμβάνει επέκταση αρχείου στο "
+"στίχο του Εικονίδιου (Icon=): '%s'\n"
 
 #. flash fired (bit 0)
 #: ../src/editors.c:335 ../src/exif.c:226 ../src/exif-common.c:362
@@ -1061,35 +1064,35 @@ msgstr "Μη έγκυρη εντολή επεξεργαστή"
 
 #: ../src/editors.c:1355
 msgid "Editor template is empty."
-msgstr ""
+msgstr "Το πρότυπο του επεξεργαστή είναι κενό."
 
 #: ../src/editors.c:1356
 msgid "Editor template has incorrect syntax."
-msgstr ""
+msgstr "Το πρότυπο του επεξεργαστή έχει λανθασμένη σύνταξη."
 
 #: ../src/editors.c:1357
 msgid "Editor template uses incompatible macros."
-msgstr ""
+msgstr "Το πρότυπο του επεξεργαστή χρησιμοποιεί ασύμβατες μακροεντολές."
 
 #: ../src/editors.c:1358
 msgid "Can't find matching file type."
-msgstr ""
+msgstr "Αδυναμία εύρεσης μορφής αρχείου που να ταιριάζει."
 
 #: ../src/editors.c:1359
 msgid "Can't execute external editor."
-msgstr ""
+msgstr "Αδυναμία εκτέλεσης του εξωτερικού επεξεργαστή."
 
 #: ../src/editors.c:1360
 msgid "External editor returned error status."
-msgstr ""
+msgstr "Ο εξωτερικός επεξεργαστής απάντησε με κατάσταση σφάλματος."
 
 #: ../src/editors.c:1361
 msgid "File was skipped."
-msgstr ""
+msgstr "Το αρχείο προσπεράστηκε."
 
 #: ../src/editors.c:1362
 msgid "Unknown error."
-msgstr ""
+msgstr "Άγνωστο σφάλμα."
 
 #: ../src/exif.c:148 ../src/exif.c:161 ../src/exif.c:175 ../src/exif.c:200
 #: ../src/exif.c:317 ../src/exif.c:664 ../src/exif-common.c:338
@@ -1188,7 +1191,7 @@ msgstr "διάφραγμα"
 
 #: ../src/exif.c:192
 msgid "creative"
-msgstr ""
+msgstr "δημιουργικό"
 
 #: ../src/exif.c:193
 msgid "action"
@@ -1216,19 +1219,19 @@ msgstr ""
 
 #: ../src/exif.c:204
 msgid "flash"
-msgstr "φλας"
+msgstr "λάμψη"
 
 #: ../src/exif.c:205
 msgid "fine weather"
-msgstr ""
+msgstr "καλός καιρός"
 
 #: ../src/exif.c:206
 msgid "cloudy weather"
-msgstr ""
+msgstr "συννεφιασμένος καιρός"
 
 #: ../src/exif.c:207
 msgid "shade"
-msgstr ""
+msgstr "σκιά"
 
 #: ../src/exif.c:208
 msgid "daylight fluorescent"
@@ -1248,31 +1251,31 @@ msgstr "λευκό φθορίζον"
 
 #: ../src/exif.c:212
 msgid "standard light A"
-msgstr ""
+msgstr "προεπιλεγμένο φως Α"
 
 #: ../src/exif.c:213
 msgid "standard light B"
-msgstr ""
+msgstr "προεπιλεγμένο φως Β"
 
 #: ../src/exif.c:214
 msgid "standard light C"
-msgstr ""
+msgstr "προεπιλεγμένο φως "
 
 #: ../src/exif.c:215
 msgid "D55"
-msgstr ""
+msgstr "D55"
 
 #: ../src/exif.c:216
 msgid "D65"
-msgstr ""
+msgstr "D65"
 
 #: ../src/exif.c:217
 msgid "D75"
-msgstr ""
+msgstr "D75"
 
 #: ../src/exif.c:218
 msgid "D50"
-msgstr ""
+msgstr "D50"
 
 #: ../src/exif.c:219
 msgid "ISO studio tungsten"
@@ -1316,7 +1319,7 @@ msgstr ""
 
 #: ../src/exif.c:250
 msgid "digital still camera"
-msgstr ""
+msgstr "ψηφιακή σταθερή κάμερα"
 
 #: ../src/exif.c:255
 msgid "direct photo"
@@ -1366,11 +1369,11 @@ msgstr ""
 
 #: ../src/exif.c:297 ../src/exif.c:311
 msgid "soft"
-msgstr ""
+msgstr "απαλό"
 
 #: ../src/exif.c:298 ../src/exif.c:312
 msgid "hard"
-msgstr ""
+msgstr "σκληρό"
 
 #: ../src/exif.c:304
 msgid "low"
@@ -1382,15 +1385,15 @@ msgstr "υψηλή"
 
 #: ../src/exif.c:318
 msgid "macro"
-msgstr ""
+msgstr "μακροεντολή"
 
 #: ../src/exif.c:319
 msgid "close"
-msgstr ""
+msgstr "κλείσιμο"
 
 #: ../src/exif.c:320
 msgid "distant"
-msgstr ""
+msgstr "απόμακρο"
 
 #: ../src/exif.c:330
 msgid "Image Width"
@@ -1442,7 +1445,7 @@ msgstr ""
 
 #: ../src/exif.c:343
 msgid "White point"
-msgstr ""
+msgstr "Λευκό σημείο"
 
 #: ../src/exif.c:344
 msgid "Primary chromaticities"
@@ -1462,7 +1465,7 @@ msgstr "Αναφορά ασπρόμαυρου"
 
 #: ../src/exif.c:349
 msgid "SubIFD Exif offset"
-msgstr ""
+msgstr "SubIFD Exif απόκλιση"
 
 #. subIFD follows
 #: ../src/exif.c:351
@@ -1488,11 +1491,11 @@ msgstr "Ευαισθησία ISO"
 
 #: ../src/exif.c:356
 msgid "Optoelectric conversion factor"
-msgstr ""
+msgstr "Παράγοντας οπτικοηλεκτρικής μετατροπής"
 
 #: ../src/exif.c:357
 msgid "Exif version"
-msgstr ""
+msgstr "Exif έκδοση"
 
 #: ../src/exif.c:358
 msgid "Date original"
@@ -1521,7 +1524,7 @@ msgstr "Οπή"
 
 #: ../src/exif.c:364
 msgid "Brightness"
-msgstr ""
+msgstr "Φωτεινότητα"
 
 #: ../src/exif.c:365 ../src/exif-common.c:556
 msgid "Exposure bias"
@@ -1546,7 +1549,7 @@ msgstr "Πηγή φωτός"
 
 #: ../src/exif.c:370 ../src/exif-common.c:561
 msgid "Flash"
-msgstr "Φλας"
+msgstr "Λάμψη"
 
 #: ../src/exif.c:371 ../src/exif-common.c:558
 msgid "Focal length"
@@ -1581,7 +1584,7 @@ msgstr "Ημερομηνία ψηφιοποίησης"
 
 #: ../src/exif.c:378
 msgid "FlashPix version"
-msgstr ""
+msgstr "FlashPix έκδοση"
 
 #: ../src/exif.c:379
 msgid "Colorspace"
@@ -1625,9 +1628,8 @@ msgid "Pixel density units"
 msgstr ""
 
 #: ../src/exif.c:390
-#, fuzzy
 msgid "Subject location"
-msgstr "Επιλογή"
+msgstr "Τοποθεσία υποκειμένου"
 
 #: ../src/exif.c:392
 msgid "Sensor type"
@@ -1658,11 +1660,11 @@ msgstr "Βαθμός έκθεσης"
 
 #: ../src/exif.c:399
 msgid "White balance"
-msgstr ""
+msgstr "Ισορροπία λευκού"
 
 #: ../src/exif.c:400
 msgid "Digital zoom ratio"
-msgstr ""
+msgstr "Αναλογία ψηφιακής εστίασης"
 
 #: ../src/exif.c:401
 #, fuzzy
@@ -1670,8 +1672,9 @@ msgid "Focal length (35mm)"
 msgstr "Απόσταση εστίασης"
 
 #: ../src/exif.c:402
+#, fuzzy
 msgid "Scene capture type"
-msgstr ""
+msgstr "Μορφή σύλληψης"
 
 #: ../src/exif.c:403
 msgid "Gain control"
@@ -1679,7 +1682,7 @@ msgstr "Ελεγκτής Κέρδους"
 
 #: ../src/exif.c:404
 msgid "Contrast"
-msgstr ""
+msgstr "Αντίθεση"
 
 #: ../src/exif.c:405
 msgid "Saturation"
@@ -1687,11 +1690,11 @@ msgstr "Κορεσμός"
 
 #: ../src/exif.c:406
 msgid "Sharpness"
-msgstr ""
+msgstr "Οξύτητα"
 
 #: ../src/exif.c:407
 msgid "Device setting"
-msgstr ""
+msgstr "Ρύθμιση της συσκευής"
 
 #: ../src/exif.c:408
 #, fuzzy
@@ -1734,23 +1737,23 @@ msgstr "μείωση κόκκινου ματιού"
 
 #: ../src/exif-common.c:408
 msgid "dot"
-msgstr ""
+msgstr "σημείο"
 
 #: ../src/exif-common.c:441
 msgid "AdobeRGB"
-msgstr ""
+msgstr "AdobeRGB"
 
 #: ../src/exif-common.c:449
 msgid "embedded"
-msgstr ""
+msgstr "ενσωματωμένο"
 
 #: ../src/exif-common.c:544
 msgid "Above Sea Level"
-msgstr ""
+msgstr "Πάνω από το Επίπεδο της Θάλασσας"
 
 #: ../src/exif-common.c:544
 msgid "Below Sea Level"
-msgstr ""
+msgstr "Κάτω από το Επίπεδο της Θάλασσας"
 
 #: ../src/exif-common.c:552
 msgid "Camera"
@@ -1772,7 +1775,7 @@ msgstr "Επιλογή χρωματικού προφίλ"
 
 #: ../src/exif-common.c:564
 msgid "GPS position"
-msgstr ""
+msgstr "GPS θέση"
 
 #: ../src/exif-common.c:565
 msgid "GPS altitude"
@@ -1812,27 +1815,28 @@ msgstr "%.1f GB"
 
 #: ../src/filedata.c:2458
 msgid "file or directory does not exist"
-msgstr ""
+msgstr "το αρχείο ή ο κατάλογος δεν υπάρχει"
 
 #: ../src/filedata.c:2464
 msgid "destination already exists"
 msgstr "ο προορισμός υπάρχει ήδη"
 
 #: ../src/filedata.c:2470
+#, fuzzy
 msgid "destination can't be overwritten"
-msgstr ""
+msgstr "ο προορισμός δεν μπορεί να "
 
 #: ../src/filedata.c:2476
 msgid "destination directory is not writable"
-msgstr ""
+msgstr "ο κατάλογος προορισμού δεν είναι εγγράψιμος"
 
 #: ../src/filedata.c:2482
 msgid "destination directory does not exist"
-msgstr ""
+msgstr "ο κατάλογος προορισμού δεν υπάρχει"
 
 #: ../src/filedata.c:2488
 msgid "source directory is not writable"
-msgstr ""
+msgstr "ο πηγαίος κατάλογος δεν είναι εγγράψιμος"
 
 #: ../src/filedata.c:2494
 msgid "no read permission"
@@ -1840,7 +1844,7 @@ msgstr "χωρίς δικαιώματα ανάγνωσης"
 
 #: ../src/filedata.c:2500
 msgid "file is readonly"
-msgstr ""
+msgstr "το αρχείο είναι μόνο για ανάγνωση"
 
 #: ../src/filedata.c:2506
 msgid "destination already exists and will be overwritten"
@@ -1856,11 +1860,11 @@ msgstr "η πηγή και ο προορισμός έχουν διαφορετι
 
 #: ../src/filedata.c:2524
 msgid "there are unsaved metadata changes for the file"
-msgstr ""
+msgstr "υπάρχουν μη αποθηκευμένα μεταδεδομένα για το αρχείο"
 
 #: ../src/filedata.c:2530
 msgid "another destination file has the same filename"
-msgstr ""
+msgstr "ένα άλλο αρχείου προορισμού έχει το ίδιο όνομα αρχείου"
 
 #: ../src/fullscreen.c:234 ../src/layout_util.c:1366 ../src/layout_util.c:1367
 #: ../src/layout_util.c:1368 ../src/preferences.c:1489
@@ -1944,7 +1948,7 @@ msgstr " (Συλλογή %s)"
 #: ../src/image_load_jpeg.c:177
 #, c-format
 msgid "Error interpreting JPEG image file (%s)"
-msgstr ""
+msgstr "Σφάλμα κατά την ερμηνεία του αρχείου εικόνας ΤζέιΠιΤζι (JPEG) (%s)"
 
 #: ../src/img-view.c:1253 ../src/layout_image.c:483 ../src/layout_util.c:1333
 #: ../src/layout_util.c:1334 ../src/layout_util.c:1349
@@ -1974,7 +1978,7 @@ msgstr "Ορισμός ως ταπετ_σαρία"
 
 #: ../src/img-view.c:1269 ../src/layout_image.c:502
 msgid "_Go to directory view"
-msgstr ""
+msgstr "_Μετάβαση στην προβολή καταλόγου"
 
 #: ../src/img-view.c:1282 ../src/layout_image.c:523
 msgid "_Stop slideshow"
@@ -2053,7 +2057,7 @@ msgstr "Εργαλεία"
 
 #: ../src/layout.c:1865
 msgid "Window options and layout"
-msgstr ""
+msgstr "Επιλογές παράθυρου και διάταξης"
 
 #: ../src/layout.c:1924
 msgid "General options"
@@ -2069,15 +2073,15 @@ msgstr "Χρήση παρόντος"
 
 #: ../src/layout.c:1937
 msgid "Show date in directories list view"
-msgstr ""
+msgstr "Εμφάνιση της ημερομηνίας στην προβολή του κατάστιχου των καταλόγων"
 
 #: ../src/layout.c:1940
 msgid "Exit program when this window is closed"
-msgstr ""
+msgstr "Έξοδος του προγράμματος όταν κλείσει αυτό το παράθυρο"
 
 #: ../src/layout.c:1943
 msgid "Start-up directory:"
-msgstr ""
+msgstr "Αρχικός κατάλογος:"
 
 #: ../src/layout.c:1945
 msgid "No change"
@@ -2085,7 +2089,7 @@ msgstr "Καμία αλλαγή"
 
 #: ../src/layout.c:1948
 msgid "Restore last path"
-msgstr ""
+msgstr "Αποκατάσταση της τελευταίας διαδρομής"
 
 #: ../src/layout.c:1951
 #, fuzzy
@@ -2120,12 +2124,12 @@ msgstr "Κρύψιμο του _κατάστιχου των αρχείων"
 #: ../src/layout_image.c:1616
 #, c-format
 msgid "[%*d,%*d]: RGB(%3d,%3d,%3d)"
-msgstr ""
+msgstr "[%*d,%*d]: RGB(%3d,%3d,%3d)"
 
 #: ../src/layout_image.c:1624
 #, c-format
 msgid "[%*s,%*s]: RGB(---,---,---)"
-msgstr ""
+msgstr "[%*s,%*s]: RGB(---,---,---)"
 
 #: ../src/layout_util.c:1269
 msgid "_File"
@@ -2133,7 +2137,7 @@ msgstr "_Αρχείο"
 
 #: ../src/layout_util.c:1270
 msgid "_Go"
-msgstr ""
+msgstr "_Μετάβαση"
 
 #: ../src/layout_util.c:1271 ../src/menu.c:109
 msgid "_Edit"
@@ -2149,7 +2153,7 @@ msgstr "_Προσανατολισμός"
 
 #: ../src/layout_util.c:1274
 msgid "E_xternal Editors"
-msgstr ""
+msgstr "Ε_ξωτερικοί Επεξεργαστές"
 
 #: ../src/layout_util.c:1275
 msgid "P_references"
@@ -2157,7 +2161,7 @@ msgstr "_Προτιμήσεις"
 
 #: ../src/layout_util.c:1277
 msgid "_Files and Folders"
-msgstr ""
+msgstr "Αρχεία και _Φάκελοι"
 
 #: ../src/layout_util.c:1278
 msgid "_Zoom"
@@ -2173,11 +2177,11 @@ msgstr ""
 
 #: ../src/layout_util.c:1281
 msgid "Spli_t"
-msgstr ""
+msgstr "Δια_χωρισμός"
 
 #: ../src/layout_util.c:1282
 msgid "Stere_o"
-msgstr ""
+msgstr "Στερεοσκ_οπικό"
 
 #: ../src/layout_util.c:1283 ../src/layout_util.c:1399
 msgid "Image _Overlay"
@@ -2225,11 +2229,11 @@ msgstr "Τελευταία Εικόνα"
 
 #: ../src/layout_util.c:1294
 msgid "_Back"
-msgstr ""
+msgstr "Πί_σω"
 
 #: ../src/layout_util.c:1294
 msgid "Back"
-msgstr ""
+msgstr "Πίσω"
 
 #: ../src/layout_util.c:1295
 #, fuzzy
@@ -2243,11 +2247,11 @@ msgstr "Αρχική"
 
 #: ../src/layout_util.c:1296
 msgid "_Up"
-msgstr ""
+msgstr "_Πάνω"
 
 #: ../src/layout_util.c:1296
 msgid "Up"
-msgstr ""
+msgstr "Πάνω"
 
 #: ../src/layout_util.c:1298
 msgid "New _window"
@@ -2348,11 +2352,11 @@ msgstr "Απενεργοποίηση της ομαδοποίησης των αρ
 
 #: ../src/layout_util.c:1315
 msgid "_Copy path to clipboard"
-msgstr ""
+msgstr "Αντι_γραφή της διαδρομής στο πρόχειρο"
 
 #: ../src/layout_util.c:1315
 msgid "Copy path to clipboard"
-msgstr ""
+msgstr "Αντιγραφή της διαδρομής στο πρόχειρο"
 
 #: ../src/layout_util.c:1316
 msgid "Close window"
@@ -2497,19 +2501,19 @@ msgstr "Εστίαση ώστε να χωράει"
 
 #: ../src/layout_util.c:1341 ../src/layout_util.c:1357
 msgid "Fit _Horizontally"
-msgstr ""
+msgstr "Οριζόντια Προσαρμο_γή"
 
 #: ../src/layout_util.c:1341
 msgid "Fit Horizontally"
-msgstr ""
+msgstr "Οριζόντια Προσαρμογή"
 
 #: ../src/layout_util.c:1342 ../src/layout_util.c:1358
 msgid "Fit _Vertically"
-msgstr ""
+msgstr "Κάθε_τη Προσαρμογή"
 
 #: ../src/layout_util.c:1342
 msgid "Fit Vertically"
-msgstr ""
+msgstr "Κάθετη Προσαρμογή"
 
 #: ../src/layout_util.c:1343 ../src/layout_util.c:1359
 msgid "Zoom _2:1"
@@ -2773,11 +2777,11 @@ msgstr "Απόκρυψη της γραμμής εργαλείων"
 
 #: ../src/layout_util.c:1393
 msgid "_Info sidebar"
-msgstr ""
+msgstr "Πλευρ_ική στήλη πληροφοριών"
 
 #: ../src/layout_util.c:1393
 msgid "Info sidebar"
-msgstr ""
+msgstr "Πλευρική στήλη πληροφοριών"
 
 #: ../src/layout_util.c:1394
 msgid "Sort _manager"
@@ -2828,11 +2832,11 @@ msgstr "Αρχείο εικόνας"
 
 #: ../src/layout_util.c:1400
 msgid "_Show Histogram"
-msgstr ""
+msgstr "Εμφάνι_ση Ιστογράμματος"
 
 #: ../src/layout_util.c:1400
 msgid "Show Histogram"
-msgstr ""
+msgstr "Εμφάνιση Ιστογράμματος"
 
 #: ../src/layout_util.c:1404
 msgid "Image _List"
@@ -2848,7 +2852,7 @@ msgstr "Ει_κονίδια"
 
 #: ../src/layout_util.c:1405
 msgid "View Images as Icons"
-msgstr "Προβολή των Εικόνων ως Μικρογραφίες"
+msgstr "Προβολή των Εικόνων ως Εικονίδια"
 
 #: ../src/layout_util.c:1409
 msgid "Folder Li_st"
@@ -2868,35 +2872,35 @@ msgstr "Προβολή των Φακέλων ως Δέντρο"
 
 #: ../src/layout_util.c:1414
 msgid "_Horizontal"
-msgstr ""
+msgstr "Ορι_ζόντια"
 
 #: ../src/layout_util.c:1414
 msgid "Split Horizontal"
-msgstr ""
+msgstr "Οριζόντιος Διαχωρισμός"
 
 #: ../src/layout_util.c:1415
 msgid "_Vertical"
-msgstr ""
+msgstr "_Κάθετα"
 
 #: ../src/layout_util.c:1415
 msgid "Split Vertical"
-msgstr ""
+msgstr "Κάθετος Διαχωρισμός"
 
 #: ../src/layout_util.c:1416
 msgid "_Quad"
-msgstr ""
+msgstr "_Τετραπλά"
 
 #: ../src/layout_util.c:1416
 msgid "Split Quad"
-msgstr ""
+msgstr "Τετραπλή Διαίρεση"
 
 #: ../src/layout_util.c:1417
 msgid "_Single"
-msgstr ""
+msgstr "_Μονό"
 
 #: ../src/layout_util.c:1417
 msgid "Split Single"
-msgstr ""
+msgstr "Μονή Διαίρεση"
 
 #: ../src/layout_util.c:1421
 msgid "Input _0: sRGB"
@@ -2908,11 +2912,11 @@ msgstr "Εισαγωγή 0: sRGB"
 
 #: ../src/layout_util.c:1422
 msgid "Input _1: AdobeRGB compatible"
-msgstr ""
+msgstr "Εισαγωγή _1: συμβατό με AdobeRGB"
 
 #: ../src/layout_util.c:1422
 msgid "Input 1: AdobeRGB compatible"
-msgstr ""
+msgstr "Εισαγωγή 1: συμβατό με AdobeRGB"
 
 #: ../src/layout_util.c:1423
 msgid "Input _2"
@@ -2948,27 +2952,27 @@ msgstr "Εισαγωγή 5"
 
 #: ../src/layout_util.c:1430
 msgid "Histogram on Red"
-msgstr ""
+msgstr "Ιστόγραμμα στο Κόκκινο"
 
 #: ../src/layout_util.c:1431
 msgid "Histogram on Green"
-msgstr ""
+msgstr "Ιστόγραμμα στο Πράσινο"
 
 #: ../src/layout_util.c:1432
 msgid "Histogram on Blue"
-msgstr ""
+msgstr "Ιστόγραμμα στο Μπλε"
 
 #: ../src/layout_util.c:1433
 msgid "Histogram on RGB"
-msgstr ""
+msgstr "Ιστόγραμμα στο RGB"
 
 #: ../src/layout_util.c:1434
 msgid "Histogram on Value"
-msgstr ""
+msgstr "Ιστόγραμμα στην Τιμή"
 
 #: ../src/layout_util.c:1438
 msgid "Linear Histogram"
-msgstr ""
+msgstr "Γραμμικό Ιστόγραμμα"
 
 #: ../src/layout_util.c:1439
 msgid "_Log Histogram"
@@ -2984,23 +2988,23 @@ msgstr "_Αυτόματο"
 
 #: ../src/layout_util.c:1443
 msgid "Stereo Auto"
-msgstr ""
+msgstr "Στερεοσκοπικό Αυτόματο"
 
 #: ../src/layout_util.c:1444
 msgid "_Side by Side"
-msgstr ""
+msgstr "_Δίπλα-Δίπλα"
 
 #: ../src/layout_util.c:1444
 msgid "Stereo Side by Side"
-msgstr ""
+msgstr "Στερεοσκοπικό Δίπλα-Δίπλα"
 
 #: ../src/layout_util.c:1445
 msgid "_Cross"
-msgstr ""
+msgstr "_Σαυρός"
 
 #: ../src/layout_util.c:1445
 msgid "Stereo Cross"
-msgstr ""
+msgstr "Στεροσκοπικό Σταυρός"
 
 #: ../src/layout_util.c:1446
 msgid "_Off"
@@ -3008,7 +3012,7 @@ msgstr "_Απενεργοποιημένο"
 
 #: ../src/layout_util.c:1446
 msgid "Stereo Off"
-msgstr ""
+msgstr "Στερεοσκοπικό Απενεργοποιημένο"
 
 #: ../src/layout_util.c:1735
 #, c-format
@@ -3118,7 +3122,7 @@ msgstr ""
 
 #: ../src/layout_util.c:2188
 msgid "Click to enable color management"
-msgstr ""
+msgstr "Κλίκαρε για να ενεργοποιήσεις τη διαχείριση των χρωμάτων"
 
 #: ../src/layout_util.c:2193
 msgid "Color profiles not supported"
@@ -3133,7 +3137,7 @@ msgstr "Εισαγωγή _%d: %s"
 #: ../src/lirc.c:197
 #, c-format
 msgid "disconnected from LIRC\n"
-msgstr ""
+msgstr "αποσυνδέθηκε από το LIRC\n"
 
 #: ../src/lirc.c:222
 #, c-format
@@ -3142,10 +3146,13 @@ msgid ""
 "please read the documentation of LIRC to \n"
 "know how to create a proper config file\n"
 msgstr ""
+"αδυναμία ανάγνωσης του αρχείου ρυθμίσεων LIRC\n"
+"παρακαλώ, διάβασε το εγχειρίδιο χρήσης του LIRC,\n"
+"ώστε να ξέρεις πως να δημιουργήσεις ένα κατάλληλο αρχείο ρυθμίσεων\n"
 
 #: ../src/logwindow.c:76
 msgid "Log"
-msgstr ""
+msgstr "Καταγραφές"
 
 #: ../src/main.c:321
 #, c-format
@@ -3248,6 +3255,8 @@ msgid ""
 "\n"
 "Use --remote-help for valid remote options.\n"
 msgstr ""
+"\n"
+"Χρησιμοποίησε το --remote-help για έγκυρες απομακρυσμένες επιλογές.\n"
 
 #: ../src/main.c:489
 #, fuzzy, c-format
@@ -3336,15 +3345,15 @@ msgstr "Άνθρωποι"
 
 #: ../src/metadata.c:1600
 msgid "Family"
-msgstr ""
+msgstr "Οικογένεια"
 
 #: ../src/metadata.c:1601
 msgid "Free time"
-msgstr ""
+msgstr "Ελεύθερος χρόνος"
 
 #: ../src/metadata.c:1602
 msgid "Children"
-msgstr ""
+msgstr "Παιδιά"
 
 #: ../src/metadata.c:1603
 msgid "Sport"
@@ -3356,7 +3365,7 @@ msgstr "Πολιτισμός"
 
 #: ../src/metadata.c:1605
 msgid "Festival"
-msgstr ""
+msgstr "Εκδηλώσεις"
 
 #: ../src/metadata.c:1606
 msgid "Nature"
@@ -3364,23 +3373,23 @@ msgstr "Φύση"
 
 #: ../src/metadata.c:1607
 msgid "Animal"
-msgstr ""
+msgstr "Ζώοο"
 
 #: ../src/metadata.c:1608
 msgid "Bird"
-msgstr ""
+msgstr "Πουλί"
 
 #: ../src/metadata.c:1609
 msgid "Insect"
-msgstr ""
+msgstr "Έντομο"
 
 #: ../src/metadata.c:1610
 msgid "Pets"
-msgstr ""
+msgstr "Κατοικίδια"
 
 #: ../src/metadata.c:1611
 msgid "Wildlife"
-msgstr ""
+msgstr "Άγρια ζωή"
 
 #: ../src/metadata.c:1612
 msgid "Zoo"
@@ -3388,7 +3397,7 @@ msgstr "Ζωολογικός"
 
 #: ../src/metadata.c:1613
 msgid "Plant"
-msgstr ""
+msgstr "Φυτό"
 
 #: ../src/metadata.c:1614
 msgid "Tree"
@@ -3396,19 +3405,19 @@ msgstr "Δένδρο"
 
 #: ../src/metadata.c:1615
 msgid "Flower"
-msgstr ""
+msgstr "Λουλούδι"
 
 #: ../src/metadata.c:1616
 msgid "Water"
-msgstr ""
+msgstr "Νερό"
 
 #: ../src/metadata.c:1617
 msgid "River"
-msgstr ""
+msgstr "Ποτάμι"
 
 #: ../src/metadata.c:1618
 msgid "Lake"
-msgstr ""
+msgstr "Λίμνη"
 
 #: ../src/metadata.c:1619
 msgid "Sea"
@@ -3432,27 +3441,27 @@ msgstr "Ζωγραφική"
 
 #: ../src/metadata.c:1624 ../src/metadata.c:1638
 msgid "Historic"
-msgstr ""
+msgstr "Ιστορική"
 
 #: ../src/metadata.c:1625 ../src/metadata.c:1639
 msgid "Modern"
-msgstr ""
+msgstr "Σύγχρονη"
 
 #: ../src/metadata.c:1626
 msgid "City"
-msgstr ""
+msgstr "Πόλη"
 
 #: ../src/metadata.c:1627
 msgid "Park"
-msgstr ""
+msgstr "Πάρκο"
 
 #: ../src/metadata.c:1628
 msgid "Street"
-msgstr ""
+msgstr "Δρόμος"
 
 #: ../src/metadata.c:1629
 msgid "Square"
-msgstr ""
+msgstr "Πλατεία"
 
 #: ../src/metadata.c:1630
 msgid "Architecture"
@@ -3460,15 +3469,15 @@ msgstr "Αρχιτεκτονική"
 
 #: ../src/metadata.c:1631
 msgid "Buildings"
-msgstr ""
+msgstr "Κτίσματα"
 
 #: ../src/metadata.c:1632
 msgid "House"
-msgstr ""
+msgstr "Σπίτι"
 
 #: ../src/metadata.c:1633
 msgid "Cathedral"
-msgstr ""
+msgstr "Καθεδρικός"
 
 #: ../src/metadata.c:1634
 msgid "Palace"
@@ -3476,15 +3485,15 @@ msgstr "Παλάτι"
 
 #: ../src/metadata.c:1635
 msgid "Castle"
-msgstr ""
+msgstr "Κάστρο"
 
 #: ../src/metadata.c:1636
 msgid "Bridge"
-msgstr ""
+msgstr "Γέφυρα"
 
 #: ../src/metadata.c:1637
 msgid "Interior"
-msgstr ""
+msgstr "Εσωτερικός χώρος"
 
 #: ../src/metadata.c:1640
 msgid "Places"
@@ -3508,7 +3517,7 @@ msgstr "Αντανακλάσεις"
 
 #: ../src/metadata.c:1645
 msgid "Sun"
-msgstr ""
+msgstr "Ήλιος"
 
 #: ../src/metadata.c:1646
 msgid "Weather"
@@ -3516,23 +3525,23 @@ msgstr "Καιρός"
 
 #: ../src/metadata.c:1647
 msgid "Fog"
-msgstr ""
+msgstr "Ομίχλη"
 
 #: ../src/metadata.c:1648
 msgid "Rain"
-msgstr ""
+msgstr "Βροχή"
 
 #: ../src/metadata.c:1649
 msgid "Clouds"
-msgstr ""
+msgstr "Σύννεφα"
 
 #: ../src/metadata.c:1650
 msgid "Snow"
-msgstr ""
+msgstr "Χιόνι"
 
 #: ../src/metadata.c:1651
 msgid "Sunny weather"
-msgstr ""
+msgstr "Ηλιόλουστος καιρός"
 
 #: ../src/metadata.c:1652
 msgid "Photo"
@@ -3548,7 +3557,7 @@ msgstr "Λεπτομέρεια"
 
 #: ../src/metadata.c:1655
 msgid "Macro"
-msgstr ""
+msgstr "Μακροεντολές"
 
 #: ../src/metadata.c:1656 ../src/print.c:374
 msgid "Portrait"
@@ -3556,11 +3565,11 @@ msgstr "Πορτραίτο"
 
 #: ../src/metadata.c:1657
 msgid "Black and White"
-msgstr ""
+msgstr "Ασπρόμαυρη"
 
 #: ../src/metadata.c:1658
 msgid "Perspective"
-msgstr ""
+msgstr "Προοπτική"
 
 #: ../src/options.c:158 ../src/ui_bookmark.c:560
 msgid "Desktop"
@@ -3789,7 +3798,7 @@ msgstr ""
 
 #: ../src/preferences.c:606
 msgid "Anaglyph Yellow-Blue"
-msgstr ""
+msgstr "Ανάγλυφο Κίτρινο-Μπλε"
 
 #: ../src/preferences.c:608
 msgid "Anaglyph Gray Red-Cyan"
@@ -3801,7 +3810,7 @@ msgstr ""
 
 #: ../src/preferences.c:612
 msgid "Anaglyph Gray Yellow-Blue"
-msgstr ""
+msgstr "Ανάγλυφο Γκρίζο Κίτρινο-Μπλε"
 
 #: ../src/preferences.c:614
 msgid "Anaglyph Dubois Red-Cyan"
@@ -3817,11 +3826,11 @@ msgstr ""
 
 #: ../src/preferences.c:621
 msgid "Side by Side"
-msgstr ""
+msgstr "Δίπλα-Δίπλα"
 
 #: ../src/preferences.c:622
 msgid "Side by Side Half size"
-msgstr ""
+msgstr "Δίπλα-Δίπλα Μισό μέγεθος"
 
 #: ../src/preferences.c:629
 msgid "Top - Bottom"
@@ -3829,11 +3838,11 @@ msgstr "Κορυφή - Πάτος"
 
 #: ../src/preferences.c:630
 msgid "Top - Bottom Half size"
-msgstr ""
+msgstr "Πάνω - Κάτω Μισό μέγεθος"
 
 #: ../src/preferences.c:639 ../src/preferences.c:2169
 msgid "Fixed position"
-msgstr ""
+msgstr "Σταθερή θέση"
 
 #: ../src/preferences.c:936 ../src/preferences.c:939
 msgid "Reset filters"
@@ -3879,16 +3888,22 @@ msgstr "Ποιότητα:"
 #: ../src/preferences.c:1328
 msgid "Use standard thumbnail cache, shared with other applications"
 msgstr ""
+"Χρησιμοποίησε την προσδιορισμένη μικροαποθήκευση μικρογραφιών, κοινή με άλλες "
+"εφαρμογές"
 
 #: ../src/preferences.c:1334
 msgid ""
 "Store thumbnails in '.thumbnails' folder, local to image folder (non-"
 "standard)"
 msgstr ""
+"Αποθήκευση των μικρογραφιών σε φάκελο «.thumbnails», μέσα στον φάκελο της "
+"εικόνας (μη-προεπιλεγμένο)"
 
 #: ../src/preferences.c:1337
 msgid "Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"
 msgstr ""
+"Χρήση των μικρογραφιών EXIF, όταν είναι διαθέσιμες (οι μικρογραφίες ΕΞΙΦ ίσως "
+"να είναι ξεπερασμένες)"
 
 #: ../src/preferences.c:1340
 msgid "Slide show"
@@ -3912,11 +3927,11 @@ msgstr "Επανάληψη"
 
 #: ../src/preferences.c:1352
 msgid "Image loading and caching"
-msgstr ""
+msgstr "Φόρτωση και μικροαποθήκευση της εικόνας"
 
 #: ../src/preferences.c:1354
 msgid "Decoded image cache size (Mb):"
-msgstr ""
+msgstr "Μέγεθος μικροαποθήκευσης της αποκωδικοποιημένης εικόνας (Mb):"
 
 #: ../src/preferences.c:1356
 msgid "Preload next image"
@@ -3969,15 +3984,15 @@ msgstr "Διατήρηση της εστίασης στην προηγούμεν
 
 #: ../src/preferences.c:1423
 msgid "Scroll to top left corner"
-msgstr ""
+msgstr "Κύλιση στην πάνω αριστερή γωνία"
 
 #: ../src/preferences.c:1426
 msgid "Scroll to image center"
-msgstr ""
+msgstr "Κύλιση στο κέντρο της εικόνας"
 
 #: ../src/preferences.c:1429
 msgid "Keep the region from previous image"
-msgstr ""
+msgstr "Διατήρησε την περιοχή από προηγούμενη εικόνα"
 
 #: ../src/preferences.c:1434
 msgid "Appearance"
@@ -3985,15 +4000,15 @@ msgstr "Εμφάνιση"
 
 #: ../src/preferences.c:1436
 msgid "Use custom border color in window mode"
-msgstr ""
+msgstr "Χρήση προσαρμοσμένου χρώματος συνόρου στη λειτουργία παράθυρου"
 
 #: ../src/preferences.c:1439
 msgid "Use custom border color in fullscreen mode"
-msgstr ""
+msgstr "Χρήση προσαρμοσμένου χρώματος συνόρου στη λειτουργία πλήρους οθόνης"
 
 #: ../src/preferences.c:1442
 msgid "Border color"
-msgstr ""
+msgstr "Χρώμα συνόρου"
 
 #: ../src/preferences.c:1445
 msgid "Convenience"
@@ -4084,7 +4099,7 @@ msgstr "Κείμενο"
 
 #: ../src/preferences.c:1545
 msgid "Background"
-msgstr ""
+msgstr "Παρασκήνιο"
 
 #: ../src/preferences.c:1552 ../src/preferences.c:1728
 #: ../src/preferences.c:2098
@@ -4093,11 +4108,11 @@ msgstr "Προκαθορισμένα"
 
 #: ../src/preferences.c:1606
 msgid "Show hidden files or folders"
-msgstr ""
+msgstr "Εμφάνιση κρυφών αρχείων και φακέλων"
 
 #: ../src/preferences.c:1608
 msgid "Show parent folder (..)"
-msgstr ""
+msgstr "Εμφάνιση του γονικού φακέλου (..)"
 
 #: ../src/preferences.c:1610
 msgid "Case sensitive sort"
@@ -4125,11 +4140,11 @@ msgstr "Φίλτρο"
 
 #: ../src/preferences.c:1683
 msgid "Class"
-msgstr ""
+msgstr "Κατάταξη"
 
 #: ../src/preferences.c:1700
 msgid "Writable"
-msgstr ""
+msgstr "Εγγράψιμο"
 
 #: ../src/preferences.c:1711
 msgid "Sidecar is allowed"
@@ -4137,7 +4152,7 @@ msgstr ""
 
 #: ../src/preferences.c:1757
 msgid "Metadata writing process"
-msgstr ""
+msgstr "Διεργασία εγγραφής μεταδεδομένων"
 
 #: ../src/preferences.c:1759
 msgid "Warning: Geeqie is built without Exiv2. Some options are disabled."
@@ -4150,6 +4165,8 @@ msgid ""
 "Metadata are written in the following order. The process ends after first "
 "success."
 msgstr ""
+"Τα μεταδεδομένα εγγράφονται με την ακόλουθη σειρά. Η διεργασία τελειώνει μετά "
+"την πρώτη επιτυχία."
 
 #: ../src/preferences.c:1764
 msgid ""
@@ -4314,7 +4331,7 @@ msgstr "Προβολή"
 
 #: ../src/preferences.c:1968
 msgid "Rectangular selection in icon view"
-msgstr "Παραλληλόγραμμη επιλογή στην προβολή ως μικρογραφίες"
+msgstr "Παραλληλόγραμμη επιλογή στην προβολή ως εικονίδια"
 
 #: ../src/preferences.c:1971
 msgid "Descend folders in tree view"
@@ -4330,7 +4347,7 @@ msgstr ""
 
 #: ../src/preferences.c:1980
 msgid "Drag'n drop icon size"
-msgstr "Αρπαγή και σύρσιμο του μέγεθους της μικρογραφίας"
+msgstr "Αρπαγή και σύρσιμο του μέγεθους του εικονίδιου"
 
 #: ../src/preferences.c:1983
 msgid "Navigation"
@@ -4545,12 +4562,12 @@ msgstr "Γράμμα"
 #. in 8.5 x 11
 #: ../src/print.c:382
 msgid "Legal"
-msgstr ""
+msgstr "Δικαστικό"
 
 #. in 8.5 x 14
 #: ../src/print.c:383
 msgid "Executive"
-msgstr ""
+msgstr "Εταιρικό"
 
 #. in 7.25x 10.5
 #. mm 841 x 1189
@@ -5146,11 +5163,11 @@ msgstr "Διαδρομή:"
 
 #: ../src/ui_bookmark.c:306
 msgid "Icon:"
-msgstr "Μικρογραφία:"
+msgstr "Εικονίδιο:"
 
 #: ../src/ui_bookmark.c:312
 msgid "Select icon"
-msgstr "Επιλογή μικρογραφίας"
+msgstr "Επιλογή εικονίδιου"
 
 #: ../src/ui_bookmark.c:405
 msgid "_Properties..."
@@ -5652,7 +5669,7 @@ msgstr "Α_νανέωση"
 
 #: ../src/view_file.c:622
 msgid "View as _Icons"
-msgstr "Προβολή ως Μ_ικρογραφίες"
+msgstr "Προβολή ως Ε_ικονίδια"
 
 #: ../src/view_file.c:628
 msgid "Show _thumbnails"
