@@ -23,7 +23,11 @@
 #define THUMB_STANDARD_H
 
 
+#if GLIB_CHECK_VERSION (2, 34, 0)
+#define THUMB_FOLDER_GLOBAL ".cache/thumbnails"
+#else
 #define THUMB_FOLDER_GLOBAL ".thumbnails"
+#endif
 #define THUMB_FOLDER_LOCAL  ".thumblocal"
 #define THUMB_FOLDER_NORMAL "normal"
 #define THUMB_FOLDER_LARGE  "large"
