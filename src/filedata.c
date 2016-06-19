@@ -64,7 +64,7 @@ gchar *text_from_size(gint64 size)
 	/* what I would like to use is printf("%'d", size)
 	 * BUT: not supported on every libc :(
 	 */
-	if (size > G_MAXUINT)
+	if (size > G_MAXINT)
 		{
 		/* the %lld conversion is not valid in all libcs, so use a simple work-around */
 		a = g_strdup_printf("%d%09d", (guint)(size / 1000000000), (guint)(size % 1000000000));

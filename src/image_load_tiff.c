@@ -141,7 +141,8 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 
 	TIFF *tiff;
 	guchar *pixels = NULL;
-	gint width, height, rowstride, bytes;
+	gint width, height, rowstride;
+	size_t bytes;
 	uint32 rowsperstrip;
 
 	lt->buffer = buf;
@@ -186,15 +187,15 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 	rowstride = width * 4;
 	if (rowstride / 4 != width)
 		{ /* overflow */
-		DEBUG_1("Dimensions of TIFF image too large");
+		DEBUG_1("Dimensions of TIFF image too large: width %d", width);
 		TIFFClose(tiff);
 		return FALSE;
 		}
 
-	bytes = height * rowstride;
-	if (bytes / rowstride != height)
+	bytes = (size_t) height * rowstride;
+	if (bytes / rowstride != (size_t) height)
 		{ /* overflow */
-		DEBUG_1("Dimensions of TIFF image too large");
+		DEBUG_1("Dimensions of TIFF image too large: height %d", height);
 		TIFFClose(tiff);
 		return FALSE;
 		}
@@ -207,7 +208,7 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 
 	if (!pixels)
 		{
-		DEBUG_1("Insufficient memory to open TIFF file");
+		DEBUG_1("Insufficient memory to open TIFF file: need %zu", bytes);
 		TIFFClose(tiff);
 		return FALSE;
 		}
@@ -228,8 +229,9 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 	if (TIFFGetField(tiff, TIFFTAG_ROWSPERSTRIP, &rowsperstrip))
 		{
 		/* read by strip */
-		int row;
-		guchar *wrk_line = (guchar *)g_malloc(width * sizeof (uint32));
+		ptrdiff_t row;
+		const size_t line_bytes = width * sizeof(uint32);
+		guchar *wrk_line = (guchar *)g_malloc(line_bytes);
 
 		for (row = 0; row < height; row += rowsperstrip)
 			{
@@ -263,9 +265,9 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 				top_line = pixels + (row + i_row) * rowstride;
 				bottom_line = pixels + (row + rows_to_write - i_row - 1) * rowstride;
 
-				memcpy(wrk_line, top_line, 4*width);
-				memcpy(top_line, bottom_line, 4*width);
-				memcpy(bottom_line, wrk_line, 4*width);
+				memcpy(wrk_line, top_line, line_bytes);
+				memcpy(top_line, bottom_line, line_bytes);
+				memcpy(bottom_line, wrk_line, line_bytes);
 				}
 			lt->area_updated_cb(loader, 0, row, width, rows_to_write, lt->data);
 			}

@@ -2769,6 +2769,7 @@ gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint
 	gint p_alpha, prs;
 	guchar *p_pix, *pp;
 	gint map_x, map_y, map_w, map_h;
+	size_t xoff, yoff;
 
 	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), FALSE);
 	g_return_val_if_fail(r_mouse != NULL && g_mouse != NULL && b_mouse != NULL, FALSE);
@@ -2797,7 +2798,9 @@ gboolean pixbuf_renderer_get_pixel_colors(PixbufRenderer *pr, gint x_pixel, gint
 	prs = gdk_pixbuf_get_rowstride(pb);
 	p_pix = gdk_pixbuf_get_pixels(pb);
 
-	pp = p_pix + map_y * prs + (map_x * (p_alpha ? 4 : 3));
+	xoff = (size_t)map_x * (p_alpha ? 4 : 3);
+	yoff = (size_t)map_y * prs;
+	pp = p_pix + yoff + xoff;
 	*r_mouse = *pp;
 	pp++;
 	*g_mouse = *pp;
