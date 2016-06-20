@@ -240,7 +240,7 @@ static gboolean bar_pane_gps_create_markers_cb(gpointer data)
 		latitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLatitude", 0);
 		longitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLongitude", 0);
 
-		if ((latitude != 0) && (longitude != 0))
+		if (!(latitude == 0 && longitude == 0))
 			{
 			pgd->num_added++;
 
