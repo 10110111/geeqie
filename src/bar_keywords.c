@@ -881,14 +881,14 @@ static void bar_pane_keywords_edit_dialog(PaneKeywordsData *pkd, gboolean edit_e
 	pkd->click_tpath = NULL;
 	cdd->edit_existing = edit_existing;
 
-	cdd->gd = gd = generic_dialog_new(name ? _("Edit keyword") : _("Add keywords"), "keyword_edit",
+	cdd->gd = gd = generic_dialog_new(name ? _("Edit keyword") : _("New keyword"), "keyword_edit",
 				pkd->widget, TRUE,
 				bar_pane_keywords_edit_cancel_cb, cdd);
 	g_signal_connect(G_OBJECT(gd->dialog), "destroy",
 			 G_CALLBACK(bar_pane_keywords_edit_destroy_cb), cdd);
 
 
-	generic_dialog_add_message(gd, NULL, name ? _("Configure keyword") : _("Add keyword"), NULL);
+	generic_dialog_add_message(gd, NULL, name ? _("Configure keyword") : _("New keyword"), NULL);
 
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
 				  bar_pane_keywords_edit_ok_cb, TRUE);
@@ -1149,7 +1149,7 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 
 	menu = popup_menu_short_lived();
 
-	menu_item_add_stock(menu, _("Add keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
+	menu_item_add_stock(menu, _("New keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
 
 	menu_item_add_divider(menu);
 
