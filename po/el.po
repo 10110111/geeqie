@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-06-16 23:16+0300\n"
+"PO-Revision-Date: 2016-06-26 21:22+0300\n"
 "Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el\n"
@@ -211,11 +211,11 @@ msgstr "Φόρτωση του χάρτη"
 
 #: ../src/bar_gps.c:572
 msgid "Enable markers"
-msgstr ""
+msgstr "Ενεργοποίηση σημαδιών"
 
 #: ../src/bar_gps.c:574
 msgid "Centre map on marker"
-msgstr ""
+msgstr "Κεντράρισμα του χάρτη στο σημάδι"
 
 #: ../src/bar_gps.c:596
 msgid ""
@@ -816,9 +816,8 @@ msgid "Adobe RGB compatible"
 msgstr "Adobe RGB συμβατό"
 
 #: ../src/color-man.c:445
-#, fuzzy
 msgid "Custom profile"
-msgstr "Προσαρμοσμένος εκτυπωτής"
+msgstr "Προσαρμοσμένο προφίλ"
 
 #: ../src/desktop_file.c:74 ../src/desktop_file.c:86 ../src/desktop_file.c:92
 msgid "Can't save"
@@ -833,9 +832,8 @@ msgid "Could not create directory"
 msgstr "Αδυναμία δημιουργίας του καταλόγου"
 
 #: ../src/desktop_file.c:182 ../src/desktop_file.c:534
-#, fuzzy
 msgid "Desktop file"
-msgstr "Επιφάνεια Eργασίας"
+msgstr "Αρχείο desktop"
 
 #: ../src/desktop_file.c:291 ../src/ui_pathsel.c:485
 #, c-format
@@ -884,9 +882,8 @@ msgid "Path"
 msgstr "Διαδρομή"
 
 #: ../src/dupe.c:100
-#, fuzzy
 msgid "Drop files to compare them."
-msgstr "Ρίξε τα αρχεία για να γίνει σύγκριση."
+msgstr "Σύρε εδώ τα αρχεία για να γίνει σύγκριση."
 
 #: ../src/dupe.c:104
 #, c-format
@@ -1334,9 +1331,8 @@ msgid "auto"
 msgstr "αυτόματο"
 
 #: ../src/exif.c:268
-#, fuzzy
 msgid "auto bracket"
-msgstr "Αυτόματη μετονομασία"
+msgstr "αυτόματη αγκύλη"
 
 #: ../src/exif.c:279
 msgid "standard"
@@ -1351,21 +1347,20 @@ msgid "none"
 msgstr "κανένα"
 
 #: ../src/exif.c:288
-#, fuzzy
 msgid "low gain up"
-msgstr "Ξεκαθάρισμα"
+msgstr "αύξηση χαμηλών"
 
 #: ../src/exif.c:289
 msgid "high gain up"
-msgstr ""
+msgstr "αύξηση υψηλών"
 
 #: ../src/exif.c:290
 msgid "low gain down"
-msgstr ""
+msgstr "μείωση χαμηλών"
 
 #: ../src/exif.c:291
 msgid "high gain down"
-msgstr ""
+msgstr "μείωση υψηλών"
 
 #: ../src/exif.c:297 ../src/exif.c:311
 msgid "soft"
@@ -1405,7 +1400,7 @@ msgstr "Ύψος της Εικόνας"
 
 #: ../src/exif.c:332
 msgid "Bits per Sample/Pixel"
-msgstr ""
+msgstr "Μπίτια ανά Δείγμα/Πίξελο"
 
 #: ../src/exif.c:333
 msgid "Compression"
@@ -1441,7 +1436,7 @@ msgstr "Μονάδες Ανάλυσης"
 
 #: ../src/exif.c:341
 msgid "Firmware"
-msgstr ""
+msgstr "Υλικολογισμικό (firmware)"
 
 #: ../src/exif.c:343
 msgid "White point"
@@ -1449,15 +1444,15 @@ msgstr "Λευκό σημείο"
 
 #: ../src/exif.c:344
 msgid "Primary chromaticities"
-msgstr ""
+msgstr "Πρωτεύουσες χρωματικότητες"
 
 #: ../src/exif.c:345
 msgid "YCbCy coefficients"
-msgstr ""
+msgstr "YCbCy συντελεστές"
 
 #: ../src/exif.c:346
 msgid "YCbCr positioning"
-msgstr ""
+msgstr "YCbCr τοποθέτηση"
 
 #: ../src/exif.c:347
 msgid "Black white reference"
@@ -1474,16 +1469,15 @@ msgstr "Βαθμός έκθεσης (δευτερόλεπτα)"
 
 #: ../src/exif.c:352
 msgid "FNumber"
-msgstr ""
+msgstr "ΑριθμόςF"
 
 #: ../src/exif.c:353
 msgid "Exposure program"
 msgstr "Πρόγραμμα έκθεσης"
 
 #: ../src/exif.c:354
-#, fuzzy
 msgid "Spectral Sensitivity"
-msgstr "Ευαισθησία ISO"
+msgstr "Φασματική Ευαισθησία"
 
 #: ../src/exif.c:355 ../src/exif.c:391 ../src/exif-common.c:557
 msgid "ISO sensitivity"
@@ -1506,9 +1500,8 @@ msgid "Date digitized"
 msgstr "Ημερομηνία ψηφιοποίησης"
 
 #: ../src/exif.c:360
-#, fuzzy
 msgid "Pixel format"
-msgstr "Μορφή "
+msgstr "Μορφή πίξελων"
 
 #: ../src/exif.c:361
 msgid "Compression ratio"
@@ -1531,9 +1524,8 @@ msgid "Exposure bias"
 msgstr "Βαθμός έκθεσης"
 
 #: ../src/exif.c:366
-#, fuzzy
 msgid "Maximum aperture"
-msgstr "οπή"
+msgstr "Μέγιστη οπή"
 
 #: ../src/exif.c:367 ../src/exif-common.c:560
 msgid "Subject distance"
@@ -1556,13 +1548,12 @@ msgid "Focal length"
 msgstr "Απόσταση εστίασης"
 
 #: ../src/exif.c:372
-#, fuzzy
 msgid "Subject area"
-msgstr "Απόσταση υποκειμένου"
+msgstr "Περιοχή υποκειμένου"
 
 #: ../src/exif.c:373
 msgid "MakerNote"
-msgstr ""
+msgstr "ΣημείωσηΚατασκευαστή"
 
 #: ../src/exif.c:374
 msgid "UserComment"
@@ -1570,17 +1561,15 @@ msgstr "ΣχόλιοΧρήστη"
 
 #: ../src/exif.c:375
 msgid "Subsecond time"
-msgstr ""
+msgstr "Χρόνος υποδευτερόλεπτου"
 
 #: ../src/exif.c:376
-#, fuzzy
 msgid "Subsecond time original"
-msgstr "Αρχική ημερομηνία"
+msgstr "Αρχικός χρόνος υποδευτερόλεπτου"
 
 #: ../src/exif.c:377
-#, fuzzy
 msgid "Subsecond time digitized"
-msgstr "Ημερομηνία ψηφιοποίησης"
+msgstr "Ψηφιοποιημένος χρόνος υποδευτερόλεπτου"
 
 #: ../src/exif.c:378
 msgid "FlashPix version"
@@ -1588,7 +1577,7 @@ msgstr "FlashPix έκδοση"
 
 #: ../src/exif.c:379
 msgid "Colorspace"
-msgstr ""
+msgstr "Χρωματική Διάταξη"
 
 #. ExifImageWidth, ExifImageHeight can also be unsigned short
 #: ../src/exif.c:381 ../src/preferences.c:2171
@@ -1613,19 +1602,19 @@ msgstr "Ένταση λάμψης"
 
 #: ../src/exif.c:386
 msgid "Spatial frequency response"
-msgstr ""
+msgstr "Χωρική απόκριση συχνότητας"
 
 #: ../src/exif.c:387
 msgid "X Pixel density"
-msgstr ""
+msgstr "Πυκνότητα Πίξελων κατά Χ"
 
 #: ../src/exif.c:388
 msgid "Y Pixel density"
-msgstr ""
+msgstr "Πυκνότητα Πίξελων κατά Υ"
 
 #: ../src/exif.c:389
 msgid "Pixel density units"
-msgstr ""
+msgstr "Μονάδες πυκνότητας των πίξελων"
 
 #: ../src/exif.c:390
 msgid "Subject location"
@@ -1640,13 +1629,12 @@ msgid "Source type"
 msgstr "Τύπος πηγής"
 
 #: ../src/exif.c:394
-#, fuzzy
 msgid "Scene type"
-msgstr "Τύπος αρχείου:"
+msgstr "Μορφή σκηνής"
 
 #: ../src/exif.c:395
 msgid "Color filter array pattern"
-msgstr ""
+msgstr "Μήτρα παράταξης  χρωματικών φίλτρων"
 
 #. tags a4xx were added for Exif 2.2 (not just these - some above, as well)
 #: ../src/exif.c:397
@@ -1654,9 +1642,8 @@ msgid "Render process"
 msgstr "Διαδικασία αποτύπωσης"
 
 #: ../src/exif.c:398
-#, fuzzy
 msgid "Exposure mode"
-msgstr "Βαθμός έκθεσης"
+msgstr "Λειτουργία κατάστασης έκθεσης"
 
 #: ../src/exif.c:399
 msgid "White balance"
@@ -1667,14 +1654,12 @@ msgid "Digital zoom ratio"
 msgstr "Αναλογία ψηφιακής εστίασης"
 
 #: ../src/exif.c:401
-#, fuzzy
 msgid "Focal length (35mm)"
-msgstr "Απόσταση εστίασης"
+msgstr "Εστιακή απόσταση (35mm)"
 
 #: ../src/exif.c:402
-#, fuzzy
 msgid "Scene capture type"
-msgstr "Μορφή σύλληψης"
+msgstr "Μορφή σύλληψης σκηνής"
 
 #: ../src/exif.c:403
 msgid "Gain control"
@@ -1697,9 +1682,8 @@ msgid "Device setting"
 msgstr "Ρύθμιση της συσκευής"
 
 #: ../src/exif.c:408
-#, fuzzy
 msgid "Subject range"
-msgstr "Απόσταση υποκειμένου"
+msgstr "Εύρος υποκειμένου"
 
 #: ../src/exif.c:409
 msgid "Image serial number"
@@ -1760,18 +1744,16 @@ msgid "Camera"
 msgstr "Κάμερα"
 
 #: ../src/exif-common.c:559
-#, fuzzy
 msgid "Focal length 35mm"
-msgstr "Απόσταση εστίασης"
+msgstr "Εστιακή απόσταση 35mm"
 
 #: ../src/exif-common.c:562
 msgid "Resolution"
 msgstr "Ανάλυση"
 
 #: ../src/exif-common.c:563
-#, fuzzy
 msgid "Color profile"
-msgstr "Επιλογή χρωματικού προφίλ"
+msgstr "Χρωματικό προφίλ"
 
 #: ../src/exif-common.c:564
 msgid "GPS position"
@@ -1779,7 +1761,7 @@ msgstr "GPS θέση"
 
 #: ../src/exif-common.c:565
 msgid "GPS altitude"
-msgstr ""
+msgstr "GPS υψόμετρο"
 
 #: ../src/exif-common.c:566
 msgid "File size"
@@ -1822,9 +1804,8 @@ msgid "destination already exists"
 msgstr "ο προορισμός υπάρχει ήδη"
 
 #: ../src/filedata.c:2470
-#, fuzzy
 msgid "destination can't be overwritten"
-msgstr "ο προορισμός δεν μπορεί να "
+msgstr "ο προορισμός δεν μπορεί να αντικατασταθεί"
 
 #: ../src/filedata.c:2476
 msgid "destination directory is not writable"
@@ -1848,7 +1829,7 @@ msgstr "το αρχείο είναι μόνο για ανάγνωση"
 
 #: ../src/filedata.c:2506
 msgid "destination already exists and will be overwritten"
-msgstr ""
+msgstr "ο προορισμός υπάρχει ήδη και θα αντικατασταθεί"
 
 #: ../src/filedata.c:2512
 msgid "source and destination are the same"
@@ -1897,43 +1878,43 @@ msgstr "Ενεργή οθόνη"
 
 #: ../src/histogram.c:113
 msgid "Log Histogram on Red"
-msgstr ""
+msgstr "Καταγραφή του Ιστογράμματος στο Κόκκινο"
 
 #: ../src/histogram.c:114
 msgid "Log Histogram on Green"
-msgstr ""
+msgstr "Λογαριθμικό Ιστόγραμμα στο Πράσινο"
 
 #: ../src/histogram.c:115
 msgid "Log Histogram on Blue"
-msgstr ""
+msgstr "Λογαριθμικό Ιστόγραμμα στο Μπλε"
 
 #: ../src/histogram.c:116
 msgid "Log Histogram on RGB"
-msgstr ""
+msgstr "Λογαριθμικό Ιστόγραμμα στο RGB"
 
 #: ../src/histogram.c:117
 msgid "Log Histogram on value"
-msgstr ""
+msgstr "Λογαριθμικό Ιστόγραμμα στην τιμή"
 
 #: ../src/histogram.c:122
 msgid "Linear Histogram on Red"
-msgstr ""
+msgstr "Γραμμικό Ιστόγραμμα στο Κόκκινο"
 
 #: ../src/histogram.c:123
 msgid "Linear Histogram on Green"
-msgstr ""
+msgstr "Γραμμικό Ιστόγραμμα στο Πράσινο"
 
 #: ../src/histogram.c:124
 msgid "Linear Histogram on Blue"
-msgstr ""
+msgstr "Γραμμικό Ιστόγραμμα στο Μπλε"
 
 #: ../src/histogram.c:125
 msgid "Linear Histogram on RGB"
-msgstr ""
+msgstr "Γραμμικό Ιστόγραμμα στο RGB"
 
 #: ../src/histogram.c:126
 msgid "Linear Histogram on value"
-msgstr ""
+msgstr "Γραμμικό Ιστόγραμμα στην τιμή"
 
 #: ../src/history_list.c:131
 #, c-format
@@ -2066,6 +2047,7 @@ msgstr "Γενικές επιλογές"
 #: ../src/layout.c:1926
 msgid "Home path (empty to use your home directory)"
 msgstr ""
+"Διαδρομή στο Σπίτι (άδειο, για να χρησιμοποιηθεί ο σπιτικός κατάλογός σου)"
 
 #: ../src/layout.c:1934
 msgid "Use current"
@@ -2092,9 +2074,8 @@ msgid "Restore last path"
 msgstr "Αποκατάσταση της τελευταίας διαδρομής"
 
 #: ../src/layout.c:1951
-#, fuzzy
 msgid "Home path"
-msgstr "Αρχική"
+msgstr "Διαδρομή στο Σπίτι"
 
 #: ../src/layout.c:1955 ../src/print.c:3365 ../src/print.c:3372
 msgid "Layout"
@@ -2173,7 +2154,7 @@ msgstr "_Διαχείριση Χρωμάτων"
 
 #: ../src/layout_util.c:1280
 msgid "_Connected Zoom"
-msgstr ""
+msgstr "_Συνδεμένη Εστίαση"
 
 #: ../src/layout_util.c:1281
 msgid "Spli_t"
@@ -2185,7 +2166,7 @@ msgstr "Στερεοσκ_οπικό"
 
 #: ../src/layout_util.c:1283 ../src/layout_util.c:1399
 msgid "Image _Overlay"
-msgstr ""
+msgstr "Επι_κάλυψη Εικόνας"
 
 #: ../src/layout_util.c:1284
 msgid "_Help"
@@ -2236,9 +2217,8 @@ msgid "Back"
 msgstr "Πίσω"
 
 #: ../src/layout_util.c:1295
-#, fuzzy
 msgid "_Home"
-msgstr "_Αρχική"
+msgstr "_Σπίτι"
 
 #: ../src/layout_util.c:1295 ../src/options.c:156 ../src/ui_bookmark.c:549
 #: ../src/ui_pathsel.c:1045
@@ -2553,60 +2533,51 @@ msgstr "Εστίαση 1:4"
 
 #: ../src/layout_util.c:1349 ../src/layout_util.c:1350
 msgid "Connected Zoom in"
-msgstr ""
+msgstr "Συνδεμένη Εστιακό Πλησίασμα"
 
 #: ../src/layout_util.c:1351 ../src/layout_util.c:1352
-#, fuzzy
 msgid "Connected Zoom out"
-msgstr "Σμίκρυνση"
+msgstr "Συνδεμένη Εστιακή Απομάκρυνση"
 
 #: ../src/layout_util.c:1353 ../src/layout_util.c:1354
-#, fuzzy
 msgid "Connected Zoom 1:1"
-msgstr "Ορισμός εστίασης σε 1:1"
+msgstr "Συνδεμένη Εστίαση 1:1"
 
 #: ../src/layout_util.c:1355 ../src/layout_util.c:1356
-#, fuzzy
 msgid "Connected Zoom to fit"
-msgstr "Εστίαση ώστε να _χωράει"
+msgstr "Συνδεμένη Εστίαση ώστε να χωράει"
 
 #: ../src/layout_util.c:1357
 msgid "Connected Fit Horizontally"
-msgstr ""
+msgstr "Συνδεμένη Προσαρμογή στο Οριζόντιο"
 
 #: ../src/layout_util.c:1358
 msgid "Connected Fit Vertically"
-msgstr ""
+msgstr "Συνδεμένη Προσαρμογή στο Κάθετο"
 
 #: ../src/layout_util.c:1359
-#, fuzzy
 msgid "Connected Zoom 2:1"
-msgstr "Ορισμός εστίασης σε 1:1"
+msgstr "Συνδεμένη Εστίαση 2:1"
 
 #: ../src/layout_util.c:1360
-#, fuzzy
 msgid "Connected Zoom 3:1"
-msgstr "Ορισμός εστίασης σε 1:1"
+msgstr "Συνδεμένη Εστίαση 3:1"
 
 #: ../src/layout_util.c:1361
-#, fuzzy
 msgid "Connected Zoom 4:1"
-msgstr "Ορισμός εστίασης σε 1:1"
+msgstr "Συνδεμένη Εστίαση 4:1"
 
 #: ../src/layout_util.c:1362
-#, fuzzy
 msgid "Connected Zoom 1:2"
-msgstr "Ορισμός εστίασης σε 1:1"
+msgstr "Συνδεμένη Εστίαση :1:2"
 
 #: ../src/layout_util.c:1363
-#, fuzzy
 msgid "Connected Zoom 1:3"
-msgstr "Ορισμός εστίασης σε 1:1"
+msgstr "Συνδεμένη Εστίαση 1:3"
 
 #: ../src/layout_util.c:1364
-#, fuzzy
 msgid "Connected Zoom 1:4"
-msgstr "Ορισμός εστίασης σε 1:1"
+msgstr "Συνδεμένη Εστίαση 1:4"
 
 #: ../src/layout_util.c:1365
 msgid "_View in new window"
@@ -2631,27 +2602,27 @@ msgstr "Έξοδος από την πλήρη οθόνη"
 
 #: ../src/layout_util.c:1371
 msgid "_Cycle through overlay modes"
-msgstr ""
+msgstr "Περιφορά ανάμεσα στις λειτουργίες υπερκάλυ_ψης"
 
 #: ../src/layout_util.c:1371
 msgid "Cycle through Overlay modes"
-msgstr ""
+msgstr "Περιφορά ανάμεσα στις λειτουργίες Υπερκάλυψης"
 
 #: ../src/layout_util.c:1372
 msgid "Cycle through histogram ch_annels"
-msgstr ""
+msgstr "Περιφορά ανάμεσα στα κ_ανάλια ιστογράμματος"
 
 #: ../src/layout_util.c:1372
 msgid "Cycle through histogram channels"
-msgstr ""
+msgstr "Περιφορά ανάμεσα στα κανάλια ιστογράμματος"
 
 #: ../src/layout_util.c:1373
 msgid "Cycle through histogram mo_des"
-msgstr ""
+msgstr "Περιφορά ανάμεσα στις _λειτουργίες ιστογράμματος"
 
 #: ../src/layout_util.c:1373
 msgid "Cycle through histogram modes"
-msgstr ""
+msgstr "Περιφορά ανάμεσα στις λειτουργίες ιστογράμματος"
 
 #: ../src/layout_util.c:1374
 msgid "_Hide file list"
@@ -2727,11 +2698,11 @@ msgstr "Παράθυρο των πληροφοριών Exif"
 
 #: ../src/layout_util.c:1383
 msgid "_Cycle through stereo modes"
-msgstr ""
+msgstr "Περι_φορά ανάμεσα στις λειτουργίες στερεοσκόπησης"
 
 #: ../src/layout_util.c:1383
 msgid "Cycle through stereo modes"
-msgstr ""
+msgstr "Περιφορά ανάμεσα στις λειτουργίες στερεοσκόπησης"
 
 #: ../src/layout_util.c:1388
 msgid "Show _Thumbnails"
@@ -2742,22 +2713,20 @@ msgid "Show Thumbnails"
 msgstr "Προβολή  των μικρογραφιών"
 
 #: ../src/layout_util.c:1389
-#, fuzzy
 msgid "Show _Marks"
-msgstr "Προβολή ει_κόνας"
+msgstr "Προβολή Ση_μαδιών"
 
 #: ../src/layout_util.c:1389
 msgid "Show Marks"
-msgstr ""
+msgstr "Προβολή Σημαδιών"
 
 #: ../src/layout_util.c:1390
 msgid "Pi_xel Info"
-msgstr ""
+msgstr "Πληροφορίες Πί_ξελων"
 
 #: ../src/layout_util.c:1390
-#, fuzzy
 msgid "Show Pixel Info"
-msgstr "Προβολή κρυφών"
+msgstr "Προβολή των Πιξελικών Πληροφοριών "
 
 #: ../src/layout_util.c:1391
 msgid "_Float file list"
@@ -2804,7 +2773,6 @@ msgid "Use _color profiles"
 msgstr "Χρήση προφίλ χρωμάτων"
 
 #: ../src/layout_util.c:1396
-#, fuzzy
 msgid "Use color profiles"
 msgstr "Χρήση προφίλ χρωμάτων"
 
@@ -2813,9 +2781,8 @@ msgid "Use profile from _image"
 msgstr "Χρήση προφίλ από την _εικόνα"
 
 #: ../src/layout_util.c:1397
-#, fuzzy
 msgid "Use profile from image"
-msgstr "Χρήση προφίλ από την _εικόνα"
+msgstr "Χρήση προφίλ από την εικόνα"
 
 #: ../src/layout_util.c:1398
 msgid "Toggle _grayscale"
@@ -2826,9 +2793,8 @@ msgid "Toggle grayscale"
 msgstr "Εναλλαγή της απόχρωσης του _γκρίζου"
 
 #: ../src/layout_util.c:1399
-#, fuzzy
 msgid "Image Overlay"
-msgstr "Αρχείο εικόνας"
+msgstr "Υπερκάλυψη Εικόνας"
 
 #: ../src/layout_util.c:1400
 msgid "_Show Histogram"
@@ -2976,11 +2942,11 @@ msgstr "Γραμμικό Ιστόγραμμα"
 
 #: ../src/layout_util.c:1439
 msgid "_Log Histogram"
-msgstr ""
+msgstr "_Λογαριθμικό Ιστόγραμμα"
 
 #: ../src/layout_util.c:1439
 msgid "Log Histogram"
-msgstr ""
+msgstr "Λογαριθμικό Ιστόγραμμα"
 
 #: ../src/layout_util.c:1443
 msgid "_Auto"
@@ -3017,101 +2983,101 @@ msgstr "Στερεοσκοπικό Απενεργοποιημένο"
 #: ../src/layout_util.c:1735
 #, c-format
 msgid "Mark _%d"
-msgstr ""
+msgstr "Σημάδι _%d"
 
 #: ../src/layout_util.c:1736 ../src/view_file.c:540
 #, c-format
 msgid "_Set mark %d"
-msgstr ""
+msgstr "Όρι_σε το σημάδι %d"
 
 #: ../src/layout_util.c:1736
 #, c-format
 msgid "Set mark %d"
-msgstr ""
+msgstr "Όρισε το σημάδι %d"
 
 #: ../src/layout_util.c:1737 ../src/view_file.c:541
 #, c-format
 msgid "_Reset mark %d"
-msgstr ""
+msgstr "Επαναπρο_σδιορισμός του σημαδιού %d"
 
 #: ../src/layout_util.c:1737
 #, c-format
 msgid "Reset mark %d"
-msgstr ""
+msgstr "Επαναπροσδιορισμός του σημαδιού %d"
 
 #: ../src/layout_util.c:1738 ../src/layout_util.c:1739 ../src/view_file.c:542
 #, c-format
 msgid "_Toggle mark %d"
-msgstr ""
+msgstr "Εναλλαγή _του σημαδιού %d"
 
 #: ../src/layout_util.c:1738 ../src/layout_util.c:1739
 #, c-format
 msgid "Toggle mark %d"
-msgstr ""
+msgstr "Εναλλαγή του σημαδιού %d"
 
 #: ../src/layout_util.c:1740
-#, fuzzy, c-format
+#, c-format
 msgid "Se_lect mark %d"
-msgstr "Επιλογή όλων"
+msgstr "Επι_λογή του σημαδιού %d"
 
 #: ../src/layout_util.c:1740 ../src/layout_util.c:1741
-#, fuzzy, c-format
+#, c-format
 msgid "Select mark %d"
-msgstr "Επιλογή όλων"
+msgstr "Επιλογή του σημαδιού %d"
 
 #: ../src/layout_util.c:1741 ../src/view_file.c:543
-#, fuzzy, c-format
+#, c-format
 msgid "_Select mark %d"
-msgstr "Επιλογή όλων"
+msgstr "Επιλογή του _σημαδιού %d"
 
 #: ../src/layout_util.c:1742 ../src/view_file.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "_Add mark %d"
-msgstr "Προσθήκη Σελιδοδείκτη"
+msgstr "Προσθήκη του σημ_αδιού %d"
 
 #: ../src/layout_util.c:1742
-#, fuzzy, c-format
+#, c-format
 msgid "Add mark %d"
-msgstr "Προσθήκη Σελιδοδείκτη"
+msgstr "Προσθήκη του σημαδιού %d"
 
 #: ../src/layout_util.c:1743 ../src/view_file.c:545
 #, c-format
 msgid "_Intersection with mark %d"
-msgstr ""
+msgstr "Δ_ιασταύρωση με το σημάδι %d"
 
 #: ../src/layout_util.c:1743
 #, c-format
 msgid "Intersection with mark %d"
-msgstr ""
+msgstr "Διασταύρωση με το σημάδι %d"
 
 #: ../src/layout_util.c:1744 ../src/view_file.c:546
 #, c-format
 msgid "_Unselect mark %d"
-msgstr ""
+msgstr "Αποεπιλογή του σημα_διού %d"
 
 #: ../src/layout_util.c:1744
 #, c-format
 msgid "Unselect mark %d"
-msgstr ""
+msgstr "Αποεπιλογή του σημαδιού %d"
 
 #: ../src/layout_util.c:1745
 #, c-format
 msgid "_Filter mark %d"
-msgstr ""
+msgstr "_Διαλογή του σημαδιού %d"
 
 #: ../src/layout_util.c:1745
-#, fuzzy, c-format
+#, c-format
 msgid "Filter mark %d"
-msgstr "Φίλτρο"
+msgstr "Διαλογή του σημαδιού %d"
 
 #: ../src/layout_util.c:2127
 #, c-format
 msgid "Number of files with unsaved metadata: %d"
-msgstr ""
+msgstr "Σύνολο αρχείων με μη αποθηκευμένα μεταδεδομένα: %d"
 
 #: ../src/layout_util.c:2133
 msgid "No unsaved metadata"
-msgstr ""
+msgstr "Καθόλου μη αποθηκευμένα μεταδεδομένα"
 
 #: ../src/layout_util.c:2180
 #, c-format
@@ -3119,6 +3085,8 @@ msgid ""
 "Image profile: %s\n"
 "Screen profile: %s"
 msgstr ""
+"Προφίλ εικόνας: %s\n"
+"Προφίλ οθόνης: %s"
 
 #: ../src/layout_util.c:2188
 msgid "Click to enable color management"
@@ -3790,11 +3758,11 @@ msgstr "Μονή εικόνα"
 
 #: ../src/preferences.c:602
 msgid "Anaglyph Red-Cyan"
-msgstr ""
+msgstr "Ανάγλυφο Κόκκινο-Γαλάζιο"
 
 #: ../src/preferences.c:604
 msgid "Anaglyph Green-Magenta"
-msgstr ""
+msgstr "Ανάγλυφο Πράσινο-ΑνοιχτόΜωβ"
 
 #: ../src/preferences.c:606
 msgid "Anaglyph Yellow-Blue"
@@ -3802,11 +3770,11 @@ msgstr "Ανάγλυφο Κίτρινο-Μπλε"
 
 #: ../src/preferences.c:608
 msgid "Anaglyph Gray Red-Cyan"
-msgstr ""
+msgstr "Ανάγλυφο Γκρίζο Κόκκινο-Γαλάζιο"
 
 #: ../src/preferences.c:610
 msgid "Anaglyph Gray Green-Magenta"
-msgstr ""
+msgstr "Ανάγλυφο Γκρίζο Πράσινο-ΑνοιχτόΜωβ"
 
 #: ../src/preferences.c:612
 msgid "Anaglyph Gray Yellow-Blue"
@@ -3866,15 +3834,15 @@ msgstr "Αυτό θα απομακρύνει τα περιεχόμενα του 
 
 #: ../src/preferences.c:1015 ../src/preferences.c:1018
 msgid "Reset image overlay template string"
-msgstr ""
+msgstr "Επαναφορά του στίχου του πρότυπου της υπερκάλυψης της εικόνας"
 
 #: ../src/preferences.c:1019
-#, fuzzy
 msgid ""
 "This will reset the image overlay template string to the default.\n"
 "Continue?"
 msgstr ""
-"Αυτό θα επαναφέρει τα φίλτρα αρχείων στα προεπιλεγμένα.\n"
+"Αυτό θα επαναφέρει τον στίχο του πρότυπου της υπερκάλυψης της εικόνας στα "
+"προεπιλεγμένα.\n"
 "Να συνεχίσω;"
 
 #: ../src/preferences.c:1314
@@ -3948,6 +3916,7 @@ msgstr "Εστίαση"
 #: ../src/preferences.c:1383
 msgid "Use GPU acceleration via Clutter library"
 msgstr ""
+"Χρήση της επιτάχυνσης του επεξεργαστή (GPU) μέσω της βιβλιοθήκης Clutter"
 
 #: ../src/preferences.c:1387
 msgid "Two pass rendering (apply HQ zoom and color correction in second pass)"
