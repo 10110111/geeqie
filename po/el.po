@@ -4,9 +4,9 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-19 17:35+0100\n"
-"PO-Revision-Date: 2016-06-26 21:22+0300\n"
+"PO-Revision-Date: 2016-06-28 18:33+0300\n"
 "Last-Translator: Nikos Papadopoulos <nikos <231036448@freemail.gr>>\n"
-"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
+"Language-Team: Greek <231036448@freemail.gr>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -222,45 +222,49 @@ msgid ""
 "Move map centre to marker\n"
 " is disabled"
 msgstr ""
+"Το κεντράρισμα του χάρτη στο σημάδι\n"
+"είναι απενεργοποιημένο"
 
 #: ../src/bar_gps.c:601
 msgid ""
 "Move map centre to marker\n"
 " is enabled"
 msgstr ""
+"Το κεντράρισμα του χάρτη στο σημάδι\n"
+"είναι ενεργοποιημένο"
 
 #: ../src/bar_gps.c:610
 msgid "Map Centreing"
-msgstr ""
+msgstr "Κεντράρισμα του Χάρτη"
 
 #. use the same strings as in layout_util.c
 #: ../src/bar_histogram.c:249 ../src/layout_util.c:1430
 msgid "Histogram on _Red"
-msgstr ""
+msgstr "Ιστόγ_ραμμα στο Κόκκινο"
 
 #: ../src/bar_histogram.c:250 ../src/layout_util.c:1431
 msgid "Histogram on _Green"
-msgstr ""
+msgstr "Ιστό_γραμμα στο Πράσινο"
 
 #: ../src/bar_histogram.c:251 ../src/layout_util.c:1432
 msgid "Histogram on _Blue"
-msgstr ""
+msgstr "Ιστόγραμμα στο Μπ_λε"
 
 #: ../src/bar_histogram.c:252 ../src/layout_util.c:1433
 msgid "_Histogram on RGB"
-msgstr ""
+msgstr "_Ιστόγραμμα στο RGB"
 
 #: ../src/bar_histogram.c:253 ../src/layout_util.c:1434
 msgid "Histogram on _Value"
-msgstr ""
+msgstr "Ιστόγραμμα στην _Τιμή"
 
 #: ../src/bar_histogram.c:257 ../src/layout_util.c:1438
 msgid "Li_near Histogram"
-msgstr ""
+msgstr "Γραμ_μικό Ιστόγραμμα"
 
 #: ../src/bar_histogram.c:258
 msgid "L_og Histogram"
-msgstr ""
+msgstr "Λ_ογαριθμικό Ιστόγραμμα"
 
 #: ../src/bar_keywords.c:403
 msgid "Add keywords to selected files"
@@ -309,17 +313,17 @@ msgstr "Προσθήκη λέξης-κλειδί σε όλες τις επιλε
 #: ../src/bar_keywords.c:1167
 #, c-format
 msgid "Hide \"%s\""
-msgstr ""
+msgstr "Απόκρυψη του \"%s\""
 
 #: ../src/bar_keywords.c:1174
 #, c-format
 msgid "Mark %d"
-msgstr ""
+msgstr "Σημάδι %d"
 
 #: ../src/bar_keywords.c:1179
 #, c-format
 msgid "Connect \"%s\" to mark"
-msgstr ""
+msgstr "Σύνδεση του \"%s\" στο σημάδι"
 
 #: ../src/bar_keywords.c:1186
 #, c-format
@@ -329,20 +333,20 @@ msgstr "Επεξεργασία του \"%s\""
 #: ../src/bar_keywords.c:1196
 #, c-format
 msgid "Disconnect \"%s\" from mark %s"
-msgstr ""
+msgstr "Αποσύνδεση του \"%s\" από το σημάδι %s"
 
 #. for the pane
 #: ../src/bar_keywords.c:1208 ../src/bar_keywords.c:1217
 msgid "Expand checked"
-msgstr ""
+msgstr "Επέκταση των τσεκαρισμένων"
 
 #: ../src/bar_keywords.c:1209 ../src/bar_keywords.c:1218
 msgid "Collapse unchecked"
-msgstr ""
+msgstr "Σύμπτυξη των αποτσεκαρισμένων"
 
 #: ../src/bar_keywords.c:1210 ../src/bar_keywords.c:1219
 msgid "Hide unchecked"
-msgstr ""
+msgstr "Απόκρυψη των αποτσεκαρισμένων"
 
 #: ../src/bar_keywords.c:1211
 msgid "Show all"
@@ -350,7 +354,7 @@ msgstr "Εμφάνιση όλων"
 
 #: ../src/bar_keywords.c:1214
 msgid "On any change"
-msgstr ""
+msgstr "Με κάθε αλλαγή"
 
 #: ../src/bar_sort.c:449
 #, c-format
@@ -430,6 +434,8 @@ msgid ""
 "error saving sim cache data: %s\n"
 "error: %s\n"
 msgstr ""
+"σφάλμα κατά την αποθήκευση των δεδομένων μικροαποθήκευσης sim: %s\n"
+"σφάλμα: %s\n"
 
 #: ../src/cache_maint.c:110 ../src/cache_maint.c:549 ../src/cache_maint.c:765
 #: ../src/editors.c:1177
@@ -594,6 +600,9 @@ msgid ""
 "%s\n"
 "is a folder, collections are files"
 msgstr ""
+"Προσδιορισμένη διαδρομή:\n"
+"%s\n"
+"αυτό είναι φάκελος· οι συλλογές είναι αρχεία"
 
 #: ../src/collect-dlg.c:60
 msgid "Invalid filename"
@@ -619,12 +628,12 @@ msgstr "Δεν υπάρχει τέτοιο αρχείο '%s'."
 #: ../src/collect-dlg.c:132
 #, c-format
 msgid "'%s' is a directory, not a collection file."
-msgstr ""
+msgstr "Το '%s' είναι κατάλογος, όχι ένα αρχείο συλλογής."
 
 #: ../src/collect-dlg.c:137
 #, c-format
 msgid "You do not have read permissions on the file '%s'."
-msgstr ""
+msgstr "Δεν έχεις δικαιώματα ανάγνωσης στο αρχείο '%s'."
 
 #: ../src/collect-dlg.c:143
 msgid "Can not open collection file"
@@ -788,7 +797,7 @@ msgstr "Εκτύπωση..."
 
 #: ../src/collect-table.c:2094 ../src/dupe.c:3319 ../src/img-view.c:1430
 msgid "Dropped list includes folders."
-msgstr ""
+msgstr "Το ριγμένο κατάστιχο περιέχει καταλόγους."
 
 #: ../src/collect-table.c:2096 ../src/dupe.c:3321 ../src/img-view.c:1432
 msgid "_Add contents"
@@ -1212,7 +1221,7 @@ msgstr "φθορίζον"
 
 #: ../src/exif.c:203
 msgid "tungsten (incandescent)"
-msgstr ""
+msgstr "βολφραμίου (πυρακτώσεως )"
 
 #: ../src/exif.c:204
 msgid "flash"
@@ -1276,7 +1285,7 @@ msgstr "D50"
 
 #: ../src/exif.c:219
 msgid "ISO studio tungsten"
-msgstr ""
+msgstr "ISO στούντιου βολφραμίου"
 
 #: ../src/exif.c:227
 msgid "yes, not detected by strobe"
@@ -1288,23 +1297,23 @@ msgstr "ναι, ανιχνεύθηκε από το στροβοσκόπιο"
 
 #: ../src/exif.c:234
 msgid "uncalibrated"
-msgstr ""
+msgstr "μη βαθμονομημένο"
 
 #: ../src/exif.c:240
 msgid "1 chip color area"
-msgstr ""
+msgstr "περιοχή χρώματος 1ος τσιπ"
 
 #: ../src/exif.c:241
 msgid "2 chip color area"
-msgstr ""
+msgstr "περιοχή χρώματος 2 τσιπ"
 
 #: ../src/exif.c:242
 msgid "3 chip color area"
-msgstr ""
+msgstr "περιοχή χρώματος 3ών τσιπ"
 
 #: ../src/exif.c:243
 msgid "color sequential area"
-msgstr ""
+msgstr "περιοχή χρωματικής συνέχειας"
 
 #: ../src/exif.c:244
 msgid "trilinear"
@@ -1312,7 +1321,7 @@ msgstr "τριγραμμικό"
 
 #: ../src/exif.c:245
 msgid "color sequential linear"
-msgstr ""
+msgstr "γραμμή χρωματικής συνέχειας"
 
 #: ../src/exif.c:250
 msgid "digital still camera"
@@ -1320,7 +1329,7 @@ msgstr "ψηφιακή σταθερή κάμερα"
 
 #: ../src/exif.c:255
 msgid "direct photo"
-msgstr ""
+msgstr "απευθείας φωτογραφία"
 
 #: ../src/exif.c:261
 msgid "custom"
@@ -3227,9 +3236,9 @@ msgstr ""
 "Χρησιμοποίησε το --remote-help για έγκυρες απομακρυσμένες επιλογές.\n"
 
 #: ../src/main.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Creating %s dir:%s\n"
-msgstr "Δημιουργία %s dir:%s\n"
+msgstr "Δημιουργία του %s κατάλογος:%s\n"
 
 #: ../src/main.c:493
 #, c-format
@@ -3921,6 +3930,8 @@ msgstr ""
 #: ../src/preferences.c:1387
 msgid "Two pass rendering (apply HQ zoom and color correction in second pass)"
 msgstr ""
+"Αποτύπωση διπλού περάσματος (εφαρμογή εστίασης  Υψηλής Ευκρίνειας, και "
+"διόρθωση χρώματος, στο δεύτερο πέρασμα)"
 
 #: ../src/preferences.c:1390
 msgid "Allow enlargement of image for zoom to fit"
@@ -3988,9 +3999,9 @@ msgid "Auto rotate image using Exif information"
 msgstr "Αυτόματη περιστροφή της εικόνας, με τη χρήση των πληροφοριών Exif"
 
 #: ../src/preferences.c:1450
-#, fuzzy
 msgid "Auto rotate proofs using Exif information"
-msgstr "Αυτόματη περιστροφή της εικόνας, με τη χρήση των πληροφοριών Exif"
+msgstr ""
+"Αυτόματη περιστροφή των καταδειγμάτων, με τη χρήση των πληροφοριών Exif"
 
 #: ../src/preferences.c:1467
 msgid "Windows"
@@ -4030,11 +4041,11 @@ msgstr "Απενεργοποίηση της προφύλαξης οθόνης"
 
 #: ../src/preferences.c:1503
 msgid "Overlay Screen Display"
-msgstr ""
+msgstr "Προβολή Οθόνης με Υπερκάλυψη "
 
 #: ../src/preferences.c:1505
 msgid "Image overlay template"
-msgstr ""
+msgstr "Πρότυπο υπερκάλυψης εικόνας"
 
 #: ../src/preferences.c:1518
 msgid ""
@@ -4057,6 +4068,31 @@ msgid ""
 "If a line is empty, it is removed. This allows one to add lines that totally "
 "disappear when no data is available.\n"
 msgstr ""
+"<i>%name%</i> αποδίδει το όνομα αρχείου της εικόνας.\n"
+"Επίσης διαθέσιμα: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>"
+"%date%</i>,\n"
+"<i>%size%</i> (μέγεθος αρχείου), <i>%width%</i>, <i>%height%</i>, <i>%res%</i>"
+" "
+"(ανάλυση)\n"
+"Για να έχεις πρόσβαση στα δεδομένα EXIF, χρησιμοποίησε το ΕΞΙΦ όνομα· πχ, το "
+"<i>%formatted.Camera%</i> είναι το όνομα της μορφοποιημένης φωτογραφικής "
+"μηχανής,\n"
+"το <i>%Exif.Photo.DateTimeOriginal%</i> είναι η ημερομηνία της αρχικής "
+"λήψης.\n"
+"Η σημείωση <i>%formatted.Camera:20</i> θα μειώσει τα προβαλλόμενα δεδομένα σε "
+"20 χαρακτήρες "
+"και θα προσθέσει τρεις τελείες στο τέλος για να επισημάνει την περικοπή.\n"
+"Αν δύο ή περισσότερες μεταβλητές συνδέονται με το |-σύμβολο, τυπώνει τις "
+"διαθέσιμες μεταβλητές "
+"με ένα διαχωριστή.\n"
+"<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>"
+"%formatted.FocalLength%</i> θα μπορούσε να δείξει \"1/20δευτ - 400 - 80 χιλ\" "
+"or \"1/200 - "
+"80 χιλ\",\n"
+"αν δεν υπάρχουν πληροφορίες ISO στα δεδομένα Exif.\n"
+"Αν μια γραμμή είναι άδεια, απομακρύνεται. Αυτό επιτρέπει σε κάποιον να "
+"προσθέσει γραμμές "
+"οι οποίες εξαφανίζονται εντελώς, όταν δεν υπάρχουν διαθέσιμα δεδομένα.\n"
 
 #: ../src/preferences.c:1535 ../src/print.c:3210
 msgid "Font"
@@ -4210,13 +4246,12 @@ msgid "Auto-save options"
 msgstr "Αυτόματη αποθήκευση των επιλογών"
 
 #: ../src/preferences.c:1820
-#, fuzzy
 msgid "Write metadata after timeout"
-msgstr "Εγγραφή των μεταδεδομένων μετά "
+msgstr "Εγγραφή των μεταδεδομένων μετά τη λήξη του χρόνου"
 
 #: ../src/preferences.c:1826
 msgid "Timeout (seconds):"
-msgstr ""
+msgstr "Λήξη χρόνου (δευτερόλεπτα):"
 
 #: ../src/preferences.c:1829
 msgid "Write metadata on image change"
@@ -4231,9 +4266,8 @@ msgid "Color management"
 msgstr "Διαχειριστής χρωμάτων"
 
 #: ../src/preferences.c:1848
-#, fuzzy
 msgid "Input profiles"
-msgstr "Προφίλ χρωμάτων"
+msgstr "Προφίλ εισαγωγής"
 
 #: ../src/preferences.c:1856
 msgid "Type"
@@ -4257,13 +4291,12 @@ msgid "Select color profile"
 msgstr "Επιλογή χρωματικού προφίλ"
 
 #: ../src/preferences.c:1894
-#, fuzzy
 msgid "Screen profile"
-msgstr "Προφίλ _οθόνης"
+msgstr "Προφίλ οθόνης"
 
 #: ../src/preferences.c:1898
 msgid "Use system screen profile if available"
-msgstr ""
+msgstr "Χρήση του προφίλ οθόνης του συστήματος, αν είναι διαθέσιμο"
 
 #: ../src/preferences.c:1903
 msgid "Screen:"
@@ -4347,7 +4380,7 @@ msgstr "Προσαρμοσμένο κατώφλι ομοιότητας:"
 
 #: ../src/preferences.c:1994
 msgid "Rotation invariant duplicate check"
-msgstr ""
+msgstr "Έλεγχος περιστροφής αμετάβλητου διπλότυπου "
 
 #: ../src/preferences.c:1998
 msgid "Debugging"
@@ -4415,9 +4448,8 @@ msgstr ""
 "Απενεργοποίηση της στερεοσκοπικής λειτουργίας όταν σε μονή πηγή εικόνας"
 
 #: ../src/preferences.c:2144 ../src/preferences.c:2150
-#, fuzzy
 msgid "Fullscreen stereo mode"
-msgstr "Πλήρη οθόνη"
+msgstr "Στερεοσκοπική κατάσταση λειτουργίας πλήρης οθόνης"
 
 #: ../src/preferences.c:2145
 msgid "Use different settings for fullscreen"
@@ -4482,7 +4514,7 @@ msgstr "Μια εικόνα ανά σελίδα"
 
 #: ../src/print.c:137
 msgid "Proof sheet"
-msgstr ""
+msgstr "Φύλλο κατάδειξης"
 
 #: ../src/print.c:150
 msgid "Default printer"
@@ -4530,7 +4562,7 @@ msgstr "ίντσες"
 
 #: ../src/print.c:369
 msgid "picas"
-msgstr ""
+msgstr "πίκια"
 
 #: ../src/print.c:381
 msgid "Letter"
@@ -4600,7 +4632,7 @@ msgstr "Ταχυδρομική κάρτα"
 #. mm 100 x 148
 #: ../src/print.c:403
 msgid "Tabloid"
-msgstr ""
+msgstr "Ταμπλόιντ"
 
 #: ../src/print.c:559
 #, c-format
@@ -4617,6 +4649,8 @@ msgid ""
 "Unable to open pipe for writing.\n"
 "\"%s\""
 msgstr ""
+"Αδυναμία ανοίγματος της διασωλήνωσης για εγγραφή.\n"
+"\"%s\""
 
 #: ../src/print.c:1074 ../src/print.c:1466 ../src/ui_pathsel.c:423
 #, c-format
@@ -4698,7 +4732,7 @@ msgstr "Μέγεθος εικόνας:"
 
 #: ../src/print.c:3384
 msgid "Proof size:"
-msgstr ""
+msgstr "Μέγεθος καταδείγματος:"
 
 #: ../src/print.c:3410
 msgid "Paper"
@@ -4809,9 +4843,8 @@ msgid "stop slide show"
 msgstr "σταμάτημα της συνεχόμενης προβολής των εικόνων"
 
 #: ../src/remote.c:650
-#, fuzzy
 msgid "<FOLDER>"
-msgstr "Φάκελος:"
+msgstr "<ΦΑΚΕΛΟΣ>"
 
 #: ../src/remote.c:650
 msgid "start recursive slide show in FOLDER"
@@ -4867,7 +4900,7 @@ msgstr "άνοιγμα του ΑΡΧΕΙΟΥ σε νέο παράθυρο"
 
 #: ../src/remote.c:660
 msgid "clear command line collection list"
-msgstr ""
+msgstr "καθαρισμός του κατάστιχου της συλλογής της γραμμής εντολών"
 
 #: ../src/remote.c:661
 msgid "add FILE to command line collection list"
@@ -4957,7 +4990,7 @@ msgstr "εξαίρεση"
 
 #: ../src/search.c:244
 msgid "miss"
-msgstr ""
+msgstr "αποφυγή"
 
 #: ../src/search.c:295
 #, c-format
@@ -5068,11 +5101,13 @@ msgstr "Αδυναμία εγγραφής στο αρχείο"
 
 #: ../src/secure_save.c:415
 msgid "Secure file saving error"
-msgstr ""
+msgstr "Σφάλμα ασφαλείας εγγραφής στο αρχείο"
 
 #: ../src/thumb.c:392
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr ""
+"Αποτυχία φορτώματος της μικρογραφίας της εικόνας από την μικροαποθήκευση· "
+"επιχειρείται αναδημιουργία.\n"
 
 #: ../src/trash.c:80 ../src/utilops.c:2461 ../src/utilops.c:2472
 #: ../src/utilops.c:2529
@@ -5168,6 +5203,7 @@ msgstr ""
 #, c-format
 msgid "Operations on, and display of these files with %s may not succeed.\n"
 msgstr ""
+"Ίσως να μην επιτύχει η επέμβαση στα αρχεία, και η προβολή τους με το %s .\n"
 
 #: ../src/ui_fileops.c:70
 msgid ""
