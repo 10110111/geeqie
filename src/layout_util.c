@@ -56,7 +56,7 @@
 #include "desktop_file.h"
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
-
+#include "keymap_template.c"
 
 #define MENU_EDIT_ACTION_OFFSET 16
 
@@ -872,6 +872,168 @@ static void layout_menu_notes_cb(GtkAction *action, gpointer data)
 	help_window_show("release_notes");
 }
 
+static char *keyboard_map_hardcoded[][2] = {
+	{"Scroll","Left"},
+	{"FastScroll", "&lt;Shift&gt;Left"},
+	{"Left Border", "&lt;Primary&gt;Left"},
+	{"Left Border", "&lt;Primary&gt;&lt;Shift&gt;Left"},
+	{"Scroll", "Right"},
+	{"FastScroll", "&lt;Shift&gt;Right"},
+	{"Right Border", "&lt;Primary&gt;Right"},
+	{"Right Border", "&lt;Primary&gt;&lt;Shift&gt;Right"},
+	{"Scroll", "Up"},
+	{"FastScroll", "&lt;Shift&gt;Up"},
+	{"Uper Border", "&lt;Primary&gt;Up"},
+	{"Uper Border", "&lt;Primary&gt;&lt;Shift&gt;Up"},
+	{"Scroll", "Down"},
+	{"FastScroll", "&lt;Shift&gt;Down"},
+	{"Lower Border", "&lt;Primary&gt;Down"},
+	{"Lower Border", "&lt;Primary&gt;&lt;Shift&gt;Down"},
+	{"Next/Drag", "M1"},
+	{"FastDrag", "&lt;Shift&gt;M1"},
+	{"DnD Start", "M2"},
+	{"Menu", "M3"},
+	{"PrevImage", "MW4"},
+	{"NextImage", "MW5"},
+	{"ScrollUp", "&lt;Shift&gt;MW4"},
+	{"ScrollDown", "&lt;Shift&gt;MW5"},
+	{"ZoomIn", "&lt;Primary&gt;MW4"},
+	{"ZoomOut", "&lt;Primary&gt;MW5"},
+	{NULL, NULL}
+};
+
+static void layout_menu_foreach_func(
+					gpointer data,
+					const gchar *accel_path,
+					guint accel_key,
+					GdkModifierType accel_mods,
+					gboolean changed)
+{
+	gchar *path, *name;
+	gchar *key_name, *menu_name;
+	gchar **subset_lt_arr, **subset_gt_arr;
+	gchar *subset_lt, *converted_name;
+	GPtrArray *array = data;
+
+	path = g_strescape(accel_path, NULL);
+	name = gtk_accelerator_name(accel_key, accel_mods);
+
+	menu_name = g_strdup(g_strrstr(path, "/")+1);
+
+	if (g_strrstr(name, ">"))
+		{
+		subset_lt_arr = g_strsplit_set(name,"<", 4);
+		subset_lt = g_strjoinv("&lt;", subset_lt_arr);
+		subset_gt_arr = g_strsplit_set(subset_lt,">", 4);
+		converted_name = g_strjoinv("&gt;", subset_gt_arr);
+		key_name = g_strdup(converted_name);
+
+		g_free(converted_name);
+		g_free(subset_lt);
+		g_strfreev(subset_lt_arr);
+		g_strfreev(subset_gt_arr);
+		}
+	else
+		key_name = g_strdup(name);
+
+	g_ptr_array_add(array, (gpointer)menu_name);
+	g_ptr_array_add(array, (gpointer)key_name);
+
+	g_free(name);
+	g_free(path);
+}
+
+static void layout_menu_kbd_map_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint fd = -1;
+	GPtrArray *array;
+	char * tmp_file;
+	GError *error = NULL;
+	GIOChannel *channel;
+	char **pre_key, **post_key;
+	char *key_name, *converted_line;
+	int keymap_index, index;
+
+	fd = g_file_open_tmp("geeqie_keymap_XXXXXX.svg", &tmp_file, &error);
+	if (error)
+		{
+		DEBUG_0("Keyboard Map - cannot create file:%s\n",error->message);
+		g_error_free(error);
+		}
+	else
+		{
+		array = g_ptr_array_new();
+
+		gtk_accel_map_foreach(array, layout_menu_foreach_func);
+
+		channel = g_io_channel_unix_new(fd);
+
+		keymap_index = 0;
+		while (keymap_template[keymap_index])
+			{
+			if (g_strrstr(keymap_template[keymap_index], ">key:"))
+				{
+				pre_key = g_strsplit(keymap_template[keymap_index],">key:",2);
+				post_key = g_strsplit(pre_key[1],"<",2);
+
+				index=0;
+				key_name = " ";
+				for (index=0; index < array->len-2; index=index+2)
+					{
+					if (!(g_ascii_strcasecmp(g_ptr_array_index(array,index+1), post_key[0])))
+						{
+						key_name = g_ptr_array_index(array,index+0);
+						break;
+						}
+					}
+
+				index=0;
+				while (keyboard_map_hardcoded[index][0])
+					{
+					if (!(g_strcmp0(keyboard_map_hardcoded[index][1], post_key[0])))
+						{
+						key_name = keyboard_map_hardcoded[index][0];
+						break;
+						}
+					index++;
+					}
+
+				converted_line = g_strconcat(pre_key[0], ">", key_name, "<", post_key[1], "\n", NULL);
+				g_io_channel_write_chars(channel, converted_line, -1, NULL, &error);
+				if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+
+				g_free(converted_line);
+				g_strfreev(pre_key);
+				g_strfreev(post_key);
+				}
+			else
+				{
+				g_io_channel_write_chars(channel, keymap_template[keymap_index], -1, NULL, &error);
+				if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+				g_io_channel_write_chars(channel, "\n", -1, NULL, &error);
+				if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+				}
+			keymap_index++;
+			}
+
+		g_io_channel_flush(channel, &error);
+		if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+		g_io_channel_unref(channel);
+
+		index=0;
+		for (index=0; index < array->len-2; index=index+2)
+			{
+			g_free(g_ptr_array_index(array,index));
+			g_free(g_ptr_array_index(array,index+1));
+			}
+		g_ptr_array_unref(array);
+
+		view_window_new(file_data_new_simple(tmp_file));
+		g_free(tmp_file);
+		}
+}
+
 static void layout_menu_about_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1384,6 +1546,7 @@ static GtkActionEntry menu_entries[] = {
   { "Refresh",		GTK_STOCK_REFRESH,	N_("_Refresh"),				"R",			N_("Refresh"),				CB(layout_menu_refresh_cb) },
   { "HelpContents",	GTK_STOCK_HELP,		N_("_Contents"),			"F1",			N_("Contents"),				CB(layout_menu_help_cb) },
   { "HelpShortcuts",	NULL,			N_("_Keyboard shortcuts"),		NULL,			N_("Keyboard shortcuts"),		CB(layout_menu_help_keys_cb) },
+  { "HelpKbd",		NULL,			N_("_Keyboard map"),			NULL,			N_("Keyboard map"),			CB(layout_menu_kbd_map_cb) },
   { "HelpNotes",	NULL,			N_("_Release notes"),			NULL,			N_("Release notes"),			CB(layout_menu_notes_cb) },
   { "About",		GTK_STOCK_ABOUT,	N_("_About"),				NULL,			N_("About"),				CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
@@ -1647,6 +1810,7 @@ static const gchar *menu_ui_description =
 "      <separator/>"
 "      <menuitem action='HelpContents'/>"
 "      <menuitem action='HelpShortcuts'/>"
+"      <menuitem action='HelpKbd'/>"
 "      <menuitem action='HelpNotes'/>"
 "      <placeholder name='HelpSection'/>"
 "      <separator/>"
