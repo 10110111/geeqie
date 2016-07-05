@@ -390,10 +390,23 @@ static void tip_show(ViewFile *vf)
 {
 	GtkWidget *label;
 	gint x, y;
+#if GTK_CHECK_VERSION(3,0,0)
+	GdkDisplay *display;
+	GdkDeviceManager *device_manager;
+	GdkDevice *device;
+#endif
 
 	if (VFICON(vf)->tip_window) return;
 
+#if GTK_CHECK_VERSION(3,0,0)
+	device_manager = gdk_display_get_device_manager(gdk_window_get_display(
+						gtk_tree_view_get_bin_window(GTK_TREE_VIEW(vf->listview))));
+	device = gdk_device_manager_get_client_pointer(device_manager);
+	gdk_window_get_device_position(gtk_tree_view_get_bin_window(GTK_TREE_VIEW(vf->listview)),
+						device, &x, &y, NULL);
+#else
 	gdk_window_get_pointer(gtk_tree_view_get_bin_window(GTK_TREE_VIEW(vf->listview)), &x, &y, NULL);
+#endif
 
 	VFICON(vf)->tip_id = vficon_find_data_by_coord(vf, x, y, NULL);
 	if (!VFICON(vf)->tip_id) return;
@@ -408,7 +421,14 @@ static void tip_show(ViewFile *vf)
 	gtk_container_add(GTK_CONTAINER(VFICON(vf)->tip_window), label);
 	gtk_widget_show(label);
 
+#if GTK_CHECK_VERSION(3,0,0)
+	display = gdk_display_get_default();
+	device_manager = gdk_display_get_device_manager(display);
+	device = gdk_device_manager_get_client_pointer(device_manager);
+	gdk_device_get_position(device, NULL, &x, &y);
+#else
 	gdk_window_get_pointer(NULL, &x, &y, NULL);
+#endif
 
 	if (!gtk_widget_get_realized(VFICON(vf)->tip_window)) gtk_widget_realize(VFICON(vf)->tip_window);
 	gtk_window_move(GTK_WINDOW(VFICON(vf)->tip_window), x + 16, y + 16);
@@ -469,11 +489,21 @@ static void tip_unschedule(ViewFile *vf)
 
 static void tip_update(ViewFile *vf, IconData *id)
 {
+#if GTK_CHECK_VERSION(3,0,0)
+	GdkDisplay *display = gdk_display_get_default();
+	GdkDeviceManager *device_manager = gdk_display_get_device_manager(display);
+	GdkDevice *device = gdk_device_manager_get_client_pointer(device_manager);
+#endif
+
 	if (VFICON(vf)->tip_window)
 		{
 		gint x, y;
 
+#if GTK_CHECK_VERSION(3,0,0)
+		gdk_device_get_position(device, NULL, &x, &y);
+#else
 		gdk_window_get_pointer(NULL, &x, &y, NULL);
+#endif
 		gtk_window_move(GTK_WINDOW(VFICON(vf)->tip_window), x + 16, y + 16);
 
 		if (id != VFICON(vf)->tip_id)

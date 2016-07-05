@@ -575,6 +575,10 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 	gint x, y;
 	gint w, h;
 	gint amt = 0;
+#if GTK_CHECK_VERSION(3,0,0)
+	GdkDeviceManager *device_manager;
+	GdkDevice *device;
+#endif
 
 	if (sd->max_step < sd->region_size)
 		{
@@ -582,7 +586,13 @@ static gboolean widget_auto_scroll_cb(gpointer data)
 		}
 
 	window = gtk_widget_get_window(sd->widget);
+#if GTK_CHECK_VERSION(3,0,0)
+	device_manager = gdk_display_get_device_manager(gdk_window_get_display(window));
+	device = gdk_device_manager_get_client_pointer(device_manager);
+	gdk_window_get_device_position(window, device, &x, &y, NULL);
+#else
 	gdk_window_get_pointer(window, &x, &y, NULL);
+#endif
 	w = gdk_window_get_width(window);
 	h = gdk_window_get_height(window);
 

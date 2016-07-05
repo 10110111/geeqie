@@ -511,6 +511,10 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	GdkModifierType mask;
 	gint x, y;
 	GtkAllocation allocation;
+#if GTK_CHECK_VERSION(3,0,0)
+	GdkDeviceManager *device_manager;
+	GdkDevice *device;
+#endif
 
 	gtk_widget_get_allocation(button, &allocation);
 
@@ -518,14 +522,17 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	pixbuf = gdk_pixbuf_get_from_window(gtk_widget_get_window(button),
 					    allocation.x, allocation.y,
 					    allocation.width, allocation.height);
+	device_manager = gdk_display_get_device_manager(gdk_window_get_display(button));
+	device = gdk_device_manager_get_client_pointer(device_manager);
+	gdk_window_get_device_position(gtk_widget_get_window(button), device, &x, &y, &mask);
 #else
 	pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8,
 				allocation.width, allocation.height);
 	gdk_pixbuf_get_from_drawable(pixbuf, gtk_widget_get_window(button), NULL,
 				     allocation.x, allocation.y,
 				     0, 0, allocation.width, allocation.height);
-#endif
 	gdk_window_get_pointer(gtk_widget_get_window(button), &x, &y, &mask);
+#endif
 
 	gtk_drag_set_icon_pixbuf(context, pixbuf,
 				 x - allocation.x, y - allocation.y);
