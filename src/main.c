@@ -106,8 +106,8 @@ void keyboard_scroll_calc(gint *x, gint *y, GdkEventKey *event)
 		delta = 8;
 		}
 
-	*x = *x * delta;
-	*y = *y * delta;
+	*x = *x * delta * options->keyboard_scroll_step;
+	*y = *y * delta * options->keyboard_scroll_step;
 }
 
 

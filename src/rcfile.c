@@ -283,22 +283,26 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_BOOL(*options, tree_descend_subdirs);
+	WRITE_NL(); WRITE_BOOL(*options, view_dir_list_single_click_enter);
 	WRITE_NL(); WRITE_BOOL(*options, lazy_image_sync);
 	WRITE_NL(); WRITE_BOOL(*options, update_on_time_change);
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_BOOL(*options, progressive_key_scrolling);
+	WRITE_NL(); WRITE_UINT(*options, keyboard_scroll_step);
 
 	WRITE_NL(); WRITE_UINT(*options, duplicates_similarity_threshold);
 	WRITE_NL(); WRITE_BOOL(*options, rot_invariant_sim);
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_BOOL(*options, mousewheel_scrolls);
+	WRITE_NL(); WRITE_BOOL(*options, image_lm_click_nav);
 	WRITE_NL(); WRITE_INT(*options, open_recent_list_maxsize);
 	WRITE_NL(); WRITE_INT(*options, dnd_icon_size);
 	WRITE_NL(); WRITE_BOOL(*options, place_dialogs_under_mouse);
 
 	WRITE_NL(); WRITE_BOOL(*options, save_window_positions);
+	WRITE_NL(); WRITE_BOOL(*options, use_saved_window_positions_for_new_windows);
 	WRITE_NL(); WRITE_BOOL(*options, tools_restore_state);
 
 	/* File operations Options */
@@ -558,6 +562,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, show_icon_names)) continue;
 
 		if (READ_BOOL(*options, tree_descend_subdirs)) continue;
+		if (READ_BOOL(*options, view_dir_list_single_click_enter)) continue;
 		if (READ_BOOL(*options, lazy_image_sync)) continue;
 		if (READ_BOOL(*options, update_on_time_change)) continue;
 
@@ -565,14 +570,17 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, rot_invariant_sim)) continue;
 
 		if (READ_BOOL(*options, progressive_key_scrolling)) continue;
+		if (READ_UINT_CLAMP(*options, keyboard_scroll_step, 1, 32)) continue;
 
 		if (READ_BOOL(*options, mousewheel_scrolls)) continue;
+		if (READ_BOOL(*options, image_lm_click_nav)) continue;
 
 		if (READ_INT(*options, open_recent_list_maxsize)) continue;
 		if (READ_INT(*options, dnd_icon_size)) continue;
 		if (READ_BOOL(*options, place_dialogs_under_mouse)) continue;
 
 		if (READ_BOOL(*options, save_window_positions)) continue;
+		if (READ_BOOL(*options, use_saved_window_positions_for_new_windows)) continue;
 		if (READ_BOOL(*options, tools_restore_state)) continue;
 
 		/* Properties dialog options */

@@ -1405,11 +1405,11 @@ static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpoi
 	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
-			if (lw->split_mode == SPLIT_NONE)
+			if (options->image_lm_click_nav && lw->split_mode == SPLIT_NONE)
 				layout_image_next(lw);
 			break;
 		case MOUSE_BUTTON_MIDDLE:
-			if (lw->split_mode == SPLIT_NONE)
+			if (options->image_lm_click_nav && lw->split_mode == SPLIT_NONE)
 				layout_image_prev(lw);
 			break;
 		case MOUSE_BUTTON_RIGHT:

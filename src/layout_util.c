@@ -203,7 +203,9 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 	LayoutWindow *nw;
 	LayoutOptions lop;
 	gboolean tmp = options->save_window_positions;
-	options->save_window_positions = FALSE; /* let the windowmanager decide for the first time */
+
+	if (!options->use_saved_window_positions_for_new_windows)
+		options->save_window_positions = FALSE; /* let the windowmanager decide for the first time */
 
 	layout_exit_fullscreen(lw);
 
