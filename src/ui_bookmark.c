@@ -482,6 +482,7 @@ static void bookmark_drag_set_data(GtkWidget *button,
 	GList *list = NULL;
 
 #if GTK_CHECK_VERSION(3,0,0)
+	return;
 	if (gdk_drag_context_get_dest_window(context) == gtk_widget_get_window(bm->widget)) return;
 #else
 	if (context->dest_window == bm->widget->window) return;
@@ -492,7 +493,7 @@ static void bookmark_drag_set_data(GtkWidget *button,
 
 	list = g_list_append(list, b->path);
 
-	gchar **uris = uris_from_filelist(list);
+	gchar **uris = uris_from_pathlist(list);
 	gboolean ret = gtk_selection_data_set_uris(selection_data, uris);
 	if (!ret)
 		{
@@ -522,7 +523,7 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	pixbuf = gdk_pixbuf_get_from_window(gtk_widget_get_window(button),
 					    allocation.x, allocation.y,
 					    allocation.width, allocation.height);
-	device_manager = gdk_display_get_device_manager(gdk_window_get_display(button));
+	device_manager = gdk_display_get_device_manager(gdk_window_get_display(gtk_widget_get_window(button)));
 	device = gdk_device_manager_get_client_pointer(device_manager);
 	gdk_window_get_device_position(gtk_widget_get_window(button), device, &x, &y, &mask);
 #else
@@ -730,7 +731,7 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 	if (!bm->editable) return;
 
 	uris = gtk_selection_data_get_uris(selection_data);
-	list = uri_filelist_from_uris(uris, &errors);
+	list = uri_pathlist_from_uris(uris, &errors);
 	if(errors)
 		{
 		warning_dialog_dnd_uri_error(errors);
