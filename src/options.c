@@ -55,6 +55,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_filter.disable_file_extension_checks = FALSE;
 
 	options->save_window_positions = TRUE;
+	options->use_saved_window_positions_for_new_windows = FALSE;
 	options->tools_restore_state = TRUE;
 
 	options->file_ops.confirm_delete = TRUE;
@@ -108,10 +109,12 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;
+	options->image_lm_click_nav = TRUE;
 	options->open_recent_list_maxsize = 10;
 	options->place_dialogs_under_mouse = FALSE;
 
 	options->progressive_key_scrolling = TRUE;
+	options->keyboard_scroll_step = 1;
 
 	options->metadata.enable_metadata_dirs = FALSE;
 	options->metadata.save_in_image_file = FALSE;
@@ -143,6 +146,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->thumbnails.use_exif = FALSE;
 
 	options->tree_descend_subdirs = FALSE;
+	options->view_dir_list_single_click_enter = TRUE;
 	options->update_on_time_change = TRUE;
 
 	options->stereo.fixed_w = 1920;

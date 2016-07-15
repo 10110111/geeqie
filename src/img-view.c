@@ -580,10 +580,12 @@ static void button_cb(ImageWindow *imd, GdkEventButton *event, gpointer data)
 	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
-			view_step_next(vw);
+			if (options->image_lm_click_nav)
+				view_step_next(vw);
 			break;
 		case MOUSE_BUTTON_MIDDLE:
-			view_step_prev(vw);
+			if (options->image_lm_click_nav)
+				view_step_prev(vw);
 			break;
 		case MOUSE_BUTTON_RIGHT:
 			menu = view_popup_menu(vw);

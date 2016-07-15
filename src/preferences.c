@@ -218,6 +218,7 @@ static void config_window_apply(void)
 	options->file_ops.safe_delete_folder_maxsize = c_options->file_ops.safe_delete_folder_maxsize;
 	options->tools_restore_state = c_options->tools_restore_state;
 	options->save_window_positions = c_options->save_window_positions;
+	options->use_saved_window_positions_for_new_windows = c_options->use_saved_window_positions_for_new_windows;
 	options->image.zoom_mode = c_options->image.zoom_mode;
 	options->image.scroll_reset_method = c_options->image.scroll_reset_method;
 	options->image.zoom_2pass = c_options->image.zoom_2pass;
@@ -229,6 +230,8 @@ static void config_window_apply(void)
 	options->image.max_autofit_size = c_options->image.max_autofit_size;
 	options->image.use_clutter_renderer = c_options->image.use_clutter_renderer;
 	options->progressive_key_scrolling = c_options->progressive_key_scrolling;
+	options->keyboard_scroll_step = c_options->keyboard_scroll_step;
+
 	if (options->thumbnails.max_width != c_options->thumbnails.max_width
 	    || options->thumbnails.max_height != c_options->thumbnails.max_height
 	    || options->thumbnails.quality != c_options->thumbnails.quality)
@@ -260,6 +263,7 @@ static void config_window_apply(void)
 	options->slideshow.delay = c_options->slideshow.delay;
 
 	options->mousewheel_scrolls = c_options->mousewheel_scrolls;
+	options->image_lm_click_nav = c_options->image_lm_click_nav;
 
 	options->file_ops.enable_in_place_rename = c_options->file_ops.enable_in_place_rename;
 
@@ -312,6 +316,8 @@ static void config_window_apply(void)
 	options->rot_invariant_sim = c_options->rot_invariant_sim;
 
 	options->tree_descend_subdirs = c_options->tree_descend_subdirs;
+
+	options->view_dir_list_single_click_enter = c_options->view_dir_list_single_click_enter;
 
 	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
 	options->dnd_icon_size = c_options->dnd_icon_size;
@@ -1534,8 +1540,13 @@ static void config_tab_windows(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("State"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Remember window positions"),
-			      options->save_window_positions, &c_options->save_window_positions);
+	ct_button = pref_checkbox_new_int(group, _("Remember window positions"),
+					  options->save_window_positions, &c_options->save_window_positions);
+
+	button = pref_checkbox_new_int(group, _("Use saved window positions also for new windows"),
+				       options->use_saved_window_positions_for_new_windows, &c_options->use_saved_window_positions_for_new_windows);
+	pref_checkbox_link_sensitivity(ct_button, button);
+
 	pref_checkbox_new_int(group, _("Remember tool state (float/hidden)"),
 			      options->tools_restore_state, &c_options->tools_restore_state);
 
@@ -2046,6 +2057,9 @@ static void config_tab_behavior(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("In place renaming"),
 			      options->file_ops.enable_in_place_rename, &c_options->file_ops.enable_in_place_rename);
 
+	pref_checkbox_new_int(group, _("List directory view uses single click to enter"),
+			      options->view_dir_list_single_click_enter, &c_options->view_dir_list_single_click_enter);
+
 	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);
 
@@ -2056,8 +2070,12 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Progressive keyboard scrolling"),
 			      options->progressive_key_scrolling, &c_options->progressive_key_scrolling);
+	pref_spin_new_int(group, _("Keyboard scrolling step multiplier:"), NULL,
+			  1, 32, 1, options->keyboard_scroll_step, (int *)&c_options->keyboard_scroll_step);
 	pref_checkbox_new_int(group, _("Mouse wheel scrolls image"),
 			      options->mousewheel_scrolls, &c_options->mousewheel_scrolls);
+	pref_checkbox_new_int(group, _("Navigation by left or middle click on image"),
+			      options->image_lm_click_nav, &c_options->image_lm_click_nav);
 
 	group = pref_group_new(vbox, FALSE, _("Similarities"), GTK_ORIENTATION_VERTICAL);
 

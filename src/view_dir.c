@@ -1035,6 +1035,9 @@ gboolean vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	GtkTreePath *tpath;
 	FileData *fd = NULL;
 
+	if (vd->type == DIRVIEW_LIST && !options->view_dir_list_single_click_enter)
+		return FALSE;
+
 	if (!vd->click_fd) return FALSE;
 	vd_color_set(vd, vd->click_fd, FALSE);
 

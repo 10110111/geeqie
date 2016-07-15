@@ -27,12 +27,15 @@ struct _ConfOptions
 {
 	/* ui */
 	gboolean progressive_key_scrolling;
+	guint keyboard_scroll_step;
 	gboolean place_dialogs_under_mouse;
 	gboolean mousewheel_scrolls;
+	gboolean image_lm_click_nav;
 	gboolean show_icon_names;
 
 	/* various */
 	gboolean tree_descend_subdirs;
+	gboolean view_dir_list_single_click_enter;
 
 	gboolean lazy_image_sync;
 	gboolean update_on_time_change;
@@ -44,6 +47,7 @@ struct _ConfOptions
 	gint dnd_icon_size;
 
 	gboolean save_window_positions;
+	gboolean use_saved_window_positions_for_new_windows;
 	gboolean tools_restore_state;
 
 	/* file ops */
