@@ -52,37 +52,38 @@ static GdkPixbuf *file_util_get_error_icon(FileData *fd, GList *list, GtkWidget 
  *--------------------------------------------------------------------------
  */
 
-#define DIALOG_DEF_IMAGE_DIM_X 200
-#define DIALOG_DEF_IMAGE_DIM_Y 150
+#define DIALOG_DEF_IMAGE_DIM_X 150
+#define DIALOG_DEF_IMAGE_DIM_Y 100
 
 static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 				     FileData *fd1, const gchar *header1,
+				     gboolean second_image,
 				     FileData *fd2, const gchar *header2,
 				     gboolean show_filename)
 {
 	ImageWindow *imd;
-	GtkWidget *hbox = NULL;
+	GtkWidget *preview_box = NULL;
 	GtkWidget *vbox;
 	GtkWidget *label = NULL;
 
 	if (!box) box = gd->vbox;
 
-	if (fd2)
+	if (second_image)
 		{
-		hbox = pref_box_new(box, TRUE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+		preview_box = pref_box_new(box, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
 		}
 
 	/* image 1 */
 
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
-	if (hbox)
+	if (preview_box)
 		{
 		GtkWidget *sep;
 
-		gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(preview_box), vbox, TRUE, TRUE, 0);
 
-		sep = gtk_vseparator_new();
-		gtk_box_pack_start(GTK_BOX(hbox), sep, FALSE, FALSE, 0);
+		sep = gtk_hseparator_new();
+		gtk_box_pack_start(GTK_BOX(preview_box), sep, FALSE, FALSE, 0);
 		gtk_widget_show(sep);
 		}
 	else
@@ -119,9 +120,9 @@ static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 
 	/* image 2 */
 
-	if (hbox && fd2)
+	if (preview_box)
 		{
-		vbox = pref_box_new(hbox, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+		vbox = pref_box_new(preview_box, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 
 		if (header2)
 			{
@@ -136,25 +137,16 @@ static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 		g_object_set(G_OBJECT(imd->pr), "zoom_expand", FALSE, NULL);
 		gtk_widget_set_size_request(imd->widget, DIALOG_DEF_IMAGE_DIM_X, DIALOG_DEF_IMAGE_DIM_Y);
 		gtk_box_pack_start(GTK_BOX(vbox), imd->widget, TRUE, TRUE, 0);
-		image_change_fd(imd, fd2, 0.0);
+		if (fd2) image_change_fd(imd, fd2, 0.0);
 		gtk_widget_show(imd->widget);
 
-		pref_label_new(vbox, fd2->name);
+		if (show_filename)
+			{
+			label = pref_label_new(vbox, (fd2 == NULL) ? "" : fd2->name);
+			}
+		g_object_set_data(G_OBJECT(gd->dialog), "img_image2", imd);
+		g_object_set_data(G_OBJECT(gd->dialog), "img_label2", label);
 		}
-}
-
-static void generic_dialog_image_set(GenericDialog *gd, FileData *fd)
-{
-	ImageWindow *imd;
-	GtkWidget *label;
-
-	imd = g_object_get_data(G_OBJECT(gd->dialog), "img_image");
-	label = g_object_get_data(G_OBJECT(gd->dialog), "img_label");
-
-	if (!imd) return;
-
-	image_change_fd(imd, fd, 0.0);
-	if (label) gtk_label_set_text(GTK_LABEL(label), fd->name);
 }
 
 /*
@@ -259,6 +251,7 @@ typedef enum {
 
 typedef enum {
 	UTILITY_PHASE_START = 0,
+	UTILITY_PHASE_INTERMEDIATE,
 	UTILITY_PHASE_ENTERING,
 	UTILITY_PHASE_CHECKED,
 	UTILITY_PHASE_DONE,
@@ -357,6 +350,48 @@ struct _UtilityDelayData {
 	GtkWidget *parent;
 	guint idle_id; /* event source id */
 	};
+
+static void generic_dialog_image_set(UtilityData *ud, FileData *fd)
+{
+	ImageWindow *imd;
+	GtkWidget *label;
+	FileData *fd2 = NULL;
+	gchar *buf;
+
+	imd = g_object_get_data(G_OBJECT(ud->gd->dialog), "img_image");
+	label = g_object_get_data(G_OBJECT(ud->gd->dialog), "img_label");
+
+	if (!imd) return;
+
+	image_change_fd(imd, fd, 0.0);
+	buf = g_strjoin("\n", text_from_time(fd->date), text_from_size(fd->size), NULL);
+	if (label) gtk_label_set_text(GTK_LABEL(label), buf);
+	g_free(buf);
+
+	if (ud->type == UTILITY_TYPE_RENAME || ud->type == UTILITY_TYPE_COPY || ud->type == UTILITY_TYPE_MOVE)
+		{
+		imd = g_object_get_data(G_OBJECT(ud->gd->dialog), "img_image2");
+		label = g_object_get_data(G_OBJECT(ud->gd->dialog), "img_label2");
+
+		if (imd)
+			{
+			if (isfile(fd->change->dest))
+				{
+				fd2 = file_data_new_group(fd->change->dest);
+				image_change_fd(imd, fd2, 0.0);
+				buf = g_strjoin("\n", text_from_time(fd2->date), text_from_size(fd2->size), NULL);
+				if (label && fd->change->dest) gtk_label_set_text(GTK_LABEL(label), buf);
+				file_data_unref(fd2);
+				g_free(buf);
+				}
+			else
+				{
+				image_change_fd(imd, NULL, 0.0);
+				if (label) gtk_label_set_text(GTK_LABEL(label), "");
+				}
+			}
+		}
+}
 
 static gboolean file_util_write_metadata_first(UtilityType type, UtilityPhase phase, GList *flist, const gchar *dest_path, const gchar *editor_key, GtkWidget *parent);
 
@@ -1095,14 +1130,37 @@ static void file_util_dest_folder_update_path(UtilityData *ud)
 static void file_util_fdlg_ok_cb(FileDialog *fdlg, gpointer data)
 {
 	UtilityData *ud = data;
+	gchar *desc = NULL;
+	GenericDialog *d = NULL;
 
 	file_util_dest_folder_update_path(ud);
-	if (isdir(ud->dest_path)) file_dialog_sync_history(fdlg, TRUE);
-	file_dialog_close(fdlg);
+	if (isdir(ud->dest_path))
+		{
+		file_dialog_sync_history(fdlg, TRUE);
+		file_dialog_close(fdlg);
+		ud->fdlg = NULL;
+		file_util_dialog_run(ud);
+		}
+	else
+		{
+		/* During copy/move operations it is necessary to ensure that the
+		 * target directory exists before continuing with the next step.
+		 * If not revert to the select directory dialog
+		 */
+		desc = g_strdup_printf(_("%s is not a directory"), ud->dest_path);
 
-	ud->fdlg = NULL;
+		d = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
+					ud->parent, TRUE,
+					file_util_check_abort_cb, ud);
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("This operation can't continue:"), desc);
 
-	file_util_dialog_run(ud);
+		gtk_widget_show(d->dialog);
+		ud->phase = UTILITY_PHASE_START;
+
+		file_dialog_close(fdlg);
+		ud->fdlg = NULL;
+		g_free(desc);
+		}
 }
 
 
@@ -1176,7 +1234,8 @@ static void file_util_rename_preview_update(UtilityData *ud)
 {
 	GtkTreeModel *store;
 	GtkTreeSelection *selection;
-	GtkTreeIter iter;
+	GtkTreeIter iter, iter_selected;
+	GtkTreePath *path_iter, *path_selected;
 	const gchar *front;
 	const gchar *end;
 	const gchar *format;
@@ -1185,6 +1244,8 @@ static void file_util_rename_preview_update(UtilityData *ud)
 	gint padding;
 	gint n;
 	gint mode;
+	gchar *dirname;
+	gchar *destname;
 
 	mode = gtk_notebook_get_current_page(GTK_NOTEBOOK(ud->notebook));
 
@@ -1198,7 +1259,23 @@ static void file_util_rename_preview_update(UtilityData *ud)
 
 			gtk_tree_model_get(store, &iter, UTILITY_COLUMN_FD, &fd, -1);
 			g_assert(ud->with_sidecars); /* sidecars must be renamed too, it would break the pairing otherwise */
-			file_data_sc_update_ci_rename(fd, dest);
+
+			dirname = g_path_get_dirname(fd->change->dest);
+			destname = g_build_filename(dirname, dest, NULL);
+			switch (ud->type)
+				{
+				case UTILITY_TYPE_RENAME:
+					file_data_sc_update_ci_rename(fd, dest);
+					break;
+				case UTILITY_TYPE_COPY:
+					file_data_sc_update_ci_copy(fd, destname);
+					break;
+				case UTILITY_TYPE_MOVE:
+					file_data_sc_update_ci_move(fd, destname);
+					break;
+				default:;
+				}
+			generic_dialog_image_set(ud, fd);
 
 			gtk_list_store_set(GTK_LIST_STORE(store), &iter,
 				   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
@@ -1242,13 +1319,43 @@ static void file_util_rename_preview_update(UtilityData *ud)
 				}
 
 			g_assert(ud->with_sidecars); /* sidecars must be renamed too, it would break the pairing otherwise */
-			file_data_sc_update_ci_rename(fd, dest);
+
+			dirname = g_path_get_dirname(fd->change->dest);
+			destname = g_build_filename(dirname, dest, NULL);
+
+			switch (ud->type)
+				{
+				case UTILITY_TYPE_RENAME:
+					file_data_sc_update_ci_rename(fd, dest);
+					break;
+				case UTILITY_TYPE_COPY:
+					file_data_sc_update_ci_copy(fd, destname);
+					break;
+				case UTILITY_TYPE_MOVE:
+					file_data_sc_update_ci_move(fd, destname);
+					break;
+				default:;
+				}
+
+			g_free(dirname);
+			g_free(destname);
+			g_free(dest);
+
+			selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ud->listview));
+			gtk_tree_selection_get_selected(selection, &store, &iter_selected);
+			path_iter=gtk_tree_model_get_path(store,&iter);
+			path_selected=gtk_tree_model_get_path(store,&iter_selected);
+			if (!gtk_tree_path_compare(path_iter,path_selected))
+				{
+				generic_dialog_image_set(ud, fd);
+				}
+			gtk_tree_path_free(path_iter);
+			gtk_tree_path_free(path_selected);
+
 			gtk_list_store_set(GTK_LIST_STORE(store), &iter,
 					   UTILITY_COLUMN_DEST_PATH, fd->change->dest,
 					   UTILITY_COLUMN_DEST_NAME, filename_from_path(fd->change->dest),
 					   -1);
-			g_free(dest);
-
 			n++;
 			valid = gtk_tree_model_iter_next(store, &iter);
 			}
@@ -1317,11 +1424,11 @@ static gboolean file_util_preview_cb(GtkTreeSelection *selection, GtkTreeModel *
 	    !gtk_tree_model_get_iter(store, &iter, tpath)) return TRUE;
 
 	gtk_tree_model_get(store, &iter, UTILITY_COLUMN_FD, &fd, -1);
-	generic_dialog_image_set(ud->gd, fd);
+	generic_dialog_image_set(ud, fd);
 
 	ud->sel_fd = fd;
 
-	if (ud->type == UTILITY_TYPE_RENAME)
+	if (ud->type == UTILITY_TYPE_RENAME || ud->type == UTILITY_TYPE_COPY || ud->type == UTILITY_TYPE_MOVE)
 		{
 		const gchar *name = filename_from_path(fd->change->dest);
 
@@ -1413,7 +1520,7 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 	gtk_tree_selection_set_select_function(selection, file_util_preview_cb, ud, NULL);
 
-	generic_dialog_add_image(ud->gd, box, NULL, NULL, NULL, NULL, FALSE);
+	generic_dialog_add_image(ud->gd, box, NULL, NULL, FALSE, NULL, NULL, FALSE);
 
 	if (ud->type == UTILITY_TYPE_DELETE ||
 	    ud->type == UTILITY_TYPE_DELETE_LINK ||
@@ -1479,7 +1586,7 @@ static GtkWidget *furm_simple_vlabel(GtkWidget *box, const gchar *text, gboolean
 }
 
 
-static void file_util_dialog_init_source_dest(UtilityData *ud)
+static void file_util_dialog_init_source_dest(UtilityData *ud, gboolean second_image)
 {
 	GtkTreeModel *store;
 	GtkTreeSelection *selection;
@@ -1522,7 +1629,14 @@ static void file_util_dialog_init_source_dest(UtilityData *ud)
 			 G_CALLBACK(file_util_rename_preview_order_cb), ud);
 	gtk_widget_set_size_request(ud->listview, 300, 150);
 
-	generic_dialog_add_image(ud->gd, box, NULL, NULL, NULL, NULL, FALSE);
+	if (second_image)
+		{
+		generic_dialog_add_image(ud->gd, box, NULL, "Source", TRUE, NULL, "Destination", TRUE);
+		}
+	else
+		{
+		generic_dialog_add_image(ud->gd, box, NULL, NULL, FALSE, NULL, NULL, FALSE);
+		}
 
 //	gtk_container_add(GTK_CONTAINER(scrolled), view);
 	gtk_widget_show(ud->gd->dialog);
@@ -1678,20 +1792,36 @@ void file_util_dialog_run(UtilityData *ud)
 				case UTILITY_TYPE_EDITOR:
 				case UTILITY_TYPE_WRITE_METADATA:
 					file_util_dialog_init_simple_list(ud);
+					ud->phase = UTILITY_PHASE_ENTERING;
 					break;
 				case UTILITY_TYPE_RENAME:
-					file_util_dialog_init_source_dest(ud);
+					file_util_dialog_init_source_dest(ud, TRUE);
+					ud->phase = UTILITY_PHASE_ENTERING;
 					break;
 				case UTILITY_TYPE_COPY:
 				case UTILITY_TYPE_MOVE:
+					file_util_dialog_init_dest_folder(ud);
+					ud->phase = UTILITY_PHASE_INTERMEDIATE;
+					break;
 				case UTILITY_TYPE_FILTER:
 				case UTILITY_TYPE_CREATE_FOLDER:
 					file_util_dialog_init_dest_folder(ud);
+					ud->phase = UTILITY_PHASE_ENTERING;
 					break;
 				case UTILITY_TYPE_RENAME_FOLDER:
 					ud->phase = UTILITY_PHASE_CANCEL; /* FIXME - not handled for now */
 					file_util_dialog_run(ud);
 					return;
+				}
+			break;
+		case UTILITY_PHASE_INTERMEDIATE:
+			switch (ud->type)
+				{
+				case UTILITY_TYPE_COPY:
+				case UTILITY_TYPE_MOVE:
+					file_util_dialog_init_source_dest(ud, TRUE);
+					break;
+				default:;
 				}
 			ud->phase = UTILITY_PHASE_ENTERING;
 			break;
@@ -1847,7 +1977,7 @@ static void file_util_details_dialog(UtilityData *ud, FileData *fd)
 
 	box = generic_dialog_add_message(gd, stock_id, _("File details"), message);
 
-	generic_dialog_add_image(gd, box, fd, NULL, NULL, NULL, FALSE);
+	generic_dialog_add_image(gd, box, fd, NULL, FALSE, NULL, NULL, FALSE);
 
 	gtk_widget_show(gd->dialog);
 
@@ -1944,7 +2074,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 		i++;
 		}
 
-	generic_dialog_add_image(gd, box, fd, NULL, NULL, NULL, FALSE);
+	generic_dialog_add_image(gd, box, fd, NULL, FALSE, NULL, NULL, FALSE);
 
 	gtk_widget_set_size_request(gd->dialog, DIALOG_WIDTH, -1);
 	gtk_widget_show(gd->dialog);
@@ -2090,6 +2220,7 @@ static void file_util_move_full(FileData *source_fd, GList *flist, const gchar *
 	ud->flist = flist;
 	ud->content_list = NULL;
 	ud->parent = parent;
+	ud->details_func = file_util_details_dialog;
 
 	if (dest_path) ud->dest_path = g_strdup(dest_path);
 
@@ -2139,6 +2270,7 @@ static void file_util_copy_full(FileData *source_fd, GList *flist, const gchar *
 	ud->flist = flist;
 	ud->content_list = NULL;
 	ud->parent = parent;
+	ud->details_func = file_util_details_dialog;
 
 	if (dest_path) ud->dest_path = g_strdup(dest_path);
 
