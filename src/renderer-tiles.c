@@ -219,7 +219,7 @@ static void rt_border_draw(RendererTiles *rt, gint x, gint y, gint w, gint h)
 				   pr->viewport_width, pr->viewport_height,
 				   &rx, &ry, &rw, &rh))
 			{
-			cairo_set_source_rgb(cr, 0, 0, 0);
+			cairo_set_source_rgb(cr, (double)pr->color.red/65535, (double)pr->color.green/65535, (double)pr->color.blue/65535);
 			cairo_rectangle(cr, rx + rt->stereo_off_x, ry + rt->stereo_off_y, rw, rh);
 			cairo_fill(cr);
 			cairo_destroy(cr);
@@ -236,7 +236,7 @@ static void rt_border_draw(RendererTiles *rt, gint x, gint y, gint w, gint h)
 				   pr->x_offset, pr->viewport_height,
 				   &rx, &ry, &rw, &rh))
 			{
-			cairo_set_source_rgb(cr, 0, 0, 0);
+			cairo_set_source_rgb(cr, (double)pr->color.red/65535, (double)pr->color.green/65535, (double)pr->color.blue/65535);
 			cairo_rectangle(cr, rx + rt->stereo_off_x, ry + rt->stereo_off_y, rw, rh);
 			cairo_fill(cr);
 			rt_overlay_draw(rt, rx, ry, rw, rh, NULL);
@@ -247,7 +247,7 @@ static void rt_border_draw(RendererTiles *rt, gint x, gint y, gint w, gint h)
 				   pr->viewport_width - pr->vis_width - pr->x_offset, pr->viewport_height,
 				   &rx, &ry, &rw, &rh))
 			{
-			cairo_set_source_rgb(cr, 0, 0, 0);
+			cairo_set_source_rgb(cr, (double)pr->color.red/65535, (double)pr->color.green/65535, (double)pr->color.blue/65535);
 			cairo_rectangle(cr, rx + rt->stereo_off_x, ry + rt->stereo_off_y, rw, rh);
 			cairo_fill(cr);
 			rt_overlay_draw(rt, rx, ry, rw, rh, NULL);
@@ -261,7 +261,7 @@ static void rt_border_draw(RendererTiles *rt, gint x, gint y, gint w, gint h)
 				   pr->vis_width, pr->y_offset,
 				   &rx, &ry, &rw, &rh))
 			{
-			cairo_set_source_rgb(cr, 0, 0, 0);
+			cairo_set_source_rgb(cr, (double)pr->color.red/65535, (double)pr->color.green/65535, (double)pr->color.blue/65535);
 			cairo_rectangle(cr, rx + rt->stereo_off_x, ry + rt->stereo_off_y, rw, rh);
 			cairo_fill(cr);
 			rt_overlay_draw(rt, rx, ry, rw, rh, NULL);
@@ -272,7 +272,7 @@ static void rt_border_draw(RendererTiles *rt, gint x, gint y, gint w, gint h)
 				   pr->vis_width, pr->viewport_height - pr->vis_height - pr->y_offset,
 				   &rx, &ry, &rw, &rh))
 			{
-			cairo_set_source_rgb(cr, 0, 0, 0);
+			cairo_set_source_rgb(cr, (double)pr->color.red/65535, (double)pr->color.green/65535, (double)pr->color.blue/65535);
 			cairo_rectangle(cr, rx + rt->stereo_off_x, ry + rt->stereo_off_y, rw, rh);
 			cairo_fill(cr);
 			rt_overlay_draw(rt, rx, ry, rw, rh, NULL);

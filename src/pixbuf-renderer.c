@@ -435,6 +435,10 @@ static void pixbuf_renderer_init(PixbufRenderer *pr)
 
 	pr->stereo_mode = PR_STEREO_NONE;
 
+	pr->color.red =0;
+	pr->color.green =0;
+	pr->color.blue =0;
+
 	pr->renderer = pr_backend_renderer_new(pr);
 
 	pr->renderer2 = NULL;
@@ -904,23 +908,18 @@ void pixbuf_renderer_set_color(PixbufRenderer *pr, GdkColor *color)
 
 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
 
-	widget = GTK_WIDGET(pr);
-
-	if (color) {
-		GdkColor *slot;
-
-		style = gtk_style_copy(gtk_widget_get_style(widget));
-		slot = &style->bg[GTK_STATE_NORMAL];
-
-		slot->red = color->red;
-		slot->green = color->green;
-		slot->blue = color->blue;
+	if (color)
+		{
+		pr->color.red = color->red;
+		pr->color.green = color->green;
+		pr->color.blue = color->blue;
 		}
-	else {
-		style = gtk_style_copy(gtk_widget_get_default_style());
-	}
-
-	gtk_widget_set_style(widget, style);
+	else
+		{
+		pr->color.red = 0;
+		pr->color.green = 0;
+		pr->color.blue = 0;
+		}
 
 	pr->renderer->update_viewport(pr->renderer);
 	if (pr->renderer2) pr->renderer2->update_viewport(pr->renderer2);

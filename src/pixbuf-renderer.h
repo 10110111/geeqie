@@ -161,7 +161,7 @@ struct _PixbufRenderer
 	gboolean autofit_limit;
 	gint autofit_limit_size;
 
-
+	GdkColor color;
 
 	/*< private >*/
 	gboolean in_drag;
