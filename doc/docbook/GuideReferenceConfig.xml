@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section id="GuideReferenceConfig"><title/>
-    <para>
-      ($HOME)/.config/geeqie/geeqierc.xml
-    </para>
-    <para>
-      FIXME: Exiv2 keys, toolbar, statusbar, sidebar
-    </para>
-    <para>
-      geeqie -r --config-load:
-    </para>
-  <para/></section>
+<section id="GuideReferenceConfig">
+  <title id="titleGuideReferenceConfig">Configuration Files and Locations</title>
+  <para>The following data lists the locations Geeqie uses for various actions. The uppercase symbols are environment variables. If they are not set on your system the fallback locations are listed in parentheses.</para>
+  <para>
+    Most of Geeqie's configuration files are contained in the folder, and sub-folders of:
+    <programlisting xml:space="preserve">$HOME/$XDG_CONFIG_HOME/geeqie/</programlisting>
+    <programlisting xml:space="preserve">($~/.config/geeqie/)</programlisting>
+  </para>
+  <para>
+    Geeqie's standard configuration file is:
+    <programlisting xml:space="preserve">.../geeqierc.xml</programlisting>
+  </para>
+  <para>
+    An alternative configuration file may be used by executing:
+    <programlisting xml:space="preserve">geeqie -r --config-load:&lt;filename&gt;</programlisting>
+  </para>
+  <para>
+    Geeqie-created desktop files used by
+    <link linkend="GuideImageManagementExternalEditing">External Editors</link>
+    are in the folder:
+    <programlisting xml:space="preserve">.../applications</programlisting>
+  </para>
+  <para>
+    Lua script files for
+    <link linkend="GuideReferenceLua">Lua Extensions</link>
+    are in the folder:
+    <programlisting xml:space="preserve">.../lua</programlisting>
+  </para>
+  <para>
+    Historic data such as last several folders visited, bookmarks, and recently used collections, as well as default print settings are contained in this text file:
+    <programlisting xml:space="preserve">.../history</programlisting>
+  </para>
+  <para>
+    Keyboard shortcut maps are contained in this text file:
+    <programlisting xml:space="preserve">.../accels</programlisting>
+  </para>
+  <para>
+    The default location for Collections is in the folder:
+    <programlisting xml:space="preserve">$HOME/.local/share/geeqie/collections</programlisting>
+  </para>
+  <para>
+    The lirc
+    <link linkend="GuideReferenceLIRC" endterm="titleGuideReferenceLIRC" />
+    configuration file must be located at:
+    <programlisting xml:space="preserve">$HOME/.lircrc</programlisting>
+  </para>
+  <para>
+    Thumbnails are stored in a location specified in
+    <link linkend="PreferencesThumbnails">Thumbnail Preferences</link>
+  </para>
+  <para>
+    Metadata is stored either in the image file or in the location specified in
+    <link linkend="Delete">Safe Delete</link>
+  </para>
+  <para>
+    The safe delete folder is specified in the
+    <link linkend="MetadataWritingProcess">Metadata</link>
+    tab of main Preferences
+  </para>
+</section>

@@ -1,76 +1,312 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section id="GuideSidebarsInfo">
-    <title>
-      Info Sidebar
-    </title>
+  <title>Info Sidebar</title>
+  <para>The Info Sidebar shows various information about the image and can also be used for metadata editing.</para>
+  <para>
+    To toggle display of the Sort Manager select
+    <menuchoice>
+      <shortcut>
+        <keycombo>
+          <keycap>Ctrl</keycap>
+          <keycap>K</keycap>
+        </keycombo>
+      </shortcut>
+      <guimenu>View</guimenu>
+      <guimenuitem>Info Sidebar</guimenuitem>
+    </menuchoice>
+    .
+  </para>
+  <para>It consists of several panes. Left-clicking on the pane title expands or collapses the pane. Right-clicking on the pane title or on empty space opens a context menu allowing you to add and remove panes, or move them up and down.</para>
+  <para />
+  <section id="Histogram">
+    <title>Histogram</title>
     <para>
-      The Info Sidebar shows various information about the image and can also be used for metadata editing. It consists of panes. Left-clicking on the pane title expands or collapses the pane. Right-clicking on the pane title or on empty space opens a context menu allowing you to add and remove panes, or move them up and down.
+      This histogram is identical to that shown in the
+      <link linkend="InformationandhistogramOverlay" endterm="titleInformationandhistogramOverlay" />
+      . It can be configured by right-click to modify the display of color or linear/logarithmic scale.
     </para>
-    <para/><section id="Panes"><title>
-      Panes
-    </title>
-    <para/><section id="Histogram"><title>
-      Histogram
-    </title>
-    <para>
-      Right-click to configure
-    </para>
-    <para/></section><section id="Textpanes-TitleComment"><title>
-      Text panes - Title, Comment
-    </title>
-    <para>
-      The text is written to Xmp.dc.title and Xmp.dc.description. It can be changed in the configuration file.
-    </para>
-    <para/></section><section id="Keywords"><title>
-      Keywords
-    </title>
-    <para>
-      FIXME: put <ulink url="/wiki/keywords">keywords?</ulink> here The text is written to Xmp.dc.subject. It can be changed in the configuration file.
-    </para>
-    <para/></section><section id="Listpanes-ExifFileinfoCopyrightLocationandGPS"><title>
-      List panes - Exif, File info, Copyright, Location and GPS
-    </title>
-    <para>
-      The metadata tags are sorted into these main groups - Exif, File info, Copyright, Location and GPS, but it is just a matter of configuration. The item titles support drag and drop and can be dragged freely among these panes, it is also possible to drag new items from Advanced Exif window Right-clicking on an item opens the context menu
-    </para>
-    <para>
-      Add entry
-    </para>
-    <variablelist><varlistentry><term>
-        Key
-      </term><listitem><para>
-        Exiv2 or Geeqie (formatted...) key FIXME: list of formatted... tags.
-      </para></listitem></varlistentry></variablelist>
-    <variablelist><varlistentry><term>
-        Title
-      </term><listitem><para>
-        Title that is shown.
-      </para></listitem></varlistentry></variablelist>
-    <variablelist><varlistentry><term>
-        Show only if set
-      </term><listitem><para>
-        Show only if the tag exists in the file.
-      </para></listitem></varlistentry></variablelist>
-    <variablelist><varlistentry><term>
-        Editable
-      </term><listitem><para>
-        Displays the value as editable.
-      </para></listitem></varlistentry></variablelist>
-    <para>
-      Note: Geeqie internally converts Exif and IPTC metadata to XMP on read and back on write, thus any changes made to Exif and IPTC here will be lost on write. Edit the corresponding XMP instead. An exception are Makernote tags which don't have an equivalent in XMP, but there is another limitation in that Makernote can't be written to an external file (sidecar or Geeqie private file).
-    </para>
-    <para>
-      Show hidden
-    </para>
-    <blockquote>
+    <para />
+  </section>
+  <section id="TextpaneTitle">
+    <title>Title</title>
+    >
+    <note>
       <para>
-        Shows all entries regardless of "Show only if set".
+        Title text is stored in the
+        <emphasis>Xmp.dc.title</emphasis>
+        tag.
       </para>
-    </blockquote>
-    <para/></section><section id="GPSMap"><title>
-      GPS Map
-    </title>
+    </note>
+    <para />
+  </section>
+  <section id="TextpaneComment">
+    <title>Comment</title>
+    <note>
+      <para>
+        Comment text is stored in the
+        <emphasis>Xmp.dc.description</emphasis>
+        tag.
+      </para>
+    </note>
+    <para />
+  </section>
+  <section id="Keywords">
+    <title id="titleKeywords">Keywords</title>
+    <para>Keywords, together with a flexible search tool, are essential for handling large image collections.</para>
+    <para>Geeqie has free-form keywords and a hierarchical method of adding new keywords to an image.</para>
+    <note>
+      <para>
+        Keywords are stored in the
+        <emphasis>Xmp.dc.subject</emphasis>
+        tag.
+      </para>
+    </note>
+    <note>
+      <para>
+        Keywords are not case-sensitive unless selected as so in
+        <link linkend="MetadataMiscellaneous">Preferences</link>
+      </para>
+    </note>
+    <para>The Keyword pane in the sidebar consists of two sections:</para>
     <para>
-      Geeqie must be built with libchamplain.
+      <itemizedlist spacing="compact">
+        <listitem>The left hand section which is for free-form keywords</listitem>
+        <listitem>The right hand section which is a hierarchical structure, allowing sets of keywords to be added.</listitem>
+      </itemizedlist>
     </para>
-  <para/></section></section></section>
+    <para>The contents of the left-hand box is the data written to file.</para>
+    <para>
+      The right-hand section has two types of entries :
+      <itemizedlist spacing="compact">
+        <listitem>Keywords</listitem>
+        <listitem>Helpers</listitem>
+      </itemizedlist>
+      <para>An example of keyword hierarchy is:</para>
+      <programlisting xml:space="preserve">
+        [ ] animal
+        [ ]   mammal
+        [ ]     dog
+        [ ]     cat
+        [ ]   insect
+        [ ]     fly
+        [ ]     dragonfly
+        daytime
+        [ ]   morning
+        [ ]   afternoon
+      </programlisting>
+    </para>
+    <para>
+      In this example
+      <emphasis>daytime</emphasis>
+      is a Helper, and all the others are keywords. Helpers are not stored in metadata - their purpose is only as an organisational aide.
+    </para>
+    <para>
+      In the above example if
+      <emphasis>cat</emphasis>
+      is clicked, both
+      <emphasis>mammal</emphasis>
+      and
+      <emphasis>animal</emphasis>
+      will also automatically be checked, and all three transferred to the left hand box, ready for writing as metadata.
+    </para>
+    <para>If a hierarchy of keywords are checked, and the top-level item then un-checked, all lower level keywords will also be unchecked and will be removed from the left-hand pane.</para>
+    <warning>
+      <para>This action cannot be undone.</para>
+    </warning>
+    <para>Irrespective of their position in a hierarchy in the right-hand box, all keywords are written as individual entries into metadata. When metadata for an image is read in, Geeqie will attempt to recreate any hierarchies within the data, and display it accordingly in the right-hand box.</para>
+    <para>Right-click on the left-hand box allows the keywords to be written to the currently selected files - the keywords may be either added to the existing contents, or entirely replace the existing content.</para>
+    <para>
+      Right-click on the right-hand box allows a connection to be made between a keyword and a mark. The
+      <link linkend="GuideImageMarks" endterm="titleGuideImageMarks" />
+      section shows how marks and keywords inter-operate.
+    </para>
+    <para>The ordering of keywords in the right-hand box may be changed by drag-and-drop.</para>
+    <para>
+      The meta-data write operation for a file is triggered either
+      <link linkend="Buttons">manually</link>
+      or as defined in
+      <link linkend="GuideOptionsMetadata" endterm="titleGuideOptionsMetadata" />
+      .
+    </para>
+    <para />
+  </section>
+  <section id="Listpanes-ExifFileinfoCopyrightLocationandGPS">
+    <title id="titleExif">List panes</title>
+    <para>
+      There are five list panes, whose contents can be configured to display Exif, XMP or IPTC metadata tags. The five panes are:
+      <itemizedlist>
+        <listitem>Title</listitem>
+        <listitem>Exif</listitem>
+        <listitem>File Info</listitem>
+        <listitem>Location and GPS</listitem>
+        <listitem>Copyright</listitem>
+      </itemizedlist>
+    </para>
+    <para>Any metadata tag can be displayed in any pane - the pane titles merely exist as an organisational aide.</para>
+    <para>It is possible to reorganise the data displayed by drag-and-dropping any item within a pane, or from one pane to another (although in some cases it makes little sense to do so).</para>
+    <para>
+      <note>It is not possible to undo these actions, nor is there a way to reset the display to its original settings.</note>
+    </para>
+    <para>
+      It is also possible to drag new items from the
+      <link linkend="GuideOtherWindowsExif" endterm="titleGuideOtherWindowsExif" />
+      onto any pane.
+    </para>
+    <para>As an aide, in addition to standard metadata tags, Geeqie provides certain pre-formatted tags. These are:</para>
+    <table id="formatted_exif">
+      <tgroup cols="2" rowsep="1" colsep="1">
+        <tbody>
+          <row>
+            <entry>
+              <emphasis role="strong">Tag</emphasis>
+            </entry>
+            <entry>
+              <emphasis role="strong">Replaced by Meta data</emphasis>
+            </entry>
+          </row>
+          <row>
+            <entry>formatted.Camera</entry>
+            <entry>Camera and sofware name</entry>
+          </row>
+          <row>
+            <entry>formatted.DateTime</entry>
+            <entry>Image Date</entry>
+          </row>
+          <row>
+            <entry>formatted.ShutterSpeed</entry>
+            <entry>Shutter speed in seconds (e.g. 1/60s)</entry>
+          </row>
+          <row>
+            <entry>formatted.Aperture</entry>
+            <entry>Aperture (e.g. f5.6)</entry>
+          </row>
+          <row>
+            <entry>formatted.ExposureBias</entry>
+            <entry>Exposure bias (e.g. +0.3)</entry>
+          </row>
+          <row>
+            <entry>formatted.ISOSpeedRating</entry>
+            <entry>ISO sensitivity (e.g. 100)</entry>
+          </row>
+          <row>
+            <entry>formatted.FocalLength</entry>
+            <entry>Focal length</entry>
+          </row>
+          <row>
+            <entry>formatted.FocalLength35mmFilm</entry>
+            <entry>Focal length 35mm</entry>
+          </row>
+          <row>
+            <entry>formatted.SubjectDistance</entry>
+            <entry>Subject distance</entry>
+          </row>
+          <row>
+            <entry>formatted.Flash</entry>
+            <entry>Flash</entry>
+          </row>
+          <row>
+            <entry>formatted.Resolution</entry>
+            <entry>Resolution</entry>
+          </row>
+          <row>
+            <entry>formatted.ColorProfile</entry>
+            <entry>Color profile</entry>
+          </row>
+          <row>
+            <entry>formatted.GPSAltitude</entry>
+            <entry>Altitude above sea level</entry>
+          </row>
+          <row>
+            <entry>formatted.GPSPosition</entry>
+            <entry>Latitude, Longitude</entry>
+          </row>
+          <row>
+            <entry>file.size</entry>
+            <entry>file size in bytes</entry>
+          </row>
+          <row>
+            <entry>file.date</entry>
+            <entry>file date and time in human readable form</entry>
+          </row>
+          <row>
+            <entry>file.mode</entry>
+            <entry>file mode flags</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <para>Right-clicking on an item opens the context menu:</para>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <guilabel>Add entry</guilabel>
+        </term>
+        <listitem>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <guilabel>Key</guilabel>
+              </term>
+              <listitem>
+                <para>
+                  Exif, IPTC, XMP or
+                  <link linkend="formatted_exif">Geeqie formatted exif</link>
+                  tags.
+                </para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <guilabel>Title</guilabel>
+              </term>
+              <listitem>
+                <para>Displayed title text.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <guilabel>Show only if set</guilabel>
+              </term>
+              <listitem>
+                <para>Inhibit display if the tag is empty.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <guilabel>Editable</guilabel>
+              </term>
+              <listitem>
+                <para>Displays the value as editable.</para>
+                <note>
+                  <para>Geeqie internally converts Exif and IPTC metadata to XMP on read and back on write, thus any changes made to Exif and IPTC here will be lost on write. You must edit the corresponding XMP instead.</para>
+                  <para>An exception is Makernote tags which don't have an equivalent in XMP. However Makernotes cannot be written to an external file (a sidecar or Geeqie metadata file).</para>
+                </note>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Show hidden</guilabel>
+        </term>
+        <listitem>
+          Shows all entries regardless of
+          <emphasis>Show only if set</emphasis>
+          .
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para />
+  </section>
+  <section id="GPSMap">
+    <title>Map Display</title>
+    <para>
+      Geeqie can display maps created by the
+      <ulink url="https://www.openstreetmap.org">openstreetmap.org</ulink>
+      . To use this facility, Geeqie must have been compiled with the --enable-map option.
+    </para>
+    <para>Maps are useful when working with geocoded images. All geocoded images in the currently displayed folder will show as small icons on the map. Clicking the icon will expand the icon to show an image thumbnail, plus other pre-defined image data.</para>
+    <para>Right-click on the map will show other map options.</para>
+  </section>
+</section>

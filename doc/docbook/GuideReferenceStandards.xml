@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideReferenceStandards">
+  <title id="titleGuideReferenceStandards">Standards</title>
+  <para>
+    Desktop files:
+    <ulink url="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html">https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html</ulink>
+  </para>
+  <para>
+    Desktop files:
+    <ulink url="http://standards.freedesktop.org/desktop-entry-spec/">http://standards.freedesktop.org/desktop-entry-spec/</ulink>
+  </para>
+  <para>
+    XMP:
+    <ulink url="http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf" />
+  </para>
+  <para>
+    IPTC4XMP:
+    <ulink url="http://xml.coverpages.org/IPTC-CoreSchema200503-ImplGuideLines3.pdf" />
+  </para>
+  <para>
+    Pango mark up:
+    <ulink url="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html" />
+  </para>
+</section>

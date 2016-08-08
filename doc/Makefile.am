@@ -5,7 +5,7 @@ helpdir = @htmldir@
 EXTRA_DIST = docbook2html.sh docbook
 
 html/GuideIndex.html: docbook/GuideIndex.xml
-	rm -rf html; mkdir html
+	rm -rf html; mkdir html; cp icons/* html/
 	if [ -x "$(GNOME_DOC_TOOL)" ]; then \
 		"$(GNOME_DOC_TOOL)" html -o html $(srcdir)/docbook/GuideIndex.xml ; \
 	else \

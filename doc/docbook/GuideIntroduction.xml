@@ -1,48 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <chapter id="GuideIntroduction">
-    <para>
-      Legal Notice
-    </para>
-    <para>
-      Copyright (c) 2008 - 2016 The Geeqie Team.<?db2html element="br"?>
-      Copyright (c) 2004 John Ellis.
-    </para>
-    <para>
-      Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "<ulink url="/wiki/gnu_fdl">GNU Free Documentation License?</ulink>".
-    </para>
-    <title>
-      Introduction
-    </title>
-    <para>
-      Geeqie is an image viewer that makes navigation of images easy. Images can be viewed full screen, and a slide show function allows automatic changing of the displayed image.
-    </para>
-    <para>
-      Geeqie is an image manager, with complete copy, move, rename, and delete functions available at the press of a button. Find the right image with the search feature. Image collectors can free up space with a function that finds duplicate images.
-    </para>
-    <para>
-      The one thing Geeqie is not, and never will be, is an image editor. However, Geeqie paired with an image editor, such as the Gimp, can be a very powerful combination.
-    </para>
-    <para/><section id="BasicFeatures"><title>
-      Basic Features
-    </title>
-    <itemizedlist spacing="compact"><listitem><para>Thumbnail preview
-      </para></listitem><listitem><para>Full screen
-      </para></listitem><listitem><para>Slide show
-      </para></listitem><listitem><para>Image Management
-      </para></listitem><listitem><para>Image Collections
-      </para></listitem></itemizedlist>
-    <para/></section><section id="AdvancedFeatures"><title>
-      Advanced Features
-    </title>
-    <itemizedlist spacing="compact"><listitem><para>Image Search
-      </para></listitem><listitem><para>Find image duplicates based on image content
-      </para></listitem><listitem><para>View and edit EXIF, IPTC and XMP data stored in images
-      </para></listitem><listitem><para>Simple Sort Manager to quickly sort a folder of images into other folders
-      </para></listitem><listitem><para>Rename images in bulk
-      </para></listitem><listitem><para>Add XMP keywords to images, and recall those images with the search function
-      </para></listitem><listitem><para>Very Configurable
-      </para></listitem></itemizedlist>
-    <para>
-      “An application that displays images.” - This was, and still is, the primary goal of Geeqie. Over time image management features have been added, but the core purpose of Geeqie remains the same.
-    </para>
-  <para/></section></chapter>
+  <title>Introduction</title>
+  <para>Geeqie is an image viewer that makes navigation of images easy. Images can be viewed as thumbnails, in multiple windows or in full screen mode.</para>
+  <para>Geeqie is an image manager, with complete copy, move, rename, and delete functions available at the press of a button.</para>
+  <para>Extensive image collections can be easily handled using a combination of Geeqie's flexible Keyword facility and powerful Image searches.</para>
+  <para>Image collections can be refined with a duplicate image finder.</para>
+  <para>Geeqie is ideal for making presentations. A slide-show feature is built in, and Geeqie can be remotely controlled either via command line scripts or an infra-red device. Information such as f-stop, shutter speed and descriptive text can be overlayed onto the image display.</para>
+  <para>There is no need to import images into Geeqie - simply point Geeqie to a folder containing images, and your data will be displayed.</para>
+  <para>Geeqie is an image viewer, not an image editor. However, Geeqie can be configured to call external image editors such as the Gimp, resulting in a very powerful combination.</para>
+  <para />
+  <section id="Features">
+    <title>Features</title>
+    <section id="BasicFeatures">
+      <title>Basic Features</title>
+      <itemizedlist spacing="compact">
+        <listitem>
+          <link linkend="Iconview" endterm="titleIconview" />
+        </listitem>
+        <listitem>
+          <link linkend="GuideImagePresentationFullscreen" endterm="titleGuideImagePresentationFullscreen" />
+        </listitem>
+        <listitem>
+          <link linkend="GuideImagePresentationSlideshow" endterm="titleGuideImagePresentationSlideshow" />
+        </listitem>
+        <listitem>
+          <link linkend="GuideImageManagement" endterm="titleGuideImageManagement" />
+        </listitem>
+        <listitem>
+          <link linkend="GuideCollections" endterm="titleGuideCollections" />
+        </listitem>
+      </itemizedlist>
+      <para />
+    </section>
+    <section id="AdvancedFeatures">
+      <title>Advanced Features</title>
+      <itemizedlist spacing="compact">
+        <listitem>
+          <link linkend="GuideImageSearch" endterm="titleGuideImageSearch" />
+          <para>Image Search based on many parameters</para>
+        </listitem>
+        <listitem>
+          <link linkend="GuideImageSearchFindingDuplicates" endterm="titleGuideImageSearchFindingDuplicates" />
+          <para>Find image duplicates based on image content</para>
+        </listitem>
+        <listitem>
+          <link linkend="GuideSidebarsInfo" endterm="titleExif" />
+          <para>View IPTC, and view and edit Exif and XMP data stored in images</para>
+        </listitem>
+        <listitem>
+          <link linkend="GuideSidebarsSortManager" endterm="titleGuideSidebarsSortManager" />
+          <para>Simple Sort Manager to quickly sort a folder of images into other folders</para>
+        </listitem>
+        <listitem>
+          <link linkend="GuideImageManagementRename" endterm="titleGuideImageManagementRename" />
+          <para>Rename images in bulk</para>
+        </listitem>
+        <listitem>
+          <link linkend="InformationandhistogramOverlay" endterm="titleInformationandhistogramOverlay" />
+          <para>Overlay the image with a panel showing user-definable data</para>
+        </listitem>
+        <listitem>
+          <link linkend="Keywords" endterm="titleKeywords" />
+          <para>Add XMP keywords to images, and recall those images with the search function</para>
+        </listitem>
+        <listitem>
+          <link linkend="GuideOptions" endterm="titleGuideOptions" />
+          <para>Geeqie is a very configurable application</para>
+        </listitem>
+      </itemizedlist>
+      <para>“An application that displays images.” - This was, and still is, the primary goal of Geeqie. Over time image management features have been added, but the core purpose of Geeqie remains the same.</para>
+      <para />
+    </section>
+  </section>
+</chapter>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <chapter id="GuideImageSearch">
-    <title>
-      Image Search
-    </title>
-    <para>
-      Geeqie provides methods to find an image, and the ability to find duplicate images.
-    </para>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearchSearch.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearchFindingDuplicates.xml"/>
-
-  <para/></chapter>
+  <title id="titleGuideImageSearch">Search and Select</title>
+  <para>Geeqie provides comprehensive set of search methods, including not only the standard functions such as file date or size, but also image similarity.</para>
+  <para>There is a duplicate file finder, which uses search parameters such as image dimensions or checksum. Two sets of image files may be compared.</para>
+  <para>Geeqie also has a set of temporary "marks" or "tags" which may be allocated to any image as an aide to file organising.</para>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearchSearch.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearchFindingDuplicates.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageMarks.xml" />
+  <para />
+</chapter>
