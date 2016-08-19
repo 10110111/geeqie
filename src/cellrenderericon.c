@@ -690,7 +690,11 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 	pixbuf = cellicon->pixbuf;
 	text = cellicon->text;
 
-	if (!pixbuf && !text) return;
+	if (!pixbuf && !text)
+		{
+		cairo_destroy(cr);
+		return;
+		}
 
 	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
 
