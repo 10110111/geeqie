@@ -692,7 +692,9 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 
 	if (!pixbuf && !text)
 		{
+#if !GTK_CHECK_VERSION(3,0,0)
 		cairo_destroy(cr);
+#endif
 		return;
 		}
 

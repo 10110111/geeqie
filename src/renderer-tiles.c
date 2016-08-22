@@ -222,9 +222,9 @@ static void rt_border_draw(RendererTiles *rt, gint x, gint y, gint w, gint h)
 			cairo_set_source_rgb(cr, (double)pr->color.red/65535, (double)pr->color.green/65535, (double)pr->color.blue/65535);
 			cairo_rectangle(cr, rx + rt->stereo_off_x, ry + rt->stereo_off_y, rw, rh);
 			cairo_fill(cr);
-			cairo_destroy(cr);
 			rt_overlay_draw(rt, rx, ry, rw, rh, NULL);
 			}
+		cairo_destroy(cr);
 		return;
 		}
 
