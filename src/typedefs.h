@@ -248,6 +248,8 @@ typedef enum {
 typedef struct _ImageLoader ImageLoader;
 typedef struct _ThumbLoader ThumbLoader;
 
+typedef struct _AnimationData AnimationData;
+
 typedef struct _CollectInfo CollectInfo;
 typedef struct _CollectionData CollectionData;
 typedef struct _CollectTable CollectTable;
@@ -327,6 +329,17 @@ struct _ThumbLoader
 	gpointer data;
 
 	guint idle_done_id; /* event source id */
+};
+
+struct _AnimationData
+{
+	ImageWindow *iw;
+	GdkPixbufAnimation *gpa;
+	GdkPixbufAnimationIter *iter;
+	GdkPixbuf *gpb;
+	FileData *data_adr;
+	guint delay;
+	gboolean valid;
 };
 
 struct _CollectInfo
@@ -607,6 +620,8 @@ struct _LayoutOptions
 	StartUpPath startup_path;
 
 	gboolean exit_on_close;
+
+	gboolean animate;
 };
 
 struct _LayoutWindow
@@ -726,6 +741,8 @@ struct _LayoutWindow
 //	gint bar_width;
 
 	GtkWidget *exif_window;
+
+	AnimationData *animation;
 };
 
 struct _ViewDir
