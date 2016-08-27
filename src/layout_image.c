@@ -339,7 +339,7 @@ gboolean layout_image_animate_check(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	if(!lw->options.animate)
+	if(!lw->options.animate || lw->image->image_fd == NULL)
 		{
 		if(lw->animation)
 			{
