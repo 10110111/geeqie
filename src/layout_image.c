@@ -278,8 +278,8 @@ static gboolean layout_image_slideshow_continue_check(LayoutWindow *lw)
 static void image_animation_data_free(AnimationData *fd)
 {
 	if(!fd) return;
-	g_object_unref(fd->iter);
-	g_object_unref(fd->gpa);
+	if(fd->iter) g_object_unref(fd->iter);
+	if(fd->gpa) g_object_unref(fd->gpa);
 	g_free(fd);
 }
 
