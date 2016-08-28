@@ -49,9 +49,9 @@
 
 static GtkWidget *layout_image_pop_menu(LayoutWindow *lw);
 static void layout_image_set_buttons(LayoutWindow *lw);
-void layout_image_animate_stop(LayoutWindow *lw);
-gboolean layout_image_animate_new_file(LayoutWindow *lw);
-void layout_image_animate_update_image(LayoutWindow *lw);
+static void layout_image_animate_stop(LayoutWindow *lw);
+static gboolean layout_image_animate_new_file(LayoutWindow *lw);
+static void layout_image_animate_update_image(LayoutWindow *lw);
 
 /*
  *----------------------------------------------------------------------------
@@ -335,7 +335,7 @@ static gboolean show_next_frame(gpointer data)
 	return TRUE;
 }
 
-gboolean layout_image_animate_check(LayoutWindow *lw)
+static gboolean layout_image_animate_check(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
@@ -352,7 +352,7 @@ gboolean layout_image_animate_check(LayoutWindow *lw)
 	return TRUE;
 }
 
-void layout_image_animate_stop(LayoutWindow *lw)
+static void layout_image_animate_stop(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
 
@@ -363,7 +363,7 @@ void layout_image_animate_stop(LayoutWindow *lw)
 		}
 }
 
-void layout_image_animate_update_image(LayoutWindow *lw)
+static void layout_image_animate_update_image(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
 
@@ -376,7 +376,7 @@ void layout_image_animate_update_image(LayoutWindow *lw)
 		}
 }
 
-gboolean layout_image_animate_new_file(LayoutWindow *lw)
+static gboolean layout_image_animate_new_file(LayoutWindow *lw)
 {
 	GError *err=NULL;
 
@@ -405,7 +405,7 @@ gboolean layout_image_animate_new_file(LayoutWindow *lw)
 	return TRUE;
 }
 
-void layout_image_animate_toggle(LayoutWindow *lw)
+static void layout_image_animate_toggle(LayoutWindow *lw)
 {
 	if (!lw) return;
 
