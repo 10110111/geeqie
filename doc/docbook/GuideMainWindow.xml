@@ -1,17 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <chapter id="GuideMainWindow">
-    <title>
-      Main Window
-    </title>
-    <para>
-      The Geeqie main window is designed for quick and easy navigation of images. The window consists of three regions: the file pane, the folder pane, and the image pane.
-    </para>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowNavigation.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowMenus.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowLayout.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowFilePane.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowFolderPane.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowImagePane.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowStatusBar.xml"/>
-
-  <para/></chapter>
+  <title>Main Window</title>
+  <para>
+    The Geeqie main window is designed for quick and easy navigation of images. The window consists of three regions: the
+    <link linkend="GuideMainWindowFilePane" endterm="titleGuideMainWindowFilePane" />
+    , the
+    <link linkend="GuideMainWindowFolderPane" endterm="titleGuideMainWindowFolderPane" />
+    , and the
+    <link linkend="GuideMainWindowImagePane" endterm="titleGuideMainWindowImagePane" /> (optionally bordered by <link linkend="GuideSidebars" endterm="titleGuideSidebars"></link>)
+    , all bordered by 
+    <link linkend="GuideMainWindowMenus" endterm="titleGuideMainWindowMenus" />
+    and
+    <link linkend="GuideMainWindowStatusBar" endterm="titleGuideMainWindowStatusBar" />
+    .
+  </para>
+  <para>
+    Multiple instances of the main window may be started via the 
+    <menuchoice>
+      <shortcut>
+        <keycombo>
+          <keycap>Ctrl</keycap>
+          <keycap>N</keycap>
+        </keycombo>
+      </shortcut>
+      <guimenu>File</guimenu>
+      <guimenuitem>New Window</guimenuitem>
+    </menuchoice>
+    menu item, and the
+    <link linkend="GuideMainWindowLayout" endterm="titleGuideMainWindowLayout" />
+    of each may be individually configured in the
+    <link linkend="GuideOptionsLayout" endterm="titleGuideOptionsLayout" />
+    dialogue.
+  </para>
+  <para>
+    If several instances of the main window are open, they may be closed individually or simultaneously as defined in
+    <link linkend="GuideOptionsLayout" endterm="titleGuideOptionsLayout" />
+    .
+  </para>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowFilePane.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowFolderPane.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowImagePane.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowNavigation.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowMenus.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowStatusBar.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindowLayout.xml" />
+  <para />
+</chapter>

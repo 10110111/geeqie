@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <chapter id="GuideGnuFdl">
-    <title>
-      GNU Free Documentation License
-    </title>
-    <programlisting>
+  <title id="titleGuideGnuFdl">GNU Free Documentation License</title>
+  <programlisting xml:space="preserve">
               GNU Free Documentation License
                   Version 1.2, November 2002
 
@@ -401,5 +399,7 @@ If your document contains nontrivial examples of program code, we
 recommend releasing these examples in parallel under your choice of
 free software license, such as the GNU General Public License,
 to permit their use in free software.
+    
 </programlisting>
-  <para/></chapter>
+  <para />
+</chapter>

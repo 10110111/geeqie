@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section id="GuideOptionsColor">
-    <title>
-      Color management
-    </title>
-    <para>
-      Here one can defined color profiles to use. Color management can be enabled or disabled from menu: View / Color Management.
-    </para>
-    <variablelist><varlistentry><term>
-        Type
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
-      Either input color profile or screen color profile.
-    </para>
-    <variablelist><varlistentry><term>
-        Menu name
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
-      Name of the menu entry corresponding to the color profile.
-    </para>
-    <variablelist><varlistentry><term>
-        File
-      </term><listitem><para/></listitem></varlistentry></variablelist>
-    <para>
-      Path to the color profile file.
-    </para>
-  <para/></section>
+  <title id="titleGuideOptionsColor">Color management options</title>
+  <para>Use of this function requires LCMS to be installed. If you are compiling from sources, LCMS functionality will be available if the development files dependencies are met.</para>
+  <para>If you are using a pre-compiled distribution, availability depends on the package maintainer.</para>
+  <para>
+    Here one can defined color profiles to use. Color management can be enabled or disabled from
+    <menuchoice>
+      <guimenu>View</guimenu>
+      <guimenuitem>Color Management</guimenuitem>
+    </menuchoice>
+    or
+    <guiicon>
+      <inlinegraphic fileref="gtk-select-color.png" />
+    </guiicon>
+    on the status bar.
+  </para>
+  <variablelist>
+    <varlistentry>
+      <term>
+        <guilabel>Type</guilabel>
+      </term>
+      <listitem>
+        <para>Either input color profile or screen color profile.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+  <variablelist>
+    <varlistentry>
+      <term>
+        <guilabel>Menu name</guilabel>
+      </term>
+      <listitem>
+        <para>Name of the menu entry corresponding to the color profile.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+  <variablelist>
+    <varlistentry>
+      <term>
+        <guilabel>File</guilabel>
+      </term>
+      <listitem>
+        <para>Path to the color profile file.</para>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</section>

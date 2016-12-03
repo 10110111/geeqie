@@ -1,27 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
 <book id="GuideIndex">
-    <title>
-      The Geeqie User Manual
-    </title>
-    <para>
-      This document is a work in progress. If you find any problems or omissions, feel free to fix it directly or report it on geeqie-devel [AT] lists.sourceforge.net.
-    </para>
-    <para>
-      If you are having trouble finding a solution in the manual, try looking in the <link linkend="GuideFaq">FAQ</link>.
-    </para>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideIntroduction.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindow.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOtherWindows.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageManagement.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearch.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideCollections.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideSidebars.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImagePresentation.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuidePrinting.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptions.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReference.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideFaq.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideCredits.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideGnuFdl.xml"/>
-
-  <para/></book>
+  <title>The Geeqie User Manual</title>
+  <bookinfo>
+    <abstract role="description">
+      <para>This is a description of the document.</para>
+    </abstract>
+    <copyright>
+      <year>2004</year>
+      <holder>John Ellis</holder>
+    </copyright>
+    <copyright>
+      <year>2008-2016</year>
+      <holder>The Geeqie Team</holder>
+    </copyright>
+    <publisher role="maintainer">
+      <publishername>The Geeqie Team</publishername>
+    </publisher>
+    <author>
+      <firstname>John</firstname>
+      <surname>Ellis</surname>
+      <affiliation>
+        <orgname>Geeqie Project</orgname>
+      </affiliation>
+      <email>geeqie-devel@lists.sourceforge.net</email>
+    </author>
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+        <date>2004-01-01</date>
+        <revdescription>
+          <para role="author">John Ellis</para>
+          <para role="publisher">Gqview Project</para>
+        </revdescription>
+      </revision>
+      <revision>
+        <revnumber>0.2</revnumber>
+        <date>2016-05-30</date>
+        <revdescription>
+          <para role="author">Colin Clark</para>
+          <para role="publisher">The Geeqie Team</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+    <legalnotice>
+      <title>Feedback</title>
+      <para>
+        Comments and general help:
+        <email>geeqie-devel@lists.sourceforge.net</email>
+      </para>
+      <para>
+        Bugs and Feature Requests:
+        <ulink url="https://github.com/BestImageViewer/geeqie/issues">Geeqie Issues</ulink>
+      </para>
+      <para>
+        Website:
+        <ulink url="http://geeqie.org">geeqie.org</ulink>
+      </para>
+    </legalnotice>
+  </bookinfo>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideIntroduction.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideMainWindow.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideSidebars.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOtherWindows.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearch.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageManagementExternalEditing.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageManagement.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideColorManagement.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImagePresentation.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuidePrinting.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptions.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReference.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideFaq.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideLicence.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideCredits.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideGnuFdl.xml" />
+  <para />
+</book>

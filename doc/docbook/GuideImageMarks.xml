@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideImageMarks">
+  <title id="titleGuideImageMarks">Marking Images</title>
+  <para>Marks are intended as a temporary method of grouping and filtering sets of images.</para>
+  <para>
+    <link linkend="Keywords" endterm="titleKeywords" />
+    are intended as a permanent method of identifying sets of images, and to this end it is possible to link any mark with any keyword.
+  </para>
+  <para>
+    The
+    <guimenu>Select</guimenu>
+    menu gives access to the marks operations of setting, filtering and intersection.
+  </para>
+  <para>There are 6 individual marks, any of which can be associated with an image simply by pressing the 1 to 6 keys on the keyboard.</para>
+  <para>
+    If the
+    <guimenu>Show Marks</guimenu>
+    menu has been selected, each image will have a set of 6 check-boxes displayed adjacent to it in the file pane in both icon and list mode. In addition a set of 6 check-boxes will be shown at the top of the files pane. Clicking any of these will filter the displayed list.
+  </para>
+  <para>
+    If the
+    <link linkend="InformationandhistogramOverlay" endterm="titleInformationandhistogramOverlay" />
+    is being displayed, the currently set marks for the image are shown. It is not necessary to include an entry into the overlay template for this to happen.
+  </para>
+  <para>
+    A keyword can be associated with a single mark by right-clicking on the keyword in the sidebar panel. When a meta-data write operation for a file is triggered either <link linkend="Buttons">manually</link> or as defined in
+    <link linkend="GuideOptionsMetadata" endterm="titleGuideOptionsMetadata" />
+    , the keyword data indicated by the current set of mark-to-keyword links will be written.
+  </para>
+  <para>Neither marks, nor the associations between keywords and marks, are preserved when Geeqie is shut down.</para>
+  <para />
+  <para />
+</section>

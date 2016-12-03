@@ -1,12 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section id="GuideOptionsLayout"><title/>
-    <title>
-      Window Layout
-    </title>
-    <para>
-      The Geeqie main window consists of three main panes, their position and order can be changed here. The first four selections represent the basic layout of the main window. The numbers within each selection represent the order of the pane content.
-    </para>
-    <para>
-      The order of the content can be changed by dragging the Tools, Files, or Image with the mouse to the desired location within the list.
-    </para>
-  <para/></section>
+<section id="GuideOptionsLayout">
+  <title id="titleGuideOptionsLayout">Window Layout</title>
+  <para>
+    This item is accessed via
+    <menuchoice>
+      <guimenu>Edit</guimenu>
+      <guimenuitem>Preferences</guimenuitem>
+      <guimenuitem>Configure this window</guimenuitem>
+    </menuchoice>
+    .
+  </para>
+  <variablelist>
+    <varlistentry>
+      <term>
+        <guilabel>Home Path</guilabel>
+      </term>
+      <listitem>
+        <para>
+          The path to be moved to when
+          <code>
+            <guibutton>
+              <guiicon>
+                <inlinegraphic fileref="user-home.png" />
+              </guiicon>
+            </guibutton>
+          </code>
+          is clicked.
+        </para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+        <guilabel>Show date in directories list view</guilabel>
+      </term>
+      <listitem>
+        <para>The folder pane will show dates.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+        <guilabel>Exit program when this window is closed</guilabel>
+      </term>
+      <listitem>
+        <para>
+          If multiple instances of Geeqie have been started via
+          <menuchoice>
+            <guimenu>File</guimenu>
+            <guimenuitem>New Window</guimenuitem>
+          </menuchoice>
+          , if this check box is clicked all instances will be closed when this window is exited.
+        </para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+        <guilabel>Start-up directory</guilabel>
+      </term>
+      <listitem>
+        <para>This may be set for each instance of Geeqie.</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term>
+        <guilabel>Layout</guilabel>
+      </term>
+      <listitem>
+        <para>
+          The Geeqie main window consists of three main panes: the
+          <link linkend="GuideMainWindowFolderPane">folder pane</link>
+          ,
+          <link linkend="GuideMainWindowFilePane">file pane</link>
+          and the
+          <link linkend="GuideMainWindowImagePane">image pane</link>
+          . Their position and order can be changed here. The four choices shown represent the basic layout of the main window,  the difference being that each has the larger pane in a different location: right, bottom, left, and top.
+        </para>
+        <para>The numbers within each selection represent the order of the pane content.</para>
+        <para>The order in which the panes are filled is determined by the three row list located below the layout selection. The three numbered rows correspond to the three numbered regions of the selected layout. To change the order of the list, drag a row to the desired location within the list.</para>
+        <note>
+          <para>In this dialogue the file and image panes are labeled as such, however for historical reasons the folder pane is labeled as tools.</para>
+        </note>
+      </listitem>
+    </varlistentry>
+  </variablelist>
+</section>

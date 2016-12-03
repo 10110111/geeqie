@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter id="GuideLicence">
+  <title>Licence</title>
+  <para />
+    <para>The Geeqie program is released under the "GNU General Public License", the complete GNU GPL text can be found in the COPYING file included with each Geeqie release.</para>
+    <para>This Geeqie documentation is released under the 
+    <link linkend="GuideGnuFdl" endterm="titleGuideGnuFdl" />.</para>
+    <para />
+    <para>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.</para>
+</chapter>

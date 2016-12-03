@@ -376,8 +376,15 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 		if (fd)
 			{
 			DEBUG_1("planned change: using %s -> %s", path_utf8, fd->path);
-			file_data_ref(fd);
-			file_data_apply_ci(fd);
+			if (!isfile(fd->path))
+				{
+				file_data_ref(fd);
+				file_data_apply_ci(fd);
+				}
+			else
+				{
+				fd = NULL;
+				}
 			}
 		}
 
@@ -2412,7 +2419,9 @@ gint file_data_verify_ci(FileData *fd, GList *list)
 	/* During a rename operation, check if another planned destination file has
 	 * the same filename
 	 */
- 	if(fd->change->type == FILEDATA_CHANGE_RENAME)
+ 	if(fd->change->type == FILEDATA_CHANGE_RENAME ||
+				fd->change->type == FILEDATA_CHANGE_COPY ||
+				fd->change->type == FILEDATA_CHANGE_MOVE)
 		{
 		work = list;
 		while (work)

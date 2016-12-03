@@ -1,253 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section id="GuideReferenceCommandLine">
-    <title>
-      Command Line Options
-    </title>
-    <para>
-      These are the command line options available to Geeqie:
-    </para>
-    <informaltable><tgroup cols="3"><tbody><row><entry>
-          Short Option
-        </entry><entry>
-          Long Option
-        </entry><entry>
-          Description
-        </entry></row>
-<row><entry>
-          +t
-        </entry><entry>
-          --with-tools
-        </entry><entry>
-          Show file list, menu, and statusbar.
-        </entry></row>
-<row><entry>
-          -t
-        </entry><entry>
-          --without-tools
-        </entry><entry>
-          Hide file list, menu, and statusbar. Window contains image only.
-        </entry></row>
-<row><entry>
-          -f
-        </entry><entry>
-          --fullscreen
-        </entry><entry>
-          Start up in fullscreen.
-        </entry></row>
-<row><entry>
-          -s
-        </entry><entry>
-          --slideshow
-        </entry><entry>
-          Start up in slideshow mode.
-        </entry></row>
-<row><entry>
-          -l [filelist] [collectionlist]
-        </entry><entry>
-          --list [filelist] [collectionlist]
-        </entry><entry>
-          Open collection window containing images specified on the command line. Any collections on the command line will also be appended to this collection.
-        </entry></row>
-<row><entry/><entry>
-          --blank
-        </entry><entry>
-          Start with file list blank.
-        </entry></row>
-<row><entry/><entry>
-          --geometry=&lt;w&gt;x&lt;h&gt;+&lt;x&gt;+&lt;y&gt;
-          </entry><entry>
-          Set the &lt;width&gt; &lt;height&gt; &lt;xoffset&gt; &lt;yoffset&gt; of the window. The parameters are in pixels.
-          </entry></row>
-<row><entry>
-          -r
-        </entry><entry>
-          --remote
-        </entry><entry>
-          Send command line options to existing Geeqie process.
-        </entry></row>
-<row><entry>
-          -rh
-        </entry><entry>
-          --remote-help
-        </entry><entry>
-          List command line options available to --remote.
-        </entry></row>
-<row><entry>
-          -h
-        </entry><entry>
-          --help
-        </entry><entry>
-          Display brief command line option list.
-        </entry></row>
-<row><entry>
-          -v
-        </entry><entry>
-          --version
-        </entry><entry>
-          Display version of Geeqie.
-        </entry></row>
-<row><entry/><entry>
-          --debug[=&lt;level&gt;]
-        </entry><entry>
-          Turn on debugging output (when compiled with Debug enabled). &lt;level&gt; is 0 to 4.
-        </entry></row>
-<row><entry/><entry>
-          --alternate
-        </entry><entry>
-          Use alternate similarity algorithm - experimental - requires re-compile.
-        </entry></row>
-</tbody></tgroup></informaltable>
-    <para/><section id="Remotecommands"><title>
-      Remote commands
-    </title>
-    <para>
-      The --remote command line option will send all entered commands to an existing Geeqie process, a new process will be started if one does not exist. These are the additional commands that can be used with the remote command:
-    </para>
-    <informaltable><tgroup cols="3"><tbody><row><entry>
-          Short Option
-        </entry><entry>
-          Long Option
-        </entry><entry>
-          Description
-        </entry></row>
-<row><entry>
-          -n
-        </entry><entry>
-          --next
-        </entry><entry>
-          Change main window to display next image.
-        </entry></row>
-<row><entry>
-          -b
-        </entry><entry>
-          --back
-        </entry><entry>
-          Change main window to display previous image.
-        </entry></row>
-<row><entry/><entry>
-          --first
-        </entry><entry>
-          Change main window to display first image.
-        </entry></row>
-<row><entry/><entry>
-          --last
-        </entry><entry>
-          Change main window to display last image.
-        </entry></row>
-<row><entry>
-          -f
-        </entry><entry>
-          --fullscreen
-        </entry><entry>
-          Toggle full screen mode of the main window.
-        </entry></row>
-<row><entry>
-          -fs
-        </entry><entry>
-          --fullscreen-start
-        </entry><entry>
-          Start full screen mode for main window.
-        </entry></row>
-<row><entry>
-          -fS
-        </entry><entry>
-          --fullscreen-stop
-        </entry><entry>
-          Stop full screen mode for main window.
-        </entry></row>
-<row><entry>
-          -s
-        </entry><entry>
-          --slideshow
-        </entry><entry>
-          Toggle slide show for main window.
-        </entry></row>
-<row><entry>
-          -ss
-        </entry><entry>
-          --slideshow-start
-        </entry><entry>
-          Start slide show for main window.
-        </entry></row>
-<row><entry>
-          -sS
-        </entry><entry>
-          --slideshow-stop
-        </entry><entry>
-          Stop slide show for main window.
-        </entry></row>
-<row><entry/><entry>
-          --slideshow-recurse:&lt;folder&gt;
-        </entry><entry>
-          Start recursive slide show for &lt;folder&gt; in main window.
-        </entry></row>
-<row><entry>
-          -d&lt;[n][.m]&gt;
-        </entry><entry>
-          --delay=&lt;[n][.m]&gt;
-        </entry><entry>
-          Set slide show delay to &lt;[n][.m]&gt; seconds, range is 0.1 to 3600
-        </entry></row>
-<row><entry>
-          +t
-        </entry><entry>
-          --tools-show
-        </entry><entry>
-          Show tools for main window.
-        </entry></row>
-<row><entry>
-          -t
-        </entry><entry>
-          --tools-hide
-        </entry><entry>
-          Hide tools for main window.
-        </entry></row>
-<row><entry>
-          -q
-        </entry><entry>
-          --quit
-        </entry><entry>
-          Quit Geeqie.
-        </entry></row>
-<row><entry/><entry>
-          --config-load:&lt;file&gt;
-        </entry><entry>
-          Load configuration from &lt;file&gt;.
-        </entry></row>
-<row><entry/><entry>
-          --get-sidecars:&lt;file&gt;
-        </entry><entry>
-          Get list of sidecars of &lt;file&gt;.
-        </entry></row>
-<row><entry/><entry>
-          --get-destination:&lt;file&gt;
-        </entry><entry>
-          Get destination path of &lt;file&gt;. This is used by the symlink desktop file to implement the symbolic link operation. There is no useful function for the user.
-        </entry></row>
-<row><entry/><entry>
-          file:&lt;file&gt;
-        </entry><entry>
-          Change main window to display &lt;file&gt;
-        </entry></row>
-<row><entry/><entry>
-          view:&lt;file&gt;
-        </entry><entry>
-          Open new window containing &lt;file&gt;
-        </entry></row>
-<row><entry/><entry>
-          --list-clear
-        </entry><entry>
-          Clear command line collection list
-        </entry></row>
-<row><entry/><entry>
-          --list-add:&lt;file&gt;
-        </entry><entry>
-          Add &lt;file&gt; to command line collection list
-        </entry></row>
-<row><entry/><entry>
-          raise
-        </entry><entry>
-          Bring the geeqie window to the top
-        </entry></row>
-</tbody></tgroup></informaltable>
-  <para/></section></section>
+  <title>Command Line Options</title>
+  <para>
+    Geeqie is called by the command:
+    <programlisting>geeqie [options] [path_to_file]</programlisting>
+  </para>
+  <para>These are the command line options available to Geeqie:</para>
+  <table frame="all">
+    <tgroup cols="3" rowsep="1" colsep="1">
+      <thead rowsep="1" colsep="1">
+        <row >
+          <entry>Short Option</entry>
+          <entry>Long Option</entry>
+          <entry>Description</entry>
+        </row>
+      </thead>
+      <tbody rowsep="1" colsep="1">
+        <row>
+          <entry>+t</entry>
+          <entry>--with-tools</entry>
+          <entry>Show file list, menu, and statusbar.</entry>
+        </row>
+        <row>
+          <entry>-t</entry>
+          <entry>--without-tools</entry>
+          <entry>Hide file list, menu, and statusbar. Window contains image only.</entry>
+        </row>
+        <row>
+          <entry>-f</entry>
+          <entry>--fullscreen</entry>
+          <entry>Start up in fullscreen.</entry>
+        </row>
+        <row>
+          <entry>-s</entry>
+          <entry>--slideshow</entry>
+          <entry>Start up in slideshow mode.</entry>
+        </row>
+        <row>
+          <entry>-l [filelist] [collectionlist]</entry>
+          <entry>--list [filelist] [collectionlist]</entry>
+          <entry>Open collection window containing images specified on the command line. Any collections on the command line will also be appended to this collection.</entry>
+        </row>
+        <row>
+          <entry />
+          <entry>--blank</entry>
+          <entry>Start with file list blank.</entry>
+        </row>
+        <row>
+          <entry />
+          <entry>--geometry=&lt;w&gt;x&lt;h&gt;+&lt;x&gt;+&lt;y&gt;</entry>
+          <entry>Set the &lt;width&gt; &lt;height&gt; &lt;xoffset&gt; &lt;yoffset&gt; of the window. The parameters are in pixels.</entry>
+        </row>
+        <row>
+          <entry>-r</entry>
+          <entry>--remote</entry>
+          <entry>Send command line options to existing Geeqie process.</entry>
+        </row>
+        <row>
+          <entry>-rh</entry>
+          <entry>--remote-help</entry>
+          <entry>List command line options available to --remote.</entry>
+        </row>
+        <row>
+          <entry>-h</entry>
+          <entry>--help</entry>
+          <entry>Display brief command line option list.</entry>
+        </row>
+        <row>
+          <entry>-v</entry>
+          <entry>--version</entry>
+          <entry>Display version of Geeqie.</entry>
+        </row>
+        <row>
+          <entry />
+          <entry>--debug[=&lt;level&gt;]</entry>
+          <entry>Turn on debugging output (when compiled with Debug enabled). &lt;level&gt; is 0 to 4.</entry>
+        </row>
+        <row>
+          <entry />
+          <entry>--alternate</entry>
+          <entry>Use alternate similarity algorithm - experimental - requires re-compile.</entry>
+        </row>
+      </tbody>
+    </tgroup>
+  </table>
+  <para />
+  <section id="Remotecommands">
+    <title>Remote commands</title>
+    <para>The --remote command line option will send all entered commands to an existing Geeqie process, a new process will be started if one does not exist. These are the additional commands that can be used with the remote command:</para>
+  <table frame="all">
+    <tgroup cols="3" rowsep="1" colsep="1">
+      <thead rowsep="1" colsep="1">
+
+          <row>
+            <entry>Short Option</entry>
+            <entry>Long Option</entry>
+            <entry>Description</entry>
+          </row></thead>
+        <tbody>          <row>
+            <entry>-n</entry>
+            <entry>--next</entry>
+            <entry>Change main window to display next image.</entry>
+          </row>
+          <row>
+            <entry>-b</entry>
+            <entry>--back</entry>
+            <entry>Change main window to display previous image.</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--first</entry>
+            <entry>Change main window to display first image.</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--last</entry>
+            <entry>Change main window to display last image.</entry>
+          </row>
+          <row>
+            <entry>-f</entry>
+            <entry>--fullscreen</entry>
+            <entry>Toggle full screen mode of the main window.</entry>
+          </row>
+          <row>
+            <entry>-fs</entry>
+            <entry>--fullscreen-start</entry>
+            <entry>Start full screen mode for main window.</entry>
+          </row>
+          <row>
+            <entry>-fS</entry>
+            <entry>--fullscreen-stop</entry>
+            <entry>Stop full screen mode for main window.</entry>
+          </row>
+          <row>
+            <entry>-s</entry>
+            <entry>--slideshow</entry>
+            <entry>Toggle slide show for main window.</entry>
+          </row>
+          <row>
+            <entry>-ss</entry>
+            <entry>--slideshow-start</entry>
+            <entry>Start slide show for main window.</entry>
+          </row>
+          <row>
+            <entry>-sS</entry>
+            <entry>--slideshow-stop</entry>
+            <entry>Stop slide show for main window.</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--slideshow-recurse:&lt;folder&gt;</entry>
+            <entry>Start recursive slide show for &lt;folder&gt; in main window.</entry>
+          </row>
+          <row>
+            <entry>-d&lt;[n][.m]&gt;</entry>
+            <entry>--delay=&lt;[n][.m]&gt;</entry>
+            <entry>Set slide show delay to &lt;[n][.m]&gt; seconds, range is 0.1 to 3600</entry>
+          </row>
+          <row>
+            <entry>+t</entry>
+            <entry>--tools-show</entry>
+            <entry>Show tools for main window.</entry>
+          </row>
+          <row>
+            <entry>-t</entry>
+            <entry>--tools-hide</entry>
+            <entry>Hide tools for main window.</entry>
+          </row>
+          <row>
+            <entry>-q</entry>
+            <entry>--quit</entry>
+            <entry>Quit Geeqie.</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--config-load:&lt;file&gt;</entry>
+            <entry>Load configuration from &lt;file&gt;.</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--get-sidecars:&lt;file&gt;</entry>
+            <entry>Get list of sidecars of &lt;file&gt;.</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--get-destination:&lt;file&gt;</entry>
+            <entry>Get destination path of &lt;file&gt;. This is used by the symlink desktop file to implement the symbolic link operation. There is no useful function for the user.</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>file:&lt;file&gt;</entry>
+            <entry>Change main window to display &lt;file&gt;</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>view:&lt;file&gt;</entry>
+            <entry>Open new window containing &lt;file&gt;</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--list-clear</entry>
+            <entry>Clear command line collection list</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--list-add:&lt;file&gt;</entry>
+            <entry>Add &lt;file&gt; to command line collection list</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>raise</entry>
+            <entry>Bring the geeqie window to the top</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <para />
+  </section>
+</section>

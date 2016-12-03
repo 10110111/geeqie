@@ -1,50 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section id="GuideImageManagementExternalEditing">
-    <title>
-      External Editors
-    </title>
-    <para>
-      This section describes the external editor facility.
-    </para>
-    <para/><section id="ExternalEditing"><title>
-      External Editing
-    </title>
-    <para>
-      Geeqie provides the ability to execute commands, such as running an image editor on a selected image. In Geeqie these are called the external editing commands.
-    </para>
-    <para/></section><section id="ExternalEditors"><title>
-      External Editors
-    </title>
-    <para>
-      External editors can do anything from running simple operations like symlink to fully featured programs like gimp.
-    </para>
-    <para>
-      Geeqie looks for standard desktop files.
-    </para>
-    <para>
-      <ulink url="http://standards.freedesktop.org/desktop-entry-spec/">http://standards.freedesktop.org/desktop-entry-spec/</ulink>
-    </para>
-    <para>
-      <ulink url="http://standards.freedesktop.org/menu-spec/">http://standards.freedesktop.org/menu-spec/</ulink>
-    </para>
-    <para>
-      It is also possible to add Geeqie-specific editors with the Editor Configuration Dialog.
-    </para>
-    <para>
-      Editors appear in menu Edit / External Editors, unless specified otherwise in the desktop file.
-    </para>
-    <para/></section><section id="Resultdialog"><title>
-      Result dialog
-    </title>
-    <para>
-      Commands that are set to display their output in a window will show a dialog when the command is executed.
-    </para>
-    <para>
-      The Result dialog will display the command's text output. If the editor command will result in multiple runs of the same command for each file, you can use the Stop button to stop Geeqie from executing the command for remaining files.
-    </para>
-    <para>
-      Once all commands have completed, or if the Stop button was pressed and the pending command has completed, you can use the Close button, or press Escape, to close the Result dialog. The Result dialog can not be closed while a command is still running.
-    </para>
-    </section><section id="GuideEditorsConfig"><title>Editor Configuration</title><para>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideEditorsConfig.xml"/></para></section>
-</section>
+<chapter id="GuideImageManagementExternalEditing">
+  <title>External Actions</title>
+  <para>Geeqie provides the facility to execute external commands. In Geeqie these are called external editors.</para>
+  <para>However these commands are not limited to editing images - any external command may be called via this facility.</para>
+  <para>Actions may be performed on a single file, or on a set of selected files.</para>
+  <para>External editors can do anything from running simple operations like symlink to activating fully featured programs like Gimp. Nor does the action have to be performed on files - you may, for instance, configure an editor to download images from your digital camera.</para>
+  <para>
+    To perform these actions, Geeqie uses standard
+    <link linkend="GuideReferenceStandards">desktop</link>
+    files.
+  </para>
+  <para>
+    It is not necessary to understand the details of desktop file specifications because the
+    <link linkend="GuideEditorsConfig" endterm="titleGuideEditorsConfig" />
+    dialogue presents you with an easy-to-use template. This dialogue is accessed via
+    <menuchoice>
+      <guimenu>Edit</guimenu>
+      <guimenuitem>Preferences</guimenuitem>
+      <guimenuitem>Configure Editors</guimenuitem>
+    </menuchoice>
+    .
+  </para>
+  <para>
+    Editors will appear in the menu
+    <menuchoice>
+      <guimenu>Edit</guimenu>
+      <guimenuitem>External Editors</guimenuitem>
+    </menuchoice>
+    , unless specified otherwise in the desktop file.
+  </para>
+  <para />
+  <para>Commands that are set to display their output in a window will show a dialogue when the command is executed.</para>
+  <para>The Result dialogue will display the command's text output. If the editor command will result in multiple runs of the same command for each file, you can use the Stop button to stop Geeqie from executing the command for remaining files.</para>
+  <para>
+    Once all commands have completed, or if the Stop button was pressed and the pending command has completed, you can use the Close button, or press
+    <code>Escape</code>
+    , to close the Result dialogue. The Result dialogue can not be closed while a command is still running.
+  </para>
+</chapter>

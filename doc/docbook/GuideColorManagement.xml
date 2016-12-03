@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter id="GuideColorManagement">
+  <title id="titleGuideColorManagement">Color Management</title>
+  <para>TBD.</para>
+  <para>
+    <link linkend="GuideOptionsColor" endterm="titleGuideOptionsColor" />
+  </para>
+
+</chapter>

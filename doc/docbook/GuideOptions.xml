@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <chapter id="GuideOptions">
-    <title>
-      Options Explained
-    </title>
+  <title id="titleGuideOptions">Preferences</title>
+  <para>There are two sets of preferences in Geeqie: those set via the main Preferences tabbed dialogue, and those set either via a menu entry or by editing a configuration file.</para>
+  <section>
+    <title>Main Preferences</title>
     <para>
-      This chapter attempts to explain in detail the Geeqie preferences dialog.
+      This chapter explains in detail the main Geeqie preferences dialog, which is accessed via
+      <menuchoice>
+        <shortcut>
+          <keycombo>
+            <keycap>Ctrl</keycap>
+            <keycap>O</keycap>
+          </keycombo>
+        </shortcut>
+        <guimenu>Edit</guimenu>
+        <guimenuitem>Preferences</guimenuitem>
+        <guimenuitem>Preferences</guimenuitem>
+      </menuchoice>
+      or
+      <guiicon>
+        <inlinegraphic fileref="preferences-desktop.png" />
+      </guiicon>
+      on the Toolbar.
     </para>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsGeneral.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsImage.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsWindow.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsKeyboard.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsFiltering.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsMetadata.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsColor.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsBehavior.xml"/>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsHidden.xml"/>
-
-    <para>
-      There is another set of options, that can be set independently for each window:
-    </para>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsLayout.xml"/>
-
-  <para/></chapter>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsGeneral.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsImage.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsWindow.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsKeyboard.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsFiltering.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsMetadata.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsColor.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsStereo.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsBehavior.xml" />
+  </section>
+  <section>
+    <title>Additional Preferences</title>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsLayout.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideEditorsConfig.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsHidden.xml" />
+    <para />
+  </section>
+</chapter>

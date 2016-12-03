@@ -1,47 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section id="GuideOptionsMetadata">
-    <title>
-      Metadata Options
-    </title>
+  <title id="titleGuideOptionsMetadata">Metadata</title>
+  <para>This section describes the options for metadata writing.</para>
+  <para />
+  <para>
+    The settings in the
+    <link linkend="Filetypes">Files tab of Preferences</link>
+    influence whether an attempt is made to write metadata to the file itself, to a sidecar file or to a local folder.
+  </para>
+  <para>
+    Refer also to
+    <link linkend="GuideReferenceMetadata" endterm="titleGuideReferenceMetadata" />
+    in the Reference section.
+  </para>
+  <section id="MetadataWritingProcess">
+    <title id="titleMetadataWritingProcess">Metadata writing process</title>
     <para>
-      This section describes the metadata writing process and options that influences it.
+      When writing metadata, Geeqie will follow three steps. This process will stop when the first successful write occurs.
+      <orderedlist>
+        <listitem>
+          <para>
+            <guilabel>Save metadata in image files, resp. sidecar files, according to the XMP standard</guilabel>
+            <para />
+            If checked, Geeqie will attempt to write metadata to the file itself, or to an associated XMP sidecar file
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Save metadata in '.metadata' folder, local to image folder (non-standard)</guilabel>
+            <para />
+            If checked, Geeqie will attempt to write to an xmp file in a local .metadata folder
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Save metadata in Geeqie private directory</guilabel>
+            <para />
+            If neither of the above are successful, Geeqie will write to an xmp file in the folder
+            <programlisting>$HOME/.local/share/geeqie/metadata</programlisting>
+          </para>
+        </listitem>
+      </orderedlist>
     </para>
-    <para/><section id="Metadatahandling"><title>
-      Metadata handling
-    </title>
-    <para/><section id="Readalgorithm"><title>
-      Read algorithm
-    </title>
-    <orderedlist spacing="compact"><listitem><para>Read exif, iptc and XMP from the file.
-      </para></listitem><listitem><para>Now we have "raw" data -&gt; show them in <link linkend="GuideOtherWindowsExif">Exif Window</link>.
-      </para></listitem><listitem><para>Read XMP sidecar or Geeqie private metadata file, which overrides the XMP read from the file.
-      </para></listitem><listitem><para>Sync XMP with exif and Iptc, this corresponds to the "reconciliation" as described in [<ulink url="http://www.adobe.com/devnet/xmp/pdfs/XMPSpecificationPart3.pdf">XMP Specification</ulink>]
-        <itemizedlist spacing="compact"><listitem><para>detect which of Exif and Xmp.exif is newer and copy the data in appropriate direction
-          </para></listitem><listitem><para>detect which of Iptc and Xmp is newer and copy the data in appropriate direction
-          </para></listitem></itemizedlist>
-      </para></listitem><listitem><para>Now we have "processed" data - use them for Info Sidebar (title, keywords, ...), Orientation, Color management, etc.
-      </para></listitem></orderedlist>
-    <para/></section><section id="Metadatamodification"><title>
-      Metadata modification
-    </title>
-    <itemizedlist spacing="compact"><listitem><para>Grouped files handling (raw + jpeg): description tags (keywords, comments) are written to all image files in the group (a group contains the same image in various formats, descriptions should be the same), technical tags (exif) are handled separately for each file.
-      </para></listitem><listitem><para>Modifying the keywords, comment, orientation, etc. does not ask for confirmation, but immediately modifies the metadata in memory and adds the file to "write queue"
-      </para></listitem><listitem><para>Writing of the queued changes is triggered from the menu or via auto-save. It is possible to review the changes and exclude selected files.
-      </para></listitem></itemizedlist>
-    <para/></section><section id="Writealgorithm"><title>
-      Write algorithm
-    </title>
-    <orderedlist spacing="compact"><listitem><para>Exif and IPTC is updated from XMP (for example Exif.Image.Orientation is updated from Xmp.exif.orientation). See XMP and IPTC4XMP specs for the list of corresponding tags.
-      </para></listitem><listitem><para>Try to write exif, iptc and XMP to the image file
-      </para></listitem><listitem><para>Try to write XMP sidecar for raw file if previous step was not possible.
-      </para></listitem><listitem><para>If previous steps were not possible, write XMP metadata to .metadata.
-      </para></listitem><listitem><para>If previous steps were not possible, write XMP metadata to geeqie private directory.
-      </para></listitem><listitem><para>After the first successful write attempt delete old metadata files in all possible locations.
-      </para></listitem></orderedlist>
-    <para/></section></section><section id="Optionsthatinfluencestheprocess"><title>
-      Options that influences the process
-    </title>
-    <para>
-      File types with allowed sidecars are listed in the Files tab.
-    </para>
-  <para/></section></section>
+    <para>When writing to local metadata folders, the directory structure duplicates that of the location of the source files.</para>
+  </section>
+  <section id="WriteToImageFiles">
+    <title>Step 1: Write to image files</title>
+    <para>If Step 1 above was successful, the following options take effect:</para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <guilabel>Store metadata also in legacy IPTC tags (converted according to IPTC4XMP standard)</guilabel>
+          <para />
+          If checked, Geeqie will write IPTC tags as defined in
+          <link linkend="GuideReferenceStandards" endterm="titleGuideReferenceStandards" />
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <guilabel>Warn if the image files are not writeable</guilabel>
+          <para />
+          If checked, open a warning dialogue if the file is not writeable
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <guilabel>Ask before writing to image files</guilabel>
+          <para />
+          If checked, open a confirmation dialogue before writing to the file
+        </para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section id="WriteToGeeqiePrivateFiles">
+    <title>Steps 2 and 3: Write to Geeqie private files</title>
+    <para>If Step 2 or 3 above was successful, the following option takes effect:</para>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <guilabel>Use GQview legacy metadata format (supports only keywords and comments) instead of XMP</guilabel>
+          <para />
+          If checked, Geeqie will write metadata in GQview legacy files (file extension .meta) format
+        </para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section id="MetadataMiscellaneous">
+    <title>Miscellaneous</title>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <guilabel>Write the same description tags (keywords, comment, title) to all grouped sidecars</guilabel>
+          <para />
+          If checked the same descriptive tags are written to all files in a group. File grouping is as defined in the
+          <link linkend="Groupingsidecarextensions">Files tab</link>
+          of main Preferences. Technical tags (exif) are handled separately for each file.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <guilabel>Allow keywords to differ only in case</guilabel>
+          <para />
+          If checked, permits keywords to be case-sensitive (e.g.
+          <emphasis>Place</emphasis>
+          and
+          <emphasis>place</emphasis>
+          are two different keywords)
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <guilabel>Write altered image orientation to the metadata</guilabel>
+          <para />
+          TBD
+        </para>
+      </listitem>
+    </itemizedlist>
+    <para />
+  </section>
+  <section id="AutoSaveOptions">
+    <title>Auto-save options</title>
+    <itemizedlist>
+      <listitem>
+        <para>
+          <guilabel>Write metadata after timeout</guilabel>
+          <para />
+          If checked, metadata writes will be made automatically at the defined interval. Warning dialogues will be issued if required.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <guilabel>Write metadata on image change</guilabel>
+          <para />
+          If checked, metadata writes will be made when you move focus to another image.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <guilabel>Write metadata on directory change</guilabel>
+          <para />
+          If checked, metadata writes will be made when you move focus to another folder.
+        </para>
+      </listitem>
+    </itemizedlist>
+    <para />
+  </section>
+</section>
