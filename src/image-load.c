@@ -614,6 +614,8 @@ static void image_loader_setup_loader(ImageLoader *il)
 #ifdef HAVE_TIFF
 	if (il->bytes_total >= 10 &&
 	    (memcmp(il->mapped_file, "MM\0*", 4) == 0 ||
+	     memcmp(il->mapped_file, "MM\0+\0\x08\0\0", 8) == 0 ||
+	     memcmp(il->mapped_file, "II+\0\x08\0\0\0", 8) == 0 ||
 	     memcmp(il->mapped_file, "II*\0", 4) == 0))
 	     	{
 		DEBUG_1("Using custom tiff loader");
