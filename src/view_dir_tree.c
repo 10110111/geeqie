@@ -440,6 +440,7 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 	time_t current_time;
 	GtkTreeIter child;
 	NodeData *nd;
+	gboolean add_hidden = FALSE;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vd->view));
 	gtk_tree_model_get(store, iter, DIR_COLUMN_POINTER, &nd, -1);
@@ -464,12 +465,7 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 			return TRUE;
 			}
 		file_data_check_changed_files(nd->fd); /* make sure we have recent info */
-		if (nd->fd->version == nd->version) return TRUE;
 		}
-
-	vdtree_busy_push(vd);
-
-	filelist_read(nd->fd, NULL, &list);
 
 	/* when hidden files are not enabled, and the user enters a hidden path,
 	 * allow the tree to display that path by specifically inserting the hidden entries
@@ -482,21 +478,32 @@ gboolean vdtree_populate_path_by_iter(ViewDir *vd, GtkTreeIter *iter, gboolean f
 
 		n = strlen(nd->fd->path);
 		if (target_fd->path[n] == G_DIR_SEPARATOR && target_fd->path[n+1] == '.')
+			add_hidden = TRUE;
+		}
+
+	if (nd->expanded && (!force && !add_hidden) && nd->fd->version == nd->version)
+		return TRUE;
+
+	vdtree_busy_push(vd);
+
+	filelist_read(nd->fd, NULL, &list);
+
+	if (add_hidden)
+		{
+		gint n;
+		gchar *name8;
+
+		n = strlen(nd->fd->path) + 1;
+
+		while (target_fd->path[n] != '\0' && target_fd->path[n] != G_DIR_SEPARATOR) n++;
+		name8 = g_strndup(target_fd->path, n);
+
+		if (isdir(name8))
 			{
-			gchar *name8;
-
-			n++;
-
-			while (target_fd->path[n] != '\0' && target_fd->path[n] != G_DIR_SEPARATOR) n++;
-			name8 = g_strndup(target_fd->path, n);
-
-			if (isdir(name8))
-				{
-				list = g_list_prepend(list, file_data_new_dir(name8));
-				}
-
-			g_free(name8);
+			list = g_list_prepend(list, file_data_new_dir(name8));
 			}
+
+		g_free(name8);
 		}
 
 	old = NULL;
