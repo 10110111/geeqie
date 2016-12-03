@@ -391,6 +391,7 @@ static gboolean layout_image_animate_new_file(LayoutWindow *lw)
 		!(lw->animation->iter = gdk_pixbuf_animation_get_iter(lw->animation->gpa,NULL)))
 		{
 		image_animation_data_free(lw->animation);
+		lw->animation = NULL;
 		return FALSE;
 		}
 
