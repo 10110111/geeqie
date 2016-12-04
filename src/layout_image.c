@@ -49,6 +49,9 @@
 
 static GtkWidget *layout_image_pop_menu(LayoutWindow *lw);
 static void layout_image_set_buttons(LayoutWindow *lw);
+static void layout_image_animate_stop(LayoutWindow *lw);
+static gboolean layout_image_animate_new_file(LayoutWindow *lw);
+static void layout_image_animate_update_image(LayoutWindow *lw);
 
 /*
  *----------------------------------------------------------------------------
@@ -100,6 +103,7 @@ void layout_image_full_screen_start(LayoutWindow *lw)
 	layout_actions_add_window(lw, lw->full_screen->window);
 
 	image_osd_copy_status(lw->full_screen->normal_imd, lw->image);
+	layout_image_animate_update_image(lw);
 }
 
 void layout_image_full_screen_stop(LayoutWindow *lw)
@@ -111,6 +115,8 @@ void layout_image_full_screen_stop(LayoutWindow *lw)
 		image_osd_copy_status(lw->image, lw->full_screen->normal_imd);
 
 	fullscreen_stop(lw->full_screen);
+
+	layout_image_animate_update_image(lw);
 }
 
 void layout_image_full_screen_toggle(LayoutWindow *lw)
@@ -261,6 +267,151 @@ static gboolean layout_image_slideshow_continue_check(LayoutWindow *lw)
 		}
 
 	return TRUE;
+}
+
+/*
+ *----------------------------------------------------------------------------
+ * Animation
+ *----------------------------------------------------------------------------
+ */
+
+static void image_animation_data_free(AnimationData *fd)
+{
+	if(!fd) return;
+	if(fd->iter) g_object_unref(fd->iter);
+	if(fd->gpa) g_object_unref(fd->gpa);
+	g_free(fd);
+}
+
+static gboolean animation_should_continue(AnimationData *fd)
+{
+	if (!fd->valid)
+		return FALSE;
+
+	return TRUE;
+}
+
+static gboolean show_next_frame(gpointer data)
+{
+	AnimationData *fd = (AnimationData*)data;
+	int delay;
+	PixbufRenderer *pr;
+
+	if(animation_should_continue(fd)==FALSE)
+		{
+		image_animation_data_free(fd);
+		return FALSE;
+		}
+
+	pr = (PixbufRenderer*)fd->iw->pr;
+
+	if (gdk_pixbuf_animation_iter_advance(fd->iter,NULL)==FALSE)
+		{
+		/* This indicates the animation is complete.
+		   Return FALSE here to disable looping. */
+		}
+
+	fd->gpb = gdk_pixbuf_animation_iter_get_pixbuf(fd->iter);
+	image_change_pixbuf(fd->iw,fd->gpb,pr->zoom,FALSE);
+
+	if (fd->iw->func_update)
+		fd->iw->func_update(fd->iw, fd->iw->data_update);
+
+	delay = gdk_pixbuf_animation_iter_get_delay_time(fd->iter);
+	if (delay!=fd->delay)
+		{
+		if (delay>0) /* Current frame not static. */
+			{
+			fd->delay=delay;
+			g_timeout_add(delay,show_next_frame,fd);
+			}
+		else
+			{
+			image_animation_data_free(fd);
+			}
+		return FALSE;
+		}
+
+	return TRUE;
+}
+
+static gboolean layout_image_animate_check(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return FALSE;
+
+	if(!lw->options.animate || lw->image->image_fd == NULL)
+		{
+		if(lw->animation)
+			{
+			lw->animation->valid = FALSE;
+			lw->animation = NULL;
+			}
+		return FALSE;
+		}
+
+	return TRUE;
+}
+
+static void layout_image_animate_stop(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return;
+
+	if(lw->options.animate && lw->animation)
+		{
+		lw->animation->valid = FALSE;
+		lw->animation = NULL;
+		}
+}
+
+static void layout_image_animate_update_image(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return;
+
+	if(lw->options.animate && lw->animation)
+		{
+		if (lw->full_screen && lw->image != lw->full_screen->imd)
+			lw->animation->iw = lw->full_screen->imd;
+		else
+			lw->animation->iw = lw->image;
+		}
+}
+
+static gboolean layout_image_animate_new_file(LayoutWindow *lw)
+{
+	GError *err=NULL;
+
+	if(!layout_image_animate_check(lw)) return FALSE;
+
+	if(lw->animation) lw->animation->valid = FALSE;
+
+	lw->animation = g_malloc0(sizeof(AnimationData));
+
+	if(!(lw->animation->gpa = gdk_pixbuf_animation_new_from_file(lw->image->image_fd->path,&err)) || err ||
+		gdk_pixbuf_animation_is_static_image(lw->animation->gpa) ||
+		!(lw->animation->iter = gdk_pixbuf_animation_get_iter(lw->animation->gpa,NULL)))
+		{
+		image_animation_data_free(lw->animation);
+		lw->animation = NULL;
+		return FALSE;
+		}
+
+	lw->animation->data_adr = lw->image->image_fd;
+	lw->animation->delay = gdk_pixbuf_animation_iter_get_delay_time(lw->animation->iter);
+	lw->animation->valid = TRUE;
+
+	layout_image_animate_update_image(lw);
+
+	g_timeout_add(lw->animation->delay, show_next_frame, lw->animation);
+
+	return TRUE;
+}
+
+static void layout_image_animate_toggle(LayoutWindow *lw)
+{
+	if (!lw) return;
+
+	lw->options.animate = !lw->options.animate;
+	layout_image_animate_new_file(lw);
 }
 
 /*
@@ -420,6 +571,13 @@ static void li_pop_menu_full_screen_cb(GtkWidget *widget, gpointer data)
 	layout_image_full_screen_toggle(lw);
 }
 
+static void li_pop_menu_animate_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_animate_toggle(lw);
+}
+
 static void li_pop_menu_hide_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -556,6 +714,8 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 		{
 		menu_item_add(menu, _("Exit _full screen"), G_CALLBACK(li_pop_menu_full_screen_cb), lw);
 		}
+
+	menu_item_add_check(menu, _("_Animate"), lw->options.animate, G_CALLBACK(li_pop_menu_animate_cb), lw);
 
 	menu_item_add_divider(menu);
 
@@ -1002,6 +1162,7 @@ void layout_image_set_fd(LayoutWindow *lw, FileData *fd)
 	layout_list_sync_fd(lw, fd);
 	layout_image_slideshow_continue_check(lw);
 	layout_bars_new_image(lw);
+	layout_image_animate_new_file(lw);
 }
 
 void layout_image_set_with_ahead(LayoutWindow *lw, FileData *fd, FileData *read_ahead_fd)
