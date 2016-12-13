@@ -129,6 +129,7 @@ struct _ConfOptions
 		SortType method;
 		gboolean ascending;
 		gboolean case_sensitive; /* file sorting method (case) */
+		gboolean natural;
 	} file_sort;
 
 	/* slideshow */

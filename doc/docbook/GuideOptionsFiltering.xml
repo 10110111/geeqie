@@ -37,6 +37,14 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <guilabel>Natural sort order</guilabel>
+        </term>
+        <listitem>
+          <para>Files and folders are sorted with the dot '.' treated as a special case, so the order is e.g. "event.c" "event.h" "eventgenerator.c". Also, files containing numbers are sorted as "file1" "file5" "file10".</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guilabel>Disable file extension checks</guilabel>
         </term>
         <listitem>
