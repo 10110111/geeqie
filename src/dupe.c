@@ -3220,6 +3220,10 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 
 	dw->extra_label = gtk_progress_bar_new();
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(dw->extra_label), 0.0);
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(dw->extra_label), "");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(dw->extra_label), TRUE);
+#endif
 	gtk_box_pack_end(GTK_BOX(status_box), dw->extra_label, FALSE, FALSE, 0);
 	gtk_widget_show(dw->extra_label);
 
