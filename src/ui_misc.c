@@ -36,6 +36,7 @@
 
 #include "history_list.h"
 
+#include <langinfo.h>
 
 /*
  *-----------------------------------------------------------------------------
@@ -1039,15 +1040,43 @@ GtkWidget *date_selection_new(void)
 	GtkWidget *arrow;
 
 	ds = g_new0(DateSelection, 1);
+	gchar *date_format;
+	gint i;
 
 	ds->box = gtk_hbox_new(FALSE, 2);
 	g_signal_connect(G_OBJECT(ds->box), "destroy",
 			 G_CALLBACK(date_selection_destroy_cb), ds);
 
-	/* FIXME: use option menu with text format of month instead of a spin button */
-	ds->spin_m = pref_spin_new(ds->box, NULL, NULL, 1, 12, 1, 0, 1, NULL, NULL);
-	ds->spin_d = pref_spin_new(ds->box, NULL, NULL, 1, 31, 1, 0, 1, NULL, NULL);
-	ds->spin_y = pref_spin_new(ds->box, NULL, NULL, 1900, 9999, 1, 0, 1900, NULL, NULL);
+	date_format = nl_langinfo(D_FMT);
+
+	if (strlen(date_format) == 8)
+		{
+		for (i=1; i<8; i=i+3)
+			{
+			switch (date_format[i])
+				{
+				case 'd':
+					ds->spin_d = pref_spin_new(ds->box, NULL, NULL, 1, 31, 1, 0, 1, NULL, NULL);
+					break;
+				case 'm':
+					ds->spin_m = pref_spin_new(ds->box, NULL, NULL, 1, 12, 1, 0, 1, NULL, NULL);
+					break;
+				case 'y': case 'Y':
+					ds->spin_y = pref_spin_new(ds->box, NULL, NULL, 1900, 9999, 1, 0, 1900, NULL, NULL);
+					break;
+				default:
+					DEBUG_0("Date locale %s is unknown", date_format);
+					break;
+				}
+			}
+		}
+	else
+		{
+		ds->spin_m = pref_spin_new(ds->box, NULL, NULL, 1, 12, 1, 0, 1, NULL, NULL);
+		ds->spin_d = pref_spin_new(ds->box, NULL, NULL, 1, 31, 1, 0, 1, NULL, NULL);
+		ds->spin_y = pref_spin_new(ds->box, NULL, NULL, 1900, 9999, 1, 0, 1900, NULL, NULL);
+		}
+
 	spin_increase(ds->spin_y, 5);
 
 	ds->button = gtk_toggle_button_new();
