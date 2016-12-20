@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter id="GuideOptionsMain">
+  <title id="titleGuideOptionsMain">Preferences</title>
+  <para>There are two sets of preferences in Geeqie: those set via the main Preferences tabbed dialogue, and those set either via a menu entry or by editing a configuration file.</para>
+
+    <para>
+      This chapter explains in detail the main Geeqie preferences dialog, which is accessed via
+      <menuchoice>
+        <shortcut>
+          <keycombo>
+            <keycap>Ctrl</keycap>
+            <keycap>O</keycap>
+          </keycombo>
+        </shortcut>
+        <guimenu>Edit</guimenu>
+        <guimenuitem>Preferences</guimenuitem>
+        <guimenuitem>Preferences</guimenuitem>
+      </menuchoice>
+      or
+      <guiicon>
+        <inlinegraphic fileref="preferences-desktop.png" />
+      </guiicon>
+      on the Toolbar.
+    </para>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsGeneral.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsImage.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsWindow.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsKeyboard.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsFiltering.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsMetadata.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsColor.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsStereo.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsBehavior.xml" />
+    <para />
+
+</chapter>

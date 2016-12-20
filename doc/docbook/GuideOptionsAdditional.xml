@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter id="GuideOptionsAdditional">
+  <title id="titleGuideOptionsAdditional">Additional Preferences</title>
+  <para>There are two sets of preferences in Geeqie: those set via the main Preferences tabbed dialogue, and those set either via a menu entry or by editing a configuration file.</para>
+
+    <para>
+      This chapter explains in detail the Geeqie preferences that are set via a menu entry or by editing a configuration file.
+    </para>
+
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsLayout.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideEditorsConfig.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsHidden.xml" />
+    <para />
+
+</chapter>
