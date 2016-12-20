@@ -383,6 +383,11 @@ static void editor_list_window_new_cb(GtkWidget *widget, gpointer data)
 	editor_window_new(DESKTOP_FILE_TEMPLATE, _("new.desktop"));
 }
 
+static void editor_list_window_help_cb(GtkWidget *widget, gpointer data)
+{
+	help_window_show("GuideEditorsConfig.html");
+}
+
 static void editor_list_window_selection_changed_cb(GtkWidget *widget, gpointer data)
 {
 	EditorListWindow *ewl = data;
@@ -477,6 +482,12 @@ static void editor_list_window_create(void)
 	gtk_box_pack_end(GTK_BOX(win_vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
 
+
+	button = pref_button_new(NULL, GTK_STOCK_HELP, NULL, FALSE,
+				 G_CALLBACK(editor_list_window_help_cb), ewl);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	gtk_widget_set_can_default(button, TRUE);
+	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_NEW, NULL, FALSE,
 				 G_CALLBACK(editor_list_window_new_cb), ewl);

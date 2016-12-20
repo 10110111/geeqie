@@ -1814,6 +1814,11 @@ static void layout_config_apply_cb(GtkWidget *widget, gpointer data)
 	layout_apply_options(lc->lw, &lc->options);
 }
 
+static void layout_config_help_cb(GtkWidget *widget, gpointer data)
+{
+	help_window_show("GuideOptionsLayout.html");
+}
+
 static void layout_config_ok_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutConfig *lc = data;
@@ -1906,6 +1911,12 @@ void layout_show_config_window(LayoutWindow *lw)
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	gtk_widget_show(button);
 */
+	button = pref_button_new(NULL, GTK_STOCK_HELP, NULL, FALSE,
+				 G_CALLBACK(layout_config_help_cb), lc);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	gtk_widget_set_can_default(button, TRUE);
+	gtk_widget_show(button);
+
 	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
 				 G_CALLBACK(layout_config_apply_cb), lc);
 	gtk_container_add(GTK_CONTAINER(hbox), button);

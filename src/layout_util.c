@@ -855,7 +855,7 @@ static void layout_menu_help_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-	help_window_show("html_contents");
+	help_window_show("index.html");
 }
 
 static void layout_menu_help_keys_cb(GtkAction *action, gpointer data)
@@ -863,7 +863,7 @@ static void layout_menu_help_keys_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-	help_window_show("documentation");
+	help_window_show("GuideReferenceKeyboardShortcuts.html");
 }
 
 static void layout_menu_notes_cb(GtkAction *action, gpointer data)

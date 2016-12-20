@@ -408,6 +408,28 @@ static void config_window_close_cb(GtkWidget *widget, gpointer data)
 	filter_store = NULL;
 }
 
+static void config_window_help_cb(GtkWidget *widget, gpointer data)
+{
+	GtkWidget *notebook = GTK_NOTEBOOK(data);
+	gint i;
+
+	static gchar *html_section[] =
+	{
+	"GuideOptionsGeneral.html",
+	"GuideOptionsImage.html",
+	"GuideOptionsWindow.html",
+	"GuideOptionsKeyboard.html",
+	"GuideOptionsFiltering.html",
+	"GuideOptionsMetadata.html",
+	"GuideOptionsColor.html",
+	"GuideOptionsSteroa.html",
+	"GuideOptionsBehavior.html"
+	};
+
+	i = gtk_notebook_get_current_page(notebook);
+	help_window_show(html_section[i]);
+}
+
 static gboolean config_window_delete(GtkWidget *widget, GdkEventAny *event, gpointer data)
 {
 	config_window_close_cb(NULL, NULL);
@@ -1051,7 +1073,7 @@ static void image_overlay_default_template_cb(GtkWidget *widget, gpointer data)
 
 static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 {
-	help_window_show("overlay");
+	help_window_show("GuideOptionsWindow.html#OverlayScreenDisplay");
 }
 
 static void image_overlay_set_font_cb(GtkWidget *widget, gpointer data)
@@ -2373,11 +2395,31 @@ static void config_window_create(void)
 	gtk_container_add(GTK_CONTAINER(configwindow), win_vbox);
 	gtk_widget_show(win_vbox);
 
+	notebook = gtk_notebook_new();
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
+	gtk_box_pack_start(GTK_BOX(win_vbox), notebook, TRUE, TRUE, 0);
+
+	config_tab_general(notebook);
+	config_tab_image(notebook);
+	config_tab_windows(notebook);
+	config_tab_accelerators(notebook);
+	config_tab_files(notebook);
+	config_tab_metadata(notebook);
+	config_tab_color(notebook);
+	config_tab_stereo(notebook);
+	config_tab_behavior(notebook);
+
 	hbox = gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_END);
 	gtk_box_set_spacing(GTK_BOX(hbox), PREF_PAD_BUTTON_GAP);
 	gtk_box_pack_end(GTK_BOX(win_vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show(hbox);
+
+	button = pref_button_new(NULL, GTK_STOCK_HELP, NULL, FALSE,
+				 G_CALLBACK(config_window_help_cb), notebook);
+	gtk_container_add(GTK_CONTAINER(hbox), button);
+	gtk_widget_set_can_default(button, TRUE);
+	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_OK, NULL, FALSE,
 				 G_CALLBACK(config_window_ok_cb), NULL);
@@ -2410,20 +2452,6 @@ static void config_window_create(void)
 		{
 		gtk_box_reorder_child(GTK_BOX(hbox), ct_button, -1);
 		}
-
-	notebook = gtk_notebook_new();
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
-	gtk_box_pack_start(GTK_BOX(win_vbox), notebook, TRUE, TRUE, 0);
-
-	config_tab_general(notebook);
-	config_tab_image(notebook);
-	config_tab_windows(notebook);
-	config_tab_accelerators(notebook);
-	config_tab_files(notebook);
-	config_tab_metadata(notebook);
-	config_tab_color(notebook);
-	config_tab_stereo(notebook);
-	config_tab_behavior(notebook);
 
 	gtk_widget_show(notebook);
 

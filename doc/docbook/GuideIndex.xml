@@ -69,7 +69,8 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideColorManagement.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImagePresentation.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuidePrinting.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptions.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsMain.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsAdditional.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReference.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideFaq.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideLicence.xml" />

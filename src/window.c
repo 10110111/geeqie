@@ -188,11 +188,11 @@ static gchar *html_browsers[] =
 	NULL,		NULL
 };
 
-static void help_browser_run(void)
+static void help_browser_run(const gchar *section)
 {
 	gchar *name = options->helpers.html_browser.command_name;
 	gchar *cmd = options->helpers.html_browser.command_line;
-	gchar *path = g_build_filename(GQ_HTMLDIR, "index.html", NULL);
+	gchar *path = g_build_filename("file://", GQ_HTMLDIR, section, NULL);
 	gchar *result = NULL;
 	gint i;
 
@@ -244,9 +244,9 @@ void help_window_show(const gchar *key)
 {
 	gchar *path;
 
-	if (key && strcmp(key, "html_contents") == 0)
+	if (key && strstr(key, ".html") != 0)
 		{
-		help_browser_run();
+		help_browser_run(key);
 		return;
 		}
 

@@ -1029,6 +1029,11 @@ static void cache_manager_close_cb(GenericDialog *gd, gpointer data)
 	cache_manager = NULL;
 }
 
+static void cache_manager_help_cb(GenericDialog *gd, gpointer data)
+{
+	help_window_show("GuideReferenceManagement.html");
+}
+
 static GtkWidget *cache_manager_location_label(GtkWidget *group, const gchar *subdir)
 {
 	GtkWidget *label;
@@ -1070,6 +1075,8 @@ void cache_manager_show(void)
 	gd->cancel_cb = cache_manager_close_cb;
 	generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL,
 				  cache_manager_close_cb, FALSE);
+	generic_dialog_add_button(gd, GTK_STOCK_HELP, NULL,
+				  cache_manager_help_cb, FALSE);
 
 	generic_dialog_add_message(gd, NULL, _("Cache and Data Maintenance"), NULL);
 
