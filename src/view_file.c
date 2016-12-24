@@ -22,6 +22,8 @@
 #include "view_file.h"
 
 #include "dupe.h"
+#include "collect.h"
+#include "collect-table.h"
 #include "editors.h"
 #include "layout.h"
 #include "menu.h"
