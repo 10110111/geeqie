@@ -203,12 +203,18 @@ geeqie_SOURCES = \
 	options.c	\
 	options.h	\
 	pan-calendar.c	\
+	pan-calendar.h	\
 	pan-folder.c	\
+	pan-folder.h	\
 	pan-grid.c	\
+	pan-grid.h	\
 	pan-item.c	\
+	pan-item.h	\
 	pan-timeline.c	\
+	pan-timeline.h	\
 	pan-types.h	\
 	pan-util.c	\
+	pan-util.h	\
 	pan-view.c	\
 	pan-view.h	\
 	pixbuf-renderer.c	\
