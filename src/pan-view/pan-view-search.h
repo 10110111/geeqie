@@ -19,20 +19,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PAN_VIEW_PAN_VIEW_H
-#define PAN_VIEW_PAN_VIEW_H
+#ifndef PAN_VIEW_PAN_VIEW_SEARCH_H
+#define PAN_VIEW_PAN_VIEW_SEARCH_H
 
 #include "main.h"
 #include "pan-types.h"
 
-GList *pan_layout_intersect(PanWindow *pw, gint x, gint y, gint width, gint height);
-void pan_layout_resize(PanWindow *pw);
-
-void pan_cache_sync_date(PanWindow *pw, GList *list);
-
-GList *pan_cache_sort(GList *list, SortType method, gboolean ascend);
-
-void pan_info_update(PanWindow *pw, PanItem *pi);
+void pan_search_toggle_visible(PanWindow *pw, gboolean enable);
+void pan_search_activate(PanWindow *pw);
+void pan_search_activate_cb(const gchar *text, gpointer data);
+void pan_search_toggle_cb(GtkWidget *button, gpointer data);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
