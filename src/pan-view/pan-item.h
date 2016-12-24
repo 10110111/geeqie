@@ -19,8 +19,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PAN_ITEM_H
-#define PAN_ITEM_H
+#ifndef PAN_VIEW_PAN_ITEM_H
+#define PAN_VIEW_PAN_ITEM_H
 
 #include "main.h"
 #include "pan-types.h"

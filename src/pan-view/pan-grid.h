@@ -19,15 +19,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PAN_FOLDER_H
-#define PAN_FOLDER_H
+#ifndef PAN_VIEW_PAN_GRID_H
+#define PAN_VIEW_PAN_GRID_H
 
 #include "main.h"
 #include "pan-types.h"
 
-void pan_flower_compute(PanWindow *pw, FileData *dir_fd,
-			gint *width, gint *height,
-			gint *scroll_x, gint *scroll_y);
-void pan_folder_tree_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
+void pan_grid_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
 
 #endif

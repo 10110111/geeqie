@@ -80,10 +80,13 @@ CLEANFILES = $(noinst_DATA)
 extra_SLIK = \
 	$(extra_ICONS)
 
+include $(srcdir)/pan-view/Makefile.am
+
 bin_PROGRAMS = geeqie
 
 geeqie_SOURCES = \
 	$(module_SLIK)	\
+	$(module_pan_view)	\
 	ClayRGB1998.icc \
 	ClayRGB1998_icc.h \
 	advanced_exif.c	\
@@ -202,20 +205,6 @@ geeqie_SOURCES = \
 	misc.h		\
 	options.c	\
 	options.h	\
-	pan-calendar.c	\
-	pan-calendar.h	\
-	pan-folder.c	\
-	pan-folder.h	\
-	pan-grid.c	\
-	pan-grid.h	\
-	pan-item.c	\
-	pan-item.h	\
-	pan-timeline.c	\
-	pan-timeline.h	\
-	pan-types.h	\
-	pan-util.c	\
-	pan-util.h	\
-	pan-view.c	\
 	pan-view.h	\
 	pixbuf-renderer.c	\
 	pixbuf-renderer.h	\

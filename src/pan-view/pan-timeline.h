@@ -19,14 +19,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef PAN_CALENDAR_H
-#define PAN_CALENDAR_H
+#ifndef PAN_VIEW_PAN_TIMELINE_H
+#define PAN_VIEW_PAN_TIMELINE_H
 
-//#include "main.h"
-#include "pan-item.h"
+#include "main.h"
 #include "pan-types.h"
 
-void pan_calendar_update(PanWindow *pw, PanItem *pi_day);
-void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
+void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height);
 
 #endif
