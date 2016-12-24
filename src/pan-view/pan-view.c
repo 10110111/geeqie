@@ -1132,7 +1132,7 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 	imd_widget = gtk_container_get_focus_child(GTK_CONTAINER(pw->imd->widget));
 	focused = (pw->fs || (imd_widget && gtk_widget_has_focus(imd_widget)));
 	on_entry = (gtk_widget_has_focus(pw->path_entry) ||
-		    gtk_widget_has_focus(pw->search_entry));
+		    gtk_widget_has_focus(pw->search_ui->search_entry));
 
 	if (focused)
 		{
@@ -1246,6 +1246,7 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 
 		if (stop_signal) return stop_signal;
 
+		// Don't steal characters from entry boxes.
 		if (!on_entry)
 			{
 			stop_signal = TRUE;
@@ -1879,24 +1880,8 @@ static void pan_window_new_real(FileData *dir_fd)
 
 	/* find bar */
 
-	pw->search_box = gtk_hbox_new(FALSE, PREF_PAD_SPACE);
-	gtk_box_pack_start(GTK_BOX(vbox), pw->search_box, FALSE, FALSE, 2);
-
-	pref_spacer(pw->search_box, 0);
-	pref_label_new(pw->search_box, _("Find:"));
-
-	hbox = gtk_hbox_new(TRUE, PREF_PAD_SPACE);
-	gtk_box_pack_start(GTK_BOX(pw->search_box), hbox, TRUE, TRUE, 0);
-	gtk_widget_show(hbox);
-
-	combo = tab_completion_new_with_history(&pw->search_entry, "", "pan_view_search", -1,
-						pan_search_activate_cb, pw);
-	gtk_box_pack_start(GTK_BOX(hbox), combo, TRUE, TRUE, 0);
-	gtk_widget_show(combo);
-
-	pw->search_label = gtk_label_new("");
-	gtk_box_pack_start(GTK_BOX(hbox), pw->search_label, TRUE, TRUE, 0);
-	gtk_widget_show(pw->search_label);
+	pw->search_ui = pan_search_ui_new(pw);
+	gtk_box_pack_start(GTK_BOX(vbox), pw->search_ui->search_box, FALSE, FALSE, 2);
 
 	/* status bar */
 
@@ -1925,21 +1910,9 @@ static void pan_window_new_real(FileData *dir_fd)
 	gtk_container_add(GTK_CONTAINER(frame), pw->label_zoom);
 	gtk_widget_show(pw->label_zoom);
 
-	pw->search_button = gtk_toggle_button_new();
-	gtk_button_set_relief(GTK_BUTTON(pw->search_button), GTK_RELIEF_NONE);
-	gtk_button_set_focus_on_click(GTK_BUTTON(pw->search_button), FALSE);
-	hbox = gtk_hbox_new(FALSE, PREF_PAD_GAP);
-	gtk_container_add(GTK_CONTAINER(pw->search_button), hbox);
-	gtk_widget_show(hbox);
-	pw->search_button_arrow = gtk_arrow_new(GTK_ARROW_UP, GTK_SHADOW_NONE);
-	gtk_box_pack_start(GTK_BOX(hbox), pw->search_button_arrow, FALSE, FALSE, 0);
-	gtk_widget_show(pw->search_button_arrow);
-	pref_label_new(hbox, _("Find"));
-
-	gtk_box_pack_end(GTK_BOX(box), pw->search_button, FALSE, FALSE, 0);
-	gtk_widget_show(pw->search_button);
-	g_signal_connect(G_OBJECT(pw->search_button), "clicked",
-			 G_CALLBACK(pan_search_toggle_cb), pw);
+	// Add the "Find" button to the status bar area.
+	gtk_box_pack_end(GTK_BOX(box), pw->search_ui->search_button, FALSE, FALSE, 0);
+	gtk_widget_show(pw->search_ui->search_button);
 
 	g_signal_connect(G_OBJECT(pw->window), "delete_event",
 			 G_CALLBACK(pan_window_delete_cb), pw);

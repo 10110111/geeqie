@@ -169,6 +169,16 @@ struct _PanItem {
 	gboolean queued;
 };
 
+typedef struct _PanViewSearchUi PanViewSearchUi;
+struct _PanViewSearchUi
+{
+	GtkWidget *search_box;
+	GtkWidget *search_entry;
+	GtkWidget *search_label;
+	GtkWidget *search_button;
+	GtkWidget *search_button_arrow;
+};
+
 typedef struct _PanWindow PanWindow;
 struct _PanWindow
 {
@@ -182,11 +192,7 @@ struct _PanWindow
 	GtkWidget *label_message;
 	GtkWidget *label_zoom;
 
-	GtkWidget *search_box;
-	GtkWidget *search_entry;
-	GtkWidget *search_label;
-	GtkWidget *search_button;
-	GtkWidget *search_button_arrow;
+	PanViewSearchUi *search_ui;
 
 	GtkWidget *date_button;
 

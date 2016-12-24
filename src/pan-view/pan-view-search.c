@@ -27,10 +27,70 @@
 #include "pan-util.h"
 #include "pan-view.h"
 #include "ui_tabcomp.h"
+#include "ui_misc.h"
+
+PanViewSearchUi *pan_search_ui_new(PanWindow *pw)
+{
+	PanViewSearchUi *ui = g_new0(PanViewSearchUi, 1);
+	GtkWidget *combo;
+	GtkWidget *hbox;
+
+	// Build the actual search UI.
+	ui->search_box = gtk_hbox_new(FALSE, PREF_PAD_SPACE);
+	pref_spacer(ui->search_box, 0);
+	pref_label_new(ui->search_box, _("Find:"));
+
+	hbox = gtk_hbox_new(TRUE, PREF_PAD_SPACE);
+	gtk_box_pack_start(GTK_BOX(ui->search_box), hbox, TRUE, TRUE, 0);
+	gtk_widget_show(hbox);
+
+	combo = tab_completion_new_with_history(&ui->search_entry, "", "pan_view_search", -1,
+						pan_search_activate_cb, pw);
+	gtk_box_pack_start(GTK_BOX(hbox), combo, TRUE, TRUE, 0);
+	gtk_widget_show(combo);
+
+	ui->search_label = gtk_label_new("");
+	gtk_box_pack_start(GTK_BOX(hbox), ui->search_label, TRUE, TRUE, 0);
+	gtk_widget_show(ui->search_label);
+
+	// Build the spin-button to show/hide the search UI.
+	ui->search_button = gtk_toggle_button_new();
+	gtk_button_set_relief(GTK_BUTTON(ui->search_button), GTK_RELIEF_NONE);
+	gtk_button_set_focus_on_click(GTK_BUTTON(ui->search_button), FALSE);
+	hbox = gtk_hbox_new(FALSE, PREF_PAD_GAP);
+	gtk_container_add(GTK_CONTAINER(ui->search_button), hbox);
+	gtk_widget_show(hbox);
+	ui->search_button_arrow = gtk_arrow_new(GTK_ARROW_UP, GTK_SHADOW_NONE);
+	gtk_box_pack_start(GTK_BOX(hbox), ui->search_button_arrow, FALSE, FALSE, 0);
+	gtk_widget_show(ui->search_button_arrow);
+	pref_label_new(hbox, _("Find"));
+
+	g_signal_connect(G_OBJECT(ui->search_button), "clicked",
+			 G_CALLBACK(pan_search_toggle_cb), pw);
+
+	return ui;
+}
+
+void pan_search_ui_destroy(PanViewSearchUi **ui_ptr)
+{
+	if (ui_ptr == NULL || *ui_ptr == NULL) return;
+
+	PanViewSearchUi *ui = *ui_ptr;  // For convenience.
+
+	// Note that g_clear_object handles already-NULL pointers.
+	g_clear_object(&ui->search_label);
+	g_clear_object(&ui->search_button);
+	g_clear_object(&ui->search_box);
+	g_clear_object(&ui->search_button_arrow);
+	g_clear_object(&ui->search_button);
+
+	g_free(ui);
+	*ui_ptr = NULL;
+}
 
 static void pan_search_status(PanWindow *pw, const gchar *text)
 {
-	gtk_label_set_text(GTK_LABEL(pw->search_label), (text) ? text : "");
+	gtk_label_set_text(GTK_LABEL(pw->search_ui->search_label), (text) ? text : "");
 }
 
 static gint pan_search_by_path(PanWindow *pw, const gchar *path)
@@ -340,7 +400,7 @@ void pan_search_activate_cb(const gchar *text, gpointer data)
 
 	if (!text) return;
 
-	tab_completion_append_to_history(pw->search_entry, text);
+	tab_completion_append_to_history(pw->search_ui->search_entry, text);
 
 	if (pan_search_by_path(pw, text)) return;
 
@@ -360,7 +420,7 @@ void pan_search_activate(PanWindow *pw)
 {
 	gchar *text;
 
-	text = g_strdup(gtk_entry_get_text(GTK_ENTRY(pw->search_entry)));
+	text = g_strdup(gtk_entry_get_text(GTK_ENTRY(pw->search_ui->search_entry)));
 	pan_search_activate_cb(text, pw);
 	g_free(text);
 }
@@ -368,48 +428,50 @@ void pan_search_activate(PanWindow *pw)
 void pan_search_toggle_cb(GtkWidget *button, gpointer data)
 {
 	PanWindow *pw = data;
+	PanViewSearchUi *ui = pw->search_ui;
 	gboolean visible;
 
-	visible = gtk_widget_get_visible(pw->search_box);
+	visible = gtk_widget_get_visible(ui->search_box);
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button)) == visible) return;
 
 	if (visible)
 		{
-		gtk_widget_hide(pw->search_box);
-		gtk_arrow_set(GTK_ARROW(pw->search_button_arrow), GTK_ARROW_UP, GTK_SHADOW_NONE);
+		gtk_widget_hide(ui->search_box);
+		gtk_arrow_set(GTK_ARROW(ui->search_button_arrow), GTK_ARROW_UP, GTK_SHADOW_NONE);
 		}
 	else
 		{
-		gtk_widget_show(pw->search_box);
-		gtk_arrow_set(GTK_ARROW(pw->search_button_arrow), GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-		gtk_widget_grab_focus(pw->search_entry);
+		gtk_widget_show(ui->search_box);
+		gtk_arrow_set(GTK_ARROW(ui->search_button_arrow), GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+		gtk_widget_grab_focus(ui->search_entry);
 		}
 }
 
 void pan_search_toggle_visible(PanWindow *pw, gboolean enable)
 {
+	PanViewSearchUi *ui = pw->search_ui;
 	if (pw->fs) return;
 
 	if (enable)
 		{
-		if (gtk_widget_get_visible(pw->search_box))
+		if (gtk_widget_get_visible(ui->search_box))
 			{
-			gtk_widget_grab_focus(pw->search_entry);
+			gtk_widget_grab_focus(ui->search_entry);
 			}
 		else
 			{
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), TRUE);
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui->search_button), TRUE);
 			}
 		}
 	else
 		{
-		if (gtk_widget_get_visible(pw->search_entry))
+		if (gtk_widget_get_visible(ui->search_entry))
 			{
-			if (gtk_widget_has_focus(pw->search_entry))
+			if (gtk_widget_has_focus(ui->search_entry))
 				{
 				gtk_widget_grab_focus(GTK_WIDGET(pw->imd->widget));
 				}
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pw->search_button), FALSE);
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui->search_button), FALSE);
 			}
 		}
 }
