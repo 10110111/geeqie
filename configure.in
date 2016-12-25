@@ -17,6 +17,9 @@ dnl GNU General Public License for more details.
 AC_PREREQ(2.57)
 AC_INIT([geeqie], m4_esyscmd_s(git rev-parse --quiet --verify --short master), [geeqie-devel@lists.sourceforge.net], [], [http://www.geeqie.org/])
 
+# Add -Werror to the default CFLAGS
+CFLAGS+=" -Werror -Wno-error=deprecated-declarations"
+
 # Check for rightly dirs
 AC_CONFIG_SRCDIR([src/main.c])
 
