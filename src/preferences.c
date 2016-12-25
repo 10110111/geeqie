@@ -410,7 +410,7 @@ static void config_window_close_cb(GtkWidget *widget, gpointer data)
 
 static void config_window_help_cb(GtkWidget *widget, gpointer data)
 {
-	GtkWidget *notebook = GTK_NOTEBOOK(data);
+	GtkWidget *notebook = GTK_WIDGET(data);
 	gint i;
 
 	static gchar *html_section[] =
@@ -426,7 +426,7 @@ static void config_window_help_cb(GtkWidget *widget, gpointer data)
 	"GuideOptionsBehavior.html"
 	};
 
-	i = gtk_notebook_get_current_page(notebook);
+	i = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
 	help_window_show(html_section[i]);
 }
 
@@ -1979,7 +1979,7 @@ static void intent_menu_cb(GtkWidget *combo, gpointer data)
 }
 
 static void add_intent_menu(GtkWidget *table, gint column, gint row, const gchar *text,
-			     guint option, guint *option_c)
+			     gint option, gint *option_c)
 {
 	GtkWidget *combo;
 	gint current = 0;
