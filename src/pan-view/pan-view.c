@@ -38,6 +38,7 @@
 #include "pan-item.h"
 #include "pan-timeline.h"
 #include "pan-util.h"
+#include "pan-view-filter.h"
 #include "pan-view-search.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
@@ -1070,7 +1071,7 @@ static void pan_layout_update_idle(PanWindow *pw)
 		}
 }
 
-static void pan_layout_update(PanWindow *pw)
+void pan_layout_update(PanWindow *pw)
 {
 	pan_window_message(pw, _("Sorting images..."));
 	pan_layout_update_idle(pw);
@@ -1132,7 +1133,8 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 	imd_widget = gtk_container_get_focus_child(GTK_CONTAINER(pw->imd->widget));
 	focused = (pw->fs || (imd_widget && gtk_widget_has_focus(imd_widget)));
 	on_entry = (gtk_widget_has_focus(pw->path_entry) ||
-		    gtk_widget_has_focus(pw->search_ui->search_entry));
+		    gtk_widget_has_focus(pw->search_ui->search_entry) ||
+		    gtk_widget_has_focus(pw->filter_ui->filter_entry));
 
 	if (focused)
 		{
@@ -1735,6 +1737,8 @@ static void pan_window_close(PanWindow *pw)
 		}
 
 	pan_fullscreen_toggle(pw, TRUE);
+	pan_search_ui_destroy(&pw->search_ui);
+	pan_filter_ui_destroy(&pw->filter_ui);
 	gtk_widget_destroy(pw->window);
 
 	pan_window_items_free(pw);
@@ -1883,6 +1887,10 @@ static void pan_window_new_real(FileData *dir_fd)
 	pw->search_ui = pan_search_ui_new(pw);
 	gtk_box_pack_start(GTK_BOX(vbox), pw->search_ui->search_box, FALSE, FALSE, 2);
 
+    /* filter bar */
+    pw->filter_ui = pan_filter_ui_new(pw);
+    gtk_box_pack_start(GTK_BOX(vbox), pw->filter_ui->filter_box, FALSE, FALSE, 2);
+
 	/* status bar */
 
 	box = pref_box_new(vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, 0);
@@ -1913,6 +1921,10 @@ static void pan_window_new_real(FileData *dir_fd)
 	// Add the "Find" button to the status bar area.
 	gtk_box_pack_end(GTK_BOX(box), pw->search_ui->search_button, FALSE, FALSE, 0);
 	gtk_widget_show(pw->search_ui->search_button);
+
+	// Add the "Filter" button to the status bar area.
+	gtk_box_pack_end(GTK_BOX(box), pw->filter_ui->filter_button, FALSE, FALSE, 0);
+	gtk_widget_show(pw->filter_ui->filter_button);
 
 	g_signal_connect(G_OBJECT(pw->window), "delete_event",
 			 G_CALLBACK(pan_window_delete_cb), pw);

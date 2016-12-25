@@ -75,16 +75,7 @@ void pan_search_ui_destroy(PanViewSearchUi **ui_ptr)
 {
 	if (ui_ptr == NULL || *ui_ptr == NULL) return;
 
-	PanViewSearchUi *ui = *ui_ptr;  // For convenience.
-
-	// Note that g_clear_object handles already-NULL pointers.
-	g_clear_object(&ui->search_label);
-	g_clear_object(&ui->search_button);
-	g_clear_object(&ui->search_box);
-	g_clear_object(&ui->search_button_arrow);
-	g_clear_object(&ui->search_button);
-
-	g_free(ui);
+	g_free(*ui_ptr);
 	*ui_ptr = NULL;
 }
 

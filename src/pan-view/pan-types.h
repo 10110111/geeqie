@@ -179,6 +179,18 @@ struct _PanViewSearchUi
 	GtkWidget *search_button_arrow;
 };
 
+typedef struct _PanViewFilterUi PanViewFilterUi;
+struct _PanViewFilterUi
+{
+	GtkWidget *filter_box;
+	GtkWidget *filter_entry;
+	GtkWidget *filter_label;
+	GtkWidget *filter_button;
+	GtkWidget *filter_button_arrow;
+	GHashTable *filter_kw_table;
+	GtkWidget *filter_kw_hbox;
+};
+
 typedef struct _PanWindow PanWindow;
 struct _PanWindow
 {
@@ -193,6 +205,7 @@ struct _PanWindow
 	GtkWidget *label_zoom;
 
 	PanViewSearchUi *search_ui;
+	PanViewFilterUi *filter_ui;
 
 	GtkWidget *date_button;
 

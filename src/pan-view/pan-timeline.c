@@ -21,16 +21,21 @@
 
 #include "pan-timeline.h"
 
+#include "metadata.h"
 #include "pan-item.h"
 #include "pan-util.h"
 #include "pan-view.h"
+#include "ui_fileops.h"
 
 void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height)
 {
 	GList *list;
 	GList *work;
+	GHashTable *filter_kw_table;
+	GHashTableIter filter_kw_iter;
+	gchar *filter_kw;
 	gint x, y;
-	time_t tc;
+	time_t group_start_date;
 	gint total;
 	gint count;
 	PanItem *pi_month = NULL;
@@ -41,6 +46,7 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	gint y_height;
 
 	list = pan_list_tree(dir_fd, SORT_NONE, TRUE, pw->ignore_symlinks);
+	filter_kw_table = pw->filter_ui->filter_kw_table;  // Shorthand.
 
 	if (pw->cache_list && pw->exif_date_enable)
 		{
@@ -61,7 +67,8 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	day_start = month_start;
 	x_width = 0;
 	y_height = 0;
-	tc = 0;
+	group_start_date = 0;
+	// total and count are used to enforce a stride of PAN_GROUP_MAX thumbs.
 	total = 0;
 	count = 0;
 	work = list;
@@ -73,13 +80,44 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 		fd = work->data;
 		work = work->next;
 
-		if (!pan_date_compare(fd->date, tc, PAN_DATE_LENGTH_DAY))
+		// Don't show images that fail the keyword test.
+		if (g_hash_table_size(filter_kw_table) > 0)
 			{
+			gint match_count = 0;
+			gint miss_count = 0;
+			// TODO(xsdg): OPTIMIZATION Do the search inside of metadata.c to avoid a
+			// bunch of string list copies.
+			// TODO(xsdg): Allow user to switch between union and intersection.
+			GList *img_keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
+			if (!img_keywords) continue;
+
+			g_hash_table_iter_init(&filter_kw_iter, filter_kw_table);
+			while (g_hash_table_iter_next(&filter_kw_iter, (void**)&filter_kw, NULL))
+				{
+				if (g_list_find_custom(img_keywords, filter_kw, (GCompareFunc)g_strcmp0))
+					{
+					++match_count;
+					}
+				else
+					{
+					++miss_count;
+					}
+				if (miss_count > 0) break;
+				}
+
+			string_list_free(img_keywords);
+			if (miss_count > 0 || match_count == 0) continue;
+			}
+
+		if (!pan_date_compare(fd->date, group_start_date, PAN_DATE_LENGTH_DAY))
+			{
+			// FD starts a new day group.
 			GList *needle;
 			gchar *buf;
 
-			if (!pan_date_compare(fd->date, tc, PAN_DATE_LENGTH_MONTH))
+			if (!pan_date_compare(fd->date, group_start_date, PAN_DATE_LENGTH_MONTH))
 				{
+				// FD starts a new month group.
 				pi_day = NULL;
 
 				if (pi_month)
@@ -114,7 +152,7 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 
 			if (pi_day) x = pi_day->x + pi_day->width + PAN_BOX_BORDER;
 
-			tc = fd->date;
+			group_start_date = fd->date;
 			total = 1;
 			count = 0;
 
@@ -124,7 +162,7 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 				FileData *nfd;
 
 				nfd = needle->data;
-				if (pan_date_compare(nfd->date, tc, PAN_DATE_LENGTH_DAY))
+				if (pan_date_compare(nfd->date, group_start_date, PAN_DATE_LENGTH_DAY))
 					{
 					needle = needle->next;
 					total++;
