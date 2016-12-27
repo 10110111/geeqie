@@ -25,6 +25,12 @@
 #include "main.h"
 #include "pan-types.h"
 
+typedef enum {
+	PAN_VIEW_UNION,
+	PAN_VIEW_INTERSECTION,
+	PAN_VIEW_GROUP
+} PanViewFilterMode;
+
 void pan_filter_toggle_visible(PanWindow *pw, gboolean enable);
 void pan_filter_activate(PanWindow *pw);
 void pan_filter_activate_cb(const gchar *text, gpointer data);
@@ -35,6 +41,8 @@ PanViewFilterUi *pan_filter_ui_new(PanWindow *pw);
 
 // Destroys the specified PanViewFilterUi and sets the pointer to NULL.
 void pan_filter_ui_destroy(PanViewFilterUi **ui);
+
+gboolean pan_filter_fd_list(GList **fd_list, GHashTable *kw_table, PanViewFilterMode mode);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

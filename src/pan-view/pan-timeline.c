@@ -21,19 +21,15 @@
 
 #include "pan-timeline.h"
 
-#include "metadata.h"
 #include "pan-item.h"
 #include "pan-util.h"
 #include "pan-view.h"
-#include "ui_fileops.h"
+#include "pan-view-filter.h"
 
 void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *height)
 {
 	GList *list;
 	GList *work;
-	GHashTable *filter_kw_table;
-	GHashTableIter filter_kw_iter;
-	gchar *filter_kw;
 	gint x, y;
 	time_t group_start_date;
 	gint total;
@@ -46,7 +42,7 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	gint y_height;
 
 	list = pan_list_tree(dir_fd, SORT_NONE, TRUE, pw->ignore_symlinks);
-	filter_kw_table = pw->filter_ui->filter_kw_table;  // Shorthand.
+	gboolean changed = pan_filter_fd_list(&list, pw->filter_ui->filter_kw_table, PAN_VIEW_INTERSECTION);
 
 	if (pw->cache_list && pw->exif_date_enable)
 		{
@@ -79,35 +75,6 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 
 		fd = work->data;
 		work = work->next;
-
-		// Don't show images that fail the keyword test.
-		if (g_hash_table_size(filter_kw_table) > 0)
-			{
-			gint match_count = 0;
-			gint miss_count = 0;
-			// TODO(xsdg): OPTIMIZATION Do the search inside of metadata.c to avoid a
-			// bunch of string list copies.
-			// TODO(xsdg): Allow user to switch between union and intersection.
-			GList *img_keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
-			if (!img_keywords) continue;
-
-			g_hash_table_iter_init(&filter_kw_iter, filter_kw_table);
-			while (g_hash_table_iter_next(&filter_kw_iter, (void**)&filter_kw, NULL))
-				{
-				if (g_list_find_custom(img_keywords, filter_kw, (GCompareFunc)g_strcmp0))
-					{
-					++match_count;
-					}
-				else
-					{
-					++miss_count;
-					}
-				if (miss_count > 0) break;
-				}
-
-			string_list_free(img_keywords);
-			if (miss_count > 0 || match_count == 0) continue;
-			}
 
 		if (!pan_date_compare(fd->date, group_start_date, PAN_DATE_LENGTH_DAY))
 			{

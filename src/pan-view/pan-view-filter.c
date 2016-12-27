@@ -22,9 +22,11 @@
 #include "pan-view-filter.h"
 
 #include "image.h"
+#include "metadata.h"
 #include "pan-item.h"
 #include "pan-util.h"
 #include "pan-view.h"
+#include "ui_fileops.h"
 #include "ui_tabcomp.h"
 #include "ui_misc.h"
 
@@ -198,4 +200,59 @@ void pan_filter_toggle_visible(PanWindow *pw, gboolean enable)
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui->filter_button), FALSE);
 			}
 		}
+}
+
+gboolean pan_filter_fd_list(GList **fd_list, GHashTable *kw_table, PanViewFilterMode mode)
+{
+	GList *work;
+	gboolean modified = FALSE;
+	GHashTableIter kw_iter;
+	gchar *filter_kw;
+
+
+	if (!fd_list || !*fd_list || g_hash_table_size(kw_table) == 0) return modified;
+
+	// TODO(xsdg): Pay attention to filter mode.
+	work = *fd_list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		GList *last_work = work;
+		work = work->next;
+
+		// TODO(xsdg): OPTIMIZATION Do the search inside of metadata.c to avoid a
+		// bunch of string list copies.
+		GList *img_keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
+		if (!img_keywords)
+			{
+			*fd_list = g_list_delete_link(*fd_list, last_work);
+			modified = TRUE;
+			continue;
+			}
+
+		gint match_count = 0;
+		gint miss_count = 0;
+		g_hash_table_iter_init(&kw_iter, kw_table);
+		while (g_hash_table_iter_next(&kw_iter, (void**)&filter_kw, NULL))
+			{
+			if (g_list_find_custom(img_keywords, filter_kw, (GCompareFunc)g_strcmp0))
+				{
+				++match_count;
+				}
+			else
+				{
+				++miss_count;
+				}
+			if (miss_count > 0) break;
+			}
+
+		string_list_free(img_keywords);
+		if (miss_count > 0 || match_count == 0)
+			{
+			*fd_list = g_list_delete_link(*fd_list, last_work);
+			modified = TRUE;
+			}
+		}
+
+	return modified;
 }
