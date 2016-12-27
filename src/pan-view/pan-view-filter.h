@@ -26,10 +26,38 @@
 #include "pan-types.h"
 
 typedef enum {
-	PAN_VIEW_UNION,
-	PAN_VIEW_INTERSECTION,
-	PAN_VIEW_GROUP
+	PAN_VIEW_FILTER_REQUIRE,
+	PAN_VIEW_FILTER_EXCLUDE,
+	PAN_VIEW_FILTER_INCLUDE,
+	PAN_VIEW_FILTER_GROUP
 } PanViewFilterMode;
+
+typedef struct _PanViewFilterElement PanViewFilterElement;
+struct _PanViewFilterElement
+{
+	PanViewFilterMode mode;
+	gchar *keyword;
+};
+
+typedef struct _PanFilterCallbackState PanFilterCallbackState;
+struct _PanFilterCallbackState
+{
+	PanWindow *pw;
+	GList *filter_element;
+};
+
+struct _PanViewFilterUi
+{
+	GtkWidget *filter_box;
+	GtkWidget *filter_entry;
+	GtkWidget *filter_label;
+	GtkWidget *filter_button;
+	GtkWidget *filter_button_arrow;
+	GtkWidget *filter_kw_hbox;
+	GtkListStore *filter_mode_model;
+	GtkWidget *filter_mode_combo;
+	GList *filter_elements;  // List of PanViewFilterElement.
+};
 
 void pan_filter_toggle_visible(PanWindow *pw, gboolean enable);
 void pan_filter_activate(PanWindow *pw);
@@ -42,7 +70,7 @@ PanViewFilterUi *pan_filter_ui_new(PanWindow *pw);
 // Destroys the specified PanViewFilterUi and sets the pointer to NULL.
 void pan_filter_ui_destroy(PanViewFilterUi **ui);
 
-gboolean pan_filter_fd_list(GList **fd_list, GHashTable *kw_table, PanViewFilterMode mode);
+gboolean pan_filter_fd_list(GList **fd_list, GList *filter_elements);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

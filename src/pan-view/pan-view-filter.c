@@ -36,10 +36,42 @@ PanViewFilterUi *pan_filter_ui_new(PanWindow *pw)
 	GtkWidget *combo;
 	GtkWidget *hbox;
 
+	/* Since we're using the GHashTable as a HashSet (in which key and value pointers
+	 * are always identical), specifying key _and_ value destructor callbacks will
+	 * cause a double-free.
+	 */
+	{
+		GtkTreeIter iter;
+		ui->filter_mode_model = gtk_list_store_new(3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
+		gtk_list_store_append(ui->filter_mode_model, &iter);
+		gtk_list_store_set(ui->filter_mode_model, &iter,
+				   0, PAN_VIEW_FILTER_REQUIRE, 1, _("Require"), 2, _("R"), -1);
+		gtk_list_store_append(ui->filter_mode_model, &iter);
+		gtk_list_store_set(ui->filter_mode_model, &iter,
+				   0, PAN_VIEW_FILTER_EXCLUDE, 1, _("Exclude"), 2, _("E"), -1);
+		gtk_list_store_append(ui->filter_mode_model, &iter);
+		gtk_list_store_set(ui->filter_mode_model, &iter,
+				   0, PAN_VIEW_FILTER_INCLUDE, 1, _("Include"), 2, _("I"), -1);
+		gtk_list_store_append(ui->filter_mode_model, &iter);
+		gtk_list_store_set(ui->filter_mode_model, &iter,
+				   0, PAN_VIEW_FILTER_GROUP, 1, _("Group"), 2, _("G"), -1);
+
+		ui->filter_mode_combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(ui->filter_mode_model));
+		gtk_combo_box_set_focus_on_click(GTK_COMBO_BOX(ui->filter_mode_combo), FALSE);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(ui->filter_mode_combo), 0);
+
+		GtkCellRenderer *render = gtk_cell_renderer_text_new();
+		gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(ui->filter_mode_combo), render, TRUE);
+		gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(ui->filter_mode_combo), render, "text", 1, NULL);
+	}
+
 	// Build the actual filter UI.
 	ui->filter_box = gtk_hbox_new(FALSE, PREF_PAD_SPACE);
 	pref_spacer(ui->filter_box, 0);
 	pref_label_new(ui->filter_box, _("Keyword Filter:"));
+
+	gtk_box_pack_start(GTK_BOX(ui->filter_box), ui->filter_mode_combo, TRUE, TRUE, 0);
+	gtk_widget_show(ui->filter_mode_combo);
 
 	hbox = gtk_hbox_new(TRUE, PREF_PAD_SPACE);
 	gtk_box_pack_start(GTK_BOX(ui->filter_box), hbox, TRUE, TRUE, 0);
@@ -74,12 +106,6 @@ PanViewFilterUi *pan_filter_ui_new(PanWindow *pw)
 	g_signal_connect(G_OBJECT(ui->filter_button), "clicked",
 			 G_CALLBACK(pan_filter_toggle_cb), pw);
 
-	/* Since we're using the GHashTable as a HashSet (in which key and value pointers
-	 * are always identical), specifying key _and_ value destructor callbacks will
-	 * cause a double-free.
-	 */
-	ui->filter_kw_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-
 	return ui;
 }
 
@@ -88,7 +114,7 @@ void pan_filter_ui_destroy(PanViewFilterUi **ui_ptr)
 	if (ui_ptr == NULL || *ui_ptr == NULL) return;
 
 	// Note that g_clear_pointer handles already-NULL pointers.
-	g_clear_pointer(&(*ui_ptr)->filter_kw_table, g_hash_table_destroy);
+	//g_clear_pointer(&(*ui_ptr)->filter_kw_table, g_hash_table_destroy);
 
 	g_free(*ui_ptr);
 	*ui_ptr = NULL;
@@ -101,11 +127,14 @@ static void pan_filter_status(PanWindow *pw, const gchar *text)
 
 static void pan_filter_kw_button_cb(GtkButton *widget, gpointer data)
 {
-	PanWindow *pw = data;
+	PanFilterCallbackState *cb_state = data;
+	PanWindow *pw = cb_state->pw;
 	PanViewFilterUi *ui = pw->filter_ui;
 
-	g_hash_table_remove(ui->filter_kw_table, gtk_button_get_label(GTK_BUTTON(widget)));
+	// TODO(xsdg): Fix filter element pointed object memory leak.
+	ui->filter_elements = g_list_delete_link(ui->filter_elements, cb_state->filter_element);
 	gtk_widget_destroy(GTK_WIDGET(widget));
+	g_free(cb_state);
 
 	pan_filter_status(pw, _("Removed keyword…"));
 	pan_layout_update(pw);
@@ -116,29 +145,41 @@ void pan_filter_activate_cb(const gchar *text, gpointer data)
 	GtkWidget *kw_button;
 	PanWindow *pw = data;
 	PanViewFilterUi *ui = pw->filter_ui;
+	GtkTreeIter iter;
 
 	if (!text) return;
 
+	// Get all relevant state and reset UI.
+	gtk_combo_box_get_active_iter(GTK_COMBO_BOX(ui->filter_mode_combo), &iter);
 	gtk_entry_set_text(GTK_ENTRY(ui->filter_entry), "");
-
-	if (g_hash_table_contains(ui->filter_kw_table, text))
-		{
-		pan_filter_status(pw, _("Already added…"));
-		return;
-		}
-
 	tab_completion_append_to_history(ui->filter_entry, text);
 
-	g_hash_table_add(ui->filter_kw_table, g_strdup(text));
+	// Add new filter element.
+	PanViewFilterElement *element = g_new0(PanViewFilterElement, 1);
+	gtk_tree_model_get(GTK_TREE_MODEL(ui->filter_mode_model), &iter, 0, &element->mode, -1);
+	element->keyword = g_strdup(text);
+	ui->filter_elements = g_list_append(ui->filter_elements, element);
 
-	kw_button = gtk_button_new_with_label(text);
+	// Get the short version of the mode value.
+	gchar *short_mode;
+	gtk_tree_model_get(GTK_TREE_MODEL(ui->filter_mode_model), &iter, 2, &short_mode, -1);
+
+	// Create the button.
+	// TODO(xsdg): Use MVC so that the button list is an actual representation of the GList
+	gchar *label = g_strdup_printf("(%s) %s", short_mode, text);
+	kw_button = gtk_button_new_with_label(label);
+	g_clear_pointer(&label, g_free);
+
 	gtk_box_pack_start(GTK_BOX(ui->filter_kw_hbox), kw_button, FALSE, FALSE, 0);
 	gtk_widget_show(kw_button);
 
-	g_signal_connect(G_OBJECT(kw_button), "clicked",
-			 G_CALLBACK(pan_filter_kw_button_cb), pw);
+	PanFilterCallbackState *cb_state = g_new0(PanFilterCallbackState, 1);
+	cb_state->pw = pw;
+	cb_state->filter_element = g_list_last(ui->filter_elements);
 
-	pan_filter_status(pw, _("Added keyword…"));
+	g_signal_connect(G_OBJECT(kw_button), "clicked",
+			 G_CALLBACK(pan_filter_kw_button_cb), cb_state);
+
 	pan_layout_update(pw);
 }
 
@@ -202,17 +243,17 @@ void pan_filter_toggle_visible(PanWindow *pw, gboolean enable)
 		}
 }
 
-gboolean pan_filter_fd_list(GList **fd_list, GHashTable *kw_table, PanViewFilterMode mode)
+gboolean pan_filter_fd_list(GList **fd_list, GList *filter_elements)
 {
 	GList *work;
 	gboolean modified = FALSE;
-	GHashTableIter kw_iter;
-	gchar *filter_kw;
+	GHashTable *seen_kw_table = NULL;
 
+	if (!fd_list || !*fd_list || !filter_elements) return modified;
 
-	if (!fd_list || !*fd_list || g_hash_table_size(kw_table) == 0) return modified;
+	// seen_kw_table is only valid in this scope, so don't take ownership of any strings.
+	seen_kw_table = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
 
-	// TODO(xsdg): Pay attention to filter mode.
 	work = *fd_list;
 	while (work)
 		{
@@ -223,36 +264,56 @@ gboolean pan_filter_fd_list(GList **fd_list, GHashTable *kw_table, PanViewFilter
 		// TODO(xsdg): OPTIMIZATION Do the search inside of metadata.c to avoid a
 		// bunch of string list copies.
 		GList *img_keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
-		if (!img_keywords)
+
+		// TODO(xsdg): OPTIMIZATION Determine a heuristic for when to linear-search the
+		// keywords list, and when to build a hash table for the image's keywords.
+		gboolean should_reject = FALSE;
+		gchar *group_kw = NULL;
+		GList *filter_element = filter_elements;
+		while (filter_element)
 			{
-			*fd_list = g_list_delete_link(*fd_list, last_work);
-			modified = TRUE;
-			continue;
+			PanViewFilterElement *filter = filter_element->data;
+			filter_element = filter_element->next;
+			gboolean has_kw = !!g_list_find_custom(img_keywords, filter->keyword, (GCompareFunc)g_strcmp0);
+
+			switch (filter->mode)
+				{
+				case PAN_VIEW_FILTER_REQUIRE:
+					should_reject |= !has_kw;
+					break;
+				case PAN_VIEW_FILTER_EXCLUDE:
+					should_reject |= has_kw;
+					break;
+				case PAN_VIEW_FILTER_INCLUDE:
+					if (has_kw) should_reject = FALSE;
+					break;
+				case PAN_VIEW_FILTER_GROUP:
+					if (has_kw)
+						{
+						if (g_hash_table_contains(seen_kw_table, filter->keyword))
+							{
+							should_reject = TRUE;
+							}
+						else if (group_kw == NULL)
+							{
+							group_kw = filter->keyword;
+							}
+						}
+					break;
+				}
 			}
 
-		gint match_count = 0;
-		gint miss_count = 0;
-		g_hash_table_iter_init(&kw_iter, kw_table);
-		while (g_hash_table_iter_next(&kw_iter, (void**)&filter_kw, NULL))
-			{
-			if (g_list_find_custom(img_keywords, filter_kw, (GCompareFunc)g_strcmp0))
-				{
-				++match_count;
-				}
-			else
-				{
-				++miss_count;
-				}
-			if (miss_count > 0) break;
-			}
+		if (!should_reject && group_kw != NULL) g_hash_table_add(seen_kw_table, group_kw);
 
 		string_list_free(img_keywords);
-		if (miss_count > 0 || match_count == 0)
+
+		if (should_reject)
 			{
 			*fd_list = g_list_delete_link(*fd_list, last_work);
 			modified = TRUE;
 			}
 		}
 
+	g_hash_table_destroy(seen_kw_table);
 	return modified;
 }
