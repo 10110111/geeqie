@@ -42,7 +42,7 @@ void pan_timeline_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	gint y_height;
 
 	list = pan_list_tree(dir_fd, SORT_NONE, TRUE, pw->ignore_symlinks);
-	gboolean changed = pan_filter_fd_list(&list, pw->filter_ui->filter_elements);
+	pan_filter_fd_list(&list, pw->filter_ui->filter_elements);
 
 	if (pw->cache_list && pw->exif_date_enable)
 		{
