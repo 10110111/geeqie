@@ -24,6 +24,7 @@
 
 #include "collect.h"
 #include "filedata.h"
+#include "image.h"
 #include "img-view.h"
 #include "layout.h"
 #include "layout_image.h"
@@ -522,6 +523,14 @@ static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)
 	g_free(filename);
 }
 
+static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	LayoutWindow *lw = NULL; /* NULL to force layout_valid() to do some magic */
+	if (!layout_valid(&lw)) return;
+	if (image_get_path(lw->image))
+		printf_term("%s %s\n", GQ_APPNAME, image_get_path(lw->image));
+}
+
 static void gr_config_load(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
@@ -666,6 +675,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "--get-sidecars:",      gr_get_sidecars,        TRUE,  FALSE, N_("<FILE>"), N_("get list of sidecars of FILE") },
 	{ NULL, "--get-destination:",  	gr_get_destination,     TRUE,  FALSE, N_("<FILE>"), N_("get destination path of FILE") },
 	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE") },
+	{ NULL, "--tell",               gr_file_tell,           FALSE, FALSE, NULL, N_("print filename of current image") },
 	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
 	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },

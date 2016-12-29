@@ -194,6 +194,11 @@
           </row>
           <row>
             <entry />
+            <entry>--tell</entry>
+            <entry>Print filename of current image</entry>
+          </row>
+          <row>
+            <entry />
             <entry>view:&lt;file&gt;</entry>
             <entry>Open new window containing &lt;file&gt;</entry>
           </row>
