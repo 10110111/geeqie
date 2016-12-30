@@ -606,10 +606,12 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 	gtk_widget_show(lw->info_progress_bar);
 
 	lw->info_sort = layout_sort_button(lw);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_sort), _("Select sort order"));
 	gtk_box_pack_start(GTK_BOX(hbox), lw->info_sort, FALSE, FALSE, 0);
 	gtk_widget_show(lw->info_sort);
 
 	lw->info_status = layout_status_label(NULL, lw->info_box, TRUE, 0, (!small_format));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_status), _("Folder contents (files selected)"));
 
 	if (small_format)
 		{
@@ -618,6 +620,7 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 		gtk_widget_show(hbox);
 		}
 	lw->info_details = layout_status_label(NULL, hbox, TRUE, 0, TRUE);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_details), _("(Image dimensions) Image size"));
 	toolbar = layout_actions_toolbar(lw, TOOLBAR_STATUS);
 
 	toolbar_frame = gtk_frame_new(NULL);
@@ -627,6 +630,7 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 	gtk_widget_show(toolbar);
 	gtk_box_pack_end(GTK_BOX(hbox), toolbar_frame, FALSE, FALSE, 0);
 	lw->info_zoom = layout_status_label(NULL, hbox, FALSE, ZOOM_LABEL_WIDTH, FALSE);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_zoom), _("Image zoom level"));
 	if (small_format)
 		{
 		hbox = gtk_hbox_new(FALSE, 0);
@@ -634,6 +638,7 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 		gtk_widget_show(hbox);
 		}
 	lw->info_pixel = layout_status_label(NULL, hbox, FALSE, 0, small_format); /* expand only in small format */
+	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_pixel), _("[Pixel x,y coord]: (Pixel R,G,B value)"));
 	if (!lw->options.show_info_pixel) gtk_widget_hide(gtk_widget_get_parent(lw->info_pixel));
 }
 
