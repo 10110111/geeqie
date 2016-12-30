@@ -158,6 +158,11 @@ void pan_filter_activate_cb(const gchar *text, gpointer data)
 	PanViewFilterElement *element = g_new0(PanViewFilterElement, 1);
 	gtk_tree_model_get(GTK_TREE_MODEL(ui->filter_mode_model), &iter, 0, &element->mode, -1);
 	element->keyword = g_strdup(text);
+	if (g_strcmp0(text, g_regex_escape_string(text, -1)))
+		{
+		// It's an actual regex, so compile
+		element->kw_regex = g_regex_new(text, G_REGEX_ANCHORED | G_REGEX_OPTIMIZE, G_REGEX_MATCH_ANCHORED, NULL);
+		}
 	ui->filter_elements = g_list_append(ui->filter_elements, element);
 
 	// Get the short version of the mode value.
@@ -243,6 +248,33 @@ void pan_filter_toggle_visible(PanWindow *pw, gboolean enable)
 		}
 }
 
+static gboolean pan_view_list_contains_kw_pattern(GList *haystack, PanViewFilterElement *filter, gchar **found_kw)
+{
+	if (filter->kw_regex)
+		{
+		// regex compile succeeded; attempt regex match.
+		GList *work = g_list_first(haystack);
+		while (work)
+			{
+			gchar *keyword = work->data;
+			work = work->next;
+			if (g_regex_match(filter->kw_regex, keyword, 0x0, NULL))
+				{
+				if (found_kw) *found_kw = keyword;
+				return TRUE;
+				}
+			}
+		return FALSE;
+		}
+	else
+		{
+		// regex compile failed; fall back to exact string match.
+		GList *found_elem = g_list_find_custom(haystack, filter->keyword, (GCompareFunc)g_strcmp0);
+		if (found_elem && found_kw) *found_kw = found_elem->data;
+		return !!found_elem;
+		}
+}
+
 gboolean pan_filter_fd_list(GList **fd_list, GList *filter_elements)
 {
 	GList *work;
@@ -274,7 +306,8 @@ gboolean pan_filter_fd_list(GList **fd_list, GList *filter_elements)
 			{
 			PanViewFilterElement *filter = filter_element->data;
 			filter_element = filter_element->next;
-			gboolean has_kw = !!g_list_find_custom(img_keywords, filter->keyword, (GCompareFunc)g_strcmp0);
+			gchar *found_kw = NULL;
+			gboolean has_kw = pan_view_list_contains_kw_pattern(img_keywords, filter, &found_kw);
 
 			switch (filter->mode)
 				{
@@ -290,13 +323,13 @@ gboolean pan_filter_fd_list(GList **fd_list, GList *filter_elements)
 				case PAN_VIEW_FILTER_GROUP:
 					if (has_kw)
 						{
-						if (g_hash_table_contains(seen_kw_table, filter->keyword))
+						if (g_hash_table_contains(seen_kw_table, found_kw))
 							{
 							should_reject = TRUE;
 							}
 						else if (group_kw == NULL)
 							{
-							group_kw = filter->keyword;
+							group_kw = found_kw;
 							}
 						}
 					break;
@@ -305,6 +338,7 @@ gboolean pan_filter_fd_list(GList **fd_list, GList *filter_elements)
 
 		if (!should_reject && group_kw != NULL) g_hash_table_add(seen_kw_table, group_kw);
 
+		group_kw = NULL;  // group_kw references an item from img_keywords.
 		string_list_free(img_keywords);
 
 		if (should_reject)

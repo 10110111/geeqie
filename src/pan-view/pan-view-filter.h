@@ -37,6 +37,7 @@ struct _PanViewFilterElement
 {
 	PanViewFilterMode mode;
 	gchar *keyword;
+	GRegex *kw_regex;
 };
 
 typedef struct _PanFilterCallbackState PanFilterCallbackState;
