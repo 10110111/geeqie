@@ -1305,6 +1305,9 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 					       search_result_menu_pos_cb, sd, 0, GDK_CURRENT_TIME);
 				}
 				break;
+			case GDK_KEY_F1:
+				help_window_show("GuideReferenceKeyboardShortcuts.html#SearchKeyboardShortcuts");
+				break;
 			default:
 				stop_signal = FALSE;
 				break;

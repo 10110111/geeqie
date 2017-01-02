@@ -3013,6 +3013,9 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 						       dupe_popup_menu_pos_cb, listview, 0, GDK_CURRENT_TIME);
 					}
 				break;
+			case GDK_KEY_F1:
+				help_window_show("GuideReferenceKeyboardShortcuts.html#DuplicatesKeyboardShortcuts");
+				break;
 			default:
 				stop_signal = FALSE;
 				break;

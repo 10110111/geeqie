@@ -1298,6 +1298,9 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 				case '/':
 					pan_search_toggle_visible(pw, TRUE);
 					break;
+				case GDK_KEY_F1:
+					help_window_show("GuideReferenceKeyboardShortcuts.html#PanViewKeyboardShortcuts");
+					break;
 				default:
 					stop_signal = FALSE;
 					break;

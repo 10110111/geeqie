@@ -920,6 +920,9 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 					collection_remove_by_info(cw->cd, collection_table_get_focus_info(cw->table));
 					}
 				break;
+			case GDK_KEY_F1:
+				help_window_show("GuideReferenceKeyboardShortcuts.html#CollectionsKeyboardShortcuts");
+				break;
 			default:
 				stop_signal = FALSE;
 				break;
