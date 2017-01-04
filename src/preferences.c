@@ -276,8 +276,6 @@ static void config_window_apply(void)
 
 	options->file_ops.enable_in_place_rename = c_options->file_ops.enable_in_place_rename;
 
-	options->collections.rectangular_selection = c_options->collections.rectangular_selection;
-
 	options->image.tile_cache_max = c_options->image.tile_cache_max;
 	options->image.image_cache_max = c_options->image.image_cache_max;
 
@@ -2146,9 +2144,6 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 
 	group = pref_group_new(vbox, FALSE, _("Behavior"), GTK_ORIENTATION_VERTICAL);
-
-	pref_checkbox_new_int(group, _("Rectangular selection in icon view"),
-			      options->collections.rectangular_selection, &c_options->collections.rectangular_selection);
 
 	pref_checkbox_new_int(group, _("Descend folders in tree view"),
 			      options->tree_descend_subdirs, &c_options->tree_descend_subdirs);

@@ -705,6 +705,13 @@ static void layout_menu_histogram_cb(GtkToggleAction *action, gpointer data)
 		}
 }
 
+static void layout_menu_rectangular_selection_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	options->collections.rectangular_selection = gtk_toggle_action_get_active(action);
+}
+
 static void layout_menu_histogram_toggle_channel_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1581,6 +1588,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Grayscale",	NULL,			N_("Toggle _grayscale"),		"<shift>G",		N_("Toggle grayscale"),			CB(layout_menu_alter_desaturate_cb), FALSE},
   { "ImageOverlay",	NULL,			N_("Image _Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
   { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
+  { "RectangularSelection",	NULL,			N_("Rectangular Selection"),			"<alt>R",			N_("Rectangular Selection"),			CB(layout_menu_rectangular_selection_cb),	 FALSE },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1676,6 +1684,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='SelectAll'/>"
 "      <menuitem action='SelectNone'/>"
 "      <menuitem action='SelectInvert'/>"
+"      <menuitem action='RectangularSelection'/>"
 "      <placeholder name='SelectSection'/>"
 "      <separator/>"
 "      <menuitem action='CopyPath'/>"

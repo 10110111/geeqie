@@ -908,6 +908,12 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 					collection_set_sort_method(cw->cd, SORT_PATH);
 					}
 				break;
+			case 'R': case 'r':
+				if (event->state & GDK_MOD1_MASK)
+					{
+						options->collections.rectangular_selection = !(options->collections.rectangular_selection);
+					}
+				break;
 			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				list = g_list_copy(cw->table->selection);
 				if (list)

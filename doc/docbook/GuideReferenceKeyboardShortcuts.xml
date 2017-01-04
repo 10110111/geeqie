@@ -514,6 +514,33 @@
             <entry />
             <entry>Unselect all images.</entry>
           </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl + SHIFT +
+                <keycap>I</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Invert selection.</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Alt +
+                <keycap>R</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Toggle rectangular selection mode in icon view.</entry>
+          </row>
+          <row>
+            <entry>
+              <keycap>M</keycap>
+            </entry>
+            <entry />
+            <entry>Show marks.</entry>
+          </row>
           <row rowsep="0">
             <entry colsep="0" />
             <entry colsep="0" />
@@ -676,6 +703,16 @@
             </entry>
             <entry />
             <entry>Select multiple images.</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Alt +
+                <keycap>R</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Toggle rectangular selection mode.</entry>
           </row>
           <row>
             <entry>

@@ -81,7 +81,14 @@
       </varlistentry>
       <varlistentry>
         <term>
-          <guimenu>Find duplicates…</guimenu>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>D</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Find duplicates...</guimenu>
+          </menuchoice>
         </term>
         <listitem>
           <para>Opens a new Find Duplicates window.</para>
@@ -253,7 +260,7 @@
           <menuchoice>
             <shortcut>
               <keycombo>
-                <keycap>4</keycap>
+                <keycap>Backspace</keycap>
               </keycombo>
             </shortcut>
             <guimenu>Previous Image</guimenu>
@@ -330,6 +337,12 @@
       <varlistentry>
         <term>
           <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>A</keycap>
+              </keycombo>
+            </shortcut>
             <guimenu>Select all</guimenu>
           </menuchoice>
         </term>
@@ -340,6 +353,13 @@
       <varlistentry>
         <term>
           <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>Shift</keycap>
+                <keycap>A</keycap>
+              </keycombo>
+            </shortcut>
             <guimenu>Select none</guimenu>
           </menuchoice>
         </term>
@@ -350,11 +370,34 @@
       <varlistentry>
         <term>
           <menuchoice>
-            <guimenu>Invert Selection</guimenu>
+            <shortcut>
+              <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>Shift</keycap>
+                <keycap>I</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Invert selection</guimenu>
           </menuchoice>
         </term>
         <listitem>
           <para>Inverts current selection</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Alt</keycap>
+                <keycap>R</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Rectangular selection</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Toggles rectangular selection mode for icons</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -370,6 +413,11 @@
       <varlistentry>
         <term>
           <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>M</keycap>
+              </keycombo>
+            </shortcut>
             <guimenu>Show marks</guimenu>
           </menuchoice>
         </term>

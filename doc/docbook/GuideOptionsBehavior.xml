@@ -99,14 +99,6 @@
     <variablelist>
       <varlistentry>
         <term>
-          <guilabel>Rectangular selection in icon view</guilabel>
-        </term>
-        <listitem>
-          <para>Enable this to change the selection method used when selecting multiple items in an icon view.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
           <guilabel>Descend folders in tree view</guilabel>
         </term>
         <listitem>
