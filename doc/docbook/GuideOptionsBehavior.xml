@@ -118,10 +118,10 @@
       </varlistentry>
       <varlistentry>
         <term>
-          <guilabel>Open recent list maximum size</guilabel>
+          <guilabel>Recent folder list maximum size</guilabel>
         </term>
         <listitem>
-          <para>This is the number of entries saved in the recent open file list.</para>
+          <para>This is the number of entries to be saved from the recent open folder list drop-down box. The number of entries displayed in the current session is unlimited.</para>
         </listitem>
       </varlistentry>
       <varlistentry>

@@ -2154,7 +2154,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("List directory view uses single click to enter"),
 			      options->view_dir_list_single_click_enter, &c_options->view_dir_list_single_click_enter);
 
-	pref_spin_new_int(group, _("Open recent list maximum size"), NULL,
+	pref_spin_new_int(group, _("Recent folder list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);
 
 	pref_spin_new_int(group, _("Drag'n drop icon size"), NULL,

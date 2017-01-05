@@ -130,6 +130,7 @@ gboolean history_list_save(const gchar *path)
 	SecureSaveInfo *ssi;
 	GList *list;
 	gchar *pathl;
+	gint list_count;
 
 	pathl = path_from_utf8(path);
 	ssi = secure_open(pathl);
@@ -157,10 +158,15 @@ gboolean history_list_save(const gchar *path)
 		 * so that when reading they are added correctly
 		 */
 		work = g_list_last(hd->list);
+		list_count = g_list_position(hd->list, g_list_last(hd->list)) + 1;
 		while (work && secsave_errno == SS_ERR_NONE)
 			{
-			secure_fprintf(ssi, "\"%s\"\n", (gchar *)work->data);
+			if (!(strcmp(hd->key, "path_list") == 0 && list_count > options->open_recent_list_maxsize))
+				{
+				secure_fprintf(ssi, "\"%s\"\n", (gchar *)work->data);
+				}
 			work = work->prev;
+			list_count--;
 			}
 		secure_fputc(ssi, '\n');
 		}
