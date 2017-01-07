@@ -248,7 +248,7 @@ static void layout_menu_dupes_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-	dupe_window_new(DUPE_MATCH_NAME);
+	dupe_window_new();
 }
 
 static void layout_menu_pan_cb(GtkAction *action, gpointer data)

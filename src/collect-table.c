@@ -861,7 +861,7 @@ static void collection_table_popup_find_dupes_cb(GtkWidget *widget, gpointer dat
 	CollectTable *ct = data;
 	DupeWindow *dw;
 
-	dw = dupe_window_new(DUPE_MATCH_NAME);
+	dw = dupe_window_new();
 	dupe_window_add_collection(dw, ct->cd);
 }
 

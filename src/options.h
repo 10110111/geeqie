@@ -41,6 +41,9 @@ struct _ConfOptions
 	gboolean update_on_time_change;
 
 	guint duplicates_similarity_threshold;
+	guint duplicates_match;
+	gboolean duplicates_thumbnails;
+	guint duplicates_select_type;
 	gboolean rot_invariant_sim;
 
 	gint open_recent_list_maxsize;

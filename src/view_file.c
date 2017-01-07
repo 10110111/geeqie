@@ -409,7 +409,7 @@ static void vf_pop_menu_duplicates_cb(GtkWidget *widget, gpointer data)
 	ViewFile *vf = data;
 	DupeWindow *dw;
 
-	dw = dupe_window_new(DUPE_MATCH_NAME);
+	dw = dupe_window_new();
 	dupe_window_add_files(dw, vf_pop_menu_file_list(vf), FALSE);
 }
 

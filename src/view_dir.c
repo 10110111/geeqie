@@ -496,7 +496,7 @@ static void vd_pop_menu_dupe(ViewDir *vd, gint recursive)
 		list = filelist_filter(list, FALSE);
 		}
 
-	dw = dupe_window_new(DUPE_MATCH_NAME);
+	dw = dupe_window_new();
 	dupe_window_add_files(dw, list, recursive);
 
 	filelist_free(list);

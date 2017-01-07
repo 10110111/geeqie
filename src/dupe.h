@@ -41,6 +41,13 @@ typedef enum
 	DUPE_MATCH_NAME_CI = 1 << 10	/* same as name, but case insensitive */
 } DupeMatchType;
 
+typedef enum
+{
+	DUPE_SELECT_NONE,
+	DUPE_SELECT_GROUP1,
+	DUPE_SELECT_GROUP2
+} DupeSelectType;
+
 typedef struct _DupeItem DupeItem;
 struct _DupeItem
 {
@@ -119,7 +126,7 @@ struct _DupeWindow
 };
 
 
-DupeWindow *dupe_window_new(DupeMatchType match_mask);
+DupeWindow *dupe_window_new(void);
 
 void dupe_window_clear(DupeWindow *dw);
 void dupe_window_close(DupeWindow *dw);

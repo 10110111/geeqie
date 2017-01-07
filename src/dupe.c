@@ -574,6 +574,8 @@ static void dupe_listview_add(DupeWindow *dw, DupeItem *parent, DupeItem *child)
 	g_free(text[DUPE_COLUMN_DIMENSIONS]);
 }
 
+static void dupe_listview_select_dupes(DupeWindow *dw, DupeSelectType parents);
+
 static void dupe_listview_populate(DupeWindow *dw)
 {
 	GtkListStore *store;
@@ -607,6 +609,16 @@ static void dupe_listview_populate(DupeWindow *dw)
 		}
 
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(dw->listview));
+
+	if (options->duplicates_select_type == DUPE_SELECT_GROUP1)
+		{
+		dupe_listview_select_dupes(dw, DUPE_SELECT_GROUP1);
+		}
+	else if (options->duplicates_select_type == DUPE_SELECT_GROUP2)
+		{
+		dupe_listview_select_dupes(dw, DUPE_SELECT_GROUP2);
+		}
+
 }
 
 static void dupe_listview_remove(DupeWindow *dw, DupeItem *di)
@@ -712,7 +724,7 @@ static gboolean dupe_listview_item_is_selected(DupeWindow *dw, DupeItem *di, Gtk
 	return found;
 }
 
-static void dupe_listview_select_dupes(DupeWindow *dw, gint parents)
+static void dupe_listview_select_dupes(DupeWindow *dw, DupeSelectType parents)
 {
 	GtkTreeModel *store;
 	GtkTreeSelection *selection;
@@ -729,7 +741,7 @@ static void dupe_listview_select_dupes(DupeWindow *dw, gint parents)
 		DupeItem *di;
 
 		gtk_tree_model_get(store, &iter, DUPE_COLUMN_POINTER, &di, -1);
-		if ( (dupe_match_find_parent(dw, di) == di) == (parents) )
+		if ((dupe_match_find_parent(dw, di) == di) == (parents == DUPE_SELECT_GROUP1))
 			{
 			gtk_tree_selection_select_iter(selection, &iter);
 			}
@@ -2129,6 +2141,7 @@ static void dupe_menu_select_all_cb(GtkWidget *widget, gpointer data)
 	DupeWindow *dw = data;
 	GtkTreeSelection *selection;
 
+	options->duplicates_select_type = DUPE_SELECT_NONE;
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dw->listview));
 	gtk_tree_selection_select_all(selection);
 }
@@ -2138,6 +2151,7 @@ static void dupe_menu_select_none_cb(GtkWidget *widget, gpointer data)
 	DupeWindow *dw = data;
 	GtkTreeSelection *selection;
 
+	options->duplicates_select_type = DUPE_SELECT_NONE;
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dw->listview));
 	gtk_tree_selection_unselect_all(selection);
 }
@@ -2146,14 +2160,16 @@ static void dupe_menu_select_dupes_set1_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	dupe_listview_select_dupes(dw, TRUE);
+	options->duplicates_select_type = DUPE_SELECT_GROUP1;
+	dupe_listview_select_dupes(dw, DUPE_SELECT_GROUP1);
 }
 
 static void dupe_menu_select_dupes_set2_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	dupe_listview_select_dupes(dw, FALSE);
+	options->duplicates_select_type = DUPE_SELECT_GROUP2;
+	dupe_listview_select_dupes(dw, DUPE_SELECT_GROUP2);
 }
 
 static void dupe_menu_edit_cb(GtkWidget *widget, gpointer data)
@@ -2653,6 +2669,8 @@ static void dupe_menu_type_cb(GtkWidget *combo, gpointer data)
 	if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(combo), &iter)) return;
 	gtk_tree_model_get(store, &iter, DUPE_MENU_COLUMN_MASK, &dw->match_mask, -1);
 
+	options->duplicates_match = dw->match_mask;
+
 	dupe_window_recompare(dw);
 }
 
@@ -2827,6 +2845,7 @@ static void dupe_window_show_thumb_cb(GtkWidget *widget, gpointer data)
 	DupeWindow *dw = data;
 
 	dw->show_thumbs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	options->duplicates_thumbnails = dw->show_thumbs;
 
 	if (dw->show_thumbs)
 		{
@@ -3023,10 +3042,12 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 					}
 				break;
 			case '1':
-				dupe_listview_select_dupes(dw, TRUE);
+				options->duplicates_select_type == DUPE_SELECT_GROUP1;
+				dupe_listview_select_dupes(dw, DUPE_SELECT_GROUP1);
 				break;
 			case '2':
-				dupe_listview_select_dupes(dw, FALSE);
+				options->duplicates_select_type == DUPE_SELECT_GROUP2;
+				dupe_listview_select_dupes(dw, DUPE_SELECT_GROUP2);
 				break;
 			case GDK_KEY_Menu:
 			case GDK_KEY_F10:
@@ -3108,7 +3129,7 @@ static gint dupe_window_delete(GtkWidget *widget, GdkEvent *event, gpointer data
 }
 
 /* collection and files can be NULL */
-DupeWindow *dupe_window_new(DupeMatchType match_mask)
+DupeWindow *dupe_window_new()
 {
 	DupeWindow *dw;
 	GtkWidget *vbox;
@@ -3123,7 +3144,18 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 
 	dw = g_new0(DupeWindow, 1);
 
-	dw->match_mask = match_mask;
+	dw->match_mask = DUPE_MATCH_NAME;
+	if (options->duplicates_match == DUPE_MATCH_NAME) dw->match_mask = DUPE_MATCH_NAME;
+	if (options->duplicates_match == DUPE_MATCH_SIZE) dw->match_mask = DUPE_MATCH_SIZE;
+	if (options->duplicates_match == DUPE_MATCH_DATE) dw->match_mask = DUPE_MATCH_DATE;
+	if (options->duplicates_match == DUPE_MATCH_DIM) dw->match_mask = DUPE_MATCH_DIM;
+	if (options->duplicates_match == DUPE_MATCH_SUM) dw->match_mask = DUPE_MATCH_SUM;
+	if (options->duplicates_match == DUPE_MATCH_PATH) dw->match_mask = DUPE_MATCH_PATH;
+	if (options->duplicates_match == DUPE_MATCH_SIM_HIGH) dw->match_mask = DUPE_MATCH_SIM_HIGH;
+	if (options->duplicates_match == DUPE_MATCH_SIM_MED) dw->match_mask = DUPE_MATCH_SIM_MED;
+	if (options->duplicates_match == DUPE_MATCH_SIM_LOW) dw->match_mask = DUPE_MATCH_SIM_LOW;
+	if (options->duplicates_match == DUPE_MATCH_SIM_CUSTOM) dw->match_mask = DUPE_MATCH_SIM_CUSTOM;
+	if (options->duplicates_match == DUPE_MATCH_NAME_CI) dw->match_mask = DUPE_MATCH_NAME_CI;
 
 	dw->window = window_new(GTK_WINDOW_TOPLEVEL, "dupe", NULL, NULL, _("Find duplicates"));
 
@@ -3229,6 +3261,7 @@ DupeWindow *dupe_window_new(DupeMatchType match_mask)
 	gtk_widget_show(dw->combo);
 
 	dw->button_thumbs = gtk_check_button_new_with_label(_("Thumbnails"));
+	dw->show_thumbs = options->duplicates_thumbnails;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dw->button_thumbs), dw->show_thumbs);
 	g_signal_connect(G_OBJECT(dw->button_thumbs), "toggled",
 			 G_CALLBACK(dupe_window_show_thumb_cb), dw);
