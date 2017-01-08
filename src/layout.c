@@ -292,8 +292,13 @@ static GtkWidget *layout_tool_setup(LayoutWindow *lw)
 	gtk_box_pack_start(GTK_BOX(box), tabcomp, FALSE, FALSE, 0);
 	gtk_widget_show(tabcomp);
 
+#if GTK_CHECK_VERSION(3,20,0)
+	g_signal_connect(G_OBJECT(gtk_widget_get_parent(gtk_widget_get_parent(lw->path_entry))), "changed",
+			 G_CALLBACK(layout_path_entry_changed_cb), lw);
+#else
 	g_signal_connect(G_OBJECT(gtk_widget_get_parent(lw->path_entry)), "changed",
 			 G_CALLBACK(layout_path_entry_changed_cb), lw);
+#endif
 
 	lw->vd = vd_new(lw->options.dir_view_type, lw->dir_fd);
 	vd_set_layout(lw->vd, lw);
