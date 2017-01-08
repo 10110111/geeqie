@@ -1728,7 +1728,7 @@ gboolean layout_tools_float_get(LayoutWindow *lw, gboolean *popped, gboolean *hi
 void layout_toolbar_toggle(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return;
-	if (!lw->toolbar) return;
+	if (!lw->toolbar[TOOLBAR_MAIN]) return;
 
 	lw->options.toolbar_hidden = !lw->options.toolbar_hidden;
 
@@ -2125,8 +2125,8 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 
 	layout_config_parse(lw->options.style, lw->options.order,
 			    &lw->dir_location,  &lw->file_location, &lw->image_location);
-	if (lw->options.dir_view_type >= VIEW_DIR_TYPES_COUNT) lw->options.dir_view_type = 0;
-	if (lw->options.file_view_type >= VIEW_FILE_TYPES_COUNT) lw->options.file_view_type = 0;
+	if (lw->options.dir_view_type > DIRVIEW_LAST) lw->options.dir_view_type = 0;
+	if (lw->options.file_view_type > FILEVIEW_LAST) lw->options.file_view_type = 0;
 
 	/* divider positions */
 

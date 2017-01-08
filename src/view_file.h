@@ -21,8 +21,6 @@
 #ifndef VIEW_FILE_H
 #define VIEW_FILE_H
 
-#define VIEW_FILE_TYPES_COUNT 2
-
 #define VFLIST(_vf_) ((ViewFileInfoList *)(_vf_->info))
 #define VFICON(_vf_) ((ViewFileInfoIcon *)(_vf_->info))
 
