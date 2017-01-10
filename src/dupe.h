@@ -92,6 +92,8 @@ struct _DupeWindow
 	GtkWidget *status_label;
 	GtkWidget *extra_label;
 	GtkWidget *button_thumbs;
+	GtkWidget *button_rotation_invariant;
+	GtkWidget *custom_threshold;
 
 	gboolean show_thumbs;
 

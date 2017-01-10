@@ -161,25 +161,6 @@
       </varlistentry>
     </variablelist>
   </section>
-  <section id="Miscellaneous">
-    <title>Miscellaneous</title>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <guilabel>Custom similarity threshold</guilabel>
-        </term>
-        <listitem>
-          <para>
-            This setting is used by the compare method
-            <emphasis>Similarity (custom)</emphasis>
-            , located in the
-            <link linkend="GuideImageSearchFindingDuplicates" endterm="titleGuideImageSearchFindingDuplicates" />
-            section.
-          </para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-  </section>
   <section id="Debugging">
     <title>Debugging</title>
     <variablelist>

@@ -2874,6 +2874,41 @@ static void dupe_window_show_thumb_cb(GtkWidget *widget, gpointer data)
 	dupe_listview_set_height(dw->listview, dw->show_thumbs);
 }
 
+static void dupe_window_rotation_invariant_cb(GtkWidget *widget, gpointer data)
+{
+	DupeWindow *dw = data;
+
+	options->rot_invariant_sim = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	dupe_window_recompare(dw);
+}
+
+static void dupe_window_custom_threshold_cb(GtkWidget *widget, gpointer data)
+{
+	DupeWindow *dw = data;
+	DupeMatchType match_type;
+	GtkListStore *store;
+	gboolean valid;
+	GtkTreeIter iter;
+
+	options->duplicates_similarity_threshold = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));
+	dw->match_mask = DUPE_MATCH_SIM_CUSTOM;
+
+	store = gtk_combo_box_get_model(GTK_COMBO_BOX(dw->combo));
+	valid = gtk_tree_model_get_iter_first(store, &iter);
+	while (valid)
+		{
+		gtk_tree_model_get(store, &iter, DUPE_MENU_COLUMN_MASK, &match_type, -1);
+		if (match_type == DUPE_MATCH_SIM_CUSTOM)
+			{
+			break;
+			}
+		valid = gtk_tree_model_iter_next(store, &iter);
+		}
+
+	gtk_combo_box_set_active_iter(GTK_COMBO_BOX(dw->combo), &iter);
+	dupe_window_recompare(dw);
+}
+
 static void dupe_popup_menu_pos_cb(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data)
 {
 	GtkWidget *view = data;
@@ -3268,6 +3303,14 @@ DupeWindow *dupe_window_new()
 	gtk_box_pack_start(GTK_BOX(status_box), dw->button_thumbs, FALSE, FALSE, PREF_PAD_SPACE);
 	gtk_widget_show(dw->button_thumbs);
 
+	dw->button_rotation_invariant = gtk_check_button_new_with_label(_("Ignore Rotation"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dw->button_rotation_invariant), "Ignore image orientation");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dw->button_rotation_invariant), options->rot_invariant_sim);
+	g_signal_connect(G_OBJECT(dw->button_rotation_invariant), "toggled",
+			 G_CALLBACK(dupe_window_rotation_invariant_cb), dw);
+	gtk_box_pack_start(GTK_BOX(status_box), dw->button_rotation_invariant, FALSE, FALSE, PREF_PAD_SPACE);
+	gtk_widget_show(dw->button_rotation_invariant);
+
 	button = gtk_check_button_new_with_label(_("Compare two file sets"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), dw->second_set);
 	g_signal_connect(G_OBJECT(button), "toggled",
@@ -3287,6 +3330,17 @@ DupeWindow *dupe_window_new()
 	dw->status_label = gtk_label_new("");
 	gtk_container_add(GTK_CONTAINER(frame), dw->status_label);
 	gtk_widget_show(dw->status_label);
+
+	label = gtk_label_new(_("Custom Threshold"));
+	gtk_box_pack_start(GTK_BOX(status_box), label, FALSE, FALSE, PREF_PAD_SPACE);
+	gtk_widget_show(label);
+	dw->custom_threshold = gtk_spin_button_new_with_range(1, 100, 1);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dw->custom_threshold), "Custom similarity threshold");
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(dw->custom_threshold), options->duplicates_similarity_threshold);
+	g_signal_connect(G_OBJECT(dw->custom_threshold), "value_changed",
+													G_CALLBACK(dupe_window_custom_threshold_cb), dw);
+	gtk_box_pack_start(GTK_BOX(status_box), dw->custom_threshold, FALSE, FALSE, PREF_PAD_SPACE);
+	gtk_widget_show(dw->custom_threshold);
 
 	dw->extra_label = gtk_progress_bar_new();
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(dw->extra_label), 0.0);

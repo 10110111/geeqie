@@ -132,9 +132,7 @@
         </term>
         <listitem>
           <para>
-            Similar image content, the value to use to consider two images a match is configured in the
-            <link linkend="GuideOptionsBehavior">Behaviour tab</link>
-            of the preferences dialog by setting <emphasis>Custom similarity threshold</emphasis>.
+            The percentage value to used to consider two images a match is configured in the spin box at the bottom of the window.
           </para>
         </listitem>
       </varlistentry>
@@ -182,6 +180,10 @@
   <section id="Thumbnails">
     <title>Thumbnails</title>
     <para>Thumbnails can be displayed beside each image in the result list by enabling the Thumbnails check box.</para>
+  </section>
+  <section id="Rotation">
+    <title>Ignore Rotation</title>
+    <para>When checked, the rotational orientation of images will be ignored.</para>
   </section>
   <section id="Comparetwofilesets">
     <title>Compare two file sets</title>
