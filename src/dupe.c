@@ -2886,7 +2886,7 @@ static void dupe_window_custom_threshold_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 	DupeMatchType match_type;
-	GtkListStore *store;
+	GtkTreeModel *store;
 	gboolean valid;
 	GtkTreeIter iter;
 

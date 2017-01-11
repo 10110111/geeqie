@@ -408,7 +408,7 @@ static void config_window_close_cb(GtkWidget *widget, gpointer data)
 
 static void config_window_help_cb(GtkWidget *widget, gpointer data)
 {
-	GtkWidget *notebook = GTK_NOTEBOOK(data);
+	GtkWidget *notebook = data;
 	gint i;
 
 	static gchar *html_section[] =
@@ -424,7 +424,7 @@ static void config_window_help_cb(GtkWidget *widget, gpointer data)
 	"GuideOptionsBehavior.html"
 	};
 
-	i = gtk_notebook_get_current_page(notebook);
+	i = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
 	help_window_show(html_section[i]);
 }
 
