@@ -32,6 +32,7 @@
 #include "ui_spinner.h"
 #include "ui_tabcomp.h"
 #include "ui_utildlg.h"
+#include "window.h"
 
 
 typedef struct _CMData CMData;
