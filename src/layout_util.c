@@ -705,6 +705,14 @@ static void layout_menu_histogram_cb(GtkToggleAction *action, gpointer data)
 		}
 }
 
+static void layout_menu_animate_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	if (lw->options.animate == gtk_toggle_action_get_active(action)) return;
+	layout_image_animate_toggle(lw);
+}
+
 static void layout_menu_rectangular_selection_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1589,6 +1597,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "ImageOverlay",	NULL,			N_("Image _Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
   { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
   { "RectangularSelection",	NULL,			N_("Rectangular Selection"),			"<alt>R",			N_("Rectangular Selection"),			CB(layout_menu_rectangular_selection_cb),	 FALSE },
+  { "Animate",	NULL,	N_("GIF _animation"),		"A",			N_("Toggle GIF animation"),			CB(layout_menu_animate_cb),	 FALSE  },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1821,6 +1830,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='ShowInfoPixel'/>"
 "      <placeholder name='ToolsSection'/>"
 "      <separator/>"
+"      <menuitem action='Animate'/>"
 "      <menuitem action='SlideShow'/>"
 "      <menuitem action='SlideShowPause'/>"
 "      <menuitem action='Refresh'/>"
@@ -2458,6 +2468,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "SlideShow");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_slideshow_active(lw));
+
+	action = gtk_action_group_get_action(lw->action_group, "Animate");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.animate);
 
 	action = gtk_action_group_get_action(lw->action_group, "ImageOverlay");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), osd_flags != OSD_SHOW_NOTHING);

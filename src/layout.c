@@ -2294,6 +2294,8 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_NL(); WRITE_UINT(*layout, image_overlay.state);
 	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_channel);
 	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_mode);
+
+	WRITE_NL(); WRITE_BOOL(*layout, animate);
 }
 
 
@@ -2362,6 +2364,8 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_UINT(*layout, image_overlay.state)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_channel)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_mode)) continue;
+
+		if (READ_BOOL(*layout, animate)) continue;
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}

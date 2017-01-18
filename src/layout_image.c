@@ -406,11 +406,17 @@ static gboolean layout_image_animate_new_file(LayoutWindow *lw)
 	return TRUE;
 }
 
-static void layout_image_animate_toggle(LayoutWindow *lw)
+void layout_image_animate_toggle(LayoutWindow *lw)
 {
+	GtkAction *action;
+
 	if (!lw) return;
 
 	lw->options.animate = !lw->options.animate;
+
+	action = gtk_action_group_get_action(lw->action_group, "Animate");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.animate);
+
 	layout_image_animate_new_file(lw);
 }
 
