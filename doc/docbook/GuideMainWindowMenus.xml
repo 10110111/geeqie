@@ -645,6 +645,13 @@
         </term>
         <listitem>
           <para>Swaps the top and bottom sides of the image, does not modify the file on disk.</para>
+          <warning>
+            <para>
+              The above orientation commands - Rotate, Mirror and Flip - do not change the image on disk. The changes will be lost when Geeqie closes. Refer to the
+              <link linkend="MetadataMiscellaneous">Metadata tab of the Preferences Dialog</link>
+              if you wish these changes to be written to metadata.
+            </para>
+          </warning>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -661,7 +668,7 @@
           </menuchoice>
         </term>
         <listitem>
-          <para>Removes all effects applied through the Adjust menu, reverting image to its original state.</para>
+          <para>Removes all temporary effects applied through the above commands, reverting the image according to its Exif Orientation tag.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -672,9 +679,14 @@
           </menuchoice>
         </term>
         <listitem>
-          The commands above modifies image metadata only. This commands actually transforms image pixels. See
-          <link linkend="GuideImageManagementExternalEditing">Editors section</link>
-          for details
+          <para>This command affects only jpeg, tiff and png files. The image file on disk is rotated to the orientation as specified by its Exif Orientation tag.</para>
+          <warning>
+            <para>
+              The file rotate.desktop, using external commands exiftran, exiv2 and mogrify, is used to implement this command. Refer to
+              <link linkend="GuideImageManagementExternalEditing">Editors section</link>
+              for details.
+            </para>
+          </warning>
         </listitem>
       </varlistentry>
       <varlistentry>
