@@ -160,6 +160,7 @@ struct _SearchData
 	GList *search_keyword_list;
 	gchar *search_comment;
 	gboolean   search_comment_match_case;
+	gboolean   search_date_exif;
 
 	MatchType search_type;
 
@@ -1653,6 +1654,7 @@ static gboolean search_file_next(SearchData *sd)
 	gint width = 0;
 	gint height = 0;
 	gint sim = 0;
+	time_t file_date;
 
 	if (!sd->search_file_list) return FALSE;
 
@@ -1729,11 +1731,21 @@ static gboolean search_file_next(SearchData *sd)
 		tested = TRUE;
 		match = FALSE;
 
+		if (sd->search_date_exif)
+			{
+			read_exif_time_data(fd);
+			file_date = fd->exifdate;
+			}
+		else
+			{
+			file_date = fd->date;
+			}
+
 		if (sd->match_date == SEARCH_MATCH_EQUAL)
 			{
 			struct tm *lt;
 
-			lt = localtime(&fd->date);
+			lt = localtime(&file_date);
 			match = (lt &&
 				 lt->tm_year == sd->search_date_y - 1900 &&
 				 lt->tm_mon == sd->search_date_m - 1 &&
@@ -1741,11 +1753,11 @@ static gboolean search_file_next(SearchData *sd)
 			}
 		else if (sd->match_date == SEARCH_MATCH_UNDER)
 			{
-			match = (fd->date < convert_dmy_to_time(sd->search_date_d, sd->search_date_m, sd->search_date_y));
+			match = (file_date < convert_dmy_to_time(sd->search_date_d, sd->search_date_m, sd->search_date_y));
 			}
 		else if (sd->match_date == SEARCH_MATCH_OVER)
 			{
-			match = (fd->date > convert_dmy_to_time(sd->search_date_d, sd->search_date_m, sd->search_date_y) + 60 * 60 * 24 - 1);
+			match = (file_date > convert_dmy_to_time(sd->search_date_d, sd->search_date_m, sd->search_date_y) + 60 * 60 * 24 - 1);
 			}
 		else if (sd->match_date == SEARCH_MATCH_BETWEEN)
 			{
@@ -1760,7 +1772,7 @@ static gboolean search_file_next(SearchData *sd)
 				{
 				a += 60 * 60 * 24 - 1;
 				}
-			match = MATCH_IS_BETWEEN(fd->date, a, b);
+			match = MATCH_IS_BETWEEN(file_date, a, b);
 			}
 		}
 
@@ -2688,6 +2700,8 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	date_selection_time_set(sd->date_sel_end, time(NULL));
 	gtk_box_pack_start(GTK_BOX(hbox2), sd->date_sel_end, FALSE, FALSE, 0);
 	gtk_widget_show(sd->date_sel_end);
+	pref_checkbox_new_int(hbox, _("Exif date"),
+				sd->search_date_exif, &sd->search_date_exif);
 
 	/* Search for image dimensions */
 	hbox = menu_choice(sd->box_search, &sd->check_dimensions, &sd->menu_dimensions,
