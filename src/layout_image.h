@@ -100,6 +100,6 @@ void layout_image_animate_toggle(LayoutWindow *lw);
 void layout_image_overlay_toggle(LayoutWindow *lw);
 
 void layout_image_notify_cb(FileData *fd, NotifyType type, gpointer data);
-
+void layout_image_reset_orientation(LayoutWindow *lw);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

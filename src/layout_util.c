@@ -394,6 +394,14 @@ static void layout_menu_alter_none_cb(GtkAction *action, gpointer data)
 	layout_image_alter_orientation(lw, ALTER_NONE);
 }
 
+static void layout_menu_exif_rotate_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	options->image.exif_rotate_enable = gtk_toggle_action_get_active(action);
+	layout_image_reset_orientation(lw);
+}
+
 static void layout_menu_config_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1598,6 +1606,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
   { "RectangularSelection",	NULL,			N_("Rectangular Selection"),			"<alt>R",			N_("Rectangular Selection"),			CB(layout_menu_rectangular_selection_cb),	 FALSE },
   { "Animate",	NULL,	N_("GIF _animation"),		"A",			N_("Toggle GIF animation"),			CB(layout_menu_animate_cb),	 FALSE  },
+  { "ExifRotate",	GTK_STOCK_ORIENTATION_PORTRAIT,			N_("_Exif rotate"),  		"<alt>X",		N_("Exif rotate"),			CB(layout_menu_exif_rotate_cb), FALSE },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -1715,6 +1724,9 @@ static const gchar *menu_ui_description =
 "        <menuitem action='Mirror'/>"
 "        <menuitem action='Flip'/>"
 "        <menuitem action='AlterNone'/>"
+"        <separator/>"
+"        <menuitem action='ExifRotate'/>"
+"        <separator/>"
 "      </menu>"
 "      <menuitem action='SaveMetadata'/>"
 "      <placeholder name='PropertiesSection'/>"
@@ -1865,6 +1877,7 @@ static const gchar *menu_ui_description =
 "    <toolitem action='FloatTools'/>"
 "  </toolbar>"
 "  <toolbar name='StatusBar'>"
+"    <toolitem action='ExifRotate'/>"
 "    <toolitem action='ShowInfoPixel'/>"
 "    <toolitem action='UseColorProfiles'/>"
 "    <toolitem action='SaveMetadata'/>"
@@ -2477,6 +2490,12 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "ImageHistogram");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), osd_flags & OSD_SHOW_HISTOGRAM);
+
+	action = gtk_action_group_get_action(lw->action_group, "ExifRotate");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->image.exif_rotate_enable);
+
+	action = gtk_action_group_get_action(lw->action_group, "RectangularSelection");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->collections.rectangular_selection);
 
 	if (osd_flags & OSD_SHOW_HISTOGRAM)
 		{

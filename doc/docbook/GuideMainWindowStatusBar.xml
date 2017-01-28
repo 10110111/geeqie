@@ -92,6 +92,19 @@
     <title>Buttons</title>
     <para>Statusbar buttons corresponds to selected menu action.</para>
     <para />
+    <section id="ExifRotate">
+      <title>Exif rotate</title>
+      <para>
+        <guiicon>
+          <inlinegraphic fileref="gtk-color-picker.png" />
+        </guiicon>
+        Toggles the auto-rotation of images if they have Exif orientation data. 
+        Refer also to the
+        <link linkend="HowdotheExifauto-rotationcommandswork">FAQ</link>
+        .
+      </para>
+      <para />
+    </section>
     <section id="ShowPixelInfo">
       <title>Show Pixel Info</title>
       <para>

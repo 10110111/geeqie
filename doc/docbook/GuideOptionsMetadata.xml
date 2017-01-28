@@ -112,10 +112,13 @@
         <para>
           <guilabel>Write altered image orientation to the metadata</guilabel>
           <para />
-          If checked, the results of orientation commands (Rotate, Mirror and Flip) issued on an image will be written to metadata either automatically as specified below or when manually initiated.
+          If checked, the results of orientation commands (Rotate, Mirror and Flip) issued on an image will be written to metadata either automatically as specified below or when manually initiated. This option also affects the
+          <link linkend="Editmenu">Auto rotate image using EXIF information</link>
+          menu item.
         </para>
         <warning>
           <para>If this option is not checked, the results of orientation commands will be lost when Geeqie closes.</para>
+          <para>Do not change this option while you have temporary rotations applied to images.</para>
         </warning>
       </listitem>
     </itemizedlist>

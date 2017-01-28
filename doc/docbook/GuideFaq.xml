@@ -47,4 +47,45 @@
       <para />
     </section>
   </section>
+  <section id="ExifRotation">
+    <title>Exif Auto Rotation</title>
+    <para />
+    <section id="HowdotheExifauto-rotationcommandswork">
+      <title>How do the Exif auto-rotation commands work?</title>
+      <para>
+        Image auto-rotation works in either of two modes, set by
+        <link linkend="MetadataMiscellaneous">Write altered image orientation to the metadata</link>
+        option.
+      </para>
+      <para>
+        <guilabel>Write altered image orientation to the metadata not set</guilabel>
+        <para />
+        If you change the orientation of an image using any of the available commands, the image will always be displayed in the modified orientation. This new orientation is stored in temporary data structures associated with each image file. When Geeqie closes, these changes will be lost.
+      </para>
+      <warning>
+        <para>It is not possible to determine if the image as displayed is the original image or one which has been temporarily rotated.</para>
+      </warning>
+      <para>
+        If the option
+        <link linkend="Editmenu">Auto rotate image using EXIF information</link>
+        is selected, any images which have Exif orientation data will also be shown rotated. However, any rotation you have selected manually will always over-ride the embedded Exif rotation value.
+      </para>
+      <para>
+        <guilabel>Write altered image orientation to the metadata set</guilabel>
+        <para />
+        <para>If you change the orientation of an image using any of the available commands, this new orientation is stored in a metadata write queue.</para>
+        <para>
+          If the option
+          <link linkend="Editmenu">Auto rotate image using EXIF information</link>
+          is selected, any images which have Exif orientation data will be shown rotated, including any in the metadata write queue.
+        </para>
+        <para>
+          However if the option
+          <link linkend="Editmenu">Auto rotate image using EXIF information</link>
+          is not selected, no images will be auto-rotated. If you have manually rotated any images, the metadata write icon on the status bar will alert you to that fact. Clicking the icon will give a list of the modified files.
+        </para>
+      </para>
+      <para />
+    </section>
+  </section>
 </chapter>

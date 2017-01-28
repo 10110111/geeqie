@@ -26,6 +26,7 @@
 #include "color-man.h"
 #include "dnd.h"
 #include "editors.h"
+#include "exif.h"
 #include "filedata.h"
 #include "fullscreen.h"
 #include "image.h"
@@ -34,6 +35,7 @@
 #include "layout.h"
 #include "layout_util.h"
 #include "menu.h"
+#include "metadata.h"
 #include "misc.h"
 #include "pixbuf_util.h"
 #include "pixbuf-renderer.h"
@@ -1061,6 +1063,32 @@ void layout_image_alter_orientation(LayoutWindow *lw, AlterType type)
 	if (!layout_valid(&lw)) return;
 
 	image_alter_orientation(lw->image, type);
+}
+
+void layout_image_reset_orientation(LayoutWindow *lw)
+{
+	ImageWindow *imd= lw->image;
+
+	if (!layout_valid(&lw)) return;
+	if (!imd || !imd->pr || !imd->image_fd) return;
+
+	if (imd->orientation < 1 || imd->orientation > 8) imd->orientation = 1;
+
+	if (options->image.exif_rotate_enable)
+		{
+		imd->orientation = metadata_read_int(imd->image_fd, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
+		}
+	else
+		{
+		imd->orientation = 1;
+		}
+
+	if (imd->image_fd->user_orientation != 0)
+		{
+		 imd->orientation = imd->image_fd->user_orientation;
+		}
+
+	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
 }
 
 void layout_image_set_desaturate(LayoutWindow *lw, gboolean desaturate)

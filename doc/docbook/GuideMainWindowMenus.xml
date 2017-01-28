@@ -651,6 +651,11 @@
               <link linkend="MetadataMiscellaneous">Metadata tab of the Preferences Dialog</link>
               if you wish these changes to be written to metadata.
             </para>
+            <para>
+              Refer also to the
+              <link linkend="HowdotheExifauto-rotationcommandswork">FAQ</link>
+              .
+            </para>
           </warning>
         </listitem>
       </varlistentry>
@@ -669,6 +674,18 @@
         </term>
         <listitem>
           <para>Removes all temporary effects applied through the above commands, reverting the image according to its Exif Orientation tag.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Auto rotate image using EXIF information</guilabel>
+        </term>
+        <listitem>
+          <para>
+            Auto rotates images based on metadata stored in images that have Exif data. Refer also to the
+            <link linkend="HowdotheExifauto-rotationcommandswork">FAQ</link>
+            .
+          </para>
         </listitem>
       </varlistentry>
       <varlistentry>
