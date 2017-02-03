@@ -607,6 +607,10 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 		}
 	lw->info_progress_bar = gtk_progress_bar_new();
 	gtk_widget_set_size_request(lw->info_progress_bar, PROGRESS_WIDTH, -1);
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(lw->info_progress_bar), "");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(lw->info_progress_bar), TRUE);
+#endif
 	gtk_box_pack_start(GTK_BOX(hbox), lw->info_progress_bar, FALSE, FALSE, 0);
 	gtk_widget_show(lw->info_progress_bar);
 

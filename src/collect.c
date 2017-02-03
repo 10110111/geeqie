@@ -1219,6 +1219,10 @@ CollectWindow *collection_window_new(const gchar *path)
 
 	extra_label = gtk_progress_bar_new();
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(extra_label), 0.0);
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(extra_label), "");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(extra_label), TRUE);
+#endif
 	gtk_box_pack_start(GTK_BOX(cw->status_box), extra_label, TRUE, TRUE, 0);
 	gtk_widget_show(extra_label);
 

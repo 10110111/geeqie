@@ -566,6 +566,10 @@ static EditorVerboseData *editor_verbose_window(EditorData *ed, const gchar *tex
 	vd->progress = gtk_progress_bar_new();
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(vd->progress), 0.0);
 	gtk_box_pack_start(GTK_BOX(hbox), vd->progress, TRUE, TRUE, 0);
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(vd->progress), "");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(vd->progress), TRUE);
+#endif
 	gtk_widget_show(vd->progress);
 
 	vd->spinner = spinner_new(NULL, SPINNER_SPEED);

@@ -761,6 +761,10 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	gtk_scale_button_set_value(GTK_SCALE_BUTTON(slider), (gdouble)zoom);
 
 	progress = gtk_progress_bar_new();
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(progress), "");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(progress), TRUE);
+#endif
 	state = gtk_label_new("");
 	gtk_label_set_justify(GTK_LABEL(state), GTK_JUSTIFY_CENTER);
 

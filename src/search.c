@@ -2848,6 +2848,10 @@ void search_new(FileData *dir_fd, FileData *example_file)
 
 	sd->label_progress = gtk_progress_bar_new();
 	gtk_widget_set_size_request(sd->label_progress, 50, -1);
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(sd->label_progress), "");
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(sd->label_progress), TRUE);
+#endif
 	gtk_box_pack_start(GTK_BOX(hbox), sd->label_progress, TRUE, TRUE, 0);
 	gtk_widget_show(sd->label_progress);
 

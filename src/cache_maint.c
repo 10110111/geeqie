@@ -950,6 +950,9 @@ static void cache_manager_standard_process(GtkWidget *widget, gboolean clear)
 
 	cd->progress = gtk_progress_bar_new();
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("click start to begin"));
+#if GTK_CHECK_VERSION(3,0,0)
+	gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(cd->progress), TRUE);
+#endif
 	gtk_box_pack_start(GTK_BOX(cd->gd->vbox), cd->progress, FALSE, FALSE, 0);
 	gtk_widget_show(cd->progress);
 
