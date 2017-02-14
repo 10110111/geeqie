@@ -62,14 +62,6 @@ enum {
 	CTABLE_COLUMN_COUNT
 };
 
-typedef enum {
-	SELECTION_NONE		= 0,
-	SELECTION_SELECTED	= 1 << 0,
-	SELECTION_PRELIGHT	= 1 << 1,
-	SELECTION_FOCUS		= 1 << 2
-} SelectionType;
-
-
 #define INFO_SELECTED(x) (x->flag_mask & SELECTION_SELECTED)
 
 

@@ -375,7 +375,7 @@ static void image_post_process_tile_color_cb(PixbufRenderer *pr, GdkPixbuf **pix
 
 }
 
-void image_alter_orientation(ImageWindow *imd, AlterType type)
+void image_alter_orientation(ImageWindow *imd, FileData *fd_n, AlterType type)
 {
 	static const gint rotate_90[]    = {1,   6, 7, 8, 5, 2, 3, 4, 1};
 	static const gint rotate_90_cc[] = {1,   8, 5, 6, 7, 4, 1, 2, 3};
@@ -383,37 +383,49 @@ void image_alter_orientation(ImageWindow *imd, AlterType type)
 	static const gint mirror[]       = {1,   2, 1, 4, 3, 6, 5, 8, 7};
 	static const gint flip[]         = {1,   4, 3, 2, 1, 8, 7, 6, 5};
 
+	gint orientation;
 
-	if (!imd || !imd->pr || !imd->image_fd) return;
+	if (!imd || !imd->pr || !imd->image_fd || !fd_n) return;
 
-	if (imd->orientation < 1 || imd->orientation > 8) imd->orientation = 1;
+	orientation = EXIF_ORIENTATION_TOP_LEFT;
+	{
+	if (fd_n->user_orientation)
+		{
+		orientation = fd_n->user_orientation;
+		}
+	else
+		if (options->metadata.write_orientation)
+			{
+			orientation = metadata_read_int(fd_n, ORIENTATION_KEY, EXIF_ORIENTATION_TOP_LEFT);
+			}
+	}
 
 	switch (type)
 		{
 		case ALTER_ROTATE_90:
-			imd->orientation = rotate_90[imd->orientation];
+			orientation = rotate_90[orientation];
 			break;
 		case ALTER_ROTATE_90_CC:
-			imd->orientation = rotate_90_cc[imd->orientation];
+			orientation = rotate_90_cc[orientation];
 			break;
 		case ALTER_ROTATE_180:
-			imd->orientation = rotate_180[imd->orientation];
+			orientation = rotate_180[orientation];
 			break;
 		case ALTER_MIRROR:
-			imd->orientation = mirror[imd->orientation];
+			orientation = mirror[orientation];
 			break;
 		case ALTER_FLIP:
-			imd->orientation = flip[imd->orientation];
+			orientation = flip[orientation];
 			break;
 		case ALTER_NONE:
-			imd->orientation = imd->image_fd->exif_orientation ? imd->image_fd->exif_orientation : 1;
+			orientation = fd_n->exif_orientation ? fd_n->exif_orientation : 1;
 			break;
 		default:
 			return;
 			break;
 		}
 
-	if (imd->orientation != (imd->image_fd->exif_orientation ? imd->image_fd->exif_orientation : 1))
+	if (orientation != (fd_n->exif_orientation ? fd_n->exif_orientation : 1))
 		{
 		if (!options->metadata.write_orientation)
 			{
@@ -422,29 +434,33 @@ void image_alter_orientation(ImageWindow *imd, AlterType type)
 			   we must however handle switching metadata.write_orientation on and off, therefore
 			   we just disable referencing new fd's, not unreferencing the old ones
 			*/
-			if (imd->image_fd->user_orientation == 0) file_data_ref(imd->image_fd);
-			imd->image_fd->user_orientation = imd->orientation;
+			if (fd_n->user_orientation == 0) file_data_ref(fd_n);
+			fd_n->user_orientation = orientation;
 			}
 		}
 	else
 		{
-		if (imd->image_fd->user_orientation != 0) file_data_unref(imd->image_fd);
-		imd->image_fd->user_orientation = 0;
+		if (fd_n->user_orientation != 0) file_data_unref(fd_n);
+		fd_n->user_orientation = 0;
 		}
 
 	if (options->metadata.write_orientation)
 		{
 		if (type == ALTER_NONE)
 			{
-			metadata_write_revert(imd->image_fd, ORIENTATION_KEY);
+			metadata_write_revert(fd_n, ORIENTATION_KEY);
 			}
 		else
 			{
-			metadata_write_int(imd->image_fd, ORIENTATION_KEY, imd->orientation);
+			metadata_write_int(fd_n, ORIENTATION_KEY, orientation);
 			}
 		}
 
-	pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, imd->orientation);
+	if (imd->image_fd == fd_n && !(options->metadata.write_orientation && !options->image.exif_rotate_enable))
+		{
+		imd->orientation = orientation;
+		pixbuf_renderer_set_orientation((PixbufRenderer *)imd->pr, orientation);
+		}
 }
 
 void image_set_desaturate(ImageWindow *imd, gboolean desaturate)

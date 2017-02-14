@@ -60,20 +60,6 @@ enum {
 	FILE_COLUMN_COUNT
 };
 
-typedef enum {
-	SELECTION_NONE		= 0,
-	SELECTION_SELECTED	= 1 << 0,
-	SELECTION_PRELIGHT	= 1 << 1,
-	SELECTION_FOCUS		= 1 << 2
-} SelectionType;
-
-typedef struct _IconData IconData;
-struct _IconData
-{
-	SelectionType selected;
-	FileData *fd;
-};
-
 static gint vficon_index_by_id(ViewFile *vf, IconData *in_id);
 
 static IconData *vficon_icon_data(ViewFile *vf, FileData *fd)
