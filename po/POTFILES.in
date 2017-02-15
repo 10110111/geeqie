@@ -51,6 +51,7 @@ src/image_load_tiff.c
 src/image-overlay.c
 src/img-view.c
 src/jpeg_parser.c
+src/keymap_template.c
 src/layout.c
 src/layout_config.c
 src/layout_image.c
