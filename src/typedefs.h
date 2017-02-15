@@ -38,12 +38,18 @@ typedef enum {
 
 typedef enum {
 	DIRVIEW_LIST,
-	DIRVIEW_TREE
+	DIRVIEW_TREE,
+
+	// Keep this up to date!
+	DIRVIEW_LAST = DIRVIEW_TREE
 } DirViewType;
 
 typedef enum {
 	FILEVIEW_LIST,
-	FILEVIEW_ICON
+	FILEVIEW_ICON,
+
+	// Keep this up to date!
+	FILEVIEW_LAST = FILEVIEW_ICON
 } FileViewType;
 
 #define	CMD_COPY     "geeqie-copy-command.desktop"

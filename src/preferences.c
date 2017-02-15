@@ -1973,7 +1973,7 @@ static void intent_menu_cb(GtkWidget *combo, gpointer data)
 }
 
 static void add_intent_menu(GtkWidget *table, gint column, gint row, const gchar *text,
-			     guint option, guint *option_c)
+			     gint option, gint *option_c)
 {
 	GtkWidget *combo;
 	gint current = 0;
