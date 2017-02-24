@@ -183,13 +183,49 @@
   </section>
   <section id="Folderlist">
     <title>Folder list</title>
-    <para>This displays a list of sub folders contained in the active folder, or a tree that includes all folders in the file system.</para>
-    <para>
-      A
-      <emphasis role="strong">context menu</emphasis>
-      can be displayed by clicking the right mouse button on the folder pane or pressing the menu key while the folder pane has the focus
-    </para>
-    <para />
+    <para>This pane consists of two sections: a folder pane and a shortcuts pane. The shortcuts pane may be hidden or revealed simply by moving the vertical divider to or from the extreme left.</para>
+    <section id="folders">
+      <title>Folders</title>
+      <para>This displays a list of sub folders contained in the active folder, or a tree that includes all folders in the file system.</para>
+      <para>
+        A
+        <emphasis role="strong">context menu</emphasis>
+        can be displayed by clicking the right mouse button on the folder pane or pressing the menu key while the folder pane has the focus
+      </para>
+    </section>
+    <section id="Shortcutslist">
+      <title>Shortcuts</title>
+      <para>This is a list of shortcuts (bookmarks) to commonly used folders or images. A context menu will appear by right clicking on an item, or pressing the menu key when the item has the focus.</para>
+      <para>Folders or images can be added to the list by activating the Add button at the bottom of the pane, or dragging a folder or image onto the list.</para>
+      <para>
+        To edit an item select
+        <emphasis role="bold">Properties</emphasis>
+        from its context menu. A dialog will appear allowing the Name, Path, and Icon for the item to be changed. Select OK to close the dialog and apply the changes, or Cancel to close the dialog and discard the changes.
+      </para>
+      <para>
+        To change the order of the list, select
+        <emphasis role="bold">Move up</emphasis>
+        or
+        <emphasis role="bold">Move down</emphasis>
+        from the item's context menu. To move an item with the keyboard move the focus to that item, then press
+        <keycombo>
+          <keycap>Shift</keycap>
+          <keycap>Up</keycap>
+        </keycombo>
+        or
+        <keycombo>
+          <keycap>Shift</keycap>
+          <keycap>Down</keycap>
+        </keycombo>
+        to move the item.
+      </para>
+      <para>
+        To remove an item from the list select
+        <emphasis role="bold">Remove</emphasis>
+        from it's context menu.
+      </para>
+      <para />
+    </section>
   </section>
   <section id="Listview">
     <title>List view</title>
