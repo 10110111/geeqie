@@ -17,6 +17,29 @@
     <variablelist>
       <varlistentry>
         <term>
+          <guilabel>Use saved window positions also for new windows</guilabel>
+        </term>
+        <listitem>
+          <para>
+            A new window opened by menu
+            <menuchoice>
+              <shortcut>
+                <keycombo>
+                  <keycap>Ctrl</keycap>
+                  <keycap>N</keycap>
+                </keycombo>
+              </shortcut>
+              <guimenu>File</guimenu>
+              <guimenuitem>New Window</guimenuitem>
+            </menuchoice>
+            will use the saved window positions also.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <variablelist>
+      <varlistentry>
+        <term>
           <guilabel>Remember tool state</guilabel>
         </term>
         <listitem>

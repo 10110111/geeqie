@@ -118,6 +118,14 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <guilabel>List directory view uses single click to enter</guilabel>
+        </term>
+        <listitem>
+          <para>If selected, a single click will enter a directory, rather than the GTK+ default of a double click.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guilabel>Recent folder list maximum size</guilabel>
         </term>
         <listitem>
@@ -147,6 +155,14 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <guilabel>Keyboard scrolling step multiplier:</guilabel>
+        </term>
+        <listitem>
+          <para>Defines the amount to pan an image when using the keyboard arrows.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guilabel>Mouse wheel scrolls image</guilabel>
         </term>
         <listitem>
@@ -157,6 +173,14 @@
             <keycap>Shift</keycap>
             will change the image.
           </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Navigation by left or middle click on image</guilabel>
+        </term>
+        <listitem>
+          <para>If selected, mouse left-click will select the next image; mouse middle-click will select the previous image.</para>
         </listitem>
       </varlistentry>
     </variablelist>
