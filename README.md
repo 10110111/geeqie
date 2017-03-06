@@ -27,15 +27,15 @@ open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
 
 # README contents:
 
-    * Requirements
-    * Notes and changes for this release
-    * Installation
-    * Description / Features
-    * Documentation (keyboard shortcuts)
-    * Editor command macros
-    * Additional comments
-    * Translation status
-    * Credits
+* Requirements
+* Notes and changes for this release
+* Installation
+* Description / Features
+* Documentation (keyboard shortcuts)
+* Editor command macros
+* Additional comments
+* Translation status
+* Credits
 
 ## Requirements
 
@@ -127,22 +127,22 @@ See NEWS file.
 
   Geeqie is a graphics file viewer. Basic features:
 
-    - Single click image viewing / navigation.
-    - Zoom functions.
-    - Thumbnails, with optional caching and .xvpics support.
-    - Multiple file selection for move, copy, delete, rename, drag and drop.
-    - Drag and drop.
-    - Slideshow.
-    - Full screen.
-    - Ability to open images in external editors (configurable).
-    - Collections.
-    - Comparison of images to find duplicates by name, size, date,
-      dimensions, or image content similarity.
-      - Rotation invariant detection
-    - EXIF support.
-    - support for stereoscopic images
-      - input: side-by-side (JPS) and MPO format
-      - output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
+- Single click image viewing / navigation.
+- Zoom functions.
+- Thumbnails, with optional caching and .xvpics support.
+- Multiple file selection for move, copy, delete, rename, drag and drop.
+- Drag and drop.
+- Slideshow.
+- Full screen.
+- Ability to open images in external editors (configurable).
+- Collections.
+- Comparison of images to find duplicates by name, size, date,
+  dimensions, or image content similarity.
+  - Rotation invariant detection
+  - EXIF support.
+  - support for stereoscopic images
+    - input: side-by-side (JPS) and MPO format
+    - output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
 ## Credits                                             [section:credits]
 
