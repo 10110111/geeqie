@@ -70,6 +70,13 @@
           If checked, open a confirmation dialogue before writing to the file
         </para>
       </listitem>
+      <listitem>
+        <para>
+          <guilabel>Create sidecar files named image.ext.xmp (as opposed to image.xmp)</guilabel>
+          <para />
+          If checked, new sidecar files will use image.ext.xmp naming scheme
+        </para>
+      </listitem>
     </itemizedlist>
   </section>
   <section id="WriteToGeeqiePrivateFiles">

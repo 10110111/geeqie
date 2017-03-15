@@ -23,6 +23,7 @@
 #include "print.h"
 
 #include "filedata.h"
+#include "filefilter.h"
 #include "image.h"
 #include "image-load.h"
 #include "pixbuf_util.h"
@@ -1449,7 +1450,7 @@ static gboolean print_job_rgb_page_new(PrintWindow *pw, gint page)
 		const gchar *ext;
 		gchar *base;
 
-		ext = extension_from_path(pw->output_path);
+		ext = registered_extension_from_path(pw->output_path);
 
 		if (ext)
 			{

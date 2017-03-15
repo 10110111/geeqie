@@ -91,7 +91,6 @@ gchar *unique_filename_simple(const gchar *path);
 const gchar *filename_from_path(const gchar *path);
 gchar *remove_level_from_path(const gchar *path);
 
-const gchar *extension_from_path(const gchar *path);
 gchar *remove_extension_from_path(const gchar *path);
 
 gboolean file_extension_match(const gchar *path, const gchar *ext);

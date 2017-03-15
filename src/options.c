@@ -131,6 +131,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->metadata.confirm_on_dir_change = TRUE;
 	options->metadata.keywords_case_sensitive = FALSE;
 	options->metadata.write_orientation = TRUE;
+	options->metadata.sidecar_extended_name = FALSE;
 
 	options->show_icon_names = TRUE;
 

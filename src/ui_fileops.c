@@ -41,6 +41,7 @@
 #include "ui_utildlg.h"	/* for locale warning dialog */
 #include "md5-util.h"
 
+#include "filefilter.h"
 /*
  *-----------------------------------------------------------------------------
  * generic file information and manipulation routines (public)
@@ -697,7 +698,7 @@ gchar *unique_filename_simple(const gchar *path)
 	name = filename_from_path(path);
 	if (!name) return NULL;
 
-	ext = extension_from_path(name);
+	ext = registered_extension_from_path(name);
 
 	if (!ext)
 		{
@@ -729,24 +730,14 @@ const gchar *filename_from_path(const gchar *path)
 
 gchar *remove_level_from_path(const gchar *path)
 {
-	gint p = 0, n = -1;
+	const gchar *base;
 
 	if (!path) return NULL;
 
-	while (path[p])
-		{
-		if (path[p] == G_DIR_SEPARATOR) n = p;
-		p++;
-		}
-	if (n <= 0) n++;
+	base = strrchr(path, G_DIR_SEPARATOR);
+	if (base) return g_strndup(path, strlen(path)-strlen(base));
 
-	return g_strndup(path, (gsize) n);
-}
-
-const gchar *extension_from_path(const gchar *path)
-{
-	if (!path) return NULL;
-	return strrchr(path, '.');
+	return NULL;
 }
 
 gboolean file_extension_match(const gchar *path, const gchar *ext)
@@ -766,18 +757,8 @@ gboolean file_extension_match(const gchar *path, const gchar *ext)
 
 gchar *remove_extension_from_path(const gchar *path)
 {
-	gint p = 0, n = -1;
-
 	if (!path) return NULL;
-
-	while (path[p])
-		{
-		if (path[p] == '.') n = p;
-		p++;
-		}
-	if (n < 0) n = p;
-
-	return g_strndup(path, (gsize) n);
+	return g_strndup(path, strlen(path)-strlen(registered_extension_from_path(path)));
 }
 
 void parse_out_relatives(gchar *path)

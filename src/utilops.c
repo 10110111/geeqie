@@ -225,7 +225,7 @@ static gint filename_base_length(const gchar *name)
 		{
 		const gchar *ext;
 
-		ext = extension_from_path(name);
+		ext = registered_extension_from_path(name);
 		if (ext) n -= strlen(ext);
 		}
 
@@ -1205,7 +1205,7 @@ static gchar *file_util_rename_multiple_auto_format_name(const gchar *format, co
 		parsed = tmp;
 		}
 
-	ext = extension_from_path(name);
+	ext = registered_extension_from_path(name);
 
 	middle = strchr(parsed, '*');
 	if (middle)

@@ -334,6 +334,7 @@ static void config_window_apply(void)
 	options->metadata.save_legacy_format = c_options->metadata.save_legacy_format;
 	options->metadata.sync_grouped_files = c_options->metadata.sync_grouped_files;
 	options->metadata.confirm_write = c_options->metadata.confirm_write;
+	options->metadata.sidecar_extended_name = c_options->metadata.sidecar_extended_name;
 	options->metadata.confirm_timeout = c_options->metadata.confirm_timeout;
 	options->metadata.confirm_after_timeout = c_options->metadata.confirm_after_timeout;
 	options->metadata.confirm_on_image_change = c_options->metadata.confirm_on_image_change;
@@ -1907,6 +1908,9 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	pref_checkbox_new_int(hbox, _("Ask before writing to image files"),
 			      options->metadata.confirm_write, &c_options->metadata.confirm_write);
+
+	pref_checkbox_new_int(hbox, _("Create sidecar files named image.ext.xmp (as opposed to image.xmp)"),
+			      options->metadata.sidecar_extended_name, &c_options->metadata.sidecar_extended_name);
 
 	group = pref_group_new(vbox, FALSE, _("Step 2 and 3: write to Geeqie private files"), GTK_ORIENTATION_VERTICAL);
 #ifndef HAVE_EXIV2

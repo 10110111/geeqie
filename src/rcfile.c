@@ -442,6 +442,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, metadata.save_legacy_format);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.sync_grouped_files);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_write);
+	WRITE_NL(); WRITE_BOOL(*options, metadata.sidecar_extended_name);
 	WRITE_NL(); WRITE_INT(*options, metadata.confirm_timeout);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_after_timeout);
 	WRITE_NL(); WRITE_BOOL(*options, metadata.confirm_on_image_change);
@@ -720,6 +721,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, metadata.save_legacy_format)) continue;
 		if (READ_BOOL(*options, metadata.sync_grouped_files)) continue;
 		if (READ_BOOL(*options, metadata.confirm_write)) continue;
+		if (READ_BOOL(*options, metadata.sidecar_extended_name)) continue;
 		if (READ_BOOL(*options, metadata.confirm_after_timeout)) continue;
 		if (READ_INT(*options, metadata.confirm_timeout)) continue;
 		if (READ_BOOL(*options, metadata.confirm_on_image_change)) continue;

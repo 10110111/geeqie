@@ -210,6 +210,7 @@ struct _ConfOptions
 		gboolean confirm_on_dir_change;
 		gboolean keywords_case_sensitive;
 		gboolean write_orientation;
+		gboolean sidecar_extended_name;
 	} metadata;
 
 	/* Stereo */

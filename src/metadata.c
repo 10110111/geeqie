@@ -302,7 +302,7 @@ gboolean metadata_write_perform(FileData *fd)
 	g_assert(fd->change);
 
 	if (fd->change->dest &&
-	    strcmp(extension_from_path(fd->change->dest), GQ_CACHE_EXT_METADATA) == 0)
+	    strcmp(registered_extension_from_path(fd->change->dest), GQ_CACHE_EXT_METADATA) == 0)
 		{
 		success = metadata_legacy_write(fd);
 		if (success) metadata_legacy_delete(fd, fd->change->dest);
