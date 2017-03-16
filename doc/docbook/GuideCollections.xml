@@ -29,6 +29,23 @@
     </menuchoice>
     . A dialog will appear requesting the location of the collection file. A window will the open containing the selected collection. Recently opened or saved collections can also be opened by selecting the collection's file name from the Open recent sub menu of the file menu.
   </para>
+  <para>
+    To delete or rename a collection, select
+    <menuchoice>
+      <shortcut>
+        <keycombo>
+          <keycap>O</keycap>
+        </keycombo>
+      </shortcut>
+      <guimenu>File</guimenu>
+      <guimenuitem>Open collection</guimenuitem>
+    </menuchoice>
+    , right-click on the collection you wish to delete or rename, and then select
+    <emphasis role="strong">Delete</emphasis>
+    or
+    <emphasis role="strong">Rename</emphasis>
+    .
+  </para>
   <para>The collection window consists of a pane to display the contents of the collection, and a status bar along the bottom of the window.</para>
   <para />
   <section id="Iconpane">
@@ -74,6 +91,20 @@
         will automatically update to the new name or location.
       </para>
     </note>
+    <para />
+  </section>
+  <section id="AppendImages">
+    <title>Append Images</title>
+    <para>Right-click menu items permit images to be appended from either another collection or from the currently selected folder.</para>
+    <para />
+  </section>
+  <section id="RandomizedSort">
+    <title>Randomized Sort</title>
+    <para>
+      Right-click menu item
+      <emphasis role="strong">Sort</emphasis>
+      , in addition to the standard sort methods, permits images to be randomly arranged.
+    </para>
     <para />
   </section>
 </section>
