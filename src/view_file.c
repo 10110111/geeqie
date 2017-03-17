@@ -1083,7 +1083,7 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 	if (!refresh)
 		{
 		gchar *base = remove_level_from_path(fd->path);
-		refresh = (strcmp(base, vf->dir_fd->path) == 0);
+		refresh = (g_strcmp0(base, vf->dir_fd->path) == 0);
 		g_free(base);
 		}
 
@@ -1092,14 +1092,14 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		if (!refresh && fd->change->dest)
 			{
 			gchar *dest_base = remove_level_from_path(fd->change->dest);
-			refresh = (strcmp(dest_base, vf->dir_fd->path) == 0);
+			refresh = (g_strcmp0(dest_base, vf->dir_fd->path) == 0);
 			g_free(dest_base);
 			}
 
 		if (!refresh && fd->change->source)
 			{
 			gchar *source_base = remove_level_from_path(fd->change->source);
-			refresh = (strcmp(source_base, vf->dir_fd->path) == 0);
+			refresh = (g_strcmp0(source_base, vf->dir_fd->path) == 0);
 			g_free(source_base);
 			}
 		}
