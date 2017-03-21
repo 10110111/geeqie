@@ -190,6 +190,16 @@
         </listitem>
       </varlistentry>
     </variablelist>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <guilabel>Alpha channel color 1/2</guilabel>
+        </term>
+        <listitem>
+          <para>These two colors define the checkerboard background used when images with an alpha channel are displayed.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
   </section>
   <section id="Convenience">
     <title>Convenience</title>
