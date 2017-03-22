@@ -757,8 +757,13 @@ gboolean file_extension_match(const gchar *path, const gchar *ext)
 
 gchar *remove_extension_from_path(const gchar *path)
 {
+	const gchar *reg_ext;
+
 	if (!path) return NULL;
-	return g_strndup(path, strlen(path)-strlen(registered_extension_from_path(path)));
+
+	reg_ext = registered_extension_from_path(path);
+
+	return g_strndup(path, strlen(path) - (reg_ext == NULL ? 0 : strlen(reg_ext)));
 }
 
 void parse_out_relatives(gchar *path)
