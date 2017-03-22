@@ -237,6 +237,7 @@ LayoutOptions *init_layout_options(LayoutOptions *options)
 	options->main_window.w = 720;
 	options->main_window.x = 0;
 	options->main_window.y = 0;
+	options->folder_window.vdivider_pos = 100;
 	options->order = g_strdup("123");
 	options->show_directory_date = FALSE;
 	options->show_marks = FALSE;

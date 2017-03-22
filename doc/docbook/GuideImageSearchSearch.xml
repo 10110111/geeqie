@@ -101,7 +101,11 @@
               </guiicon>
             </guibutton>
           </code>
-          button displays a pop up calendar to enter the date
+          button displays a pop up calendar to enter the date.
+          <para />
+          The
+          <emphasis role="strong">Exif date</emphasis>
+          checkbox permits searches to be made on the exif date of images. If an image does not have an exif date, it will default to 01 January 1970.
         </listitem>
       </varlistentry>
       <varlistentry>

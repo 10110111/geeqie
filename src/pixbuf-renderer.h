@@ -29,9 +29,7 @@
 #define IS_PIXBUF_RENDERER_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE((klass), TYPE_PIXBUF_RENDERER))
 #define PIXBUF_RENDERER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), TYPE_PIXBUF_RENDERER, PixbufRendererClass))
 
-/* alpha channel checkerboard background (same as gimp) */
-#define PR_ALPHA_CHECK1 0x00999999
-#define PR_ALPHA_CHECK2 0x00666666
+/* alpha channel checkerboard (same as gimp) */
 #define PR_ALPHA_CHECK_SIZE 16
 /* when scaling image to below this size, use nearest pixel for scaling
  * (below about 4, the other scale types become slow generating their conversion tables)
