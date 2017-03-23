@@ -637,12 +637,20 @@ static void layout_menu_list_cb(GtkRadioAction *action, GtkRadioAction *current,
 	layout_views_set(lw, lw->options.dir_view_type, (FileViewType) gtk_radio_action_get_current_value(action));
 }
 
-static void layout_menu_view_dir_as_cb(GtkRadioAction *action, GtkRadioAction *current, gpointer data)
+static void layout_menu_view_dir_as_cb(GtkToggleAction *action,  gpointer data)
 {
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-	layout_views_set(lw, (DirViewType) gtk_radio_action_get_current_value(action), lw->options.file_view_type);
+
+	if (gtk_toggle_action_get_active(action))
+		{
+		layout_views_set(lw, DIRVIEW_TREE, lw->options.file_view_type);
+		}
+	else
+		{
+		layout_views_set(lw, DIRVIEW_LIST, lw->options.file_view_type);
+		}
 }
 
 static void layout_menu_view_in_new_window_cb(GtkAction *action, gpointer data)
@@ -1614,9 +1622,8 @@ static GtkRadioActionEntry menu_radio_entries[] = {
   { "ViewIcons",	NULL,			N_("I_cons"),				"<control>I",		N_("View Images as Icons"),		FILEVIEW_ICON }
 };
 
-static GtkRadioActionEntry menu_view_dir_radio_entries[] = {
-  { "FolderList",	NULL,			N_("Folder Li_st"),			"<meta>L",		N_("View Folders as List"), 		DIRVIEW_LIST },
-  { "FolderTree",	NULL,			N_("Folder T_ree"),			"<control>T",		N_("View Folders as Tree"), 		DIRVIEW_TREE },
+static GtkToggleActionEntry menu_view_dir_toggle_entries[] = {
+  { "FolderTree",	NULL,			N_("T_oggle Folder View"),			"<control>T",		N_("Toggle Folders View"), 		CB(layout_menu_view_dir_as_cb),FALSE },
 };
 
 static GtkRadioActionEntry menu_split_radio_entries[] = {
@@ -1749,7 +1756,6 @@ static const gchar *menu_ui_description =
 "      <placeholder name='WindowSection'/>"
 "      <separator/>"
 "      <menu action='FileDirMenu'>"
-"        <menuitem action='FolderList'/>"
 "        <menuitem action='FolderTree'/>"
 "        <placeholder name='FolderSection'/>"
 "        <separator/>"
@@ -2175,9 +2181,9 @@ void layout_actions_setup(LayoutWindow *lw)
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_split_radio_entries, G_N_ELEMENTS(menu_split_radio_entries),
 					   0, G_CALLBACK(layout_menu_split_cb), lw);
-	gtk_action_group_add_radio_actions(lw->action_group,
-					   menu_view_dir_radio_entries, DIRVIEW_LAST + 1 /* count */,
-					   0, G_CALLBACK(layout_menu_view_dir_as_cb), lw);
+	gtk_action_group_add_toggle_actions(lw->action_group,
+					   menu_view_dir_toggle_entries, G_N_ELEMENTS(menu_view_dir_toggle_entries),
+					    lw);
 	gtk_action_group_add_radio_actions(lw->action_group,
 					   menu_color_radio_entries, COLOR_PROFILE_FILE + COLOR_PROFILE_INPUTS,
 					   0, G_CALLBACK(layout_color_menu_input_cb), lw);
@@ -2453,7 +2459,7 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	if (!lw->action_group) return;
 
 	action = gtk_action_group_get_action(lw->action_group, "FolderTree");
-	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.dir_view_type);
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.dir_view_type);
 
 	action = gtk_action_group_get_action(lw->action_group, "SplitSingle");
 	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->split_mode);
