@@ -82,23 +82,76 @@
     <para>This section displays the dimensions (width x height) and file byte size of the image that is active in the image pane. When the format of the file in the image pane can not be determined the dimensions will show as “(0 x 0)”, in addition “(no read permision)” may appear if the file permissions do not allow reading the contents of the file.</para>
     <para />
   </section>
-  <section id="Zoom">
-    <title>Zoom</title>
-    <para>This section displays the current zoom ratio. A ratio of 1:1 is the image's original size. When the left number is larger the image is displayed larger than original size, when the right number is larger the image is displayed smaller.</para>
-    <para>A tilde (~) appears within the ratio display when the zoom is set to fit the image within the display area. In this zoom mode the ratio is automatically adjusted, and the displayed ratio may not be the actual ratio because the status bar display rounds the actual value to the nearest tenth (0.1).</para>
-    <para />
-  </section>
   <section id="Buttons">
     <title>Buttons</title>
     <para>Statusbar buttons corresponds to selected menu action.</para>
     <para />
+    <section id="Zoom">
+      <title>Zoom</title>
+      <para>The button label displays the current zoom ratio. A ratio of 1:1 is the image's original size. When the left number is larger the image is displayed larger than original size, when the right number is larger the image is displayed smaller.</para>
+      <para>A tilde (~) appears within the ratio display when the zoom is set to fit the image within the display area. In this zoom mode the ratio is automatically adjusted, and the displayed ratio may not be the actual ratio because the status bar display rounds the actual value to the nearest tenth (0.1).</para>
+      <para />
+      <para>Clicking this button permits control of the behavior of the zoom and scroll settings used when changing the displayed image.</para>
+      <variablelist>
+        <varlistentry>
+          <term>
+            <guilabel>Zoom to original size</guilabel>
+          </term>
+          <listitem>
+            <para>The new image is set to its original size.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <guilabel>Fit image to window</guilabel>
+          </term>
+          <listitem>
+            <para>The new image's zoom is changed so that the image will fit within the current view area.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <guilabel>Leave zoom at previous setting</guilabel>
+          </term>
+          <listitem>
+            <para>The zoom setting is unchanged, the new image will be scaled the same as the previous image.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <variablelist>
+        <varlistentry>
+          <term>
+            <guilabel>Scroll to top left corner</guilabel>
+          </term>
+          <listitem>
+            <para>The new image is displayed from top left corner.</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <guilabel>Scroll to image center</guilabel>
+          </term>
+          <listitem>
+            <para>The new image is centered</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <guilabel>Keep the region from previous iamge</guilabel>
+          </term>
+          <listitem>
+            <para>The new image is positioned as the previous one, whenever possible.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
     <section id="ExifRotate">
       <title>Exif rotate</title>
       <para>
         <guiicon>
           <inlinegraphic fileref="gtk-color-picker.png" />
         </guiicon>
-        Toggles the auto-rotation of images if they have Exif orientation data. 
+        Toggles the auto-rotation of images if they have Exif orientation data.
         Refer also to the
         <link linkend="HowdotheExifauto-rotationcommandswork">FAQ</link>
         .

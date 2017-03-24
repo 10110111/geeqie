@@ -105,62 +105,6 @@
       </varlistentry>
     </variablelist>
   </section>
-  <section id="Whennewimageisselected">
-    <title>When new image is selected</title>
-    <para>This controls the behavior of the zoom and scroll settings when changing the displayed image.</para>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <guilabel>Zoom to original size</guilabel>
-        </term>
-        <listitem>
-          <para>The new image is set to it's original size.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <guilabel>Fit image to window</guilabel>
-        </term>
-        <listitem>
-          <para>The new image's zoom is changed so that the image will fit within the current view area.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <guilabel>Leave zoom at previous setting</guilabel>
-        </term>
-        <listitem>
-          <para>The zoom setting is unchanged, the new image will be scaled the same as the previous image.</para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <guilabel>Scroll to top left corner</guilabel>
-        </term>
-        <listitem>
-          <para>The new image is displayed from top left corner.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <guilabel>Scroll to image center</guilabel>
-        </term>
-        <listitem>
-          <para>The new image is centered</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <guilabel>Keep the region from previous iamge</guilabel>
-        </term>
-        <listitem>
-          <para>The new image is positioned as the previous one, whenever possible.</para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-  </section>
   <section id="Appearance">
     <title>Appearance</title>
     <variablelist>
@@ -204,7 +148,7 @@
   <section id="Convenience">
     <title>Convenience</title>
     <variablelist>
-       <varlistentry>
+      <varlistentry>
         <term>
           <guilabel>Auto rotate proofs using EXIF information</guilabel>
         </term>
