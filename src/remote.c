@@ -51,6 +51,7 @@
 
 static RemoteConnection *remote_client_open(const gchar *path);
 static gint remote_client_send(RemoteConnection *rc, const gchar *text);
+static void gr_raise(const gchar *text, GIOChannel *channel, gpointer data);
 
 
 typedef struct _RemoteClient RemoteClient;
@@ -495,7 +496,7 @@ static void gr_quit(const gchar *text, GIOChannel *channel, gpointer data)
 	g_idle_add(gr_quit_idle_cb, NULL);
 }
 
-static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)
+static void gr_file_load_no_raise(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
 
@@ -521,6 +522,13 @@ static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)
 		}
 
 	g_free(filename);
+}
+
+static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gr_file_load_no_raise(text, channel, data);
+
+	gr_raise(text, channel, data);
 }
 
 static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
@@ -674,7 +682,8 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "--config-load:",       gr_config_load,         TRUE,  FALSE, N_("<FILE>"), N_("load configuration from FILE") },
 	{ NULL, "--get-sidecars:",      gr_get_sidecars,        TRUE,  FALSE, N_("<FILE>"), N_("get list of sidecars of FILE") },
 	{ NULL, "--get-destination:",  	gr_get_destination,     TRUE,  FALSE, N_("<FILE>"), N_("get destination path of FILE") },
-	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE") },
+	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE, bring Geeqie window to the top") },
+	{ NULL, "File:",                gr_file_load_no_raise,  TRUE,  FALSE, N_("<FILE>"), N_("open FILE, do not bring Geeqie window to the top") },
 	{ NULL, "--tell",               gr_file_tell,           FALSE, FALSE, NULL, N_("print filename of current image") },
 	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
