@@ -536,7 +536,10 @@ static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
 	LayoutWindow *lw = NULL; /* NULL to force layout_valid() to do some magic */
 	if (!layout_valid(&lw)) return;
 	if (image_get_path(lw->image))
-		printf_term("%s %s\n", GQ_APPNAME, image_get_path(lw->image));
+		{
+		g_io_channel_write_chars(channel, image_get_path(lw->image), -1, NULL, NULL);
+		g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+		}
 }
 
 static void gr_config_load(const gchar *text, GIOChannel *channel, gpointer data)
