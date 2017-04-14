@@ -600,7 +600,8 @@ static void scroll_cb(ImageWindow *imd, GdkEventScroll *event, gpointer data)
 {
 	ViewWindow *vw = data;
 
-	if (event->state & GDK_CONTROL_MASK)
+	if ((event->state & GDK_CONTROL_MASK) ||
+				(imd->mouse_wheel_mode && !options->image_lm_click_nav))
 		{
 		switch (event->direction)
 			{

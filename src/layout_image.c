@@ -1007,12 +1007,12 @@ void layout_image_zoom_adjust_at_point(LayoutWindow *lw, gdouble increment, gint
 		{
 		image_zoom_adjust_at_point(lw->full_screen->imd, increment, x, y);
 		}
-
-	if (!connect_zoom) return;
+	if (!connect_zoom && !lw->split_mode) return;
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
 		{
-		if (lw->split_images[i] && lw->split_images[i] != lw->image)
+		if (lw->split_images[i] && lw->split_images[i] != lw->image &&
+						lw->split_images[i]->mouse_wheel_mode)
 			image_zoom_adjust_at_point(lw->split_images[i], increment, x, y);
 		}
 }
@@ -1672,7 +1672,8 @@ static void layout_image_scroll_cb(ImageWindow *imd, GdkEventScroll *event, gpoi
 		}
 
 
-	if (event->state & GDK_CONTROL_MASK)
+	if ((event->state & GDK_CONTROL_MASK) ||
+				(imd->mouse_wheel_mode && !options->image_lm_click_nav))
 		{
 		switch (event->direction)
 			{

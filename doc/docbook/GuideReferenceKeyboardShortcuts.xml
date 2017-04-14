@@ -135,7 +135,9 @@
           <row>
             <entry colsep="0">
               <emphasis role="strong">Image viewing</emphasis>
-              (image has keyboard focus)
+              (image has keyboard focus. Refer also to
+              <link linkend="MouseWheelMode">Mouse Wheel Mode</link>
+              )
             </entry>
             <entry colsep="0" />
             <entry colsep="0" />

@@ -517,6 +517,8 @@ struct _ImageWindow
 	gint orientation;
 	gboolean desaturate;
 	gint user_stereo;
+
+	gboolean mouse_wheel_mode;
 };
 
 #define FILEDATA_MARKS_SIZE 6

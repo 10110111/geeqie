@@ -48,7 +48,6 @@
     </para>
     <para />
   </section>
-
   <section id="Imagepanningandmanipulation">
     <title>Image panning and manipulation</title>
     <para>When the image size is larger than the image pane, the visible region can be changed with the keyboard or mouse. The keyboard can also be used to adjust the orientation of the image.</para>
@@ -92,6 +91,20 @@
         <title>Smooth Scroll</title>
         <para>To start the smooth scroll function hold down the Shift key and click the primary mouse button. An icon will appear at the location of the mouse pointer, the mouse can then be positioned to pan the image. The image will pan in the direction of the mouse pointer relative to the icon. The pan speed will increase in proportion to the distance that the pointer is from the center of the icon. To end the smooth scroll function click the primary mouse button within the image pane.</para>
         <para />
+      </section>
+      <section id="MouseWheelMode">
+        <title>Mouse Wheel Mode</title>
+        <para>A single click on the mouse middle button will toggle the function of the mouse wheel between "change image" and "change zoom".</para>
+        <note>
+          <para>
+            This option cannot be used if either the Preference
+            <emphasis>Mouse wheel scrolls image</emphasis>
+            or
+            <emphasis>Navigation by left or middle click on image</emphasis>
+            are selected.
+          </para>
+        </note>
+        <para>In Split View mode, each window can be clicked individually so that, in Quad View for example, Connected Zoom can be on 2, 3 or all 4 windows.</para>
       </section>
     </section>
   </section>

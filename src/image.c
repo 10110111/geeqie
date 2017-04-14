@@ -56,6 +56,10 @@ static void image_cache_set(ImageWindow *imd, FileData *fd);
 static void image_click_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 {
 	ImageWindow *imd = data;
+	if (!options->image_lm_click_nav && event->button == MOUSE_BUTTON_MIDDLE)
+		{
+		imd->mouse_wheel_mode = !imd->mouse_wheel_mode;
+		}
 
 	if (imd->func_button)
 		{
