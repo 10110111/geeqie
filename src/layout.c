@@ -634,7 +634,7 @@ void layout_status_update_image(LayoutWindow *lw)
 
 	if (!n)
 		{
-		gtk_label_set_text(GTK_LABEL(lw->info_zoom), "");
+		gtk_button_set_label(GTK_BUTTON(lw->info_zoom), "");
 		gtk_label_set_text(GTK_LABEL(lw->info_details), "");
 		}
 	else
