@@ -58,6 +58,17 @@
       </term>
       <listitem>
         <para>This may be set for each instance of Geeqie.</para>
+        <itemizedlist spacing="compact">
+          <listitem>
+            <para>No change: Use the Current Working Directory. If called from a system menu rather than the command line, the Home directory will probably be used.</para>
+          </listitem>
+          <listitem>
+            <para>Restore last path: Use the folder in use when Geeqie was previously closed.</para>
+          </listitem>
+          <listitem>
+            <para>Home path: Use the folder specified in the Home Path box.</para>
+          </listitem>
+        </itemizedlist>
       </listitem>
     </varlistentry>
     <varlistentry>
