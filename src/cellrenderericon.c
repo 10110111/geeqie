@@ -824,11 +824,17 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 			for (i = 0; i < cellicon->num_marks; i++)
 				{
 #if GTK_CHECK_VERSION(3,0,0)
+#if GTK_CHECK_VERSION(3,14,0)
+  				state &= ~(GTK_STATE_FLAG_CHECKED);
+
+				if ((cellicon->marks & (1 << i)))
+					state |= GTK_STATE_FLAG_CHECKED;
+#else
   				state &= ~(GTK_STATE_FLAG_ACTIVE);
 
 				if ((cellicon->marks & (1 << i)))
 					state |= GTK_STATE_FLAG_ACTIVE;
-
+#endif
 				cairo_save (cr);
 
 				cairo_rectangle(cr,
@@ -842,10 +848,35 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 
 				gtk_style_context_add_class(context, GTK_STYLE_CLASS_CHECK);
 
+				gtk_style_context_add_class(context, "marks");
+				GtkStyleProvider *provider;
+				provider = (GtkStyleProvider *)gtk_css_provider_new();
+				gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(provider),
+						".marks {\n"
+						"border-color: #808080;\n"
+						"border-style: solid;\n"
+						"border-width: 1px;\n"
+						"border-radius: 0px;\n"
+						"}\n"
+						,-1, NULL);
+				gtk_style_context_add_provider(context, provider,
+							GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
 				gtk_render_check(context, cr,
 					 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
 					 pix_rect.y,
 					 TOGGLE_WIDTH, TOGGLE_WIDTH);
+				gtk_render_frame(context, cr,
+					 pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
+					 pix_rect.y,
+					 TOGGLE_WIDTH, TOGGLE_WIDTH);
+
+				if (cellicon->focused && gtk_widget_has_focus(widget))
+					{
+					gtk_render_focus(context, cr,
+						pix_rect.x + i * TOGGLE_SPACING + (TOGGLE_WIDTH - TOGGLE_SPACING) / 2,
+						pix_rect.y, TOGGLE_WIDTH, TOGGLE_WIDTH);
+					}
 				gtk_style_context_restore(context);
 				cairo_restore(cr);
 
@@ -859,21 +890,18 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 #endif
 				}
 			}
-                }
+		}
 
+#if !GTK_CHECK_VERSION(3,0,0)
 	if (cellicon->focused && gtk_widget_has_focus(widget))
 		{
-#if GTK_CHECK_VERSION(3,0,0)
-#else
 		gtk_paint_focus(gtk_widget_get_style(widget), window,
 				state,
 				cell_area, widget,
 				"cellrendererfocus",
 				cell_area->x, cell_area->y,
 				cell_area->width, cell_area->height);
-#endif
 		}
-#if !GTK_CHECK_VERSION(3,0,0)
 	cairo_destroy(cr);
 #endif
 }
