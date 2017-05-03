@@ -105,7 +105,8 @@ enum {
 	PROP_WINDOW_LIMIT,
 	PROP_WINDOW_LIMIT_VALUE,
 	PROP_AUTOFIT_LIMIT,
-	PROP_AUTOFIT_LIMIT_VALUE
+	PROP_AUTOFIT_LIMIT_VALUE,
+	PROP_ENLARGEMENT_LIMIT_VALUE
 };
 
 typedef enum {
@@ -329,6 +330,16 @@ static void pixbuf_renderer_class_init(PixbufRendererClass *class)
 							  100,
 							  G_PARAM_READABLE | G_PARAM_WRITABLE));
 
+	g_object_class_install_property(gobject_class,
+					PROP_ENLARGEMENT_LIMIT_VALUE,
+					g_param_spec_uint("enlargement_limit_value",
+							  "Size increase limit of image when autofitting",
+							  NULL,
+							  100,
+							  999,
+							  500,
+							  G_PARAM_READABLE | G_PARAM_WRITABLE));
+
 
 	signals[SIGNAL_ZOOM] =
 		g_signal_new("zoom",
@@ -530,6 +541,9 @@ static void pixbuf_renderer_set_property(GObject *object, guint prop_id,
 		case PROP_AUTOFIT_LIMIT_VALUE:
 			pr->autofit_limit_size = g_value_get_uint(value);
 			break;
+		case PROP_ENLARGEMENT_LIMIT_VALUE:
+			pr->enlargement_limit_size = g_value_get_uint(value);
+			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
 			break;
@@ -592,6 +606,9 @@ static void pixbuf_renderer_get_property(GObject *object, guint prop_id,
 			break;
 		case PROP_AUTOFIT_LIMIT_VALUE:
 			g_value_set_uint(value, pr->autofit_limit_size);
+			break;
+		case PROP_ENLARGEMENT_LIMIT_VALUE:
+			g_value_set_uint(value, pr->enlargement_limit_size);
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -1663,6 +1680,17 @@ static gboolean pr_zoom_clamp(PixbufRenderer *pr, gdouble zoom,
 				w = w * factor + 0.5;
 				h = h * factor + 0.5;
 				scale = scale * factor;
+				}
+
+			if (pr->zoom_expand)
+				{
+				gdouble factor = (gdouble)pr->enlargement_limit_size / 100;
+				if (scale > factor)
+					{
+					w = w * factor / scale;
+					h = h * factor / scale;
+					scale = factor;
+					}
 				}
 
 			if (w < 1) w = 1;

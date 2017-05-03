@@ -74,6 +74,7 @@ struct _ConfOptions
 		gint max_window_size;
 		gboolean limit_autofit_size;
 		gint max_autofit_size;
+		gint max_enlargement_size;
 
 		gint tile_cache_max;	/* in megabytes */
 		gint image_cache_max;   /* in megabytes */

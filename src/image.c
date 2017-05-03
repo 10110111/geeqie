@@ -1743,6 +1743,7 @@ static void image_options_set(ImageWindow *imd)
 					"window_limit_value", options->image.max_window_size,
 					"autofit_limit", options->image.limit_autofit_size,
 					"autofit_limit_value", options->image.max_autofit_size,
+					"enlargement_limit_value", options->image.max_enlargement_size,
 
 					NULL);
 

@@ -158,6 +158,7 @@ struct _PixbufRenderer
 
 	gboolean autofit_limit;
 	gint autofit_limit_size;
+	gint enlargement_limit_size;
 
 	GdkColor color;
 

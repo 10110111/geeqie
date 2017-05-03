@@ -79,7 +79,7 @@
           <para>
             Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to
             <emphasis>Fit image to window</emphasis>
-            .
+            . The value in the adjoining spin box sets the maximum size permitted in percent i.e. 100% is full-size.
           </para>
         </listitem>
       </varlistentry>

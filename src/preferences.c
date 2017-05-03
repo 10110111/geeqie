@@ -236,6 +236,7 @@ static void config_window_apply(void)
 	options->image.max_window_size = c_options->image.max_window_size;
 	options->image.limit_autofit_size = c_options->image.limit_autofit_size;
 	options->image.max_autofit_size = c_options->image.max_autofit_size;
+	options->image.max_enlargement_size = c_options->image.max_enlargement_size;
 	options->image.use_clutter_renderer = c_options->image.use_clutter_renderer;
 	options->progressive_key_scrolling = c_options->progressive_key_scrolling;
 	options->keyboard_scroll_step = c_options->keyboard_scroll_step;
@@ -1478,6 +1479,7 @@ static void config_tab_image(GtkWidget *notebook)
 	GtkWidget *group;
 	GtkWidget *button;
 	GtkWidget *ct_button;
+	GtkWidget *enlargement_button;
 	GtkWidget *table;
 	GtkWidget *spin;
 
@@ -1496,11 +1498,16 @@ static void config_tab_image(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Two pass rendering (apply HQ zoom and color correction in second pass)"),
 			      options->image.zoom_2pass, &c_options->image.zoom_2pass);
 
-	pref_checkbox_new_int(group, _("Allow enlargement of image for zoom to fit"),
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	enlargement_button = pref_checkbox_new_int(hbox, _("Allow enlargement of image for zoom to fit (max. size in %)"),
 			      options->image.zoom_to_fit_allow_expand, &c_options->image.zoom_to_fit_allow_expand);
+	spin = pref_spin_new_int(hbox, NULL, NULL,
+				 100, 999, 1,
+				 options->image.max_enlargement_size, &c_options->image.max_enlargement_size);
+	pref_checkbox_link_sensitivity(enlargement_button, spin);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	ct_button = pref_checkbox_new_int(hbox, _("Limit image size when autofitting (%):"),
+	ct_button = pref_checkbox_new_int(hbox, _("Limit image size when autofitting (% of window):"),
 					  options->image.limit_autofit_size, &c_options->image.limit_autofit_size);
 	spin = pref_spin_new_int(hbox, NULL, NULL,
 				 10, 150, 1,

@@ -93,6 +93,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->image.limit_autofit_size = FALSE;
 	options->image.limit_window_size = TRUE;
 	options->image.max_autofit_size = 100;
+	options->image.max_enlargement_size = 900;
 	options->image.max_window_size = 90;
 	options->image.scroll_reset_method = SCROLL_RESET_NOCHANGE;
 	options->image.tile_cache_max = 10;
