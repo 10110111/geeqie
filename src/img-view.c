@@ -906,7 +906,9 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	req_size.height = h;
 	gtk_widget_size_allocate(GTK_WIDGET(vw->window), &req_size);
 
+#if !GTK_CHECK_VERSION(3,0,0)
 	gtk_widget_set_size_request(vw->imd->pr, w, h);
+#endif
 
 	gtk_widget_show(vw->window);
 
