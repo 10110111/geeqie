@@ -32,6 +32,7 @@
 #include "image-load.h"
 #include "img-view.h"
 #include "layout.h"
+#include "math.h"
 #include "menu.h"
 #include "metadata.h"
 #include "misc.h"
@@ -60,6 +61,7 @@
 #define SEARCH_BUFFER_MATCH_MISS 1
 #define SEARCH_BUFFER_FLUSH_SIZE 99
 
+#define GEOCODE_NAME "geocode-parameters.awk"
 
 typedef enum {
 	SEARCH_MATCH_NONE,
@@ -170,6 +172,7 @@ struct _SearchData
 	MatchType match_dimensions;
 	MatchType match_keywords;
 	MatchType match_comment;
+	MatchType match_gps;
 
 	gboolean match_name_enable;
 	gboolean match_size_enable;
@@ -199,6 +202,18 @@ struct _SearchData
 	ThumbLoader *thumb_loader;
 	gboolean thumb_enable;
 	FileData *thumb_fd;
+
+	/* Used for lat/long coordinate search
+	*/
+	gint search_gps;
+	gdouble search_lat, search_lon;
+	GtkWidget *entry_gps_coord;
+	GtkWidget *check_gps;
+	GtkWidget *spin_gps;
+	GtkWidget *units_gps;
+	GtkWidget *menu_gps;
+	gboolean match_gps_enable;
+
 };
 
 typedef struct _MatchFileData MatchFileData;
@@ -251,6 +266,12 @@ static const MatchList text_search_menu_keyword[] = {
 static const MatchList text_search_menu_comment[] = {
 	{ N_("contains"),	SEARCH_MATCH_CONTAINS },
 	{ N_("miss"),		SEARCH_MATCH_NONE }
+};
+
+static const MatchList text_search_menu_gps[] = {
+	{ N_("not geocoded"),	SEARCH_MATCH_NONE },
+	{ N_("less than"),	SEARCH_MATCH_UNDER },
+	{ N_("greater than"),	SEARCH_MATCH_OVER }
 };
 
 static GList *search_window_list = NULL;
@@ -1356,6 +1377,12 @@ static GtkTargetEntry result_drag_types[] = {
 };
 static gint n_result_drag_types = 2;
 
+static GtkTargetEntry result_drop_types[] = {
+	{ "text/uri-list", 0, TARGET_URI_LIST },
+	{ "text/plain", 0, TARGET_TEXT_PLAIN }
+};
+static gint n_result_drop_types = 2;
+
 static void search_dnd_data_set(GtkWidget *widget, GdkDragContext *context,
 				GtkSelectionData *selection_data, guint info,
 				guint time, gpointer data)
@@ -1402,6 +1429,83 @@ static void search_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 		}
 }
 
+#define BUFSIZE 128
+
+static gchar *decode_geo_parameters(const gchar *input_text)
+{
+	gchar *message;
+	gchar *path = g_build_filename(get_rc_dir(), GEOCODE_NAME, NULL);
+	gchar *cmd = g_strconcat("echo \'", input_text, "\'  | awk -f ", path, NULL);
+
+	if (g_file_test(path, G_FILE_TEST_EXISTS))
+		{
+		gchar buf[BUFSIZE];
+		FILE *fp;
+
+		if ((fp = popen(cmd, "r")) == NULL)
+			{
+			message = g_strconcat("Error: opening pipe\n", input_text, NULL);
+			}
+		else
+			{
+			fgets(buf, BUFSIZE, fp);
+			message = g_strconcat(buf, NULL);
+
+			if(pclose(fp))
+				{
+				message = g_strconcat("Error: Command not found or exited with error status\n", input_text, NULL);
+				}
+			}
+		}
+	else
+		{
+		message = g_strconcat(input_text, NULL);
+		}
+
+	g_free(path);
+	g_free(cmd);
+	return message;
+}
+
+static void search_gps_dnd_received_cb(GtkWidget *pane, GdkDragContext *context,
+										gint x, gint y,
+										GtkSelectionData *selection_data, guint info,
+										guint time, gpointer data)
+{
+	SearchData *sd = data;
+	GList *list;
+	gdouble latitude, longitude;
+	FileData *fd;
+
+	if (info == TARGET_URI_LIST)
+		{
+		list = uri_filelist_from_gtk_selection_data(selection_data);
+
+		/* If more than one file, use only the first file in a list.
+		*/
+		if (list != NULL)
+			{
+			fd = list->data;
+			latitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLatitude", 1000);
+			longitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLongitude", 1000);
+			if (latitude != 1000 && longitude != 1000)
+				{
+				gtk_entry_set_text(GTK_ENTRY(sd->entry_gps_coord),
+							g_strdup_printf("%lf %lf", latitude, longitude));
+				}
+			else
+				{
+				gtk_entry_set_text(GTK_ENTRY(sd->entry_gps_coord), "Image is not geocoded");
+				}
+			}
+		}
+
+	if (info == TARGET_TEXT_PLAIN)
+		{
+		gtk_entry_set_text(GTK_ENTRY(sd->entry_gps_coord),"");
+		}
+}
+
 static void search_dnd_init(SearchData *sd)
 {
 	gtk_drag_source_set(sd->result_view, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
@@ -1411,6 +1515,14 @@ static void search_dnd_init(SearchData *sd)
 			 G_CALLBACK(search_dnd_data_set), sd);
 	g_signal_connect(G_OBJECT(sd->result_view), "drag_begin",
 			 G_CALLBACK(search_dnd_begin), sd);
+
+	gtk_drag_dest_set(GTK_WIDGET(sd->entry_gps_coord),
+					 GTK_DEST_DEFAULT_ALL,
+					  result_drop_types, n_result_drop_types,
+					 GDK_ACTION_COPY);
+
+	g_signal_connect(G_OBJECT(sd->entry_gps_coord), "drag_data_received",
+					G_CALLBACK(search_gps_dnd_received_cb), sd);
 }
 
 /*
@@ -1890,8 +2002,63 @@ static gboolean search_file_next(SearchData *sd)
 			}
 		}
 
-	if ((match || extra_only) &&
-	    (sd->match_dimensions_enable || sd->match_similarity_enable))
+	if (match && sd->match_gps_enable)
+		{
+		/* Calculate the distance the image is from the specified origin.
+		* This is a standard algorithm. A simplified one may be faster.
+		*/
+		#define RADIANS  0.0174532925
+		#define KM_EARTH_RADIUS 6371
+		#define MILES_EARTH_RADIUS 3959
+		#define NAUTICAL_MILES_EARTH_RADIUS 3440
+
+		gdouble latitude, longitude, range, conversion;
+
+		if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->units_gps)), _("km")) == 0)
+			{
+			conversion = KM_EARTH_RADIUS;
+			}
+		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->units_gps)), _("miles")) == 0)
+			{
+			conversion = MILES_EARTH_RADIUS;
+			}
+		else
+			{
+			conversion = NAUTICAL_MILES_EARTH_RADIUS;
+			}
+
+		tested = TRUE;
+		match = FALSE;
+
+		latitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLatitude", 1000);
+		longitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLongitude", 1000);
+		if (latitude != 1000 && longitude != 1000)
+			{
+			range = conversion * acos(sin(latitude * RADIANS) *
+						sin(sd->search_lat * RADIANS) + cos(latitude * RADIANS) *
+						cos(sd->search_lat * RADIANS) * cos((sd->search_lon -
+						longitude) * RADIANS));
+			if (sd->match_gps == SEARCH_MATCH_UNDER)
+				{
+				if (sd->search_gps >= range)
+					match = TRUE;
+				}
+			else if (sd->match_gps == SEARCH_MATCH_OVER)
+				{
+				if (sd->search_gps < range)
+					match = TRUE;
+				}
+			}
+		else if (sd->match_gps == SEARCH_MATCH_NONE)
+			{
+			match = TRUE;
+			}
+		}
+
+	if ((match || extra_only) && (sd->match_dimensions_enable ||
+								sd ->match_similarity_enable))
 		{
 		tested = TRUE;
 
@@ -2122,6 +2289,7 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 	SearchData *sd = data;
 	GtkTreeViewColumn *column;
 	gchar *path;
+	gchar *entry_text;
 
 	if (sd->search_folder_list)
 		{
@@ -2150,6 +2318,32 @@ static void search_start_cb(GtkWidget *widget, gpointer data)
 			return;
 			}
 		tab_completion_append_to_history(sd->entry_similarity, sd->search_similarity_path);
+		}
+
+	/* Check the coordinate entry.
+	* If the result is not sensible, it should get blocked.
+	*/
+	if (sd->match_gps_enable)
+		{
+		if (sd->match_gps != SEARCH_MATCH_NONE)
+			{
+			entry_text = decode_geo_parameters(gtk_entry_get_text(
+										GTK_ENTRY(sd->entry_gps_coord)));
+
+			sd->search_lat = 1000;
+			sd->search_lon = 1000;
+			sscanf(entry_text," %lf  %lf ", &sd->search_lat, &sd->search_lon );
+			if (!(entry_text != NULL && !g_strstr_len(entry_text, -1, "Error") &&
+						sd->search_lat >= -90 && sd->search_lat <= 90 &&
+						sd->search_lon >= -180 && sd->search_lon <= 180))
+				{
+				file_util_warning_dialog(_(
+						"Entry does not contain a valid lat/long value"),
+							entry_text, GTK_STOCK_DIALOG_WARNING, sd->window);
+				return;
+				}
+			g_free(entry_text);
+			}
 		}
 
 	string_list_free(sd->search_keyword_list);
@@ -2425,6 +2619,16 @@ static void menu_choice_spin_cb(GtkAdjustment *adjustment, gpointer data)
 	*value = (gint)gtk_adjustment_get_value(adjustment);
 }
 
+static void menu_choice_gps_cb(GtkWidget *combo, gpointer data)
+{
+	SearchData *sd = data;
+
+	if (!menu_choice_get_match_type(combo, &sd->match_gps)) return;
+
+	menu_choice_set_visible(gtk_widget_get_parent(sd->spin_gps),
+					(sd->match_gps != SEARCH_MATCH_NONE));
+}
+
 static GtkWidget *menu_spin(GtkWidget *box, gdouble min, gdouble max, gint value,
 			    GCallback func, gpointer data)
 {
@@ -2607,6 +2811,9 @@ void search_new(FileData *dir_fd, FileData *example_file)
 
 	sd->search_similarity = 95;
 
+	sd->search_gps = 1;
+	sd->match_gps = SEARCH_MATCH_NONE;
+
 	if (example_file)
 		{
 		sd->search_similarity_path = g_strdup(example_file->path);
@@ -2766,6 +2973,38 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_widget_show(sd->entry_comment);
 	pref_checkbox_new_int(hbox, _("Match case"),
 			      sd->search_comment_match_case, &sd->search_comment_match_case);
+
+	/* Search for images within a specified range of a lat/long coordinate
+	*/
+	hbox = menu_choice(sd->box_search, &sd->check_gps, &sd->menu_gps,
+			   _("Image is"), &sd->match_gps_enable,
+			   text_search_menu_gps, sizeof(text_search_menu_gps) / sizeof(MatchList),
+			   G_CALLBACK(menu_choice_gps_cb), sd);
+
+	hbox2 = gtk_hbox_new(FALSE, PREF_PAD_SPACE);
+	gtk_box_pack_start(GTK_BOX(hbox), hbox2, FALSE, FALSE, 0);
+	sd->spin_gps = menu_spin(hbox2, 1, 9999, sd->search_gps,
+								   G_CALLBACK(menu_choice_spin_cb), &sd->search_gps);
+
+	sd->units_gps = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->units_gps), _("km"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->units_gps), _("miles"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->units_gps), _("n.m."));
+	gtk_box_pack_start(GTK_BOX(hbox2), sd->units_gps, FALSE, FALSE, 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(sd->units_gps), 0);
+	gtk_widget_set_tooltip_text(sd->units_gps, "kilometres, miles or nautical miles");
+	gtk_widget_show(sd->units_gps);
+
+	pref_label_new(hbox2, _("from"));
+
+	sd->entry_gps_coord = gtk_entry_new();
+	gtk_editable_set_editable(GTK_EDITABLE(sd->entry_gps_coord), TRUE);
+	gtk_widget_set_has_tooltip(sd->entry_gps_coord, TRUE);
+	gtk_widget_set_tooltip_text(sd->entry_gps_coord, _("Enter a coordinate in the form:\n89.123 179.456\nor drag-and-drop a geo-coded image\nor left-click on the map and paste\nor cut-and-paste or drag-and-drop\nan internet search URL\nSee the Help file"));
+	gtk_box_pack_start(GTK_BOX(hbox2), sd->entry_gps_coord, TRUE, TRUE, 0);
+	gtk_widget_set_sensitive(sd->entry_gps_coord, TRUE);
+
+	gtk_widget_show(sd->entry_gps_coord);
 
 	/* Done the types of searches */
 

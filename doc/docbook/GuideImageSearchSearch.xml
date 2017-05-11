@@ -136,6 +136,31 @@
         </term>
         <listitem>The search will match if the file's associated keywords match all, match any, or exclude the entered keywords, depending on the method selected from the drop down menu. Keywords can be separated with a space, comma, or tab character.</listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Geocoded position</guilabel>
+        </term>
+        <listitem>
+          The search will match if the file's GPS position is less than or greater than the selected distance from the specified position, or is not geocoded, depending on the method selected from the drop down menu.
+          The search location can be specified by
+          <itemizedlist>
+            <listitem>
+              Type in a latitude/longitude in the format
+              <code>89.123 179.123</code>
+            </listitem>
+            <listitem>Drag-and-drop a geocoded image onto the search box</listitem>
+            <listitem>If Geeqie's map is displayed, a left-click on the map will store the latitude/longitude under the mouse cursor into the clipboard. It can then be pasted into the search box.</listitem>
+            <listitem>Copy-and-paste (in some circumstances drag-and-drop) the result of an Internet search.</listitem>
+          </itemizedlist>
+          <note>
+            In this last case, the result of a search may contain the latitude/longitude embedded in the URL. This may be automatically decoded with the help of an external file:-
+            <programlisting xml:space="preserve">~/.config/geeqie/geocode-parameters.awk</programlisting>
+            See
+            <link linkend="GuideReferenceDecodeLatLong">Decoding Latitude and Longitude</link>
+            for details on how to create this file.
+          </note>
+        </listitem>
+      </varlistentry>
     </variablelist>
     <para />
     <para />

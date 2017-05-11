@@ -680,6 +680,8 @@ static gboolean bar_pane_gps_map_keypress_cb(GtkWidget *widget, GdkEventButton *
 {
 	PaneGPSData *pgd = data;
 	GtkWidget *menu;
+	GtkClipboard *clipboard;
+	gchar *geo_coords;
 
 	if (bevent->button == MOUSE_BUTTON_RIGHT)
 		{
@@ -694,7 +696,17 @@ static gboolean bar_pane_gps_map_keypress_cb(GtkWidget *widget, GdkEventButton *
 		}
 	else if (bevent->button == MOUSE_BUTTON_LEFT)
 		{
-		return FALSE;
+		clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+		geo_coords = g_strdup_printf("%lf %lf",
+							champlain_view_y_to_latitude(
+								CHAMPLAIN_VIEW(pgd->gps_view),bevent->y),
+							champlain_view_x_to_longitude(
+								CHAMPLAIN_VIEW(pgd->gps_view),bevent->x));
+		gtk_clipboard_set_text(clipboard, geo_coords, -1);
+
+		g_free(geo_coords);
+
+		return TRUE;
 		}
 	else
 		{
