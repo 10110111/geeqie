@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section id="GuideReferenceDecodeLatLong">
   <title id="titleGuideReferenceDecodeLatLong">Decoding Latitude and Longitude</title>
-  <para>This section is relevent to the search option "Search on geo-location".</para>
+  <para>This section is relevent to geocode searches and the map display of Geeqie.</para>
   <para>
     The result of some internet or other searches for placenames can contain a latitude and longitude embedded in a text string. For example an openstreetmap.org search can give a URL such as:
     <para />
     <code>https://www.openstreetmap.org/search?query=51.5542%2C-0.1816#map=12/51.5542/-0.1818</code>
   </para>
   <para>
-    If you paste such a string into the search box, the latitude/longitude can be automatically extracted and used as the origin of the search. To do this create the file
+    If you paste such a string into the search box, the latitude/longitude can be automatically extracted and used as the origin of the search.
+    <para />
+    You may also drag-and-drop a URL of this type onto the map to cause the map to be re-centered.
+    <para />
+    To enable this feature, create the file
     <para />
     <code>~/.config/geeqie/geocode-parameters.awk</code>
     <para />
@@ -16,125 +20,124 @@
   </para>
   <para>
     <programlisting xml:space="preserve">
-# Store this file in:
-# ~/.config/geeqie/geocode-parameters.awk
-#
-# This file is used by the Search option "search on geo-position".
-# It is used to decode the results of internet or other searches
-# to extract a geo-position from a text string. 
-# To include other searches, follow the examples below and
-# ensure the returned value is either in the format:
-# 89.123 179.123
-# or
-# Error: $0
-#
-
-function check_parameters(latitude, longitude)
-    {
-    # Ensure the parameters are numbers    
-    if ((latitude == (latitude+0)) &amp;&amp; (longitude == (longitude+0)))
-        {
-        if (latitude &gt;= -90 &amp;&amp; latitude &lt;= 90 &amp;&amp;
-                        longitude &gt;= -180 &amp;&amp; longitude &lt;= 180)
-            {
-            return latitude " " longitude
-            }
-        else
-            {
-            return "Error: " latitude " " longitude
-            }
-        }
-    else
-        {
-        return "Error: " latitude " " longitude
-        }
-    }
-
-# This awk file is accessed by the decode_geo_parameters() function
-# in search.c. The call is of the format:
-# echo "string_to_be_searched" | awk -f geocode-parameters.awk
-#
-# Search the input string for known formats.
-{
-if (index($0, "http://www.geonames.org/maps/google_"))
-    {
-    # This is a drag-and-drop or copy-paste from a geonames.org search
-    # in the format e.g.
-    # http://www.geonames.org/maps/google_51.513_-0.092.html
-    
-    gsub(/http:\/\/www.geonames.org\/maps\/google_/, "")
-    gsub(/.html/, "")
-    gsub(/_/, " ")
-    print check_parameters($1, $2)
-    }
-
-else if (index($0, "https://www.openstreetmap.org/search?query="))
-    {
-    # This is a copy-paste from an openstreetmap.org search
-    # in the format e.g.
-    # https://www.openstreetmap.org/search?query=51.4878%2C-0.1353#map=11/51.4880/-0.1356
-    
-    gsub(/https:\/\/www.openstreetmap.org\/search\?query=/, "")
-    gsub(/#map=.*/, "")
-    gsub(/%2C/, " ")
-    print check_parameters($1, $2)
-    }
-
-else if (index($0, "https://www.openstreetmap.org/#map="))
-    {
-    # This is a copy-paste from an openstreetmap.org search
-    # in the format e.g.
-    # https://www.openstreetmap.org/#map=5/18.271/16.084
-    
-    gsub(/https:\/\/www.openstreetmap.org\/#map=[^\/]*/,"")
-    gsub(/\//," ")
-    print check_parameters($1, $2)
-    }
-
-else if (index($0, "https://www.google.com/maps/"))
-    {
-    # This is a copy-paste from a google.com maps search
-    # in the format e.g.
-    # https://www.google.com/maps/place/London,+UK/@51.5283064,-0.3824815,10z/data=....
-    
-    gsub(/https:\/\/www.google.com\/maps.*@/,"")
-    sub(/,/," ")
-    gsub(/,.*/,"")
-    print check_parameters($1, $2)
-    }
-
-else if (index($0,".html"))
-    {
-    # This is an unknown html address
-    
-    print "Error: " $0
-    }
-
-else if (index($0,"http"))
-    {
-    # This is an unknown html address
-    
-    print "Error: " $0
-    }
-
-else if (index($0, ","))
-    {
-    # This is assumed to be a simple lat/long of the format:
-    # 89.123,179.123
-    
-    split($0, latlong, ",")
-    print check_parameters(latlong[1], latlong[2])
-    }
-
-else
-    {
-    # This is assumed to be a simple lat/long of the format:
-    # 89.123 179.123
-    
-    split($0, latlong, " ")
-    print check_parameters(latlong[1], latlong[2])
-    }
-}
+      # Store this file in:
+      # ~/.config/geeqie/geocode-parameters.awk
+      #
+      # This file is used to decode the results of internet or other searches
+      # to extract a geo-position from a text string. 
+      # To include other searches, follow the examples below and
+      # ensure the returned value is either in the format:
+      # 89.123 179.123
+      # or
+      # Error: $0
+      #
+      
+      function check_parameters(latitude, longitude)
+      {
+      # Ensure the parameters are numbers    
+      if ((latitude == (latitude+0)) &amp;&amp; (longitude == (longitude+0)))
+      {
+      if (latitude &gt;= -90 &amp;&amp; latitude &lt;= 90 &amp;&amp;
+      longitude &gt;= -180 &amp;&amp; longitude &lt;= 180)
+      {
+      return latitude " " longitude
+      }
+      else
+      {
+      return "Error: " latitude " " longitude
+      }
+      }
+      else
+      {
+      return "Error: " latitude " " longitude
+      }
+      }
+      
+      # This awk file is accessed by an internal function.
+      # The call is of the format:
+      # echo "string_to_be_searched" | awk -f geocode-parameters.awk
+      #
+      # Search the input string for known formats.
+      {
+      if (index($0, "http://www.geonames.org/maps/google_"))
+      {
+      # This is a drag-and-drop or copy-paste from a geonames.org search
+      # in the format e.g.
+      # http://www.geonames.org/maps/google_51.513_-0.092.html
+      
+      gsub(/http:\/\/www.geonames.org\/maps\/google_/, "")
+      gsub(/.html/, "")
+      gsub(/_/, " ")
+      print check_parameters($1, $2)
+      }
+      
+      else if (index($0, "https://www.openstreetmap.org/search?query="))
+      {
+      # This is a copy-paste from an openstreetmap.org search
+      # in the format e.g.
+      # https://www.openstreetmap.org/search?query=51.4878%2C-0.1353#map=11/51.4880/-0.1356
+      
+      gsub(/https:\/\/www.openstreetmap.org\/search\?query=/, "")
+      gsub(/#map=.*/, "")
+      gsub(/%2C/, " ")
+      print check_parameters($1, $2)
+      }
+      
+      else if (index($0, "https://www.openstreetmap.org/#map="))
+      {
+      # This is a copy-paste from an openstreetmap.org search
+      # in the format e.g.
+      # https://www.openstreetmap.org/#map=5/18.271/16.084
+      
+      gsub(/https:\/\/www.openstreetmap.org\/#map=[^\/]*/,"")
+      gsub(/\//," ")
+      print check_parameters($1, $2)
+      }
+      
+      else if (index($0, "https://www.google.com/maps/"))
+      {
+      # This is a copy-paste from a google.com maps search
+      # in the format e.g.
+      # https://www.google.com/maps/place/London,+UK/@51.5283064,-0.3824815,10z/data=....
+      
+      gsub(/https:\/\/www.google.com\/maps.*@/,"")
+      sub(/,/," ")
+      gsub(/,.*/,"")
+      print check_parameters($1, $2)
+      }
+      
+      else if (index($0,".html"))
+      {
+      # This is an unknown html address
+      
+      print "Error: " $0
+      }
+      
+      else if (index($0,"http"))
+      {
+      # This is an unknown html address
+      
+      print "Error: " $0
+      }
+      
+      else if (index($0, ","))
+      {
+      # This is assumed to be a simple lat/long of the format:
+      # 89.123,179.123
+      
+      split($0, latlong, ",")
+      print check_parameters(latlong[1], latlong[2])
+      }
+      
+      else
+      {
+      # This is assumed to be a simple lat/long of the format:
+      # 89.123 179.123
+      
+      split($0, latlong, " ")
+      print check_parameters(latlong[1], latlong[2])
+      }
+      }
 
     </programlisting>
   </para>

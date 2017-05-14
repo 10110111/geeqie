@@ -30,9 +30,12 @@
 #include "layout.h"
 #include "metadata.h"
 #include "menu.h"
+#include "misc.h"
 #include "rcfile.h"
 #include "thumb.h"
 #include "ui_menu.h"
+#include "uri_utils.h"
+#include "ui_utildlg.h"
 
 #include <clutter-gtk/clutter-gtk.h>
 #include <champlain/champlain.h>
@@ -72,7 +75,188 @@ struct _PaneGPSData
 	gint selection_count;
 	gboolean centre_map_checked;
 	gboolean enable_markers_checked;
+	gdouble dest_latitude;
+	gdouble dest_longitude;
+	GList *geocode_list;
 };
+
+/*
+ *-------------------------------------------------------------------
+ * drag-and-drop
+ *-------------------------------------------------------------------
+ */
+enum {
+	TARGET_APP_COLLECTION_MEMBER,
+	TARGET_APP_EXIF_ENTRY,
+	TARGET_APP_KEYWORD_PATH,
+	TARGET_URI_LIST,
+	TARGET_TEXT_PLAIN
+};
+
+static GtkTargetEntry bar_pane_gps_drop_types[] = {
+	{ "text/uri-list", 0, TARGET_URI_LIST },
+	{ "text/plain", 0, TARGET_TEXT_PLAIN }
+};
+static gint n_gps_entry_drop_types = 2;
+
+static void bar_pane_gps_close_cancel_cb(GenericDialog *gd, gpointer data)
+{
+	PaneGPSData *pgd = data;
+
+	g_list_free(pgd->geocode_list);
+}
+
+static void bar_pane_gps_close_save_cb(GenericDialog *gd, gpointer data)
+{
+	PaneGPSData *pgd = data;
+	FileData *fd;
+	GList *work;
+
+	work = g_list_first(pgd->geocode_list);
+	while (work)
+		{
+		fd = work->data;
+		if (fd->name && !fd->parent)
+			{
+			work = work->next;
+			metadata_write_GPS_coord(fd, "Xmp.exif.GPSLatitude", pgd->dest_latitude);
+			metadata_write_GPS_coord(fd, "Xmp.exif.GPSLongitude", pgd->dest_longitude);
+			}
+		}
+	g_list_free(work);
+	g_list_free(pgd->geocode_list);
+}
+
+ static void bar_pane_gps_dnd_receive(GtkWidget *pane, GdkDragContext *context,
+									  gint x, gint y,
+									  GtkSelectionData *selection_data, guint info,
+									  guint time, gpointer data)
+{
+	PaneGPSData *pgd;
+	GenericDialog *gd;
+	FileData *fd, *fd_found;
+	GList *work, *list;
+	gint count, geocoded_count;
+	gdouble latitude, longitude;
+	GString *message;
+	gchar *location;
+	gchar **latlong;
+
+	pgd = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!pgd) return;
+
+	if (info == TARGET_URI_LIST)
+		{
+		pgd->dest_longitude = champlain_view_x_to_longitude(CHAMPLAIN_VIEW(pgd->gps_view), x);
+		pgd->dest_latitude = champlain_view_y_to_latitude(CHAMPLAIN_VIEW(pgd->gps_view), y);
+
+		count = 0;
+		geocoded_count = 0;
+		pgd->geocode_list = NULL;
+
+		list = uri_filelist_from_gtk_selection_data(selection_data);
+
+		if (list)
+			{
+			work = list;
+			while (work)
+				{
+				fd = work->data;
+				work = work->next;
+				if (fd->name && !fd->parent)
+					{
+					count++;
+					pgd->geocode_list = g_list_append(pgd->geocode_list, fd);
+					latitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLatitude", 1000);
+					longitude = metadata_read_GPS_coord(fd, "Xmp.exif.GPSLongitude", 1000);
+					if (latitude != 1000 && longitude != 1000)
+						{
+						geocoded_count++;
+						}
+					}
+				}
+			g_list_free(work);
+
+			if(count)
+				{
+				message = g_string_new("");
+				if (count == 1)
+					{
+					fd_found = g_list_first(pgd->geocode_list)->data;
+					g_string_append_printf(message,
+							_("\nDo you want to geocode image %s?"), fd_found->name);
+					}
+				else
+					{
+					g_string_append_printf(message,
+							_("\nDo you want to geocode %i images?"), count);
+					}
+				if (geocoded_count == 1 && count == 1)
+					{
+					g_string_append_printf(message,
+							_("\nThis image is already geocoded!"));
+					}
+				else if (geocoded_count == 1 && count > 1)
+					{
+					g_string_append_printf(message,
+							_("\nOne image is already geocoded!"));
+					}
+				else if (geocoded_count > 1 && count > 1)
+					{
+					g_string_append_printf(message,
+							_("\n%i Images are already geocoded!"), geocoded_count);
+					}
+
+				location = g_strdup_printf("%lf %lf", pgd->dest_latitude,
+														pgd->dest_longitude);
+				g_string_append_printf(message, _("\n\nPosition: %s \n"), location);
+
+				gd = generic_dialog_new(_("Geocode images"),
+							"geocode_images", NULL, TRUE,
+							bar_pane_gps_close_cancel_cb, pgd);
+				generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
+							_("Write lat/long to meta-data?"),
+							message->str);
+
+				generic_dialog_add_button(gd, GTK_STOCK_SAVE, NULL,
+												bar_pane_gps_close_save_cb, TRUE);
+
+				gtk_widget_show(gd->dialog);
+				g_free(location);
+				g_string_free(message, TRUE);
+				}
+			}
+		}
+
+	if (info == TARGET_TEXT_PLAIN)
+		{
+		location = decode_geo_parameters(gtk_selection_data_get_data(selection_data));
+		if (!(g_strstr_len(location,-1,"Error")))
+			{
+			latlong = g_strsplit(location, " ", 2);
+			champlain_view_center_on(CHAMPLAIN_VIEW(pgd->gps_view),
+							g_ascii_strtod(latlong[0],NULL),
+							g_ascii_strtod(latlong[1],NULL));
+			g_strfreev(latlong);
+			}
+		g_free(location);
+		}
+
+	return;
+}
+
+static void bar_pane_gps_dnd_init(gpointer data)
+{
+	PaneGPSData *pgd = data;
+
+	gtk_drag_dest_set(pgd->widget,
+			  GTK_DEST_DEFAULT_MOTION | GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
+			  bar_pane_gps_drop_types, n_gps_entry_drop_types,
+			  GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	g_signal_connect(G_OBJECT(pgd->widget), "drag_data_received",
+			 G_CALLBACK(bar_pane_gps_dnd_receive), NULL);
+
+}
 
 static gboolean bar_gps_draw_direction (ClutterCanvas *canvas,
 				cairo_t *cr, gpointer data)
@@ -649,7 +833,7 @@ static GtkWidget *bar_pane_gps_menu(PaneGPSData *pgd)
  */
 void bar_pane_gps_map_centreing(PaneGPSData *pgd)
 {
-	GtkWidget *dialog;
+	GenericDialog *gd;
 	GString *message = g_string_new("");
 
 	if (pgd->centre_map_checked)
@@ -663,16 +847,14 @@ void bar_pane_gps_map_centreing(PaneGPSData *pgd)
 		pgd->centre_map_checked = TRUE;
 		}
 
-	dialog = gtk_message_dialog_new(NULL,
-							  GTK_DIALOG_DESTROY_WITH_PARENT,
-							  GTK_MESSAGE_INFO,
-							  GTK_BUTTONS_CLOSE,
-							  "%s", message->str);
-	gtk_window_set_title(GTK_WINDOW(dialog), _("Map Centreing"));
-	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
-	gtk_dialog_run(GTK_DIALOG(dialog));
+	gd = generic_dialog_new(_("Map centering"),
+				"map_centering", NULL, TRUE, NULL, pgd);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO,
+				"Map Centering", message->str);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, NULL, TRUE);
 
-	gtk_widget_destroy(dialog);
+	gtk_widget_show(gd->dialog);
+
 	g_string_free(message, TRUE);
 }
 
@@ -818,6 +1000,8 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	g_signal_connect(pgd->gps_view, "notify::state", G_CALLBACK(bar_pane_gps_view_state_changed_cb), pgd);
 	g_signal_connect(pgd->gps_view, "notify::zoom-level", G_CALLBACK(bar_pane_gps_view_state_changed_cb), pgd);
 	g_signal_connect(G_OBJECT(slider), "value-changed", G_CALLBACK(bar_pane_gps_slider_changed_cb), pgd);
+
+	bar_pane_gps_dnd_init(pgd);
 
 	file_data_register_notify_func(bar_pane_gps_notify_cb, pgd, NOTIFY_PRIORITY_LOW);
 

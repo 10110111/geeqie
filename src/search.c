@@ -61,8 +61,6 @@
 #define SEARCH_BUFFER_MATCH_MISS 1
 #define SEARCH_BUFFER_FLUSH_SIZE 99
 
-#define GEOCODE_NAME "geocode-parameters.awk"
-
 typedef enum {
 	SEARCH_MATCH_NONE,
 	SEARCH_MATCH_EQUAL,
@@ -1427,44 +1425,6 @@ static void search_dnd_begin(GtkWidget *widget, GdkDragContext *context, gpointe
 		{
 		dnd_set_drag_icon(widget, context, sd->click_fd->thumb_pixbuf, search_result_selection_count(sd, NULL));
 		}
-}
-
-#define BUFSIZE 128
-
-static gchar *decode_geo_parameters(const gchar *input_text)
-{
-	gchar *message;
-	gchar *path = g_build_filename(get_rc_dir(), GEOCODE_NAME, NULL);
-	gchar *cmd = g_strconcat("echo \'", input_text, "\'  | awk -f ", path, NULL);
-
-	if (g_file_test(path, G_FILE_TEST_EXISTS))
-		{
-		gchar buf[BUFSIZE];
-		FILE *fp;
-
-		if ((fp = popen(cmd, "r")) == NULL)
-			{
-			message = g_strconcat("Error: opening pipe\n", input_text, NULL);
-			}
-		else
-			{
-			fgets(buf, BUFSIZE, fp);
-			message = g_strconcat(buf, NULL);
-
-			if(pclose(fp))
-				{
-				message = g_strconcat("Error: Command not found or exited with error status\n", input_text, NULL);
-				}
-			}
-		}
-	else
-		{
-		message = g_strconcat(input_text, NULL);
-		}
-
-	g_free(path);
-	g_free(cmd);
-	return message;
 }
 
 static void search_gps_dnd_received_cb(GtkWidget *pane, GdkDragContext *context,

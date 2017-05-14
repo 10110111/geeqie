@@ -306,7 +306,41 @@
       <ulink url="https://www.openstreetmap.org">openstreetmap.org</ulink>
       . To use this facility, Geeqie must have been compiled with the --enable-map option.
     </para>
-    <para>Maps are useful when working with geocoded images. All geocoded images in the currently displayed folder will show as small icons on the map. Clicking the icon will expand the icon to show an image thumbnail, plus other pre-defined image data.</para>
-    <para>Right-click on the map will show other map options.</para>
+    <itemizedlist spacing="compact">
+      <listitem>
+        <para>
+          Image location display
+          <para />
+          All geocoded images in the currently displayed folder will show as small icons on the map. Clicking the icon will expand the icon to show an image thumbnail, plus other pre-defined image data.
+        </para>
+        <para>Right-click on the map will show other map options.</para>
+        <para>Middle-click controls the map-centering function.</para>
+      </listitem>
+      <listitem>
+        <para>
+          Geo-coded search
+          <para />
+          Left-click stores the latitude/longitude under the cursor into the clipboard. This may be used to define the origin of a
+          <link linkend="Searchparameters">geocode search</link>
+          .
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Geo-coding Images
+          <para />
+          If an image is not geocoded, the filename or icon on the file pane can be dragged-and-dropped onto the map. The image latitude and longitude xmp meta-data will be updated to the drop position on the map.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Map Centering
+          <para />
+          If an internet URL containg a valid latitude and longitude is dropped on the map, the map will be re-centered on that location. The zoom level will not change. Refer to
+          <link linkend="GuideReferenceDecodeLatLong">Decoding Latitude and Longitude</link>
+          .
+        </para>
+      </listitem>
+    </itemizedlist>
   </section>
 </section>

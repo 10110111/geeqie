@@ -833,6 +833,46 @@ gboolean metadata_append_string(FileData *fd, const gchar *key, const char *valu
 		}
 }
 
+gboolean metadata_write_GPS_coord(FileData *fd, const gchar *key, gdouble value)
+{
+	gint deg;
+	gdouble min;
+	gdouble param;
+	char *coordinate;
+	char *ref;
+	gboolean ok = TRUE;
+
+	param = value;
+	if (param < 0)
+		param = -param;
+	deg = param;
+	min = (param * 60) - (deg * 60);
+	if (g_strcmp0(key, "Xmp.exif.GPSLongitude") == 0)
+		if (value < 0)
+			ref = "W";
+		else
+			ref = "E";
+	else if (g_strcmp0(key, "Xmp.exif.GPSLatitude") == 0)
+		if (value < 0)
+			ref = "S";
+		else
+			ref = "N";
+	else
+		{
+		log_printf("unknown GPS parameter key '%s'\n", key);
+		ok = FALSE;
+		}
+
+	if (ok)
+		{
+		coordinate = g_strdup_printf("%i,%lf,%s", deg, min, ref);
+		metadata_write_string(fd, key, coordinate );
+		g_free(coordinate);
+		}
+
+	return ok;
+}
+
 gboolean metadata_append_list(FileData *fd, const gchar *key, const GList *values)
 {
 	GList *list = metadata_read_list(fd, key, METADATA_PLAIN);

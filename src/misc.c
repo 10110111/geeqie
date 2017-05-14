@@ -20,6 +20,7 @@
 
 #include "main.h"
 #include "misc.h"
+#include "ui_fileops.h"
 
 gdouble get_zoom_increment(void)
 {
@@ -123,6 +124,47 @@ gchar *expand_tilde(const gchar *filename)
 #endif
 }
 
+/* Search for latitude/longitude parameters in a string
+ */
+
+#define GEOCODE_NAME "geocode-parameters.awk"
+#define BUFSIZE 128
+
+gchar *decode_geo_parameters(const gchar *input_text)
+{
+	gchar *message;
+	gchar *path = g_build_filename(get_rc_dir(), GEOCODE_NAME, NULL);
+	gchar *cmd = g_strconcat("echo \'", input_text, "\'  | awk -f ", path, NULL);
+
+	if (g_file_test(path, G_FILE_TEST_EXISTS))
+		{
+		gchar buf[BUFSIZE];
+		FILE *fp;
+
+		if ((fp = popen(cmd, "r")) == NULL)
+			{
+			message = g_strconcat("Error: opening pipe\n", input_text, NULL);
+			}
+		else
+			{
+			fgets(buf, BUFSIZE, fp);
+			message = g_strconcat(buf, NULL);
+
+			if(pclose(fp))
+				{
+				message = g_strconcat("Error: Command not found or exited with error status\n", input_text, NULL);
+				}
+			}
+		}
+	else
+		{
+		message = g_strconcat(input_text, NULL);
+		}
+
+	g_free(path);
+	g_free(cmd);
+	return message;
+}
 
 /* Run a command like system() but may output debug messages. */
 int runcmd(gchar *cmd)
