@@ -57,8 +57,11 @@
       <para />
     </section>
     <section id="CopyMoveandLink">
-      <title>Copy, Move, and Link</title>
-      <para>These are the available operations to use on the active image, they should be self explanatory.</para>
+      <title>Copy, Move, Link and Desktop actions</title>
+      <para>
+        Copy, Move and Symbolic Link are available operations to use on the active image; they should be self explanatory. In some cases, Desktop files are also listed. This is detailed in
+        <link linkend="Geeqieextensions" endterm="titleGuideEditorsConfig" />
+      </para>
       <para />
     </section>
     <section id="Addbutton">

@@ -214,7 +214,11 @@
       <programlisting>X-Geeqie-Filter=true</programlisting>
     </para>
     <para>
-      When the external editor is executed, you are presented with a dialogue which enables a path to be selected. The path selected, appended by the filename currently being processed, is made available to the editor script either as an environment variable or via a call to geeqie --remote. The following code demonstrates the use of both methods:
+      Desktop files containing this entry will be displayed in the Folder action list of the
+      <link linkend="CopyMoveandLink" endterm="titleGuideSidebarsSortManager" />
+      . The path of the bookmark clicked will be used by the desktop file.
+      <para />
+      If the desktop file is called from the menu, when the external editor is executed you are presented with a dialogue which enables a path to be selected. The path selected, appended by the filename currently being processed, is made available to the editor script either as an environment variable or via a call to geeqie --remote. The following code demonstrates the use of both methods:
       <programlisting xml:space="preserve">
         for file in "$@"
         do
