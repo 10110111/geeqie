@@ -167,6 +167,15 @@ static void bar_pane_comment_write_config(GtkWidget *pane, GString *outstr, gint
 	pcd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!pcd) return;
 
+	if (!g_strcmp0(pcd->pane.id, "title"))
+		{
+		pcd->height = options->info_title.height;
+		}
+	if (!g_strcmp0(pcd->pane.id, "comment"))
+		{
+		pcd->height = options->info_comment.height;
+		}
+
 	WRITE_NL(); WRITE_STRING("<pane_comment ");
 	write_char_option(outstr, indent, "id", pcd->pane.id);
 	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(pcd->pane.title)));
@@ -292,6 +301,15 @@ GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const
 
 
 		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+
+	if (!g_strcmp0(id, "title"))
+		{
+		options->info_title.height = height;
+		}
+	if (!g_strcmp0(id, "comment"))
+		{
+		options->info_comment.height = height;
 		}
 
 	bar_pane_translate_title(PANE_COMMENT, id, &title);

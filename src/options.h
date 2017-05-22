@@ -53,6 +53,19 @@ struct _ConfOptions
 	gboolean use_saved_window_positions_for_new_windows;
 	gboolean tools_restore_state;
 
+	/* info sidebar component heights */
+	struct {
+		gint height;
+	} info_comment;
+
+	struct {
+		gint height;
+	} info_keywords;
+
+	struct {
+		gint height;
+	} info_title;
+
 	/* file ops */
 	struct {
 		gboolean enable_in_place_rename;

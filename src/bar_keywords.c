@@ -254,6 +254,8 @@ static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gin
 	pkd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!pkd) return;
 
+	pkd->height = options->info_keywords.height;
+
 	WRITE_NL(); WRITE_STRING("<pane_keywords ");
 	write_char_option(outstr, indent, "id", pkd->pane.id);
 	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(pkd->pane.title)));
@@ -1448,6 +1450,7 @@ GtkWidget *bar_pane_keywords_new_from_config(const gchar **attribute_names, cons
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
+	options->info_keywords.height = height;
 	bar_pane_translate_title(PANE_KEYWORDS, id, &title);
 	ret = bar_pane_keywords_new(id, title, key, expanded, height);
 	g_free(id);
