@@ -247,9 +247,39 @@ void bar_pane_keywords_set_fd(GtkWidget *pane, FileData *fd)
 	bar_pane_keywords_update(pkd);
 }
 
+void bar_keyword_tree_get_expanded_cb(GtkTreeView *keyword_treeview, GtkTreePath *path,  gpointer data)
+{
+	GList **expanded = data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *path_string;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(keyword_treeview));
+	gtk_tree_model_get_iter(model, &iter, path);
+
+	path_string = gtk_tree_model_get_string_from_iter(model, &iter);
+
+	*expanded = g_list_append(*expanded, g_strdup(path_string));
+	g_free(path_string);
+}
+
+static void bar_pane_keywords_entry_write_config(gchar *entry, GString *outstr, gint indent)
+{
+	struct {
+		gchar *path;
+	} expand;
+
+	expand.path = entry;
+
+	WRITE_NL(); WRITE_STRING("<expanded ");
+	WRITE_CHAR(expand, path);
+	WRITE_STRING("/>");
+}
+
 static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gint indent)
 {
 	PaneKeywordsData *pkd;
+	GList *path_expanded = NULL;
 
 	pkd = g_object_get_data(G_OBJECT(pane), "pane_data");
 	if (!pkd) return;
@@ -262,7 +292,24 @@ static void bar_pane_keywords_write_config(GtkWidget *pane, GString *outstr, gin
 	WRITE_BOOL(pkd->pane, expanded);
 	WRITE_CHAR(*pkd, key);
 	WRITE_INT(*pkd, height);
-	WRITE_STRING("/>");
+	WRITE_STRING(">");
+	indent++;
+
+	gtk_tree_view_map_expanded_rows(GTK_TREE_VIEW(pkd->keyword_treeview),
+								(bar_keyword_tree_get_expanded_cb), &path_expanded);
+
+	g_list_first(path_expanded);
+	while (path_expanded)
+		{
+		bar_pane_keywords_entry_write_config(path_expanded->data, outstr, indent);
+		g_free(path_expanded->data);
+		path_expanded = path_expanded->next;
+		}
+	g_list_free(path_expanded);
+
+	indent--;
+	WRITE_NL();
+	WRITE_STRING("</pane_keywords>");
 }
 
 gint bar_pane_keywords_event(GtkWidget *bar, GdkEvent *event)
@@ -1494,4 +1541,27 @@ void bar_pane_keywords_update_from_config(GtkWidget *pane, const gchar **attribu
 }
 
 
+void bar_pane_keywords_entry_add_from_config(GtkWidget *pane, const gchar **attribute_names, const gchar **attribute_values)
+{
+	PaneKeywordsData *pkd;
+	gchar *path = NULL;
+	GtkTreePath *tree_path;
+
+	pkd = g_object_get_data(G_OBJECT(pane), "pane_data");
+	if (!pkd) return;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_CHAR_FULL("path", path))
+			{
+			tree_path = gtk_tree_path_new_from_string(path);
+			gtk_tree_view_expand_to_path(GTK_TREE_VIEW(pkd->keyword_treeview), tree_path);
+			continue;
+			}
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+}
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
