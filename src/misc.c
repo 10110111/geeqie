@@ -147,7 +147,11 @@ gchar *decode_geo_parameters(const gchar *input_text)
 			}
 		else
 			{
-			fgets(buf, BUFSIZE, fp);
+			while (fgets(buf, BUFSIZE, fp))
+				{
+				DEBUG_1("Output: %s", buf);
+				}
+
 			message = g_strconcat(buf, NULL);
 
 			if(pclose(fp))
