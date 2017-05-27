@@ -1074,6 +1074,13 @@
             <entry />
             <entry>Close window.</entry>
           </row>
+          <row>
+            <entry />
+            <entry>
+              <code>Ctrl + shift + right-click</code>
+            </entry>
+            <entry>Show debug info.</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
