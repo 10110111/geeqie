@@ -1066,6 +1066,20 @@ static void dupe_match_sort_groups(GList *list)
 		}
 }
 
+static gint dupe_match_totals_sort_cb(gconstpointer a, gconstpointer b)
+{
+	DupeItem *da = (DupeItem *)a;
+	DupeItem *db = (DupeItem *)b;
+
+	if (g_list_length(da->group) > g_list_length(db->group)) return -1;
+	if (g_list_length(da->group) < g_list_length(db->group)) return 1;
+
+	if (da->group_rank < db->group_rank) return -1;
+	if (da->group_rank > db->group_rank) return 1;
+
+	return 0;
+}
+
 static gint dupe_match_rank_sort_cb(gconstpointer a, gconstpointer b)
 {
 	DupeItem *da = (DupeItem *)a;
@@ -1099,6 +1113,15 @@ static GList *dupe_match_rank_sort(GList *source_list)
 	return g_list_sort(list, dupe_match_rank_sort_cb);
 }
 
+/* returns allocated GList of dupes sorted by totals */
+static GList *dupe_match_totals_sort(GList *source_list)
+{
+	source_list = g_list_sort(source_list, dupe_match_totals_sort_cb);
+
+	source_list = g_list_first(source_list);
+	return g_list_reverse(source_list);
+}
+
 static void dupe_match_rank(DupeWindow *dw)
 {
 	GList *list;
@@ -1116,6 +1139,11 @@ static void dupe_match_rank(DupeWindow *dw)
 	if (required_debug_level(2)) dupe_match_print_list(list);
 
 	list = dupe_match_rank_sort(list);
+	if (options->sort_totals)
+		{
+		list = dupe_match_totals_sort(list);
+		}
+	if (required_debug_level(2)) dupe_match_print_list(list);
 
 	g_list_free(dw->dupes);
 	dw->dupes = list;
@@ -2648,6 +2676,15 @@ static void dupe_second_set_toggle_cb(GtkWidget *widget, gpointer data)
 	dupe_window_recompare(dw);
 }
 
+static void dupe_sort_totals_toggle_cb(GtkWidget *widget, gpointer data)
+{
+	DupeWindow *dw = data;
+
+	options->sort_totals = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	dupe_window_recompare(dw);
+
+}
+
 /*
  *-------------------------------------------------------------------
  * match type menu
@@ -3330,6 +3367,14 @@ DupeWindow *dupe_window_new()
 	dw->status_label = gtk_label_new("");
 	gtk_container_add(GTK_CONTAINER(frame), dw->status_label);
 	gtk_widget_show(dw->status_label);
+
+	button = gtk_check_button_new_with_label(_("Sort"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(button), "Sort by group totals");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), options->sort_totals);
+	g_signal_connect(G_OBJECT(button), "toggled",
+			 G_CALLBACK(dupe_sort_totals_toggle_cb), dw);
+	gtk_box_pack_start(GTK_BOX(status_box), button, FALSE, FALSE, PREF_PAD_SPACE);
+	gtk_widget_show(button);
 
 	label = gtk_label_new(_("Custom Threshold"));
 	gtk_box_pack_start(GTK_BOX(status_box), label, FALSE, FALSE, PREF_PAD_SPACE);

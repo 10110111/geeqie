@@ -322,6 +322,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_UINT(*options, duplicates_select_type);
 	WRITE_NL(); WRITE_BOOL(*options, duplicates_thumbnails);
 	WRITE_NL(); WRITE_BOOL(*options, rot_invariant_sim);
+	WRITE_NL(); WRITE_BOOL(*options, sort_totals);
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_BOOL(*options, mousewheel_scrolls);
@@ -606,6 +607,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_UINT_CLAMP(*options, duplicates_select_type, 0, DUPE_SELECT_GROUP2)) continue;
 		if (READ_BOOL(*options, duplicates_thumbnails)) continue;
 		if (READ_BOOL(*options, rot_invariant_sim)) continue;
+		if (READ_BOOL(*options, sort_totals)) continue;
 
 		if (READ_BOOL(*options, progressive_key_scrolling)) continue;
 		if (READ_UINT_CLAMP(*options, keyboard_scroll_step, 1, 32)) continue;

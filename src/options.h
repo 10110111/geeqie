@@ -45,6 +45,7 @@ struct _ConfOptions
 	gboolean duplicates_thumbnails;
 	guint duplicates_select_type;
 	gboolean rot_invariant_sim;
+	gboolean sort_totals;
 
 	gint open_recent_list_maxsize;
 	gint dnd_icon_size;

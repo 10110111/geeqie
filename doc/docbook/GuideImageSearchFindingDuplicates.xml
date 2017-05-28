@@ -185,6 +185,14 @@
     <title>Ignore Rotation</title>
     <para>When checked, the rotational orientation of images will be ignored.</para>
   </section>
+  <section id="Sort">
+    <title>Sort</title>
+    <para>
+      The normal sort order is for groups (in the case of Similarity checks) with the highest number of near-100% matches to be at the top of the list.
+      <para />
+      If this box is checked, groups with the lowest number of matches are placed at the top of the list.
+    </para>
+  </section>
   <section id="Comparetwofilesets">
     <title>Compare two file sets</title>
     <para>Sometimes it is useful to compare one group of files to another, different group of files. Enable this check box to compare two groups of files. When enabled, a second list will appear and files can be added to this list using the same methods for the main list.</para>
