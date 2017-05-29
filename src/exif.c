@@ -1105,6 +1105,18 @@ guchar *exif_get_color_profile(ExifData *exif, guint *data_len)
 }
 
 
+gchar* exif_get_image_comment(FileData* fd)
+{
+	log_printf("%s", _("Can't get image comment: not compiled with Exiv2.\n"));
+	return g_strdup("");
+}
+
+void exif_set_image_comment(FileData* fd, const gchar* comment)
+{
+	log_printf("%s", _("Can't set image comment: not compiled with Exiv2.\n"));
+}
+
+
 /*
  *-------------------------------------------------------------------
  * misc

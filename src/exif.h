@@ -158,6 +158,10 @@ void exif_add_jpeg_color_profile(ExifData *exif, guchar *cp_data, guint cp_lengt
 
 gboolean exif_jpeg_parse_color(ExifData *exif, guchar *data, guint size);
 
+/* support for so called "jpeg comment" */
+gchar* exif_get_image_comment(FileData* fd);
+void exif_set_image_comment(FileData* fd, const gchar* comment);
+
 /*raw support */
 guchar *exif_get_preview(ExifData *exif, guint *data_len, gint requested_width, gint requested_height);
 void exif_free_preview(guchar *buf);

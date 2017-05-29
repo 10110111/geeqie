@@ -158,6 +158,10 @@ struct _ExifData
 	virtual void add_jpeg_color_profile(unsigned char *cp_data, guint cp_length) = 0;
 
 	virtual guchar *get_jpeg_color_profile(guint *data_len) = 0;
+
+	virtual std::string image_comment() const = 0;
+
+	virtual void set_image_comment(const std::string& comment) = 0;
 };
 
 // This allows read-only access to the original metadata
@@ -279,6 +283,17 @@ public:
 			return (unsigned char *) g_memdup(cp_data_, cp_length_);
 		}
 		return NULL;
+	}
+
+	virtual std::string image_comment() const
+	{
+		return image_.get() ? image_->comment() : "";
+	}
+
+	virtual void set_image_comment(const std::string& comment)
+	{
+		if (image_.get())
+			image_->setComment(comment);
 	}
 };
 
@@ -414,6 +429,16 @@ public:
 	virtual guchar *get_jpeg_color_profile(guint *data_len)
 	{
 		return imageData_->get_jpeg_color_profile(data_len);
+	}
+
+	virtual std::string image_comment() const
+	{
+		return imageData_->image_comment();
+	}
+
+	virtual void set_image_comment(const std::string& comment)
+	{
+		imageData_->set_image_comment(comment);
 	}
 };
 
@@ -1132,6 +1157,23 @@ guchar *exif_get_color_profile(ExifData *exif, guint *data_len)
 		ret = (guchar *)exif_item_get_data(prof_item, data_len);
 	return ret;
 }
+
+gchar* exif_get_image_comment(FileData* fd)
+{
+	if (!fd || !fd->exif)
+		return g_strdup("");
+
+	return g_strdup(fd->exif->image_comment().c_str());
+}
+
+void exif_set_image_comment(FileData* fd, const gchar* comment)
+{
+	if (!fd || !fd->exif)
+		return;
+
+	fd->exif->set_image_comment(comment ? comment : "");
+}
+
 
 #if EXIV2_TEST_VERSION(0,17,90)
 

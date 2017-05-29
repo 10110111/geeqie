@@ -336,6 +336,10 @@ static gchar *image_osd_mkinfo(const gchar *str, ImageWindow *imd, GHashTable *v
 			{
 			data = metadata_read_string(imd->image_fd, COMMENT_KEY, METADATA_PLAIN);
 			}
+		else if (strcmp(name, "imagecomment") == 0)
+			{
+			data = exif_get_image_comment(imd->image_fd);
+			}
 #ifdef HAVE_LUA
 		else if (strncmp(name, "lua/", 4) == 0)
 			{

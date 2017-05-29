@@ -180,7 +180,11 @@
           </row>
           <row>
             <entry>comment</entry>
-            <entry>Image comment from metadata</entry>
+            <entry>Image comment from XMP metadata</entry>
+          </row>
+          <row>
+            <entry>imagecomment</entry>
+            <entry>JPEG image comment</entry>
           </row>
           <row>
             <entry>&lt;meta_tag&gt;</entry>
