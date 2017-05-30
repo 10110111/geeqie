@@ -2000,16 +2000,19 @@ static void layout_image_setup_split_common(LayoutWindow *lw, gint n)
 				GList *work = g_list_last(layout_selection_list(lw));
 				gint j = 0;
 
-				if (work) work = work->prev;
-
 				while (work && j < i)
 					{
 					FileData *fd = work->data;
 					work = work->prev;
 
-					j++;
-					if (!fd || !*fd->path) continue;
+					if (!fd || !*fd->path || fd->parent ||
+										fd == lw->split_images[0]->image_fd)
+						{
+						continue;
+						}
 					img_fd = fd;
+
+					j++;
 					}
 				}
 
