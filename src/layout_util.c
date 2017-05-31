@@ -2509,6 +2509,11 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "SplitSingle");
 	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->split_mode);
 
+	action = gtk_action_group_get_action(lw->action_group, "SplitNextPane");
+	gtk_action_set_sensitive(action, !(lw->split_mode == SPLIT_NONE));
+	action = gtk_action_group_get_action(lw->action_group, "SplitPreviousPane");
+	gtk_action_set_sensitive(action, !(lw->split_mode == SPLIT_NONE));
+
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
 	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), lw->options.file_view_type);
 
