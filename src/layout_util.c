@@ -1227,6 +1227,46 @@ static void layout_menu_image_next_cb(GtkAction *action, gpointer data)
 	layout_image_next(lw);
 }
 
+static void layout_menu_split_pane_next_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint active_frame;
+
+	active_frame = lw->active_split_image;
+
+	if (active_frame < MAX_SPLIT_IMAGES-1 && lw->split_images[active_frame+1] )
+		{
+		active_frame++;
+		}
+	else
+		{
+		active_frame = 0;
+		}
+	layout_image_activate(lw, active_frame, FALSE);
+}
+
+static void layout_menu_split_pane_prev_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint active_frame;
+
+	active_frame = lw->active_split_image;
+
+	if (active_frame >=1 && lw->split_images[active_frame-1] )
+		{
+		active_frame--;
+		}
+	else
+		{
+		active_frame = MAX_SPLIT_IMAGES-1;
+		while (!lw->split_images[active_frame])
+			{
+			active_frame--;
+			}
+		}
+	layout_image_activate(lw, active_frame, FALSE);
+}
+
 static void layout_menu_image_last_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1595,6 +1635,8 @@ static GtkActionEntry menu_entries[] = {
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
   { "ExifWin",		NULL,			N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
   { "StereoCycle",	NULL,			N_("_Cycle through stereo modes"),	NULL,			N_("Cycle through stereo modes"),	CB(layout_menu_stereo_mode_next_cb) },
+  { "SplitNextPane",	NULL,			N_("_Next Pane"),	"<alt>Right",			N_("Next Pane"),	CB(layout_menu_split_pane_next_cb) },
+  { "SplitPreviousPane",	NULL,			N_("_Previous Pane"),	"<alt>Left",			N_("Previous Pane"),	CB(layout_menu_split_pane_prev_cb) },
 
 };
 
@@ -1803,6 +1845,9 @@ static const gchar *menu_ui_description =
 "        <menuitem action='SplitVertical'/>"
 "        <menuitem action='SplitQuad'/>"
 "        <menuitem action='SplitSingle'/>"
+"        <separator/>"
+"        <menuitem action='SplitNextPane'/>"
+"        <menuitem action='SplitPreviousPane'/>"
 "      </menu>"
 "      <menu action='StereoMenu'>"
 "        <menuitem action='StereoAuto'/>"
