@@ -72,6 +72,7 @@ void meta_data_connect_mark_with_keyword(GtkTreeModel *keyword_tree, GtkTreeIter
 
 
 gchar *keyword_get_name(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
+gchar *keyword_get_mark(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 gchar *keyword_get_casefold(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 gboolean keyword_get_is_keyword(GtkTreeModel *keyword_tree, GtkTreeIter *iter);
 

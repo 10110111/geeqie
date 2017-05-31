@@ -1709,7 +1709,7 @@ gboolean file_data_register_mark_func(gint n, FileDataGetMarkFunc get_mark_func,
         file_data_mark_func_data[n] = data;
         file_data_destroy_mark_func[n] = notify;
 
-        if (get_mark_func)
+	if (get_mark_func && file_data_pool)
 		{
 		/* this effectively changes all known files */
 		g_hash_table_foreach(file_data_pool, file_data_notify_mark_func, NULL);
