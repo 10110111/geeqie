@@ -1605,6 +1605,20 @@ void keyword_show_all_in(GtkTreeStore *keyword_tree, gpointer id)
 	gtk_tree_model_foreach(GTK_TREE_MODEL(keyword_tree), keyword_show_all_in_cb, id);
 }
 
+static gboolean keyword_revert_hidden_in_cb(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	if (keyword_is_hidden_in(GTK_TREE_MODEL(keyword_tree), iter, data))
+		{
+		keyword_show_in(GTK_TREE_STORE(model), iter, data);
+		}
+	return FALSE;
+}
+
+void keyword_revert_hidden_in(GtkTreeStore *keyword_tree, gpointer id)
+{
+	gtk_tree_model_foreach(GTK_TREE_MODEL(keyword_tree), keyword_revert_hidden_in_cb, id);
+}
+
 static void keyword_hide_unset_in_recursive(GtkTreeStore *keyword_tree, GtkTreeIter *iter_ptr, gpointer id, GList *keywords)
 {
 	GtkTreeIter iter = *iter_ptr;

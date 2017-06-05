@@ -100,6 +100,7 @@ void keyword_hide_in(GtkTreeStore *keyword_tree, GtkTreeIter *iter, gpointer id)
 void keyword_show_in(GtkTreeStore *keyword_tree, GtkTreeIter *iter, gpointer id);
 gboolean keyword_is_hidden_in(GtkTreeModel *keyword_tree, GtkTreeIter *iter, gpointer id);
 void keyword_show_all_in(GtkTreeStore *keyword_tree, gpointer id);
+void keyword_revert_hidden_in(GtkTreeStore *keyword_tree, gpointer id);
 void keyword_hide_unset_in(GtkTreeStore *keyword_tree, gpointer id, GList *keywords);
 void keyword_show_set_in(GtkTreeStore *keyword_tree, gpointer id, GList *keywords);
 

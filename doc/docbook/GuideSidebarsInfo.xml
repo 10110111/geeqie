@@ -128,6 +128,36 @@
       <link linkend="GuideOptionsMetadata" endterm="titleGuideOptionsMetadata" />
       .
     </para>
+    <para>
+      If the right-click menu item
+      <guimenu>Revert</guimenu>
+      is executed at any time after a
+      <guimenu>Show all</guimenu>
+      or
+      <guimenu>Collapse all</guimenu>
+      , the keyword layout will be restored to the state prior to the
+      <guimenu>Show all</guimenu>
+      or
+      <guimenu>Collapse all</guimenu>
+      .
+      <para />
+      If the right-click menu item
+      <guimenu>Revert</guimenu>
+      is executed at any time before a
+      <guimenu>Show all</guimenu>
+      or
+      <guimenu>Collapse all</guimenu>
+      , the keyword layout will be restored to the state existing at start-up.
+    </para>
+    <note>
+      <para>
+        The selections in the sub-menu
+        <guimenu>On any change</guimenu>
+        will affect the operation of the
+        <guimenu>Revert</guimenu>
+        option.
+      </para>
+    </note>
     <para />
   </section>
   <section id="Listpanes-ExifFileinfoCopyrightLocationandGPS">
