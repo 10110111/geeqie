@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideReferenceXmpExif">
+  <title id="titleGuideReferenceXmpExif">XMP, Exif and IPTC</title>
+  <para>The tables below show the XMP, Exif and IPTC tags used by Geeqie.</para>
+  <section id="preformatted">
+    <title>Geeqie pre-formatted tags</title>
+    <table frame="all">
+      <title>Pre-formatted tags</title>
+      <tgroup cols="3" rowsep="1" colsep="1">
+        <thead>
+          <row>
+            <entry>
+              <para>Geeqie Tag</para>
+            </entry>
+            <entry>
+              <para>Exif tags used</para>
+            </entry>
+            <entry>
+              <para>Description</para>
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              <para>formatted.Camera</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.Image.Make
+                <para />
+                Exif.Image.Model
+                <para />
+                Exif.Image.Software
+              </para>
+            </entry>
+            <entry>
+              <para>Camera and software name</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.DateTime</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.Photo.DateTimeOriginal
+                <para />
+                Exif.Photo.SubSecTimeOriginal
+                <para />
+                Exif.Image.DateTime
+                <para />
+                Exif.Photo.SubSecTime
+              </para>
+            </entry>
+            <entry>
+              <para>Image Date</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ShutterSpeed</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.Photo.ExposureTime
+                <para />
+                Exif.Photo.ShutterSpeedValue
+
+              </para>
+            </entry>
+            <entry>
+              <para>Shutter speed in seconds (e.g. 1/60s)</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.Aperture</para>
+            </entry>
+            <entry>
+              <para>
+                <para>
+                  Exif.Photo.Fnumber
+                  <para />
+                  Exif.Photo.ApertureValue
+                </para>
+              </para>
+            </entry>
+            <entry>
+              <para>Aperture (e.g. f5.6)</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ExposureBias</para>
+            </entry>
+            <entry>
+              <para>Exif.Photo.ExposureBiasValue</para>
+            </entry>
+            <entry>
+              <para>Exposure bias (e.g. +0.3)</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ISOSpeedRating</para>
+            </entry>
+            <entry>
+              <para>Exif.Photo.ISOSpeedRatings</para>
+            </entry>
+            <entry>
+              <para>ISO sensitivity (e.g. 100)</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.FocalLength</para>
+            </entry>
+            <entry>
+              <para>Exif.Photo.FocalLength</para>
+            </entry>
+            <entry>
+              <para>Focal length</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.FocalLength35mmFilm</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.Photo.FocalLengthIn35mmFilm
+                <para />
+                Exif.Photo.FocalLength
+                <para />
+                Exif.Photo.FocalPlaneXResolution
+                <para />
+                Exif.Photo.FocalPlaneYResolution
+                <para />
+                Exif.Photo.FocalPlaneResolutionUnit
+                <para />
+                Exif.Photo.PixelXDimension
+                <para />
+                Exif.Photo.PixelYDimension
+
+              </para>
+            </entry>
+            <entry>
+              <para>Focal length 35mm</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.SubjectDistance</para>
+            </entry>
+            <entry>
+              <para>Exif.Photo.SubjectDistance</para>
+            </entry>
+            <entry>
+              <para>Subject distance</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.Flash</para>
+            </entry>
+            <entry>
+              <para>Exif.Photo.Flash</para>
+            </entry>
+            <entry>
+              <para>Flash</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.Resolution</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.Image.Xresolution
+                <para />
+                Exif.Image.Yresolution
+                <para />
+                Exif.Image.ResolutionUnit
+              </para>
+            </entry>
+            <entry>
+              <para>Resolution</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ColorProfile</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.Image.InterColorProfile
+                <para />
+                Exif.Photo.ColorSpace
+                <para />
+                Exif.Iop.InteroperabilityIndex
+              </para>
+            </entry>
+            <entry>
+              <para>Color profile</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.GPSAltitude</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.GPSInfo.GPSAltitudeRef
+                <para />
+                Exif.GPSInfo.GPSAltitude
+              </para>
+            </entry>
+            <entry>
+              <para>Altitude above sea level</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.GPSPosition</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.GPSInfo.GPSLatitude
+                <para />
+                Exif.GPSInfo.GPSLatitudeRef
+                <para />
+                Exif.GPSInfo.GPSLongitude
+                <para />
+                Exif.GPSInfo.GPSLongitudeRef
+              </para>
+            </entry>
+            <entry>
+              <para>Latitude, Longitude</para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+  <section id="infosidebar">
+    <title>Info sidebar panes</title>
+    <table frame="all">
+      <title>Fixed panes</title>
+      <tgroup cols="2" rowsep="1" colsep="1">
+        <thead>
+          <row>
+            <entry>
+              <para>Tag</para>
+            </entry>
+            <entry>
+              <para>Pane title</para>
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              <para>Xmp.dc.description</para>
+            </entry>
+            <entry>
+              <para>Comment</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.subject</para>
+            </entry>
+            <entry>
+              <para>Keywords</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.title</para>
+            </entry>
+            <entry>
+              <para>Title</para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <table frame="all">
+      <title>Location and GPS pane</title>
+      <tgroup cols="2" rowsep="1" colsep="1">
+        <thead>
+          <row>
+            <entry>
+              <para>Tag</para>
+            </entry>
+            <entry>
+              <para>Field</para>
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              <para>formatted.GPSPosition</para>
+            </entry>
+            <entry>
+              <para>GPS position</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.GPSAltitude</para>
+            </entry>
+            <entry>
+              <para>GPS altitiude</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Country</para>
+            </entry>
+            <entry>
+              <para>Country</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>
+                <para>Xmp.iptc.CountryCode</para>
+              </para>
+            </entry>
+            <entry>
+              <para>Country Code</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.State</para>
+            </entry>
+            <entry>
+              <para>State</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.City</para>
+            </entry>
+            <entry>
+              <para>City</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.iptc.Location</para>
+            </entry>
+            <entry>
+              <para>Location</para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <table frame="all">
+      <title>Copyright pane</title>
+      <tgroup cols="2" rowsep="1" colsep="1">
+        <thead>
+          <row>
+            <entry>
+              <para>Tag</para>
+            </entry>
+            <entry>
+              <para>Field</para>
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              <para>Xmp.dc.creator</para>
+            </entry>
+            <entry>
+              <para>Creator</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.contributor</para>
+            </entry>
+            <entry>
+              <para>Contributor</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.rights</para>
+            </entry>
+            <entry>
+              <para>Rights</para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <table frame="all">
+      <title>Exif pane</title>
+      <tgroup cols="2" rowsep="1" colsep="1">
+        <thead>
+          <row>
+            <entry>
+              <para>Tag</para>
+            </entry>
+            <entry>
+              <para>Field</para>
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              <para>formatted.Camera</para>
+            </entry>
+            <entry>
+              <para>Camera</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.DateTime</para>
+            </entry>
+            <entry>
+              <para>Date</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ShutterSpeed</para>
+            </entry>
+            <entry>
+              <para>Shutter speed</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.Aperture</para>
+            </entry>
+            <entry>
+              <para>Aperture</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ExposureBias</para>
+            </entry>
+            <entry>
+              <para>Exposure bias</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ISOSpeedRating</para>
+            </entry>
+            <entry>
+              <para>ISO sensitivity</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.FocalLength</para>
+            </entry>
+            <entry>
+              <para>Focal length</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.FocalLength35mmFilm</para>
+            </entry>
+            <entry>
+              <para>Focal length 35mm</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.SubjectDistance</para>
+            </entry>
+            <entry>
+              <para>Subject distance</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.Flash</para>
+            </entry>
+            <entry>
+              <para>Flash</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.Resolution</para>
+            </entry>
+            <entry>
+              <para>Resolution</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.ColorProfile</para>
+            </entry>
+            <entry>
+              <para>Color profile</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Exif.Photo.ExposureProgram</para>
+            </entry>
+            <entry>
+              <para>Exposure Program</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Exif.Photo.MeteringMode</para>
+            </entry>
+            <entry>
+              <para>Metering Mode</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Exif.Photo.LightSource</para>
+            </entry>
+            <entry>
+              <para>Light Source</para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+  <section id="exifiptc">
+    <title>Exif IPTC alternative keys</title>
+    <table frame="all">
+      <title>Conversion table</title>
+      <tgroup cols="2" rowsep="1" colsep="1">
+        <thead>
+          <row>
+            <entry>
+              <para>Tag</para>
+            </entry>
+            <entry>
+              <para>Field</para>
+            </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>
+              <para>Xmp.tiff.Orientation</para>
+            </entry>
+            <entry>
+              <para>Exif.Image.Orientation</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.title</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.ObjectName</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Urgency</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Urgency</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Category</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Category</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.SupplementalCategory</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.SuppCategory</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.subject</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Keywords</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.iptc.Location</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.LocationName</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Instruction</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.SpecialInstructions</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.DateCreated</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.DateCreated</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.creator</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Byline</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.AuthorsPosition</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.BylineTitle</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.City</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.City</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.State</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.ProvinceState</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.iptc.CountryCode</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.CountryCode</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Country</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.CountryName</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.TransmissionReference</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.TransmissionReference</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Headline</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Headline</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Credit</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Credit</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Source</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Source</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.rights</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Copyright</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.dc.description</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Caption</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.CaptionWriter</para>
+            </entry>
+            <entry>
+              <para>Iptc.Application2.Writer</para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+</section>

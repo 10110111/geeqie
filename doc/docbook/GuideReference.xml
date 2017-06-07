@@ -9,6 +9,7 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceConfig.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceLIRC.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceStandards.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceTags.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceSupportedFormats.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideReferenceDecodeLatLong.xml" />
   <para />
