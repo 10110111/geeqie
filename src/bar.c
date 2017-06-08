@@ -196,6 +196,7 @@ struct _BarData
 	GtkWidget *vbox;
 	FileData *fd;
 	GtkWidget *label_file_name;
+	GtkWidget *add_button;
 
 	LayoutWindow *lw;
 	gint width;
@@ -322,6 +323,27 @@ static void bar_menu_popup(GtkWidget *widget)
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, bar, 0, GDK_CURRENT_TIME);
 }
 
+static void bar_menu_add_popup(GtkWidget *widget)
+{
+	GtkWidget *menu;
+	GtkWidget *bar;
+	const KnownPanes *pane = known_panes;
+
+	bar = widget;
+
+	menu = popup_menu_short_lived();
+
+	while (pane->id)
+		{
+		GtkWidget *item;
+		item = menu_item_add_stock(menu, _(pane->title), GTK_STOCK_ADD, G_CALLBACK(bar_expander_add_cb), bar);
+		g_object_set_data(G_OBJECT(item), "pane_add_id", pane->id);
+		pane++;
+		}
+
+	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, bar, 0, GDK_CURRENT_TIME);
+}
+
 
 static gboolean bar_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
@@ -331,6 +353,12 @@ static gboolean bar_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 		return TRUE;
 		}
 	return FALSE;
+}
+
+static gboolean bar_menu_add_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
+	bar_menu_add_popup(widget);
+	return TRUE;
 }
 
 
@@ -605,6 +633,8 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	BarData *bd;
 	GtkWidget *box;
 	GtkWidget *scrolled;
+	GtkWidget *tbar;
+	GtkWidget *add_box;
 
 	bd = g_new0(BarData, 1);
 
@@ -645,6 +675,14 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	bd->vbox = gtk_vbox_new(FALSE, 0);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled), bd->vbox);
 	gtk_viewport_set_shadow_type(GTK_VIEWPORT(gtk_bin_get_child(GTK_BIN(scrolled))), GTK_SHADOW_NONE);
+
+	add_box = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(bd->widget), add_box, FALSE, FALSE, 0);
+	tbar = pref_toolbar_new(add_box, GTK_TOOLBAR_ICONS);
+	bd->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL, FALSE,
+					     _("Add Pane"),
+					     G_CALLBACK(bar_menu_add_cb), bd);
+	gtk_widget_show(add_box);
 
 #ifdef HAVE_LIBCHAMPLAIN_GTK
 	g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(scrolled))), "unrealize", G_CALLBACK(bar_unrealize_clutter_fix_cb), NULL);
