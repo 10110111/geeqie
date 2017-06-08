@@ -1788,7 +1788,9 @@ static const gchar *menu_ui_description =
 "      </menu>"
 "      <placeholder name='PreferencesSection'/>"
 "      <separator/>"
+#if !GTK_CHECK_VERSION(3,0,0)
 "      <menuitem action='Wallpaper'/>"
+#endif
 "      <separator/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"

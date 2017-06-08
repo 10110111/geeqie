@@ -1274,8 +1274,9 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 			 G_CALLBACK(view_popup_menu_destroy_cb), editmenu_fd_list);
 	item = submenu_add_edit(menu, NULL, G_CALLBACK(view_edit_cb), vw, editmenu_fd_list);
 	menu_item_add_divider(item);
+#if !GTK_CHECK_VERSION(3,0,0)
 	menu_item_add(item, _("Set as _wallpaper"), G_CALLBACK(view_wallpaper_cb), vw);
-
+#endif
 	submenu_add_alter(menu, G_CALLBACK(view_alter_cb), vw);
 
 	menu_item_add_stock(menu, _("View in _new window"), GTK_STOCK_NEW, G_CALLBACK(view_new_window_cb), vw);
