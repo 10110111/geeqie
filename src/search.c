@@ -138,6 +138,11 @@ struct _SearchData
 	GtkWidget *menu_comment;
 	GtkWidget *entry_comment;
 
+	GtkWidget *check_rating;
+	GtkWidget *menu_rating;
+	GtkWidget *spin_rating;
+	GtkWidget *spin_rating_end;
+
 	FileData *search_dir_fd;
 	gboolean   search_path_recurse;
 	gchar *search_name;
@@ -159,6 +164,8 @@ struct _SearchData
 	CacheData *search_similarity_cd;
 	GList *search_keyword_list;
 	gchar *search_comment;
+	gint   search_rating;
+	gint   search_rating_end;
 	gboolean   search_comment_match_case;
 	gboolean   search_date_exif;
 
@@ -170,6 +177,7 @@ struct _SearchData
 	MatchType match_dimensions;
 	MatchType match_keywords;
 	MatchType match_comment;
+	MatchType match_rating;
 	MatchType match_gps;
 
 	gboolean match_name_enable;
@@ -179,6 +187,7 @@ struct _SearchData
 	gboolean match_similarity_enable;
 	gboolean match_keywords_enable;
 	gboolean match_comment_enable;
+	gboolean match_rating_enable;
 
 	GList *search_folder_list;
 	GList *search_done_list;
@@ -264,6 +273,14 @@ static const MatchList text_search_menu_keyword[] = {
 static const MatchList text_search_menu_comment[] = {
 	{ N_("contains"),	SEARCH_MATCH_CONTAINS },
 	{ N_("miss"),		SEARCH_MATCH_NONE }
+};
+
+
+static const MatchList text_search_menu_rating[] = {
+	{ N_("equal to"),	SEARCH_MATCH_EQUAL },
+	{ N_("less than"),	SEARCH_MATCH_UNDER },
+	{ N_("greater than"),	SEARCH_MATCH_OVER },
+	{ N_("between"),	SEARCH_MATCH_BETWEEN }
 };
 
 static const MatchList text_search_menu_gps[] = {
@@ -1962,6 +1979,31 @@ static gboolean search_file_next(SearchData *sd)
 			}
 		}
 
+	if (match && sd->match_rating_enable)
+		{
+		tested = TRUE;
+		match = FALSE;
+		gint rating;
+
+		rating = metadata_read_int(fd, RATING_KEY, 0);
+		if (sd->match_rating == SEARCH_MATCH_EQUAL)
+			{
+			match = (rating == sd->search_rating);
+			}
+		else if (sd->match_rating == SEARCH_MATCH_UNDER)
+			{
+			match = (rating < sd->search_rating);
+			}
+		else if (sd->match_rating == SEARCH_MATCH_OVER)
+			{
+			match = (rating > sd->search_rating);
+			}
+		else if (sd->match_rating == SEARCH_MATCH_BETWEEN)
+			{
+			match = MATCH_IS_BETWEEN(rating, sd->search_rating, sd->search_rating_end);
+			}
+		}
+
 	if (match && sd->match_gps_enable)
 		{
 		/* Calculate the distance the image is from the specified origin.
@@ -2538,6 +2580,16 @@ static void menu_choice_size_cb(GtkWidget *combo, gpointer data)
 				(sd->match_size == SEARCH_MATCH_BETWEEN));
 }
 
+static void menu_choice_rating_cb(GtkWidget *combo, gpointer data)
+{
+	SearchData *sd = data;
+
+	if (!menu_choice_get_match_type(combo, &sd->match_rating)) return;
+
+	menu_choice_set_visible(gtk_widget_get_parent(sd->spin_rating_end),
+				(sd->match_rating == SEARCH_MATCH_BETWEEN));
+}
+
 static void menu_choice_date_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
@@ -2766,6 +2818,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_dimensions = SEARCH_MATCH_EQUAL;
 	sd->match_keywords = SEARCH_MATCH_ALL;
 	sd->match_comment = SEARCH_MATCH_CONTAINS;
+	sd->match_rating = SEARCH_MATCH_EQUAL;
 
 	sd->match_name_enable = TRUE;
 
@@ -2933,6 +2986,19 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_widget_show(sd->entry_comment);
 	pref_checkbox_new_int(hbox, _("Match case"),
 			      sd->search_comment_match_case, &sd->search_comment_match_case);
+
+	/* Search for image rating */
+	hbox = menu_choice(sd->box_search, &sd->check_rating, &sd->menu_rating,
+			   _("Image rating is"), &sd->match_rating_enable,
+			   text_search_menu_rating, sizeof(text_search_menu_rating) / sizeof(MatchList),
+			   G_CALLBACK(menu_choice_rating_cb), sd);
+	sd->spin_size = menu_spin(hbox, -1, 5, sd->search_rating,
+				  G_CALLBACK(menu_choice_spin_cb), &sd->search_rating);
+	hbox2 = gtk_hbox_new(FALSE, PREF_PAD_SPACE);
+	gtk_box_pack_start(GTK_BOX(hbox), hbox2, FALSE, FALSE, 0);
+	pref_label_new(hbox2, _("and"));
+	sd->spin_rating_end = menu_spin(hbox2, -1, 5, sd->search_rating_end,
+				      G_CALLBACK(menu_choice_spin_cb), &sd->search_rating_end);
 
 	/* Search for images within a specified range of a lat/long coordinate
 	*/

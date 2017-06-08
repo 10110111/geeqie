@@ -428,6 +428,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->ref = 1;
 	fd->magick = FD_MAGICK;
 	fd->exifdate = 0;
+	fd->rating = 0;
 
 	if (disable_sidecars) fd->disable_grouping = TRUE;
 
@@ -510,6 +511,24 @@ void set_exif_time_data(GList *files)
 		FileData *file = files->data;
 
 		read_exif_time_data(file);
+		files = files->next;
+		}
+}
+
+void set_rating_data(GList *files)
+{
+	gchar *rating_str;
+	DEBUG_1("%s set_rating_data: ...", get_exec_time());
+
+	while (files)
+		{
+		FileData *file = files->data;
+		rating_str = metadata_read_string(file, RATING_KEY, METADATA_PLAIN);
+		if (rating_str )
+			{
+			file->rating = atoi(rating_str);
+			g_free(rating_str);
+			}
 		files = files->next;
 		}
 }
@@ -1026,6 +1045,11 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 			if (fa->exifdate > fb->exifdate) return 1;
 			/* fall back to name */
 			break;
+		case SORT_RATING:
+			if (fa->rating < fb->rating) return -1;
+			if (fa->rating > fb->rating) return 1;
+			/* fall back to name */
+			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
 			ret = strverscmp(fa->name, fb->name);
@@ -1080,6 +1104,10 @@ GList *filelist_sort(GList *list, SortType method, gboolean ascend)
 	if (method == SORT_EXIFTIME)
 		{
 		set_exif_time_data(list);
+		}
+	if (method == SORT_RATING)
+		{
+		set_rating_data(list);
 		}
 	return filelist_sort_full(list, method, ascend, (GCompareFunc) filelist_sort_file_cb);
 }

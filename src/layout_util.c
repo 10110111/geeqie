@@ -352,6 +352,55 @@ static void layout_menu_alter_90_cb(GtkAction *action, gpointer data)
 	layout_image_alter_orientation(lw, ALTER_ROTATE_90);
 }
 
+static void layout_menu_rating_0_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_rating(lw, "0");
+}
+
+static void layout_menu_rating_1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_rating(lw, "1");
+}
+
+static void layout_menu_rating_2_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_rating(lw, "2");
+}
+
+static void layout_menu_rating_3_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_rating(lw, "3");
+}
+
+static void layout_menu_rating_4_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_rating(lw, "4");
+}
+
+static void layout_menu_rating_5_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_rating(lw, "5");
+}
+
+static void layout_menu_rating_m1_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_rating(lw, "-1");
+}
+
 static void layout_menu_alter_90cc_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1524,6 +1573,7 @@ static GtkActionEntry menu_entries[] = {
   { "EditMenu",		NULL,			N_("_Edit"),				NULL,			NULL,					NULL },
   { "SelectMenu",	NULL,			N_("_Select"),				NULL,			NULL,					NULL },
   { "OrientationMenu",	NULL,			N_("_Orientation"),			NULL,			NULL,					NULL },
+  { "RatingMenu",	NULL,			N_("_Rating"),					NULL,			NULL,					NULL },
   { "ExternalMenu",	NULL,			N_("E_xternal Editors"),		NULL,			NULL,					NULL },
   { "PreferencesMenu",	NULL,			N_("P_references"),			NULL,			NULL,					NULL },
   { "ViewMenu",		NULL,			N_("_View"),				NULL,			NULL,					NULL },
@@ -1569,6 +1619,13 @@ static GtkActionEntry menu_entries[] = {
   { "CloseWindow",	GTK_STOCK_CLOSE,	N_("C_lose window"),			"<control>W",		N_("Close window"),			CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, 	N_("_Quit"),				"<control>Q",		N_("Quit"),				CB(layout_menu_exit_cb) },
   { "RotateCW",		NULL,			N_("_Rotate clockwise"),		"bracketright",		N_("Rotate clockwise"),			CB(layout_menu_alter_90_cb) },
+  { "Rating0",		NULL,			N_("_Rating 0"),	"<alt>KP_0",	N_("Rating 0"),			CB(layout_menu_rating_0_cb) },
+  { "Rating1",		NULL,			N_("_Rating 1"),	"<alt>KP_1",	N_("Rating 1"),			CB(layout_menu_rating_1_cb) },
+  { "Rating2",		NULL,			N_("_Rating 2"),	"<alt>KP_2",	N_("Rating 2"),			CB(layout_menu_rating_2_cb) },
+  { "Rating3",		NULL,			N_("_Rating 3"),	"<alt>KP_3",	N_("Rating 3"),			CB(layout_menu_rating_3_cb) },
+  { "Rating4",		NULL,			N_("_Rating 4"),	"<alt>KP_4",	N_("Rating 4"),			CB(layout_menu_rating_4_cb) },
+  { "Rating5",		NULL,			N_("_Rating 5"),	"<alt>KP_5",	N_("Rating 5"),			CB(layout_menu_rating_5_cb) },
+  { "RatingM1",		NULL,			N_("_Rating -1"),	"<alt>KP_Subtract",	N_("Rating -1"),	CB(layout_menu_rating_m1_cb) },
   { "RotateCCW",	NULL,			N_("Rotate _counterclockwise"),		"bracketleft",		N_("Rotate counterclockwise"),		CB(layout_menu_alter_90cc_cb) },
   { "Rotate180",	NULL,			N_("Rotate 1_80"),			"<shift>R",		N_("Rotate 180"),			CB(layout_menu_alter_180_cb) },
   { "Mirror",		NULL,			N_("_Mirror"),				"<shift>M",		N_("Mirror"),				CB(layout_menu_alter_mirror_cb) },
@@ -1775,6 +1832,16 @@ static const gchar *menu_ui_description =
 "        <menuitem action='AlterNone'/>"
 "        <separator/>"
 "        <menuitem action='ExifRotate'/>"
+"        <separator/>"
+"      </menu>"
+"      <menu action='RatingMenu'>"
+"        <menuitem action='Rating0'/>"
+"        <menuitem action='Rating1'/>"
+"        <menuitem action='Rating2'/>"
+"        <menuitem action='Rating3'/>"
+"        <menuitem action='Rating4'/>"
+"        <menuitem action='Rating5'/>"
+"        <menuitem action='RatingM1'/>"
 "        <separator/>"
 "      </menu>"
 "      <menuitem action='SaveMetadata'/>"

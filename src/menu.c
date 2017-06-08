@@ -158,6 +158,9 @@ gchar *sort_type_get_text(SortType method)
 		case SORT_NUMBER:
 			return _("Sort by number");
 			break;
+		case SORT_RATING:
+			return _("Sort by rating");
+			break;
 		case SORT_NAME:
 		default:
 			return _("Sort by name");
@@ -205,6 +208,7 @@ GtkWidget *submenu_add_sort(GtkWidget *menu, GCallback func, gpointer data,
 	submenu_add_sort_item(submenu, func, SORT_CTIME, show_current, type);
 	submenu_add_sort_item(submenu, func, SORT_EXIFTIME, show_current, type);
 	submenu_add_sort_item(submenu, func, SORT_SIZE, show_current, type);
+	submenu_add_sort_item(submenu, func, SORT_RATING, show_current, type);
 	if (include_path) submenu_add_sort_item(submenu, func, SORT_PATH, show_current, type);
 	if (include_none) submenu_add_sort_item(submenu, func, SORT_NONE, show_current, type);
 

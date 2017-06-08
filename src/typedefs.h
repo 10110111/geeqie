@@ -66,7 +66,8 @@ typedef enum {
 	SORT_CTIME,
 	SORT_PATH,
 	SORT_NUMBER,
-	SORT_EXIFTIME
+	SORT_EXIFTIME,
+	SORT_RATING
 } SortType;
 
 typedef enum {
@@ -573,6 +574,7 @@ struct _FileData {
 	time_t exifdate;
 	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
 	GList *cached_metadata;
+	gint rating;
 };
 
 struct _LayoutOptions

@@ -711,6 +711,81 @@
           <menuchoice>
             <shortcut>
               <keycombo>
+                <keycap>[</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Orientation</guimenu>
+            <guimenuitem>Rotate counterclockwise</guimenuitem>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Rotates the current image counterclockwise 90 degrees, does not modify the file on disk.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Shift</keycap>
+                <keycap>R</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Orientation</guimenu>
+            <guimenuitem>Rotate 180</guimenuitem>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Rotates the current image 180 degrees, does not modify the file on disk.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <guimenu>Rating</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Set a Rating value for each image.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Alt+Keypad+n</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Rating</guimenu>
+            <guimenuitem>n</guimenuitem>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>"n" is in the range 0 to 5. Sets the Rating value for the image.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Alt+Keypad+Minus</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Rating</guimenu>
+            <guimenuitem>-1</guimenuitem>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Sets the Rating value to -1 for the image.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
                 <keycap>Ctrl</keycap>
                 <keycap>S</keycap>
               </keycombo>

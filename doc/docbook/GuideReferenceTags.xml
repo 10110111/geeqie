@@ -283,6 +283,14 @@
               <para>Title</para>
             </entry>
           </row>
+          <row>
+            <entry>
+              <para>Xmp.xmp.Rating</para>
+            </entry>
+            <entry>
+              <para>Rating</para>
+            </entry>
+          </row>
         </tbody>
       </tgroup>
     </table>

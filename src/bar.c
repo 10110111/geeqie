@@ -83,6 +83,14 @@ static const gchar default_config_comment[] =
 "        </bar>"
 "    </layout>"
 "</gq>";
+static const gchar default_config_rating[] =
+"<gq>"
+"    <layout id = '_current_'>"
+"        <bar>"
+"            <pane_comment id = 'rating' expanded = 'true' key = '" RATING_KEY "' height = '10' />"
+"        </bar>"
+"    </layout>"
+"</gq>";
 
 static const gchar default_config_exif[] =
 "<gq>"
@@ -176,6 +184,7 @@ static const KnownPanes known_panes[] = {
 	{PANE_COMMENT,		"title",	N_("Title"),		default_config_title},
 	{PANE_KEYWORDS,		"keywords",	N_("Keywords"),		default_config_keywords},
 	{PANE_COMMENT,		"comment",	N_("Comment"),		default_config_comment},
+	{PANE_COMMENT,		"rating",	N_("Rating"),		default_config_rating},
 	{PANE_EXIF,		"exif",		N_("Exif"),		default_config_exif},
 /* other pre-configured panes */
 	{PANE_EXIF,		"file_info",	N_("File info"),	default_config_file_info},
@@ -567,7 +576,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 
 void bar_populate_default(GtkWidget *bar)
 {
-	const gchar *populate_id[] = {"histogram", "title", "keywords", "comment", "exif", NULL};
+	const gchar *populate_id[] = {"histogram", "title", "keywords", "comment", "rating", "exif", NULL};
 	const gchar **id = populate_id;
 
 	while (*id)

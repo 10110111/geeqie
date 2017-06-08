@@ -175,6 +175,10 @@ static void bar_pane_comment_write_config(GtkWidget *pane, GString *outstr, gint
 		{
 		pcd->height = options->info_comment.height;
 		}
+	if (!g_strcmp0(pcd->pane.id, "rating"))
+		{
+		pcd->height = options->info_rating.height;
+		}
 
 	WRITE_NL(); WRITE_STRING("<pane_comment ");
 	write_char_option(outstr, indent, "id", pcd->pane.id);
@@ -310,6 +314,10 @@ GtkWidget *bar_pane_comment_new_from_config(const gchar **attribute_names, const
 	if (!g_strcmp0(id, "comment"))
 		{
 		options->info_comment.height = height;
+		}
+	if (!g_strcmp0(id, "rating"))
+		{
+		options->info_rating.height = height;
 		}
 
 	bar_pane_translate_title(PANE_COMMENT, id, &title);

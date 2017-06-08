@@ -370,6 +370,7 @@ static void config_window_apply(void)
 	options->info_keywords.height = c_options->info_keywords.height;
 	options->info_title.height = c_options->info_title.height;
 	options->info_comment.height = c_options->info_comment.height;
+	options->info_rating.height = c_options->info_rating.height;
 
 #ifdef DEBUG
 	set_debug_level(debug_c);
@@ -1486,6 +1487,9 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_spin_new_int(hbox, _("Comment:"), NULL,
 				 1, 9999, 1,
 				 options->info_comment.height, &c_options->info_comment.height);
+	pref_spin_new_int(hbox, _("Rating:"), NULL,
+				 1, 9999, 1,
+				 options->info_rating.height, &c_options->info_rating.height);
 }
 
 /* image tab */

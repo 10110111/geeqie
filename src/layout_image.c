@@ -1105,6 +1105,56 @@ void layout_image_alter_orientation(LayoutWindow *lw, AlterType type)
 		}
 }
 
+static void image_alter_rating(FileData *fd_n, const gchar *rating)
+{
+	metadata_write_string(fd_n, RATING_KEY, rating);
+}
+
+void layout_image_rating(LayoutWindow *lw, const gchar *rating)
+{
+	if (!layout_valid(&lw)) return;
+
+	GtkTreeModel *store;
+	GList *work;
+	GtkTreeSelection *selection;
+	GtkTreePath *tpath;
+	FileData *fd_n;
+	GtkTreeIter iter;
+	IconData *id;
+
+	if (!lw || !lw->vf) return;
+
+	if (lw->vf->type == FILEVIEW_ICON)
+		{
+		if (!VFICON(lw->vf)->selection) return;
+		work = VFICON(lw->vf)->selection;
+		}
+	else
+		{
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(lw->vf->listview));
+		work = gtk_tree_selection_get_selected_rows(selection, &store);
+		}
+
+	while (work)
+		{
+		if (lw->vf->type == FILEVIEW_ICON)
+			{
+			id = work->data;
+			fd_n = id->fd;
+			work = work->next;
+			}
+		else
+			{
+			tpath = work->data;
+			gtk_tree_model_get_iter(store, &iter, tpath);
+			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd_n, -1);
+			work = work->next;
+			}
+
+		image_alter_rating(fd_n, rating);
+		}
+}
+
 void layout_image_reset_orientation(LayoutWindow *lw)
 {
 	ImageWindow *imd= lw->image;

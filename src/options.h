@@ -67,6 +67,10 @@ struct _ConfOptions
 		gint height;
 	} info_title;
 
+	struct {
+		gint height;
+	} info_rating;
+
 	/* file ops */
 	struct {
 		gboolean enable_in_place_rename;
