@@ -742,6 +742,35 @@
       <varlistentry>
         <term>
           <menuchoice>
+            <guimenu>Orientation</guimenu>
+            <guimenuitem>Write orientation to file</guimenuitem>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>
+            Saves the current image orientation to the disk file. This operation can only be carried out on jpeg, tiff and png files. Jpeg rotations are lossless.
+            <note>
+              The Preferences/Metadata option "Write altered image orientation to the metadata" must be off.
+              <para />
+              Exiftran and mogrify must be installed.
+            </note>
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <guimenu>Orientation</guimenu>
+            <guimenuitem>Write orientation to file (preserve timestamp)</guimenuitem>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>As above, but the file date and time are preserved.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
             <guimenu>Rating</guimenu>
           </menuchoice>
         </term>

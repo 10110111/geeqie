@@ -47,10 +47,81 @@ rotate()
     esac
 }
 
+rotate_image_file()
+{
+	ext=`echo "${3##*.}" |tr "[:upper:]" "[:lower:]"`
+	[ "x$ext" = "x" ] && return 4 #no extension
+
+	case "$ext" in
+	jpg|jpeg)
+		exiftran -i "$1" "$3"
+		return 0
+		;;
+
+	tif|tiff|png)
+		mogrify $2 "$3"
+		return 0
+		;;
+
+	*)	#not supported
+		return 4
+		;;
+	esac
+}
+
 get_sidecars=
 if [ "x$1" = "x-g" ] ; then
     get_sidecars=yes
     shift
+fi
+
+rotate_image_file=
+rotation=
+if [ "x$1" = "x-r" ] ; then
+	rotate_image_file=yes
+	shift
+	rotation="$1"
+	shift
+fi
+
+preserve_mtime=
+if [ "x$1" = "x-t" ] ; then
+	preserve_mtime=yes
+	shift
+fi
+
+if [ -n "$rotation" ] ; then
+	if [ "x$rotation" = "x0" ] ; then
+		exit 0
+	fi
+	if [ "x$rotation" = "x2" ] ; then
+		mogrify_param="-flop"
+		exiftran_param="-F"
+	fi
+	if [ "x$rotation" = "x3" ] ; then
+		mogrify_param="-rotate 180"
+		exiftran_param="-1"
+	fi
+	if [ "x$rotation" = "x4" ] ; then
+		mogrify_param="-flip"
+		exiftran_param="-f"
+	fi
+	if [ "x$rotation" = "x5" ] ; then
+		mogrify_param="-transpose"
+		exiftran_param="-t"
+	fi
+	if [ "x$rotation" = "x6" ] ; then
+		mogrify_param="-rotate 90"
+		exiftran_param="-9"
+	fi
+	if [ "x$rotation" = "x7" ] ; then
+		mogrify_param="-transverse"
+		exiftran_param="-T"
+	fi
+	if [ "x$rotation" = "x8" ] ; then
+		mogrify_param="-rotate -90"
+		exiftran_param="-2"
+	fi
 fi
 
 # iterate over files on commandline
@@ -63,7 +134,25 @@ for file in "$@" ; do
             rotate "$sidecar"
         done
     else
-        rotate "$file"
+		if [ -n "$rotate_image_file" ] ; then
+			if [ -n "$preserve_mtime" ] ; then
+				mtime=`mktemp /tmp/geeqie-rotate.XXXXXXXXXX` || exit 3
+				touch --reference="$file" "$mtime"
+			fi
+
+			rotate_image_file "$exiftran_param" "$mogrify_param" "$file"
+			ret=$?
+
+			if [ -n "$preserve_mtime" ] ; then
+				touch --reference="$mtime" "$file"
+				rm "$mtime"
+			fi
+			if [ $ret -eq 4 ] ; then
+				exit 4
+			fi
+		else
+			rotate "$file"
+		fi
     fi
 done
 

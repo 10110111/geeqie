@@ -51,6 +51,7 @@
 #include "ui_tabcomp.h"
 #include "utilops.h"
 #include "view_dir.h"
+#include "view_file.h"
 #include "window.h"
 #include "metadata.h"
 #include "desktop_file.h"
@@ -59,6 +60,7 @@
 #include "keymap_template.c"
 
 #define MENU_EDIT_ACTION_OFFSET 16
+#define FILE_COLUMN_POINTER 0
 
 static gboolean layout_bar_enabled(LayoutWindow *lw);
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw);
@@ -449,6 +451,101 @@ static void layout_menu_exif_rotate_cb(GtkToggleAction *action, gpointer data)
 
 	options->image.exif_rotate_enable = gtk_toggle_action_get_active(action);
 	layout_image_reset_orientation(lw);
+}
+
+static void layout_menu_write_rotate(GtkToggleAction *action, gpointer data, gboolean keep_date)
+{
+	LayoutWindow *lw = data;
+	GtkTreeModel *store;
+	GList *work;
+	GtkTreeSelection *selection;
+	GtkTreePath *tpath;
+	FileData *fd_n;
+	GtkTreeIter iter;
+	IconData *id;
+	gchar *rotation;
+	gchar *command;
+	gint run_result;
+	GenericDialog *gd;
+	GString *message;
+
+	if (!layout_valid(&lw)) return;
+
+	if (!lw || !lw->vf) return;
+
+	if (lw->vf->type == FILEVIEW_ICON)
+		{
+		if (!VFICON(lw->vf)->selection) return;
+		work = VFICON(lw->vf)->selection;
+		}
+	else
+		{
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(lw->vf->listview));
+		work = gtk_tree_selection_get_selected_rows(selection, &store);
+		}
+
+	while (work)
+		{
+		if (lw->vf->type == FILEVIEW_ICON)
+			{
+			id = work->data;
+			fd_n = id->fd;
+			work = work->next;
+			}
+		else
+			{
+			tpath = work->data;
+			gtk_tree_model_get_iter(store, &iter, tpath);
+			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &fd_n, -1);
+			work = work->next;
+			}
+
+		rotation = g_strdup_printf("%d", fd_n->user_orientation);
+		command = g_strconcat(GQ_BIN_DIR, "/geeqie-rotate -r ", rotation,
+													keep_date ? " -t " : " ", fd_n->path, NULL);
+
+		run_result = WEXITSTATUS(runcmd(command));
+		if (!run_result)
+			{
+			fd_n->user_orientation = 0;
+			}
+		else
+			{
+			message = g_string_new("");
+			message = g_string_append(message, _("Operation failed:\n"));
+
+			if (run_result == 3)
+				message = g_string_append(message, _("Cannot create tmp file"));
+			else
+				{
+				message = g_string_append(message, _("File: "));
+				message = g_string_append(message, fd_n->name);
+				}
+
+			gd = generic_dialog_new(_("Image orientation"),
+			"Image orientation", NULL, TRUE, NULL, NULL);
+			generic_dialog_add_message(gd, GTK_STOCK_DIALOG_ERROR,
+			"Image orientation", message->str);
+			generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, NULL, TRUE);
+
+			gtk_widget_show(gd->dialog);
+
+			g_string_free(message, TRUE);
+			}
+
+		g_free(rotation);
+		g_free(command);
+		}
+}
+
+static void layout_menu_write_rotate_keep_date_cb(GtkToggleAction *action, gpointer data)
+{
+	layout_menu_write_rotate(action, data, TRUE);
+}
+
+static void layout_menu_write_rotate_cb(GtkToggleAction *action, gpointer data)
+{
+	layout_menu_write_rotate(action, data, FALSE);
 }
 
 static void layout_menu_config_cb(GtkAction *action, gpointer data)
@@ -1694,6 +1791,8 @@ static GtkActionEntry menu_entries[] = {
   { "StereoCycle",	NULL,			N_("_Cycle through stereo modes"),	NULL,			N_("Cycle through stereo modes"),	CB(layout_menu_stereo_mode_next_cb) },
   { "SplitNextPane",	NULL,			N_("_Next Pane"),	"<alt>Right",			N_("Next Pane"),	CB(layout_menu_split_pane_next_cb) },
   { "SplitPreviousPane",	NULL,			N_("_Previous Pane"),	"<alt>Left",			N_("Previous Pane"),	CB(layout_menu_split_pane_prev_cb) },
+  { "WriteRotation",	NULL,			N_("_Write orientation to file"),  		NULL,		N_("Write orientation to file"),			CB(layout_menu_write_rotate_cb) },
+  { "WriteRotationKeepDate",	NULL,			N_("_Write orientation to file (preserve timestamp)"),  		NULL,		N_("Write orientation to file (preserve timestamp)"),			CB(layout_menu_write_rotate_keep_date_cb) },
 
 };
 
@@ -1832,6 +1931,9 @@ static const gchar *menu_ui_description =
 "        <menuitem action='AlterNone'/>"
 "        <separator/>"
 "        <menuitem action='ExifRotate'/>"
+"        <separator/>"
+"        <menuitem action='WriteRotation'/>"
+"        <menuitem action='WriteRotationKeepDate'/>"
 "        <separator/>"
 "      </menu>"
 "      <menu action='RatingMenu'>"
@@ -2633,6 +2735,13 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "ConnectZoomMenu");
 	gtk_action_set_sensitive(action, lw->split_mode != SPLIT_NONE);
+
+	action = gtk_action_group_get_action(lw->action_group, "WriteRotation");
+	gtk_action_set_sensitive(action, !(runcmd("which exiftran >null") ||
+							runcmd("which mogrify >null") || options->metadata.write_orientation));
+	action = gtk_action_group_get_action(lw->action_group, "WriteRotationKeepDate");
+	gtk_action_set_sensitive(action, !(runcmd("which exiftran >null") ||
+							runcmd("which mogrify >null") || options->metadata.write_orientation));
 
 	action = gtk_action_group_get_action(lw->action_group, "StereoAuto");
 	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), layout_image_stereo_pixbuf_get(lw));

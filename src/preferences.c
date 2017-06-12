@@ -451,7 +451,11 @@ static void config_window_ok_cb(GtkWidget *widget, gpointer data)
 
 static void config_window_apply_cb(GtkWidget *widget, gpointer data)
 {
+	LayoutWindow *lw;
+	lw = layout_window_list->data;
+
 	config_window_apply();
+	layout_util_sync(lw);
 }
 
 static void config_window_save_cb(GtkWidget *widget, gpointer data)
