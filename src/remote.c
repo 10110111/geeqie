@@ -22,6 +22,7 @@
 #include "main.h"
 #include "remote.h"
 
+#include "cache_maint.h"
 #include "collect.h"
 #include "filedata.h"
 #include "image.h"
@@ -430,6 +431,54 @@ static void gr_slideshow_start_rec(const gchar *text, GIOChannel *channel, gpoin
 	layout_image_slideshow_start_from_list(NULL, list);
 }
 
+static void gr_cache_thumb(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	if (!g_strcmp0(text, "clear"))
+		cache_maintain_home_remote(FALSE, TRUE);
+	else if (!g_strcmp0(text, "clean"))
+		cache_maintain_home_remote(FALSE, FALSE);
+}
+
+static void gr_cache_shared(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	if (!g_strcmp0(text, "clear"))
+		cache_manager_standard_process_remote(TRUE);
+	else if (!g_strcmp0(text, "clean"))
+		cache_manager_standard_process_remote(FALSE);
+}
+
+static void gr_cache_metadata(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	cache_maintain_home_remote(TRUE, FALSE);
+}
+
+static void gr_cache_clear(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	cache_maintain_home_remote(FALSE, TRUE);
+}
+
+static void gr_cache_render(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	cache_manager_render_remote(text, FALSE, FALSE);
+}
+
+static void gr_cache_render_recurse(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	cache_manager_render_remote(text, TRUE, FALSE);
+}
+
+static void gr_cache_render_standard(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	if(options->thumbnails.spec_standard)
+		cache_manager_render_remote(text, FALSE, TRUE);
+}
+
+static void gr_cache_render_standard_recurse(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	if(options->thumbnails.spec_standard)
+		cache_manager_render_remote(text, TRUE, TRUE);
+}
+
 static void gr_slideshow_toggle(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	layout_image_slideshow_toggle(NULL);
@@ -692,6 +741,13 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
 	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },
 	{ NULL, "raise",                gr_raise,               FALSE, FALSE, NULL, N_("bring the Geeqie window to the top") },
+	{ "-ct:", "--cache-thumbs:",    gr_cache_thumb,         TRUE, FALSE, N_("clear|clean"), N_("clear or clean thumbnail cache") },
+	{ "-cs:", "--cache-shared:",    gr_cache_shared,        TRUE, FALSE, N_("clear|clean"), N_("clear or clean shared thumbnail cache") },
+	{ "-cm","--cache-metadata",      gr_cache_metadata,               FALSE, FALSE, NULL, N_("    clean the metadata cache") },
+	{ "-cr:", "--cache-render:",    gr_cache_render,        TRUE, FALSE, N_("<folder>  "), N_(" render thumbnails") },
+	{ "-crr:", "--cache-render-recurse:", gr_cache_render_recurse, TRUE, FALSE, N_("<folder> "), N_("render thumbnails recursively") },
+	{ "-crs:", "--cache-render-shared:", gr_cache_render_standard, TRUE, FALSE, N_("<folder> "), N_(" render thumbnails (see Help)") },
+	{ "-crsr:", "--cache-render-shared-recurse:", gr_cache_render_standard_recurse, TRUE, FALSE, N_("<folder>"), N_(" render thumbnails recursively (see Help)") },
 	{ NULL, NULL, NULL, FALSE, FALSE, NULL }
 };
 

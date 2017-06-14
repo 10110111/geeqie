@@ -223,6 +223,46 @@
             <entry>raise</entry>
             <entry>Bring the geeqie window to the top</entry>
           </row>
+          <row>
+            <entry>-ct:clear|clean</entry>
+            <entry>--cache-thumbs:clear|clean</entry>
+            <entry>clear or clean thumbnail cache</entry>
+          </row>
+          <row>
+            <entry>-cs:clear|clean</entry>
+            <entry>--cache-shared:clear|clean</entry>
+            <entry>clear or clean shared thumbnail cache</entry>
+          </row>
+          <row>
+            <entry>-cm</entry>
+            <entry>--cache-metadata</entry>
+            <entry>clean the metadata cache</entry>
+          </row>
+          <row>
+            <entry>-cr:&lt;folder&gt;</entry>
+            <entry>--cache-render:&lt;folder&gt;</entry>
+            <entry>render thumbnails</entry>
+          </row>
+          <row>
+            <entry>-crr:&lt;folder&gt;</entry>
+            <entry>--cache-render-recurse:&lt;folder&gt;</entry>
+            <entry>render thumbnails recursively</entry>
+          </row>
+          <row>
+            <entry>-crs:&lt;folder&gt;</entry>
+            <entry>--cache-render-shared:&lt;folder&gt;</entry>
+            <entry>
+              render thumbnails
+              <footnote id='ref2'>
+                <para>If standard thumbnail cache is not enabled, this command will be ignored.</para>
+              </footnote>
+            </entry>
+          </row>
+          <row>
+            <entry>-crsr:&lt;folder&gt;</entry>
+            <entry>--cache-render-shared-recurse:&lt;folder&gt;</entry>
+            <entry>render thumbnails recursively</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>

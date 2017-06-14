@@ -48,6 +48,7 @@ struct _CMData
 	GtkWidget *button_close;
 	gboolean clear;
 	gboolean metadata;
+	gboolean remote;
 };
 
 #define PURGE_DIALOG_WIDTH 400
@@ -117,11 +118,14 @@ static void cache_maintain_home_stop(CMData *cm)
 		cm->idle_id = 0;
 		}
 
-	gtk_entry_set_text(GTK_ENTRY(cm->entry), _("done"));
-	spinner_set_interval(cm->spinner, -1);
+	if (!cm->remote)
+		{
+		gtk_entry_set_text(GTK_ENTRY(cm->entry), _("done"));
+		spinner_set_interval(cm->spinner, -1);
 
-	gtk_widget_set_sensitive(cm->button_stop, FALSE);
-	gtk_widget_set_sensitive(cm->button_close, TRUE);
+		gtk_widget_set_sensitive(cm->button_stop, FALSE);
+		gtk_widget_set_sensitive(cm->button_close, TRUE);
+		}
 }
 
 static gboolean cache_maintain_home_cb(gpointer data)
@@ -224,7 +228,7 @@ static gboolean cache_maintain_home_cb(gpointer data)
 		file_data_unref(fd);
 		}
 
-	if (cm->list)
+	if (cm->list && !cm->remote)
 		{
 		const gchar *buf;
 
@@ -292,6 +296,7 @@ void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 	cm->done_list = NULL;
 	cm->clear = clear;
 	cm->metadata = metadata;
+	cm->remote = FALSE;
 
 	if (metadata)
 		{
@@ -335,6 +340,41 @@ void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 	gtk_widget_show(cm->spinner);
 
 	gtk_widget_show(cm->gd->dialog);
+
+	cm->idle_id = g_idle_add(cache_maintain_home_cb, cm);
+}
+
+void cache_maintain_home_remote(gboolean metadata, gboolean clear)
+{
+	CMData *cm;
+	GList *dlist;
+	FileData *dir_fd;
+	const gchar *cache_folder;
+
+	if (metadata)
+		{
+		cache_folder = get_metadata_cache_dir();
+		}
+	else
+		{
+		cache_folder = get_thumbnails_cache_dir();
+		}
+
+	dir_fd = file_data_new_dir(cache_folder);
+	if (!filelist_read(dir_fd, NULL, &dlist))
+		{
+		file_data_unref(dir_fd);
+		return;
+		}
+
+	dlist = g_list_append(dlist, dir_fd);
+
+	cm = g_new0(CMData, 1);
+	cm->list = dlist;
+	cm->done_list = NULL;
+	cm->clear = clear;
+	cm->metadata = metadata;
+	cm->remote = TRUE;
 
 	cm->idle_id = g_idle_add(cache_maintain_home_cb, cm);
 }
@@ -526,6 +566,8 @@ struct _CleanData
 	gboolean local;
 	gboolean recurse;
 
+	gboolean remote;
+
 	guint idle_id; /* event source id */
 };
 
@@ -555,14 +597,16 @@ static void cache_manager_render_close_cb(GenericDialog *fd, gpointer data)
 static void cache_manager_render_finish(CleanData *cd)
 {
 	cache_manager_render_reset(cd);
+	if (!cd->remote)
+		{
+		gtk_entry_set_text(GTK_ENTRY(cd->progress), _("done"));
+		spinner_set_interval(cd->spinner, -1);
 
-	gtk_entry_set_text(GTK_ENTRY(cd->progress), _("done"));
-	spinner_set_interval(cd->spinner, -1);
-
-	gtk_widget_set_sensitive(cd->group, TRUE);
-	gtk_widget_set_sensitive(cd->button_start, TRUE);
-	gtk_widget_set_sensitive(cd->button_stop, FALSE);
-	gtk_widget_set_sensitive(cd->button_close, TRUE);
+		gtk_widget_set_sensitive(cd->group, TRUE);
+		gtk_widget_set_sensitive(cd->button_start, TRUE);
+		gtk_widget_set_sensitive(cd->button_stop, FALSE);
+		gtk_widget_set_sensitive(cd->button_close, TRUE);
+		}
 }
 
 static void cache_manager_render_stop_cb(GenericDialog *fd, gpointer data)
@@ -624,7 +668,10 @@ static gboolean cache_manager_render_file(CleanData *cd)
 		success = thumb_loader_start((ThumbLoader *)cd->tl, fd);
 		if (success)
 			{
-			gtk_entry_set_text(GTK_ENTRY(cd->progress), fd->path);
+			if (!cd->remote)
+				{
+				gtk_entry_set_text(GTK_ENTRY(cd->progress), fd->path);
+				}
 			}
 		else
 			{
@@ -660,26 +707,62 @@ static void cache_manager_render_start_cb(GenericDialog *fd, gpointer data)
 	CleanData *cd = data;
 	gchar *path;
 
-	if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
+	if(!cd->remote)
+		{
+		if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
+		}
 
 	path = remove_trailing_slash((gtk_entry_get_text(GTK_ENTRY(cd->entry))));
 	parse_out_relatives(path);
 
 	if (!isdir(path))
 		{
-		warning_dialog(_("Invalid folder"),
-				_("The specified folder can not be found."),
-			       GTK_STOCK_DIALOG_WARNING, cd->gd->dialog);
+		if (!cd->remote)
+			{
+			warning_dialog(_("Invalid folder"),
+			_("The specified folder can not be found."),
+			GTK_STOCK_DIALOG_WARNING, cd->gd->dialog);
+			}
+		else
+			{
+			log_printf("The specified folder can not be found: %s\n", path);
+			}
 		}
 	else
 		{
 		FileData *dir_fd;
-		gtk_widget_set_sensitive(cd->group, FALSE);
-		gtk_widget_set_sensitive(cd->button_start, FALSE);
-		gtk_widget_set_sensitive(cd->button_stop, TRUE);
-		gtk_widget_set_sensitive(cd->button_close, FALSE);
+		if(!cd->remote)
+			{
+			gtk_widget_set_sensitive(cd->group, FALSE);
+			gtk_widget_set_sensitive(cd->button_start, FALSE);
+			gtk_widget_set_sensitive(cd->button_stop, TRUE);
+			gtk_widget_set_sensitive(cd->button_close, FALSE);
 
-		spinner_set_interval(cd->spinner, SPINNER_SPEED);
+			spinner_set_interval(cd->spinner, SPINNER_SPEED);
+			}
+		dir_fd = file_data_new_dir(path);
+		cache_manager_render_folder(cd, dir_fd);
+		file_data_unref(dir_fd);
+		while (cache_manager_render_file(cd));
+		}
+
+	g_free(path);
+}
+
+static void cache_manager_render_start_render_remote(CleanData *cd, const gchar *user_path)
+{
+	gchar *path;
+
+	path = remove_trailing_slash(user_path);
+	parse_out_relatives(path);
+
+	if (!isdir(path))
+		{
+		log_printf("The specified folder can not be found: %s\n", path);
+		}
+	else
+		{
+		FileData *dir_fd;
 
 		dir_fd = file_data_new_dir(path);
 		cache_manager_render_folder(cd, dir_fd);
@@ -698,6 +781,7 @@ static void cache_manager_render_dialog(GtkWidget *widget, const gchar *path)
 	GtkWidget *button;
 
 	cd = g_new0(CleanData, 1);
+	cd->remote = FALSE;
 
 	cd->gd = generic_dialog_new(_("Create thumbnails"),
 				    "create_thumbnails",
@@ -750,8 +834,17 @@ static void cache_manager_render_dialog(GtkWidget *widget, const gchar *path)
 	gtk_widget_show(cd->gd->dialog);
 }
 
+void cache_manager_render_remote(const gchar *path, gboolean recurse, gboolean local)
+{
+	CleanData *cd;
 
+	cd = g_new0(CleanData, 1);
+	cd->recurse = recurse;
+	cd->local = local;
+	cd->remote = TRUE;
 
+	cache_manager_render_start_render_remote(cd, path);
+}
 
 static void cache_manager_standard_clean_close_cb(GenericDialog *gd, gpointer data)
 {
@@ -768,12 +861,14 @@ static void cache_manager_standard_clean_close_cb(GenericDialog *gd, gpointer da
 
 static void cache_manager_standard_clean_done(CleanData *cd)
 {
-	gtk_widget_set_sensitive(cd->button_stop, FALSE);
-	gtk_widget_set_sensitive(cd->button_close, TRUE);
+	if (!cd->remote)
+		{
+		gtk_widget_set_sensitive(cd->button_stop, FALSE);
+		gtk_widget_set_sensitive(cd->button_close, TRUE);
 
-	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(cd->progress), 1.0);
-	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("done"));
-
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(cd->progress), 1.0);
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("done"));
+		}
 	if (cd->idle_id)
 		{
 		g_source_remove(cd->idle_id);
@@ -811,10 +906,13 @@ static gint cache_manager_standard_clean_clear_cb(gpointer data)
 		file_data_unref(next_fd);
 
 		cd->count_done++;
-		if (cd->count_total != 0)
+		if (!cd->remote)
 			{
-			gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(cd->progress),
-						      (gdouble)cd->count_done / cd->count_total);
+			if (cd->count_total != 0)
+				{
+				gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(cd->progress),
+							      (gdouble)cd->count_done / cd->count_total);
+				}
 			}
 
 		return TRUE;
@@ -838,10 +936,13 @@ static void cache_manager_standard_clean_valid_cb(const gchar *path, gboolean va
 			}
 
 		cd->count_done++;
-		if (cd->count_total != 0)
+		if (!cd->remote)
 			{
-			gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(cd->progress),
-						      (gdouble)cd->count_done / cd->count_total);
+			if (cd->count_total != 0)
+				{
+				gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(cd->progress),
+							      (gdouble)cd->count_done / cd->count_total);
+				}
 			}
 		}
 
@@ -863,20 +964,23 @@ static void cache_manager_standard_clean_valid_cb(const gchar *path, gboolean va
 		}
 }
 
-static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer data)
+static void cache_manager_standard_clean_start(GenericDialog *gd, gpointer data)
 {
 	CleanData *cd = data;
 	GList *list;
 	gchar *path;
 	FileData *dir_fd;
 
-	if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
+	if (!cd->remote)
+	{
+		if (cd->list || !gtk_widget_get_sensitive(cd->button_start)) return;
 
-	gtk_widget_set_sensitive(cd->button_start, FALSE);
-	gtk_widget_set_sensitive(cd->button_stop, TRUE);
-	gtk_widget_set_sensitive(cd->button_close, FALSE);
+		gtk_widget_set_sensitive(cd->button_start, FALSE);
+		gtk_widget_set_sensitive(cd->button_stop, TRUE);
+		gtk_widget_set_sensitive(cd->button_close, FALSE);
 
-	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
+	}
 
 	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_NORMAL, NULL);
 	dir_fd = file_data_new_dir(path);
@@ -913,6 +1017,11 @@ static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer da
 		}
 }
 
+static void cache_manager_standard_clean_start_cb(GenericDialog *gd, gpointer data)
+{
+	cache_manager_standard_clean_start(gd, data);
+}
+
 static void cache_manager_standard_process(GtkWidget *widget, gboolean clear)
 {
 	CleanData *cd;
@@ -921,6 +1030,7 @@ static void cache_manager_standard_process(GtkWidget *widget, gboolean clear)
 
 	cd = g_new0(CleanData, 1);
 	cd->clear = clear;
+	cd->remote = FALSE;
 
 	if (clear)
 		{
@@ -961,6 +1071,20 @@ static void cache_manager_standard_process(GtkWidget *widget, gboolean clear)
 	cd->idle_id = 0;
 
 	gtk_widget_show(cd->gd->dialog);
+}
+
+void cache_manager_standard_process_remote(gboolean clear)
+{
+	CleanData *cd;
+
+	cd = g_new0(CleanData, 1);
+	cd->clear = clear;
+	cd->days = 30;
+	cd->tl = NULL;
+	cd->idle_id = 0;
+	cd->remote = TRUE;
+
+	cache_manager_standard_clean_start(NULL, cd);
 }
 
 static void cache_manager_standard_clean_cb(GtkWidget *widget, gpointer data)
