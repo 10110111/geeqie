@@ -2737,11 +2737,11 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	gtk_action_set_sensitive(action, lw->split_mode != SPLIT_NONE);
 
 	action = gtk_action_group_get_action(lw->action_group, "WriteRotation");
-	gtk_action_set_sensitive(action, !(runcmd("which exiftran >null") ||
-							runcmd("which mogrify >null") || options->metadata.write_orientation));
+	gtk_action_set_sensitive(action, !(runcmd("which exiftran >/dev/null") ||
+							runcmd("which mogrify >/dev/null") || options->metadata.write_orientation));
 	action = gtk_action_group_get_action(lw->action_group, "WriteRotationKeepDate");
-	gtk_action_set_sensitive(action, !(runcmd("which exiftran >null") ||
-							runcmd("which mogrify >null") || options->metadata.write_orientation));
+	gtk_action_set_sensitive(action, !(runcmd("which exiftran >/dev/null") ||
+							runcmd("which mogrify >/dev/null") || options->metadata.write_orientation));
 
 	action = gtk_action_group_get_action(lw->action_group, "StereoAuto");
 	gtk_radio_action_set_current_value(GTK_RADIO_ACTION(action), layout_image_stereo_pixbuf_get(lw));
