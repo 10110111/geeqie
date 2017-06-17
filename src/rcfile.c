@@ -463,6 +463,12 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_INT(*options, stereo.fixed_y1);
 	WRITE_NL(); WRITE_INT(*options, stereo.fixed_x2);
 	WRITE_NL(); WRITE_INT(*options, stereo.fixed_y2);
+
+	/* copy move rename */
+	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.auto_start);
+	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.auto_padding);
+	WRITE_NL(); WRITE_CHAR(*options, cp_mv_rn.auto_end);
+	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.formatted_start);
 }
 
 static void write_color_profile(GString *outstr, gint indent)
@@ -746,6 +752,12 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, stereo.fixed_y1)) continue;
 		if (READ_INT(*options, stereo.fixed_x2)) continue;
 		if (READ_INT(*options, stereo.fixed_y2)) continue;
+
+		/* copy move rename */
+		if (READ_INT(*options, cp_mv_rn.auto_start))  continue;
+		if (READ_INT(*options, cp_mv_rn.auto_padding)) continue;
+		if (READ_CHAR(*options, cp_mv_rn.auto_end)) continue;
+		if (READ_INT(*options, cp_mv_rn.formatted_start)) continue;
 
 		/* Dummy options */
 		if (READ_DUMMY(*options, image.dither_quality, "deprecated since 2012-08-13")) continue;

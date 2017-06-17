@@ -1291,13 +1291,19 @@ static void file_util_rename_preview_update(UtilityData *ud)
 
 		format = gtk_entry_get_text(GTK_ENTRY(ud->format_entry));
 
+		g_free(options->cp_mv_rn.auto_end);
+		options->cp_mv_rn.auto_end = g_strdup(end);
+		options->cp_mv_rn.auto_padding = padding;
+
 		if (mode == UTILITY_RENAME_FORMATTED)
 			{
 			start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ud->format_spin));
+			options->cp_mv_rn.formatted_start = start_n;
 			}
 		else
 			{
 			start_n = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ud->auto_spin_start));
+			options->cp_mv_rn.auto_start = start_n;
 			}
 
 		store = gtk_tree_view_get_model(GTK_TREE_VIEW(ud->listview));
@@ -1687,19 +1693,19 @@ static void file_util_dialog_init_source_dest(UtilityData *ud, gboolean second_i
 	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
 
 	ud->auto_spin_start = pref_spin_new(box2, NULL, NULL,
-					    0.0, 1000000.0, 1.0, 0, 1.0,
+					    0.0, 1000000.0, 1.0, 0, options->cp_mv_rn.auto_start,
 					    G_CALLBACK(file_util_rename_preview_adj_cb), ud);
 
 	box2 = furm_simple_vlabel(hbox, _("End text"), TRUE);
 
-	combo = history_combo_new(&ud->auto_entry_end, "", "numerical_rename_suffix", -1);
+	combo = history_combo_new(&ud->auto_entry_end, options->cp_mv_rn.auto_end, "numerical_rename_suffix", -1);
 	g_signal_connect(G_OBJECT(ud->auto_entry_end), "changed",
 			 G_CALLBACK(file_util_rename_preview_entry_cb), ud);
 	gtk_box_pack_start(GTK_BOX(box2), combo, TRUE, TRUE, 0);
 	gtk_widget_show(combo);
 
 	ud->auto_spin_pad = pref_spin_new(page, _("Padding:"), NULL,
-					  1.0, 8.0, 1.0, 0, 1.0,
+					  1.0, 8.0, 1.0, 0, options->cp_mv_rn.auto_padding,
 					  G_CALLBACK(file_util_rename_preview_adj_cb), ud);
 
 	page = gtk_vbox_new(FALSE, PREF_PAD_GAP);
@@ -1719,7 +1725,7 @@ static void file_util_dialog_init_source_dest(UtilityData *ud, gboolean second_i
 	box2 = furm_simple_vlabel(hbox, _("Start #"), FALSE);
 
 	ud->format_spin = pref_spin_new(box2, NULL, NULL,
-					0.0, 1000000.0, 1.0, 0, 1.0,
+					0.0, 1000000.0, 1.0, 0, options->cp_mv_rn.formatted_start,
 					G_CALLBACK(file_util_rename_preview_adj_cb), ud);
 
 //	gtk_combo_box_set_active(GTK_COMBO_BOX(ud->combo_type), 0); /* callback will take care of the rest */

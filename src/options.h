@@ -257,6 +257,14 @@ struct _ConfOptions
 			gboolean fs_temp_disable;
 		} tmp;
 	} stereo;
+
+	/* copy move rename */
+	struct {
+		gint auto_start;
+		gchar *auto_end;
+		gint auto_padding;
+		gint formatted_start;
+	} cp_mv_rn;
 };
 
 ConfOptions *options;
