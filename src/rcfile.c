@@ -335,6 +335,8 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, use_saved_window_positions_for_new_windows);
 	WRITE_NL(); WRITE_BOOL(*options, tools_restore_state);
 
+	WRITE_NL(); WRITE_UINT(*options, log_window_lines);
+
 	/* File operations Options */
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_in_place_rename);
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.confirm_delete);
@@ -628,6 +630,8 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, save_window_positions)) continue;
 		if (READ_BOOL(*options, use_saved_window_positions_for_new_windows)) continue;
 		if (READ_BOOL(*options, tools_restore_state)) continue;
+
+		if (READ_UINT(*options, log_window_lines)) continue;
 
 		/* Properties dialog options */
 		if (READ_CHAR(*options, properties.tabs_order)) continue;

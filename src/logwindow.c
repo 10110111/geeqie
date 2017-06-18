@@ -220,7 +220,6 @@ void log_window_append(const gchar *str, LogType type)
 	GtkTextView *text;
 	GtkTextBuffer *buffer;
 	GtkTextIter iter;
-	guint line_limit = 1000; //FIXME: option
 	static GList *memory = NULL;
 
 	if (logwindow == NULL)
@@ -233,7 +232,7 @@ void log_window_append(const gchar *str, LogType type)
 
 			memory = g_list_prepend(memory, msg);
 
-			while (g_list_length(memory) >= line_limit)
+			while (g_list_length(memory) >= options->log_window_lines)
 				{
 				GList *work = g_list_last(memory);
 				LogMsg *oldest_msg = work->data;
@@ -248,13 +247,13 @@ void log_window_append(const gchar *str, LogType type)
 	text = GTK_TEXT_VIEW(logwindow->text);
 	buffer = gtk_text_view_get_buffer(text);
 
-	if (line_limit > 0 && logwindow->lines >= line_limit)
+	if (options->log_window_lines > 0 && logwindow->lines >= options->log_window_lines)
 		{
 		GtkTextIter start, end;
 
 		gtk_text_buffer_get_start_iter(buffer, &start);
 		end = start;
-		gtk_text_iter_forward_lines(&end, logwindow->lines - line_limit);
+		gtk_text_iter_forward_lines(&end, logwindow->lines - options->log_window_lines);
 		gtk_text_buffer_delete(buffer, &start, &end);
 		}
 

@@ -2196,6 +2196,9 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Debug level:"), NULL,
 			  DEBUG_LEVEL_MIN, DEBUG_LEVEL_MAX, 1, get_debug_level(), &debug_c);
+
+	pref_spin_new_int(group, _("Log Window max. lines:"), NULL,
+			  1, 99999, 1, options->log_window_lines, &options->log_window_lines);
 #endif
 }
 

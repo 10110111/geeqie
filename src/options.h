@@ -54,6 +54,8 @@ struct _ConfOptions
 	gboolean use_saved_window_positions_for_new_windows;
 	gboolean tools_restore_state;
 
+	guint log_window_lines;
+
 	/* info sidebar component heights */
 	struct {
 		gint height;

@@ -196,6 +196,14 @@
           <para>Displayed when compiled with the option --enable-debug-log. This defines the verbosity of debug info sent to console and log window (0 disables the debug output).</para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Log Window max. lines</guilabel>
+        </term>
+        <listitem>
+          <para>The maximum number of data lines to be displayed. The window will show the most recent data.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
   </section>
 </section>

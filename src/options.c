@@ -170,6 +170,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->stereo.fixed_x2 = 0;
 	options->stereo.fixed_y2 = 1125;
 
+	options->log_window_lines = 1000;
+
 	return options;
 }
 
