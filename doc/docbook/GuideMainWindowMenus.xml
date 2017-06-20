@@ -1354,6 +1354,14 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <guimenu>Hide Bars</guimenu>
+        </term>
+        <listitem>
+          <para>This item is intended to be used by its shortcut key - by default this is the backtick key. When pressed, the info sidebar, sort manager and file list will be hidden (if displayed). Pressing backtick again will revert the display to its previous layout.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guimenu>Toggle slideshow</guimenu>
         </term>
         <listitem>

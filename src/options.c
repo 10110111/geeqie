@@ -255,6 +255,7 @@ LayoutOptions *init_layout_options(LayoutOptions *options)
 	options->image_overlay.histogram_mode = 1;
 	options->image_overlay.state = OSD_SHOW_NOTHING;
 	options->animate = FALSE;
+	options->bars_state.hidden = FALSE;
 	return options;
 }
 

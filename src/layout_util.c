@@ -64,6 +64,7 @@
 
 static gboolean layout_bar_enabled(LayoutWindow *lw);
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw);
+static void layout_bars_hide_toggle(LayoutWindow *lw);
 static void layout_util_sync_views(LayoutWindow *lw);
 
 /*
@@ -996,6 +997,13 @@ static void layout_menu_bar_sort_cb(GtkToggleAction *action, gpointer data)
 	layout_bar_sort_toggle(lw);
 }
 
+static void layout_menu_hide_bars_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_bars_hide_toggle(lw);
+}
+
 static void layout_menu_slideshow_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1804,6 +1812,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "HideToolbar",	NULL,			N_("Hide tool_bar"),			NULL,			N_("Hide toolbar"),			CB(layout_menu_toolbar_cb),	 FALSE  },
   { "SBar",		NULL,			N_("_Info sidebar"),			"<control>K",		N_("Info sidebar"),			CB(layout_menu_bar_cb),		 FALSE  },
   { "SBarSort",		NULL,			N_("Sort _manager"),			"<shift>S",		N_("Sort manager"),			CB(layout_menu_bar_sort_cb),	 FALSE  },
+  { "HideBars",		NULL,			N_("Hide Bars"),			"grave",		N_("Hide Bars"),			CB(layout_menu_hide_bars_cb),	 FALSE  },
   { "SlideShow",	GTK_STOCK_MEDIA_PLAY,	N_("Toggle _slideshow"),		"S",			N_("Toggle slideshow"),			CB(layout_menu_slideshow_cb),	 FALSE  },
   { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,	N_("Use _color profiles"), 		NULL,			N_("Use color profiles"), 		CB(layout_color_menu_enable_cb), FALSE},
   { "UseImageProfile",	NULL,			N_("Use profile from _image"),		NULL,			N_("Use profile from image"),		CB(layout_color_menu_use_image_cb), FALSE},
@@ -2061,6 +2070,7 @@ static const gchar *menu_ui_description =
 "      <separator/>"
 "      <menuitem action='SBar'/>"
 "      <menuitem action='SBarSort'/>"
+"      <menuitem action='HideBars'/>"
 "      <menuitem action='ShowInfoPixel'/>"
 "      <placeholder name='ToolsSection'/>"
 "      <separator/>"
@@ -2937,6 +2947,39 @@ void layout_bar_sort_toggle(LayoutWindow *lw)
 			}
 		gtk_widget_show(lw->bar_sort);
 		}
+	layout_util_sync_views(lw);
+}
+
+static void layout_bars_hide_toggle(LayoutWindow *lw)
+{
+	if (lw->options.bars_state.hidden)
+		{
+		lw->options.bars_state.hidden = FALSE;
+		if (lw->options.bars_state.sort)
+			{
+			gtk_widget_show(lw->bar_sort);
+			}
+		if (lw->options.bars_state.info)
+			{
+			gtk_widget_show(lw->bar);
+			}
+		layout_tools_float_set(lw, lw->options.tools_float,
+									lw->options.bars_state.tools_hidden);
+		}
+	else
+		{
+		lw->options.bars_state.hidden = TRUE;
+		lw->options.bars_state.sort = layout_bar_sort_enabled(lw);
+		lw->options.bars_state.info = layout_bar_enabled(lw);
+		lw->options.bars_state.tools_float = lw->options.tools_float;
+		lw->options.bars_state.tools_hidden = lw->options.tools_hidden;
+
+		gtk_widget_hide(lw->bar);
+		if (lw->bar_sort)
+			gtk_widget_hide(lw->bar_sort);
+		layout_tools_float_set(lw, lw->options.tools_float, TRUE);
+		}
+
 	layout_util_sync_views(lw);
 }
 

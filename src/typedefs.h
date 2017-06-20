@@ -629,6 +629,14 @@ struct _LayoutOptions
 	gboolean tools_hidden;
 	gboolean toolbar_hidden;
 
+	struct {
+		gboolean info;
+		gboolean sort;
+		gboolean tools_float;
+		gboolean tools_hidden;
+		gboolean hidden;
+	} bars_state;
+
 	gchar *home_path;
 	gchar *last_path;
 
