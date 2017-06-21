@@ -1941,7 +1941,7 @@ ImageWindow *image_new(gboolean frame)
 
 	image_set_selectable(imd, 0);
 
-	g_signal_connect(G_OBJECT(imd->pr), "clicked",
+	g_signal_connect(G_OBJECT(imd->pr), "button_press_event",
 			 G_CALLBACK(image_click_cb), imd);
 	g_signal_connect(G_OBJECT(imd->pr), "scroll_notify",
 			 G_CALLBACK(image_scroll_notify_cb), imd);
