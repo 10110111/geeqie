@@ -30,6 +30,7 @@
 #include "layout_config.h"
 #include "layout_image.h"
 #include "layout_util.h"
+#include "logwindow.h"
 #include "menu.h"
 #include "pixbuf-renderer.h"
 #include "pixbuf_util.h"
@@ -1343,6 +1344,26 @@ gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, 
 	return TRUE;
 }
 
+gboolean layout_geometry_get_log_window(LayoutWindow *lw, gint *x, gint *y,
+														gint *w, gint *h)
+{
+	GdkWindow *window;
+
+	if (!layout_valid(&lw)) return FALSE;
+
+	if (!lw->log_window)
+		{
+		return FALSE;
+		}
+
+	window = gtk_widget_get_window(lw->log_window);
+	gdk_window_get_root_origin(window, x, y);
+	*w = gdk_window_get_width(window);
+	*h = gdk_window_get_height(window);
+
+	return TRUE;
+}
+
 static void layout_tools_geometry_sync(LayoutWindow *lw)
 {
 	layout_geometry_get_tools(lw, &lw->options.float_window.x, &lw->options.float_window.y,
@@ -2166,6 +2187,10 @@ void layout_sync_options_with_current_state(LayoutWindow *lw)
 
 	g_free(lw->options.last_path);
 	lw->options.last_path = g_strdup(layout_get_path(lw));
+
+	layout_geometry_get_log_window(lw, &lw->options.log_window.x, &lw->options.log_window.y,
+	                                 &lw->options.log_window.w, &lw->options.log_window.h);
+
 }
 
 void layout_apply_options(LayoutWindow *lw, LayoutOptions *lop)
@@ -2439,6 +2464,12 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_channel);
 	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_mode);
 
+	WRITE_NL(); WRITE_INT(*layout, log_window.x);
+	WRITE_NL(); WRITE_INT(*layout, log_window.y);
+	WRITE_NL(); WRITE_INT(*layout, log_window.w);
+	WRITE_NL(); WRITE_INT(*layout, log_window.h);
+	WRITE_SEPARATOR();
+
 	WRITE_NL(); WRITE_BOOL(*layout, animate);
 }
 
@@ -2510,6 +2541,11 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_UINT(*layout, image_overlay.state)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_channel)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_mode)) continue;
+
+		if (READ_INT(*layout, log_window.x)) continue;
+		if (READ_INT(*layout, log_window.y)) continue;
+		if (READ_INT(*layout, log_window.w)) continue;
+		if (READ_INT(*layout, log_window.h)) continue;
 
 		if (READ_BOOL(*layout, animate)) continue;
 
@@ -2595,7 +2631,7 @@ LayoutWindow *layout_new_from_config(const gchar **attribute_names, const gchar 
 
 	if (use_commandline && command_line->startup_full_screen) layout_image_full_screen_start(lw);
 	if (use_commandline && command_line->startup_in_slideshow) layout_image_slideshow_start(lw);
-
+	if (use_commandline && command_line->log_window_show) log_window_new(lw);
 
 	g_free(path);
 	free_layout_options_content(&lop);

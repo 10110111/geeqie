@@ -77,6 +77,21 @@
           <entry>Turn on debugging output (when compiled with Debug enabled). &lt;level&gt; is 0 to 4.</entry>
         </row>
         <row>
+          <entry>-g:&lt;regexp&gt;</entry>
+          <entry>--grep:&lt;regexp&gt;</entry>
+          <entry>Filter debug output with regular expression</entry>
+        </row>
+        <row>
+          <entry>+w</entry>
+          <entry>--show-log-window</entry>
+          <entry>Display log window</entry>
+        </row>
+        <row>
+          <entry>-o:&lt;file&gt;</entry>
+          <entry>--log-file:&lt;file&gt;</entry>
+          <entry>Save log data to file</entry>
+        </row>
+        <row>
           <entry />
           <entry>--alternate</entry>
           <entry>Use alternate similarity algorithm - experimental - requires re-compile.</entry>

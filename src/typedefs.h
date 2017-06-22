@@ -625,6 +625,14 @@ struct _LayoutOptions
 		gint histogram_mode;
 	} image_overlay;
 
+	struct {
+		gint w;
+		gint h;
+		gint x;
+		gint y;
+		gboolean paused;
+	} log_window;
+
 	gboolean tools_float;
 	gboolean tools_hidden;
 	gboolean toolbar_hidden;
@@ -766,6 +774,8 @@ struct _LayoutWindow
 	GtkWidget *exif_window;
 
 	AnimationData *animation;
+
+	GtkWidget *log_window;
 };
 
 struct _ViewDir
@@ -978,11 +988,15 @@ struct _CommandLine
 	gboolean startup_command_line_collection;
 	gboolean tools_hide;
 	gboolean tools_show;
+	gboolean log_window_show;
 	gchar *path;
 	gchar *file;
 	GList *cmd_list;
 	GList *collection_list;
 	gchar *geometry;
+	gchar *regexp;
+	gchar *log_file;
+	SecureSaveInfo *ssi;
 };
 
 #endif

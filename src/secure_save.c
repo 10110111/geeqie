@@ -298,7 +298,6 @@ secure_close(SecureSaveInfo *ssi)
 				utime(ssi->tmp_file_name, &tb);
 				}
 			}
-		DEBUG_3("rename %s -> %s", ssi->tmp_file_name, ssi->file_name);
 		if (rename(ssi->tmp_file_name, ssi->file_name) == -1) {
 			ret = errno;
 			secsave_errno = SS_ERR_RENAME;

@@ -226,6 +226,7 @@ static void parse_command_line(gint argc, gchar *argv[])
 
 	command_line->argc = argc;
 	command_line->argv = argv;
+	command_line->regexp = NULL;
 
 	if (argc > 1)
 		{
@@ -301,6 +302,27 @@ static void parse_command_line(gint argc, gchar *argv[])
 					remote_list = remote_build_list(remote_list, argc - i, &argv[i], &remote_errors);
 					}
 				}
+			else if ((strcmp(cmd_line, "+w") == 0) ||
+						strcmp(cmd_line, "--show-log-window") == 0)
+				{
+				command_line->log_window_show = TRUE;
+				}
+			else if (strncmp(cmd_line, "-o:", 3) == 0)
+				{
+				command_line->log_file = g_strdup(cmd_line + 3);
+				}
+			else if (strncmp(cmd_line, "--log-file:", 11) == 0)
+				{
+				command_line->log_file = g_strdup(cmd_line + 11);
+				}
+			else if (strncmp(cmd_line, "-g:", 3) == 0)
+				{
+				set_regexp(g_strdup(cmd_line+3));
+				}
+			else if (strncmp(cmd_line, "-grep:", 6) == 0)
+				{
+				set_regexp(g_strdup(cmd_line+3));
+				}
 			else if (strcmp(cmd_line, "-rh") == 0 ||
 				 strcmp(cmd_line, "--remote-help") == 0)
 				{
@@ -340,7 +362,10 @@ static void parse_command_line(gint argc, gchar *argv[])
 				print_term(_("  -rh,--remote-help                print remote command list\n"));
 #ifdef DEBUG
 				print_term(_("      --debug[=level]              turn on debug output\n"));
+				print_term(_("  -g:<regexp>, --grep:<regexp>     filter debug output\n"));
 #endif
+				print_term(_("  +w, --show-log-window            show log window\n"));
+				print_term(_("  -o:<file>, --log-file:<file>     save log data to file\n"));
 				print_term(_("  -v, --version                    print version info\n"));
 				print_term(_("  -h, --help                       show this message\n\n"));
 
@@ -639,6 +664,8 @@ static void exit_program_final(void)
 		layout_free(lw);
 		}
 
+	secure_close(command_line->ssi);
+
 	gtk_main_quit();
 }
 
@@ -869,6 +896,15 @@ gint main(gint argc, gchar *argv[])
 			cw = collection_window_new(path);
 			if (!first_collection && cw) first_collection = cw->cd;
 			}
+		}
+
+	if (command_line->log_file)
+		{
+		gchar *pathl;
+		gchar *path = g_strdup(command_line->log_file);
+
+		pathl = path_from_utf8(path);
+		command_line->ssi = secure_open(pathl);
 		}
 
 	if (command_line->cmd_list ||

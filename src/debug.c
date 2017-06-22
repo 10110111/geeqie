@@ -25,10 +25,22 @@
 #include "ui_fileops.h"
 
 #include <glib/gprintf.h>
+#include <regex.h>
 
 /*
  * Logging functions
  */
+static gchar *regexp = NULL;
+
+void set_regexp(gchar *cmd_regexp)
+{
+	regexp = g_strdup(cmd_regexp);
+}
+
+gchar *get_regexp()
+{
+	return g_strdup(regexp);
+}
 
 static gboolean log_msg_cb(gpointer data)
 {
@@ -50,17 +62,44 @@ void log_domain_printf(const gchar *domain, const gchar *format, ...)
 {
 	va_list ap;
 	gchar *buf;
+	regex_t regex;
+	gint ret_comp, ret_exec;
+	gchar *filtered_buf;
 
 	va_start(ap, format);
 	buf = g_strdup_vprintf(format, ap);
 	va_end(ap);
 
-	print_term(buf);
-	if (strcmp(domain, DOMAIN_INFO) == 0)
-		g_idle_add(log_normal_cb, buf);
-	else
-		g_idle_add(log_msg_cb, buf);
+	if (regexp && command_line && buf)
+		{
+		if (g_strcmp0(buf,"\n"))
+			{
+			ret_comp = regcomp(&regex, regexp, 0);
+			if (!ret_comp)
+				{
+				ret_exec = regexec(&regex, buf, 0, NULL, 0);
 
+				filtered_buf = g_strconcat(buf, "\n", NULL);
+				if (!ret_exec)
+					{
+					print_term(filtered_buf);
+					if (strcmp(domain, DOMAIN_INFO) == 0)
+						g_idle_add(log_normal_cb, filtered_buf);
+					else
+						g_idle_add(log_msg_cb, filtered_buf);
+					}
+				regfree(&regex);
+				}
+			}
+		}
+	else
+		{
+		print_term(buf);
+		if (strcmp(domain, DOMAIN_INFO) == 0)
+			g_idle_add(log_normal_cb, buf);
+		else
+			g_idle_add(log_msg_cb, buf);
+		}
 }
 
 /*

@@ -1244,7 +1244,7 @@ static void layout_menu_log_window_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-	log_window_new();
+	log_window_new(lw);
 }
 
 

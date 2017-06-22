@@ -30,7 +30,7 @@ typedef enum
 	LOG_COUNT
 } LogType;
 
-void log_window_new(void);
+void log_window_new(LayoutWindow *lw);
 
 void log_window_append(const gchar *str, LogType type);
 

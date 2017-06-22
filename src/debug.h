@@ -34,6 +34,8 @@ void log_domain_printf(const gchar *domain, const gchar *format, ...) G_GNUC_PRI
 #define DEBUG_LEVEL_MIN 0
 #define DEBUG_LEVEL_MAX 4
 
+void set_regexp(gchar *regexp);
+gchar *get_regexp();
 gint get_debug_level(void);
 void set_debug_level(gint new_level);
 void debug_level_add(gint delta);

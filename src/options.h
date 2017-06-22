@@ -267,6 +267,12 @@ struct _ConfOptions
 		gint auto_padding;
 		gint formatted_start;
 	} cp_mv_rn;
+
+	/* log window */
+	struct {
+		gboolean paused;
+		gboolean line_wrap;
+	} log_window;
 };
 
 ConfOptions *options;

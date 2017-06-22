@@ -171,6 +171,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->stereo.fixed_y2 = 1125;
 
 	options->log_window_lines = 1000;
+	options->log_window.line_wrap = TRUE;
+	options->log_window.paused = FALSE;
 
 	return options;
 }
@@ -256,6 +258,8 @@ LayoutOptions *init_layout_options(LayoutOptions *options)
 	options->image_overlay.state = OSD_SHOW_NOTHING;
 	options->animate = FALSE;
 	options->bars_state.hidden = FALSE;
+	options->log_window.w = 520;
+	options->log_window.h = 400;
 	return options;
 }
 
