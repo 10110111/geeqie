@@ -1,0 +1,8 @@
+language: c
+compiler:
+  - gcc
+  - clang
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq debhelper dpkg-dev dh-autoreconf gnome-doc-utils libtool autoconf automake autotools-dev libgtk2.0-dev libexiv2-dev liblcms2-dev liblircclient-dev intltool gnome-doc-utils imagemagick libtiff-dev libjpeg-dev liblua5.1-0-dev
+script: (CFLAGS= ./autogen.sh) && make
