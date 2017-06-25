@@ -32,16 +32,6 @@
  */
 static gchar *regexp = NULL;
 
-void set_regexp(gchar *cmd_regexp)
-{
-	regexp = g_strdup(cmd_regexp);
-}
-
-gchar *get_regexp()
-{
-	return g_strdup(regexp);
-}
-
 static gboolean log_msg_cb(gpointer data)
 {
 	gchar *buf = data;
@@ -58,48 +48,72 @@ static gboolean log_normal_cb(gpointer data)
 	return FALSE;
 }
 
+void log_domain_print_message(const gchar *domain, gchar *buf)
+{
+	gchar *buf_nl;
+	regex_t regex;
+	gint ret_comp, ret_exec;
+
+	buf_nl = g_strconcat(buf, "\n", NULL);
+
+	if (regexp && command_line)
+		{
+			ret_comp = regcomp(&regex, regexp, 0);
+			if (!ret_comp)
+				{
+				ret_exec = regexec(&regex, buf_nl, 0, NULL, 0);
+
+				if (!ret_exec)
+					{
+					print_term(buf_nl);
+					if (strcmp(domain, DOMAIN_INFO) == 0)
+						g_idle_add(log_normal_cb, buf_nl);
+					else
+						g_idle_add(log_msg_cb, buf_nl);
+					}
+				regfree(&regex);
+				}
+		}
+	else
+		{
+		print_term(buf_nl);
+		if (strcmp(domain, DOMAIN_INFO) == 0)
+			g_idle_add(log_normal_cb, buf_nl);
+		else
+			g_idle_add(log_msg_cb, buf_nl);
+		}
+	g_free(buf);
+}
+
+void log_domain_print_debug(const gchar *domain, const gchar *file_name,
+									int line_number, const gchar *format, ...)
+{
+	va_list ap;
+	gchar *message;
+	gchar *location;
+	gchar *buf;
+
+	va_start(ap, format);
+	message = g_strdup_vprintf(format, ap);
+	va_end(ap);
+
+	location = g_strdup_printf("%s:%d:", file_name, line_number);
+	buf = g_strconcat(location, message, NULL);
+	log_domain_print_message(domain,buf);
+	g_free(location);
+	g_free(message);
+}
+
 void log_domain_printf(const gchar *domain, const gchar *format, ...)
 {
 	va_list ap;
 	gchar *buf;
-	regex_t regex;
-	gint ret_comp, ret_exec;
-	gchar *filtered_buf;
 
 	va_start(ap, format);
 	buf = g_strdup_vprintf(format, ap);
 	va_end(ap);
 
-	if (regexp && command_line && buf)
-		{
-		if (g_strcmp0(buf,"\n"))
-			{
-			ret_comp = regcomp(&regex, regexp, 0);
-			if (!ret_comp)
-				{
-				ret_exec = regexec(&regex, buf, 0, NULL, 0);
-
-				filtered_buf = g_strconcat(buf, "\n", NULL);
-				if (!ret_exec)
-					{
-					print_term(filtered_buf);
-					if (strcmp(domain, DOMAIN_INFO) == 0)
-						g_idle_add(log_normal_cb, filtered_buf);
-					else
-						g_idle_add(log_msg_cb, filtered_buf);
-					}
-				regfree(&regex);
-				}
-			}
-		}
-	else
-		{
-		print_term(buf);
-		if (strcmp(domain, DOMAIN_INFO) == 0)
-			g_idle_add(log_normal_cb, buf);
-		else
-			g_idle_add(log_msg_cb, buf);
-		}
+	log_domain_print_message(domain, buf);
 }
 
 /*
@@ -189,6 +203,16 @@ const gchar *get_exec_time(void)
 void init_exec_time(void)
 {
 	get_exec_time();
+}
+
+void set_regexp(gchar *cmd_regexp)
+{
+	regexp = g_strdup(cmd_regexp);
+}
+
+gchar *get_regexp(void)
+{
+	return g_strdup(regexp);
 }
 
 #endif /* DEBUG */

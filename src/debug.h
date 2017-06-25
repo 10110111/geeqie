@@ -27,6 +27,8 @@
 #define DOMAIN_INFO  "info"
 
 void log_domain_printf(const gchar *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
+void log_domain_print_debug(const gchar *domain, const gchar *file_name,
+							int line_number, const gchar *format, ...) G_GNUC_PRINTF(4, 5);
 #define log_printf(...) log_domain_printf(DOMAIN_INFO, __VA_ARGS__)
 
 #ifdef DEBUG
@@ -35,7 +37,7 @@ void log_domain_printf(const gchar *domain, const gchar *format, ...) G_GNUC_PRI
 #define DEBUG_LEVEL_MAX 4
 
 void set_regexp(gchar *regexp);
-gchar *get_regexp();
+gchar *get_regexp(void);
 gint get_debug_level(void);
 void set_debug_level(gint new_level);
 void debug_level_add(gint delta);
@@ -48,14 +50,21 @@ void init_exec_time(void);
 				gint debug_level = get_debug_level(); \
 				if (debug_level >= (n)) 	\
 					{ 		\
-					if (debug_level != 1) log_domain_printf(DOMAIN_DEBUG, "%s:%d: ", __FILE__, __LINE__); \
-					log_domain_printf(DOMAIN_DEBUG, __VA_ARGS__); \
-					log_domain_printf(DOMAIN_DEBUG, "\n"); \
+					if (debug_level != 1) \
+					{ \
+						log_domain_print_debug(DOMAIN_DEBUG, __FILE__, __LINE__, __VA_ARGS__); \
+					} \
+					else \
+						{ \
+						log_domain_printf(DOMAIN_DEBUG, __VA_ARGS__); \
+						} \
 					} \
 				} while (0)
 
 #else /* DEBUG */
 
+#define get_regexp() (0)
+#define set_regexp(regexp) do { } while(0)
 #define get_debug_level() (0)
 #define set_debug_level(new_level) do { } while(0)
 #define debug_level_add(delta) do { } while(0)
