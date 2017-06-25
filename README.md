@@ -12,6 +12,8 @@
 
 This is Geeqie, a successor of GQview.
 
+[![Build Status](https://api.travis-ci.org/BestImageViewer/geeqie.svg?branch=master)](https://travis-ci.org/BestImageViewer/geeqie)
+
 Geeqie has been forked from GQview project, because it was not possible to
 contact GQview author and the only maintainer. Geeqie projects goal is to move
 the development forward and also integrate the existing patches.
@@ -27,15 +29,15 @@ open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
 
 # README contents:
 
-    * Requirements
-    * Notes and changes for this release
-    * Installation
-    * Description / Features
-    * Documentation (keyboard shortcuts)
-    * Editor command macros
-    * Additional comments
-    * Translation status
-    * Credits
+* Requirements
+* Notes and changes for this release
+* Installation
+* Description / Features
+* Documentation (keyboard shortcuts)
+* Editor command macros
+* Additional comments
+* Translation status
+* Credits
 
 ## Requirements
 
@@ -118,31 +120,30 @@ See NEWS file.
 
 ## Installation
 
-  Compilation: ./autogen.sh ; make
-  Show compile options: ./autogen.sh --help
-  General install: make install
-  Removal: make uninstall
+Compilation: ./autogen.sh ; make
+Show compile options: ./autogen.sh --help
+General install: make install
+Removal: make uninstall
 
 ## Description / Features
 
-  Geeqie is a graphics file viewer. Basic features:
+Geeqie is a graphics file viewer. Basic features:
 
-    - Single click image viewing / navigation.
-    - Zoom functions.
-    - Thumbnails, with optional caching and .xvpics support.
-    - Multiple file selection for move, copy, delete, rename, drag and drop.
-    - Drag and drop.
-    - Slideshow.
-    - Full screen.
-    - Ability to open images in external editors (configurable).
-    - Collections.
-    - Comparison of images to find duplicates by name, size, date,
-      dimensions, or image content similarity.
-      - Rotation invariant detection
-    - EXIF support.
-    - support for stereoscopic images
-      - input: side-by-side (JPS) and MPO format
-      - output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
+* Single click image viewing / navigation.
+* Zoom functions.
+* Thumbnails, with optional caching and .xvpics support.
+* Multiple file selection for move, copy, delete, rename, drag and drop.
+* Drag and drop.
+* Slideshow.
+* Full screen.
+* Ability to open images in external editors (configurable).
+* Collections.
+* Comparison of images to find duplicates by name, size, date, dimensions, or image content similarity.
+    * Rotation invariant detection
+* EXIF support.
+* support for stereoscopic images
+    * input: side-by-side (JPS) and MPO format
+    * output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
 ## Credits                                             [section:credits]
 

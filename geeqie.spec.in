@@ -81,7 +81,7 @@ make install DESTDIR=%{buildroot}
 %suse_update_desktop_file -n geeqie
 %endif
 
-%__install -m 644 AUTHORS COPYING ChangeLog NEWS README README.lirc "%{buildroot}/%{_docdir}/%{docname}/"
+%__install -m 644 AUTHORS COPYING ChangeLog NEWS README.md README.lirc "%{buildroot}/%{_docdir}/%{docname}/"
 
 %clean
 %__rm -rf "%{buildroot}"

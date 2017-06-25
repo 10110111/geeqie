@@ -257,7 +257,7 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	path = g_build_filename(GQ_HELPDIR, "README", NULL);
+	path = g_build_filename(GQ_HELPDIR, "README.md", NULL);
 	help_window = help_window_new(_("Help"), "help", path, key);
 	g_free(path);
 
