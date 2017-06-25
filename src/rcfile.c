@@ -631,7 +631,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, use_saved_window_positions_for_new_windows)) continue;
 		if (READ_BOOL(*options, tools_restore_state)) continue;
 
-		if (READ_UINT(*options, log_window_lines)) continue;
+		if (READ_INT(*options, log_window_lines)) continue;
 
 		/* Properties dialog options */
 		if (READ_CHAR(*options, properties.tabs_order)) continue;
