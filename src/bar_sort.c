@@ -85,8 +85,8 @@ struct _SortData
 	GtkWidget *undo_button;
 	SortActionType undo_action;
 	GList *undo_src_list;
-	gchar *undo_src;
-	gchar *undo_dest;
+	GList *undo_dest_list;
+	gchar *undo_collection;
 };
 
 
@@ -94,7 +94,7 @@ struct _SortData
 #define SORT_KEY_COLLECTIONS "sort_manager_collections"
 
 
-static void bar_sort_undo_set(SortData *sd, GList *src_list, FileData *src, const gchar *dest);
+static void bar_sort_undo_set(SortData *sd, GList *src_list, const gchar *dest);
 static void bar_sort_add_close(SortData *sd);
 
 
@@ -165,7 +165,7 @@ static void bar_sort_mode_sync(SortData *sd, SortModeType mode)
 
 	bar_sort_add_close(sd);
 
-	bar_sort_undo_set(sd, NULL, NULL, NULL);
+	bar_sort_undo_set(sd, NULL, NULL);
 }
 
 static void bar_sort_mode_cb(GtkWidget *combo, gpointer data)
@@ -183,28 +183,42 @@ static void bar_sort_mode_cb(GtkWidget *combo, gpointer data)
 }
 
 /* this takes control of src_list */
-static void bar_sort_undo_set(SortData *sd, GList *src_list, FileData *src, const gchar *dest)
+static void bar_sort_undo_set(SortData *sd, GList *src_list, const gchar *dest)
 {
 	string_list_free(sd->undo_src_list);
 	sd->undo_src_list = filelist_to_path_list(src_list);
 
-	g_free(sd->undo_src);
-	sd->undo_src = src ? g_strdup(src->path) : NULL;
-	g_free(sd->undo_dest);
-	sd->undo_dest = g_strdup(dest);
+	if (src_list)
+		{
+		/* we should create the undo_dest_list to use it later... */
+		string_list_free(sd->undo_dest_list);
+		sd->undo_dest_list=NULL;
+
+		GList *work = sd->undo_src_list;
+		while(work)
+			{
+			gchar *filename =  g_strdup(filename_from_path(work->data));
+			gchar *dest_path = g_build_filename(g_strdup(dest), filename, NULL);
+			sd->undo_dest_list = g_list_prepend(sd->undo_dest_list, g_strdup(dest_path));
+			work = work->next;
+			}
+		sd->undo_dest_list = g_list_reverse(sd->undo_dest_list);
+		}
 
 	sd->undo_action = sd->action;
 
 	if (sd->undo_button)
 		{
 		gtk_widget_set_sensitive(sd->undo_button,
-					 ((sd->undo_src_list || sd->undo_src) && sd->undo_dest) );
+					((sd->undo_src_list ) && sd->undo_dest_list));
 		}
 }
 
 static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 {
-	if (!sd->undo_src || !sd->undo_dest) return;
+	gchar *origin;
+
+	if (!(sd->undo_src_list && sd->undo_dest_list)) return;
 
 	switch (sd->undo_action)
 		{
@@ -212,30 +226,57 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 			{
 			GList *list;
 			gchar *src_dir;
+			gchar *src_path;
 
-			list = g_list_append(NULL, file_data_new_group(sd->undo_dest));
-			src_dir = remove_level_from_path(sd->undo_src);
-			file_util_move_simple(list, src_dir, sd->lw->window);
-			g_free(src_dir);
+			if (sd->undo_src_list)
+				{
+				GList *work = NULL;
+
+				src_path = g_strdup(sd->undo_src_list->data);
+				src_dir = remove_level_from_path(src_path);
+				list = sd->undo_dest_list;
+				while (list)
+					{
+					work = g_list_prepend(work, file_data_new_group(list->data));
+					list=list->next;
+					}
+				file_util_move_simple(work, src_dir, sd->lw->window);
+				g_free(src_dir);
+				g_free(src_path);
+				}
 			}
 			break;
+
 		case BAR_SORT_COPY:
-			file_util_delete(file_data_new_group(sd->undo_dest), NULL, button);
+		case BAR_SORT_FILTER:
+			if (sd->undo_src_list)
+				{
+				GList *delete_list;
+				GList *work = NULL;
+
+				delete_list = sd->undo_dest_list;
+				while (delete_list)
+					{
+					work = g_list_append(work, file_data_new_group(delete_list->data));
+					delete_list = delete_list->next;
+					}
+				file_util_delete(NULL, work, button);
+				}
 			break;
+
 		default:
-			/* undo external command */
-			file_util_delete(file_data_new_group(sd->undo_dest), NULL, button);
 			break;
 		}
 
 	layout_refresh(sd->lw);
+	origin = (sd->undo_src_list)->data;
 
-	if (isfile(sd->undo_src))
+	if (isfile(origin))
 		{
-		layout_image_set_fd(sd->lw, file_data_new_group(sd->undo_src));
+		layout_image_set_fd(sd->lw, file_data_new_group(origin));
 		}
 
-	bar_sort_undo_set(sd, NULL, NULL, NULL);
+	bar_sort_undo_set(sd, NULL, NULL);
 }
 
 static void bar_sort_undo_collection(SortData *sd)
@@ -246,13 +287,12 @@ static void bar_sort_undo_collection(SortData *sd)
 	while (work)
 		{
 		gchar *source;
-
 		source = work->data;
 		work = work->next;
-		collect_manager_remove(file_data_new_group(source), sd->undo_dest);
+		collect_manager_remove(file_data_new_group(source), sd->undo_collection);
 		}
 
-	bar_sort_undo_set(sd, NULL, NULL, NULL);
+	bar_sort_undo_set(sd, NULL,  NULL);
 }
 
 static void bar_sort_undo_cb(GtkWidget *button, gpointer data)
@@ -271,38 +311,40 @@ static void bar_sort_undo_cb(GtkWidget *button, gpointer data)
 
 static void bar_sort_bookmark_select_folder(SortData *sd, FileData *source, const gchar *path)
 {
-	GList *list;
-	gchar *dest_path;
+	GList *orig_list;
+	GList *action_list;
+	GList *undo_src_list;
 
 	if (!isdir(path)) return;
 
-	dest_path = g_build_filename(path, source->name, NULL);
-	bar_sort_undo_set(sd, NULL, source, dest_path);
+	orig_list = layout_selection_list(sd->lw);
+	action_list = orig_list;
+	undo_src_list = orig_list;
+	orig_list = NULL;
 
-	list = g_list_append(NULL, file_data_ref(source));
+	bar_sort_undo_set(sd, undo_src_list, path);
 
 	switch (sd->action)
 		{
 		case BAR_SORT_COPY:
-			file_util_copy_simple(list, path, sd->lw->window);
-			list = NULL;
+			file_util_copy_simple(action_list, path, sd->lw->window);
+			action_list = NULL;
 			layout_image_next(sd->lw);
 			break;
+
 		case BAR_SORT_MOVE:
-			file_util_move_simple(list, path, sd->lw->window);
-			list = NULL;
+			file_util_move_simple(action_list, path, sd->lw->window);
+			action_list = NULL;
 			break;
+
 		case BAR_SORT_FILTER:
-			file_util_start_filter_from_filelist(sd->filter_key, list, path, sd->lw->window);
-			list = NULL;
+			file_util_start_filter_from_filelist(sd->filter_key, action_list, path, sd->lw->window);
 			layout_image_next(sd->lw);
 			break;
+
 		default:
 			break;
 		}
-
-	g_list_free(list);
-	g_free(dest_path);
 }
 
 static void bar_sort_bookmark_select_collection(SortData *sd, FileData *source, const gchar *path)
@@ -323,11 +365,12 @@ static void bar_sort_bookmark_select_collection(SortData *sd, FileData *source, 
 
 	if (!list)
 		{
-		bar_sort_undo_set(sd, NULL, NULL, NULL);
+		bar_sort_undo_set(sd, NULL, NULL);
 		return;
 		}
 
-	bar_sort_undo_set(sd, list, NULL, path);
+	bar_sort_undo_set(sd, list, path);
+	sd->undo_collection = g_strdup(path);
 
 	while (list)
 		{
@@ -558,8 +601,9 @@ static void bar_sort_destroy(GtkWidget *widget, gpointer data)
 	bar_sort_add_close(sd);
 
 	g_free(sd->filter_key);
-	g_free(sd->undo_src);
-	g_free(sd->undo_dest);
+	string_list_free(sd->undo_src_list);
+	string_list_free(sd->undo_dest_list);
+	g_free(sd->undo_collection);
 	g_free(sd);
 }
 
@@ -594,8 +638,9 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 		}
 
 	sd->selection = selection;
-	sd->undo_src = NULL;
-	sd->undo_dest = NULL;
+	sd->undo_src_list = NULL;
+	sd->undo_dest_list = NULL;
+	sd->undo_collection = NULL;
 
 	sd->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 	g_object_set_data(G_OBJECT(sd->vbox), "bar_sort_data", sd);
