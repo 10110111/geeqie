@@ -702,6 +702,20 @@
             <entry />
             <entry>Previous split pane.</entry>
           </row>
+          <row>
+            <entry>
+              <code>Alt + Up Arrow</code>
+            </entry>
+            <entry />
+            <entry>Up or previous split pane.</entry>
+          </row>
+          <row>
+            <entry>
+              <code>Alt + Down Arrow</code>
+            </entry>
+            <entry />
+            <entry>Down or next split pane.</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>

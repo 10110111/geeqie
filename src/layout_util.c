@@ -1421,6 +1421,24 @@ static void layout_menu_split_pane_prev_cb(GtkAction *action, gpointer data)
 	layout_image_activate(lw, active_frame, FALSE);
 }
 
+static void layout_menu_split_pane_updown_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	gint active_frame;
+
+	active_frame = lw->active_split_image;
+
+	if (lw->split_images[MAX_SPLIT_IMAGES-1] )
+		{
+		active_frame = active_frame ^ 2;
+		}
+	else
+		{
+		active_frame = active_frame ^ 1;
+		}
+	layout_image_activate(lw, active_frame, FALSE);
+}
+
 static void layout_menu_image_last_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1799,6 +1817,8 @@ static GtkActionEntry menu_entries[] = {
   { "StereoCycle",	NULL,			N_("_Cycle through stereo modes"),	NULL,			N_("Cycle through stereo modes"),	CB(layout_menu_stereo_mode_next_cb) },
   { "SplitNextPane",	NULL,			N_("_Next Pane"),	"<alt>Right",			N_("Next Pane"),	CB(layout_menu_split_pane_next_cb) },
   { "SplitPreviousPane",	NULL,			N_("_Previous Pane"),	"<alt>Left",			N_("Previous Pane"),	CB(layout_menu_split_pane_prev_cb) },
+  { "SplitUpPane",	NULL,			N_("_Up Pane"),	"<alt>Up",			N_("Up Pane"),	CB(layout_menu_split_pane_updown_cb) },
+  { "SplitDownPane",	NULL,			N_("_Down Pane"),	"<alt>Down",			N_("Down Pane"),	CB(layout_menu_split_pane_updown_cb) },
   { "WriteRotation",	NULL,			N_("_Write orientation to file"),  		NULL,		N_("Write orientation to file"),			CB(layout_menu_write_rotate_cb) },
   { "WriteRotationKeepDate",	NULL,			N_("_Write orientation to file (preserve timestamp)"),  		NULL,		N_("Write orientation to file (preserve timestamp)"),			CB(layout_menu_write_rotate_keep_date_cb) },
 
@@ -2028,6 +2048,8 @@ static const gchar *menu_ui_description =
 "        <separator/>"
 "        <menuitem action='SplitNextPane'/>"
 "        <menuitem action='SplitPreviousPane'/>"
+"        <menuitem action='SplitUpPane'/>"
+"        <menuitem action='SplitDownPane'/>"
 "      </menu>"
 "      <menu action='StereoMenu'>"
 "        <menuitem action='StereoAuto'/>"
@@ -2693,6 +2715,10 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "SplitNextPane");
 	gtk_action_set_sensitive(action, !(lw->split_mode == SPLIT_NONE));
 	action = gtk_action_group_get_action(lw->action_group, "SplitPreviousPane");
+	gtk_action_set_sensitive(action, !(lw->split_mode == SPLIT_NONE));
+	action = gtk_action_group_get_action(lw->action_group, "SplitUpPane");
+	gtk_action_set_sensitive(action, !(lw->split_mode == SPLIT_NONE));
+	action = gtk_action_group_get_action(lw->action_group, "SplitDownPane");
 	gtk_action_set_sensitive(action, !(lw->split_mode == SPLIT_NONE));
 
 	action = gtk_action_group_get_action(lw->action_group, "ViewIcons");
