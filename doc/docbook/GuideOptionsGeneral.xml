@@ -68,7 +68,8 @@
         <listitem>
           <para>
             Enable this to save thumbnails to disk, subsequent requests for a thumbnail will be faster. Thumbnails are cached into:
-            <programlisting>$HOME/.cache/.geeqie/thumbnails</programlisting>
+            <programlisting>$XDG_CACHE_HOME/geeqie/thumbnails/</programlisting>
+            <programlisting>($~/.cache/geeqie/thumbnails/)</programlisting>
             Refer to
             <link linkend="GuideReferenceThumbnails">Thumbnails Reference</link>
             for additional details.
