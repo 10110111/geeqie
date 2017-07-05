@@ -31,8 +31,8 @@
 #include "ui_menu.h"
 #include "ui_fileops.h"
 #include "utilops.h"
-#include "view_file_list.h"
-#include "view_file_icon.h"
+#include "view_file/view_file_list.h"
+#include "view_file/view_file_icon.h"
 
 /*
  *-----------------------------------------------------------------------------

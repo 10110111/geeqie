@@ -81,12 +81,14 @@ extra_SLIK = \
 	$(extra_ICONS)
 
 include $(srcdir)/pan-view/Makefile.am
+include $(srcdir)/view_file/Makefile.am
 
 bin_PROGRAMS = geeqie
 
 geeqie_SOURCES = \
 	$(module_SLIK)	\
 	$(module_pan_view)	\
+	$(module_view_file)	\
 	ClayRGB1998.icc \
 	ClayRGB1998_icc.h \
 	advanced_exif.c	\
@@ -251,10 +253,6 @@ geeqie_SOURCES = \
 	view_dir_tree.h	\
 	view_file.c	\
 	view_file.h	\
-	view_file_list.c	\
-	view_file_list.h	\
-	view_file_icon.c	\
-	view_file_icon.h	\
 	window.c	\
 	window.h	\
 	lua.c		\
