@@ -230,7 +230,7 @@ static void bar_pane_gps_close_save_cb(GenericDialog *gd, gpointer data)
 
 	if (info == TARGET_TEXT_PLAIN)
 		{
-		location = decode_geo_parameters(gtk_selection_data_get_data(selection_data));
+		location = decode_geo_parameters((gchar *)gtk_selection_data_get_data(selection_data));
 		if (!(g_strstr_len(location,-1,"Error")))
 			{
 			latlong = g_strsplit(location, " ", 2);

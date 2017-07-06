@@ -683,7 +683,11 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 	GdkPixbuf *pixbuf;
 	const gchar *text;
 	GdkRectangle cell_rect;
+#if GTK_CHECK_VERSION(3,0,0)
+	GtkStateFlags state;
+#else
 	GtkStateType state;
+#endif
 	gint xpad, ypad;
 
 
@@ -712,16 +716,28 @@ gqv_cell_renderer_icon_render(GtkCellRenderer		*cell,
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
 		{
 		if (gtk_widget_has_focus(widget))
+#if GTK_CHECK_VERSION(3,0,0)
+			state = GTK_STATE_FLAG_SELECTED;
+		else
+			state = GTK_STATE_FLAG_ACTIVE;
+#else
 			state = GTK_STATE_SELECTED;
 		else
 			state = GTK_STATE_ACTIVE;
+#endif
 		}
 	else
 		{
 		if (gtk_widget_get_state(widget) == GTK_STATE_INSENSITIVE)
+#if GTK_CHECK_VERSION(3,0,0)
+			state = GTK_STATE_FLAG_INSENSITIVE;
+		else
+			state = GTK_STATE_FLAG_NORMAL;
+#else
 			state = GTK_STATE_INSENSITIVE;
 		else
 			state = GTK_STATE_NORMAL;
+#endif
 		}
 
 #if GTK_CHECK_VERSION(3,0,0)
