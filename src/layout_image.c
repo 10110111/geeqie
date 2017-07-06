@@ -1070,7 +1070,6 @@ void layout_image_alter_orientation(LayoutWindow *lw, AlterType type)
 	GtkTreePath *tpath;
 	FileData *fd_n;
 	GtkTreeIter iter;
-	IconData *id;
 
 	if (!lw || !lw->vf) return;
 
@@ -1089,8 +1088,7 @@ void layout_image_alter_orientation(LayoutWindow *lw, AlterType type)
 		{
 		if (lw->vf->type == FILEVIEW_ICON)
 			{
-			id = work->data;
-			fd_n = id->fd;
+			fd_n = work->data;
 			work = work->next;
 			}
 		else
@@ -1120,7 +1118,6 @@ void layout_image_rating(LayoutWindow *lw, const gchar *rating)
 	GtkTreePath *tpath;
 	FileData *fd_n;
 	GtkTreeIter iter;
-	IconData *id;
 
 	if (!lw || !lw->vf) return;
 
@@ -1139,8 +1136,7 @@ void layout_image_rating(LayoutWindow *lw, const gchar *rating)
 		{
 		if (lw->vf->type == FILEVIEW_ICON)
 			{
-			id = work->data;
-			fd_n = id->fd;
+			fd_n = work->data;
 			work = work->next;
 			}
 		else

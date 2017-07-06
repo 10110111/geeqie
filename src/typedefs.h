@@ -575,6 +575,8 @@ struct _FileData {
 	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
 	GList *cached_metadata;
 	gint rating;
+
+	SelectionType selected;  // Used by view_file_icon.
 };
 
 struct _LayoutOptions
@@ -823,6 +825,7 @@ struct _ViewDirInfoTree
 struct _ViewFile
 {
 	FileViewType type;
+	// TODO(xsdg): Turn this into a union (see VFLIST and VFICON from view_file.h).
 	gpointer info;
 
 	GtkWidget *widget;
@@ -883,13 +886,6 @@ typedef enum {
 	SELECTION_FOCUS		= 1 << 2
 } SelectionType;
 
-typedef struct _IconData IconData;
-struct _IconData
-{
-	SelectionType selected;
-	FileData *fd;
-};
-
 struct _ViewFileInfoIcon
 {
 	/* table stuff */
@@ -897,15 +893,15 @@ struct _ViewFileInfoIcon
 	gint rows;
 
 	GList *selection;
-	struct _IconData *prev_selection;
+	FileData *prev_selection;
 
 	GtkWidget *tip_window;
 	guint tip_delay_id; /* event source id */
-	struct _IconData *tip_id;
+	FileData *tip_fd;
 
-	struct _IconData *click_id;
+	FileData *click_fd;
 
-	struct _IconData *focus_id;
+	FileData *focus_fd;
 	gint focus_row;
 	gint focus_column;
 
