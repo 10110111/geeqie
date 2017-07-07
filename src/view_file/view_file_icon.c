@@ -1723,7 +1723,6 @@ FileData *vficon_thumb_next_fd(ViewFile *vf)
 		while (valid && tree_view_row_get_visibility(GTK_TREE_VIEW(vf->listview), &iter, FALSE) == 0)
 			{
 			GList *list;
-
 			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
 
 			// TODO(xsdg): for loop here.
@@ -1738,7 +1737,8 @@ FileData *vficon_thumb_next_fd(ViewFile *vf)
 		}
 
 	/* Then iterate through the entire list to load all of them. */
-	for (GList *work = vf->list; work; work = work->next)
+	GList *work;
+	for (work = vf->list; work; work = work->next)
 		{
 		FileData *fd = work->data;
 
