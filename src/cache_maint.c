@@ -138,6 +138,7 @@ static gboolean cache_maintain_home_cb(gpointer data)
 	gboolean still_have_a_file = TRUE;
 	gsize base_length;
 	const gchar *cache_folder;
+	gboolean filter_disable;
 
 	if (cm->metadata)
 		{
@@ -161,6 +162,13 @@ static gboolean cache_maintain_home_cb(gpointer data)
 	fd = cm->list->data;
 
 	DEBUG_1("purge chk (%d) \"%s\"", (cm->clear && !cm->metadata), fd->path);
+
+/**
+ * It is necessary to disable the file filter when clearing the cache,
+ * otherwise the .sim (file similarity) files are not deleted.
+ */
+	filter_disable = options->file_filter.disable;
+	options->file_filter.disable = TRUE;
 
 	if (g_list_find(cm->done_list, fd) == NULL)
 		{
@@ -198,6 +206,8 @@ static gboolean cache_maintain_home_cb(gpointer data)
 				}
 			}
 		}
+	options->file_filter.disable = filter_disable;
+
 	filelist_free(list);
 
 	cm->list = g_list_concat(dlist, cm->list);
@@ -1222,7 +1232,7 @@ void cache_manager_show(void)
 	button = pref_table_button(table, 0, 1, GTK_STOCK_DELETE, _("Clear cache"), FALSE,
 				   G_CALLBACK(cache_manager_main_clear_cb), cache_manager);
 	gtk_size_group_add_widget(sizegroup, button);
-	pref_table_label(table, 1, 1, _("Delete all cached thumbnails."), 0.0);
+	pref_table_label(table, 1, 1, _("Delete all cached data."), 0.0);
 
 
 	group = pref_group_new(gd->vbox, FALSE, _("Shared thumbnail cache"), GTK_ORIENTATION_VERTICAL);
