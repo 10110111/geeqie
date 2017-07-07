@@ -1859,9 +1859,9 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 	gboolean ret = TRUE;
 	GList *work, *new_work;
 	FileData *focus_fd;
-	GList *new_filelist = NULL;
 	FileData *first_selected = NULL;
-	GList *new_iconlist = NULL;  // TODO(xsdg): figure out what this should be named.
+	GList *new_filelist = NULL;
+	GList *new_fd_list = NULL;
 
 	focus_fd = VFICON(vf)->focus_fd;
 
@@ -1882,7 +1882,7 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 		VFICON(vf)->selection = NULL;
 		}
 
-	/* check for same files from old_list */
+	/* iterate old list and new list, looking for differences */
 	work = vf->list;
 	new_work = new_filelist;
 	while (work || new_work)
@@ -1913,11 +1913,13 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 			}
 		else if (work)
 			{
+			/* old item was deleted */
 			fd = work->data;
 			match = -1;
 			}
-		else /* new_work */
+		else
 			{
+			/* new item was added */
 			new_fd = new_work->data;
 			match = 1;
 			}
@@ -1943,16 +1945,17 @@ static gboolean vficon_refresh_real(ViewFile *vf, gboolean keep_position)
 				}
 			else
 				{
-				new_iconlist = g_list_prepend(new_iconlist, fd); /* it is faster to append all new entries together later */
+				/* it is faster to append all new entries together later */
+				new_fd_list = g_list_prepend(new_fd_list, new_fd);
 				}
 
 			new_work = new_work->next;
 			}
 		}
 
-	if (new_iconlist)
+	if (new_fd_list)
 		{
-		vf->list = g_list_concat(vf->list, g_list_reverse(new_iconlist));
+		vf->list = g_list_concat(vf->list, g_list_reverse(new_fd_list));
 		}
 
 	VFICON(vf)->selection = g_list_reverse(VFICON(vf)->selection);
