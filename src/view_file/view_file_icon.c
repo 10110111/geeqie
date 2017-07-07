@@ -1703,14 +1703,12 @@ void vficon_set_thumb_fd(ViewFile *vf, FileData *fd)
 	gtk_list_store_set(GTK_LIST_STORE(store), &iter, FILE_COLUMN_POINTER, list, -1);
 }
 
-// TOOD(xsdg): This could be broken
+/* Returns the next fd without a loaded pixbuf, so the thumb-loader can load the pixbuf for it. */
 FileData *vficon_thumb_next_fd(ViewFile *vf)
 {
 	GtkTreePath *tpath;
-	FileData *fd = NULL;
 
-	/* first check the visible files */
-
+	/* First see if there are visible files that don't have a loaded thumb... */
 	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(vf->listview), 0, 0, &tpath, NULL, NULL, NULL))
 		{
 		GtkTreeModel *store;
@@ -1722,40 +1720,34 @@ FileData *vficon_thumb_next_fd(ViewFile *vf)
 		gtk_tree_path_free(tpath);
 		tpath = NULL;
 
-		while (!fd && valid && tree_view_row_get_visibility(GTK_TREE_VIEW(vf->listview), &iter, FALSE) == 0)
+		while (valid && tree_view_row_get_visibility(GTK_TREE_VIEW(vf->listview), &iter, FALSE) == 0)
 			{
 			GList *list;
 
 			gtk_tree_model_get(store, &iter, FILE_COLUMN_POINTER, &list, -1);
 
-			while (!fd && list)
+			// TODO(xsdg): for loop here.
+			for (; list; list = list->next)
 				{
-				FileData *new_fd = list->data;
-				if (new_fd && !fd->thumb_pixbuf) fd = new_fd;
-				list = list->next;
+				FileData *fd = list->data;
+				if (fd && !fd->thumb_pixbuf) return fd;
 				}
 
 			valid = gtk_tree_model_iter_next(store, &iter);
 			}
 		}
 
-	/* then find first undone */
-
-	if (!fd)
+	/* Then iterate through the entire list to load all of them. */
+	for (GList *work = vf->list; work; work = work->next)
 		{
-		GList *work = vf->list;
-		while (work && !fd)
-			{
-			FileData *fd_p = work->data;
-			work = work->next;
+		FileData *fd = work->data;
 
-			// Note: This implementation differs from view_file_list.c because sidecar files are not
-			// distinct list elements here, as they are in the list view.
-			if (!fd_p->thumb_pixbuf) fd = fd_p;
-			}
+		// Note: This implementation differs from view_file_list.c because sidecar files are not
+		// distinct list elements here, as they are in the list view.
+		if (!fd->thumb_pixbuf) return fd;
 		}
 
-	return fd;
+	return NULL;
 }
 
 void vficon_thumb_reset_all(ViewFile *vf)
