@@ -555,7 +555,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 		active = (VFLIST(vf)->click_fd != NULL);
 		break;
 	case FILEVIEW_ICON:
-		active = (VFICON(vf)->click_id != NULL);
+		active = (VFICON(vf)->click_fd != NULL);
 		break;
 	}
 

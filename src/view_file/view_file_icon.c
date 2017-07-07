@@ -80,14 +80,14 @@ GList *vficon_selection_get_one(ViewFile *vf, FileData *fd)
 
 GList *vficon_pop_menu_file_list(ViewFile *vf)
 {
-	if (!VFICON(vf)->click_id) return NULL;
+	if (!VFICON(vf)->click_fd) return NULL;
 
-	if (VFICON(vf)->click_id->selected & SELECTION_SELECTED)
+	if (VFICON(vf)->click_fd->selected & SELECTION_SELECTED)
 		{
 		return vf_selection_get_list(vf);
 		}
 
-	return vficon_selection_get_one(vf, VFICON(vf)->click_id->fd);
+	return vficon_selection_get_one(vf, VFICON(vf)->click_fd);
 }
 
 void vficon_pop_menu_view_cb(GtkWidget *widget, gpointer data)
@@ -883,8 +883,7 @@ GList *vficon_selection_get_list_by_index(ViewFile *vf)
 void vficon_select_by_fd(ViewFile *vf, FileData *fd)
 {
 	if (!fd) return;
-	FileData *found_fd = g_list_find(vf->list, fd);
-	if (!found_fd) return;
+	if (!g_list_find(vf->list, fd)) return;
 
 	if (!(fd->selected & SELECTION_SELECTED))
 		{
@@ -1271,13 +1270,13 @@ gboolean vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 				{
 				if (!options->collections.rectangular_selection)
 					{
-					vficon_select_region_util(vf, old_id, new_fd, FALSE);
+					vficon_select_region_util(vf, old_fd, new_fd, FALSE);
 					}
 				else
 					{
 					vficon_select_region_util(vf, VFICON(vf)->click_fd, old_fd, FALSE);
 					}
-				vficon_select_region_util(vf, VFICON(vf)->click_fd, new_id, TRUE);
+				vficon_select_region_util(vf, VFICON(vf)->click_fd, new_fd, TRUE);
 				vficon_send_layout_select(vf, new_fd);
 				}
 			else if (event->state & GDK_CONTROL_MASK)
@@ -1695,7 +1694,8 @@ void vficon_set_thumb_fd(ViewFile *vf, FileData *fd)
 	GtkTreeIter iter;
 	GList *list;
 
-	if (!vficon_find_iter(vf, g_list_find(vf->list, fd), &iter, NULL)) return;
+	if (!g_list_find(vf->list, fd)) return;
+	if (!vficon_find_iter(vf, fd, &iter, NULL)) return;
 
 	store = gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview));
 

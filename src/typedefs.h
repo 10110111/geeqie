@@ -252,6 +252,13 @@ typedef enum {
 
 #define MAX_SPLIT_IMAGES 4
 
+typedef enum {
+	SELECTION_NONE		= 0,
+	SELECTION_SELECTED	= 1 << 0,
+	SELECTION_PRELIGHT	= 1 << 1,
+	SELECTION_FOCUS		= 1 << 2
+} SelectionType;
+
 typedef struct _ImageLoader ImageLoader;
 typedef struct _ThumbLoader ThumbLoader;
 
@@ -878,13 +885,6 @@ struct _ViewFileInfoList
 
 	guint select_idle_id; /* event source id */
 };
-
-typedef enum {
-	SELECTION_NONE		= 0,
-	SELECTION_SELECTED	= 1 << 0,
-	SELECTION_PRELIGHT	= 1 << 1,
-	SELECTION_FOCUS		= 1 << 2
-} SelectionType;
 
 struct _ViewFileInfoIcon
 {
