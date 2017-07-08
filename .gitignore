@@ -73,6 +73,10 @@ Makefile.in
 /src/pan-view/.deps
 /src/pan-view/.dirstamp
 
+# /src/view_file/
+/src/view_file/.deps
+/src/view_file/.dirstamp
+
 /build-stamp
 /debian/geeqie*
 /debian/files

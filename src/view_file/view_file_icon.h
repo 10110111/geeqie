@@ -19,8 +19,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef VIEW_FILE_ICON_H
-#define VIEW_FILE_ICON_H
+#ifndef VIEW_FILE_VIEW_FILE_ICON_H
+#define VIEW_FILE_VIEW_FILE_ICON_H
+
+#include "filedata.h"
 
 gboolean vficon_press_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
 gboolean vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);

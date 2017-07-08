@@ -31,8 +31,8 @@
 #include "ui_menu.h"
 #include "ui_fileops.h"
 #include "utilops.h"
-#include "view_file_list.h"
-#include "view_file_icon.h"
+#include "view_file/view_file_list.h"
+#include "view_file/view_file_icon.h"
 
 /*
  *-----------------------------------------------------------------------------
@@ -555,7 +555,7 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 		active = (VFLIST(vf)->click_fd != NULL);
 		break;
 	case FILEVIEW_ICON:
-		active = (VFICON(vf)->click_id != NULL);
+		active = (VFICON(vf)->click_fd != NULL);
 		break;
 	}
 

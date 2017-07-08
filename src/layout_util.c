@@ -463,7 +463,6 @@ static void layout_menu_write_rotate(GtkToggleAction *action, gpointer data, gbo
 	GtkTreePath *tpath;
 	FileData *fd_n;
 	GtkTreeIter iter;
-	IconData *id;
 	gchar *rotation;
 	gchar *command;
 	gint run_result;
@@ -489,8 +488,7 @@ static void layout_menu_write_rotate(GtkToggleAction *action, gpointer data, gbo
 		{
 		if (lw->vf->type == FILEVIEW_ICON)
 			{
-			id = work->data;
-			fd_n = id->fd;
+			fd_n = work->data;
 			work = work->next;
 			}
 		else
