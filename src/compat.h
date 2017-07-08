@@ -88,5 +88,24 @@ cairo_surface_t *compat_gdk_window_create_similar_surface (GdkWindow *window, ca
 #define gdk_drag_context_get_actions(context) ((context)->actions)
 #endif
 
+#if GTK_CHECK_VERSION(3,0,0)
+#define gtk_hbox_new(homogeneous, spacing) gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing)
+#define gtk_vbox_new(homogeneous, spacing) gtk_box_new(GTK_ORIENTATION_VERTICAL, spacing)
+#define gdk_cursor_unref(cursor) g_object_unref(G_OBJECT(cursor))
+#endif
+
+#if GTK_CHECK_VERSION(3,2,0)
+#define gtk_hpaned_new() gtk_paned_new(GTK_ORIENTATION_HORIZONTAL)
+#define gtk_vpaned_new() gtk_paned_new(GTK_ORIENTATION_VERTICAL)
+#endif
+
+#if GTK_CHECK_VERSION(3,8,0)
+#define gtk_scrolled_window_add_with_viewport(viewport, child) gtk_container_add(GTK_CONTAINER(viewport), child)
+#endif
+
+#if GTK_CHECK_VERSION(3,20,0)
+#define gtk_hbutton_box_new() gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL)
+#endif
+
 #endif /* COMPAT_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
