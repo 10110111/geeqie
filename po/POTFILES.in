@@ -72,6 +72,8 @@ src/pan-view/pan-item.c
 src/pan-view/pan-timeline.c
 src/pan-view/pan-util.c
 src/pan-view/pan-view.c
+src/pan-view/pan-view-filter.c
+src/pan-view/pan-view-search.c
 src/pixbuf-renderer.c
 src/pixbuf_util.c
 src/preferences.c
@@ -82,6 +84,7 @@ src/renderer-clutter.c
 src/renderer-tiles.c
 src/search.c
 src/secure_save.c
+src/shortcuts.c
 src/similar.c
 src/slideshow.c
 src/thumb.c
@@ -103,6 +106,6 @@ src/view_dir.c
 src/view_dir_list.c
 src/view_dir_tree.c
 src/view_file.c
-src/view_file_icon.c
-src/view_file_list.c
+src/view_file/view_file_icon.c
+src/view_file/view_file_list.c
 src/window.c
