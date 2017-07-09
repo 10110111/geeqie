@@ -105,7 +105,7 @@ src/utilops.c
 src/view_dir.c
 src/view_dir_list.c
 src/view_dir_tree.c
-src/view_file.c
+src/view_file/view_file.c
 src/view_file/view_file_icon.c
 src/view_file/view_file_list.c
 src/window.c
