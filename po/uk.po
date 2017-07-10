@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-10 07:49+0000\n"
+"POT-Creation-Date: 2017-07-10 07:52+0000\n"
 "PO-Revision-Date: 2002-05-07 17:15+0200\n"
 "Last-Translator: Volodymyr M. Lisivka <lvm@mystery.lviv.net>\n"
 "Language-Team:  <linux@linux.org.ua>\n"
@@ -74,7 +74,7 @@ msgstr ""
 
 #: ../src/advanced_exif.c:386 ../src/desktop_file.c:535 ../src/dupe.c:2739
 #: ../src/dupe.c:3278 ../src/print.c:3209 ../src/search.c:3084
-#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1990
+#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1931
 msgid "Name"
 msgstr "Назва"
 
@@ -823,7 +823,7 @@ msgid "Empty"
 msgstr "Порожньо"
 
 #: ../src/collect-table.c:237 ../src/dupe.c:1362 ../src/search.c:365
-#: ../src/view_file.c:871 ../src/view_file.c:974
+#: ../src/view_file/view_file.c:826 ../src/view_file/view_file.c:935
 msgid "Loading thumbs..."
 msgstr "Завантаження піктограм..."
 
@@ -835,7 +835,8 @@ msgstr "/Вигляд"
 
 #: ../src/collect-table.c:906 ../src/dupe.c:2325 ../src/dupe.c:2638
 #: ../src/img-view.c:1282 ../src/layout_image.c:676
-#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043 ../src/view_file.c:618
+#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043
+#: ../src/view_file/view_file.c:581
 #, fuzzy
 msgid "View in _new window"
 msgstr "Переглянути в новому вікні"
@@ -881,14 +882,16 @@ msgstr "Прямокутне виділення"
 
 #: ../src/collect-table.c:938 ../src/dupe.c:2348 ../src/img-view.c:1286
 #: ../src/layout_image.c:684 ../src/layout_util.c:1731
-#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062 ../src/view_file.c:622
+#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062
+#: ../src/view_file/view_file.c:585
 #, fuzzy
 msgid "_Copy..."
 msgstr "Копіювати..."
 
 #: ../src/collect-table.c:940 ../src/dupe.c:2350 ../src/img-view.c:1287
 #: ../src/layout_image.c:686 ../src/layout_util.c:1732
-#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064 ../src/view_file.c:624
+#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064
+#: ../src/view_file/view_file.c:587
 #, fuzzy
 msgid "_Move..."
 msgstr "Перенести..."
@@ -896,7 +899,7 @@ msgstr "Перенести..."
 #: ../src/collect-table.c:942 ../src/dupe.c:2352 ../src/img-view.c:1288
 #: ../src/layout_image.c:688 ../src/layout_util.c:1733
 #: ../src/pan-view/pan-view.c:2234 ../src/search.c:1066 ../src/view_dir.c:674
-#: ../src/view_file.c:626
+#: ../src/view_file/view_file.c:589
 #, fuzzy
 msgid "_Rename..."
 msgstr "Переіменувати..."
@@ -905,14 +908,14 @@ msgstr "Переіменувати..."
 #: ../src/layout_image.c:690 ../src/layout_util.c:1734
 #: ../src/layout_util.c:1735 ../src/layout_util.c:1736
 #: ../src/pan-view/pan-view.c:2236 ../src/search.c:1068 ../src/view_dir.c:676
-#: ../src/view_file.c:628
+#: ../src/view_file/view_file.c:591
 #, fuzzy
 msgid "_Delete..."
 msgstr "Видалити..."
 
 #: ../src/collect-table.c:946 ../src/dupe.c:2356 ../src/img-view.c:1290
 #: ../src/layout_image.c:693 ../src/pan-view/pan-view.c:2238
-#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file.c:630
+#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file/view_file.c:593
 #, fuzzy
 msgid "_Copy path"
 msgstr "Копіювати"
@@ -922,12 +925,12 @@ msgstr "Копіювати"
 msgid "Randomize"
 msgstr "Довільно"
 
-#: ../src/collect-table.c:954 ../src/view_file.c:652
+#: ../src/collect-table.c:954 ../src/view_file/view_file.c:615
 #, fuzzy
 msgid "_Sort"
 msgstr "Сортувати"
 
-#: ../src/collect-table.c:957 ../src/view_file.c:668
+#: ../src/collect-table.c:957 ../src/view_file/view_file.c:631
 #, fuzzy
 msgid "Show filename _text"
 msgstr "Показати приховані"
@@ -942,7 +945,8 @@ msgstr "Зберегти колекцію"
 msgid "Save collection _as..."
 msgstr "Зберегти колекцію як..."
 
-#: ../src/collect-table.c:965 ../src/layout_util.c:1727 ../src/view_file.c:639
+#: ../src/collect-table.c:965 ../src/layout_util.c:1727
+#: ../src/view_file/view_file.c:602
 #, fuzzy
 msgid "_Find duplicates..."
 msgstr "Знайти дублікати..."
@@ -1103,7 +1107,7 @@ msgstr ""
 msgid "Select group _2 duplicates"
 msgstr ""
 
-#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file.c:642
+#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file/view_file.c:605
 msgid "Add to new collection"
 msgstr "Додати до нової колекції"
 
@@ -1128,13 +1132,13 @@ msgstr ""
 
 #: ../src/dupe.c:2741 ../src/dupe.c:3279 ../src/preferences.c:1604
 #: ../src/print.c:3215 ../src/search.c:3085
-#: ../src/view_file/view_file_list.c:1994
+#: ../src/view_file/view_file_list.c:1935
 msgid "Size"
 msgstr "Розмір"
 
 #: ../src/dupe.c:2742 ../src/dupe.c:3280 ../src/exif.c:336
 #: ../src/exif-common.c:565 ../src/print.c:3213 ../src/search.c:3086
-#: ../src/view_file/view_file_list.c:1998
+#: ../src/view_file/view_file_list.c:1939
 msgid "Date"
 msgstr "Дата"
 
@@ -2255,7 +2259,7 @@ msgstr "На повний екран"
 msgid "C_lose window"
 msgstr "Закрити вікно"
 
-#: ../src/layout.c:401 ../src/view_file.c:649
+#: ../src/layout.c:401 ../src/view_file/view_file.c:612
 msgid "Ascending"
 msgstr "Наростаючий"
 
@@ -2688,7 +2692,7 @@ msgstr "Переіменувати..."
 msgid "Delete..."
 msgstr "Видалити..."
 
-#: ../src/layout_util.c:1737 ../src/view_file.c:633
+#: ../src/layout_util.c:1737 ../src/view_file/view_file.c:596
 #, fuzzy
 msgid "Enable file _grouping"
 msgstr "Заборонити фільтрування файлів"
@@ -2698,7 +2702,7 @@ msgstr "Заборонити фільтрування файлів"
 msgid "Enable file grouping"
 msgstr "Заборонити фільтрування файлів"
 
-#: ../src/layout_util.c:1738 ../src/view_file.c:635
+#: ../src/layout_util.c:1738 ../src/view_file/view_file.c:598
 #, fuzzy
 msgid "Disable file groupi_ng"
 msgstr "Заборонити фільтрування файлів"
@@ -3607,7 +3611,7 @@ msgstr ""
 msgid "Mark _%d"
 msgstr ""
 
-#: ../src/layout_util.c:2204 ../src/view_file.c:570
+#: ../src/layout_util.c:2204 ../src/view_file/view_file.c:533
 #, c-format
 msgid "_Set mark %d"
 msgstr ""
@@ -3617,7 +3621,7 @@ msgstr ""
 msgid "Set mark %d"
 msgstr "Виділити все"
 
-#: ../src/layout_util.c:2205 ../src/view_file.c:571
+#: ../src/layout_util.c:2205 ../src/view_file/view_file.c:534
 #, c-format
 msgid "_Reset mark %d"
 msgstr ""
@@ -3627,7 +3631,8 @@ msgstr ""
 msgid "Reset mark %d"
 msgstr "Виділити все"
 
-#: ../src/layout_util.c:2206 ../src/layout_util.c:2207 ../src/view_file.c:572
+#: ../src/layout_util.c:2206 ../src/layout_util.c:2207
+#: ../src/view_file/view_file.c:535
 #, c-format
 msgid "_Toggle mark %d"
 msgstr ""
@@ -3647,12 +3652,12 @@ msgstr "Виділити все"
 msgid "Select mark %d"
 msgstr "Виділити все"
 
-#: ../src/layout_util.c:2209 ../src/view_file.c:573
+#: ../src/layout_util.c:2209 ../src/view_file/view_file.c:536
 #, fuzzy, c-format
 msgid "_Select mark %d"
 msgstr "Виділити все"
 
-#: ../src/layout_util.c:2210 ../src/view_file.c:574
+#: ../src/layout_util.c:2210 ../src/view_file/view_file.c:537
 #, fuzzy, c-format
 msgid "_Add mark %d"
 msgstr "Редактори"
@@ -3662,7 +3667,7 @@ msgstr "Редактори"
 msgid "Add mark %d"
 msgstr "Редактори"
 
-#: ../src/layout_util.c:2211 ../src/view_file.c:575
+#: ../src/layout_util.c:2211 ../src/view_file/view_file.c:538
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr ""
@@ -3672,7 +3677,7 @@ msgstr ""
 msgid "Intersection with mark %d"
 msgstr "Виділити все"
 
-#: ../src/layout_util.c:2212 ../src/view_file.c:576
+#: ../src/layout_util.c:2212 ../src/view_file/view_file.c:539
 #, c-format
 msgid "_Unselect mark %d"
 msgstr ""
@@ -6645,7 +6650,7 @@ msgstr "Рекурсивно знайти дублікати"
 msgid "_New folder..."
 msgstr "Новий каталог..."
 
-#: ../src/view_dir.c:685 ../src/view_file.c:655
+#: ../src/view_dir.c:685 ../src/view_file/view_file.c:618
 #, fuzzy
 msgid "View as _List"
 msgstr "Як піктограми"
@@ -6660,22 +6665,22 @@ msgstr "Показати деревом"
 msgid "Show _hidden files"
 msgstr "Показати приховані"
 
-#: ../src/view_dir.c:696 ../src/view_file.c:673
+#: ../src/view_dir.c:696 ../src/view_file/view_file.c:636
 #, fuzzy
 msgid "Re_fresh"
 msgstr "Оновити"
 
-#: ../src/view_file.c:658
+#: ../src/view_file/view_file.c:621
 #, fuzzy
 msgid "View as _Icons"
 msgstr "Як піктограми"
 
-#: ../src/view_file.c:664
+#: ../src/view_file/view_file.c:627
 #, fuzzy
 msgid "Show _thumbnails"
 msgstr "Показувати піктограми"
 
-#: ../src/view_file/view_file_icon.c:2027 ../src/view_file/view_file_list.c:834
+#: ../src/view_file/view_file_icon.c:1962 ../src/view_file/view_file_list.c:834
 msgid " [NO GROUPING]"
 msgstr ""
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-10 07:49+0000\n"
+"POT-Creation-Date: 2017-07-10 07:52+0000\n"
 "PO-Revision-Date: 2010-01-05 17:36+0000\n"
 "Last-Translator: Miloš Popović <gpopac@gmail.com>\n"
 "Language-Team: Serbian <gnome@prevod.org>\n"
@@ -75,7 +75,7 @@ msgstr "Vrednost"
 
 #: ../src/advanced_exif.c:386 ../src/desktop_file.c:535 ../src/dupe.c:2739
 #: ../src/dupe.c:3278 ../src/print.c:3209 ../src/search.c:3084
-#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1990
+#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1931
 msgid "Name"
 msgstr "Naziv"
 
@@ -777,7 +777,7 @@ msgid "Empty"
 msgstr "Prazno"
 
 #: ../src/collect-table.c:237 ../src/dupe.c:1362 ../src/search.c:365
-#: ../src/view_file.c:871 ../src/view_file.c:974
+#: ../src/view_file/view_file.c:826 ../src/view_file/view_file.c:935
 msgid "Loading thumbs..."
 msgstr "Učitavam umanjene prikaze..."
 
@@ -788,7 +788,8 @@ msgstr "P_regled"
 
 #: ../src/collect-table.c:906 ../src/dupe.c:2325 ../src/dupe.c:2638
 #: ../src/img-view.c:1282 ../src/layout_image.c:676
-#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043 ../src/view_file.c:618
+#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043
+#: ../src/view_file/view_file.c:581
 msgid "View in _new window"
 msgstr "Prikaži u _novom prozoru"
 
@@ -830,20 +831,22 @@ msgstr "Pravougaoni izvornik pri prikazu ikonica"
 
 #: ../src/collect-table.c:938 ../src/dupe.c:2348 ../src/img-view.c:1286
 #: ../src/layout_image.c:684 ../src/layout_util.c:1731
-#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062 ../src/view_file.c:622
+#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062
+#: ../src/view_file/view_file.c:585
 msgid "_Copy..."
 msgstr "_Umnoži..."
 
 #: ../src/collect-table.c:940 ../src/dupe.c:2350 ../src/img-view.c:1287
 #: ../src/layout_image.c:686 ../src/layout_util.c:1732
-#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064 ../src/view_file.c:624
+#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064
+#: ../src/view_file/view_file.c:587
 msgid "_Move..."
 msgstr "Premest_i..."
 
 #: ../src/collect-table.c:942 ../src/dupe.c:2352 ../src/img-view.c:1288
 #: ../src/layout_image.c:688 ../src/layout_util.c:1733
 #: ../src/pan-view/pan-view.c:2234 ../src/search.c:1066 ../src/view_dir.c:674
-#: ../src/view_file.c:626
+#: ../src/view_file/view_file.c:589
 msgid "_Rename..."
 msgstr "P_reimenuj..."
 
@@ -851,13 +854,13 @@ msgstr "P_reimenuj..."
 #: ../src/layout_image.c:690 ../src/layout_util.c:1734
 #: ../src/layout_util.c:1735 ../src/layout_util.c:1736
 #: ../src/pan-view/pan-view.c:2236 ../src/search.c:1068 ../src/view_dir.c:676
-#: ../src/view_file.c:628
+#: ../src/view_file/view_file.c:591
 msgid "_Delete..."
 msgstr "_Obriši..."
 
 #: ../src/collect-table.c:946 ../src/dupe.c:2356 ../src/img-view.c:1290
 #: ../src/layout_image.c:693 ../src/pan-view/pan-view.c:2238
-#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file.c:630
+#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file/view_file.c:593
 msgid "_Copy path"
 msgstr "Umno_ži putanju"
 
@@ -865,11 +868,11 @@ msgstr "Umno_ži putanju"
 msgid "Randomize"
 msgstr "Načini nasumičnim"
 
-#: ../src/collect-table.c:954 ../src/view_file.c:652
+#: ../src/collect-table.c:954 ../src/view_file/view_file.c:615
 msgid "_Sort"
 msgstr "Pore_đaj"
 
-#: ../src/collect-table.c:957 ../src/view_file.c:668
+#: ../src/collect-table.c:957 ../src/view_file/view_file.c:631
 msgid "Show filename _text"
 msgstr "_Tekst sa imenom datoteke"
 
@@ -881,7 +884,8 @@ msgstr "_Sačuvaj zbirku"
 msgid "Save collection _as..."
 msgstr "Sačuvaj zbirku _kao..."
 
-#: ../src/collect-table.c:965 ../src/layout_util.c:1727 ../src/view_file.c:639
+#: ../src/collect-table.c:965 ../src/layout_util.c:1727
+#: ../src/view_file/view_file.c:602
 msgid "_Find duplicates..."
 msgstr "Na_đi duplikate..."
 
@@ -1031,7 +1035,7 @@ msgstr "Izaberi duplikate iz _1. grupe"
 msgid "Select group _2 duplicates"
 msgstr "Izaberi duplikate iz _2. grupe"
 
-#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file.c:642
+#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file/view_file.c:605
 msgid "Add to new collection"
 msgstr "Dodaj u novu zbirku"
 
@@ -1054,13 +1058,13 @@ msgstr "Zanemari velika i mala slova u imenu"
 
 #: ../src/dupe.c:2741 ../src/dupe.c:3279 ../src/preferences.c:1604
 #: ../src/print.c:3215 ../src/search.c:3085
-#: ../src/view_file/view_file_list.c:1994
+#: ../src/view_file/view_file_list.c:1935
 msgid "Size"
 msgstr "Veličina"
 
 #: ../src/dupe.c:2742 ../src/dupe.c:3280 ../src/exif.c:336
 #: ../src/exif-common.c:565 ../src/print.c:3213 ../src/search.c:3086
-#: ../src/view_file/view_file_list.c:1998
+#: ../src/view_file/view_file_list.c:1939
 msgid "Date"
 msgstr "Datum"
 
@@ -2121,7 +2125,7 @@ msgstr "_Ceo ekran"
 msgid "C_lose window"
 msgstr "_Zatvori prozor"
 
-#: ../src/layout.c:401 ../src/view_file.c:649
+#: ../src/layout.c:401 ../src/view_file/view_file.c:612
 msgid "Ascending"
 msgstr "Rastuće"
 
@@ -2509,7 +2513,7 @@ msgstr "Preimenuj..."
 msgid "Delete..."
 msgstr "Obriši..."
 
-#: ../src/layout_util.c:1737 ../src/view_file.c:633
+#: ../src/layout_util.c:1737 ../src/view_file/view_file.c:596
 msgid "Enable file _grouping"
 msgstr "_Grupiši datoteke"
 
@@ -2517,7 +2521,7 @@ msgstr "_Grupiši datoteke"
 msgid "Enable file grouping"
 msgstr "Grupiši datoteke"
 
-#: ../src/layout_util.c:1738 ../src/view_file.c:635
+#: ../src/layout_util.c:1738 ../src/view_file/view_file.c:598
 msgid "Disable file groupi_ng"
 msgstr "Ne g_rupiši datoteke"
 
@@ -3328,7 +3332,7 @@ msgstr ""
 msgid "Mark _%d"
 msgstr "Marker _%d"
 
-#: ../src/layout_util.c:2204 ../src/view_file.c:570
+#: ../src/layout_util.c:2204 ../src/view_file/view_file.c:533
 #, c-format
 msgid "_Set mark %d"
 msgstr "_Postavi marker %d"
@@ -3338,7 +3342,7 @@ msgstr "_Postavi marker %d"
 msgid "Set mark %d"
 msgstr "Postavlja marker %d"
 
-#: ../src/layout_util.c:2205 ../src/view_file.c:571
+#: ../src/layout_util.c:2205 ../src/view_file/view_file.c:534
 #, c-format
 msgid "_Reset mark %d"
 msgstr "_Vrati marker %d"
@@ -3348,7 +3352,8 @@ msgstr "_Vrati marker %d"
 msgid "Reset mark %d"
 msgstr "Vraća marker %d na prethodnu vrednost"
 
-#: ../src/layout_util.c:2206 ../src/layout_util.c:2207 ../src/view_file.c:572
+#: ../src/layout_util.c:2206 ../src/layout_util.c:2207
+#: ../src/view_file/view_file.c:535
 #, c-format
 msgid "_Toggle mark %d"
 msgstr "P_rikaži marker %d"
@@ -3368,12 +3373,12 @@ msgstr "I_zaberi marker %d"
 msgid "Select mark %d"
 msgstr "Izabira marker %d"
 
-#: ../src/layout_util.c:2209 ../src/view_file.c:573
+#: ../src/layout_util.c:2209 ../src/view_file/view_file.c:536
 #, c-format
 msgid "_Select mark %d"
 msgstr "_Izaberi marker %d"
 
-#: ../src/layout_util.c:2210 ../src/view_file.c:574
+#: ../src/layout_util.c:2210 ../src/view_file/view_file.c:537
 #, c-format
 msgid "_Add mark %d"
 msgstr "_Dodaj marker %d"
@@ -3383,7 +3388,7 @@ msgstr "_Dodaj marker %d"
 msgid "Add mark %d"
 msgstr "Dodaje marker %d"
 
-#: ../src/layout_util.c:2211 ../src/view_file.c:575
+#: ../src/layout_util.c:2211 ../src/view_file/view_file.c:538
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr ""
@@ -3393,7 +3398,7 @@ msgstr ""
 msgid "Intersection with mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2212 ../src/view_file.c:576
+#: ../src/layout_util.c:2212 ../src/view_file/view_file.c:539
 #, c-format
 msgid "_Unselect mark %d"
 msgstr ""
@@ -6195,7 +6200,7 @@ msgstr "Nađi duplikate iz svih podfascikli..."
 msgid "_New folder..."
 msgstr "Nova _fascikla..."
 
-#: ../src/view_dir.c:685 ../src/view_file.c:655
+#: ../src/view_dir.c:685 ../src/view_file/view_file.c:618
 msgid "View as _List"
 msgstr "Gledaj kao _spisak"
 
@@ -6207,19 +6212,19 @@ msgstr "Gledaj kao _drvo"
 msgid "Show _hidden files"
 msgstr "Prikaži _skrivene datoteke"
 
-#: ../src/view_dir.c:696 ../src/view_file.c:673
+#: ../src/view_dir.c:696 ../src/view_file/view_file.c:636
 msgid "Re_fresh"
 msgstr "_Osveži"
 
-#: ../src/view_file.c:658
+#: ../src/view_file/view_file.c:621
 msgid "View as _Icons"
 msgstr "Gledaj kao _ikonice"
 
-#: ../src/view_file.c:664
+#: ../src/view_file/view_file.c:627
 msgid "Show _thumbnails"
 msgstr "Prikaži _umanjene prikaze"
 
-#: ../src/view_file/view_file_icon.c:2027 ../src/view_file/view_file_list.c:834
+#: ../src/view_file/view_file_icon.c:1962 ../src/view_file/view_file_list.c:834
 msgid " [NO GROUPING]"
 msgstr " [negrupisano]"
 

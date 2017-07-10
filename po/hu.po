@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-10 07:49+0000\n"
+"POT-Creation-Date: 2017-07-10 07:52+0000\n"
 "PO-Revision-Date: 2004-02-22 17:20+0100\n"
 "Last-Translator: Sári Gábor <saga@externet.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -82,7 +82,7 @@ msgstr "Érték"
 # src/dupe.c:1652 src/dupe.c:1941
 #: ../src/advanced_exif.c:386 ../src/desktop_file.c:535 ../src/dupe.c:2739
 #: ../src/dupe.c:3278 ../src/print.c:3209 ../src/search.c:3084
-#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1990
+#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1931
 msgid "Name"
 msgstr "Név"
 
@@ -909,7 +909,7 @@ msgstr "Üres"
 
 # src/collect-table.c:100 src/dupe.c:668 src/filelist.c:1813
 #: ../src/collect-table.c:237 ../src/dupe.c:1362 ../src/search.c:365
-#: ../src/view_file.c:871 ../src/view_file.c:974
+#: ../src/view_file/view_file.c:826 ../src/view_file/view_file.c:935
 msgid "Loading thumbs..."
 msgstr "Indexképek betöltése..."
 
@@ -923,7 +923,8 @@ msgstr "_Nézet"
 # src/menu.c:906 src/menu.c:964
 #: ../src/collect-table.c:906 ../src/dupe.c:2325 ../src/dupe.c:2638
 #: ../src/img-view.c:1282 ../src/layout_image.c:676
-#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043 ../src/view_file.c:618
+#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043
+#: ../src/view_file/view_file.c:581
 msgid "View in _new window"
 msgstr "Nézet új _ablakban"
 
@@ -977,7 +978,8 @@ msgstr "Derékszögű kijelölés"
 # src/menu.c:969
 #: ../src/collect-table.c:938 ../src/dupe.c:2348 ../src/img-view.c:1286
 #: ../src/layout_image.c:684 ../src/layout_util.c:1731
-#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062 ../src/view_file.c:622
+#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062
+#: ../src/view_file/view_file.c:585
 msgid "_Copy..."
 msgstr "_Másolás..."
 
@@ -985,7 +987,8 @@ msgstr "_Másolás..."
 # src/menu.c:971
 #: ../src/collect-table.c:940 ../src/dupe.c:2350 ../src/img-view.c:1287
 #: ../src/layout_image.c:686 ../src/layout_util.c:1732
-#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064 ../src/view_file.c:624
+#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064
+#: ../src/view_file/view_file.c:587
 msgid "_Move..."
 msgstr "M_ozgatás..."
 
@@ -994,7 +997,7 @@ msgstr "M_ozgatás..."
 #: ../src/collect-table.c:942 ../src/dupe.c:2352 ../src/img-view.c:1288
 #: ../src/layout_image.c:688 ../src/layout_util.c:1733
 #: ../src/pan-view/pan-view.c:2234 ../src/search.c:1066 ../src/view_dir.c:674
-#: ../src/view_file.c:626
+#: ../src/view_file/view_file.c:589
 msgid "_Rename..."
 msgstr "Át_nevezés..."
 
@@ -1004,14 +1007,14 @@ msgstr "Át_nevezés..."
 #: ../src/layout_image.c:690 ../src/layout_util.c:1734
 #: ../src/layout_util.c:1735 ../src/layout_util.c:1736
 #: ../src/pan-view/pan-view.c:2236 ../src/search.c:1068 ../src/view_dir.c:676
-#: ../src/view_file.c:628
+#: ../src/view_file/view_file.c:591
 msgid "_Delete..."
 msgstr "_Törlés..."
 
 # src/utilops.c:592
 #: ../src/collect-table.c:946 ../src/dupe.c:2356 ../src/img-view.c:1290
 #: ../src/layout_image.c:693 ../src/pan-view/pan-view.c:2238
-#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file.c:630
+#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file/view_file.c:593
 #, fuzzy
 msgid "_Copy path"
 msgstr "_Másolás"
@@ -1023,12 +1026,12 @@ msgid "Randomize"
 msgstr "Véletlen"
 
 # src/menu.c:559
-#: ../src/collect-table.c:954 ../src/view_file.c:652
+#: ../src/collect-table.c:954 ../src/view_file/view_file.c:615
 msgid "_Sort"
 msgstr "_Rendezés"
 
 # src/ui_pathsel.c:764
-#: ../src/collect-table.c:957 ../src/view_file.c:668
+#: ../src/collect-table.c:957 ../src/view_file/view_file.c:631
 msgid "Show filename _text"
 msgstr "Fájlnév mu_tatása"
 
@@ -1043,7 +1046,8 @@ msgid "Save collection _as..."
 msgstr "Gyűjtemény mentése min_t..."
 
 # src/collect-table.c:644 src/menu.c:885
-#: ../src/collect-table.c:965 ../src/layout_util.c:1727 ../src/view_file.c:639
+#: ../src/collect-table.c:965 ../src/layout_util.c:1727
+#: ../src/view_file/view_file.c:602
 msgid "_Find duplicates..."
 msgstr "_Duplikációk keresése..."
 
@@ -1226,7 +1230,7 @@ msgid "Select group _2 duplicates"
 msgstr ""
 
 # src/dupe.c:1398
-#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file.c:642
+#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file/view_file.c:605
 msgid "Add to new collection"
 msgstr "Hozzáadás egy új gyűjteményhez"
 
@@ -1254,14 +1258,14 @@ msgstr "Kis/nagybetű különbözik"
 # src/dupe.c:1653 src/dupe.c:1942
 #: ../src/dupe.c:2741 ../src/dupe.c:3279 ../src/preferences.c:1604
 #: ../src/print.c:3215 ../src/search.c:3085
-#: ../src/view_file/view_file_list.c:1994
+#: ../src/view_file/view_file_list.c:1935
 msgid "Size"
 msgstr "Méret"
 
 # src/dupe.c:1654 src/dupe.c:1943
 #: ../src/dupe.c:2742 ../src/dupe.c:3280 ../src/exif.c:336
 #: ../src/exif-common.c:565 ../src/print.c:3213 ../src/search.c:3086
-#: ../src/view_file/view_file_list.c:1998
+#: ../src/view_file/view_file_list.c:1939
 msgid "Date"
 msgstr "Dátum"
 
@@ -2454,7 +2458,7 @@ msgid "C_lose window"
 msgstr "Ablak _bezárása"
 
 # src/window.c:87
-#: ../src/layout.c:401 ../src/view_file.c:649
+#: ../src/layout.c:401 ../src/view_file/view_file.c:612
 msgid "Ascending"
 msgstr "Növekvő"
 
@@ -2944,7 +2948,7 @@ msgid "Delete..."
 msgstr "_Törlés..."
 
 # src/preferences.c:823
-#: ../src/layout_util.c:1737 ../src/view_file.c:633
+#: ../src/layout_util.c:1737 ../src/view_file/view_file.c:596
 #, fuzzy
 msgid "Enable file _grouping"
 msgstr "Fájl szűrés letiltása"
@@ -2956,7 +2960,7 @@ msgid "Enable file grouping"
 msgstr "Fájl szűrés letiltása"
 
 # src/preferences.c:823
-#: ../src/layout_util.c:1738 ../src/view_file.c:635
+#: ../src/layout_util.c:1738 ../src/view_file/view_file.c:598
 #, fuzzy
 msgid "Disable file groupi_ng"
 msgstr "Fájl szűrés letiltása"
@@ -3980,7 +3984,7 @@ msgstr ""
 msgid "Mark _%d"
 msgstr ""
 
-#: ../src/layout_util.c:2204 ../src/view_file.c:570
+#: ../src/layout_util.c:2204 ../src/view_file/view_file.c:533
 #, c-format
 msgid "_Set mark %d"
 msgstr ""
@@ -3991,7 +3995,7 @@ msgstr ""
 msgid "Set mark %d"
 msgstr "Mindet kijelölni"
 
-#: ../src/layout_util.c:2205 ../src/view_file.c:571
+#: ../src/layout_util.c:2205 ../src/view_file/view_file.c:534
 #, c-format
 msgid "_Reset mark %d"
 msgstr ""
@@ -4002,7 +4006,8 @@ msgstr ""
 msgid "Reset mark %d"
 msgstr "Mindet kijelölni"
 
-#: ../src/layout_util.c:2206 ../src/layout_util.c:2207 ../src/view_file.c:572
+#: ../src/layout_util.c:2206 ../src/layout_util.c:2207
+#: ../src/view_file/view_file.c:535
 #, c-format
 msgid "_Toggle mark %d"
 msgstr ""
@@ -4026,12 +4031,12 @@ msgid "Select mark %d"
 msgstr "Mindet kijelölni"
 
 # src/collect-table.c:627 src/dupe.c:1391 src/dupe.c:1563
-#: ../src/layout_util.c:2209 ../src/view_file.c:573
+#: ../src/layout_util.c:2209 ../src/view_file/view_file.c:536
 #, fuzzy, c-format
 msgid "_Select mark %d"
 msgstr "Mindet kijelölni"
 
-#: ../src/layout_util.c:2210 ../src/view_file.c:574
+#: ../src/layout_util.c:2210 ../src/view_file/view_file.c:537
 #, fuzzy, c-format
 msgid "_Add mark %d"
 msgstr "Könyvjelző hozzáadása"
@@ -4041,7 +4046,7 @@ msgstr "Könyvjelző hozzáadása"
 msgid "Add mark %d"
 msgstr "Könyvjelző hozzáadása"
 
-#: ../src/layout_util.c:2211 ../src/view_file.c:575
+#: ../src/layout_util.c:2211 ../src/view_file/view_file.c:538
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr ""
@@ -4052,7 +4057,7 @@ msgstr ""
 msgid "Intersection with mark %d"
 msgstr "Mindet kijelölni"
 
-#: ../src/layout_util.c:2212 ../src/view_file.c:576
+#: ../src/layout_util.c:2212 ../src/view_file/view_file.c:539
 #, c-format
 msgid "_Unselect mark %d"
 msgstr ""
@@ -7280,7 +7285,7 @@ msgid "_New folder..."
 msgstr "Új mappa..."
 
 # src/dupe.c:1655 src/dupe.c:1944
-#: ../src/view_dir.c:685 ../src/view_file.c:655
+#: ../src/view_dir.c:685 ../src/view_file/view_file.c:618
 #, fuzzy
 msgid "View as _List"
 msgstr "_Ikonnézet"
@@ -7298,22 +7303,22 @@ msgid "Show _hidden files"
 msgstr "Rejtett fájlok mutatása"
 
 # src/menu.c:891 src/menu.c:920
-#: ../src/view_dir.c:696 ../src/view_file.c:673
+#: ../src/view_dir.c:696 ../src/view_file/view_file.c:636
 msgid "Re_fresh"
 msgstr "_Frissítés"
 
 # src/dupe.c:1655 src/dupe.c:1944
-#: ../src/view_file.c:658
+#: ../src/view_file/view_file.c:621
 #, fuzzy
 msgid "View as _Icons"
 msgstr "_Ikonnézet"
 
 # src/preferences.c:603
-#: ../src/view_file.c:664
+#: ../src/view_file/view_file.c:627
 msgid "Show _thumbnails"
 msgstr "Inde_xképek megjelenítése"
 
-#: ../src/view_file/view_file_icon.c:2027 ../src/view_file/view_file_list.c:834
+#: ../src/view_file/view_file_icon.c:1962 ../src/view_file/view_file_list.c:834
 msgid " [NO GROUPING]"
 msgstr ""
 

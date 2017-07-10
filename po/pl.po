@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-10 07:49+0000\n"
+"POT-Creation-Date: 2017-07-10 07:52+0000\n"
 "PO-Revision-Date: 2017-01-08 17:41+0100\n"
 "Last-Translator: Tomasz Golinski <tomaszg@math.uwb.edu.pl>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr "Wartość"
 
 #: ../src/advanced_exif.c:386 ../src/desktop_file.c:535 ../src/dupe.c:2739
 #: ../src/dupe.c:3278 ../src/print.c:3209 ../src/search.c:3084
-#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1990
+#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1931
 msgid "Name"
 msgstr "Nazwa"
 
@@ -770,7 +770,7 @@ msgid "Empty"
 msgstr "Pusta"
 
 #: ../src/collect-table.c:237 ../src/dupe.c:1362 ../src/search.c:365
-#: ../src/view_file.c:871 ../src/view_file.c:974
+#: ../src/view_file/view_file.c:826 ../src/view_file/view_file.c:935
 msgid "Loading thumbs..."
 msgstr "Wczytywanie miniatur..."
 
@@ -781,7 +781,8 @@ msgstr "_Widok"
 
 #: ../src/collect-table.c:906 ../src/dupe.c:2325 ../src/dupe.c:2638
 #: ../src/img-view.c:1282 ../src/layout_image.c:676
-#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043 ../src/view_file.c:618
+#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043
+#: ../src/view_file/view_file.c:581
 msgid "View in _new window"
 msgstr "Podgląd w _nowym oknie"
 
@@ -823,20 +824,22 @@ msgstr "Zaznaczanie prostokątne w widoku ikon"
 
 #: ../src/collect-table.c:938 ../src/dupe.c:2348 ../src/img-view.c:1286
 #: ../src/layout_image.c:684 ../src/layout_util.c:1731
-#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062 ../src/view_file.c:622
+#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062
+#: ../src/view_file/view_file.c:585
 msgid "_Copy..."
 msgstr "_Kopiuj..."
 
 #: ../src/collect-table.c:940 ../src/dupe.c:2350 ../src/img-view.c:1287
 #: ../src/layout_image.c:686 ../src/layout_util.c:1732
-#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064 ../src/view_file.c:624
+#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064
+#: ../src/view_file/view_file.c:587
 msgid "_Move..."
 msgstr "P_rzenieś..."
 
 #: ../src/collect-table.c:942 ../src/dupe.c:2352 ../src/img-view.c:1288
 #: ../src/layout_image.c:688 ../src/layout_util.c:1733
 #: ../src/pan-view/pan-view.c:2234 ../src/search.c:1066 ../src/view_dir.c:674
-#: ../src/view_file.c:626
+#: ../src/view_file/view_file.c:589
 msgid "_Rename..."
 msgstr "Zm_ień nazwę..."
 
@@ -844,13 +847,13 @@ msgstr "Zm_ień nazwę..."
 #: ../src/layout_image.c:690 ../src/layout_util.c:1734
 #: ../src/layout_util.c:1735 ../src/layout_util.c:1736
 #: ../src/pan-view/pan-view.c:2236 ../src/search.c:1068 ../src/view_dir.c:676
-#: ../src/view_file.c:628
+#: ../src/view_file/view_file.c:591
 msgid "_Delete..."
 msgstr "_Usuń..."
 
 #: ../src/collect-table.c:946 ../src/dupe.c:2356 ../src/img-view.c:1290
 #: ../src/layout_image.c:693 ../src/pan-view/pan-view.c:2238
-#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file.c:630
+#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file/view_file.c:593
 msgid "_Copy path"
 msgstr "S_kopiuj ścieżkę"
 
@@ -858,11 +861,11 @@ msgstr "S_kopiuj ścieżkę"
 msgid "Randomize"
 msgstr "Losowo"
 
-#: ../src/collect-table.c:954 ../src/view_file.c:652
+#: ../src/collect-table.c:954 ../src/view_file/view_file.c:615
 msgid "_Sort"
 msgstr "_Uporządkuj"
 
-#: ../src/collect-table.c:957 ../src/view_file.c:668
+#: ../src/collect-table.c:957 ../src/view_file/view_file.c:631
 msgid "Show filename _text"
 msgstr "Pokaż nazwę pliku"
 
@@ -874,7 +877,8 @@ msgstr "_Zapisz kolekcję"
 msgid "Save collection _as..."
 msgstr "Zapisz kolekcję jako..."
 
-#: ../src/collect-table.c:965 ../src/layout_util.c:1727 ../src/view_file.c:639
+#: ../src/collect-table.c:965 ../src/layout_util.c:1727
+#: ../src/view_file/view_file.c:602
 msgid "_Find duplicates..."
 msgstr "Wyszukaj duplikaty..."
 
@@ -1024,7 +1028,7 @@ msgstr "Wybierz _pierwszą grupę duplikatów"
 msgid "Select group _2 duplicates"
 msgstr "Wybierz _drugą grupę duplikatów"
 
-#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file.c:642
+#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file/view_file.c:605
 msgid "Add to new collection"
 msgstr "Dodaj do nowej kolekcji"
 
@@ -1047,13 +1051,13 @@ msgstr "Nazwy z uwzględnianiem wielkości liter"
 
 #: ../src/dupe.c:2741 ../src/dupe.c:3279 ../src/preferences.c:1604
 #: ../src/print.c:3215 ../src/search.c:3085
-#: ../src/view_file/view_file_list.c:1994
+#: ../src/view_file/view_file_list.c:1935
 msgid "Size"
 msgstr "Rozmiar"
 
 #: ../src/dupe.c:2742 ../src/dupe.c:3280 ../src/exif.c:336
 #: ../src/exif-common.c:565 ../src/print.c:3213 ../src/search.c:3086
-#: ../src/view_file/view_file_list.c:1998
+#: ../src/view_file/view_file_list.c:1939
 msgid "Date"
 msgstr "Data"
 
@@ -2112,7 +2116,7 @@ msgstr "Pełny ekran"
 msgid "C_lose window"
 msgstr "Zamknij okno"
 
-#: ../src/layout.c:401 ../src/view_file.c:649
+#: ../src/layout.c:401 ../src/view_file/view_file.c:612
 msgid "Ascending"
 msgstr "Rosnąco"
 
@@ -2501,7 +2505,7 @@ msgstr "Zm_ień nazwę..."
 msgid "Delete..."
 msgstr "_Usuń..."
 
-#: ../src/layout_util.c:1737 ../src/view_file.c:633
+#: ../src/layout_util.c:1737 ../src/view_file/view_file.c:596
 msgid "Enable file _grouping"
 msgstr "Włącz _grupowanie plików"
 
@@ -2509,7 +2513,7 @@ msgstr "Włącz _grupowanie plików"
 msgid "Enable file grouping"
 msgstr "Włącz grupowanie plików"
 
-#: ../src/layout_util.c:1738 ../src/view_file.c:635
+#: ../src/layout_util.c:1738 ../src/view_file/view_file.c:598
 msgid "Disable file groupi_ng"
 msgstr "Wyłącz grupowanie plików"
 
@@ -3317,7 +3321,7 @@ msgstr ""
 msgid "Mark _%d"
 msgstr "Znacznik _%d"
 
-#: ../src/layout_util.c:2204 ../src/view_file.c:570
+#: ../src/layout_util.c:2204 ../src/view_file/view_file.c:533
 #, c-format
 msgid "_Set mark %d"
 msgstr "U_staw znacznik %d"
@@ -3327,7 +3331,7 @@ msgstr "U_staw znacznik %d"
 msgid "Set mark %d"
 msgstr "Ustaw znacznik %d"
 
-#: ../src/layout_util.c:2205 ../src/view_file.c:571
+#: ../src/layout_util.c:2205 ../src/view_file/view_file.c:534
 #, c-format
 msgid "_Reset mark %d"
 msgstr "_Usuń znacznik %d"
@@ -3337,7 +3341,8 @@ msgstr "_Usuń znacznik %d"
 msgid "Reset mark %d"
 msgstr "Usuń znacznik %d"
 
-#: ../src/layout_util.c:2206 ../src/layout_util.c:2207 ../src/view_file.c:572
+#: ../src/layout_util.c:2206 ../src/layout_util.c:2207
+#: ../src/view_file/view_file.c:535
 #, c-format
 msgid "_Toggle mark %d"
 msgstr "_Przełącz znacznik %d"
@@ -3357,12 +3362,12 @@ msgstr "Wybierz znacznik %d"
 msgid "Select mark %d"
 msgstr "Wybierz znacznik %d"
 
-#: ../src/layout_util.c:2209 ../src/view_file.c:573
+#: ../src/layout_util.c:2209 ../src/view_file/view_file.c:536
 #, c-format
 msgid "_Select mark %d"
 msgstr "Wybierz znacznik %d"
 
-#: ../src/layout_util.c:2210 ../src/view_file.c:574
+#: ../src/layout_util.c:2210 ../src/view_file/view_file.c:537
 #, c-format
 msgid "_Add mark %d"
 msgstr "Dodaj znacznik %d"
@@ -3372,7 +3377,7 @@ msgstr "Dodaj znacznik %d"
 msgid "Add mark %d"
 msgstr "Dodaj znacznik %d"
 
-#: ../src/layout_util.c:2211 ../src/view_file.c:575
+#: ../src/layout_util.c:2211 ../src/view_file/view_file.c:538
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr "_Część wspólna ze znacznikiem %d"
@@ -3382,7 +3387,7 @@ msgstr "_Część wspólna ze znacznikiem %d"
 msgid "Intersection with mark %d"
 msgstr "Część wspólna ze znacznikiem %d"
 
-#: ../src/layout_util.c:2212 ../src/view_file.c:576
+#: ../src/layout_util.c:2212 ../src/view_file/view_file.c:539
 #, c-format
 msgid "_Unselect mark %d"
 msgstr "_Odznacz znacznik %d"
@@ -6215,7 +6220,7 @@ msgstr "Rekurencyjnie wyszukaj duplikaty..."
 msgid "_New folder..."
 msgstr "Nowy _folder..."
 
-#: ../src/view_dir.c:685 ../src/view_file.c:655
+#: ../src/view_dir.c:685 ../src/view_file/view_file.c:618
 msgid "View as _List"
 msgstr "Wyświetlanie jako _lista"
 
@@ -6227,19 +6232,19 @@ msgstr "Wyświetlanie jako _drzewo"
 msgid "Show _hidden files"
 msgstr "Wyświetlanie ukrytych plików"
 
-#: ../src/view_dir.c:696 ../src/view_file.c:673
+#: ../src/view_dir.c:696 ../src/view_file/view_file.c:636
 msgid "Re_fresh"
 msgstr "_Odśwież"
 
-#: ../src/view_file.c:658
+#: ../src/view_file/view_file.c:621
 msgid "View as _Icons"
 msgstr "Wyświetlanie jako _ikony"
 
-#: ../src/view_file.c:664
+#: ../src/view_file/view_file.c:627
 msgid "Show _thumbnails"
 msgstr "Pokaż _miniaturki"
 
-#: ../src/view_file/view_file_icon.c:2027 ../src/view_file/view_file_list.c:834
+#: ../src/view_file/view_file_icon.c:1962 ../src/view_file/view_file_list.c:834
 msgid " [NO GROUPING]"
 msgstr "[BEZ GRUPOWANIA]"
 
