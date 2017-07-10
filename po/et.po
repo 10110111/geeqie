@@ -1,4 +1,4 @@
-# Geeqie eesti keele tõlge.
+# Geeqie eesti keele tÃµlge.
 # Copyright (C) 2001-2002 Free Software Foundation, Inc.
 # Ilmar Kerm <ikerm@hot.ee>, 2001-2002.
 #
@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-19 17:35+0100\n"
+"POT-Creation-Date: 2017-07-10 07:52+0000\n"
 "PO-Revision-Date: 2002-07-31 15:40+0200\n"
 "Last-Translator: Ilmar Kerm <ikerm@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
 
@@ -29,7 +29,7 @@ msgstr "Pildi suurus:"
 #: ../geeqie.desktop.in.h:3
 #, fuzzy
 msgid "View and manage images"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
 #: ../plugins/import/geeqie-import-geeqie.desktop.in.h:1
 msgid "Import Geeqie 1.0alphaX metadata"
@@ -60,333 +60,404 @@ msgstr ""
 msgid "UFRaw Batch recursive"
 msgstr ""
 
-#: ../src/advanced_exif.c:328 ../src/cache_maint.c:1111 ../src/preferences.c:94
-#: ../src/preferences.c:1754
+#: ../src/advanced_exif.c:336 ../src/cache_maint.c:1265
+#: ../src/preferences.c:109 ../src/preferences.c:1890
 msgid "Metadata"
 msgstr ""
 
-#: ../src/advanced_exif.c:376 ../src/preferences.c:1668
+#: ../src/advanced_exif.c:384 ../src/preferences.c:1804
 msgid "Description"
 msgstr ""
 
-#: ../src/advanced_exif.c:377
+#: ../src/advanced_exif.c:385
 msgid "Value"
 msgstr ""
 
-#: ../src/advanced_exif.c:378 ../src/desktop_file.c:515 ../src/dupe.c:2642
-#: ../src/dupe.c:3129 ../src/print.c:3199 ../src/search.c:2790
-#: ../src/utilops.c:462 ../src/view_file_list.c:1980
+#: ../src/advanced_exif.c:386 ../src/desktop_file.c:535 ../src/dupe.c:2739
+#: ../src/dupe.c:3278 ../src/print.c:3209 ../src/search.c:3084
+#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1931
 msgid "Name"
 msgstr "Nimi"
 
-#: ../src/advanced_exif.c:379
+#: ../src/advanced_exif.c:387
 msgid "Tag"
 msgstr ""
 
-#: ../src/advanced_exif.c:380
+#: ../src/advanced_exif.c:388
 #, fuzzy
 msgid "Format"
 msgstr "Normaalne"
 
-#: ../src/advanced_exif.c:381
+#: ../src/advanced_exif.c:389
 msgid "Elements"
 msgstr ""
 
 #. default sidebar
-#: ../src/bar.c:167
+#: ../src/bar.c:183
 msgid "Histogram"
 msgstr ""
 
-#: ../src/bar.c:168
+#: ../src/bar.c:184
 #, fuzzy
 msgid "Title"
 msgstr "Pealkirjata"
 
-#: ../src/bar.c:169 ../src/search.c:2717
+#: ../src/bar.c:185 ../src/search.c:2966
 msgid "Keywords"
 msgstr ""
 
-#: ../src/bar.c:170 ../src/search.c:2729
+#: ../src/bar.c:186 ../src/search.c:2978
 #, fuzzy
 msgid "Comment"
-msgstr "Võrdle millega:"
+msgstr "VÃµrdle millega:"
 
-#: ../src/bar.c:171
+#: ../src/bar.c:187
+#, fuzzy
+msgid "Rating"
+msgstr "Filter:"
+
+#: ../src/bar.c:188
 #, fuzzy
 msgid "Exif"
-msgstr "Välju"
+msgstr "VÃ¤lju"
 
 #. other pre-configured panes
-#: ../src/bar.c:173
+#: ../src/bar.c:190
 #, fuzzy
 msgid "File info"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/bar.c:174
+#: ../src/bar.c:191
 #, fuzzy
 msgid "Location and GPS"
 msgstr "Kollektsioonid"
 
-#: ../src/bar.c:175 ../src/exif.c:348
+#: ../src/bar.c:192 ../src/exif.c:342
 #, fuzzy
 msgid "Copyright"
 msgstr "Kopeeri"
 
-#: ../src/bar.c:178 ../src/bar_gps.c:756
+#: ../src/bar.c:195 ../src/bar_gps.c:1017
 msgid "GPS Map"
 msgstr ""
 
-#: ../src/bar.c:297
+#: ../src/bar.c:315
 #, fuzzy
 msgid "Move to _top"
 msgstr "Liiguta"
 
-#: ../src/bar.c:298 ../src/ui_bookmark.c:407
+#: ../src/bar.c:316 ../src/ui_bookmark.c:416
 #, fuzzy
 msgid "Move _up"
 msgstr "Liiguta"
 
-#: ../src/bar.c:299 ../src/ui_bookmark.c:409
+#: ../src/bar.c:317 ../src/ui_bookmark.c:418
 #, fuzzy
 msgid "Move _down"
 msgstr "Liiguta"
 
-#: ../src/bar.c:300
+#: ../src/bar.c:318
 msgid "Move to _bottom"
 msgstr ""
 
-#: ../src/bar.c:302
+#: ../src/bar.c:320
 msgid "Remove"
 msgstr "Eemalda"
 
-#: ../src/bar_comment.c:195
+#: ../src/bar.c:692
+#, fuzzy
+msgid "Add Pane"
+msgstr "%d pilti"
+
+#: ../src/bar_comment.c:216
 #, fuzzy
 msgid "Add text to selected files"
 msgstr ""
 "Kas soovid ikka kustutada faili\n"
 " %s?"
 
-#: ../src/bar_comment.c:196
+#: ../src/bar_comment.c:217
 msgid "Replace existing text in selected files"
 msgstr ""
 
-#: ../src/bar_exif.c:213
+#: ../src/bar_exif.c:221
 msgid "<empty label, fixme>"
 msgstr ""
 
-#: ../src/bar_exif.c:541 ../src/bar_exif.c:551
+#: ../src/bar_exif.c:549 ../src/bar_exif.c:559
 #, fuzzy
 msgid "Configure entry"
-msgstr "Programmi häälestus"
+msgstr "Programmi hÃ¤Ã¤lestus"
 
 #. for the pane
-#: ../src/bar_exif.c:541 ../src/bar_exif.c:551 ../src/bar_exif.c:624
+#: ../src/bar_exif.c:549 ../src/bar_exif.c:559 ../src/bar_exif.c:632
 #, fuzzy
 msgid "Add entry"
 msgstr "Lisa sisu"
 
-#: ../src/bar_exif.c:557
+#: ../src/bar_exif.c:565
 msgid "Key:"
 msgstr ""
 
-#: ../src/bar_exif.c:566
+#: ../src/bar_exif.c:574 ../src/preferences.c:1488
 msgid "Title:"
 msgstr ""
 
-#: ../src/bar_exif.c:575
+#: ../src/bar_exif.c:583
 msgid "Show only if set"
 msgstr ""
 
-#: ../src/bar_exif.c:576
+#: ../src/bar_exif.c:584
 msgid "Editable (supported only for XMP)"
 msgstr ""
 
 #. for the entry
-#: ../src/bar_exif.c:612
+#: ../src/bar_exif.c:620
 #, fuzzy, c-format
 msgid "Configure \"%s\""
-msgstr "Programmi häälestus"
+msgstr "Programmi hÃ¤Ã¤lestus"
 
-#: ../src/bar_exif.c:613 ../src/bar_keywords.c:1189
+#: ../src/bar_exif.c:621 ../src/bar_keywords.c:1304
 #, fuzzy, c-format
 msgid "Remove \"%s\""
 msgstr "Eemalda"
 
-#: ../src/bar_exif.c:625
+#: ../src/bar_exif.c:633
 #, fuzzy
 msgid "Show hidden entries"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/bar_gps.c:483
+#: ../src/bar_gps.c:187
+#, c-format
+msgid ""
+"\n"
+"Do you want to geocode image %s?"
+msgstr ""
+
+#: ../src/bar_gps.c:192
+#, c-format
+msgid ""
+"\n"
+"Do you want to geocode %i images?"
+msgstr ""
+
+#: ../src/bar_gps.c:197
+#, c-format
+msgid ""
+"\n"
+"This image is already geocoded!"
+msgstr ""
+
+#: ../src/bar_gps.c:202
+#, c-format
+msgid ""
+"\n"
+"One image is already geocoded!"
+msgstr ""
+
+#: ../src/bar_gps.c:207
+#, c-format
+msgid ""
+"\n"
+"%i Images are already geocoded!"
+msgstr ""
+
+#: ../src/bar_gps.c:212
+#, fuzzy, c-format
+msgid ""
+"\n"
+"\n"
+"Position: %s \n"
+msgstr "Kollektsioonid"
+
+#: ../src/bar_gps.c:214
+#, fuzzy
+msgid "Geocode images"
+msgstr "JÃ¤rgmise pildi eellaadimine"
+
+#: ../src/bar_gps.c:218
+msgid "Write lat/long to meta-data?"
+msgstr ""
+
+#: ../src/bar_gps.c:728
 #, fuzzy, c-format
 msgid "Zoom %i"
 msgstr "Suurenda"
 
-#: ../src/bar_gps.c:501
+#: ../src/bar_gps.c:746
 #, fuzzy, c-format
 msgid "Zoom level %i"
 msgstr "Suurenda"
 
-#: ../src/bar_gps.c:506
+#: ../src/bar_gps.c:751
 #, fuzzy
 msgid "Loading map"
 msgstr "Laen pisipilte..."
 
-#: ../src/bar_gps.c:572
+#: ../src/bar_gps.c:817
 msgid "Enable markers"
 msgstr ""
 
-#: ../src/bar_gps.c:574
+#: ../src/bar_gps.c:819
 msgid "Centre map on marker"
 msgstr ""
 
-#: ../src/bar_gps.c:596
+#: ../src/bar_gps.c:841
 msgid ""
 "Move map centre to marker\n"
 " is disabled"
 msgstr ""
 
-#: ../src/bar_gps.c:601
+#: ../src/bar_gps.c:846
 msgid ""
 "Move map centre to marker\n"
 " is enabled"
 msgstr ""
 
-#: ../src/bar_gps.c:610
-msgid "Map Centreing"
-msgstr ""
+#: ../src/bar_gps.c:850
+#, fuzzy
+msgid "Map centering"
+msgstr "Virvtoonimise meetod:"
 
 #. use the same strings as in layout_util.c
-#: ../src/bar_histogram.c:249 ../src/layout_util.c:1430
+#: ../src/bar_histogram.c:257 ../src/layout_util.c:1871
 msgid "Histogram on _Red"
 msgstr ""
 
-#: ../src/bar_histogram.c:250 ../src/layout_util.c:1431
+#: ../src/bar_histogram.c:258 ../src/layout_util.c:1872
 msgid "Histogram on _Green"
 msgstr ""
 
-#: ../src/bar_histogram.c:251 ../src/layout_util.c:1432
+#: ../src/bar_histogram.c:259 ../src/layout_util.c:1873
 msgid "Histogram on _Blue"
 msgstr ""
 
-#: ../src/bar_histogram.c:252 ../src/layout_util.c:1433
+#: ../src/bar_histogram.c:260 ../src/layout_util.c:1874
 msgid "_Histogram on RGB"
 msgstr ""
 
-#: ../src/bar_histogram.c:253 ../src/layout_util.c:1434
+#: ../src/bar_histogram.c:261 ../src/layout_util.c:1875
 msgid "Histogram on _Value"
 msgstr ""
 
-#: ../src/bar_histogram.c:257 ../src/layout_util.c:1438
+#: ../src/bar_histogram.c:265 ../src/layout_util.c:1879
 msgid "Li_near Histogram"
 msgstr ""
 
-#: ../src/bar_histogram.c:258
+#: ../src/bar_histogram.c:266
 msgid "L_og Histogram"
 msgstr ""
 
-#: ../src/bar_keywords.c:403
+#: ../src/bar_keywords.c:463
 msgid "Add keywords to selected files"
 msgstr ""
 
-#: ../src/bar_keywords.c:404
+#: ../src/bar_keywords.c:464
 msgid "Replace existing keywords in selected files"
 msgstr ""
 
-#: ../src/bar_keywords.c:875
+#: ../src/bar_keywords.c:935
 #, fuzzy
 msgid "Edit keyword"
 msgstr "Redaktorid"
 
-#: ../src/bar_keywords.c:875
+#: ../src/bar_keywords.c:935 ../src/bar_keywords.c:942
+#: ../src/bar_keywords.c:1258
 #, fuzzy
-msgid "Add keywords"
+msgid "New keyword"
 msgstr "/Vaade/_Ikoonid"
 
-#: ../src/bar_keywords.c:882
+#: ../src/bar_keywords.c:942
 #, fuzzy
 msgid "Configure keyword"
-msgstr "Programmi häälestus"
+msgstr "Programmi hÃ¤Ã¤lestus"
 
-#: ../src/bar_keywords.c:882 ../src/bar_keywords.c:1143
-#, fuzzy
-msgid "Add keyword"
-msgstr "/Vaade/_Ikoonid"
-
-#: ../src/bar_keywords.c:888
+#: ../src/bar_keywords.c:948
 #, fuzzy
 msgid "Keyword:"
 msgstr "/Vaade/_Ikoonid"
 
-#: ../src/bar_keywords.c:897
+#: ../src/bar_keywords.c:957
 #, fuzzy
 msgid "Keyword type:"
 msgstr "Sorteerimata"
 
-#: ../src/bar_keywords.c:899
+#: ../src/bar_keywords.c:959
 msgid "Active keyword"
 msgstr ""
 
-#: ../src/bar_keywords.c:902
+#: ../src/bar_keywords.c:962
 #, fuzzy
 msgid "Helper"
 msgstr "/_Abi"
 
-#: ../src/bar_keywords.c:1147
+#: ../src/bar_keywords.c:1262
 #, fuzzy
 msgid "Add keyword to all selected images"
 msgstr ""
 "Kas soovid ikka kustutada faili\n"
 " %s?"
 
-#: ../src/bar_keywords.c:1167
+#: ../src/bar_keywords.c:1282
 #, c-format
 msgid "Hide \"%s\""
 msgstr ""
 
-#: ../src/bar_keywords.c:1174
+#: ../src/bar_keywords.c:1289
 #, fuzzy, c-format
 msgid "Mark %d"
 msgstr "Redaktorid"
 
-#: ../src/bar_keywords.c:1179
+#: ../src/bar_keywords.c:1294
 #, c-format
 msgid "Connect \"%s\" to mark"
 msgstr ""
 
-#: ../src/bar_keywords.c:1186
+#: ../src/bar_keywords.c:1301
 #, fuzzy, c-format
 msgid "Edit \"%s\""
 msgstr "Redaktorid"
 
-#: ../src/bar_keywords.c:1196
+#: ../src/bar_keywords.c:1311
 #, c-format
 msgid "Disconnect \"%s\" from mark %s"
 msgstr ""
 
 #. for the pane
-#: ../src/bar_keywords.c:1208 ../src/bar_keywords.c:1217
+#: ../src/bar_keywords.c:1323 ../src/bar_keywords.c:1337
 msgid "Expand checked"
 msgstr ""
 
-#: ../src/bar_keywords.c:1209 ../src/bar_keywords.c:1218
+#: ../src/bar_keywords.c:1324 ../src/bar_keywords.c:1338
 msgid "Collapse unchecked"
 msgstr ""
 
-#: ../src/bar_keywords.c:1210 ../src/bar_keywords.c:1219
+#: ../src/bar_keywords.c:1325 ../src/bar_keywords.c:1339
 msgid "Hide unchecked"
 msgstr ""
 
-#: ../src/bar_keywords.c:1211
+#: ../src/bar_keywords.c:1326
+msgid "Revert all hidden"
+msgstr ""
+
+#: ../src/bar_keywords.c:1328
 #, fuzzy
 msgid "Show all"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/bar_keywords.c:1214
+#: ../src/bar_keywords.c:1329
+msgid "Collapse all"
+msgstr ""
+
+#: ../src/bar_keywords.c:1330
+msgid "Revert"
+msgstr ""
+
+#: ../src/bar_keywords.c:1334
 msgid "On any change"
 msgstr ""
 
-#: ../src/bar_sort.c:449
+#: ../src/bar_sort.c:500
 #, fuzzy, c-format
 msgid ""
 "The collection:\n"
@@ -397,243 +468,249 @@ msgstr ""
 "%s\n"
 "on juba olemas."
 
-#: ../src/bar_sort.c:450
+#: ../src/bar_sort.c:501
 #, fuzzy
 msgid "Collection exists"
-msgstr "Kollektsioon on tühi"
+msgstr "Kollektsioon on tÃ¼hi"
 
-#: ../src/bar_sort.c:464 ../src/collect.c:1043 ../src/collect-dlg.c:85
+#: ../src/bar_sort.c:515 ../src/collect.c:1060 ../src/collect-dlg.c:93
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
 "%s"
 msgstr ""
-"Kollektsiooni salvestamine ebaõnnestus:\n"
+"Kollektsiooni salvestamine ebaÃµnnestus:\n"
 "%s"
 
-#: ../src/bar_sort.c:465 ../src/collect.c:1044 ../src/collect-dlg.c:86
+#: ../src/bar_sort.c:516 ../src/collect.c:1061 ../src/collect-dlg.c:94
 msgid "Save Failed"
-msgstr "Salvestamine ebaõnnestus"
+msgstr "Salvestamine ebaÃµnnestus"
 
-#: ../src/bar_sort.c:500 ../src/bar_sort.c:670
+#: ../src/bar_sort.c:551 ../src/bar_sort.c:723
 msgid "Add Bookmark"
 msgstr ""
 
-#: ../src/bar_sort.c:504
+#: ../src/bar_sort.c:555
 #, fuzzy
 msgid "Add Collection"
 msgstr "Kollektsioonid"
 
-#: ../src/bar_sort.c:521 ../src/ui_bookmark.c:288
+#: ../src/bar_sort.c:572 ../src/shortcuts.c:109 ../src/ui_bookmark.c:297
 #, fuzzy
 msgid "Name:"
 msgstr "Nimi"
 
-#: ../src/bar_sort.c:597
+#: ../src/bar_sort.c:650
 #, fuzzy
 msgid "Sort Manager"
-msgstr "Sorteeritud nime järgi"
+msgstr "Sorteeritud nime jÃ¤rgi"
 
-#: ../src/bar_sort.c:606 ../src/pan-view.c:2194 ../src/ui_pathsel.c:1097
+#: ../src/bar_sort.c:659 ../src/pan-view/pan-view.c:1823
+#: ../src/ui_pathsel.c:1107
 #, fuzzy
 msgid "Folders"
 msgstr "Failid"
 
-#: ../src/bar_sort.c:607 ../src/options.c:160
+#: ../src/bar_sort.c:660 ../src/options.c:190
 msgid "Collections"
 msgstr "Kollektsioonid"
 
-#: ../src/bar_sort.c:615 ../src/utilops.c:2137
+#: ../src/bar_sort.c:668 ../src/utilops.c:2283
 msgid "Copy"
 msgstr "Kopeeri"
 
-#: ../src/bar_sort.c:618 ../src/utilops.c:2088
+#: ../src/bar_sort.c:671 ../src/utilops.c:2233
 msgid "Move"
 msgstr "Liiguta"
 
-#: ../src/bar_sort.c:657
+#: ../src/bar_sort.c:710
 #, fuzzy
 msgid "Add image"
 msgstr "%d pilti"
 
-#: ../src/bar_sort.c:660
+#: ../src/bar_sort.c:713
 #, fuzzy
 msgid "Add selection"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/bar_sort.c:673
+#: ../src/bar_sort.c:726
 msgid "Undo last image"
 msgstr ""
 
-#: ../src/cache.c:163
+#: ../src/cache.c:172
 #, fuzzy, c-format
 msgid ""
 "error saving sim cache data: %s\n"
 "error: %s\n"
 msgstr "viga konfiguratsioonifaili salvestamisel: %s\n"
 
-#: ../src/cache_maint.c:110 ../src/cache_maint.c:549 ../src/cache_maint.c:765
-#: ../src/editors.c:1177
+#: ../src/cache_maint.c:123 ../src/cache_maint.c:612 ../src/cache_maint.c:880
+#: ../src/editors.c:1189
 #, fuzzy
 msgid "done"
 msgstr "Puudub"
 
-#: ../src/cache_maint.c:288
+#: ../src/cache_maint.c:313
 #, fuzzy
 msgid "Removing old metadata..."
 msgstr "Loen sarnasuse andmeid..."
 
-#: ../src/cache_maint.c:292
+#: ../src/cache_maint.c:317
 #, fuzzy
 msgid "Clearing cached thumbnails..."
 msgstr "Eemaldan pisipilte..."
 
-#: ../src/cache_maint.c:296 ../src/cache_maint.c:923
+#: ../src/cache_maint.c:321 ../src/cache_maint.c:1053
 #, fuzzy
 msgid "Removing old thumbnails..."
 msgstr "Puhastan vanad pisipildid..."
 
-#: ../src/cache_maint.c:299 ../src/cache_maint.c:926
+#: ../src/cache_maint.c:324 ../src/cache_maint.c:1056
 msgid "Maintenance"
 msgstr ""
 
-#: ../src/cache_maint.c:660
+#: ../src/cache_maint.c:732
 #, fuzzy
 msgid "Invalid folder"
 msgstr "Vigane failinimi"
 
-#: ../src/cache_maint.c:661
+#: ../src/cache_maint.c:733
 msgid "The specified folder can not be found."
 msgstr ""
 
-#: ../src/cache_maint.c:692 ../src/cache_maint.c:706 ../src/cache_maint.c:1102
+#: ../src/cache_maint.c:796 ../src/cache_maint.c:810 ../src/cache_maint.c:1256
 #, fuzzy
 msgid "Create thumbnails"
 msgstr "Puhverda pisipildid"
 
-#: ../src/cache_maint.c:700 ../src/cache_maint.c:933
+#: ../src/cache_maint.c:804 ../src/cache_maint.c:1063
 #, fuzzy
 msgid "S_tart"
 msgstr "Algus #"
 
-#: ../src/cache_maint.c:713 ../src/preferences.c:1941
+#: ../src/cache_maint.c:817 ../src/preferences.c:2141
 #, fuzzy
 msgid "Folder:"
 msgstr "Failid"
 
-#: ../src/cache_maint.c:716
+#: ../src/cache_maint.c:820
 #, fuzzy
 msgid "Select folder"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/cache_maint.c:720
+#: ../src/cache_maint.c:824
 #, fuzzy
 msgid "Include subfolders"
 msgstr "Vigane failinimi"
 
-#: ../src/cache_maint.c:721
+#: ../src/cache_maint.c:825
 msgid "Store thumbnails local to source images"
 msgstr ""
 
-#: ../src/cache_maint.c:730 ../src/cache_maint.c:942
+#: ../src/cache_maint.c:834 ../src/cache_maint.c:1072
 msgid "click start to begin"
 msgstr ""
 
-#: ../src/cache_maint.c:869 ../src/editors.c:1103
+#: ../src/cache_maint.c:992 ../src/editors.c:1115
 #, fuzzy
 msgid "running..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/cache_maint.c:918
+#: ../src/cache_maint.c:1048
 msgid "Clearing thumbnails..."
 msgstr "Eemaldan pisipilte..."
 
-#: ../src/cache_maint.c:984 ../src/cache_maint.c:987 ../src/cache_maint.c:1080
-#: ../src/cache_maint.c:1097
+#: ../src/cache_maint.c:1131 ../src/cache_maint.c:1134
+#: ../src/cache_maint.c:1232 ../src/cache_maint.c:1251
 msgid "Clear cache"
 msgstr "Puhasta puhver"
 
-#: ../src/cache_maint.c:988
+#: ../src/cache_maint.c:1135
 msgid ""
 "This will remove all thumbnails that have\n"
 "been saved to disk, continue?"
 msgstr ""
-"See valik eemaldab kettalt kõik sinna salvestatud\n"
-"pisipildid. Kas soovid jätkata?"
+"See valik eemaldab kettalt kÃµik sinna salvestatud\n"
+"pisipildid. Kas soovid jÃ¤tkata?"
 
-#: ../src/cache_maint.c:1030
+#: ../src/cache_maint.c:1180
 #, fuzzy, c-format
 msgid "Location: %s"
 msgstr "Kollektsioonid"
 
-#: ../src/cache_maint.c:1055
+#: ../src/cache_maint.c:1205
 #, fuzzy
 msgid "Cache Maintenance"
 msgstr "Pildi omadused - Geeqie"
 
-#: ../src/cache_maint.c:1065
+#: ../src/cache_maint.c:1217
 msgid "Cache and Data Maintenance"
 msgstr ""
 
-#: ../src/cache_maint.c:1069
+#: ../src/cache_maint.c:1221
 #, fuzzy
 msgid "Thumbnail cache"
-msgstr "Geeqie täisekraan"
+msgstr "Geeqie tÃ¤isekraan"
 
-#: ../src/cache_maint.c:1075 ../src/cache_maint.c:1092
-#: ../src/cache_maint.c:1117
+#: ../src/cache_maint.c:1227 ../src/cache_maint.c:1246
+#: ../src/cache_maint.c:1271
 #, fuzzy
 msgid "Clean up"
 msgstr "Puhasta"
 
-#: ../src/cache_maint.c:1078 ../src/cache_maint.c:1095
+#: ../src/cache_maint.c:1230 ../src/cache_maint.c:1249
 msgid "Remove orphaned or outdated thumbnails."
 msgstr ""
 
-#: ../src/cache_maint.c:1083 ../src/cache_maint.c:1100
+#: ../src/cache_maint.c:1235
+#, fuzzy
+msgid "Delete all cached data."
+msgstr "Puhverda pisipildid"
+
+#: ../src/cache_maint.c:1238
+#, fuzzy
+msgid "Shared thumbnail cache"
+msgstr "NÃ¤ita pisipilte"
+
+#: ../src/cache_maint.c:1254
 #, fuzzy
 msgid "Delete all cached thumbnails."
 msgstr "Puhverda pisipildid"
 
-#: ../src/cache_maint.c:1086
-#, fuzzy
-msgid "Shared thumbnail cache"
-msgstr "Näita pisipilte"
-
-#: ../src/cache_maint.c:1106
+#: ../src/cache_maint.c:1260
 #, fuzzy
 msgid "Render"
-msgstr "Nimeta ümber"
+msgstr "Nimeta Ã¼mber"
 
-#: ../src/cache_maint.c:1109
+#: ../src/cache_maint.c:1263
 msgid "Render thumbnails for a specific folder."
 msgstr ""
 
-#: ../src/cache_maint.c:1120
+#: ../src/cache_maint.c:1274
 msgid "Remove orphaned keywords and comments."
 msgstr ""
 
 #. When does this occur ??
-#: ../src/collect.c:331 ../src/image.c:160 ../src/image-overlay.c:532
-#: ../src/image-overlay.c:609
+#: ../src/collect.c:339 ../src/image.c:172 ../src/image-overlay.c:545
+#: ../src/image-overlay.c:622
 msgid "Untitled"
 msgstr "Pealkirjata"
 
-#: ../src/collect.c:335
+#: ../src/collect.c:343
 #, c-format
 msgid "Untitled (%d)"
 msgstr "Pealkirjata (%d)"
 
-#: ../src/collect.c:968
+#: ../src/collect.c:985
 #, fuzzy, c-format
 msgid "%s - Collection - %s"
 msgstr "%s - Geeqie kollektsioon"
 
-#: ../src/collect.c:1080 ../src/collect.c:1084
+#: ../src/collect.c:1097 ../src/collect.c:1101
 msgid "Close collection"
 msgstr "Sulge kollektsioon"
 
-#: ../src/collect.c:1085
+#: ../src/collect.c:1102
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
@@ -641,90 +718,90 @@ msgstr ""
 "Kollektsiooni on muudetud.\n"
 "Salvestada?"
 
-#: ../src/collect.c:1088
+#: ../src/collect.c:1105
 msgid "_Discard"
 msgstr ""
 
-#: ../src/collect-dlg.c:59
+#: ../src/collect-dlg.c:67
 #, fuzzy, c-format
 msgid ""
 "Specified path:\n"
 "%s\n"
 "is a folder, collections are files"
 msgstr ""
-"Märgitud tee:\n"
+"MÃ¤rgitud tee:\n"
 "%s\n"
 "on kataloog, kollektsioonid on failid"
 
-#: ../src/collect-dlg.c:60
+#: ../src/collect-dlg.c:68
 msgid "Invalid filename"
 msgstr "Vigane failinimi"
 
-#: ../src/collect-dlg.c:69
+#: ../src/collect-dlg.c:77
 msgid "Overwrite File"
-msgstr "Kirjuta fail üle"
+msgstr "Kirjuta fail Ã¼le"
 
-#: ../src/collect-dlg.c:74
+#: ../src/collect-dlg.c:82
 #, fuzzy
 msgid "Overwrite existing file?"
-msgstr "Kirjuta fail üle"
+msgstr "Kirjuta fail Ã¼le"
 
-#: ../src/collect-dlg.c:76
+#: ../src/collect-dlg.c:84
 #, fuzzy
 msgid "_Overwrite"
-msgstr "Kirjuta üle"
+msgstr "Kirjuta Ã¼le"
 
-#: ../src/collect-dlg.c:127
+#: ../src/collect-dlg.c:135
 #, c-format
 msgid "No such file '%s'."
 msgstr ""
 
-#: ../src/collect-dlg.c:132
+#: ../src/collect-dlg.c:140
 #, c-format
 msgid "'%s' is a directory, not a collection file."
 msgstr ""
 
-#: ../src/collect-dlg.c:137
+#: ../src/collect-dlg.c:145
 #, c-format
 msgid "You do not have read permissions on the file '%s'."
 msgstr ""
 
-#: ../src/collect-dlg.c:143
+#: ../src/collect-dlg.c:151
 #, fuzzy
 msgid "Can not open collection file"
 msgstr ""
-"Kollektsiooni salvestamine ebaõnnestus:\n"
+"Kollektsiooni salvestamine ebaÃµnnestus:\n"
 "%s"
 
-#: ../src/collect-dlg.c:195
+#: ../src/collect-dlg.c:203
 msgid "Save collection"
 msgstr "Salvesta kollektsioon"
 
-#: ../src/collect-dlg.c:202
+#: ../src/collect-dlg.c:210
 msgid "Open collection"
 msgstr "Ava kollektsioon"
 
-#: ../src/collect-dlg.c:210
+#: ../src/collect-dlg.c:218
 msgid "Append collection"
 msgstr "Lisa kollektsioon"
 
-#: ../src/collect-dlg.c:211
+#: ../src/collect-dlg.c:219
 #, fuzzy
 msgid "_Append"
 msgstr "Lisa"
 
-#: ../src/collect-dlg.c:228
+#: ../src/collect-dlg.c:236
 msgid "Collection Files"
 msgstr "Kollektsioonide failid"
 
-#: ../src/collect-io.c:348
+#: ../src/collect-io.c:356
 #, fuzzy, c-format
 msgid "failed to open collection (write) \"%s\"\n"
 msgstr ""
-"Kollektsiooni salvestamine ebaõnnestus:\n"
+"Kollektsiooni salvestamine ebaÃµnnestus:\n"
 "%s"
 
-#: ../src/collect-io.c:373
+#: ../src/collect-io.c:381
 #, fuzzy, c-format
 msgid ""
 "error saving collection file: %s\n"
@@ -741,211 +818,222 @@ msgstr "%s, %d faili (%s, %d)%s"
 msgid "%s, %d images"
 msgstr "%d pilti"
 
-#: ../src/collect-table.c:223 ../src/layout_util.c:1229
-#: ../src/layout_util.c:2153
+#: ../src/collect-table.c:223 ../src/layout_util.c:1652
+#: ../src/layout_util.c:2621
 msgid "Empty"
-msgstr "Tühi"
+msgstr "TÃ¼hi"
 
-#: ../src/collect-table.c:237 ../src/dupe.c:1314 ../src/search.c:320
-#: ../src/view_file.c:835 ../src/view_file.c:938
+#: ../src/collect-table.c:237 ../src/dupe.c:1362 ../src/search.c:365
+#: ../src/view_file/view_file.c:826 ../src/view_file/view_file.c:935
 msgid "Loading thumbs..."
 msgstr "Laen pisipilte..."
 
-#: ../src/collect-table.c:868 ../src/dupe.c:2237 ../src/dupe.c:2550
-#: ../src/layout_util.c:1276 ../src/search.c:996
+#: ../src/collect-table.c:904 ../src/dupe.c:2323 ../src/dupe.c:2636
+#: ../src/layout_util.c:1700 ../src/search.c:1041
 #, fuzzy
 msgid "_View"
 msgstr "/_Vaade"
 
-#: ../src/collect-table.c:870 ../src/dupe.c:2239 ../src/dupe.c:2552
-#: ../src/img-view.c:1268 ../src/layout_image.c:499 ../src/pan-view.c:2617
-#: ../src/search.c:998 ../src/view_file.c:588
+#: ../src/collect-table.c:906 ../src/dupe.c:2325 ../src/dupe.c:2638
+#: ../src/img-view.c:1282 ../src/layout_image.c:676
+#: ../src/pan-view/pan-view.c:2226 ../src/search.c:1043
+#: ../src/view_file/view_file.c:581
 #, fuzzy
 msgid "View in _new window"
 msgstr "Ava uues aknas"
 
-#: ../src/collect-table.c:873 ../src/dupe.c:2273 ../src/dupe.c:2560
-#: ../src/search.c:1028
+#: ../src/collect-table.c:909 ../src/dupe.c:2359 ../src/dupe.c:2646
+#: ../src/search.c:1073
 #, fuzzy
 msgid "Rem_ove"
 msgstr "Eemalda"
 
-#: ../src/collect-table.c:876
+#: ../src/collect-table.c:912
 msgid "Append from file list"
 msgstr "Lisa failide nimekirjast"
 
-#: ../src/collect-table.c:878
+#: ../src/collect-table.c:914
 msgid "Append from collection..."
 msgstr "Lisa kollektsioonist..."
 
-#: ../src/collect-table.c:882
+#: ../src/collect-table.c:918
 #, fuzzy
 msgid "_Selection"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/collect-table.c:884 ../src/dupe.c:2242 ../src/dupe.c:2555
-#: ../src/layout_util.c:1324 ../src/search.c:1001
+#: ../src/collect-table.c:920 ../src/dupe.c:2328 ../src/dupe.c:2641
+#: ../src/layout_util.c:1755 ../src/search.c:1046
 msgid "Select all"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/collect-table.c:886 ../src/dupe.c:2244 ../src/dupe.c:2557
-#: ../src/layout_util.c:1325 ../src/search.c:1003
+#: ../src/collect-table.c:922 ../src/dupe.c:2330 ../src/dupe.c:2643
+#: ../src/layout_util.c:1756 ../src/search.c:1048
 msgid "Select none"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/collect-table.c:888
+#: ../src/collect-table.c:924
 #, fuzzy
 msgid "Invert selection"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/collect-table.c:900 ../src/dupe.c:2262 ../src/img-view.c:1272
-#: ../src/layout_image.c:507 ../src/layout_util.c:1307 ../src/pan-view.c:2621
-#: ../src/search.c:1017 ../src/view_file.c:592
+#: ../src/collect-table.c:926
+#, fuzzy
+msgid "Rectangular selection"
+msgstr "RistkÃ¼likuline valik"
+
+#: ../src/collect-table.c:938 ../src/dupe.c:2348 ../src/img-view.c:1286
+#: ../src/layout_image.c:684 ../src/layout_util.c:1731
+#: ../src/pan-view/pan-view.c:2230 ../src/search.c:1062
+#: ../src/view_file/view_file.c:585
 #, fuzzy
 msgid "_Copy..."
 msgstr "Kopeeri..."
 
-#: ../src/collect-table.c:902 ../src/dupe.c:2264 ../src/img-view.c:1273
-#: ../src/layout_image.c:509 ../src/layout_util.c:1308 ../src/pan-view.c:2623
-#: ../src/search.c:1019 ../src/view_file.c:594
+#: ../src/collect-table.c:940 ../src/dupe.c:2350 ../src/img-view.c:1287
+#: ../src/layout_image.c:686 ../src/layout_util.c:1732
+#: ../src/pan-view/pan-view.c:2232 ../src/search.c:1064
+#: ../src/view_file/view_file.c:587
 #, fuzzy
 msgid "_Move..."
 msgstr "Liiguta..."
 
-#: ../src/collect-table.c:904 ../src/dupe.c:2266 ../src/img-view.c:1274
-#: ../src/layout_image.c:511 ../src/layout_util.c:1309 ../src/pan-view.c:2625
-#: ../src/search.c:1021 ../src/view_dir.c:665 ../src/view_file.c:596
+#: ../src/collect-table.c:942 ../src/dupe.c:2352 ../src/img-view.c:1288
+#: ../src/layout_image.c:688 ../src/layout_util.c:1733
+#: ../src/pan-view/pan-view.c:2234 ../src/search.c:1066 ../src/view_dir.c:674
+#: ../src/view_file/view_file.c:589
 #, fuzzy
 msgid "_Rename..."
 msgstr "Muuda nime..."
 
-#: ../src/collect-table.c:906 ../src/dupe.c:2268 ../src/img-view.c:1275
-#: ../src/layout_image.c:513 ../src/layout_util.c:1310
-#: ../src/layout_util.c:1311 ../src/layout_util.c:1312 ../src/pan-view.c:2627
-#: ../src/search.c:1023 ../src/view_dir.c:667 ../src/view_file.c:598
+#: ../src/collect-table.c:944 ../src/dupe.c:2354 ../src/img-view.c:1289
+#: ../src/layout_image.c:690 ../src/layout_util.c:1734
+#: ../src/layout_util.c:1735 ../src/layout_util.c:1736
+#: ../src/pan-view/pan-view.c:2236 ../src/search.c:1068 ../src/view_dir.c:676
+#: ../src/view_file/view_file.c:591
 #, fuzzy
 msgid "_Delete..."
 msgstr "Kustuta..."
 
-#: ../src/collect-table.c:908 ../src/dupe.c:2270 ../src/img-view.c:1276
-#: ../src/layout_image.c:516 ../src/pan-view.c:2629 ../src/search.c:1025
-#: ../src/view_dir.c:670 ../src/view_file.c:600
+#: ../src/collect-table.c:946 ../src/dupe.c:2356 ../src/img-view.c:1290
+#: ../src/layout_image.c:693 ../src/pan-view/pan-view.c:2238
+#: ../src/search.c:1070 ../src/view_dir.c:679 ../src/view_file/view_file.c:593
 #, fuzzy
 msgid "_Copy path"
 msgstr "Kopeeri"
 
-#: ../src/collect-table.c:914
+#: ../src/collect-table.c:952
 #, fuzzy
 msgid "Randomize"
 msgstr "Segamini"
 
-#: ../src/collect-table.c:916 ../src/view_file.c:616
+#: ../src/collect-table.c:954 ../src/view_file/view_file.c:615
 #, fuzzy
 msgid "_Sort"
 msgstr "Sorteerimine"
 
-#: ../src/collect-table.c:919 ../src/view_file.c:632
+#: ../src/collect-table.c:957 ../src/view_file/view_file.c:631
 #, fuzzy
 msgid "Show filename _text"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/collect-table.c:922
+#: ../src/collect-table.c:960
 #, fuzzy
 msgid "_Save collection"
 msgstr "Salvesta kollektsioon"
 
-#: ../src/collect-table.c:924
+#: ../src/collect-table.c:962
 #, fuzzy
 msgid "Save collection _as..."
 msgstr "Salvesta kollektsioon kui..."
 
-#: ../src/collect-table.c:927 ../src/layout_util.c:1303
+#: ../src/collect-table.c:965 ../src/layout_util.c:1727
+#: ../src/view_file/view_file.c:602
 #, fuzzy
 msgid "_Find duplicates..."
 msgstr "Otsi duplikaadid..."
 
-#: ../src/collect-table.c:929 ../src/dupe.c:2259 ../src/layout_util.c:1305
-#: ../src/search.c:1014
+#: ../src/collect-table.c:967 ../src/dupe.c:2345 ../src/layout_util.c:1729
+#: ../src/search.c:1059
 #, fuzzy
 msgid "Print..."
-msgstr "/Fail/_Nimeta ümber..."
+msgstr "/Fail/_Nimeta Ã¼mber..."
 
-#: ../src/collect-table.c:2094 ../src/dupe.c:3319 ../src/img-view.c:1430
+#: ../src/collect-table.c:2156 ../src/dupe.c:3500 ../src/img-view.c:1444
 #, fuzzy
 msgid "Dropped list includes folders."
 msgstr "Lohistatud nimekiri sisaldab katalooge."
 
-#: ../src/collect-table.c:2096 ../src/dupe.c:3321 ../src/img-view.c:1432
+#: ../src/collect-table.c:2158 ../src/dupe.c:3502 ../src/img-view.c:1446
 #, fuzzy
 msgid "_Add contents"
 msgstr "Lisa sisu"
 
-#: ../src/collect-table.c:2098 ../src/dupe.c:3322 ../src/img-view.c:1433
+#: ../src/collect-table.c:2160 ../src/dupe.c:3503 ../src/img-view.c:1447
 #, fuzzy
 msgid "Add contents _recursive"
 msgstr "Lisa sisu rekursiivselt"
 
-#: ../src/collect-table.c:2100 ../src/dupe.c:3323 ../src/img-view.c:1434
+#: ../src/collect-table.c:2162 ../src/dupe.c:3504 ../src/img-view.c:1448
 #, fuzzy
 msgid "_Skip folders"
-msgstr "Jäta kataloogid vahele"
+msgstr "JÃ¤ta kataloogid vahele"
 
-#: ../src/collect-table.c:2103 ../src/dupe.c:3325 ../src/img-view.c:1436
-#: ../src/view_dir.c:417
+#: ../src/collect-table.c:2165 ../src/dupe.c:3506 ../src/img-view.c:1450
+#: ../src/view_dir.c:426
 msgid "Cancel"
 msgstr "Loobu"
 
-#: ../src/color-man.c:426 ../src/exif.c:233 ../src/exif-common.c:436
+#: ../src/color-man.c:434 ../src/exif.c:227 ../src/exif-common.c:448
 msgid "sRGB"
 msgstr ""
 
-#: ../src/color-man.c:428
+#: ../src/color-man.c:436
 msgid "Adobe RGB compatible"
 msgstr ""
 
-#: ../src/color-man.c:445
+#: ../src/color-man.c:453
 #, fuzzy
 msgid "Custom profile"
-msgstr "Näita ka nende tüüpidega faile:"
+msgstr "NÃ¤ita ka nende tÃ¼Ã¼pidega faile:"
 
-#: ../src/desktop_file.c:74 ../src/desktop_file.c:86 ../src/desktop_file.c:92
+#: ../src/desktop_file.c:83 ../src/desktop_file.c:95 ../src/desktop_file.c:101
 msgid "Can't save"
 msgstr ""
 
-#: ../src/desktop_file.c:74
+#: ../src/desktop_file.c:83
 msgid "Please specify file name."
 msgstr ""
 
-#: ../src/desktop_file.c:86
+#: ../src/desktop_file.c:95
 #, fuzzy
 msgid "Could not create directory"
-msgstr "Kataloogi loomine ebaõnnestus"
+msgstr "Kataloogi loomine ebaÃµnnestus"
 
-#: ../src/desktop_file.c:182 ../src/desktop_file.c:534
+#: ../src/desktop_file.c:191 ../src/desktop_file.c:554
 #, fuzzy
 msgid "Desktop file"
 msgstr "failiks:"
 
-#: ../src/desktop_file.c:291 ../src/ui_pathsel.c:485
+#: ../src/desktop_file.c:300 ../src/ui_pathsel.c:494
 #, c-format
 msgid ""
 "Unable to delete file:\n"
 "%s"
 msgstr ""
-"Faili kustutamine ebaõnnestus:\n"
+"Faili kustutamine ebaÃµnnestus:\n"
 "%s"
 
-#: ../src/desktop_file.c:292 ../src/ui_pathsel.c:486 ../src/utilops.c:1975
-#: ../src/utilops.c:2002 ../src/utilops.c:2522
+#: ../src/desktop_file.c:301 ../src/ui_pathsel.c:495 ../src/utilops.c:2119
+#: ../src/utilops.c:2146 ../src/utilops.c:2668
 msgid "File deletion failed"
-msgstr "Faili kustutamine ebaõnnestus"
+msgstr "Faili kustutamine ebaÃµnnestus"
 
-#: ../src/desktop_file.c:336 ../src/desktop_file.c:344 ../src/ui_pathsel.c:528
-#: ../src/ui_pathsel.c:536
+#: ../src/desktop_file.c:345 ../src/desktop_file.c:353 ../src/ui_pathsel.c:537
+#: ../src/ui_pathsel.c:545
 msgid "Delete file"
 msgstr "Kustuta fail"
 
-#: ../src/desktop_file.c:342 ../src/ui_pathsel.c:534
+#: ../src/desktop_file.c:351 ../src/ui_pathsel.c:543
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -954,2460 +1042,2697 @@ msgstr ""
 "Kas soovid ikka kustutada faili\n"
 " %s?"
 
-#: ../src/desktop_file.c:374
+#: ../src/desktop_file.c:383
 #, fuzzy
 msgid "new.desktop"
 msgstr "failiks:"
 
-#: ../src/desktop_file.c:453
+#: ../src/desktop_file.c:467
 msgid "Editors"
 msgstr "Redaktorid"
 
-#: ../src/desktop_file.c:524
+#: ../src/desktop_file.c:544
 msgid "Hidden"
 msgstr ""
 
-#: ../src/desktop_file.c:543 ../src/dupe.c:2648 ../src/dupe.c:3133
-#: ../src/print.c:3201 ../src/search.c:2794 ../src/ui_pathsel.c:1109
-#: ../src/utilops.c:458
+#: ../src/desktop_file.c:563 ../src/dupe.c:2745 ../src/dupe.c:3282
+#: ../src/print.c:3211 ../src/search.c:3088 ../src/ui_pathsel.c:1119
+#: ../src/utilops.c:501
 msgid "Path"
 msgstr "Kataloogitee"
 
-#: ../src/dupe.c:100
+#: ../src/dupe.c:108
 msgid "Drop files to compare them."
-msgstr "Lohista failid nende võrdlemiseks."
+msgstr "Lohista failid nende vÃµrdlemiseks."
 
-#: ../src/dupe.c:104
+#: ../src/dupe.c:112
 #, c-format
 msgid "%d files"
 msgstr "%d faili"
 
-#: ../src/dupe.c:108
+#: ../src/dupe.c:116
 #, c-format
 msgid "%d matches found in %d files"
-msgstr "Leiti %d ühtivust %d failis"
+msgstr "Leiti %d Ã¼htivust %d failis"
 
-#: ../src/dupe.c:113
+#: ../src/dupe.c:121
 msgid "[set 1]"
 msgstr ""
 
-#: ../src/dupe.c:1440
+#: ../src/dupe.c:1488
 msgid "Reading checksums..."
 msgstr "Loen kontrollsummasid..."
 
-#: ../src/dupe.c:1473
+#: ../src/dupe.c:1521
 msgid "Reading dimensions..."
-msgstr "Loen mõõtmeid..."
+msgstr "Loen mÃµÃµtmeid..."
 
-#: ../src/dupe.c:1507
+#: ../src/dupe.c:1555
 msgid "Reading similarity data..."
 msgstr "Loen sarnasuse andmeid..."
 
-#: ../src/dupe.c:1543 ../src/dupe.c:1574
+#: ../src/dupe.c:1591 ../src/dupe.c:1622
 msgid "Comparing..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/dupe.c:1554 ../src/pan-view.c:996
+#: ../src/dupe.c:1602 ../src/pan-view/pan-view.c:1011
 #, fuzzy
 msgid "Sorting..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/dupe.c:2246
+#: ../src/dupe.c:2332
 msgid "Select group _1 duplicates"
 msgstr ""
 
-#: ../src/dupe.c:2248
+#: ../src/dupe.c:2334
 msgid "Select group _2 duplicates"
 msgstr ""
 
-#: ../src/dupe.c:2257 ../src/search.c:1012
+#: ../src/dupe.c:2343 ../src/search.c:1057 ../src/view_file/view_file.c:605
 msgid "Add to new collection"
 msgstr "Lisa uude kollektsiooni"
 
-#: ../src/dupe.c:2275 ../src/dupe.c:2562 ../src/search.c:1030
+#: ../src/dupe.c:2361 ../src/dupe.c:2648 ../src/search.c:1075
 #, fuzzy
 msgid "C_lear"
 msgstr "Puhasta"
 
-#: ../src/dupe.c:2278 ../src/dupe.c:2565
+#: ../src/dupe.c:2364 ../src/dupe.c:2651
 #, fuzzy
 msgid "Close _window"
 msgstr "Sulge aken"
 
-#: ../src/dupe.c:2438
+#: ../src/dupe.c:2524
 #, fuzzy, c-format
 msgid "%d files (set 2)"
 msgstr "%d faili%s"
 
-#: ../src/dupe.c:2643
+#: ../src/dupe.c:2740
 msgid "Name case-insensitive"
 msgstr ""
 
-#: ../src/dupe.c:2644 ../src/dupe.c:3130 ../src/preferences.c:1476
-#: ../src/print.c:3205 ../src/search.c:2791 ../src/view_file_list.c:1984
+#: ../src/dupe.c:2741 ../src/dupe.c:3279 ../src/preferences.c:1604
+#: ../src/print.c:3215 ../src/search.c:3085
+#: ../src/view_file/view_file_list.c:1935
 msgid "Size"
 msgstr "Suurus"
 
-#: ../src/dupe.c:2645 ../src/dupe.c:3131 ../src/exif.c:342
-#: ../src/exif-common.c:553 ../src/print.c:3203 ../src/search.c:2792
-#: ../src/view_file_list.c:1988
+#: ../src/dupe.c:2742 ../src/dupe.c:3280 ../src/exif.c:336
+#: ../src/exif-common.c:565 ../src/print.c:3213 ../src/search.c:3086
+#: ../src/view_file/view_file_list.c:1939
 msgid "Date"
-msgstr "Kuupäev"
+msgstr "KuupÃ¤ev"
 
-#: ../src/dupe.c:2646 ../src/dupe.c:3132 ../src/print.c:3207
-#: ../src/search.c:2793
+#: ../src/dupe.c:2743 ../src/dupe.c:3281 ../src/print.c:3217
+#: ../src/search.c:3087
 msgid "Dimensions"
-msgstr "Mõõtmed"
+msgstr "MÃµÃµtmed"
 
-#: ../src/dupe.c:2647
+#: ../src/dupe.c:2744
 msgid "Checksum"
 msgstr "Kontrollsumma"
 
-#: ../src/dupe.c:2649
+#: ../src/dupe.c:2746
 msgid "Similarity (high)"
-msgstr "Sarnasus (kõrge)"
+msgstr "Sarnasus (kÃµrge)"
 
-#: ../src/dupe.c:2650
+#: ../src/dupe.c:2747
 msgid "Similarity"
 msgstr "Sarnasus"
 
-#: ../src/dupe.c:2651
+#: ../src/dupe.c:2748
 msgid "Similarity (low)"
 msgstr "Sarnasus (madal)"
 
-#: ../src/dupe.c:2652
+#: ../src/dupe.c:2749
 msgid "Similarity (custom)"
 msgstr "Sarnasus (kohandatud)"
 
-#: ../src/dupe.c:3083
+#: ../src/dupe.c:3232
 #, fuzzy
 msgid "Find duplicates"
 msgstr "Otsi duplikaadid..."
 
-#: ../src/dupe.c:3165
+#: ../src/dupe.c:3314
 msgid "Compare to:"
-msgstr "Võrdle millega:"
+msgstr "VÃµrdle millega:"
 
-#: ../src/dupe.c:3178
+#: ../src/dupe.c:3327
 msgid "Compare by:"
-msgstr "Võrdlemise alus:"
+msgstr "VÃµrdlemise alus:"
 
-#: ../src/dupe.c:3186 ../src/preferences.c:1316 ../src/search.c:2807
+#: ../src/dupe.c:3335 ../src/preferences.c:1436 ../src/search.c:3101
 msgid "Thumbnails"
 msgstr "Pisipildid"
 
-#: ../src/dupe.c:3193
-msgid "Compare two file sets"
-msgstr "Võrdle kaht failikomplekti"
+#: ../src/dupe.c:3343
+#, fuzzy
+msgid "Ignore Rotation"
+msgstr "MÃµÃµtmed:"
 
-#: ../src/editors.c:281
+#: ../src/dupe.c:3351
+msgid "Compare two file sets"
+msgstr "VÃµrdle kaht failikomplekti"
+
+#: ../src/dupe.c:3371 ../src/menu.c:219
+msgid "Sort"
+msgstr "Sorteerimine"
+
+#: ../src/dupe.c:3379
+#, fuzzy
+msgid "Custom Threshold"
+msgstr "Kohandatud sarnasuse lÃ¤vi:"
+
+#: ../src/editors.c:289
 #, c-format
 msgid "Desktop file '%s' should not include extension in Icon key: '%s'\n"
 msgstr ""
 
 #. flash fired (bit 0)
-#: ../src/editors.c:335 ../src/exif.c:226 ../src/exif-common.c:362
+#: ../src/editors.c:343 ../src/exif.c:220 ../src/exif-common.c:374
 msgid "yes"
 msgstr "jah"
 
-#: ../src/editors.c:335 ../src/exif.c:225 ../src/exif-common.c:362
+#: ../src/editors.c:343 ../src/exif.c:219 ../src/exif-common.c:374
 msgid "no"
 msgstr "ei"
 
-#: ../src/editors.c:507
+#: ../src/editors.c:515
 #, fuzzy
 msgid "stopping..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/editors.c:528
+#: ../src/editors.c:536
 msgid "Edit command results"
 msgstr ""
 
-#: ../src/editors.c:531
+#: ../src/editors.c:539
 #, c-format
 msgid "Output of %s"
 msgstr ""
 
-#: ../src/editors.c:1054
+#: ../src/editors.c:1066
 #, fuzzy, c-format
 msgid ""
 "Failed to run command:\n"
 "%s\n"
 msgstr ""
-"Laadimine ebaõnnestus:\n"
+"Laadimine ebaÃµnnestus:\n"
 "%s"
 
-#: ../src/editors.c:1181
+#: ../src/editors.c:1193
 #, fuzzy
 msgid "stopped by user"
-msgstr "Sorteeritud numbri järgi"
+msgstr "Sorteeritud numbri jÃ¤rgi"
 
-#: ../src/editors.c:1266
+#: ../src/editors.c:1278
 #, c-format
 msgid ""
 "%s\n"
 "\"%s\""
 msgstr ""
 
-#: ../src/editors.c:1268
+#: ../src/editors.c:1280
 #, fuzzy
 msgid "Invalid editor command"
 msgstr "Vigane kataloog"
 
-#: ../src/editors.c:1355
+#: ../src/editors.c:1367
 msgid "Editor template is empty."
 msgstr ""
 
-#: ../src/editors.c:1356
+#: ../src/editors.c:1368
 msgid "Editor template has incorrect syntax."
 msgstr ""
 
-#: ../src/editors.c:1357
+#: ../src/editors.c:1369
 msgid "Editor template uses incompatible macros."
 msgstr ""
 
-#: ../src/editors.c:1358
+#: ../src/editors.c:1370
 msgid "Can't find matching file type."
 msgstr ""
 
-#: ../src/editors.c:1359
+#: ../src/editors.c:1371
 msgid "Can't execute external editor."
 msgstr ""
 
-#: ../src/editors.c:1360
+#: ../src/editors.c:1372
 msgid "External editor returned error status."
 msgstr ""
 
-#: ../src/editors.c:1361
+#: ../src/editors.c:1373
 msgid "File was skipped."
 msgstr ""
 
-#: ../src/editors.c:1362
+#: ../src/editors.c:1374
 msgid "Unknown error."
 msgstr ""
 
-#: ../src/exif.c:148 ../src/exif.c:161 ../src/exif.c:175 ../src/exif.c:200
-#: ../src/exif.c:317 ../src/exif.c:664 ../src/exif-common.c:338
-#: ../src/exif-common.c:341 ../src/exif-common.c:408
+#: ../src/exif.c:142 ../src/exif.c:155 ../src/exif.c:169 ../src/exif.c:194
+#: ../src/exif.c:311 ../src/exif.c:658 ../src/exif-common.c:350
+#: ../src/exif-common.c:353 ../src/exif-common.c:420
 #, fuzzy
 msgid "unknown"
 msgstr "(tundmatus)..."
 
-#: ../src/exif.c:149
+#: ../src/exif.c:143
 #, fuzzy
 msgid "top left"
 msgstr "Kustuta"
 
-#: ../src/exif.c:150
+#: ../src/exif.c:144
 msgid "top right"
 msgstr ""
 
-#: ../src/exif.c:151
+#: ../src/exif.c:145
 msgid "bottom right"
 msgstr ""
 
-#: ../src/exif.c:152
+#: ../src/exif.c:146
 msgid "bottom left"
 msgstr ""
 
-#: ../src/exif.c:153
+#: ../src/exif.c:147
 #, fuzzy
 msgid "left top"
 msgstr "Kustuta"
 
-#: ../src/exif.c:154
+#: ../src/exif.c:148
 msgid "right top"
 msgstr ""
 
-#: ../src/exif.c:155
+#: ../src/exif.c:149
 msgid "right bottom"
 msgstr ""
 
-#: ../src/exif.c:156
+#: ../src/exif.c:150
 msgid "left bottom"
 msgstr ""
 
-#: ../src/exif.c:163
+#: ../src/exif.c:157
 msgid "inch"
 msgstr ""
 
-#: ../src/exif.c:164
+#: ../src/exif.c:158
 msgid "centimeter"
 msgstr ""
 
-#: ../src/exif.c:176
+#: ../src/exif.c:170
 msgid "average"
 msgstr ""
 
-#: ../src/exif.c:177
+#: ../src/exif.c:171
 msgid "center weighted"
 msgstr ""
 
-#: ../src/exif.c:178
+#: ../src/exif.c:172
 msgid "spot"
 msgstr ""
 
-#: ../src/exif.c:179
+#: ../src/exif.c:173
 msgid "multi-spot"
 msgstr ""
 
-#: ../src/exif.c:180
+#: ../src/exif.c:174
 msgid "multi-segment"
 msgstr ""
 
-#: ../src/exif.c:181
+#: ../src/exif.c:175
 msgid "partial"
 msgstr ""
 
-#: ../src/exif.c:182 ../src/exif.c:220
+#: ../src/exif.c:176 ../src/exif.c:214
 msgid "other"
 msgstr ""
 
-#: ../src/exif.c:187 ../src/exif.c:239
+#: ../src/exif.c:181 ../src/exif.c:233
 msgid "not defined"
 msgstr ""
 
-#: ../src/exif.c:188 ../src/exif.c:267 ../src/exif.c:274
+#: ../src/exif.c:182 ../src/exif.c:261 ../src/exif.c:268
 msgid "manual"
 msgstr ""
 
-#: ../src/exif.c:189 ../src/exif.c:260 ../src/exif.c:296 ../src/exif.c:303
-#: ../src/exif.c:310
+#: ../src/exif.c:183 ../src/exif.c:254 ../src/exif.c:290 ../src/exif.c:297
+#: ../src/exif.c:304
 #, fuzzy
 msgid "normal"
 msgstr "Normaalne"
 
-#: ../src/exif.c:190
+#: ../src/exif.c:184
 msgid "aperture"
 msgstr ""
 
-#: ../src/exif.c:191
+#: ../src/exif.c:185
 msgid "shutter"
 msgstr ""
 
-#: ../src/exif.c:192
+#: ../src/exif.c:186
 #, fuzzy
 msgid "creative"
 msgstr "Loo"
 
-#: ../src/exif.c:193
+#: ../src/exif.c:187
 msgid "action"
 msgstr ""
 
-#: ../src/exif.c:194 ../src/exif.c:281
+#: ../src/exif.c:188 ../src/exif.c:275
 msgid "portrait"
 msgstr ""
 
-#: ../src/exif.c:195 ../src/exif.c:280
+#: ../src/exif.c:189 ../src/exif.c:274
 msgid "landscape"
 msgstr ""
 
-#: ../src/exif.c:201
+#: ../src/exif.c:195
 msgid "daylight"
 msgstr ""
 
-#: ../src/exif.c:202
+#: ../src/exif.c:196
 msgid "fluorescent"
 msgstr ""
 
-#: ../src/exif.c:203
+#: ../src/exif.c:197
 msgid "tungsten (incandescent)"
 msgstr ""
 
-#: ../src/exif.c:204
+#: ../src/exif.c:198
 msgid "flash"
 msgstr ""
 
-#: ../src/exif.c:205
+#: ../src/exif.c:199
 msgid "fine weather"
 msgstr ""
 
-#: ../src/exif.c:206
+#: ../src/exif.c:200
 msgid "cloudy weather"
 msgstr ""
 
-#: ../src/exif.c:207
+#: ../src/exif.c:201
 msgid "shade"
 msgstr ""
 
-#: ../src/exif.c:208
+#: ../src/exif.c:202
 msgid "daylight fluorescent"
 msgstr ""
 
-#: ../src/exif.c:209
+#: ../src/exif.c:203
 msgid "day white fluorescent"
 msgstr ""
 
-#: ../src/exif.c:210
+#: ../src/exif.c:204
 msgid "cool white fluorescent"
 msgstr ""
 
-#: ../src/exif.c:211
+#: ../src/exif.c:205
 msgid "white fluorescent"
 msgstr ""
 
-#: ../src/exif.c:212
+#: ../src/exif.c:206
 msgid "standard light A"
 msgstr ""
 
-#: ../src/exif.c:213
+#: ../src/exif.c:207
 msgid "standard light B"
 msgstr ""
 
-#: ../src/exif.c:214
+#: ../src/exif.c:208
 msgid "standard light C"
 msgstr ""
 
-#: ../src/exif.c:215
+#: ../src/exif.c:209
 msgid "D55"
 msgstr ""
 
-#: ../src/exif.c:216
+#: ../src/exif.c:210
 msgid "D65"
 msgstr ""
 
-#: ../src/exif.c:217
+#: ../src/exif.c:211
 msgid "D75"
 msgstr ""
 
-#: ../src/exif.c:218
+#: ../src/exif.c:212
 msgid "D50"
 msgstr ""
 
-#: ../src/exif.c:219
+#: ../src/exif.c:213
 msgid "ISO studio tungsten"
 msgstr ""
 
-#: ../src/exif.c:227
+#: ../src/exif.c:221
 msgid "yes, not detected by strobe"
 msgstr ""
 
-#: ../src/exif.c:228
+#: ../src/exif.c:222
 msgid "yes, detected by strobe"
 msgstr ""
 
-#: ../src/exif.c:234
+#: ../src/exif.c:228
 msgid "uncalibrated"
 msgstr ""
 
-#: ../src/exif.c:240
+#: ../src/exif.c:234
 msgid "1 chip color area"
 msgstr ""
 
-#: ../src/exif.c:241
+#: ../src/exif.c:235
 msgid "2 chip color area"
 msgstr ""
 
-#: ../src/exif.c:242
+#: ../src/exif.c:236
 msgid "3 chip color area"
 msgstr ""
 
-#: ../src/exif.c:243
+#: ../src/exif.c:237
 msgid "color sequential area"
 msgstr ""
 
-#: ../src/exif.c:244
+#: ../src/exif.c:238
 #, fuzzy
 msgid "trilinear"
 msgstr "Bilineaarne"
 
-#: ../src/exif.c:245
+#: ../src/exif.c:239
 msgid "color sequential linear"
 msgstr ""
 
-#: ../src/exif.c:250
+#: ../src/exif.c:244
 msgid "digital still camera"
 msgstr ""
 
-#: ../src/exif.c:255
+#: ../src/exif.c:249
 msgid "direct photo"
 msgstr ""
 
-#: ../src/exif.c:261
+#: ../src/exif.c:255
 msgid "custom"
 msgstr ""
 
-#: ../src/exif.c:266 ../src/exif.c:273 ../src/exif-common.c:376
+#: ../src/exif.c:260 ../src/exif.c:267 ../src/exif-common.c:388
 msgid "auto"
 msgstr ""
 
-#: ../src/exif.c:268
+#: ../src/exif.c:262
 #, fuzzy
 msgid "auto bracket"
-msgstr "Automaatne ümbernimetamine"
+msgstr "Automaatne Ã¼mbernimetamine"
 
-#: ../src/exif.c:279
+#: ../src/exif.c:273
 #, fuzzy
 msgid "standard"
 msgstr "Puhasta"
 
-#: ../src/exif.c:282
+#: ../src/exif.c:276
 msgid "night scene"
 msgstr ""
 
-#: ../src/exif.c:287
+#: ../src/exif.c:281
 #, fuzzy
 msgid "none"
 msgstr "Puudub"
 
-#: ../src/exif.c:288
+#: ../src/exif.c:282
 #, fuzzy
 msgid "low gain up"
 msgstr "Puhasta"
 
-#: ../src/exif.c:289
+#: ../src/exif.c:283
 msgid "high gain up"
 msgstr ""
 
-#: ../src/exif.c:290
+#: ../src/exif.c:284
 #, fuzzy
 msgid "low gain down"
 msgstr "Sulge aken"
 
-#: ../src/exif.c:291
+#: ../src/exif.c:285
 msgid "high gain down"
 msgstr ""
 
-#: ../src/exif.c:297 ../src/exif.c:311
+#: ../src/exif.c:291 ../src/exif.c:305
 msgid "soft"
 msgstr ""
 
-#: ../src/exif.c:298 ../src/exif.c:312
+#: ../src/exif.c:292 ../src/exif.c:306
 msgid "hard"
 msgstr ""
 
-#: ../src/exif.c:304
+#: ../src/exif.c:298
 msgid "low"
 msgstr ""
 
-#: ../src/exif.c:305
+#: ../src/exif.c:299
 msgid "high"
 msgstr ""
 
-#: ../src/exif.c:318
+#: ../src/exif.c:312
 msgid "macro"
 msgstr ""
 
-#: ../src/exif.c:319
+#: ../src/exif.c:313
 #, fuzzy
 msgid "close"
 msgstr "Sulge"
 
-#: ../src/exif.c:320
+#: ../src/exif.c:314
 msgid "distant"
 msgstr ""
 
-#: ../src/exif.c:330
+#: ../src/exif.c:324
 #, fuzzy
 msgid "Image Width"
 msgstr "Pildi suurus:"
 
-#: ../src/exif.c:331
+#: ../src/exif.c:325
 #, fuzzy
 msgid "Image Height"
 msgstr "Vigane sihtkoht"
 
-#: ../src/exif.c:332
+#: ../src/exif.c:326
 msgid "Bits per Sample/Pixel"
 msgstr ""
 
-#: ../src/exif.c:333
+#: ../src/exif.c:327
 #, fuzzy
 msgid "Compression"
 msgstr "Tihendussuhe:"
 
-#: ../src/exif.c:334
+#: ../src/exif.c:328
 #, fuzzy
 msgid "Image description"
 msgstr "Vigane sihtkoht"
 
-#: ../src/exif.c:335
+#: ../src/exif.c:329
 msgid "Camera make"
 msgstr ""
 
-#: ../src/exif.c:336
+#: ../src/exif.c:330
 msgid "Camera model"
 msgstr ""
 
-#: ../src/exif.c:337
+#: ../src/exif.c:331
 #, fuzzy
 msgid "Orientation"
-msgstr "Mõõtmed:"
+msgstr "MÃµÃµtmed:"
 
-#: ../src/exif.c:338
+#: ../src/exif.c:332
 msgid "X resolution"
 msgstr ""
 
-#: ../src/exif.c:339
+#: ../src/exif.c:333
 msgid "Y Resolution"
 msgstr ""
 
-#: ../src/exif.c:340
+#: ../src/exif.c:334
 #, fuzzy
 msgid "Resolution units"
-msgstr "Kollektsioon on tühi"
+msgstr "Kollektsioon on tÃ¼hi"
 
-#: ../src/exif.c:341
+#: ../src/exif.c:335
 msgid "Firmware"
 msgstr ""
 
-#: ../src/exif.c:343
+#: ../src/exif.c:337
 msgid "White point"
 msgstr ""
 
-#: ../src/exif.c:344
+#: ../src/exif.c:338
 msgid "Primary chromaticities"
 msgstr ""
 
-#: ../src/exif.c:345
+#: ../src/exif.c:339
 msgid "YCbCy coefficients"
 msgstr ""
 
-#: ../src/exif.c:346
+#: ../src/exif.c:340
 msgid "YCbCr positioning"
 msgstr ""
 
-#: ../src/exif.c:347
+#: ../src/exif.c:341
 #, fuzzy
 msgid "Black white reference"
-msgstr "Geeqie - ümbernimetamine"
+msgstr "Geeqie - Ã¼mbernimetamine"
 
-#: ../src/exif.c:349
+#: ../src/exif.c:343
 msgid "SubIFD Exif offset"
 msgstr ""
 
 #. subIFD follows
-#: ../src/exif.c:351
+#: ../src/exif.c:345
 msgid "Exposure time (seconds)"
 msgstr ""
 
-#: ../src/exif.c:352
+#: ../src/exif.c:346
 msgid "FNumber"
 msgstr ""
 
-#: ../src/exif.c:353
+#: ../src/exif.c:347
 msgid "Exposure program"
 msgstr ""
 
-#: ../src/exif.c:354
+#: ../src/exif.c:348
 msgid "Spectral Sensitivity"
 msgstr ""
 
-#: ../src/exif.c:355 ../src/exif.c:391 ../src/exif-common.c:557
+#: ../src/exif.c:349 ../src/exif.c:385 ../src/exif-common.c:569
 msgid "ISO sensitivity"
 msgstr ""
 
-#: ../src/exif.c:356
+#: ../src/exif.c:350
 msgid "Optoelectric conversion factor"
 msgstr ""
 
-#: ../src/exif.c:357
+#: ../src/exif.c:351
 msgid "Exif version"
 msgstr ""
 
-#: ../src/exif.c:358
+#: ../src/exif.c:352
 msgid "Date original"
 msgstr ""
 
-#: ../src/exif.c:359
+#: ../src/exif.c:353
 msgid "Date digitized"
 msgstr ""
 
-#: ../src/exif.c:360
+#: ../src/exif.c:354
 #, fuzzy
 msgid "Pixel format"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/exif.c:361
+#: ../src/exif.c:355
 #, fuzzy
 msgid "Compression ratio"
 msgstr "Tihendussuhe:"
 
-#: ../src/exif.c:362 ../src/exif-common.c:554
+#: ../src/exif.c:356 ../src/exif-common.c:566
 msgid "Shutter speed"
 msgstr ""
 
-#: ../src/exif.c:363 ../src/exif-common.c:555
+#: ../src/exif.c:357 ../src/exif-common.c:567
 msgid "Aperture"
 msgstr ""
 
-#: ../src/exif.c:364
+#: ../src/exif.c:358
 msgid "Brightness"
 msgstr ""
 
-#: ../src/exif.c:365 ../src/exif-common.c:556
+#: ../src/exif.c:359 ../src/exif-common.c:568
 msgid "Exposure bias"
 msgstr ""
 
-#: ../src/exif.c:366
+#: ../src/exif.c:360
 #, fuzzy
 msgid "Maximum aperture"
 msgstr "Faili suurus:"
 
-#: ../src/exif.c:367 ../src/exif-common.c:560
+#: ../src/exif.c:361 ../src/exif-common.c:572
 msgid "Subject distance"
 msgstr ""
 
-#: ../src/exif.c:368
+#: ../src/exif.c:362
 #, fuzzy
 msgid "Metering mode"
 msgstr "Virvtoonimise meetod:"
 
-#: ../src/exif.c:369
+#: ../src/exif.c:363
 msgid "Light source"
 msgstr ""
 
-#: ../src/exif.c:370 ../src/exif-common.c:561
+#: ../src/exif.c:364 ../src/exif-common.c:573
 msgid "Flash"
 msgstr ""
 
-#: ../src/exif.c:371 ../src/exif-common.c:558
+#: ../src/exif.c:365 ../src/exif-common.c:570
 msgid "Focal length"
 msgstr ""
 
-#: ../src/exif.c:372
+#: ../src/exif.c:366
 msgid "Subject area"
 msgstr ""
 
-#: ../src/exif.c:373
+#: ../src/exif.c:367
 msgid "MakerNote"
 msgstr ""
 
-#: ../src/exif.c:374
+#: ../src/exif.c:368
 #, fuzzy
 msgid "UserComment"
-msgstr "Võrdle millega:"
+msgstr "VÃµrdle millega:"
 
-#: ../src/exif.c:375
+#: ../src/exif.c:369
 msgid "Subsecond time"
 msgstr ""
 
-#: ../src/exif.c:376
+#: ../src/exif.c:370
 msgid "Subsecond time original"
 msgstr ""
 
-#: ../src/exif.c:377
+#: ../src/exif.c:371
 msgid "Subsecond time digitized"
 msgstr ""
 
-#: ../src/exif.c:378
+#: ../src/exif.c:372
 msgid "FlashPix version"
 msgstr ""
 
-#: ../src/exif.c:379
+#: ../src/exif.c:373
 #, fuzzy
 msgid "Colorspace"
 msgstr "Sulge"
 
 #. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: ../src/exif.c:381 ../src/preferences.c:2171
+#: ../src/exif.c:375 ../src/preferences.c:2371
 msgid "Width"
 msgstr ""
 
-#: ../src/exif.c:382 ../src/preferences.c:2173
+#: ../src/exif.c:376 ../src/preferences.c:2373
 msgid "Height"
 msgstr ""
 
-#: ../src/exif.c:383
+#: ../src/exif.c:377
 #, fuzzy
 msgid "Audio data"
 msgstr "/Vaade/_Uuenda nimekirju"
 
-#: ../src/exif.c:384
+#: ../src/exif.c:378
 msgid "ExifR98 extension"
 msgstr ""
 
-#: ../src/exif.c:385
+#: ../src/exif.c:379
 msgid "Flash strength"
 msgstr ""
 
-#: ../src/exif.c:386
+#: ../src/exif.c:380
 msgid "Spatial frequency response"
 msgstr ""
 
-#: ../src/exif.c:387
+#: ../src/exif.c:381
 msgid "X Pixel density"
 msgstr ""
 
-#: ../src/exif.c:388
+#: ../src/exif.c:382
 msgid "Y Pixel density"
 msgstr ""
 
-#: ../src/exif.c:389
+#: ../src/exif.c:383
 msgid "Pixel density units"
 msgstr ""
 
-#: ../src/exif.c:390
+#: ../src/exif.c:384
 #, fuzzy
 msgid "Subject location"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/exif.c:392
+#: ../src/exif.c:386
 #, fuzzy
 msgid "Sensor type"
 msgstr "Sorteerimata"
 
-#: ../src/exif.c:393
+#: ../src/exif.c:387
 #, fuzzy
 msgid "Source type"
 msgstr "Sorteerimine"
 
-#: ../src/exif.c:394
+#: ../src/exif.c:388
 #, fuzzy
 msgid "Scene type"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/exif.c:395
+#: ../src/exif.c:389
 msgid "Color filter array pattern"
 msgstr ""
 
 #. tags a4xx were added for Exif 2.2 (not just these - some above, as well)
-#: ../src/exif.c:397
+#: ../src/exif.c:391
 #, fuzzy
 msgid "Render process"
-msgstr "Nimeta ümber"
+msgstr "Nimeta Ã¼mber"
 
-#: ../src/exif.c:398
+#: ../src/exif.c:392
 msgid "Exposure mode"
 msgstr ""
 
-#: ../src/exif.c:399
+#: ../src/exif.c:393
 msgid "White balance"
 msgstr ""
 
-#: ../src/exif.c:400
+#: ../src/exif.c:394
 msgid "Digital zoom ratio"
 msgstr ""
 
-#: ../src/exif.c:401
+#: ../src/exif.c:395
 msgid "Focal length (35mm)"
 msgstr ""
 
-#: ../src/exif.c:402
+#: ../src/exif.c:396
 msgid "Scene capture type"
 msgstr ""
 
-#: ../src/exif.c:403
+#: ../src/exif.c:397
 #, fuzzy
 msgid "Gain control"
 msgstr "Ujuvuse kontroll"
 
-#: ../src/exif.c:404
+#: ../src/exif.c:398
 #, fuzzy
 msgid "Contrast"
-msgstr "Jätka"
+msgstr "JÃ¤tka"
 
-#: ../src/exif.c:405
+#: ../src/exif.c:399 ../src/preferences.c:2015
 msgid "Saturation"
 msgstr ""
 
-#: ../src/exif.c:406
+#: ../src/exif.c:400
 msgid "Sharpness"
 msgstr ""
 
-#: ../src/exif.c:407
+#: ../src/exif.c:401
 msgid "Device setting"
 msgstr ""
 
-#: ../src/exif.c:408
+#: ../src/exif.c:402
 msgid "Subject range"
 msgstr ""
 
-#: ../src/exif.c:409
+#: ../src/exif.c:403
 #, fuzzy
 msgid "Image serial number"
 msgstr "Pildi suurus:"
 
-#: ../src/exif-common.c:337
+#: ../src/exif.c:1110
+msgid "Can't get image comment: not compiled with Exiv2.\n"
+msgstr ""
+
+#: ../src/exif.c:1116
+msgid "Can't set image comment: not compiled with Exiv2.\n"
+msgstr ""
+
+#: ../src/exif-common.c:349
 msgid "infinity"
 msgstr ""
 
-#: ../src/exif-common.c:366
+#: ../src/exif-common.c:378
 #, fuzzy
 msgid "mode:"
 msgstr "Failid"
 
-#: ../src/exif-common.c:370 ../src/trash.c:205
+#: ../src/exif-common.c:382 ../src/trash.c:213
 #, fuzzy
 msgid "on"
 msgstr "Puudub"
 
-#: ../src/exif-common.c:373 ../src/trash.c:210
+#: ../src/exif-common.c:385 ../src/trash.c:218
 msgid "off"
 msgstr ""
 
-#: ../src/exif-common.c:382
+#: ../src/exif-common.c:394
 msgid "not detected by strobe"
 msgstr ""
 
-#: ../src/exif-common.c:383
+#: ../src/exif-common.c:395
 msgid "detected by strobe"
 msgstr ""
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: ../src/exif-common.c:388
+#: ../src/exif-common.c:400
 msgid "red-eye reduction"
 msgstr ""
 
-#: ../src/exif-common.c:408
+#: ../src/exif-common.c:420
 msgid "dot"
 msgstr ""
 
-#: ../src/exif-common.c:441
+#: ../src/exif-common.c:453
 msgid "AdobeRGB"
 msgstr ""
 
-#: ../src/exif-common.c:449
+#: ../src/exif-common.c:461
 msgid "embedded"
 msgstr ""
 
-#: ../src/exif-common.c:544
+#: ../src/exif-common.c:556
 msgid "Above Sea Level"
 msgstr ""
 
-#: ../src/exif-common.c:544
+#: ../src/exif-common.c:556
 msgid "Below Sea Level"
 msgstr ""
 
-#: ../src/exif-common.c:552
+#: ../src/exif-common.c:564
 #, fuzzy
 msgid "Camera"
 msgstr "Nimi"
 
-#: ../src/exif-common.c:559
+#: ../src/exif-common.c:571
 msgid "Focal length 35mm"
 msgstr ""
 
-#: ../src/exif-common.c:562
+#: ../src/exif-common.c:574
 #, fuzzy
 msgid "Resolution"
-msgstr "Kollektsioon on tühi"
+msgstr "Kollektsioon on tÃ¼hi"
 
-#: ../src/exif-common.c:563
+#: ../src/exif-common.c:575
 #, fuzzy
 msgid "Color profile"
-msgstr "Kõik failid"
+msgstr "KÃµik failid"
 
-#: ../src/exif-common.c:564
+#: ../src/exif-common.c:576
 msgid "GPS position"
 msgstr ""
 
-#: ../src/exif-common.c:565
+#: ../src/exif-common.c:577
 msgid "GPS altitude"
 msgstr ""
 
-#: ../src/exif-common.c:566
+#: ../src/exif-common.c:578
 #, fuzzy
 msgid "File size"
 msgstr "Faili suurus:"
 
-#: ../src/exif-common.c:567
+#: ../src/exif-common.c:579
 #, fuzzy
 msgid "File date"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/exif-common.c:568
+#: ../src/exif-common.c:580
 #, fuzzy
 msgid "File mode"
 msgstr "Faili nimi:"
 
-#: ../src/filedata.c:101
+#: ../src/filedata.c:109
 #, c-format
 msgid "%d bytes"
 msgstr "%d baiti"
 
-#: ../src/filedata.c:105
+#: ../src/filedata.c:113
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f K"
 
-#: ../src/filedata.c:109
+#: ../src/filedata.c:117
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f MB"
 
-#: ../src/filedata.c:114
+#: ../src/filedata.c:122
 #, fuzzy, c-format
 msgid "%.1f GB"
 msgstr "%.1f MB"
 
-#: ../src/filedata.c:2458
+#: ../src/filedata.c:2555
 msgid "file or directory does not exist"
 msgstr ""
 
-#: ../src/filedata.c:2464
+#: ../src/filedata.c:2561
 #, fuzzy
 msgid "destination already exists"
 msgstr "Fail nimega %s on juba olemas."
 
-#: ../src/filedata.c:2470
+#: ../src/filedata.c:2567
 msgid "destination can't be overwritten"
 msgstr ""
 
-#: ../src/filedata.c:2476
+#: ../src/filedata.c:2573
 msgid "destination directory is not writable"
 msgstr ""
 
-#: ../src/filedata.c:2482
+#: ../src/filedata.c:2579
 msgid "destination directory does not exist"
 msgstr ""
 
-#: ../src/filedata.c:2488
+#: ../src/filedata.c:2585
 msgid "source directory is not writable"
 msgstr ""
 
-#: ../src/filedata.c:2494
+#: ../src/filedata.c:2591
 #, fuzzy
 msgid "no read permission"
-msgstr "(puudub lugemisõigus) %s baiti"
+msgstr "(puudub lugemisÃµigus) %s baiti"
 
-#: ../src/filedata.c:2500
+#: ../src/filedata.c:2597
 msgid "file is readonly"
 msgstr ""
 
-#: ../src/filedata.c:2506
+#: ../src/filedata.c:2603
 msgid "destination already exists and will be overwritten"
 msgstr ""
 
-#: ../src/filedata.c:2512
+#: ../src/filedata.c:2609
 #, fuzzy
 msgid "source and destination are the same"
-msgstr "Allikas ja sihtkoht ühtivad, operatsioonist loobuti."
+msgstr "Allikas ja sihtkoht Ã¼htivad, operatsioonist loobuti."
 
-#: ../src/filedata.c:2518
+#: ../src/filedata.c:2615
 #, fuzzy
 msgid "source and destination have different extension"
-msgstr "Allikas ja sihtkoht ühtivad, operatsioonist loobuti."
+msgstr "Allikas ja sihtkoht Ã¼htivad, operatsioonist loobuti."
 
-#: ../src/filedata.c:2524
+#: ../src/filedata.c:2621
 msgid "there are unsaved metadata changes for the file"
 msgstr ""
 
-#: ../src/filedata.c:2530
+#: ../src/filedata.c:2627
 msgid "another destination file has the same filename"
 msgstr ""
 
-#: ../src/fullscreen.c:234 ../src/layout_util.c:1366 ../src/layout_util.c:1367
-#: ../src/layout_util.c:1368 ../src/preferences.c:1489
+#: ../src/fullscreen.c:242 ../src/layout_util.c:1797 ../src/layout_util.c:1798
+#: ../src/layout_util.c:1799 ../src/preferences.c:1617
 #, fuzzy
 msgid "Full screen"
-msgstr "Täisekraan-vaade"
+msgstr "TÃ¤isekraan-vaade"
 
-#: ../src/fullscreen.c:403
+#: ../src/fullscreen.c:413
 #, fuzzy
 msgid "Full size"
 msgstr "Faili suurus:"
 
-#: ../src/fullscreen.c:411
+#: ../src/fullscreen.c:421
 msgid "Monitor"
 msgstr ""
 
-#: ../src/fullscreen.c:417
+#: ../src/fullscreen.c:427
 msgid "Screen"
 msgstr ""
 
-#: ../src/fullscreen.c:651
+#: ../src/fullscreen.c:661
 msgid "Determined by Window Manager"
 msgstr ""
 
-#: ../src/fullscreen.c:652
+#: ../src/fullscreen.c:662
 msgid "Active screen"
 msgstr ""
 
-#: ../src/fullscreen.c:654
+#: ../src/fullscreen.c:664
 msgid "Active monitor"
 msgstr ""
 
-#: ../src/histogram.c:113
+#: ../src/histogram.c:121
 msgid "Log Histogram on Red"
 msgstr ""
 
-#: ../src/histogram.c:114
+#: ../src/histogram.c:122
 msgid "Log Histogram on Green"
 msgstr ""
 
-#: ../src/histogram.c:115
+#: ../src/histogram.c:123
 msgid "Log Histogram on Blue"
 msgstr ""
 
-#: ../src/histogram.c:116
+#: ../src/histogram.c:124
 msgid "Log Histogram on RGB"
 msgstr ""
 
-#: ../src/histogram.c:117
+#: ../src/histogram.c:125
 msgid "Log Histogram on value"
 msgstr ""
 
-#: ../src/histogram.c:122
+#: ../src/histogram.c:130
 msgid "Linear Histogram on Red"
 msgstr ""
 
-#: ../src/histogram.c:123
+#: ../src/histogram.c:131
 msgid "Linear Histogram on Green"
 msgstr ""
 
-#: ../src/histogram.c:124
+#: ../src/histogram.c:132
 msgid "Linear Histogram on Blue"
 msgstr ""
 
-#: ../src/histogram.c:125
+#: ../src/histogram.c:133
 msgid "Linear Histogram on RGB"
 msgstr ""
 
-#: ../src/histogram.c:126
+#: ../src/histogram.c:134
 msgid "Linear Histogram on value"
 msgstr ""
 
-#: ../src/history_list.c:131
+#: ../src/history_list.c:140
 #, c-format
 msgid "Unable to write history lists to: %s\n"
-msgstr "Ajaloonimekirjade kirjutamine ebaõnnestus: %s\n"
+msgstr "Ajaloonimekirjade kirjutamine ebaÃµnnestus: %s\n"
 
-#: ../src/image.c:161
+#: ../src/image.c:173
 #, fuzzy, c-format
 msgid " (Collection %s)"
 msgstr "Kollektsioonid"
 
-#: ../src/image_load_jpeg.c:177
+#: ../src/image_load_jpeg.c:163
 #, c-format
 msgid "Error interpreting JPEG image file (%s)"
 msgstr ""
 
-#: ../src/img-view.c:1253 ../src/layout_image.c:483 ../src/layout_util.c:1333
-#: ../src/layout_util.c:1334 ../src/layout_util.c:1349
-#: ../src/layout_util.c:1350 ../src/pan-view.c:2602
+#: ../src/img-view.c:1266 ../src/layout_image.c:659 ../src/layout_util.c:1764
+#: ../src/layout_util.c:1765 ../src/layout_util.c:1780
+#: ../src/layout_util.c:1781 ../src/pan-view/pan-view.c:2211
 #, fuzzy
 msgid "Zoom _in"
 msgstr "Suurenda"
 
-#: ../src/img-view.c:1254 ../src/layout_image.c:484 ../src/layout_util.c:1335
-#: ../src/layout_util.c:1336 ../src/layout_util.c:1351
-#: ../src/layout_util.c:1352 ../src/pan-view.c:2604
+#: ../src/img-view.c:1267 ../src/layout_image.c:660 ../src/layout_util.c:1766
+#: ../src/layout_util.c:1767 ../src/layout_util.c:1782
+#: ../src/layout_util.c:1783 ../src/pan-view/pan-view.c:2213
 #, fuzzy
 msgid "Zoom _out"
-msgstr "Vähenda"
+msgstr "VÃ¤henda"
 
-#: ../src/img-view.c:1255 ../src/layout_image.c:485 ../src/layout_util.c:1337
-#: ../src/layout_util.c:1338 ../src/layout_util.c:1353
-#: ../src/layout_util.c:1354 ../src/pan-view.c:2606
+#: ../src/img-view.c:1268 ../src/layout_image.c:661 ../src/layout_util.c:1768
+#: ../src/layout_util.c:1769 ../src/layout_util.c:1784
+#: ../src/layout_util.c:1785 ../src/pan-view/pan-view.c:2215
 #, fuzzy
 msgid "Zoom _1:1"
 msgstr "Originaalsuurus"
 
-#: ../src/img-view.c:1256 ../src/layout_image.c:486
+#: ../src/img-view.c:1269 ../src/layout_image.c:662
 #, fuzzy
 msgid "Fit image to _window"
 msgstr "Mahuta pilt aknasse"
 
-#: ../src/img-view.c:1264 ../src/layout_image.c:495 ../src/layout_util.c:1331
+#: ../src/img-view.c:1278 ../src/layout_image.c:672 ../src/layout_util.c:1762
 #, fuzzy
 msgid "Set as _wallpaper"
 msgstr "Sea taustapildiks"
 
-#: ../src/img-view.c:1269 ../src/layout_image.c:502
+#: ../src/img-view.c:1283 ../src/layout_image.c:679
 msgid "_Go to directory view"
 msgstr ""
 
-#: ../src/img-view.c:1282 ../src/layout_image.c:523
+#: ../src/img-view.c:1296 ../src/layout_image.c:700
 #, fuzzy
 msgid "_Stop slideshow"
-msgstr "Lõpeta slaidiseanss"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/img-view.c:1285 ../src/layout_image.c:526
+#: ../src/img-view.c:1299 ../src/layout_image.c:703
 #, fuzzy
 msgid "Continue slides_how"
-msgstr "Jätka slaidiseanssi"
+msgstr "JÃ¤tka slaidiseanssi"
 
-#: ../src/img-view.c:1290 ../src/img-view.c:1298 ../src/layout_image.c:531
-#: ../src/layout_image.c:538
+#: ../src/img-view.c:1304 ../src/img-view.c:1312 ../src/layout_image.c:708
+#: ../src/layout_image.c:715
 #, fuzzy
 msgid "Pause slides_how"
 msgstr "Peata slaidiseanss"
 
-#: ../src/img-view.c:1296 ../src/layout_image.c:537
+#: ../src/img-view.c:1310 ../src/layout_image.c:714
 #, fuzzy
 msgid "_Start slideshow"
 msgstr "Alusta slaidiseanssi"
 
-#: ../src/img-view.c:1304 ../src/layout_image.c:548 ../src/pan-view.c:2675
+#: ../src/img-view.c:1318 ../src/layout_image.c:725
+#: ../src/pan-view/pan-view.c:2284
 #, fuzzy
 msgid "Exit _full screen"
-msgstr "Välju täisekraan-vaatest"
+msgstr "VÃ¤lju tÃ¤isekraan-vaatest"
 
-#: ../src/img-view.c:1308 ../src/layout_image.c:544 ../src/pan-view.c:2679
+#: ../src/img-view.c:1322 ../src/layout_image.c:721
+#: ../src/pan-view/pan-view.c:2288
 #, fuzzy
 msgid "_Full screen"
-msgstr "Täisekraan-vaade"
+msgstr "TÃ¤isekraan-vaade"
 
-#: ../src/img-view.c:1312 ../src/layout_util.c:1316 ../src/pan-view.c:2683
+#: ../src/img-view.c:1326 ../src/layout_util.c:1740
+#: ../src/pan-view/pan-view.c:2292
 #, fuzzy
 msgid "C_lose window"
 msgstr "Sulge aken"
 
-#: ../src/layout.c:358 ../src/view_file.c:613
+#: ../src/layout.c:401 ../src/view_file/view_file.c:612
 msgid "Ascending"
-msgstr "Tõusev järjestus"
+msgstr "TÃµusev jÃ¤rjestus"
 
-#: ../src/layout.c:428
+#: ../src/layout.c:481
+msgid "Scroll to top left corner"
+msgstr ""
+
+#: ../src/layout.c:486
+msgid "Scroll to image center"
+msgstr ""
+
+#: ../src/layout.c:491
+msgid "Keep the region from previous image"
+msgstr ""
+
+#: ../src/layout.c:578
 msgid " Slideshow"
 msgstr " Slaidiseanss"
 
-#: ../src/layout.c:432
+#: ../src/layout.c:582
 msgid " Paused"
 msgstr " Peatatud"
 
-#: ../src/layout.c:448
+#: ../src/layout.c:598
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr "%s, %d faili (%s, %d)%s"
 
-#: ../src/layout.c:455
+#: ../src/layout.c:605
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d faili%s"
 
-#: ../src/layout.c:460
+#: ../src/layout.c:610
 #, c-format
 msgid "%d files%s"
 msgstr "%d faili%s"
 
-#: ../src/layout.c:506
+#: ../src/layout.c:656
 #, c-format
 msgid "(no read permission) %s bytes"
-msgstr "(puudub lugemisõigus) %s baiti"
+msgstr "(puudub lugemisÃµigus) %s baiti"
 
-#: ../src/layout.c:510
+#: ../src/layout.c:660
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s baiti"
 
-#: ../src/layout.c:518
+#: ../src/layout.c:668
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s baiti"
 
-#: ../src/layout.c:1243 ../src/layout_config.c:58
-msgid "Tools"
-msgstr "Tööriistad"
+#: ../src/layout.c:754
+#, fuzzy
+msgid "Select sort order"
+msgstr "TÃ¼hista valik"
 
-#: ../src/layout.c:1865
+#: ../src/layout.c:759
+#, fuzzy
+msgid "Folder contents (files selected)"
+msgstr "Vigane failinimi"
+
+#: ../src/layout.c:768
+#, fuzzy
+msgid "(Image dimensions) Image size"
+msgstr "Vigane sihtkoht"
+
+#: ../src/layout.c:778
+#, fuzzy
+msgid "Select zoom mode"
+msgstr "TÃ¼hista valik"
+
+#. expand only in small format
+#: ../src/layout.c:788
+msgid "[Pixel x,y coord]: (Pixel R,G,B value)"
+msgstr ""
+
+#: ../src/layout.c:1424 ../src/layout_config.c:67
+msgid "Tools"
+msgstr "TÃ¶Ã¶riistad"
+
+#: ../src/layout.c:2051
 msgid "Window options and layout"
 msgstr ""
 
-#: ../src/layout.c:1924
+#: ../src/layout.c:2116
 #, fuzzy
 msgid "General options"
-msgstr "Üldine"
+msgstr "Ãœldine"
 
-#: ../src/layout.c:1926
+#: ../src/layout.c:2118
 msgid "Home path (empty to use your home directory)"
 msgstr ""
 
-#: ../src/layout.c:1934
+#: ../src/layout.c:2126
 msgid "Use current"
 msgstr "Kasuta aktiivset"
 
-#: ../src/layout.c:1937
+#: ../src/layout.c:2129
 #, fuzzy
 msgid "Show date in directories list view"
 msgstr "Uus kataloog"
 
-#: ../src/layout.c:1940
+#: ../src/layout.c:2132
 msgid "Exit program when this window is closed"
 msgstr ""
 
-#: ../src/layout.c:1943
+#: ../src/layout.c:2135
 #, fuzzy
 msgid "Start-up directory:"
 msgstr "Algkataloog"
 
-#: ../src/layout.c:1945
+#: ../src/layout.c:2137
 msgid "No change"
 msgstr ""
 
-#: ../src/layout.c:1948
+#: ../src/layout.c:2140
 #, fuzzy
 msgid "Restore last path"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout.c:1951
+#: ../src/layout.c:2143
 #, fuzzy
 msgid "Home path"
 msgstr "Kopeeri"
 
-#: ../src/layout.c:1955 ../src/print.c:3365 ../src/print.c:3372
+#: ../src/layout.c:2147 ../src/print.c:3375 ../src/print.c:3382
 msgid "Layout"
 msgstr "Paigutus"
 
-#: ../src/layout.c:2198
+#: ../src/layout.c:2394
 #, fuzzy
 msgid "Invalid geometry\n"
 msgstr "Vigane failinimi"
 
-#: ../src/layout_config.c:58 ../src/preferences.c:1602 ../src/ui_pathsel.c:1173
+#: ../src/layout_config.c:67 ../src/preferences.c:1736 ../src/ui_pathsel.c:1186
 msgid "Files"
 msgstr "Failid"
 
-#: ../src/layout_config.c:58 ../src/preferences.c:92 ../src/preferences.c:1375
-#: ../src/print.c:123
+#: ../src/layout_config.c:67 ../src/preferences.c:107 ../src/preferences.c:1512
+#: ../src/print.c:133
 msgid "Image"
 msgstr "Pilt"
 
-#: ../src/layout_config.c:349
+#: ../src/layout_config.c:358
 msgid "(drag to change order)"
-msgstr "(järjekorra muutmiseks lohista kirjet)"
+msgstr "(jÃ¤rjekorra muutmiseks lohista kirjet)"
 
-#: ../src/layout_image.c:553
+#: ../src/layout_image.c:728
+msgid "_Animate"
+msgstr ""
+
+#: ../src/layout_image.c:732
 #, fuzzy
 msgid "Hide file _list"
 msgstr "Peida failide nimekiri"
 
-#: ../src/layout_image.c:1616
+#: ../src/layout_image.c:1912
 #, c-format
 msgid "[%*d,%*d]: RGB(%3d,%3d,%3d)"
 msgstr ""
 
-#: ../src/layout_image.c:1624
+#: ../src/layout_image.c:1920
 #, c-format
 msgid "[%*s,%*s]: RGB(---,---,---)"
 msgstr ""
 
-#: ../src/layout_util.c:1269
+#: ../src/layout_util.c:514
+#, fuzzy
+msgid "Operation failed:\n"
+msgstr "Faili kustutamine ebaÃµnnestus"
+
+#: ../src/layout_util.c:517
+#, fuzzy
+msgid "Cannot create tmp file"
+msgstr "Kataloogi loomine ebaÃµnnestus"
+
+#: ../src/layout_util.c:520
+#, fuzzy
+msgid "File: "
+msgstr "Filter:"
+
+#: ../src/layout_util.c:524
+#, fuzzy
+msgid "Image orientation"
+msgstr "MÃµÃµtmed:"
+
+#: ../src/layout_util.c:1692
 #, fuzzy
 msgid "_File"
 msgstr "/_Fail"
 
-#: ../src/layout_util.c:1270
+#: ../src/layout_util.c:1693
 msgid "_Go"
 msgstr ""
 
-#: ../src/layout_util.c:1271 ../src/menu.c:109
+#: ../src/layout_util.c:1694 ../src/menu.c:117
 #, fuzzy
 msgid "_Edit"
 msgstr "/_Redaktor"
 
-#: ../src/layout_util.c:1272
+#: ../src/layout_util.c:1695
 #, fuzzy
 msgid "_Select"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/layout_util.c:1273 ../src/menu.c:284
+#: ../src/layout_util.c:1696 ../src/menu.c:370
 #, fuzzy
 msgid "_Orientation"
-msgstr "Mõõtmed:"
+msgstr "MÃµÃµtmed:"
 
-#: ../src/layout_util.c:1274
+#: ../src/layout_util.c:1697
+#, fuzzy
+msgid "_Rating"
+msgstr "Filter:"
+
+#: ../src/layout_util.c:1698
 msgid "E_xternal Editors"
 msgstr ""
 
-#: ../src/layout_util.c:1275
+#: ../src/layout_util.c:1699
 #, fuzzy
 msgid "P_references"
 msgstr "Omadused"
 
-#: ../src/layout_util.c:1277
+#: ../src/layout_util.c:1701
 msgid "_Files and Folders"
 msgstr ""
 
-#: ../src/layout_util.c:1278
+#: ../src/layout_util.c:1702
 #, fuzzy
 msgid "_Zoom"
 msgstr "Suurenda"
 
-#: ../src/layout_util.c:1279
+#: ../src/layout_util.c:1703
 #, fuzzy
 msgid "_Color Management"
-msgstr "Sorteeritud nime järgi"
+msgstr "Sorteeritud nime jÃ¤rgi"
 
-#: ../src/layout_util.c:1280
+#: ../src/layout_util.c:1704
 msgid "_Connected Zoom"
 msgstr ""
 
-#: ../src/layout_util.c:1281
+#: ../src/layout_util.c:1705
 msgid "Spli_t"
 msgstr ""
 
-#: ../src/layout_util.c:1282
+#: ../src/layout_util.c:1706
 msgid "Stere_o"
 msgstr ""
 
-#: ../src/layout_util.c:1283 ../src/layout_util.c:1399
+#: ../src/layout_util.c:1707 ../src/layout_util.c:1838
 #, fuzzy
 msgid "Image _Overlay"
 msgstr "Pildi omadused - Geeqie"
 
-#: ../src/layout_util.c:1284
+#: ../src/layout_util.c:1708
 #, fuzzy
 msgid "_Help"
 msgstr "/_Abi"
 
-#: ../src/layout_util.c:1286
+#: ../src/layout_util.c:1710
 #, fuzzy
 msgid "_First Image"
 msgstr "%d pilti"
 
-#: ../src/layout_util.c:1286
+#: ../src/layout_util.c:1710
 #, fuzzy
 msgid "First Image"
 msgstr "%d pilti"
 
-#: ../src/layout_util.c:1287 ../src/layout_util.c:1288
-#: ../src/layout_util.c:1289
+#: ../src/layout_util.c:1711 ../src/layout_util.c:1712
+#: ../src/layout_util.c:1713
 msgid "_Previous Image"
 msgstr ""
 
-#: ../src/layout_util.c:1287 ../src/layout_util.c:1288
-#: ../src/layout_util.c:1289
+#: ../src/layout_util.c:1711 ../src/layout_util.c:1712
+#: ../src/layout_util.c:1713
 #, fuzzy
 msgid "Previous Image"
 msgstr "%d pilti"
 
-#: ../src/layout_util.c:1290 ../src/layout_util.c:1291
-#: ../src/layout_util.c:1292
+#: ../src/layout_util.c:1714 ../src/layout_util.c:1715
+#: ../src/layout_util.c:1716
 #, fuzzy
 msgid "_Next Image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/layout_util.c:1290 ../src/layout_util.c:1291
-#: ../src/layout_util.c:1292
+#: ../src/layout_util.c:1714 ../src/layout_util.c:1715
+#: ../src/layout_util.c:1716
 #, fuzzy
 msgid "Next Image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/layout_util.c:1293
+#: ../src/layout_util.c:1717
 #, fuzzy
 msgid "_Last Image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/layout_util.c:1293
+#: ../src/layout_util.c:1717
 #, fuzzy
 msgid "Last Image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/layout_util.c:1294
+#: ../src/layout_util.c:1718
 msgid "_Back"
 msgstr ""
 
-#: ../src/layout_util.c:1294
+#: ../src/layout_util.c:1718
 msgid "Back"
 msgstr ""
 
-#: ../src/layout_util.c:1295
+#: ../src/layout_util.c:1719
 #, fuzzy
 msgid "_Home"
 msgstr "Kodu"
 
-#: ../src/layout_util.c:1295 ../src/options.c:156 ../src/ui_bookmark.c:549
-#: ../src/ui_pathsel.c:1045
+#: ../src/layout_util.c:1719 ../src/options.c:186 ../src/ui_bookmark.c:566
+#: ../src/ui_pathsel.c:1055
 msgid "Home"
 msgstr "Kodu"
 
-#: ../src/layout_util.c:1296
+#: ../src/layout_util.c:1720
 msgid "_Up"
 msgstr ""
 
-#: ../src/layout_util.c:1296
+#: ../src/layout_util.c:1720
 msgid "Up"
 msgstr ""
 
-#: ../src/layout_util.c:1298
+#: ../src/layout_util.c:1722
 #, fuzzy
 msgid "New _window"
 msgstr "/Fail/Uus ak_en"
 
-#: ../src/layout_util.c:1298
+#: ../src/layout_util.c:1722
 #, fuzzy
 msgid "New window"
 msgstr "/Fail/Uus ak_en"
 
-#: ../src/layout_util.c:1299
+#: ../src/layout_util.c:1723
 #, fuzzy
 msgid "_New collection"
 msgstr "Salvesta kollektsioon"
 
-#: ../src/layout_util.c:1299
+#: ../src/layout_util.c:1723
 #, fuzzy
 msgid "New collection"
 msgstr "Salvesta kollektsioon"
 
-#: ../src/layout_util.c:1300
+#: ../src/layout_util.c:1724
 #, fuzzy
 msgid "_Open collection..."
 msgstr "Ava kollektsioon"
 
-#: ../src/layout_util.c:1300
+#: ../src/layout_util.c:1724
 #, fuzzy
 msgid "Open collection..."
 msgstr "Ava kollektsioon"
 
-#: ../src/layout_util.c:1301
+#: ../src/layout_util.c:1725
 #, fuzzy
 msgid "Open recen_t"
 msgstr "/Fail/Ava _hiljutine"
 
-#: ../src/layout_util.c:1301
+#: ../src/layout_util.c:1725
 #, fuzzy
 msgid "Open recent"
 msgstr "/Fail/Ava _hiljutine"
 
-#: ../src/layout_util.c:1302
+#: ../src/layout_util.c:1726
 #, fuzzy
 msgid "_Search..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/layout_util.c:1302
+#: ../src/layout_util.c:1726
 #, fuzzy
 msgid "Search..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/layout_util.c:1303
+#: ../src/layout_util.c:1727
 #, fuzzy
 msgid "Find duplicates..."
 msgstr "Otsi duplikaadid..."
 
-#: ../src/layout_util.c:1304
+#: ../src/layout_util.c:1728
 #, fuzzy
 msgid "Pa_n view"
 msgstr "Abi - Geeqie"
 
-#: ../src/layout_util.c:1304
+#: ../src/layout_util.c:1728
 #, fuzzy
 msgid "Pan view"
 msgstr "Abi - Geeqie"
 
-#: ../src/layout_util.c:1305
+#: ../src/layout_util.c:1729
 #, fuzzy
 msgid "_Print..."
-msgstr "/Fail/_Nimeta ümber..."
+msgstr "/Fail/_Nimeta Ã¼mber..."
 
-#: ../src/layout_util.c:1306
+#: ../src/layout_util.c:1730
 #, fuzzy
 msgid "N_ew folder..."
 msgstr "Uus kataloog..."
 
-#: ../src/layout_util.c:1306
+#: ../src/layout_util.c:1730
 #, fuzzy
 msgid "New folder..."
 msgstr "Uus kataloog..."
 
-#: ../src/layout_util.c:1307
+#: ../src/layout_util.c:1731
 #, fuzzy
 msgid "Copy..."
 msgstr "Kopeeri..."
 
-#: ../src/layout_util.c:1308
+#: ../src/layout_util.c:1732
 #, fuzzy
 msgid "Move..."
 msgstr "Liiguta..."
 
-#: ../src/layout_util.c:1309
+#: ../src/layout_util.c:1733
 #, fuzzy
 msgid "Rename..."
 msgstr "Muuda nime..."
 
-#: ../src/layout_util.c:1310 ../src/layout_util.c:1311
-#: ../src/layout_util.c:1312
+#: ../src/layout_util.c:1734 ../src/layout_util.c:1735
+#: ../src/layout_util.c:1736
 #, fuzzy
 msgid "Delete..."
 msgstr "Kustuta..."
 
-#: ../src/layout_util.c:1313 ../src/view_file.c:603
+#: ../src/layout_util.c:1737 ../src/view_file/view_file.c:596
 #, fuzzy
 msgid "Enable file _grouping"
 msgstr "Blokeeri failide filtreerimine"
 
-#: ../src/layout_util.c:1313
+#: ../src/layout_util.c:1737
 #, fuzzy
 msgid "Enable file grouping"
 msgstr "Blokeeri failide filtreerimine"
 
-#: ../src/layout_util.c:1314 ../src/view_file.c:605
+#: ../src/layout_util.c:1738 ../src/view_file/view_file.c:598
 #, fuzzy
 msgid "Disable file groupi_ng"
 msgstr "Blokeeri failide filtreerimine"
 
-#: ../src/layout_util.c:1314
+#: ../src/layout_util.c:1738
 #, fuzzy
 msgid "Disable file grouping"
 msgstr "Blokeeri failide filtreerimine"
 
-#: ../src/layout_util.c:1315
+#: ../src/layout_util.c:1739
 #, fuzzy
 msgid "_Copy path to clipboard"
 msgstr "Kopeeri"
 
-#: ../src/layout_util.c:1315
+#: ../src/layout_util.c:1739
 msgid "Copy path to clipboard"
 msgstr ""
 
-#: ../src/layout_util.c:1316
+#: ../src/layout_util.c:1740
 #, fuzzy
 msgid "Close window"
 msgstr "Sulge aken"
 
-#: ../src/layout_util.c:1317
+#: ../src/layout_util.c:1741
 #, fuzzy
 msgid "_Quit"
 msgstr "Kvaliteet"
 
-#: ../src/layout_util.c:1317
+#: ../src/layout_util.c:1741
 #, fuzzy
 msgid "Quit"
 msgstr "Kvaliteet"
 
-#: ../src/layout_util.c:1318 ../src/menu.c:226
+#: ../src/layout_util.c:1742 ../src/menu.c:312
 #, fuzzy
 msgid "_Rotate clockwise"
-msgstr "Pööra päripäeva"
+msgstr "PÃ¶Ã¶ra pÃ¤ripÃ¤eva"
 
-#: ../src/layout_util.c:1318
+#: ../src/layout_util.c:1742
 #, fuzzy
 msgid "Rotate clockwise"
-msgstr "Pööra päripäeva"
+msgstr "PÃ¶Ã¶ra pÃ¤ripÃ¤eva"
 
-#: ../src/layout_util.c:1319 ../src/menu.c:229
+#: ../src/layout_util.c:1743
+msgid "_Rating 0"
+msgstr ""
+
+#: ../src/layout_util.c:1743
+#, fuzzy
+msgid "Rating 0"
+msgstr "Filter:"
+
+#: ../src/layout_util.c:1744
+msgid "_Rating 1"
+msgstr ""
+
+#: ../src/layout_util.c:1744
+#, fuzzy
+msgid "Rating 1"
+msgstr "Filter:"
+
+#: ../src/layout_util.c:1745
+msgid "_Rating 2"
+msgstr ""
+
+#: ../src/layout_util.c:1745
+#, fuzzy
+msgid "Rating 2"
+msgstr "Filter:"
+
+#: ../src/layout_util.c:1746
+msgid "_Rating 3"
+msgstr ""
+
+#: ../src/layout_util.c:1746
+#, fuzzy
+msgid "Rating 3"
+msgstr "Filter:"
+
+#: ../src/layout_util.c:1747
+msgid "_Rating 4"
+msgstr ""
+
+#: ../src/layout_util.c:1747
+#, fuzzy
+msgid "Rating 4"
+msgstr "Filter:"
+
+#: ../src/layout_util.c:1748
+msgid "_Rating 5"
+msgstr ""
+
+#: ../src/layout_util.c:1748
+#, fuzzy
+msgid "Rating 5"
+msgstr "Filter:"
+
+#: ../src/layout_util.c:1749
+msgid "_Rating -1"
+msgstr ""
+
+#: ../src/layout_util.c:1749
+msgid "Rating -1"
+msgstr ""
+
+#: ../src/layout_util.c:1750 ../src/menu.c:315
 #, fuzzy
 msgid "Rotate _counterclockwise"
-msgstr "Pööra vastupäeva"
+msgstr "PÃ¶Ã¶ra vastupÃ¤eva"
 
-#: ../src/layout_util.c:1319
+#: ../src/layout_util.c:1750
 #, fuzzy
 msgid "Rotate counterclockwise"
-msgstr "Pööra vastupäeva"
+msgstr "PÃ¶Ã¶ra vastupÃ¤eva"
 
-#: ../src/layout_util.c:1320
+#: ../src/layout_util.c:1751
 #, fuzzy
 msgid "Rotate 1_80"
-msgstr "Pööra 180"
+msgstr "PÃ¶Ã¶ra 180"
 
-#: ../src/layout_util.c:1320
+#: ../src/layout_util.c:1751
 #, fuzzy
 msgid "Rotate 180"
-msgstr "Pööra 180"
+msgstr "PÃ¶Ã¶ra 180"
 
-#: ../src/layout_util.c:1321 ../src/menu.c:235
+#: ../src/layout_util.c:1752 ../src/menu.c:321
 #, fuzzy
 msgid "_Mirror"
 msgstr "Peegelda"
 
-#: ../src/layout_util.c:1321
+#: ../src/layout_util.c:1752
 #, fuzzy
 msgid "Mirror"
 msgstr "Peegelda"
 
-#: ../src/layout_util.c:1322 ../src/menu.c:238
+#: ../src/layout_util.c:1753 ../src/menu.c:324
 #, fuzzy
 msgid "_Flip"
-msgstr "Pööra ümber telje"
+msgstr "PÃ¶Ã¶ra Ã¼mber telje"
 
-#: ../src/layout_util.c:1322
+#: ../src/layout_util.c:1753
 #, fuzzy
 msgid "Flip"
-msgstr "Pööra ümber telje"
+msgstr "PÃ¶Ã¶ra Ã¼mber telje"
 
-#: ../src/layout_util.c:1323 ../src/menu.c:241
+#: ../src/layout_util.c:1754 ../src/menu.c:327
 #, fuzzy
 msgid "_Original state"
 msgstr "Faili nimi:"
 
-#: ../src/layout_util.c:1323
+#: ../src/layout_util.c:1754
 #, fuzzy
 msgid "Original state"
 msgstr "Faili nimi:"
 
-#: ../src/layout_util.c:1324
+#: ../src/layout_util.c:1755
 #, fuzzy
 msgid "Select _all"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1325
+#: ../src/layout_util.c:1756
 #, fuzzy
 msgid "Select _none"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/layout_util.c:1326
+#: ../src/layout_util.c:1757
 #, fuzzy
 msgid "_Invert Selection"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/layout_util.c:1326
+#: ../src/layout_util.c:1757
 #, fuzzy
 msgid "Invert Selection"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/layout_util.c:1327
+#: ../src/layout_util.c:1758
 #, fuzzy
 msgid "P_references..."
 msgstr "Omadused"
 
-#: ../src/layout_util.c:1327
+#: ../src/layout_util.c:1758
 #, fuzzy
 msgid "Preferences..."
 msgstr "Omadused"
 
-#: ../src/layout_util.c:1328
+#: ../src/layout_util.c:1759
 #, fuzzy
 msgid "Configure _Editors..."
-msgstr "Programmi häälestus"
+msgstr "Programmi hÃ¤Ã¤lestus"
 
-#: ../src/layout_util.c:1328
+#: ../src/layout_util.c:1759
 #, fuzzy
 msgid "Configure Editors..."
-msgstr "Programmi häälestus"
+msgstr "Programmi hÃ¤Ã¤lestus"
 
-#: ../src/layout_util.c:1329
+#: ../src/layout_util.c:1760
 #, fuzzy
 msgid "_Configure this window..."
-msgstr "Programmi häälestus"
+msgstr "Programmi hÃ¤Ã¤lestus"
 
-#: ../src/layout_util.c:1329
+#: ../src/layout_util.c:1760
 #, fuzzy
 msgid "Configure this window..."
-msgstr "Programmi häälestus"
+msgstr "Programmi hÃ¤Ã¤lestus"
 
-#: ../src/layout_util.c:1330
+#: ../src/layout_util.c:1761
 msgid "_Thumbnail maintenance..."
 msgstr ""
 
-#: ../src/layout_util.c:1330
+#: ../src/layout_util.c:1761
 #, fuzzy
 msgid "Thumbnail maintenance..."
-msgstr "Geeqie täisekraan"
+msgstr "Geeqie tÃ¤isekraan"
 
-#: ../src/layout_util.c:1331
+#: ../src/layout_util.c:1762
 #, fuzzy
 msgid "Set as wallpaper"
 msgstr "Sea taustapildiks"
 
-#: ../src/layout_util.c:1332
+#: ../src/layout_util.c:1763
 msgid "_Save metadata"
 msgstr ""
 
-#: ../src/layout_util.c:1332
+#: ../src/layout_util.c:1763
 msgid "Save metadata"
 msgstr ""
 
-#: ../src/layout_util.c:1333 ../src/layout_util.c:1334
+#: ../src/layout_util.c:1764 ../src/layout_util.c:1765
 msgid "Zoom in"
 msgstr "Suurenda"
 
-#: ../src/layout_util.c:1335 ../src/layout_util.c:1336
+#: ../src/layout_util.c:1766 ../src/layout_util.c:1767
 msgid "Zoom out"
-msgstr "Vähenda"
+msgstr "VÃ¤henda"
 
-#: ../src/layout_util.c:1337 ../src/layout_util.c:1338
+#: ../src/layout_util.c:1768 ../src/layout_util.c:1769
 #, fuzzy
 msgid "Zoom 1:1"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1339 ../src/layout_util.c:1340
-#: ../src/layout_util.c:1355 ../src/layout_util.c:1356
+#: ../src/layout_util.c:1770 ../src/layout_util.c:1771
+#: ../src/layout_util.c:1786 ../src/layout_util.c:1787
 #, fuzzy
 msgid "_Zoom to fit"
 msgstr "/Vaade/_Mahuta aknasse"
 
-#: ../src/layout_util.c:1339 ../src/layout_util.c:1340
+#: ../src/layout_util.c:1770 ../src/layout_util.c:1771
 #, fuzzy
 msgid "Zoom to fit"
 msgstr "/Vaade/_Mahuta aknasse"
 
-#: ../src/layout_util.c:1341 ../src/layout_util.c:1357
+#: ../src/layout_util.c:1772 ../src/layout_util.c:1788
 msgid "Fit _Horizontally"
 msgstr ""
 
-#: ../src/layout_util.c:1341
+#: ../src/layout_util.c:1772
 msgid "Fit Horizontally"
 msgstr ""
 
-#: ../src/layout_util.c:1342 ../src/layout_util.c:1358
+#: ../src/layout_util.c:1773 ../src/layout_util.c:1789
 msgid "Fit _Vertically"
 msgstr ""
 
-#: ../src/layout_util.c:1342
+#: ../src/layout_util.c:1773
 msgid "Fit Vertically"
 msgstr ""
 
-#: ../src/layout_util.c:1343 ../src/layout_util.c:1359
+#: ../src/layout_util.c:1774 ../src/layout_util.c:1790
 #, fuzzy
 msgid "Zoom _2:1"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1343
+#: ../src/layout_util.c:1774
 #, fuzzy
 msgid "Zoom 2:1"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1344 ../src/layout_util.c:1360
+#: ../src/layout_util.c:1775 ../src/layout_util.c:1791
 #, fuzzy
 msgid "Zoom _3:1"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1344
+#: ../src/layout_util.c:1775
 #, fuzzy
 msgid "Zoom 3:1"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1345 ../src/layout_util.c:1361
+#: ../src/layout_util.c:1776 ../src/layout_util.c:1792
 #, fuzzy
 msgid "Zoom _4:1"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1345
+#: ../src/layout_util.c:1776
 #, fuzzy
 msgid "Zoom 4:1"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1346 ../src/layout_util.c:1362
+#: ../src/layout_util.c:1777 ../src/layout_util.c:1793
 #, fuzzy
 msgid "Zoom 1:2"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1347 ../src/layout_util.c:1363
+#: ../src/layout_util.c:1778 ../src/layout_util.c:1794
 #, fuzzy
 msgid "Zoom 1:3"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1348 ../src/layout_util.c:1364
+#: ../src/layout_util.c:1779 ../src/layout_util.c:1795
 #, fuzzy
 msgid "Zoom 1:4"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1349 ../src/layout_util.c:1350
+#: ../src/layout_util.c:1780 ../src/layout_util.c:1781
 msgid "Connected Zoom in"
 msgstr ""
 
-#: ../src/layout_util.c:1351 ../src/layout_util.c:1352
+#: ../src/layout_util.c:1782 ../src/layout_util.c:1783
 #, fuzzy
 msgid "Connected Zoom out"
-msgstr "Vähenda"
+msgstr "VÃ¤henda"
 
-#: ../src/layout_util.c:1353 ../src/layout_util.c:1354
+#: ../src/layout_util.c:1784 ../src/layout_util.c:1785
 #, fuzzy
 msgid "Connected Zoom 1:1"
-msgstr "Näita pilti originaalsuuruses"
+msgstr "NÃ¤ita pilti originaalsuuruses"
 
-#: ../src/layout_util.c:1355 ../src/layout_util.c:1356
+#: ../src/layout_util.c:1786 ../src/layout_util.c:1787
 #, fuzzy
 msgid "Connected Zoom to fit"
 msgstr "/Vaade/_Mahuta aknasse"
 
-#: ../src/layout_util.c:1357
+#: ../src/layout_util.c:1788
 msgid "Connected Fit Horizontally"
 msgstr ""
 
-#: ../src/layout_util.c:1358
+#: ../src/layout_util.c:1789
 msgid "Connected Fit Vertically"
 msgstr ""
 
-#: ../src/layout_util.c:1359
+#: ../src/layout_util.c:1790
 #, fuzzy
 msgid "Connected Zoom 2:1"
-msgstr "Näita pilti originaalsuuruses"
+msgstr "NÃ¤ita pilti originaalsuuruses"
 
-#: ../src/layout_util.c:1360
+#: ../src/layout_util.c:1791
 #, fuzzy
 msgid "Connected Zoom 3:1"
-msgstr "Näita pilti originaalsuuruses"
+msgstr "NÃ¤ita pilti originaalsuuruses"
 
-#: ../src/layout_util.c:1361
+#: ../src/layout_util.c:1792
 #, fuzzy
 msgid "Connected Zoom 4:1"
-msgstr "Näita pilti originaalsuuruses"
+msgstr "NÃ¤ita pilti originaalsuuruses"
 
-#: ../src/layout_util.c:1362
+#: ../src/layout_util.c:1793
 #, fuzzy
 msgid "Connected Zoom 1:2"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1363
+#: ../src/layout_util.c:1794
 #, fuzzy
 msgid "Connected Zoom 1:3"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1364
+#: ../src/layout_util.c:1795
 #, fuzzy
 msgid "Connected Zoom 1:4"
 msgstr "Originaalsuurus"
 
-#: ../src/layout_util.c:1365
+#: ../src/layout_util.c:1796
 #, fuzzy
 msgid "_View in new window"
 msgstr "Ava uues aknas"
 
-#: ../src/layout_util.c:1365
+#: ../src/layout_util.c:1796
 #, fuzzy
 msgid "View in new window"
 msgstr "Ava uues aknas"
 
-#: ../src/layout_util.c:1366 ../src/layout_util.c:1367
-#: ../src/layout_util.c:1368
+#: ../src/layout_util.c:1797 ../src/layout_util.c:1798
+#: ../src/layout_util.c:1799
 #, fuzzy
 msgid "F_ull screen"
-msgstr "Täisekraan-vaade"
+msgstr "TÃ¤isekraan-vaade"
 
-#: ../src/layout_util.c:1369 ../src/layout_util.c:1370
+#: ../src/layout_util.c:1800 ../src/layout_util.c:1801
 #, fuzzy
 msgid "_Leave full screen"
-msgstr "Geeqie täisekraan"
+msgstr "Geeqie tÃ¤isekraan"
 
-#: ../src/layout_util.c:1369 ../src/layout_util.c:1370
+#: ../src/layout_util.c:1800 ../src/layout_util.c:1801
 #, fuzzy
 msgid "Leave full screen"
-msgstr "Geeqie täisekraan"
+msgstr "Geeqie tÃ¤isekraan"
 
-#: ../src/layout_util.c:1371
+#: ../src/layout_util.c:1802
 msgid "_Cycle through overlay modes"
 msgstr ""
 
-#: ../src/layout_util.c:1371
+#: ../src/layout_util.c:1802
 msgid "Cycle through Overlay modes"
 msgstr ""
 
-#: ../src/layout_util.c:1372
+#: ../src/layout_util.c:1803
 msgid "Cycle through histogram ch_annels"
 msgstr ""
 
-#: ../src/layout_util.c:1372
+#: ../src/layout_util.c:1803
 msgid "Cycle through histogram channels"
 msgstr ""
 
-#: ../src/layout_util.c:1373
+#: ../src/layout_util.c:1804
 msgid "Cycle through histogram mo_des"
 msgstr ""
 
-#: ../src/layout_util.c:1373
+#: ../src/layout_util.c:1804
 msgid "Cycle through histogram modes"
 msgstr ""
 
-#: ../src/layout_util.c:1374
+#: ../src/layout_util.c:1805
 #, fuzzy
 msgid "_Hide file list"
 msgstr "Peida failide nimekiri"
 
-#: ../src/layout_util.c:1374
+#: ../src/layout_util.c:1805
 #, fuzzy
 msgid "Hide file list"
 msgstr "Peida failide nimekiri"
 
-#: ../src/layout_util.c:1375
+#: ../src/layout_util.c:1806
 #, fuzzy
 msgid "_Pause slideshow"
 msgstr "Peata slaidiseanss"
 
-#: ../src/layout_util.c:1375
+#: ../src/layout_util.c:1806
 #, fuzzy
 msgid "Pause slideshow"
 msgstr "Peata slaidiseanss"
 
-#: ../src/layout_util.c:1376
+#: ../src/layout_util.c:1807
 #, fuzzy
 msgid "_Refresh"
 msgstr "Uuenda"
 
-#: ../src/layout_util.c:1376
+#: ../src/layout_util.c:1807
 #, fuzzy
 msgid "Refresh"
 msgstr "Uuenda"
 
-#: ../src/layout_util.c:1377
+#: ../src/layout_util.c:1808
 #, fuzzy
 msgid "_Contents"
 msgstr "/Abi/Programmist"
 
-#: ../src/layout_util.c:1377
+#: ../src/layout_util.c:1808
 #, fuzzy
 msgid "Contents"
 msgstr "/Abi/Programmist"
 
-#: ../src/layout_util.c:1378
+#: ../src/layout_util.c:1809
 #, fuzzy
 msgid "_Keyboard shortcuts"
 msgstr "/Abi/_Kiirklahvid"
 
-#: ../src/layout_util.c:1378
+#: ../src/layout_util.c:1809
 #, fuzzy
 msgid "Keyboard shortcuts"
 msgstr "/Abi/_Kiirklahvid"
 
-#: ../src/layout_util.c:1379
+#: ../src/layout_util.c:1810
+#, fuzzy
+msgid "_Keyboard map"
+msgstr "/Abi/_Kiirklahvid"
+
+#: ../src/layout_util.c:1810
+#, fuzzy
+msgid "Keyboard map"
+msgstr "Laen pisipilte..."
+
+#: ../src/layout_util.c:1811
 #, fuzzy
 msgid "_Release notes"
-msgstr "/Abi/_Tarkvara redaktsiooni märkused"
+msgstr "/Abi/_Tarkvara redaktsiooni mÃ¤rkused"
 
-#: ../src/layout_util.c:1379
+#: ../src/layout_util.c:1811
 #, fuzzy
 msgid "Release notes"
-msgstr "/Abi/_Tarkvara redaktsiooni märkused"
+msgstr "/Abi/_Tarkvara redaktsiooni mÃ¤rkused"
 
-#: ../src/layout_util.c:1380
+#: ../src/layout_util.c:1812
 #, fuzzy
 msgid "_About"
 msgstr "/Abi/Programmist"
 
-#: ../src/layout_util.c:1380 ../src/preferences.c:2328
+#: ../src/layout_util.c:1812 ../src/preferences.c:2534
 #, fuzzy
 msgid "About"
 msgstr "/Abi/Programmist"
 
-#: ../src/layout_util.c:1381
+#: ../src/layout_util.c:1813
 #, fuzzy
 msgid "_Log Window"
 msgstr "Aknad"
 
-#: ../src/layout_util.c:1381
+#: ../src/layout_util.c:1813
 #, fuzzy
 msgid "Log Window"
 msgstr "Aknad"
 
-#: ../src/layout_util.c:1382
+#: ../src/layout_util.c:1814
 #, fuzzy
 msgid "_Exif window"
 msgstr "Sulge aken"
 
-#: ../src/layout_util.c:1382
+#: ../src/layout_util.c:1814
 #, fuzzy
 msgid "Exif window"
 msgstr "/Fail/Uus ak_en"
 
-#: ../src/layout_util.c:1383
+#: ../src/layout_util.c:1815
 msgid "_Cycle through stereo modes"
 msgstr ""
 
-#: ../src/layout_util.c:1383
+#: ../src/layout_util.c:1815
 msgid "Cycle through stereo modes"
 msgstr ""
 
-#: ../src/layout_util.c:1388
+#: ../src/layout_util.c:1816
+#, fuzzy
+msgid "_Next Pane"
+msgstr "JÃ¤rgmise pildi eellaadimine"
+
+#: ../src/layout_util.c:1816
+#, fuzzy
+msgid "Next Pane"
+msgstr "JÃ¤rgmise pildi eellaadimine"
+
+#: ../src/layout_util.c:1817
+#, fuzzy
+msgid "_Previous Pane"
+msgstr "%d pilti"
+
+#: ../src/layout_util.c:1817
+#, fuzzy
+msgid "Previous Pane"
+msgstr "%d pilti"
+
+#: ../src/layout_util.c:1818
+msgid "_Up Pane"
+msgstr ""
+
+#: ../src/layout_util.c:1818
+msgid "Up Pane"
+msgstr ""
+
+#: ../src/layout_util.c:1819
+msgid "_Down Pane"
+msgstr ""
+
+#: ../src/layout_util.c:1819
+msgid "Down Pane"
+msgstr ""
+
+#: ../src/layout_util.c:1820
+#, fuzzy
+msgid "_Write orientation to file"
+msgstr "Kirjuta fail Ã¼le"
+
+#: ../src/layout_util.c:1820
+#, fuzzy
+msgid "Write orientation to file"
+msgstr "Kirjuta fail Ã¼le"
+
+#: ../src/layout_util.c:1821
+msgid "_Write orientation to file (preserve timestamp)"
+msgstr ""
+
+#: ../src/layout_util.c:1821
+msgid "Write orientation to file (preserve timestamp)"
+msgstr ""
+
+#: ../src/layout_util.c:1826
 #, fuzzy
 msgid "Show _Thumbnails"
-msgstr "Näita pisipilte"
+msgstr "NÃ¤ita pisipilte"
 
-#: ../src/layout_util.c:1388
+#: ../src/layout_util.c:1826
 #, fuzzy
 msgid "Show Thumbnails"
-msgstr "Näita pisipilte"
+msgstr "NÃ¤ita pisipilte"
 
-#: ../src/layout_util.c:1389
+#: ../src/layout_util.c:1827
 #, fuzzy
 msgid "Show _Marks"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/layout_util.c:1389
+#: ../src/layout_util.c:1827
 #, fuzzy
 msgid "Show Marks"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/layout_util.c:1390
+#: ../src/layout_util.c:1828
 #, fuzzy
 msgid "Pi_xel Info"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/layout_util.c:1390
+#: ../src/layout_util.c:1828
 #, fuzzy
 msgid "Show Pixel Info"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/layout_util.c:1391
+#: ../src/layout_util.c:1829
 #, fuzzy
 msgid "_Float file list"
 msgstr "/Vaade/_Ujuv failide nimekiri"
 
-#: ../src/layout_util.c:1391
+#: ../src/layout_util.c:1829
 #, fuzzy
 msgid "Float file list"
 msgstr "/Vaade/_Ujuv failide nimekiri"
 
-#: ../src/layout_util.c:1392
+#: ../src/layout_util.c:1830
 #, fuzzy
 msgid "Hide tool_bar"
-msgstr "/Vaade/Peida _tööriistariba"
+msgstr "/Vaade/Peida _tÃ¶Ã¶riistariba"
 
-#: ../src/layout_util.c:1392
+#: ../src/layout_util.c:1830
 #, fuzzy
 msgid "Hide toolbar"
-msgstr "/Vaade/Peida _tööriistariba"
+msgstr "/Vaade/Peida _tÃ¶Ã¶riistariba"
 
-#: ../src/layout_util.c:1393
+#: ../src/layout_util.c:1831
 msgid "_Info sidebar"
 msgstr ""
 
-#: ../src/layout_util.c:1393
+#: ../src/layout_util.c:1831
 msgid "Info sidebar"
 msgstr ""
 
-#: ../src/layout_util.c:1394
+#: ../src/layout_util.c:1832
 #, fuzzy
 msgid "Sort _manager"
-msgstr "Sorteeritud nime järgi"
+msgstr "Sorteeritud nime jÃ¤rgi"
 
-#: ../src/layout_util.c:1394
+#: ../src/layout_util.c:1832
 #, fuzzy
 msgid "Sort manager"
-msgstr "Sorteeritud nime järgi"
+msgstr "Sorteeritud nime jÃ¤rgi"
 
-#: ../src/layout_util.c:1395
+#: ../src/layout_util.c:1833
+#, fuzzy
+msgid "Hide Bars"
+msgstr "/Vaade/Peida _tÃ¶Ã¶riistariba"
+
+#: ../src/layout_util.c:1834
 #, fuzzy
 msgid "Toggle _slideshow"
-msgstr "Lõpeta slaidiseanss"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/layout_util.c:1395
+#: ../src/layout_util.c:1834
 #, fuzzy
 msgid "Toggle slideshow"
-msgstr "Lõpeta slaidiseanss"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/layout_util.c:1396
+#: ../src/layout_util.c:1835
 msgid "Use _color profiles"
 msgstr ""
 
-#: ../src/layout_util.c:1396
+#: ../src/layout_util.c:1835
 #, fuzzy
 msgid "Use color profiles"
-msgstr "Kõik failid"
+msgstr "KÃµik failid"
 
-#: ../src/layout_util.c:1397
+#: ../src/layout_util.c:1836
 msgid "Use profile from _image"
 msgstr ""
 
-#: ../src/layout_util.c:1397
+#: ../src/layout_util.c:1836
 msgid "Use profile from image"
 msgstr ""
 
-#: ../src/layout_util.c:1398
+#: ../src/layout_util.c:1837
 #, fuzzy
 msgid "Toggle _grayscale"
-msgstr "Lõpeta slaidiseanss"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/layout_util.c:1398
+#: ../src/layout_util.c:1837
 #, fuzzy
 msgid "Toggle grayscale"
-msgstr "Lõpeta slaidiseanss"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/layout_util.c:1399
+#: ../src/layout_util.c:1838
 #, fuzzy
 msgid "Image Overlay"
 msgstr "Pildi omadused - Geeqie"
 
-#: ../src/layout_util.c:1400
+#: ../src/layout_util.c:1839
 msgid "_Show Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:1400
+#: ../src/layout_util.c:1839
 msgid "Show Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:1404
+#: ../src/layout_util.c:1840
+#, fuzzy
+msgid "Rectangular Selection"
+msgstr "RistkÃ¼likuline valik"
+
+#: ../src/layout_util.c:1841
+msgid "GIF _animation"
+msgstr ""
+
+#: ../src/layout_util.c:1841
+msgid "Toggle GIF animation"
+msgstr ""
+
+#: ../src/layout_util.c:1842
+#, fuzzy
+msgid "_Exif rotate"
+msgstr "/Vaade/_Uuenda nimekirju"
+
+#: ../src/layout_util.c:1842
+#, fuzzy
+msgid "Exif rotate"
+msgstr "/Vaade/_Uuenda nimekirju"
+
+#: ../src/layout_util.c:1846
 #, fuzzy
 msgid "Image _List"
 msgstr "Pildi suurus:"
 
-#: ../src/layout_util.c:1404
+#: ../src/layout_util.c:1846
 #, fuzzy
 msgid "View Images as List"
 msgstr "/Vaade/_Slaidiseanss"
 
-#: ../src/layout_util.c:1405
+#: ../src/layout_util.c:1847
 #, fuzzy
 msgid "I_cons"
 msgstr "/Vaade/_Ikoonid"
 
-#: ../src/layout_util.c:1405
+#: ../src/layout_util.c:1847
 #, fuzzy
 msgid "View Images as Icons"
 msgstr "Nimekiri ikoonidena"
 
-#: ../src/layout_util.c:1409
+#: ../src/layout_util.c:1851
 #, fuzzy
-msgid "Folder Li_st"
-msgstr "Failid"
+msgid "T_oggle Folder View"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/layout_util.c:1409
+#: ../src/layout_util.c:1851
 #, fuzzy
-msgid "View Folders as List"
-msgstr "Failid"
+msgid "Toggle Folders View"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/layout_util.c:1410
-#, fuzzy
-msgid "Folder T_ree"
-msgstr "Failid"
-
-#: ../src/layout_util.c:1410
-#, fuzzy
-msgid "View Folders as Tree"
-msgstr "Näita kataloogipuud"
-
-#: ../src/layout_util.c:1414
+#: ../src/layout_util.c:1855
 msgid "_Horizontal"
 msgstr ""
 
-#: ../src/layout_util.c:1414
+#: ../src/layout_util.c:1855
 msgid "Split Horizontal"
 msgstr ""
 
-#: ../src/layout_util.c:1415
+#: ../src/layout_util.c:1856
 msgid "_Vertical"
 msgstr ""
 
-#: ../src/layout_util.c:1415
+#: ../src/layout_util.c:1856
 msgid "Split Vertical"
 msgstr ""
 
-#: ../src/layout_util.c:1416
+#: ../src/layout_util.c:1857
 msgid "_Quad"
 msgstr ""
 
-#: ../src/layout_util.c:1416
+#: ../src/layout_util.c:1857
 msgid "Split Quad"
 msgstr ""
 
-#: ../src/layout_util.c:1417
+#: ../src/layout_util.c:1858
 #, fuzzy
 msgid "_Single"
 msgstr "Suurus"
 
-#: ../src/layout_util.c:1417
+#: ../src/layout_util.c:1858
 #, fuzzy
 msgid "Split Single"
 msgstr "Suurus"
 
-#: ../src/layout_util.c:1421
+#: ../src/layout_util.c:1862
 msgid "Input _0: sRGB"
 msgstr ""
 
-#: ../src/layout_util.c:1421
+#: ../src/layout_util.c:1862
 msgid "Input 0: sRGB"
 msgstr ""
 
-#: ../src/layout_util.c:1422
+#: ../src/layout_util.c:1863
 msgid "Input _1: AdobeRGB compatible"
 msgstr ""
 
-#: ../src/layout_util.c:1422
+#: ../src/layout_util.c:1863
 msgid "Input 1: AdobeRGB compatible"
 msgstr ""
 
-#: ../src/layout_util.c:1423
+#: ../src/layout_util.c:1864
 msgid "Input _2"
 msgstr ""
 
-#: ../src/layout_util.c:1423
+#: ../src/layout_util.c:1864
 msgid "Input 2"
 msgstr ""
 
-#: ../src/layout_util.c:1424
+#: ../src/layout_util.c:1865
 msgid "Input _3"
 msgstr ""
 
-#: ../src/layout_util.c:1424
+#: ../src/layout_util.c:1865
 msgid "Input 3"
 msgstr ""
 
-#: ../src/layout_util.c:1425
+#: ../src/layout_util.c:1866
 msgid "Input _4"
 msgstr ""
 
-#: ../src/layout_util.c:1425
+#: ../src/layout_util.c:1866
 msgid "Input 4"
 msgstr ""
 
-#: ../src/layout_util.c:1426
+#: ../src/layout_util.c:1867
 msgid "Input _5"
 msgstr ""
 
-#: ../src/layout_util.c:1426
+#: ../src/layout_util.c:1867
 msgid "Input 5"
 msgstr ""
 
-#: ../src/layout_util.c:1430
+#: ../src/layout_util.c:1871
 msgid "Histogram on Red"
 msgstr ""
 
-#: ../src/layout_util.c:1431
+#: ../src/layout_util.c:1872
 msgid "Histogram on Green"
 msgstr ""
 
-#: ../src/layout_util.c:1432
+#: ../src/layout_util.c:1873
 msgid "Histogram on Blue"
 msgstr ""
 
-#: ../src/layout_util.c:1433
+#: ../src/layout_util.c:1874
 msgid "Histogram on RGB"
 msgstr ""
 
-#: ../src/layout_util.c:1434
+#: ../src/layout_util.c:1875
 msgid "Histogram on Value"
 msgstr ""
 
-#: ../src/layout_util.c:1438
+#: ../src/layout_util.c:1879
 msgid "Linear Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:1439
+#: ../src/layout_util.c:1880
 msgid "_Log Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:1439
+#: ../src/layout_util.c:1880
 msgid "Log Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:1443
+#: ../src/layout_util.c:1884
 msgid "_Auto"
 msgstr ""
 
-#: ../src/layout_util.c:1443
+#: ../src/layout_util.c:1884
 msgid "Stereo Auto"
 msgstr ""
 
-#: ../src/layout_util.c:1444
+#: ../src/layout_util.c:1885
 msgid "_Side by Side"
 msgstr ""
 
-#: ../src/layout_util.c:1444
+#: ../src/layout_util.c:1885
 msgid "Stereo Side by Side"
 msgstr ""
 
-#: ../src/layout_util.c:1445
+#: ../src/layout_util.c:1886
 msgid "_Cross"
 msgstr ""
 
-#: ../src/layout_util.c:1445
+#: ../src/layout_util.c:1886
 msgid "Stereo Cross"
 msgstr ""
 
-#: ../src/layout_util.c:1446
+#: ../src/layout_util.c:1887
 msgid "_Off"
 msgstr ""
 
-#: ../src/layout_util.c:1446
+#: ../src/layout_util.c:1887
 msgid "Stereo Off"
 msgstr ""
 
-#: ../src/layout_util.c:1735
+#: ../src/layout_util.c:2203
 #, c-format
 msgid "Mark _%d"
 msgstr ""
 
-#: ../src/layout_util.c:1736 ../src/view_file.c:540
+#: ../src/layout_util.c:2204 ../src/view_file/view_file.c:533
 #, c-format
 msgid "_Set mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:1736
+#: ../src/layout_util.c:2204
 #, fuzzy, c-format
 msgid "Set mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1737 ../src/view_file.c:541
+#: ../src/layout_util.c:2205 ../src/view_file/view_file.c:534
 #, c-format
 msgid "_Reset mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:1737
+#: ../src/layout_util.c:2205
 #, fuzzy, c-format
 msgid "Reset mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1738 ../src/layout_util.c:1739 ../src/view_file.c:542
+#: ../src/layout_util.c:2206 ../src/layout_util.c:2207
+#: ../src/view_file/view_file.c:535
 #, c-format
 msgid "_Toggle mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:1738 ../src/layout_util.c:1739
+#: ../src/layout_util.c:2206 ../src/layout_util.c:2207
 #, fuzzy, c-format
 msgid "Toggle mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1740
+#: ../src/layout_util.c:2208
 #, fuzzy, c-format
 msgid "Se_lect mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1740 ../src/layout_util.c:1741
+#: ../src/layout_util.c:2208 ../src/layout_util.c:2209
 #, fuzzy, c-format
 msgid "Select mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1741 ../src/view_file.c:543
+#: ../src/layout_util.c:2209 ../src/view_file/view_file.c:536
 #, fuzzy, c-format
 msgid "_Select mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1742 ../src/view_file.c:544
+#: ../src/layout_util.c:2210 ../src/view_file/view_file.c:537
 #, fuzzy, c-format
 msgid "_Add mark %d"
 msgstr "Redaktorid"
 
-#: ../src/layout_util.c:1742
+#: ../src/layout_util.c:2210
 #, fuzzy, c-format
 msgid "Add mark %d"
 msgstr "Redaktorid"
 
-#: ../src/layout_util.c:1743 ../src/view_file.c:545
+#: ../src/layout_util.c:2211 ../src/view_file/view_file.c:538
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:1743
+#: ../src/layout_util.c:2211
 #, fuzzy, c-format
 msgid "Intersection with mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1744 ../src/view_file.c:546
+#: ../src/layout_util.c:2212 ../src/view_file/view_file.c:539
 #, c-format
 msgid "_Unselect mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:1744
+#: ../src/layout_util.c:2212
 #, fuzzy, c-format
 msgid "Unselect mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1745
+#: ../src/layout_util.c:2213
 #, fuzzy, c-format
 msgid "_Filter mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:1745
+#: ../src/layout_util.c:2213
 #, fuzzy, c-format
 msgid "Filter mark %d"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/layout_util.c:2127
+#: ../src/layout_util.c:2595
 #, c-format
 msgid "Number of files with unsaved metadata: %d"
 msgstr ""
 
-#: ../src/layout_util.c:2133
+#: ../src/layout_util.c:2601
 msgid "No unsaved metadata"
 msgstr ""
 
-#: ../src/layout_util.c:2180
+#: ../src/layout_util.c:2648
 #, c-format
 msgid ""
 "Image profile: %s\n"
 "Screen profile: %s"
 msgstr ""
 
-#: ../src/layout_util.c:2188
+#: ../src/layout_util.c:2656
 msgid "Click to enable color management"
 msgstr ""
 
-#: ../src/layout_util.c:2193
+#: ../src/layout_util.c:2661
 msgid "Color profiles not supported"
 msgstr ""
 
-#: ../src/layout_util.c:2215
+#: ../src/layout_util.c:2683
 #, c-format
 msgid "Input _%d: %s"
 msgstr ""
 
 #. something went badly wrong
-#: ../src/lirc.c:197
+#: ../src/lirc.c:209
 #, c-format
 msgid "disconnected from LIRC\n"
 msgstr ""
 
-#: ../src/lirc.c:222
+#: ../src/lirc.c:234
 #, c-format
 msgid ""
 "could not read LIRC config file\n"
@@ -3415,959 +3740,1042 @@ msgid ""
 "know how to create a proper config file\n"
 msgstr ""
 
-#: ../src/logwindow.c:76
+#: ../src/logwindow.c:131
 msgid "Log"
 msgstr ""
 
-#: ../src/main.c:321
+#: ../src/logwindow.c:159 ../src/preferences.c:2197
+msgid "Debug level:"
+msgstr ""
+
+#: ../src/main.c:352
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
 "\n"
 msgstr ""
-"Kasutamine: gqview [häälestus] [kataloogitee]\n"
+"Kasutamine: gqview [hÃ¤Ã¤lestus] [kataloogitee]\n"
 "\n"
 
-#: ../src/main.c:322
+#: ../src/main.c:353
 msgid "valid options are:\n"
-msgstr "võimalikud häälestused:\n"
+msgstr "vÃµimalikud hÃ¤Ã¤lestused:\n"
 
-#: ../src/main.c:323
+#: ../src/main.c:354
 #, fuzzy
 msgid "  +t, --with-tools                 force show of tools\n"
-msgstr "  +t, --with-tools           riistade näitamine\n"
+msgstr "  +t, --with-tools           riistade nÃ¤itamine\n"
 
-#: ../src/main.c:324
+#: ../src/main.c:355
 #, fuzzy
 msgid "  -t, --without-tools              force hide of tools\n"
 msgstr "  -t, --without-tools        peida riistad\n"
 
-#: ../src/main.c:325
+#: ../src/main.c:356
 #, fuzzy
 msgid "  -f, --fullscreen                 start in full screen mode\n"
-msgstr "  -f, --fullscreen           käivitu täisekraan-moodis\n"
+msgstr "  -f, --fullscreen           kÃ¤ivitu tÃ¤isekraan-moodis\n"
 
-#: ../src/main.c:326
+#: ../src/main.c:357
 #, fuzzy
 msgid "  -s, --slideshow                  start in slideshow mode\n"
-msgstr "  -s, --slideshow            käivitu slaidiseanss-moodis\n"
+msgstr "  -s, --slideshow            kÃ¤ivitu slaidiseanss-moodis\n"
 
-#: ../src/main.c:327
+#: ../src/main.c:358
 #, fuzzy
 msgid ""
 "  -l, --list [files] [collections] open collection window for command line\n"
-msgstr "  -l, --list                 ava käsureale kollektsiooni aken\n"
+msgstr "  -l, --list                 ava kÃ¤sureale kollektsiooni aken\n"
 
-#: ../src/main.c:328
+#: ../src/main.c:359
 msgid "      --blank                      start with blank file list\n"
 msgstr ""
 
-#: ../src/main.c:329
+#: ../src/main.c:360
 msgid "      --geometry=XxY+XOFF+YOFF     set main window location\n"
 msgstr ""
 
-#: ../src/main.c:330
+#: ../src/main.c:361
 #, fuzzy
 msgid ""
 "  -r, --remote                     send following commands to open window\n"
-msgstr "  -l, --list                 ava käsureale kollektsiooni aken\n"
+msgstr "  -l, --list                 ava kÃ¤sureale kollektsiooni aken\n"
 
-#: ../src/main.c:331
+#: ../src/main.c:362
 #, fuzzy
 msgid "  -rh,--remote-help                print remote command list\n"
-msgstr "  -l, --list                 ava käsureale kollektsiooni aken\n"
+msgstr "  -l, --list                 ava kÃ¤sureale kollektsiooni aken\n"
 
-#: ../src/main.c:333
+#: ../src/main.c:364
 #, fuzzy
 msgid "      --debug[=level]              turn on debug output\n"
-msgstr "  --debug                    väljasta debug infot\n"
+msgstr "  --debug                    vÃ¤ljasta debug infot\n"
 
-#: ../src/main.c:335
+#: ../src/main.c:365
+msgid "  -g:<regexp>, --grep:<regexp>     filter debug output\n"
+msgstr ""
+
+#: ../src/main.c:367
+#, fuzzy
+msgid "  +w, --show-log-window            show log window\n"
+msgstr "  +t, --with-tools           riistade nÃ¤itamine\n"
+
+#: ../src/main.c:368
+msgid "  -o:<file>, --log-file:<file>     save log data to file\n"
+msgstr ""
+
+#: ../src/main.c:369
 #, fuzzy
 msgid "  -v, --version                    print version info\n"
-msgstr "  -v, --version              väljasta versiooni info\n"
+msgstr "  -v, --version              vÃ¤ljasta versiooni info\n"
 
-#: ../src/main.c:336
+#: ../src/main.c:370
 #, fuzzy
 msgid ""
 "  -h, --help                       show this message\n"
 "\n"
 msgstr ""
-"  -h, --help                 näita seda teadet\n"
+"  -h, --help                 nÃ¤ita seda teadet\n"
 "\n"
 
-#: ../src/main.c:349
+#: ../src/main.c:383
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
 "Use --help for options\n"
 msgstr ""
-"vigane või ignoreeritud: %s\n"
-"Häälestuste vaatamiseks kasuta --help\n"
+"vigane vÃµi ignoreeritud: %s\n"
+"HÃ¤Ã¤lestuste vaatamiseks kasuta --help\n"
 
-#: ../src/main.c:378
+#: ../src/main.c:412
 #, fuzzy
 msgid "Invalid or ignored remote options: "
 msgstr ""
-"vigane või ignoreeritud: %s\n"
-"Häälestuste vaatamiseks kasuta --help\n"
+"vigane vÃµi ignoreeritud: %s\n"
+"HÃ¤Ã¤lestuste vaatamiseks kasuta --help\n"
 
-#: ../src/main.c:387
+#: ../src/main.c:421
 msgid ""
 "\n"
 "Use --remote-help for valid remote options.\n"
 msgstr ""
 
-#: ../src/main.c:489
+#: ../src/main.c:523
 #, fuzzy, c-format
 msgid "Creating %s dir:%s\n"
 msgstr "Loon Geeqie kataloogi: %s\n"
 
-#: ../src/main.c:493
+#: ../src/main.c:527
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "Ei saa luua kataloogi: %s\n"
 
-#: ../src/main.c:545
+#: ../src/main.c:579
 #, fuzzy, c-format
 msgid "error saving file: %s\n"
 msgstr "viga konfiguratsioonifaili salvestamisel: %s\n"
 
-#: ../src/main.c:564
+#: ../src/main.c:598
 #, fuzzy, c-format
 msgid ""
 "error saving file: %s\n"
 "error: %s\n"
 msgstr "viga konfiguratsioonifaili salvestamisel: %s\n"
 
-#: ../src/main.c:672
+#: ../src/main.c:708
 #, fuzzy
 msgid "exit"
-msgstr "Välju"
+msgstr "VÃ¤lju"
 
-#: ../src/main.c:677
+#: ../src/main.c:713
 #, fuzzy, c-format
 msgid "Quit %s"
 msgstr "Kvaliteet"
 
-#: ../src/main.c:679
+#: ../src/main.c:715
 #, fuzzy
 msgid "Collections have been modified. Quit anyway?"
 msgstr ""
 "Kollektsioone on muudetud.\n"
-"Väljuda sellegipoolest?"
+"VÃ¤ljuda sellegipoolest?"
 
-#: ../src/main.c:885 ../src/remote.c:601
+#: ../src/main.c:930 ../src/remote.c:680
 msgid "Command line"
-msgstr "Käsurida"
+msgstr "KÃ¤surida"
 
-#: ../src/menu.c:133
+#: ../src/menu.c:141
 #, fuzzy
 msgid "Sort by size"
-msgstr "Sorteeirud suuruse järgi"
+msgstr "Sorteeirud suuruse jÃ¤rgi"
 
-#: ../src/menu.c:136
+#: ../src/menu.c:144
 #, fuzzy
 msgid "Sort by date"
-msgstr "Sorteeritud kuupäeva järgi"
+msgstr "Sorteeritud kuupÃ¤eva jÃ¤rgi"
 
-#: ../src/menu.c:139
+#: ../src/menu.c:147
 #, fuzzy
 msgid "Sort by file creation date"
-msgstr "Sorteeritud kuupäeva järgi"
+msgstr "Sorteeritud kuupÃ¤eva jÃ¤rgi"
 
-#: ../src/menu.c:142
+#: ../src/menu.c:150
 #, fuzzy
 msgid "Sort by Exif-date"
-msgstr "Sorteeritud kuupäeva järgi"
+msgstr "Sorteeritud kuupÃ¤eva jÃ¤rgi"
 
-#: ../src/menu.c:145
+#: ../src/menu.c:153
 msgid "Unsorted"
 msgstr "Sorteerimata"
 
-#: ../src/menu.c:148
+#: ../src/menu.c:156
 #, fuzzy
 msgid "Sort by path"
-msgstr "Sorteeritud kataloogitee järgi"
+msgstr "Sorteeritud kataloogitee jÃ¤rgi"
 
-#: ../src/menu.c:151
+#: ../src/menu.c:159
 #, fuzzy
 msgid "Sort by number"
-msgstr "Sorteeritud numbri järgi"
+msgstr "Sorteeritud numbri jÃ¤rgi"
 
-#: ../src/menu.c:155
+#: ../src/menu.c:162
+#, fuzzy
+msgid "Sort by rating"
+msgstr "Sorteeritud kuupÃ¤eva jÃ¤rgi"
+
+#: ../src/menu.c:166
 #, fuzzy
 msgid "Sort by name"
-msgstr "Sorteeritud nime järgi"
+msgstr "Sorteeritud nime jÃ¤rgi"
 
-#: ../src/menu.c:207
-msgid "Sort"
-msgstr "Sorteerimine"
+#: ../src/menu.c:232 ../src/menu.c:241
+msgid "Zoom to original size"
+msgstr "NÃ¤ita originaalsuuruses"
 
-#: ../src/menu.c:232
+#: ../src/menu.c:235
+msgid "Fit image to window"
+msgstr "Mahuta pilt aknasse"
+
+#: ../src/menu.c:238
+msgid "Leave Zoom at previous setting"
+msgstr "Ã„ra muuda suurendust"
+
+#: ../src/menu.c:293 ../src/preferences.c:1514
+#, fuzzy
+msgid "Zoom"
+msgstr "Suurenda"
+
+#: ../src/menu.c:318
 #, fuzzy
 msgid "Rotate _180"
-msgstr "Pööra 180"
+msgstr "PÃ¶Ã¶ra 180"
 
-#: ../src/metadata.c:1599
+#: ../src/metadata.c:1700
 msgid "People"
 msgstr ""
 
-#: ../src/metadata.c:1600
+#: ../src/metadata.c:1701
 msgid "Family"
 msgstr ""
 
-#: ../src/metadata.c:1601
+#: ../src/metadata.c:1702
 msgid "Free time"
 msgstr ""
 
-#: ../src/metadata.c:1602
+#: ../src/metadata.c:1703
 msgid "Children"
 msgstr ""
 
-#: ../src/metadata.c:1603
+#: ../src/metadata.c:1704
 msgid "Sport"
 msgstr ""
 
-#: ../src/metadata.c:1604
+#: ../src/metadata.c:1705
 #, fuzzy
 msgid "Culture"
-msgstr "Kuupäev"
+msgstr "KuupÃ¤ev"
 
-#: ../src/metadata.c:1605
+#: ../src/metadata.c:1706
 msgid "Festival"
 msgstr ""
 
-#: ../src/metadata.c:1606
+#: ../src/metadata.c:1707
 #, fuzzy
 msgid "Nature"
-msgstr "Kuupäev"
+msgstr "KuupÃ¤ev"
 
-#: ../src/metadata.c:1607
+#: ../src/metadata.c:1708
 msgid "Animal"
 msgstr ""
 
-#: ../src/metadata.c:1608
+#: ../src/metadata.c:1709
 msgid "Bird"
 msgstr ""
 
-#: ../src/metadata.c:1609
+#: ../src/metadata.c:1710
 msgid "Insect"
 msgstr ""
 
-#: ../src/metadata.c:1610
+#: ../src/metadata.c:1711
 msgid "Pets"
 msgstr ""
 
-#: ../src/metadata.c:1611
+#: ../src/metadata.c:1712
 msgid "Wildlife"
 msgstr ""
 
-#: ../src/metadata.c:1612
+#: ../src/metadata.c:1713
 #, fuzzy
 msgid "Zoo"
 msgstr "Suurenda"
 
-#: ../src/metadata.c:1613
+#: ../src/metadata.c:1714
 msgid "Plant"
 msgstr ""
 
-#: ../src/metadata.c:1614
+#: ../src/metadata.c:1715
 #, fuzzy
 msgid "Tree"
 msgstr "/Vaade/_Puu"
 
-#: ../src/metadata.c:1615
+#: ../src/metadata.c:1716
 msgid "Flower"
 msgstr ""
 
-#: ../src/metadata.c:1616
+#: ../src/metadata.c:1717
 msgid "Water"
 msgstr ""
 
-#: ../src/metadata.c:1617
+#: ../src/metadata.c:1718
 msgid "River"
 msgstr ""
 
-#: ../src/metadata.c:1618
+#: ../src/metadata.c:1719
 msgid "Lake"
 msgstr ""
 
-#: ../src/metadata.c:1619
+#: ../src/metadata.c:1720
 #, fuzzy
 msgid "Sea"
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/metadata.c:1620 ../src/print.c:375
+#: ../src/metadata.c:1721 ../src/print.c:385
 msgid "Landscape"
 msgstr ""
 
-#: ../src/metadata.c:1621
+#: ../src/metadata.c:1722
 msgid "Art"
 msgstr ""
 
-#: ../src/metadata.c:1622
+#: ../src/metadata.c:1723
 #, fuzzy
 msgid "Statue"
 msgstr "Algus #"
 
-#: ../src/metadata.c:1623
+#: ../src/metadata.c:1724
 #, fuzzy
 msgid "Painting"
 msgstr "Filter:"
 
-#: ../src/metadata.c:1624 ../src/metadata.c:1638
+#: ../src/metadata.c:1725 ../src/metadata.c:1739
 msgid "Historic"
 msgstr ""
 
-#: ../src/metadata.c:1625 ../src/metadata.c:1639
+#: ../src/metadata.c:1726 ../src/metadata.c:1740
 msgid "Modern"
 msgstr ""
 
-#: ../src/metadata.c:1626
+#: ../src/metadata.c:1727
 msgid "City"
 msgstr ""
 
-#: ../src/metadata.c:1627
+#: ../src/metadata.c:1728
 msgid "Park"
 msgstr ""
 
-#: ../src/metadata.c:1628
+#: ../src/metadata.c:1729
 msgid "Street"
 msgstr ""
 
-#: ../src/metadata.c:1629
+#: ../src/metadata.c:1730
 msgid "Square"
 msgstr ""
 
-#: ../src/metadata.c:1630
+#: ../src/metadata.c:1731
 msgid "Architecture"
 msgstr ""
 
-#: ../src/metadata.c:1631
+#: ../src/metadata.c:1732
 msgid "Buildings"
 msgstr ""
 
-#: ../src/metadata.c:1632
+#: ../src/metadata.c:1733
 msgid "House"
 msgstr ""
 
-#: ../src/metadata.c:1633
+#: ../src/metadata.c:1734
 msgid "Cathedral"
 msgstr ""
 
-#: ../src/metadata.c:1634
+#: ../src/metadata.c:1735
 msgid "Palace"
 msgstr ""
 
-#: ../src/metadata.c:1635
+#: ../src/metadata.c:1736
 msgid "Castle"
 msgstr ""
 
-#: ../src/metadata.c:1636
+#: ../src/metadata.c:1737
 msgid "Bridge"
 msgstr ""
 
-#: ../src/metadata.c:1637
+#: ../src/metadata.c:1738
 msgid "Interior"
 msgstr ""
 
-#: ../src/metadata.c:1640
+#: ../src/metadata.c:1741
 msgid "Places"
 msgstr ""
 
-#: ../src/metadata.c:1641
+#: ../src/metadata.c:1742
 #, fuzzy
 msgid "Conditions"
 msgstr "Kollektsioonid"
 
-#: ../src/metadata.c:1642
+#: ../src/metadata.c:1743
 msgid "Night"
 msgstr ""
 
-#: ../src/metadata.c:1643
+#: ../src/metadata.c:1744
 msgid "Lights"
 msgstr ""
 
-#: ../src/metadata.c:1644
+#: ../src/metadata.c:1745
 #, fuzzy
 msgid "Reflections"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/metadata.c:1645
+#: ../src/metadata.c:1746
 msgid "Sun"
 msgstr ""
 
-#: ../src/metadata.c:1646
+#: ../src/metadata.c:1747
 msgid "Weather"
 msgstr ""
 
-#: ../src/metadata.c:1647
+#: ../src/metadata.c:1748
 msgid "Fog"
 msgstr ""
 
-#: ../src/metadata.c:1648
+#: ../src/metadata.c:1749
 msgid "Rain"
 msgstr ""
 
-#: ../src/metadata.c:1649
+#: ../src/metadata.c:1750
 msgid "Clouds"
 msgstr ""
 
-#: ../src/metadata.c:1650
+#: ../src/metadata.c:1751
 msgid "Snow"
 msgstr ""
 
-#: ../src/metadata.c:1651
+#: ../src/metadata.c:1752
 msgid "Sunny weather"
 msgstr ""
 
-#: ../src/metadata.c:1652
+#: ../src/metadata.c:1753
 msgid "Photo"
 msgstr ""
 
-#: ../src/metadata.c:1653
+#: ../src/metadata.c:1754
 #, fuzzy
 msgid "Edited"
 msgstr "Redaktor"
 
-#: ../src/metadata.c:1654
+#: ../src/metadata.c:1755
 #, fuzzy
 msgid "Detail"
 msgstr "Kustuta failid"
 
-#: ../src/metadata.c:1655
+#: ../src/metadata.c:1756
 msgid "Macro"
 msgstr ""
 
-#: ../src/metadata.c:1656 ../src/print.c:374
+#: ../src/metadata.c:1757 ../src/print.c:384
 msgid "Portrait"
 msgstr ""
 
-#: ../src/metadata.c:1657
+#: ../src/metadata.c:1758
 msgid "Black and White"
 msgstr ""
 
-#: ../src/metadata.c:1658
+#: ../src/metadata.c:1759
 #, fuzzy
 msgid "Perspective"
 msgstr "Loo"
 
-#: ../src/options.c:158 ../src/ui_bookmark.c:560
+#: ../src/options.c:188 ../src/ui_bookmark.c:577
 #, fuzzy
 msgid "Desktop"
 msgstr "failiks:"
 
-#: ../src/pan-view.c:423
+#: ../src/pan-view/pan-view.c:438
 #, fuzzy, c-format
 msgid "%d images, %s"
 msgstr "%d pilti"
 
-#: ../src/pan-view.c:433
+#: ../src/pan-view/pan-view.c:448
 #, c-format
 msgid "The pan view does not support the folder \"%s\"."
 msgstr ""
 
-#: ../src/pan-view.c:434
+#: ../src/pan-view/pan-view.c:449
 msgid "Folder not supported"
 msgstr ""
 
-#: ../src/pan-view.c:986 ../src/pan-view.c:1002
+#: ../src/pan-view/pan-view.c:1001 ../src/pan-view/pan-view.c:1017
 #, fuzzy
 msgid "Reading image data..."
 msgstr "Loen sarnasuse andmeid..."
 
-#: ../src/pan-view.c:1061
+#: ../src/pan-view/pan-view.c:1076
 #, fuzzy
 msgid "Sorting images..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/pan-view.c:1365 ../src/print.c:2599
+#: ../src/pan-view/pan-view.c:1385 ../src/print.c:2609
 msgid "Filename:"
 msgstr "Faili nimi:"
 
-#: ../src/pan-view.c:1367 ../src/pan-view.c:2183 ../src/preferences.c:1493
+#: ../src/pan-view/pan-view.c:1387 ../src/pan-view/pan-view.c:1812
+#: ../src/preferences.c:1621
 #, fuzzy
 msgid "Location:"
 msgstr "Kollektsioonid"
 
-#: ../src/pan-view.c:1369 ../src/pan-view.c:1735
+#: ../src/pan-view/pan-view.c:1389 ../src/pan-view/pan-view-search.c:377
 #, fuzzy
 msgid "Date:"
-msgstr "Kuupäev"
+msgstr "KuupÃ¤ev"
 
-#: ../src/pan-view.c:1371 ../src/preferences.c:1319 ../src/print.c:3212
-#: ../src/print.c:3417
+#: ../src/pan-view/pan-view.c:1391 ../src/preferences.c:1439
+#: ../src/print.c:3222 ../src/print.c:3427
 msgid "Size:"
 msgstr "Suurus:"
 
-#: ../src/pan-view.c:1473
-msgid "path found"
-msgstr ""
-
-#: ../src/pan-view.c:1473
-#, fuzzy
-msgid "filename found"
-msgstr "Faili nimi:"
-
-#: ../src/pan-view.c:1521
-msgid "partial match"
-msgstr ""
-
-#: ../src/pan-view.c:1732 ../src/pan-view.c:1765
-msgid "no match"
-msgstr ""
-
-#: ../src/pan-view.c:2071 ../src/search.c:2169
+#: ../src/pan-view/pan-view.c:1698 ../src/search.c:2392
 msgid "Folder not found"
 msgstr ""
 
-#: ../src/pan-view.c:2072
+#: ../src/pan-view/pan-view.c:1699
 msgid "The entered path is not a folder"
 msgstr ""
 
-#: ../src/pan-view.c:2167
+#: ../src/pan-view/pan-view.c:1796
 #, fuzzy
 msgid "Pan View"
 msgstr "Abi - Geeqie"
 
-#: ../src/pan-view.c:2192
+#: ../src/pan-view/pan-view.c:1821
 #, fuzzy
 msgid "Timeline"
 msgstr "Bilineaarne"
 
-#: ../src/pan-view.c:2193
+#: ../src/pan-view/pan-view.c:1822
 #, fuzzy
 msgid "Calendar"
 msgstr "Puhasta"
 
-#: ../src/pan-view.c:2195
+#: ../src/pan-view/pan-view.c:1824
 #, fuzzy
 msgid "Folders (flower)"
 msgstr "Failid"
 
-#: ../src/pan-view.c:2196
+#: ../src/pan-view/pan-view.c:1825
 msgid "Grid"
 msgstr ""
 
-#: ../src/pan-view.c:2205
+#: ../src/pan-view/pan-view.c:1834
 #, fuzzy
 msgid "Dots"
 msgstr "Xpaint"
 
-#: ../src/pan-view.c:2206
+#: ../src/pan-view/pan-view.c:1835
 #, fuzzy
 msgid "No Images"
 msgstr "Pilt"
 
-#: ../src/pan-view.c:2207
+#: ../src/pan-view/pan-view.c:1836
 #, fuzzy
 msgid "Small Thumbnails"
 msgstr "Pisipildid"
 
-#: ../src/pan-view.c:2208
+#: ../src/pan-view/pan-view.c:1837
 #, fuzzy
 msgid "Normal Thumbnails"
 msgstr "Pisipildid"
 
-#: ../src/pan-view.c:2209
+#: ../src/pan-view/pan-view.c:1838
 #, fuzzy
 msgid "Large Thumbnails"
 msgstr "Puhasta pisipildid"
 
-#: ../src/pan-view.c:2210 ../src/pan-view.c:2665
+#: ../src/pan-view/pan-view.c:1839 ../src/pan-view/pan-view.c:2274
 msgid "1:10 (10%)"
 msgstr ""
 
-#: ../src/pan-view.c:2211 ../src/pan-view.c:2661
+#: ../src/pan-view/pan-view.c:1840 ../src/pan-view/pan-view.c:2270
 msgid "1:4 (25%)"
 msgstr ""
 
-#: ../src/pan-view.c:2212 ../src/pan-view.c:2657
+#: ../src/pan-view/pan-view.c:1841 ../src/pan-view/pan-view.c:2266
 msgid "1:3 (33%)"
 msgstr ""
 
-#: ../src/pan-view.c:2213 ../src/pan-view.c:2653
+#: ../src/pan-view/pan-view.c:1842 ../src/pan-view/pan-view.c:2262
 msgid "1:2 (50%)"
 msgstr ""
 
-#: ../src/pan-view.c:2214
+#: ../src/pan-view/pan-view.c:1843
 msgid "1:1 (100%)"
 msgstr ""
 
-#: ../src/pan-view.c:2262
-#, fuzzy
-msgid "Find:"
-msgstr "Filter:"
-
-#: ../src/pan-view.c:2313
-msgid "Find"
-msgstr ""
-
-#: ../src/pan-view.c:2380
+#: ../src/pan-view/pan-view.c:1989
 msgid "Pan View Performance"
 msgstr ""
 
-#: ../src/pan-view.c:2387
+#: ../src/pan-view/pan-view.c:1996
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: ../src/pan-view.c:2388
+#: ../src/pan-view/pan-view.c:1997
 msgid ""
 "To improve performance of thumbnails in the pan view the following options "
 "can be enabled. Note that both options must be enabled to notice a change in "
 "performance."
 msgstr ""
 
-#: ../src/pan-view.c:2396 ../src/preferences.c:1322
+#: ../src/pan-view/pan-view.c:2005 ../src/preferences.c:1442
 msgid "Cache thumbnails"
 msgstr "Puhverda pisipildid"
 
-#: ../src/pan-view.c:2398
+#: ../src/pan-view/pan-view.c:2007
 msgid "Use shared thumbnail cache"
 msgstr ""
 
-#: ../src/pan-view.c:2404
+#: ../src/pan-view/pan-view.c:2013
 msgid "Do not show this dialog again"
 msgstr ""
 
-#: ../src/pan-view.c:2633
+#: ../src/pan-view/pan-view.c:2242
 #, fuzzy
 msgid "Sort by E_xif date"
-msgstr "Sorteeritud kuupäeva järgi"
+msgstr "Sorteeritud kuupÃ¤eva jÃ¤rgi"
 
-#: ../src/pan-view.c:2639
+#: ../src/pan-view/pan-view.c:2248
 msgid "_Show Exif information"
 msgstr ""
 
-#: ../src/pan-view.c:2641
+#: ../src/pan-view/pan-view.c:2250
 #, fuzzy
 msgid "Show im_age"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/pan-view.c:2645
+#: ../src/pan-view/pan-view.c:2254
 #, fuzzy
 msgid "_None"
 msgstr "Puudub"
 
-#: ../src/pan-view.c:2649
+#: ../src/pan-view/pan-view.c:2258
 #, fuzzy
 msgid "_Full size"
 msgstr "Faili suurus:"
 
-#: ../src/preferences.c:91
+#: ../src/pan-view/pan-view-filter.c:48
+msgid "Require"
+msgstr ""
+
+#: ../src/pan-view/pan-view-filter.c:48
+msgid "R"
+msgstr ""
+
+#: ../src/pan-view/pan-view-filter.c:51
+#, fuzzy
+msgid "Exclude"
+msgstr "Kustuta fail"
+
+#: ../src/pan-view/pan-view-filter.c:51
+msgid "E"
+msgstr ""
+
+#: ../src/pan-view/pan-view-filter.c:54
+msgid "Include"
+msgstr ""
+
+#: ../src/pan-view/pan-view-filter.c:54
+msgid "I"
+msgstr ""
+
+#: ../src/pan-view/pan-view-filter.c:57
+#, fuzzy
+msgid "Group"
+msgstr "Grupp:"
+
+#: ../src/pan-view/pan-view-filter.c:57
+msgid "G"
+msgstr ""
+
+#: ../src/pan-view/pan-view-filter.c:71
+#, fuzzy
+msgid "Keyword Filter:"
+msgstr "Sorteerimata"
+
+#: ../src/pan-view/pan-view-filter.c:104 ../src/preferences.c:1784
+#, fuzzy
+msgid "Filter"
+msgstr "Filter:"
+
+#: ../src/pan-view/pan-view-filter.c:139
+#, fuzzy
+msgid "Removed keywordâ€¦"
+msgstr "/Vaade/_Ikoonid"
+
+#: ../src/pan-view/pan-view-search.c:41
+#, fuzzy
+msgid "Find:"
+msgstr "Filter:"
+
+#: ../src/pan-view/pan-view-search.c:66
+msgid "Find"
+msgstr ""
+
+#: ../src/pan-view/pan-view-search.c:115
+msgid "path found"
+msgstr ""
+
+#: ../src/pan-view/pan-view-search.c:115
+#, fuzzy
+msgid "filename found"
+msgstr "Faili nimi:"
+
+#: ../src/pan-view/pan-view-search.c:163
+msgid "partial match"
+msgstr ""
+
+#: ../src/pan-view/pan-view-search.c:374 ../src/pan-view/pan-view-search.c:407
+msgid "no match"
+msgstr ""
+
+#: ../src/preferences.c:106
 #, fuzzy
 msgid "Unknown"
 msgstr "(tundmatus)..."
 
-#: ../src/preferences.c:93
+#: ../src/preferences.c:108
 #, fuzzy
 msgid "RAW Image"
 msgstr "Pilt"
 
-#: ../src/preferences.c:446
+#: ../src/preferences.c:507
 msgid "Nearest (worst, but fastest)"
-msgstr "Lähim (halvim, kuid kiireim)"
+msgstr "LÃ¤him (halvim, kuid kiireim)"
 
-#: ../src/preferences.c:448
+#: ../src/preferences.c:509
 msgid "Tiles"
 msgstr "Klotsid"
 
-#: ../src/preferences.c:450
+#: ../src/preferences.c:511
 msgid "Bilinear"
 msgstr "Bilineaarne"
 
-#: ../src/preferences.c:452
+#: ../src/preferences.c:513
 msgid "Hyper (best, but slowest)"
 msgstr "Hyper (parim, kui aeglaseim)"
 
-#: ../src/preferences.c:517 ../src/print.c:380
+#: ../src/preferences.c:578 ../src/print.c:390
 msgid "Custom"
 msgstr ""
 
-#: ../src/preferences.c:600
+#: ../src/preferences.c:661
 #, fuzzy
 msgid "Single image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/preferences.c:602
+#: ../src/preferences.c:663
 msgid "Anaglyph Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:604
+#: ../src/preferences.c:665
 msgid "Anaglyph Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:606
+#: ../src/preferences.c:667
 msgid "Anaglyph Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:608
+#: ../src/preferences.c:669
 msgid "Anaglyph Gray Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:610
+#: ../src/preferences.c:671
 msgid "Anaglyph Gray Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:612
+#: ../src/preferences.c:673
 msgid "Anaglyph Gray Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:614
+#: ../src/preferences.c:675
 msgid "Anaglyph Dubois Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:616
+#: ../src/preferences.c:677
 msgid "Anaglyph Dubois Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:618
+#: ../src/preferences.c:679
 msgid "Anaglyph Dubois Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:621
+#: ../src/preferences.c:682
 msgid "Side by Side"
 msgstr ""
 
-#: ../src/preferences.c:622
+#: ../src/preferences.c:683
 msgid "Side by Side Half size"
 msgstr ""
 
-#: ../src/preferences.c:629
+#: ../src/preferences.c:690
 #, fuzzy
 msgid "Top - Bottom"
 msgstr "failiks:"
 
-#: ../src/preferences.c:630
+#: ../src/preferences.c:691
 msgid "Top - Bottom Half size"
 msgstr ""
 
-#: ../src/preferences.c:639 ../src/preferences.c:2169
+#: ../src/preferences.c:700 ../src/preferences.c:2369
 msgid "Fixed position"
 msgstr ""
 
-#: ../src/preferences.c:936 ../src/preferences.c:939
+#: ../src/preferences.c:997 ../src/preferences.c:1000
 #, fuzzy
 msgid "Reset filters"
 msgstr "Kustuta failid"
 
-#: ../src/preferences.c:940
+#: ../src/preferences.c:1001
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: ../src/preferences.c:967 ../src/preferences.c:970
+#: ../src/preferences.c:1028 ../src/preferences.c:1031
 #, fuzzy
 msgid "Clear trash"
 msgstr "Puhasta puhver"
 
-#: ../src/preferences.c:971
+#: ../src/preferences.c:1032
 msgid "This will remove the trash contents."
 msgstr ""
 
-#: ../src/preferences.c:1015 ../src/preferences.c:1018
+#: ../src/preferences.c:1076 ../src/preferences.c:1079
 msgid "Reset image overlay template string"
 msgstr ""
 
-#: ../src/preferences.c:1019
+#: ../src/preferences.c:1080
 msgid ""
 "This will reset the image overlay template string to the default.\n"
 "Continue?"
 msgstr ""
 
-#: ../src/preferences.c:1314
+#: ../src/preferences.c:1434
 msgid "General"
-msgstr "Üldine"
+msgstr "Ãœldine"
 
-#: ../src/preferences.c:1320 ../src/preferences.c:1380
+#: ../src/preferences.c:1440 ../src/preferences.c:1517
 msgid "Quality:"
 msgstr "Kvaliteet:"
 
-#: ../src/preferences.c:1328
+#: ../src/preferences.c:1448
 msgid "Use standard thumbnail cache, shared with other applications"
 msgstr ""
 
-#: ../src/preferences.c:1334
+#: ../src/preferences.c:1454
 msgid ""
 "Store thumbnails in '.thumbnails' folder, local to image folder (non-"
 "standard)"
 msgstr ""
 
-#: ../src/preferences.c:1337
+#: ../src/preferences.c:1457
 msgid "Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"
 msgstr ""
 
-#: ../src/preferences.c:1340
+#: ../src/preferences.c:1460
 msgid "Slide show"
 msgstr "Slaidiseanss"
 
-#: ../src/preferences.c:1343
+#: ../src/preferences.c:1463
 #, fuzzy
 msgid "Delay between image change:"
 msgstr "Ooteaeg enne pildi vahetamist (sekundites):"
 
-#: ../src/preferences.c:1343
+#: ../src/preferences.c:1463
 msgid "seconds"
 msgstr ""
 
-#: ../src/preferences.c:1349
+#: ../src/preferences.c:1469
 msgid "Random"
 msgstr "Segamini"
 
-#: ../src/preferences.c:1350
+#: ../src/preferences.c:1470
 msgid "Repeat"
 msgstr "Korduv"
 
-#: ../src/preferences.c:1352
+#: ../src/preferences.c:1472
 msgid "Image loading and caching"
 msgstr ""
 
-#: ../src/preferences.c:1354
+#: ../src/preferences.c:1474
 #, fuzzy
 msgid "Decoded image cache size (Mb):"
-msgstr "Ekraanivälise puhvri suurus (MB/pilt):"
+msgstr "EkraanivÃ¤lise puhvri suurus (MB/pilt):"
 
-#: ../src/preferences.c:1356
+#: ../src/preferences.c:1476
 msgid "Preload next image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/preferences.c:1359
+#: ../src/preferences.c:1479
 #, fuzzy
 msgid "Refresh on file change"
 msgstr "Uuenda failide nimekirja"
 
-#: ../src/preferences.c:1377
-#, fuzzy
-msgid "Zoom"
-msgstr "Suurenda"
+#: ../src/preferences.c:1482
+msgid "Info sidebar heights"
+msgstr ""
 
-#: ../src/preferences.c:1383
+#: ../src/preferences.c:1483
+msgid "NOTE! Geeqie must be restarted for changes to take effect"
+msgstr ""
+
+#: ../src/preferences.c:1485
+#, fuzzy
+msgid "Keywords:"
+msgstr "/Vaade/_Ikoonid"
+
+#: ../src/preferences.c:1491
+#, fuzzy
+msgid "Comment:"
+msgstr "VÃµrdle millega:"
+
+#: ../src/preferences.c:1494
+#, fuzzy
+msgid "Rating:"
+msgstr "Filter:"
+
+#: ../src/preferences.c:1520
 msgid "Use GPU acceleration via Clutter library"
 msgstr ""
 
-#: ../src/preferences.c:1387
+#: ../src/preferences.c:1524
 msgid "Two pass rendering (apply HQ zoom and color correction in second pass)"
 msgstr ""
 
-#: ../src/preferences.c:1390
+#: ../src/preferences.c:1528
 #, fuzzy
-msgid "Allow enlargement of image for zoom to fit"
+msgid "Allow enlargement of image for zoom to fit (max. size in %)"
 msgstr "Suurenda pilti, et see mahuks aknasse."
 
-#: ../src/preferences.c:1394
-#, fuzzy
-msgid "Limit image size when autofitting (%):"
+#: ../src/preferences.c:1536
+#, fuzzy, c-format
+msgid "Limit image size when autofitting (% of window):"
 msgstr "Piira akna suurust automaatsel suurendamisel (%):"
 
-#: ../src/preferences.c:1402
+#: ../src/preferences.c:1544
 msgid "Zoom increment:"
 msgstr "Suurenduse samm:"
 
-#: ../src/preferences.c:1407
-msgid "When new image is selected:"
-msgstr "Uue pildi valikul:"
-
-#: ../src/preferences.c:1411
-msgid "Zoom to original size"
-msgstr "Näita originaalsuuruses"
-
-#: ../src/preferences.c:1414
-msgid "Fit image to window"
-msgstr "Mahuta pilt aknasse"
-
-#: ../src/preferences.c:1417
-msgid "Leave Zoom at previous setting"
-msgstr "Ära muuda suurendust"
-
-#: ../src/preferences.c:1423
-msgid "Scroll to top left corner"
-msgstr ""
-
-#: ../src/preferences.c:1426
-msgid "Scroll to image center"
-msgstr ""
-
-#: ../src/preferences.c:1429
-msgid "Keep the region from previous image"
-msgstr ""
-
-#: ../src/preferences.c:1434
+#: ../src/preferences.c:1549
 #, fuzzy
 msgid "Appearance"
 msgstr "Lisa"
 
-#: ../src/preferences.c:1436
+#: ../src/preferences.c:1551
 #, fuzzy
 msgid "Use custom border color in window mode"
-msgstr "Näita ka nende tüüpidega faile:"
+msgstr "NÃ¤ita ka nende tÃ¼Ã¼pidega faile:"
 
-#: ../src/preferences.c:1439
+#: ../src/preferences.c:1554
 msgid "Use custom border color in fullscreen mode"
 msgstr ""
 
-#: ../src/preferences.c:1442
+#: ../src/preferences.c:1557
 #, fuzzy
 msgid "Border color"
 msgstr "Must taust"
 
-#: ../src/preferences.c:1445
-#, fuzzy
-msgid "Convenience"
-msgstr "Jätka"
-
-#: ../src/preferences.c:1447
-msgid "Auto rotate image using Exif information"
+#: ../src/preferences.c:1562
+msgid "Alpha channel color 1"
 msgstr ""
 
-#: ../src/preferences.c:1450
+#: ../src/preferences.c:1565
+msgid "Alpha channel color 2"
+msgstr ""
+
+#: ../src/preferences.c:1571
+#, fuzzy
+msgid "Convenience"
+msgstr "JÃ¤tka"
+
+#: ../src/preferences.c:1573
 msgid "Auto rotate proofs using Exif information"
 msgstr ""
 
-#: ../src/preferences.c:1467
+#: ../src/preferences.c:1590
 msgid "Windows"
 msgstr "Aknad"
 
-#: ../src/preferences.c:1469
+#: ../src/preferences.c:1592
 #, fuzzy
 msgid "State"
 msgstr "Algus #"
 
-#: ../src/preferences.c:1471
+#: ../src/preferences.c:1594
 msgid "Remember window positions"
-msgstr "Jäta akende asukohad meelde"
+msgstr "JÃ¤ta akende asukohad meelde"
 
-#: ../src/preferences.c:1473
+#: ../src/preferences.c:1597
+msgid "Use saved window positions also for new windows"
+msgstr ""
+
+#: ../src/preferences.c:1601
 msgid "Remember tool state (float/hidden)"
-msgstr "Jäta riistade olekud meelde (ujuv/peidetud)"
+msgstr "JÃ¤ta riistade olekud meelde (ujuv/peidetud)"
 
-#: ../src/preferences.c:1478
+#: ../src/preferences.c:1606
 msgid "Fit window to image when tools are hidden/floating"
-msgstr "Mahuta aken pildi ümber, kui riistad on peidetud või ujuvad"
+msgstr "Mahuta aken pildi Ã¼mber, kui riistad on peidetud vÃµi ujuvad"
 
-#: ../src/preferences.c:1482
+#: ../src/preferences.c:1610
 msgid "Limit size when auto-sizing window (%):"
 msgstr "Piira akna suurust automaatsel suurendamisel (%):"
 
-#: ../src/preferences.c:1497
+#: ../src/preferences.c:1625
 #, fuzzy
 msgid "Smooth image flip"
 msgstr "Pildi suurus:"
 
-#: ../src/preferences.c:1499
+#: ../src/preferences.c:1627
 msgid "Disable screen saver"
 msgstr ""
 
-#: ../src/preferences.c:1503
+#: ../src/preferences.c:1631
 msgid "Overlay Screen Display"
 msgstr ""
 
-#: ../src/preferences.c:1505
+#: ../src/preferences.c:1633
 msgid "Image overlay template"
 msgstr ""
 
-#: ../src/preferences.c:1518
+#: ../src/preferences.c:1646
 msgid ""
 "<i>%name%</i> results in the filename of the picture.\n"
 "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>"
@@ -4389,401 +4797,416 @@ msgid ""
 "disappear when no data is available.\n"
 msgstr ""
 
-#: ../src/preferences.c:1535 ../src/print.c:3210
+#: ../src/preferences.c:1663 ../src/print.c:3220
 #, fuzzy
 msgid "Font"
 msgstr "Puudub"
 
-#: ../src/preferences.c:1540 ../src/print.c:3400
+#: ../src/preferences.c:1675 ../src/print.c:3410
 msgid "Text"
 msgstr ""
 
-#: ../src/preferences.c:1545
+#: ../src/preferences.c:1680
 #, fuzzy
 msgid "Background"
 msgstr "Must taust"
 
-#: ../src/preferences.c:1552 ../src/preferences.c:1728
-#: ../src/preferences.c:2098
+#: ../src/preferences.c:1686 ../src/preferences.c:1864
+#: ../src/preferences.c:2298
 msgid "Defaults"
 msgstr ""
 
-#: ../src/preferences.c:1606
+#: ../src/preferences.c:1740
 msgid "Show hidden files or folders"
 msgstr ""
 
-#: ../src/preferences.c:1608
+#: ../src/preferences.c:1742
 msgid "Show parent folder (..)"
 msgstr ""
 
-#: ../src/preferences.c:1610
+#: ../src/preferences.c:1744
 msgid "Case sensitive sort"
 msgstr ""
 
-#: ../src/preferences.c:1612
+#: ../src/preferences.c:1746
+msgid "Natural sort order"
+msgstr ""
+
+#: ../src/preferences.c:1748
 #, fuzzy
 msgid "Disable file extension checks"
 msgstr "Blokeeri failide filtreerimine"
 
-#: ../src/preferences.c:1615
+#: ../src/preferences.c:1751
 msgid "Disable File Filtering"
 msgstr "Blokeeri failide filtreerimine"
 
-#: ../src/preferences.c:1619
+#: ../src/preferences.c:1755
 msgid "Grouping sidecar extensions"
 msgstr ""
 
-#: ../src/preferences.c:1626
+#: ../src/preferences.c:1762
 #, fuzzy
 msgid "File types"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/preferences.c:1648
-#, fuzzy
-msgid "Filter"
-msgstr "Filter:"
-
-#: ../src/preferences.c:1683
+#: ../src/preferences.c:1819
 msgid "Class"
 msgstr ""
 
-#: ../src/preferences.c:1700
+#: ../src/preferences.c:1836
 msgid "Writable"
 msgstr ""
 
-#: ../src/preferences.c:1711
+#: ../src/preferences.c:1847
 msgid "Sidecar is allowed"
 msgstr ""
 
-#: ../src/preferences.c:1757
+#: ../src/preferences.c:1893
 msgid "Metadata writing process"
 msgstr ""
 
-#: ../src/preferences.c:1759
+#: ../src/preferences.c:1895
 msgid "Warning: Geeqie is built without Exiv2. Some options are disabled."
 msgstr ""
 
-#: ../src/preferences.c:1761
+#: ../src/preferences.c:1897
 msgid ""
 "Metadata are written in the following order. The process ends after first "
 "success."
 msgstr ""
 
-#: ../src/preferences.c:1764
+#: ../src/preferences.c:1900
 msgid ""
-"1) Save metadata in image files, resp. sidecar files, according to the XMP "
+"1) Save metadata in image files, or sidecar files, according to the XMP "
 "standard"
 msgstr ""
 
-#: ../src/preferences.c:1770
+#: ../src/preferences.c:1906
 msgid ""
 "2) Save metadata in '.metadata' folder, local to image folder (non-standard)"
 msgstr ""
 
-#: ../src/preferences.c:1773
+#: ../src/preferences.c:1909
 #, c-format
 msgid "3) Save metadata in Geeqie private directory '%s'"
 msgstr ""
 
-#: ../src/preferences.c:1779
+#: ../src/preferences.c:1915
 msgid "Step 1: Write to image files"
 msgstr ""
 
-#: ../src/preferences.c:1787
+#: ../src/preferences.c:1923
 msgid ""
 "Store metadata also in legacy IPTC tags (converted according to IPTC4XMP "
 "standard)"
 msgstr ""
 
-#: ../src/preferences.c:1790
+#: ../src/preferences.c:1926
 msgid "Warn if the image files are unwritable"
 msgstr ""
 
-#: ../src/preferences.c:1793
+#: ../src/preferences.c:1929
 msgid "Ask before writing to image files"
 msgstr ""
 
-#: ../src/preferences.c:1796
+#: ../src/preferences.c:1932
+msgid "Create sidecar files named image.ext.xmp (as opposed to image.xmp)"
+msgstr ""
+
+#: ../src/preferences.c:1935
 msgid "Step 2 and 3: write to Geeqie private files"
 msgstr ""
 
-#: ../src/preferences.c:1801
+#: ../src/preferences.c:1940
 msgid ""
 "Use GQview legacy metadata format (supports only keywords and comments) "
 "instead of XMP"
 msgstr ""
 
-#: ../src/preferences.c:1805
+#: ../src/preferences.c:1944
 msgid "Miscellaneous"
 msgstr ""
 
-#: ../src/preferences.c:1806
+#: ../src/preferences.c:1945
 msgid ""
 "Write the same description tags (keywords, comment, etc.) to all grouped "
 "sidecars"
 msgstr ""
 
-#: ../src/preferences.c:1809
+#: ../src/preferences.c:1948
 msgid "Allow keywords to differ only in case"
 msgstr ""
 
-#: ../src/preferences.c:1812
+#: ../src/preferences.c:1951
 msgid "Write altered image orientation to the metadata"
 msgstr ""
 
-#: ../src/preferences.c:1818
+#: ../src/preferences.c:1957
 msgid "Auto-save options"
 msgstr ""
 
-#: ../src/preferences.c:1820
+#: ../src/preferences.c:1959
 msgid "Write metadata after timeout"
 msgstr ""
 
-#: ../src/preferences.c:1826
+#: ../src/preferences.c:1965
 msgid "Timeout (seconds):"
 msgstr ""
 
-#: ../src/preferences.c:1829
+#: ../src/preferences.c:1968
 #, fuzzy
 msgid "Write metadata on image change"
 msgstr "Ooteaeg enne pildi vahetamist (sekundites):"
 
-#: ../src/preferences.c:1832
+#: ../src/preferences.c:1971
 msgid "Write metadata on directory change"
 msgstr ""
 
-#: ../src/preferences.c:1846
+#: ../src/preferences.c:2011
+msgid "Perceptual"
+msgstr ""
+
+#: ../src/preferences.c:2013
+msgid "Relative Colorimetric"
+msgstr ""
+
+#: ../src/preferences.c:2017
+msgid "Absolute Colorimetric"
+msgstr ""
+
+#: ../src/preferences.c:2042
 #, fuzzy
 msgid "Color management"
-msgstr "Sorteeritud nime järgi"
+msgstr "Sorteeritud nime jÃ¤rgi"
 
-#: ../src/preferences.c:1848
+#: ../src/preferences.c:2044
 #, fuzzy
 msgid "Input profiles"
-msgstr "Kõik failid"
+msgstr "KÃµik failid"
 
-#: ../src/preferences.c:1856
+#: ../src/preferences.c:2052
 msgid "Type"
 msgstr ""
 
-#: ../src/preferences.c:1859
+#: ../src/preferences.c:2055
 msgid "Menu name"
-msgstr "Menüüs olev nimi"
+msgstr "MenÃ¼Ã¼s olev nimi"
 
-#: ../src/preferences.c:1862
+#: ../src/preferences.c:2058
 #, fuzzy
 msgid "File"
 msgstr "Filter:"
 
-#: ../src/preferences.c:1870
+#: ../src/preferences.c:2066
 #, c-format
 msgid "Input %d:"
 msgstr ""
 
-#: ../src/preferences.c:1886 ../src/preferences.c:1906
+#: ../src/preferences.c:2082 ../src/preferences.c:2102
 #, fuzzy
 msgid "Select color profile"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/preferences.c:1894
+#: ../src/preferences.c:2090
 #, fuzzy
 msgid "Screen profile"
-msgstr "Kõik failid"
+msgstr "KÃµik failid"
 
-#: ../src/preferences.c:1898
+#: ../src/preferences.c:2094
 msgid "Use system screen profile if available"
 msgstr ""
 
-#: ../src/preferences.c:1903
+#: ../src/preferences.c:2099
 msgid "Screen:"
 msgstr ""
 
-#: ../src/preferences.c:1925 ../src/preferences.c:1966
+#: ../src/preferences.c:2105
+#, fuzzy
+msgid "Render Intent:"
+msgstr "Nimeta Ã¼mber"
+
+#: ../src/preferences.c:2125 ../src/preferences.c:2166
 msgid "Behavior"
 msgstr ""
 
-#: ../src/preferences.c:1927 ../src/utilops.c:1998
+#: ../src/preferences.c:2127 ../src/utilops.c:2142
 msgid "Delete"
 msgstr "Kustuta"
 
-#: ../src/preferences.c:1929
+#: ../src/preferences.c:2129
 msgid "Confirm file delete"
-msgstr "Küsi nõusolekut faili kustutamisel"
+msgstr "KÃ¼si nÃµusolekut faili kustutamisel"
 
-#: ../src/preferences.c:1931
+#: ../src/preferences.c:2131
 msgid "Enable Delete key"
 msgstr "Luba 'Delete' klahv"
 
-#: ../src/preferences.c:1934
+#: ../src/preferences.c:2134
 #, fuzzy
 msgid "Safe delete"
-msgstr "Küsi nõusolekut faili kustutamisel"
+msgstr "KÃ¼si nÃµusolekut faili kustutamisel"
 
-#: ../src/preferences.c:1952
+#: ../src/preferences.c:2152
 #, fuzzy
 msgid "Maximum size:"
 msgstr "Faili suurus:"
 
-#: ../src/preferences.c:1952
+#: ../src/preferences.c:2152
 msgid "MB"
 msgstr ""
 
-#: ../src/preferences.c:1954
+#: ../src/preferences.c:2154
 msgid "Set to 0 for unlimited size"
 msgstr ""
 
-#: ../src/preferences.c:1955
+#: ../src/preferences.c:2155
 msgid "View"
 msgstr "Vaade"
 
-#: ../src/preferences.c:1968
-#, fuzzy
-msgid "Rectangular selection in icon view"
-msgstr "Ristkülikuline valik"
-
-#: ../src/preferences.c:1971
+#: ../src/preferences.c:2168
 msgid "Descend folders in tree view"
 msgstr ""
 
-#: ../src/preferences.c:1974
+#: ../src/preferences.c:2171
 msgid "In place renaming"
-msgstr "Kohapeal ümbernimetamine"
+msgstr "Kohapeal Ã¼mbernimetamine"
 
-#: ../src/preferences.c:1977
-msgid "Open recent list maximum size"
+#: ../src/preferences.c:2174
+msgid "List directory view uses single click to enter"
 msgstr ""
 
-#: ../src/preferences.c:1980
+#: ../src/preferences.c:2177
+msgid "Recent folder list maximum size"
+msgstr ""
+
+#: ../src/preferences.c:2180
 msgid "Drag'n drop icon size"
 msgstr ""
 
-#: ../src/preferences.c:1983
+#: ../src/preferences.c:2183
 msgid "Navigation"
 msgstr ""
 
-#: ../src/preferences.c:1985
+#: ../src/preferences.c:2185
 msgid "Progressive keyboard scrolling"
 msgstr "Progressiivne klaviatuuriga kerimine"
 
-#: ../src/preferences.c:1987
+#: ../src/preferences.c:2187
+msgid "Keyboard scrolling step multiplier:"
+msgstr ""
+
+#: ../src/preferences.c:2189
 msgid "Mouse wheel scrolls image"
 msgstr "Hiire ratas kerib pilti"
 
-#: ../src/preferences.c:1990
-#, fuzzy
-msgid "Similarities"
-msgstr "Sarnasus"
-
-#: ../src/preferences.c:1992
-msgid "Custom similarity threshold:"
-msgstr "Kohandatud sarnasuse lävi:"
-
-#: ../src/preferences.c:1994
-msgid "Rotation invariant duplicate check"
+#: ../src/preferences.c:2191
+msgid "Navigation by left or middle click on image"
 msgstr ""
 
-#: ../src/preferences.c:1998
+#: ../src/preferences.c:2195
 msgid "Debugging"
 msgstr ""
 
-#: ../src/preferences.c:2000
-msgid "Debug level:"
-msgstr ""
+#: ../src/preferences.c:2200
+#, fuzzy
+msgid "Log Window max. lines:"
+msgstr "Aknad"
 
-#: ../src/preferences.c:2018
+#: ../src/preferences.c:2218
 msgid "Keyboard"
 msgstr ""
 
-#: ../src/preferences.c:2020
+#: ../src/preferences.c:2220
 msgid "Accelerators"
 msgstr ""
 
-#: ../src/preferences.c:2039
+#: ../src/preferences.c:2239
 #, fuzzy
 msgid "Action"
 msgstr "Kollektsioonid"
 
-#: ../src/preferences.c:2061
+#: ../src/preferences.c:2261
 msgid "KEY"
 msgstr ""
 
-#: ../src/preferences.c:2072
+#: ../src/preferences.c:2272
 #, fuzzy
 msgid "Tooltip"
-msgstr "Tööriistad"
+msgstr "TÃ¶Ã¶riistad"
 
-#: ../src/preferences.c:2103
+#: ../src/preferences.c:2303
 #, fuzzy
 msgid "Reset selected"
 msgstr "Kustuta failid"
 
-#: ../src/preferences.c:2119
+#: ../src/preferences.c:2319
 msgid "Stereo"
 msgstr ""
 
-#: ../src/preferences.c:2121 ../src/preferences.c:2124
+#: ../src/preferences.c:2321 ../src/preferences.c:2324
 msgid "Windowed stereo mode"
 msgstr ""
 
-#: ../src/preferences.c:2128 ../src/preferences.c:2153
+#: ../src/preferences.c:2328 ../src/preferences.c:2353
 #, fuzzy
 msgid "Mirror left image"
 msgstr "%d pilti"
 
-#: ../src/preferences.c:2131 ../src/preferences.c:2156
+#: ../src/preferences.c:2331 ../src/preferences.c:2356
 #, fuzzy
 msgid "Flip left image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/preferences.c:2134 ../src/preferences.c:2159
+#: ../src/preferences.c:2334 ../src/preferences.c:2359
 #, fuzzy
 msgid "Mirror right image"
 msgstr "%d pilti"
 
-#: ../src/preferences.c:2137 ../src/preferences.c:2162
+#: ../src/preferences.c:2337 ../src/preferences.c:2362
 #, fuzzy
 msgid "Flip right image"
 msgstr "%d pilti"
 
-#: ../src/preferences.c:2139 ../src/preferences.c:2164
+#: ../src/preferences.c:2339 ../src/preferences.c:2364
 msgid "Swap left and right images"
 msgstr ""
 
-#: ../src/preferences.c:2141 ../src/preferences.c:2166
+#: ../src/preferences.c:2341 ../src/preferences.c:2366
 msgid "Disable stereo mode on single image source"
 msgstr ""
 
-#: ../src/preferences.c:2144 ../src/preferences.c:2150
+#: ../src/preferences.c:2344 ../src/preferences.c:2350
 #, fuzzy
 msgid "Fullscreen stereo mode"
-msgstr "Täisekraan-vaade"
+msgstr "TÃ¤isekraan-vaade"
 
-#: ../src/preferences.c:2145
+#: ../src/preferences.c:2345
 msgid "Use different settings for fullscreen"
 msgstr ""
 
-#: ../src/preferences.c:2175
+#: ../src/preferences.c:2375
 msgid "Left X"
 msgstr ""
 
-#: ../src/preferences.c:2177
+#: ../src/preferences.c:2377
 msgid "Left Y"
 msgstr ""
 
-#: ../src/preferences.c:2179
+#: ../src/preferences.c:2379
 msgid "Right X"
 msgstr ""
 
-#: ../src/preferences.c:2181
+#: ../src/preferences.c:2381
 msgid "Right Y"
 msgstr ""
 
-#: ../src/preferences.c:2197
+#: ../src/preferences.c:2397
 #, fuzzy
 msgid "Preferences"
 msgstr "Omadused"
 
-#: ../src/preferences.c:2345
+#: ../src/preferences.c:2551
 #, fuzzy, c-format
 msgid ""
 "%s %s\n"
@@ -4801,92 +5224,92 @@ msgstr ""
 "http://gqview.sourceforge.net\n"
 "gqview@users.sourceforge.net\n"
 "\n"
-"Avaldatud GNU Üldise Avaliku Litsentsi all"
+"Avaldatud GNU Ãœldise Avaliku Litsentsi all"
 
-#: ../src/preferences.c:2364
+#: ../src/preferences.c:2570
 #, fuzzy
 msgid "Credits..."
 msgstr "Omadused"
 
-#: ../src/print.c:124
+#: ../src/print.c:134
 #, fuzzy
 msgid "Selection"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/print.c:125
+#: ../src/print.c:135
 msgid "All"
 msgstr ""
 
-#: ../src/print.c:136
+#: ../src/print.c:146
 msgid "One image per page"
 msgstr ""
 
-#: ../src/print.c:137
+#: ../src/print.c:147
 msgid "Proof sheet"
 msgstr ""
 
-#: ../src/print.c:150
+#: ../src/print.c:160
 msgid "Default printer"
 msgstr ""
 
-#: ../src/print.c:151
+#: ../src/print.c:161
 #, fuzzy
 msgid "Custom printer"
-msgstr "Näita ka nende tüüpidega faile:"
+msgstr "NÃ¤ita ka nende tÃ¼Ã¼pidega faile:"
 
-#: ../src/print.c:152
+#: ../src/print.c:162
 msgid "PostScript file"
 msgstr ""
 
-#: ../src/print.c:153
+#: ../src/print.c:163
 #, fuzzy
 msgid "Image file"
 msgstr "Pildi suurus:"
 
-#: ../src/print.c:167
+#: ../src/print.c:177
 msgid "jpeg, low quality"
 msgstr ""
 
-#: ../src/print.c:168
+#: ../src/print.c:178
 msgid "jpeg, normal quality"
 msgstr ""
 
-#: ../src/print.c:169
+#: ../src/print.c:179
 msgid "jpeg, high quality"
 msgstr ""
 
-#: ../src/print.c:365 ../src/print.c:3212
+#: ../src/print.c:375 ../src/print.c:3222
 #, fuzzy
 msgid "points"
 msgstr "Xpaint"
 
-#: ../src/print.c:366
+#: ../src/print.c:376
 msgid "millimeters"
 msgstr ""
 
-#: ../src/print.c:367
+#: ../src/print.c:377
 msgid "centimeters"
 msgstr ""
 
-#: ../src/print.c:368
+#: ../src/print.c:378
 msgid "inches"
 msgstr ""
 
-#: ../src/print.c:369
+#: ../src/print.c:379
 msgid "picas"
 msgstr ""
 
-#: ../src/print.c:381
+#: ../src/print.c:391
 msgid "Letter"
 msgstr ""
 
 #. in 8.5 x 11
-#: ../src/print.c:382
+#: ../src/print.c:392
 msgid "Legal"
 msgstr ""
 
 #. in 8.5 x 14
-#: ../src/print.c:383
+#: ../src/print.c:393
 msgid "Executive"
 msgstr ""
 
@@ -4902,225 +5325,225 @@ msgstr ""
 #. mm 250 x 353
 #. mm 176 x 250
 #. mm 125 x 176
-#: ../src/print.c:395
+#: ../src/print.c:405
 msgid "Envelope #10"
 msgstr ""
 
 #. in 4.125 x 9.5
-#: ../src/print.c:396
+#: ../src/print.c:406
 msgid "Envelope #9"
 msgstr ""
 
 #. in 3.875 x 8.875
-#: ../src/print.c:397
+#: ../src/print.c:407
 msgid "Envelope C4"
 msgstr ""
 
 #. mm 229 x 324
-#: ../src/print.c:398
+#: ../src/print.c:408
 msgid "Envelope C5"
 msgstr ""
 
 #. mm 162 x 229
-#: ../src/print.c:399
+#: ../src/print.c:409
 msgid "Envelope C6"
 msgstr ""
 
 #. mm 114 x 162
-#: ../src/print.c:400
+#: ../src/print.c:410
 msgid "Photo 6x4"
 msgstr ""
 
 #. in 6   x 4
-#: ../src/print.c:401
+#: ../src/print.c:411
 msgid "Photo 8x10"
 msgstr ""
 
 #. in 8   x 10
-#: ../src/print.c:402
+#: ../src/print.c:412
 msgid "Postcard"
 msgstr ""
 
 #. mm 100 x 148
-#: ../src/print.c:403
+#: ../src/print.c:413
 msgid "Tabloid"
 msgstr ""
 
-#: ../src/print.c:559
+#: ../src/print.c:569
 #, c-format
 msgid "page %d of %d"
 msgstr ""
 
-#: ../src/print.c:751
+#: ../src/print.c:761
 msgid "Preview"
 msgstr ""
 
-#: ../src/print.c:1059
+#: ../src/print.c:1069
 #, c-format
 msgid ""
 "Unable to open pipe for writing.\n"
 "\"%s\""
 msgstr ""
 
-#: ../src/print.c:1074 ../src/print.c:1466 ../src/ui_pathsel.c:423
+#: ../src/print.c:1084 ../src/print.c:1476 ../src/ui_pathsel.c:432
 #, fuzzy, c-format
 msgid "A file with name %s already exists."
 msgstr "Fail %s on juba olemas."
 
-#: ../src/print.c:1089 ../src/print.c:1521
+#: ../src/print.c:1099 ../src/print.c:1531
 #, c-format
 msgid "Failure writing to file %s"
 msgstr ""
 
-#: ../src/print.c:1144 ../src/print.c:1181 ../src/print.c:1217
-#: ../src/print.c:1334 ../src/print.c:1407
+#: ../src/print.c:1154 ../src/print.c:1191 ../src/print.c:1227
+#: ../src/print.c:1344 ../src/print.c:1417
 msgid "SIGPIPE error writing to printer."
 msgstr ""
 
-#: ../src/print.c:1942
+#: ../src/print.c:1952
 #, c-format
 msgid "Page %d"
 msgstr ""
 
-#: ../src/print.c:1964 ../src/print.c:1969
+#: ../src/print.c:1974 ../src/print.c:1979
 #, fuzzy
 msgid "Printing error"
 msgstr "Filter:"
 
-#: ../src/print.c:1968
+#: ../src/print.c:1978
 #, c-format
 msgid "An error occured printing to %s."
 msgstr ""
 
-#: ../src/print.c:1972
+#: ../src/print.c:1982
 #, fuzzy
 msgid "Details"
 msgstr "Kustuta failid"
 
-#: ../src/print.c:2587 ../src/print.c:3341
+#: ../src/print.c:2597 ../src/print.c:3351
 #, fuzzy
 msgid "Print"
 msgstr "Filter:"
 
-#: ../src/print.c:2591
+#: ../src/print.c:2601
 #, c-format
 msgid "Printing %d pages to %s."
 msgstr ""
 
-#: ../src/print.c:2691
+#: ../src/print.c:2701
 #, fuzzy
 msgid "Format:"
 msgstr "Normaalne"
 
-#: ../src/print.c:2766
+#: ../src/print.c:2776
 msgid "Units:"
 msgstr ""
 
-#: ../src/print.c:2810
+#: ../src/print.c:2820
 #, fuzzy
 msgid "Orientation:"
-msgstr "Mõõtmed:"
+msgstr "MÃµÃµtmed:"
 
-#: ../src/print.c:2942
+#: ../src/print.c:2952
 #, fuzzy
 msgid "Destination:"
 msgstr "Vigane sihtkoht"
 
-#: ../src/print.c:2990
+#: ../src/print.c:3000
 #, fuzzy
 msgid "<printer name>"
 msgstr "Faili nimi:"
 
-#: ../src/print.c:3079
+#: ../src/print.c:3089
 #, fuzzy
 msgid "Unlimited"
 msgstr "Pealkirjata"
 
-#: ../src/print.c:3197
+#: ../src/print.c:3207
 msgid "Show"
 msgstr ""
 
-#: ../src/print.c:3368
+#: ../src/print.c:3378
 #, fuzzy
 msgid "Source"
 msgstr "Sorteerimine"
 
-#: ../src/print.c:3380
+#: ../src/print.c:3390
 msgid "Image size:"
 msgstr "Pildi suurus:"
 
-#: ../src/print.c:3384
+#: ../src/print.c:3394
 #, fuzzy
 msgid "Proof size:"
 msgstr "Pildi suurus:"
 
-#: ../src/print.c:3410
+#: ../src/print.c:3420
 #, fuzzy
 msgid "Paper"
 msgstr "Filter:"
 
-#: ../src/print.c:3433
+#: ../src/print.c:3443
 msgid "Margins"
 msgstr ""
 
-#: ../src/print.c:3435
+#: ../src/print.c:3445
 msgid "Left:"
 msgstr ""
 
-#: ../src/print.c:3438
+#: ../src/print.c:3448
 msgid "Right:"
 msgstr ""
 
-#: ../src/print.c:3441
+#: ../src/print.c:3451
 #, fuzzy
 msgid "Top:"
 msgstr "Grupp:"
 
-#: ../src/print.c:3444
+#: ../src/print.c:3454
 #, fuzzy
 msgid "Bottom:"
 msgstr "failiks:"
 
-#: ../src/print.c:3453
+#: ../src/print.c:3463
 #, fuzzy
 msgid "Printer"
 msgstr "Filter:"
 
-#: ../src/print.c:3459
+#: ../src/print.c:3469
 #, fuzzy
 msgid "Custom printer:"
-msgstr "Näita ka nende tüüpidega faile:"
+msgstr "NÃ¤ita ka nende tÃ¼Ã¼pidega faile:"
 
-#: ../src/print.c:3468
+#: ../src/print.c:3478
 #, fuzzy
 msgid "File:"
 msgstr "Filter:"
 
-#: ../src/print.c:3477
+#: ../src/print.c:3487
 #, fuzzy
 msgid "File format:"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/print.c:3482
+#: ../src/print.c:3492
 msgid "DPI:"
 msgstr ""
 
-#: ../src/print.c:3490
+#: ../src/print.c:3500
 #, fuzzy
 msgid "Remember print settings"
-msgstr "Jäta akende asukohad meelde"
+msgstr "JÃ¤ta akende asukohad meelde"
 
-#: ../src/rcfile.c:81
+#: ../src/rcfile.c:91
 #, fuzzy, c-format
 msgid "Option %s ignored: %s\n"
 msgstr "Loon Geeqie kataloogi: %s\n"
 
-#: ../src/rcfile.c:468
+#: ../src/rcfile.c:525
 #, c-format
 msgid "error saving config file: %s\n"
 msgstr "viga konfiguratsioonifaili salvestamisel: %s\n"
 
-#: ../src/rcfile.c:526
+#: ../src/rcfile.c:583
 #, fuzzy, c-format
 msgid ""
 "error saving config file: %s\n"
@@ -5128,344 +5551,463 @@ msgid ""
 msgstr "viga konfiguratsioonifaili salvestamisel: %s\n"
 
 #. short, long                  callback,               extra, prefer, parameter, description
-#: ../src/remote.c:640
+#: ../src/remote.c:719
 #, fuzzy
 msgid "next image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/remote.c:641
+#: ../src/remote.c:720
 msgid "previous image"
 msgstr ""
 
-#: ../src/remote.c:642
+#: ../src/remote.c:721
 #, fuzzy
 msgid "first image"
 msgstr "%d pilti"
 
-#: ../src/remote.c:643
+#: ../src/remote.c:722
 #, fuzzy
 msgid "last image"
-msgstr "Järgmise pildi eellaadimine"
+msgstr "JÃ¤rgmise pildi eellaadimine"
 
-#: ../src/remote.c:644
+#: ../src/remote.c:723
 #, fuzzy
 msgid "toggle full screen"
-msgstr "Välju täisekraan-vaatest"
+msgstr "VÃ¤lju tÃ¤isekraan-vaatest"
 
-#: ../src/remote.c:645
+#: ../src/remote.c:724
 #, fuzzy
 msgid "start full screen"
-msgstr "Välju täisekraan-vaatest"
+msgstr "VÃ¤lju tÃ¤isekraan-vaatest"
 
-#: ../src/remote.c:646
+#: ../src/remote.c:725
 #, fuzzy
 msgid "stop full screen"
-msgstr "Välju täisekraan-vaatest"
+msgstr "VÃ¤lju tÃ¤isekraan-vaatest"
 
-#: ../src/remote.c:647
+#: ../src/remote.c:726
 #, fuzzy
 msgid "toggle slide show"
-msgstr "Lõpeta slaidiseanss"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/remote.c:648
+#: ../src/remote.c:727
 #, fuzzy
 msgid "start slide show"
 msgstr "Alusta slaidiseanssi"
 
-#: ../src/remote.c:649
+#: ../src/remote.c:728
 #, fuzzy
 msgid "stop slide show"
-msgstr "Lõpeta slaidiseanss"
+msgstr "LÃµpeta slaidiseanss"
 
-#: ../src/remote.c:650
+#: ../src/remote.c:729
 msgid "<FOLDER>"
 msgstr ""
 
-#: ../src/remote.c:650
+#: ../src/remote.c:729
 #, fuzzy
 msgid "start recursive slide show in FOLDER"
 msgstr "Alusta slaidiseanssi"
 
-#: ../src/remote.c:651
+#: ../src/remote.c:730
 msgid "<[N][.M]>"
 msgstr ""
 
-#: ../src/remote.c:651
+#: ../src/remote.c:730
 msgid "set slide show delay to N.M seconds"
 msgstr ""
 
-#: ../src/remote.c:652
+#: ../src/remote.c:731
 msgid "show tools"
 msgstr ""
 
-#: ../src/remote.c:653
+#: ../src/remote.c:732
 #, fuzzy
 msgid "hide tools"
-msgstr "Geeqie tööriistad"
+msgstr "Geeqie tÃ¶Ã¶riistad"
 
-#: ../src/remote.c:654
+#: ../src/remote.c:733
 msgid "quit"
 msgstr ""
 
-#: ../src/remote.c:655 ../src/remote.c:656 ../src/remote.c:657
-#: ../src/remote.c:658 ../src/remote.c:659 ../src/remote.c:661
+#: ../src/remote.c:734 ../src/remote.c:735 ../src/remote.c:736
+#: ../src/remote.c:737 ../src/remote.c:738 ../src/remote.c:740
+#: ../src/remote.c:742
 msgid "<FILE>"
 msgstr ""
 
-#: ../src/remote.c:655
+#: ../src/remote.c:734
 msgid "load configuration from FILE"
 msgstr ""
 
-#: ../src/remote.c:656
+#: ../src/remote.c:735
 msgid "get list of sidecars of FILE"
 msgstr ""
 
-#: ../src/remote.c:657
+#: ../src/remote.c:736
 msgid "get destination path of FILE"
 msgstr ""
 
-#: ../src/remote.c:658
-msgid "open FILE"
+#: ../src/remote.c:737
+#, fuzzy
+msgid "open FILE, bring Geeqie window to the top"
+msgstr "Ava uues aknas"
+
+#: ../src/remote.c:738
+msgid "open FILE, do not bring Geeqie window to the top"
 msgstr ""
 
-#: ../src/remote.c:659
+#: ../src/remote.c:739
+msgid "print filename of current image"
+msgstr ""
+
+#: ../src/remote.c:740
 #, fuzzy
 msgid "open FILE in new window"
 msgstr "Ava uues aknas"
 
-#: ../src/remote.c:660
+#: ../src/remote.c:741
 msgid "clear command line collection list"
 msgstr ""
 
-#: ../src/remote.c:661
+#: ../src/remote.c:742
 #, fuzzy
 msgid "add FILE to command line collection list"
 msgstr "Lisa uude kollektsiooni"
 
-#: ../src/remote.c:662
+#: ../src/remote.c:743
 msgid "bring the Geeqie window to the top"
 msgstr ""
 
-#: ../src/remote.c:727
+#: ../src/remote.c:744 ../src/remote.c:745
+msgid "clear|clean"
+msgstr ""
+
+#: ../src/remote.c:744
+#, fuzzy
+msgid "clear or clean thumbnail cache"
+msgstr "NÃ¤ita pisipilte"
+
+#: ../src/remote.c:745
+#, fuzzy
+msgid "clear or clean shared thumbnail cache"
+msgstr "NÃ¤ita pisipilte"
+
+#: ../src/remote.c:746
+msgid "    clean the metadata cache"
+msgstr ""
+
+#: ../src/remote.c:747
+#, fuzzy
+msgid "<folder>  "
+msgstr "Failid"
+
+#: ../src/remote.c:747
+#, fuzzy
+msgid " render thumbnails"
+msgstr "Puhverda pisipildid"
+
+#: ../src/remote.c:748 ../src/remote.c:749
+#, fuzzy
+msgid "<folder> "
+msgstr "Failid"
+
+#: ../src/remote.c:748
+#, fuzzy
+msgid "render thumbnails recursively"
+msgstr "NÃ¤ita pisipilte"
+
+#: ../src/remote.c:749
+#, fuzzy
+msgid " render thumbnails (see Help)"
+msgstr "Puhverda pisipildid"
+
+#: ../src/remote.c:750
+#, fuzzy
+msgid "<folder>"
+msgstr "Failid"
+
+#: ../src/remote.c:750
+msgid " render thumbnails recursively (see Help)"
+msgstr ""
+
+#: ../src/remote.c:815
 msgid "Remote command list:\n"
 msgstr ""
 
-#: ../src/remote.c:746
+#: ../src/remote.c:834
 msgid ""
 "\n"
 "  All other command line parameters are used as plain files if they exists.\n"
 msgstr ""
 
-#: ../src/remote.c:796
+#: ../src/remote.c:884
 #, c-format
 msgid "Remote %s not running, starting..."
 msgstr ""
 
-#: ../src/remote.c:932
+#: ../src/remote.c:1020
 msgid "Remote not available\n"
 msgstr ""
 
-#: ../src/search.c:212
+#: ../src/search.c:243
 #, fuzzy
 msgid "folder"
 msgstr "Failid"
 
-#: ../src/search.c:213
+#: ../src/search.c:244
 #, fuzzy
 msgid "comments"
 msgstr "Lisa sisu"
 
-#: ../src/search.c:214
+#: ../src/search.c:245
 msgid "results"
 msgstr ""
 
-#: ../src/search.c:218 ../src/search.c:243
+#: ../src/search.c:249 ../src/search.c:274
 #, fuzzy
 msgid "contains"
-msgstr "Jätka"
+msgstr "JÃ¤tka"
 
-#: ../src/search.c:219
+#: ../src/search.c:250
 msgid "is"
 msgstr ""
 
-#: ../src/search.c:223 ../src/search.c:230
+#: ../src/search.c:254 ../src/search.c:261 ../src/search.c:280
 msgid "equal to"
 msgstr ""
 
-#: ../src/search.c:224
+#: ../src/search.c:255 ../src/search.c:281 ../src/search.c:288
 msgid "less than"
 msgstr ""
 
-#: ../src/search.c:225
+#: ../src/search.c:256 ../src/search.c:282 ../src/search.c:289
 msgid "greater than"
 msgstr ""
 
-#: ../src/search.c:226 ../src/search.c:233
+#: ../src/search.c:257 ../src/search.c:264 ../src/search.c:283
 msgid "between"
 msgstr ""
 
-#: ../src/search.c:231
+#: ../src/search.c:262
 msgid "before"
 msgstr ""
 
-#: ../src/search.c:232
+#: ../src/search.c:263
 #, fuzzy
 msgid "after"
 msgstr "Filter:"
 
-#: ../src/search.c:237
+#: ../src/search.c:268
 msgid "match all"
 msgstr ""
 
-#: ../src/search.c:238
+#: ../src/search.c:269
 msgid "match any"
 msgstr ""
 
-#: ../src/search.c:239
+#: ../src/search.c:270
 msgid "exclude"
 msgstr ""
 
-#: ../src/search.c:244
+#: ../src/search.c:275
 msgid "miss"
 msgstr ""
 
-#: ../src/search.c:295
+#: ../src/search.c:287
+msgid "not geocoded"
+msgstr ""
+
+#: ../src/search.c:340
 #, fuzzy, c-format
 msgid "%s, %d files (%s, %d)"
 msgstr "%s, %d faili (%s, %d)%s"
 
-#: ../src/search.c:300
+#: ../src/search.c:345
 #, fuzzy, c-format
 msgid "%s, %d files"
 msgstr "%s, %d faili%s"
 
-#: ../src/search.c:318
+#: ../src/search.c:363
 #, fuzzy
 msgid "Searching..."
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/search.c:2120
+#: ../src/search.c:2020 ../src/search.c:3016
+msgid "km"
+msgstr ""
+
+#: ../src/search.c:2025 ../src/search.c:3017
+#, fuzzy
+msgid "miles"
+msgstr "Failid"
+
+#: ../src/search.c:2317
 msgid "File not found"
 msgstr ""
 
-#: ../src/search.c:2121
+#: ../src/search.c:2318
 #, fuzzy
 msgid "Please enter an existing file for image content."
 msgstr "Palun vali eksisteeriv kataloog"
 
-#: ../src/search.c:2170
+#: ../src/search.c:2343
+msgid "Entry does not contain a valid lat/long value"
+msgstr ""
+
+#: ../src/search.c:2393
 #, fuzzy
 msgid "Please enter an existing folder to search."
 msgstr "Palun vali eksisteeriv kataloog"
 
-#: ../src/search.c:2588
+#: ../src/search.c:2835
 #, fuzzy
 msgid "Image search"
 msgstr "Pildi omadused - Geeqie"
 
-#: ../src/search.c:2618
+#: ../src/search.c:2865
 #, fuzzy
 msgid "Search:"
-msgstr "Võrdlen..."
+msgstr "VÃµrdlen..."
 
-#: ../src/search.c:2632
+#: ../src/search.c:2879
 msgid "Recurse"
 msgstr ""
 
-#: ../src/search.c:2637
+#: ../src/search.c:2884
 #, fuzzy
 msgid "File name"
 msgstr "Faili nimi:"
 
-#: ../src/search.c:2643 ../src/search.c:2738
+#: ../src/search.c:2890 ../src/search.c:2987
 msgid "Match case"
 msgstr ""
 
-#: ../src/search.c:2648
+#: ../src/search.c:2895
 #, fuzzy
 msgid "File size is"
 msgstr "Faili suurus:"
 
-#: ../src/search.c:2655 ../src/search.c:2671 ../src/search.c:2690
+#: ../src/search.c:2902 ../src/search.c:2918 ../src/search.c:2939
+#: ../src/search.c:2999
 #, fuzzy
 msgid "and"
 msgstr "Segamini"
 
-#: ../src/search.c:2661
+#: ../src/search.c:2908
 #, fuzzy
 msgid "File date is"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/search.c:2679
+#: ../src/search.c:2923
+#, fuzzy
+msgid "Exif date"
+msgstr "/Vaade/_Uuenda nimekirju"
+
+#: ../src/search.c:2928
 #, fuzzy
 msgid "Image dimensions are"
 msgstr "Vigane sihtkoht"
 
-#: ../src/search.c:2700
+#: ../src/search.c:2949
 #, fuzzy
 msgid "Image content is"
 msgstr "Lisa sisu"
 
-#: ../src/search.c:2706
+#: ../src/search.c:2955
 #, fuzzy, no-c-format
 msgid "% similar to"
 msgstr "Sarnasus"
 
-#: ../src/search.c:2788
+#: ../src/search.c:2992
+#, fuzzy
+msgid "Image rating is"
+msgstr "Lisa sisu"
+
+#: ../src/search.c:3006
+#, fuzzy
+msgid "Image is"
+msgstr "Pildi suurus:"
+
+#: ../src/search.c:3018
+msgid "n.m."
+msgstr ""
+
+#: ../src/search.c:3024
+msgid "from"
+msgstr ""
+
+#: ../src/search.c:3029
+msgid ""
+"Enter a coordinate in the form:\n"
+"89.123 179.456\n"
+"or drag-and-drop a geo-coded image\n"
+"or left-click on the map and paste\n"
+"or cut-and-paste or drag-and-drop\n"
+"an internet search URL\n"
+"See the Help file"
+msgstr ""
+
+#: ../src/search.c:3082
 #, fuzzy
 msgid "Rank"
 msgstr "Segamini"
 
-#: ../src/secure_save.c:397
+#: ../src/secure_save.c:405
 #, fuzzy
 msgid "Cannot read the file"
-msgstr "Kataloogi loomine ebaõnnestus"
+msgstr "Kataloogi loomine ebaÃµnnestus"
 
-#: ../src/secure_save.c:399
+#: ../src/secure_save.c:407
 #, fuzzy
 msgid "Cannot get file status"
-msgstr "Võrdle kaht failikomplekti"
+msgstr "VÃµrdle kaht failikomplekti"
 
-#: ../src/secure_save.c:401
+#: ../src/secure_save.c:409
 msgid "Cannot access the file"
 msgstr ""
 
-#: ../src/secure_save.c:403
+#: ../src/secure_save.c:411
 #, fuzzy
 msgid "Cannot create temp file"
-msgstr "Kataloogi loomine ebaõnnestus"
+msgstr "Kataloogi loomine ebaÃµnnestus"
 
-#: ../src/secure_save.c:405
+#: ../src/secure_save.c:413
 #, fuzzy
 msgid "Cannot rename the file"
-msgstr "Kataloogi loomine ebaõnnestus"
+msgstr "Kataloogi loomine ebaÃµnnestus"
 
-#: ../src/secure_save.c:407
+#: ../src/secure_save.c:415
 msgid "File saving disabled by option"
 msgstr ""
 
-#: ../src/secure_save.c:409
+#: ../src/secure_save.c:417
 msgid "Out of memory"
 msgstr ""
 
-#: ../src/secure_save.c:411
+#: ../src/secure_save.c:419
 msgid "Cannot write the file"
 msgstr ""
 
-#: ../src/secure_save.c:415
+#: ../src/secure_save.c:423
 msgid "Secure file saving error"
 msgstr ""
 
-#: ../src/thumb.c:392
+#: ../src/shortcuts.c:97 ../src/shortcuts.c:151
+#, fuzzy
+msgid "Add Shortcut"
+msgstr "/Abi/_Kiirklahvid"
+
+#: ../src/thumb.c:400
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
-msgstr "Puhvris oleva pisipildi laadimine ebaõnnestus, proovin luua uut.\n"
+msgstr "Puhvris oleva pisipildi laadimine ebaÃµnnestus, proovin luua uut.\n"
 
-#: ../src/trash.c:80 ../src/utilops.c:2461 ../src/utilops.c:2472
-#: ../src/utilops.c:2529
+#: ../src/trash.c:88 ../src/utilops.c:2607 ../src/utilops.c:2618
+#: ../src/utilops.c:2675
 msgid "Delete failed"
-msgstr "Kustutamine ebaõnnestus"
+msgstr "Kustutamine ebaÃµnnestus"
 
-#: ../src/trash.c:81
+#: ../src/trash.c:89
 #, fuzzy
 msgid "Unable to remove old file from trash folder"
 msgstr ""
@@ -5473,16 +6015,16 @@ msgstr ""
 "%s\n"
 "iseendasse."
 
-#: ../src/trash.c:138
+#: ../src/trash.c:146
 #, fuzzy
 msgid "Could not create folder"
-msgstr "Kataloogi loomine ebaõnnestus"
+msgstr "Kataloogi loomine ebaÃµnnestus"
 
-#: ../src/trash.c:160
+#: ../src/trash.c:168
 msgid "Permission denied"
 msgstr ""
 
-#: ../src/trash.c:170
+#: ../src/trash.c:178
 #, fuzzy, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
@@ -5491,166 +6033,166 @@ msgstr ""
 "Ei saa luua kataloogi:\n"
 "%s"
 
-#: ../src/trash.c:174
+#: ../src/trash.c:182
 #, fuzzy
 msgid "Turn off safe delete"
-msgstr "Küsi nõusolekut faili kustutamisel"
+msgstr "KÃ¼si nÃµusolekut faili kustutamisel"
 
-#: ../src/trash.c:193
+#: ../src/trash.c:201
 msgid "Deletion by external command"
 msgstr ""
 
-#: ../src/trash.c:201
+#: ../src/trash.c:209
 #, c-format
 msgid " (max. %d MB)"
 msgstr ""
 
-#: ../src/trash.c:205
+#: ../src/trash.c:213
 #, fuzzy, c-format
 msgid ""
 "Safe delete: %s%s\n"
 "Trash: %s"
-msgstr "Küsi nõusolekut faili kustutamisel"
+msgstr "KÃ¼si nÃµusolekut faili kustutamisel"
 
-#: ../src/trash.c:210
+#: ../src/trash.c:218
 #, fuzzy, c-format
 msgid "Safe delete: %s"
-msgstr "Küsi nõusolekut faili kustutamisel"
+msgstr "KÃ¼si nÃµusolekut faili kustutamisel"
 
-#: ../src/ui_bookmark.c:130 ../src/ui_bookmark.c:193
+#: ../src/ui_bookmark.c:139 ../src/ui_bookmark.c:202
 msgid "New Bookmark"
 msgstr ""
 
-#: ../src/ui_bookmark.c:276 ../src/ui_bookmark.c:282
+#: ../src/ui_bookmark.c:285 ../src/ui_bookmark.c:291
 #, fuzzy
 msgid "Edit Bookmark"
 msgstr "Redaktorid"
 
-#: ../src/ui_bookmark.c:297
+#: ../src/ui_bookmark.c:306
 #, fuzzy
 msgid "Path:"
 msgstr "Kataloogitee"
 
-#: ../src/ui_bookmark.c:306
+#: ../src/ui_bookmark.c:315
 msgid "Icon:"
 msgstr ""
 
-#: ../src/ui_bookmark.c:312
+#: ../src/ui_bookmark.c:321
 #, fuzzy
 msgid "Select icon"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/ui_bookmark.c:405
+#: ../src/ui_bookmark.c:414
 #, fuzzy
 msgid "_Properties..."
 msgstr "Omadused"
 
-#: ../src/ui_bookmark.c:411
+#: ../src/ui_bookmark.c:420
 #, fuzzy
 msgid "_Remove"
 msgstr "Eemalda"
 
-#: ../src/ui_fileops.c:67
+#: ../src/ui_fileops.c:81
 msgid ""
 "One or more filenames are not encoded with the preferred locale character "
 "set.\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:68
+#: ../src/ui_fileops.c:82
 #, c-format
 msgid "Operations on, and display of these files with %s may not succeed.\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:70
+#: ../src/ui_fileops.c:84
 msgid ""
 "If your filenames are not encoded in utf-8, try setting the environment "
 "variable G_BROKEN_FILENAMES=1\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:72
+#: ../src/ui_fileops.c:86
 #, c-format
 msgid "It appears G_BROKEN_FILENAMES is set to %s\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:74
+#: ../src/ui_fileops.c:88
 msgid "It appears G_BROKEN_FILENAMES is not set\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:76
+#: ../src/ui_fileops.c:90
 #, c-format
 msgid ""
 "The locale appears to be set to \"%s\"\n"
 "(set by the LANG environment variable)\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:81
+#: ../src/ui_fileops.c:95
 msgid ""
 "\n"
 "Preferred encoding appears to be UTF-8, however the file:\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:82 ../src/ui_fileops.c:85 ../src/ui_fileops.c:87
+#: ../src/ui_fileops.c:96 ../src/ui_fileops.c:99 ../src/ui_fileops.c:101
 msgid "[name not displayable]"
 msgstr ""
 
-#: ../src/ui_fileops.c:85
+#: ../src/ui_fileops.c:99
 #, c-format
 msgid "\"%s\" is encoded in valid UTF-8."
 msgstr ""
 
-#: ../src/ui_fileops.c:87
+#: ../src/ui_fileops.c:101
 #, c-format
 msgid "\"%s\" is not encoded in valid UTF-8."
 msgstr ""
 
-#: ../src/ui_fileops.c:92 ../src/ui_fileops.c:97
+#: ../src/ui_fileops.c:106 ../src/ui_fileops.c:111
 msgid "Filename encoding locale mismatch"
 msgstr ""
 
-#: ../src/ui_help.c:110
+#: ../src/ui_help.c:119
 #, c-format
 msgid ""
 "Unable to load:\n"
 "%s"
 msgstr ""
-"Laadimine ebaõnnestus:\n"
+"Laadimine ebaÃµnnestus:\n"
 "%s"
 
-#: ../src/ui_pathsel.c:424 ../src/ui_pathsel.c:430 ../src/utilops.c:2160
-#: ../src/utilops.c:2187 ../src/utilops.c:2653
+#: ../src/ui_pathsel.c:433 ../src/ui_pathsel.c:439 ../src/utilops.c:2306
+#: ../src/utilops.c:2333 ../src/utilops.c:2799
 #, fuzzy
 msgid "Rename failed"
 msgstr ""
 "Nimeta fail:\n"
 "%s\n"
-"ümber:"
+"Ã¼mber:"
 
-#: ../src/ui_pathsel.c:429
+#: ../src/ui_pathsel.c:438
 #, c-format
 msgid "Failed to rename %s to %s."
-msgstr "Faili %s ümbernimetamine %s-ks ebaõnnestus."
+msgstr "Faili %s Ã¼mbernimetamine %s-ks ebaÃµnnestus."
 
-#: ../src/ui_pathsel.c:625 ../src/ui_pathsel.c:633
+#: ../src/ui_pathsel.c:634 ../src/ui_pathsel.c:642
 #, fuzzy
 msgid "_Rename"
-msgstr "Nimeta ümber"
+msgstr "Nimeta Ã¼mber"
 
-#: ../src/ui_pathsel.c:627 ../src/ui_pathsel.c:637
+#: ../src/ui_pathsel.c:636 ../src/ui_pathsel.c:646
 #, fuzzy
 msgid "Add _Bookmark"
 msgstr "Redaktorid"
 
-#: ../src/ui_pathsel.c:635
+#: ../src/ui_pathsel.c:644
 #, fuzzy
 msgid "_Delete"
 msgstr "Kustuta"
 
-#: ../src/ui_pathsel.c:742 ../src/ui_pathsel.c:1047 ../src/utilops.c:2687
+#: ../src/ui_pathsel.c:751 ../src/ui_pathsel.c:1057 ../src/utilops.c:2833
 #, fuzzy
 msgid "New folder"
 msgstr "Uus kataloog..."
 
-#: ../src/ui_pathsel.c:752
+#: ../src/ui_pathsel.c:761
 #, fuzzy, c-format
 msgid ""
 "Unable to create folder:\n"
@@ -5659,38 +6201,38 @@ msgstr ""
 "Ei saa luua kataloogi:\n"
 "%s"
 
-#: ../src/ui_pathsel.c:753
+#: ../src/ui_pathsel.c:762
 #, fuzzy
 msgid "Error creating folder"
 msgstr "Viga kataloogi loomisel"
 
-#: ../src/ui_pathsel.c:978
+#: ../src/ui_pathsel.c:988
 msgid "All Files"
-msgstr "Kõik failid"
+msgstr "KÃµik failid"
 
-#: ../src/ui_pathsel.c:1050
+#: ../src/ui_pathsel.c:1060
 msgid "Show hidden"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/ui_pathsel.c:1134
+#: ../src/ui_pathsel.c:1144
 msgid "Filter:"
 msgstr "Filter:"
 
-#: ../src/ui_tabcomp.c:924
+#: ../src/ui_tabcomp.c:933
 #, fuzzy
 msgid "Select path"
-msgstr "Vali kõik"
+msgstr "Vali kÃµik"
 
-#: ../src/ui_tabcomp.c:940
+#: ../src/ui_tabcomp.c:949
 #, fuzzy
 msgid "All files"
-msgstr "Kõik failid"
+msgstr "KÃµik failid"
 
-#: ../src/uri_utils.c:35
+#: ../src/uri_utils.c:43
 msgid "Drag and Drop failed"
 msgstr ""
 
-#: ../src/utilops.c:547
+#: ../src/utilops.c:590
 #, fuzzy
 msgid ""
 "\n"
@@ -5698,14 +6240,14 @@ msgid ""
 msgstr ""
 "Ei saa kustutada faili:\n"
 " %s\n"
-" Jätkata teiste failide kustutamist?"
+" JÃ¤tkata teiste failide kustutamist?"
 
-#: ../src/utilops.c:554 ../src/utilops.c:987
+#: ../src/utilops.c:597 ../src/utilops.c:1030
 #, fuzzy
 msgid "Co_ntinue"
-msgstr "Jätka"
+msgstr "JÃ¤tka"
 
-#: ../src/utilops.c:731
+#: ../src/utilops.c:774
 #, c-format
 msgid ""
 "Removal of folder contents failed at this file:\n"
@@ -5713,277 +6255,281 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../src/utilops.c:875
+#: ../src/utilops.c:918
 #, fuzzy, c-format
 msgid ""
 "%s\n"
 "Unable to start external command.\n"
 msgstr ""
-"Faili kustutamine ebaõnnestus:\n"
+"Faili kustutamine ebaÃµnnestus:\n"
 "%s"
 
-#: ../src/utilops.c:955
+#. During copy/move operations it is necessary to ensure that the
+#. * target directory exists before continuing with the next step.
+#. * If not revert to the select directory dialog
+#.
+#: ../src/utilops.c:998 ../src/utilops.c:1150
 #, fuzzy, c-format
 msgid "%s is not a directory"
 msgstr "Algkataloog"
 
-#: ../src/utilops.c:985
+#: ../src/utilops.c:1028
 msgid "Really continue?"
 msgstr ""
 
-#: ../src/utilops.c:999
+#: ../src/utilops.c:1042 ../src/utilops.c:1155
 msgid "This operation can't continue:"
 msgstr ""
 
-#: ../src/utilops.c:1377 ../src/utilops.c:1490 ../src/utilops.c:1874
+#: ../src/utilops.c:1498 ../src/utilops.c:1611 ../src/utilops.c:2018
 msgid "Discard changes"
 msgstr ""
 
-#: ../src/utilops.c:1378 ../src/utilops.c:1491 ../src/utilops.c:1824
-#: ../src/utilops.c:1840
+#: ../src/utilops.c:1499 ../src/utilops.c:1612 ../src/utilops.c:1968
+#: ../src/utilops.c:1984
 #, fuzzy
 msgid "File details"
-msgstr "Faili kuupäev:"
+msgstr "Faili kuupÃ¤ev:"
 
-#: ../src/utilops.c:1400 ../src/utilops.c:1498
+#: ../src/utilops.c:1521 ../src/utilops.c:1619
 msgid "Sidecars"
 msgstr ""
 
-#: ../src/utilops.c:1402
+#: ../src/utilops.c:1523
 #, fuzzy
 msgid "Write to file"
-msgstr "Kirjuta fail üle"
+msgstr "Kirjuta fail Ã¼le"
 
-#: ../src/utilops.c:1442
+#: ../src/utilops.c:1563
 #, fuzzy
 msgid "Choose the destination folder."
-msgstr "Allikas ja sihtkoht ühtivad"
+msgstr "Allikas ja sihtkoht Ã¼htivad"
 
-#: ../src/utilops.c:1500
+#: ../src/utilops.c:1621
 #, fuzzy
 msgid "New name"
-msgstr "Nimeta ümber:"
+msgstr "Nimeta Ã¼mber:"
 
-#: ../src/utilops.c:1530
+#: ../src/utilops.c:1658
 #, fuzzy
 msgid "Manual rename"
-msgstr "Menüüs olev nimi"
+msgstr "MenÃ¼Ã¼s olev nimi"
 
-#: ../src/utilops.c:1535
+#: ../src/utilops.c:1663
 #, fuzzy
 msgid "Original name:"
 msgstr "Faili nimi:"
 
-#: ../src/utilops.c:1538
+#: ../src/utilops.c:1666
 #, fuzzy
 msgid "New name:"
-msgstr "Nimeta ümber:"
+msgstr "Nimeta Ã¼mber:"
 
-#: ../src/utilops.c:1551
+#: ../src/utilops.c:1679
 msgid "Auto rename"
-msgstr "Automaatne ümbernimetamine"
+msgstr "Automaatne Ã¼mbernimetamine"
 
-#: ../src/utilops.c:1557
+#: ../src/utilops.c:1685
 msgid "Begin text"
 msgstr "Alusta teksti"
 
-#: ../src/utilops.c:1565 ../src/utilops.c:1597
+#: ../src/utilops.c:1693 ../src/utilops.c:1725
 msgid "Start #"
 msgstr "Algus #"
 
-#: ../src/utilops.c:1571
+#: ../src/utilops.c:1699
 msgid "End text"
-msgstr "Lõpeta tekst"
+msgstr "LÃµpeta tekst"
 
-#: ../src/utilops.c:1579
+#: ../src/utilops.c:1707
 msgid "Padding:"
-msgstr "Täidis:"
+msgstr "TÃ¤idis:"
 
-#: ../src/utilops.c:1584
+#: ../src/utilops.c:1712
 msgid "Formatted rename"
 msgstr ""
 
-#: ../src/utilops.c:1589
+#: ../src/utilops.c:1717
 msgid "Format (* = original name, ## = numbers)"
 msgstr ""
 
-#: ../src/utilops.c:1727
+#: ../src/utilops.c:1871
 msgid "Another operation in progress.\n"
 msgstr ""
 
-#: ../src/utilops.c:1783
+#: ../src/utilops.c:1927
 #, fuzzy, c-format
 msgid "File: '%s'\n"
 msgstr "Filter:"
 
-#: ../src/utilops.c:1788
+#: ../src/utilops.c:1932
 msgid "with sidecar files:\n"
 msgstr ""
 
-#: ../src/utilops.c:1794
+#: ../src/utilops.c:1938
 #, c-format
 msgid " '%s'\n"
 msgstr ""
 
-#: ../src/utilops.c:1798
+#: ../src/utilops.c:1942
 msgid ""
 "\n"
 "Status: "
 msgstr ""
 
-#: ../src/utilops.c:1810
+#: ../src/utilops.c:1954
 msgid "no problem detected"
 msgstr ""
 
-#: ../src/utilops.c:1826 ../src/utilops.c:1873
+#: ../src/utilops.c:1970 ../src/utilops.c:2017
 #, fuzzy
 msgid "Exclude file"
 msgstr "Kustuta fail"
 
-#: ../src/utilops.c:1871 ../src/utilops.c:1896
+#: ../src/utilops.c:2015 ../src/utilops.c:2040
 msgid "Overview of changed metadata"
 msgstr ""
 
-#: ../src/utilops.c:1889
+#: ../src/utilops.c:2033
 #, c-format
 msgid ""
 "The following metadata tags will be written to\n"
 "'%s'."
 msgstr ""
 
-#: ../src/utilops.c:1893
+#: ../src/utilops.c:2037
 #, c-format
 msgid "The following metadata tags will be written to the image file itself."
 msgstr ""
 
-#: ../src/utilops.c:1999
+#: ../src/utilops.c:2143
 #, fuzzy
 msgid "Delete files?"
 msgstr "Kustuta fail"
 
-#: ../src/utilops.c:2000
+#: ../src/utilops.c:2144
 msgid "This will delete the following files"
 msgstr ""
 
-#: ../src/utilops.c:2019
+#: ../src/utilops.c:2163
 msgid "Can't write metadata"
 msgstr ""
 
-#: ../src/utilops.c:2042
+#: ../src/utilops.c:2186
 msgid "Write metadata"
 msgstr ""
 
-#: ../src/utilops.c:2043
+#: ../src/utilops.c:2187
 msgid "Write metadata?"
 msgstr ""
 
-#: ../src/utilops.c:2044
+#: ../src/utilops.c:2188
 msgid "This will write the changed metadata into the following files"
 msgstr ""
 
-#: ../src/utilops.c:2046
+#: ../src/utilops.c:2190
 msgid "Metadata writing failed"
 msgstr ""
 
-#: ../src/utilops.c:2065 ../src/utilops.c:2092
+#: ../src/utilops.c:2209 ../src/utilops.c:2237
 #, fuzzy
 msgid "Move failed"
 msgstr ""
 "Nimeta fail:\n"
 "%s\n"
-"ümber:"
+"Ã¼mber:"
 
-#: ../src/utilops.c:2089
+#: ../src/utilops.c:2234
 #, fuzzy
 msgid "Move files?"
 msgstr ""
 "Nimeta fail:\n"
 "%s\n"
-"ümber:"
+"Ã¼mber:"
 
-#: ../src/utilops.c:2090
+#: ../src/utilops.c:2235
 msgid "This will move the following files"
 msgstr ""
 
-#: ../src/utilops.c:2114 ../src/utilops.c:2141
+#: ../src/utilops.c:2259 ../src/utilops.c:2287
 #, fuzzy
 msgid "Copy failed"
 msgstr ""
 "Nimeta fail:\n"
 "%s\n"
-"ümber:"
+"Ã¼mber:"
 
-#: ../src/utilops.c:2138
+#: ../src/utilops.c:2284
 #, fuzzy
 msgid "Copy files?"
 msgstr ""
 "Nimeta fail:\n"
 "%s\n"
-"ümber:"
+"Ã¼mber:"
 
-#: ../src/utilops.c:2139 ../src/utilops.c:2273
+#: ../src/utilops.c:2285 ../src/utilops.c:2419
 msgid "This will copy the following files"
 msgstr ""
 
-#: ../src/utilops.c:2183 ../src/utilops.c:2649
+#: ../src/utilops.c:2329 ../src/utilops.c:2795
 msgid "Rename"
-msgstr "Nimeta ümber"
+msgstr "Nimeta Ã¼mber"
 
-#: ../src/utilops.c:2184
+#: ../src/utilops.c:2330
 #, fuzzy
 msgid "Rename files?"
 msgstr ""
 "Nimeta fail:\n"
 "%s\n"
-"ümber:"
+"Ã¼mber:"
 
-#: ../src/utilops.c:2185
+#: ../src/utilops.c:2331
 msgid "This will rename the following files"
 msgstr ""
 
-#: ../src/utilops.c:2237
+#: ../src/utilops.c:2383
 msgid "Can't run external editor"
 msgstr ""
 
-#: ../src/utilops.c:2271
+#: ../src/utilops.c:2417
 #, fuzzy
 msgid "Editor"
 msgstr "Redaktorid"
 
-#: ../src/utilops.c:2272
+#: ../src/utilops.c:2418
 #, fuzzy
 msgid "Run editor?"
 msgstr "Kustuta failid"
 
-#: ../src/utilops.c:2275
+#: ../src/utilops.c:2421
 #, fuzzy
 msgid "External command failed"
 msgstr "Luba 'Delete' klahv"
 
-#: ../src/utilops.c:2444 ../src/utilops.c:2517
+#: ../src/utilops.c:2590 ../src/utilops.c:2663
 #, fuzzy
 msgid "Delete folder"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/utilops.c:2445
+#: ../src/utilops.c:2591
 #, fuzzy
 msgid "Delete symbolic link?"
 msgstr ""
 "Ei saa luua kataloogi:\n"
 "%s"
 
-#: ../src/utilops.c:2447
+#: ../src/utilops.c:2593
 msgid ""
 "This will delete the symbolic link.\n"
 "The folder this link points to will not be deleted."
 msgstr ""
 
-#: ../src/utilops.c:2449
+#: ../src/utilops.c:2595
 #, fuzzy
 msgid "Link deletion failed"
-msgstr "Faili kustutamine ebaõnnestus"
+msgstr "Faili kustutamine ebaÃµnnestus"
 
-#: ../src/utilops.c:2459
+#: ../src/utilops.c:2605
 #, fuzzy, c-format
 msgid ""
 "Unable to remove folder %s\n"
@@ -5993,19 +6539,19 @@ msgstr ""
 "%s\n"
 "iseendasse."
 
-#: ../src/utilops.c:2471 ../src/utilops.c:2528
+#: ../src/utilops.c:2617 ../src/utilops.c:2674
 #, fuzzy, c-format
 msgid "Unable to list contents of folder %s"
 msgstr ""
 "Ei saa luua kataloogi:\n"
 "%s"
 
-#: ../src/utilops.c:2485 ../src/utilops.c:2493
+#: ../src/utilops.c:2631 ../src/utilops.c:2639
 #, fuzzy
 msgid "Folder contains subfolders"
 msgstr "Vigane failinimi"
 
-#: ../src/utilops.c:2489
+#: ../src/utilops.c:2635
 #, c-format
 msgid ""
 "Unable to delete the folder:\n"
@@ -6015,127 +6561,127 @@ msgid ""
 "This folder contains subfolders which must be moved before it can be deleted."
 msgstr ""
 
-#: ../src/utilops.c:2497
+#: ../src/utilops.c:2643
 #, fuzzy
 msgid "Subfolders:"
 msgstr "Failid"
 
-#: ../src/utilops.c:2518
+#: ../src/utilops.c:2664
 #, fuzzy
 msgid "Delete folder?"
 msgstr "Kustuta fail"
 
-#: ../src/utilops.c:2519
+#: ../src/utilops.c:2665
 #, fuzzy
 msgid "The folder contains these files:"
 msgstr "Vigane failinimi"
 
-#: ../src/utilops.c:2520
+#: ../src/utilops.c:2666
 msgid ""
 "This will delete the folder.\n"
 "The contents of this folder will also be deleted."
 msgstr ""
 
-#: ../src/utilops.c:2650
+#: ../src/utilops.c:2796
 #, fuzzy
 msgid "Rename folder?"
 msgstr ""
 "Nimeta fail:\n"
 "%s\n"
-"ümber:"
+"Ã¼mber:"
 
-#: ../src/utilops.c:2651
+#: ../src/utilops.c:2797
 #, fuzzy
 msgid "The folder contains the following files"
 msgstr "Vigane failinimi"
 
-#: ../src/utilops.c:2697
+#: ../src/utilops.c:2843
 #, fuzzy
 msgid "Create Folder"
-msgstr "Tühista valik"
+msgstr "TÃ¼hista valik"
 
-#: ../src/utilops.c:2698
+#: ../src/utilops.c:2844
 #, fuzzy
 msgid "Create folder?"
 msgstr "Kustuta fail"
 
-#: ../src/utilops.c:2701
+#: ../src/utilops.c:2847
 #, fuzzy
 msgid "Can't create folder"
-msgstr "Kataloogi loomine ebaõnnestus"
+msgstr "Kataloogi loomine ebaÃµnnestus"
 
-#: ../src/view_dir.c:397
+#: ../src/view_dir.c:406
 #, fuzzy
 msgid "_Copy"
 msgstr "Kopeeri"
 
-#: ../src/view_dir.c:399
+#: ../src/view_dir.c:408
 #, fuzzy
 msgid "_Move"
 msgstr "Liiguta"
 
-#: ../src/view_dir.c:644
+#: ../src/view_dir.c:653
 msgid "_Up to parent"
 msgstr ""
 
-#: ../src/view_dir.c:649
+#: ../src/view_dir.c:658
 #, fuzzy
 msgid "_Slideshow"
 msgstr "Slaidiseanss"
 
-#: ../src/view_dir.c:651
+#: ../src/view_dir.c:660
 msgid "Slideshow recursive"
 msgstr "Rekursiivne slaidiseanss"
 
-#: ../src/view_dir.c:655
+#: ../src/view_dir.c:664
 #, fuzzy
 msgid "Find _duplicates..."
 msgstr "Otsi duplikaadid..."
 
-#: ../src/view_dir.c:657
+#: ../src/view_dir.c:666
 msgid "Find duplicates recursive..."
 msgstr "Rekursiivne duplikaatide otsimine..."
 
-#: ../src/view_dir.c:662
+#: ../src/view_dir.c:671
 #, fuzzy
 msgid "_New folder..."
 msgstr "Uus kataloog..."
 
-#: ../src/view_dir.c:676 ../src/view_file.c:619
+#: ../src/view_dir.c:685 ../src/view_file/view_file.c:618
 #, fuzzy
 msgid "View as _List"
 msgstr "Nimekiri ikoonidena"
 
-#: ../src/view_dir.c:679
+#: ../src/view_dir.c:688
 #, fuzzy
 msgid "View as _Tree"
-msgstr "Näita kataloogipuud"
+msgstr "NÃ¤ita kataloogipuud"
 
-#: ../src/view_dir.c:684
+#: ../src/view_dir.c:693
 #, fuzzy
 msgid "Show _hidden files"
-msgstr "Näita peidetud faile"
+msgstr "NÃ¤ita peidetud faile"
 
-#: ../src/view_dir.c:687 ../src/view_file.c:637
+#: ../src/view_dir.c:696 ../src/view_file/view_file.c:636
 #, fuzzy
 msgid "Re_fresh"
 msgstr "Uuenda"
 
-#: ../src/view_file.c:622
+#: ../src/view_file/view_file.c:621
 #, fuzzy
 msgid "View as _Icons"
 msgstr "Nimekiri ikoonidena"
 
-#: ../src/view_file.c:628
+#: ../src/view_file/view_file.c:627
 #, fuzzy
 msgid "Show _thumbnails"
-msgstr "Näita pisipilte"
+msgstr "NÃ¤ita pisipilte"
 
-#: ../src/view_file_icon.c:2098 ../src/view_file_list.c:825
+#: ../src/view_file/view_file_icon.c:1962 ../src/view_file/view_file_list.c:834
 msgid " [NO GROUPING]"
 msgstr ""
 
-#: ../src/view_file_list.c:451
+#: ../src/view_file/view_file_list.c:460
 #, c-format
 msgid ""
 "Invalid file name:\n"
@@ -6144,18 +6690,45 @@ msgstr ""
 "Vigane faili nimi:\n"
 "%s"
 
-#: ../src/view_file_list.c:452
+#: ../src/view_file/view_file_list.c:461
 msgid "Error renaming file"
-msgstr "Viga faili ümbernimetamisel"
+msgstr "Viga faili Ã¼mbernimetamisel"
 
-#: ../src/window.c:252
+#: ../src/window.c:261
 #, fuzzy
 msgid "Help"
 msgstr "/_Abi"
 
 #, fuzzy
+#~ msgid "Add keywords"
+#~ msgstr "/Vaade/_Ikoonid"
+
+#, fuzzy
+#~ msgid "Folder Li_st"
+#~ msgstr "Failid"
+
+#, fuzzy
+#~ msgid "View Folders as List"
+#~ msgstr "Failid"
+
+#, fuzzy
+#~ msgid "Folder T_ree"
+#~ msgstr "Failid"
+
+#, fuzzy
+#~ msgid "View Folders as Tree"
+#~ msgstr "NÃ¤ita kataloogipuud"
+
+#~ msgid "When new image is selected:"
+#~ msgstr "Uue pildi valikul:"
+
+#, fuzzy
+#~ msgid "Similarities"
+#~ msgstr "Sarnasus"
+
+#, fuzzy
 #~ msgid "Todo"
-#~ msgstr "Tööriistad"
+#~ msgstr "TÃ¶Ã¶riistad"
 
 #, fuzzy
 #~ msgid "Save comment now"
@@ -6173,7 +6746,7 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "Unlink failed"
-#~ msgstr "Kustutamine ebaõnnestus"
+#~ msgstr "Kustutamine ebaÃµnnestus"
 
 #, fuzzy
 #~ msgid "Background color"
@@ -6189,13 +6762,13 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "Show text"
-#~ msgstr "Näita peidetud faile"
+#~ msgstr "NÃ¤ita peidetud faile"
 
 #~ msgid "Collection empty"
-#~ msgstr "Kollektsioon on tühi"
+#~ msgstr "Kollektsioon on tÃ¼hi"
 
 #~ msgid "The current collection is empty, save aborted."
-#~ msgstr "Aktiivne kollektsioon on tühi, salvestamine katkestatud."
+#~ msgstr "Aktiivne kollektsioon on tÃ¼hi, salvestamine katkestatud."
 
 #~ msgid "%d images (%d)"
 #~ msgstr "%d pilti (%d)"
@@ -6215,34 +6788,31 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "Rotate jpeg clockwise"
-#~ msgstr "Pööra päripäeva"
+#~ msgstr "PÃ¶Ã¶ra pÃ¤ripÃ¤eva"
 
 #, fuzzy
 #~ msgid "Rotate jpeg counterclockwise"
-#~ msgstr "Pööra vastupäeva"
+#~ msgstr "PÃ¶Ã¶ra vastupÃ¤eva"
 
 #, fuzzy
 #~ msgid "Stay above other windows"
 #~ msgstr "Mahuta pilt aknasse"
 
 #~ msgid "Dimensions:"
-#~ msgstr "Mõõtmed:"
+#~ msgstr "MÃµÃµtmed:"
 
 #~ msgid "Transparent:"
-#~ msgstr "Läbipaistev:"
+#~ msgstr "LÃ¤bipaistev:"
 
 #~ msgid "Compress ratio:"
 #~ msgstr "Tihendussuhe:"
 
 #, fuzzy
 #~ msgid "File type:"
-#~ msgstr "Faili kuupäev:"
+#~ msgstr "Faili kuupÃ¤ev:"
 
 #~ msgid "Owner:"
 #~ msgstr "Omanik:"
-
-#~ msgid "Group:"
-#~ msgstr "Grupp:"
 
 #, fuzzy
 #~ msgid "Image properties"
@@ -6258,7 +6828,7 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "_%d empty"
-#~ msgstr "Tühi"
+#~ msgstr "TÃ¼hi"
 
 #, fuzzy
 #~ msgid "_Adjust"
@@ -6271,10 +6841,6 @@ msgstr "/_Abi"
 #, fuzzy
 #~ msgid "_Thumbnails"
 #~ msgstr "Pisipildid"
-
-#, fuzzy
-#~ msgid "E_xif data"
-#~ msgstr "/Vaade/_Uuenda nimekirju"
 
 #, fuzzy
 #~ msgid "_List"
@@ -6293,10 +6859,6 @@ msgstr "/_Abi"
 
 #~ msgid "Float Controls"
 #~ msgstr "Ujuvuse kontroll"
-
-#, fuzzy
-#~ msgid "Use Exif date"
-#~ msgstr "/Vaade/_Uuenda nimekirju"
 
 #~ msgid "None"
 #~ msgstr "Puudub"
@@ -6330,7 +6892,7 @@ msgstr "/_Abi"
 #~ msgstr "#"
 
 #~ msgid "Command Line"
-#~ msgstr "Käsurida"
+#~ msgstr "KÃ¤surida"
 
 #, fuzzy
 #~ msgid "Properties"
@@ -6341,7 +6903,7 @@ msgstr "/_Abi"
 #~ msgstr ""
 #~ "Nimeta fail:\n"
 #~ "%s\n"
-#~ "ümber:"
+#~ "Ã¼mber:"
 
 #~ msgid "Error copying file"
 #~ msgstr "Viga faili kopeerimisel"
@@ -6383,26 +6945,26 @@ msgstr "/_Abi"
 #~ "to:\n"
 #~ "%s"
 #~ msgstr ""
-#~ "Ei saa ümber nimetada faili:\n"
+#~ "Ei saa Ã¼mber nimetada faili:\n"
 #~ "%s\n"
 #~ "failiks:\n"
 #~ "%s"
 
 #, fuzzy
 #~ msgid "Overwrite file?"
-#~ msgstr "Kirjuta fail üle"
+#~ msgstr "Kirjuta fail Ã¼le"
 
 #, fuzzy
 #~ msgid "Overwrite _all"
-#~ msgstr "Kirjuta fail üle"
+#~ msgstr "Kirjuta fail Ã¼le"
 
 #, fuzzy
 #~ msgid "S_kip all"
-#~ msgstr "Jäta kõik vahele"
+#~ msgstr "JÃ¤ta kÃµik vahele"
 
 #, fuzzy
 #~ msgid "_Skip"
-#~ msgstr "Jäta vahele"
+#~ msgstr "JÃ¤ta vahele"
 
 #, fuzzy
 #~ msgid "Existing file"
@@ -6413,7 +6975,7 @@ msgstr "/_Abi"
 #~ msgstr "Uus kataloog..."
 
 #~ msgid "Source to copy matches destination"
-#~ msgstr "Kopeerimise allikas ja sihtkoht ühtivad"
+#~ msgstr "Kopeerimise allikas ja sihtkoht Ã¼htivad"
 
 #~ msgid ""
 #~ "Unable to copy file:\n"
@@ -6425,7 +6987,7 @@ msgstr "/_Abi"
 #~ "iseendasse."
 
 #~ msgid "Source to move matches destination"
-#~ msgstr "Liigutamise allikas ja sihtkoht ühtivad"
+#~ msgstr "Liigutamise allikas ja sihtkoht Ã¼htivad"
 
 #~ msgid ""
 #~ "Unable to move file:\n"
@@ -6463,7 +7025,7 @@ msgstr "/_Abi"
 #~ " mitme faili liigutamise ajal."
 
 #~ msgid "Source matches destination"
-#~ msgstr "Allikas ja sihtkoht ühtivad"
+#~ msgstr "Allikas ja sihtkoht Ã¼htivad"
 
 #~ msgid ""
 #~ "Unable to copy file:\n"
@@ -6519,7 +7081,7 @@ msgstr "/_Abi"
 #~ "\n"
 #~ "Unable to delete file by external command:\n"
 #~ msgstr ""
-#~ "Faili kustutamine ebaõnnestus:\n"
+#~ "Faili kustutamine ebaÃµnnestus:\n"
 #~ "%s"
 
 #~ msgid ""
@@ -6529,11 +7091,11 @@ msgstr "/_Abi"
 #~ msgstr ""
 #~ "Ei saa kustutada faili:\n"
 #~ " %s\n"
-#~ " Jätkata teiste failide kustutamist?"
+#~ " JÃ¤tkata teiste failide kustutamist?"
 
 #, fuzzy
 #~ msgid "Delete multiple files"
-#~ msgstr "Failide ümber nimetamine"
+#~ msgstr "Failide Ã¼mber nimetamine"
 
 #, fuzzy
 #~ msgid "Review %d files"
@@ -6545,7 +7107,7 @@ msgstr "/_Abi"
 #~ "Unable to delete file by external command:\n"
 #~ "%s"
 #~ msgstr ""
-#~ "Faili kustutamine ebaõnnestus:\n"
+#~ "Faili kustutamine ebaÃµnnestus:\n"
 #~ "%s"
 
 #, fuzzy
@@ -6558,7 +7120,7 @@ msgstr "/_Abi"
 #~ " to:\n"
 #~ "%s"
 #~ msgstr ""
-#~ "Faili ümbernimetamine ebaõnnestus:\n"
+#~ "Faili Ã¼mbernimetamine ebaÃµnnestus:\n"
 #~ "%s\n"
 #~ " failiks:\n"
 #~ "%s"
@@ -6568,22 +7130,22 @@ msgstr "/_Abi"
 #~ "number set, one or more files exist that\n"
 #~ "match the resulting name list.\n"
 #~ msgstr ""
-#~ "Ei saa teostada automaatset ümbernimetamist\n"
+#~ "Ei saa teostada automaatset Ã¼mbernimetamist\n"
 #~ "etteantud numbrijadaga, kuna tulemuste nimekirjast\n"
-#~ "eksisteerib juba vähemalt üks fail.\n"
+#~ "eksisteerib juba vÃ¤hemalt Ã¼ks fail.\n"
 
 #~ msgid ""
 #~ "Failed to rename\n"
 #~ "%s\n"
 #~ "The number was %d."
 #~ msgstr ""
-#~ "Faili %s ümbernimetamine\n"
-#~ "ebaõnnestus.\n"
+#~ "Faili %s Ã¼mbernimetamine\n"
+#~ "ebaÃµnnestus.\n"
 #~ "Number oli %d."
 
 #, fuzzy
 #~ msgid "Rename multiple files"
-#~ msgstr "Failide ümber nimetamine"
+#~ msgstr "Failide Ã¼mber nimetamine"
 
 #~ msgid ""
 #~ "Unable to rename file:\n"
@@ -6591,7 +7153,7 @@ msgstr "/_Abi"
 #~ "to:\n"
 #~ "%s"
 #~ msgstr ""
-#~ "Ei saa ümber nimetada faili:\n"
+#~ "Ei saa Ã¼mber nimetada faili:\n"
 #~ "%s\n"
 #~ "failiks:\n"
 #~ "%s"
@@ -6631,7 +7193,7 @@ msgstr "/_Abi"
 #~ "\n"
 #~ "%s"
 #~ msgstr ""
-#~ "Faili kustutamine ebaõnnestus:\n"
+#~ "Faili kustutamine ebaÃµnnestus:\n"
 #~ "%s"
 
 #, fuzzy
@@ -6651,30 +7213,30 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "Reset fullscreen info string"
-#~ msgstr "Täisekraan-vaade"
+#~ msgstr "TÃ¤isekraan-vaade"
 
 #, fuzzy
 #~ msgid "Always show fullscreen info"
-#~ msgstr "Välju täisekraan-vaatest"
+#~ msgstr "VÃ¤lju tÃ¤isekraan-vaatest"
 
 #, fuzzy
 #~ msgid "List"
 #~ msgstr "/Vaade/_Uuenda nimekirju"
 
 #~ msgid "Show entries that begin with a dot"
-#~ msgstr "Näita punktiga algavaid kirjeid"
+#~ msgstr "NÃ¤ita punktiga algavaid kirjeid"
 
 #~ msgid "Find duplicates - Geeqie"
 #~ msgstr "Otsi duplikaadid - Geeqie"
 
 #~ msgid "Geeqie Tools"
-#~ msgstr "Geeqie tööriistad"
+#~ msgstr "Geeqie tÃ¶Ã¶riistad"
 
 #~ msgid "Help - Geeqie"
 #~ msgstr "Abi - Geeqie"
 
 #~ msgid "Geeqie - exit"
-#~ msgstr "Geeqie - väljumine"
+#~ msgstr "Geeqie - vÃ¤ljumine"
 
 #, fuzzy
 #~ msgid "Pan View - Geeqie"
@@ -6726,7 +7288,7 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "/File/_Search..."
-#~ msgstr "/Fail/_Nimeta ümber..."
+#~ msgstr "/Fail/_Nimeta Ã¼mber..."
 
 #~ msgid "/File/_Find duplicates..."
 #~ msgstr "/Fail/Otsi _duplikaate"
@@ -6736,7 +7298,7 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "/File/_Print..."
-#~ msgstr "/Fail/_Nimeta ümber..."
+#~ msgstr "/Fail/_Nimeta Ã¼mber..."
 
 #, fuzzy
 #~ msgid "/File/N_ew folder..."
@@ -6752,7 +7314,7 @@ msgstr "/_Abi"
 #~ msgstr "/Fail/_Liiguta..."
 
 #~ msgid "/File/_Rename..."
-#~ msgstr "/Fail/_Nimeta ümber..."
+#~ msgstr "/Fail/_Nimeta Ã¼mber..."
 
 #~ msgid "/File/_Delete..."
 #~ msgstr "/Fail/Ku_stuta..."
@@ -6765,7 +7327,7 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "/File/_Quit"
-#~ msgstr "/Fail/_Välju"
+#~ msgstr "/Fail/_VÃ¤lju"
 
 #~ msgid "/_Edit"
 #~ msgstr "/_Redaktor"
@@ -6818,34 +7380,34 @@ msgstr "/_Abi"
 #~ msgstr "/Redaktor/Kohanda/tear1"
 
 #~ msgid "/Edit/Adjust/_Rotate clockwise"
-#~ msgstr "/Redaktor/Kohanda/Pööra pä_ripäeva"
+#~ msgstr "/Redaktor/Kohanda/PÃ¶Ã¶ra pÃ¤_ripÃ¤eva"
 
 #~ msgid "/Edit/Adjust/Rotate _counterclockwise"
-#~ msgstr "/Redaktor/Kohanda/Pööra _vastupäeva"
+#~ msgstr "/Redaktor/Kohanda/PÃ¶Ã¶ra _vastupÃ¤eva"
 
 #~ msgid "/Edit/Adjust/Rotate 1_80"
-#~ msgstr "/Redaktor/Kohanda/Pööra _180"
+#~ msgstr "/Redaktor/Kohanda/PÃ¶Ã¶ra _180"
 
 #~ msgid "/Edit/Adjust/_Mirror"
 #~ msgstr "/Redaktor/Kohanda/_Peegelda"
 
 #~ msgid "/Edit/Adjust/_Flip"
-#~ msgstr "/Redaktor/Kohanda/Pööra ümber _telje"
+#~ msgstr "/Redaktor/Kohanda/PÃ¶Ã¶ra Ã¼mber _telje"
 
 #~ msgid "/Edit/sep2"
 #~ msgstr "/Redaktor/sep2"
 
 #~ msgid "/Edit/Select _all"
-#~ msgstr "/Redaktor/V_ali kõik"
+#~ msgstr "/Redaktor/V_ali kÃµik"
 
 #~ msgid "/Edit/Select _none"
-#~ msgstr "/Redaktor/Tühista _valik"
+#~ msgstr "/Redaktor/TÃ¼hista _valik"
 
 #~ msgid "/Edit/sep3"
 #~ msgstr "/Redaktor/sep3"
 
 #~ msgid "/Edit/_Options..."
-#~ msgstr "/Redaktor/_Häälestus"
+#~ msgstr "/Redaktor/_HÃ¤Ã¤lestus"
 
 #~ msgid "/Edit/sep4"
 #~ msgstr "/Redaktor/sep4"
@@ -6863,7 +7425,7 @@ msgstr "/_Abi"
 #~ msgstr "/Vaade/Suu_renda"
 
 #~ msgid "/View/Zoom _out"
-#~ msgstr "/Vaade/_Vähenda"
+#~ msgstr "/Vaade/_VÃ¤henda"
 
 #~ msgid "/View/Zoom _1:1"
 #~ msgstr "/Vaade/_Originaalsuurus"
@@ -6878,7 +7440,7 @@ msgstr "/_Abi"
 #~ msgstr "/Vaade/sep2"
 
 #~ msgid "/View/F_ull screen"
-#~ msgstr "/Vaade/_Täisekraan-vaade"
+#~ msgstr "/Vaade/_TÃ¤isekraan-vaade"
 
 #~ msgid "/View/sep3"
 #~ msgstr "/Vaade/sep3"
@@ -6926,7 +7488,7 @@ msgstr "/_Abi"
 #~ "Overwrite collection file:\n"
 #~ "%s"
 #~ msgstr ""
-#~ "Kas kirjutada kollektsioonide fail üle:\n"
+#~ "Kas kirjutada kollektsioonide fail Ã¼le:\n"
 #~ "%s"
 
 #~ msgid "Save collection as:"
@@ -6942,7 +7504,7 @@ msgstr "/_Abi"
 #~ msgstr "Lisa kollektsioon:"
 
 #~ msgid "Exit"
-#~ msgstr "Välju"
+#~ msgstr "VÃ¤lju"
 
 #~ msgid "Ok"
 #~ msgstr "Sobib"
@@ -6953,7 +7515,7 @@ msgstr "/_Abi"
 
 #, fuzzy
 #~ msgid "On startup, change to this folder:"
-#~ msgstr "Käivitamisel näita seda kataloogi:"
+#~ msgstr "KÃ¤ivitamisel nÃ¤ita seda kataloogi:"
 
 #~ msgid "Zoom (scaling):"
 #~ msgstr "Suurendus (mastaapimine):"
@@ -6962,7 +7524,7 @@ msgstr "/_Abi"
 #~ msgstr "Paiguta dialoogid hiire alla"
 
 #~ msgid "Include files of type:"
-#~ msgstr "Näita faile tüüpidega:"
+#~ msgstr "NÃ¤ita faile tÃ¼Ã¼pidega:"
 
 #, fuzzy
 #~ msgid "Point size:"
@@ -6976,14 +7538,14 @@ msgstr "/_Abi"
 #~ msgstr ""
 #~ "Kas kirjutada fail:\n"
 #~ " %s\n"
-#~ " üle failiga:\n"
+#~ " Ã¼le failiga:\n"
 #~ " %s?"
 
 #~ msgid "Yes"
 #~ msgstr "Jah"
 
 #~ msgid "Yes to all"
-#~ msgstr "Jah kõigile"
+#~ msgstr "Jah kÃµigile"
 
 #~ msgid ""
 #~ "Overwrite file:\n"
@@ -6993,7 +7555,7 @@ msgstr "/_Abi"
 #~ msgstr ""
 #~ "Kas kirjutada fail:\n"
 #~ "%s\n"
-#~ " üle failiga:\n"
+#~ " Ã¼le failiga:\n"
 #~ "%s"
 
 #~ msgid ""
@@ -7023,7 +7585,7 @@ msgstr "/_Abi"
 #~ "by renaming:\n"
 #~ "%s"
 #~ msgstr ""
-#~ "Kas kirjutada fail:%s üle ümbernimetamisega:\n"
+#~ "Kas kirjutada fail:%s Ã¼le Ã¼mbernimetamisega:\n"
 #~ "%s?"
 
 #~ msgid "to:"
@@ -7046,7 +7608,7 @@ msgstr "/_Abi"
 #~ msgstr "Lisa sisu rekursiivselt"
 
 #~ msgid "Skip directories"
-#~ msgstr "Jäta kataloogid vahele"
+#~ msgstr "JÃ¤ta kataloogid vahele"
 
 #~ msgid "Geeqie - copy"
 #~ msgstr "Geeqie - kopeerimine"

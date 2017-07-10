@@ -1750,37 +1750,11 @@ FileData *vficon_thumb_next_fd(ViewFile *vf)
 	return NULL;
 }
 
-void vficon_thumb_reset_all(ViewFile *vf)
-{
-	GList *work = vf->list;
-
-	while (work)
-		{
-		FileData *fd = work->data;
-		if (fd->thumb_pixbuf)
-			{
-			g_object_unref(fd->thumb_pixbuf);
-			fd->thumb_pixbuf = NULL;
-			}
-		work = work->next;
-		}
-}
-
-
 /*
  *-----------------------------------------------------------------------------
  * row stuff
  *-----------------------------------------------------------------------------
  */
-
-FileData *vficon_index_get_data(ViewFile *vf, gint row)
-{
-	FileData *fd;
-
-	fd = g_list_nth_data(vf->list, row);
-	return fd ? fd : NULL;
-}
-
 
 gint vficon_index_by_fd(ViewFile *vf, FileData *in_fd)
 {
@@ -1799,45 +1773,6 @@ gint vficon_index_by_fd(ViewFile *vf, FileData *in_fd)
 		}
 
 	return -1;
-}
-
-guint vficon_count(ViewFile *vf, gint64 *bytes)
-{
-	if (bytes)
-		{
-		gint64 b = 0;
-		GList *work;
-
-		work = vf->list;
-		while (work)
-			{
-			FileData *fd = work->data;
-			work = work->next;
-
-			b += fd->size;
-			}
-
-		*bytes = b;
-		}
-
-	return g_list_length(vf->list);
-}
-
-GList *vficon_get_list(ViewFile *vf)
-{
-	GList *list = NULL;
-	GList *work;
-
-	work = vf->list;
-	while (work)
-		{
-		FileData *fd = work->data;
-		work = work->next;
-
-		list = g_list_prepend(list, file_data_ref(fd));
-		}
-
-	return g_list_reverse(list);
 }
 
 /*

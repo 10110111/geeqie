@@ -251,7 +251,6 @@ geeqie_SOURCES = \
 	view_dir_list.h	\
 	view_dir_tree.c	\
 	view_dir_tree.h	\
-	view_file.c	\
 	view_file.h	\
 	window.c	\
 	window.h	\
