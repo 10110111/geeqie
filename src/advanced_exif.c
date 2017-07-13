@@ -67,6 +67,15 @@ enum {
 	EXIF_ADVCOL_COUNT
 };
 
+gint display_order [6] = {
+	EXIF_ADVCOL_DESCRIPTION,
+	EXIF_ADVCOL_VALUE,
+	EXIF_ADVCOL_NAME,
+	EXIF_ADVCOL_TAG,
+	EXIF_ADVCOL_FORMAT,
+	EXIF_ADVCOL_ELEMENTS
+};
+
 static gboolean advanced_exif_row_enabled(const gchar *name)
 {
 	GList *list;
@@ -303,6 +312,39 @@ static gint advanced_exif_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIt
 	return ret;
 }
 
+static gboolean advanced_exif_mouseclick(GtkWidget *widget,
+						GdkEventButton *bevent, gpointer data)
+{
+	ExifWin *ew = data;
+	GtkTreePath *path;
+	GtkTreeViewColumn *column;
+	GtkTreeIter iter;
+	GtkTreeModel *store;
+	gchar *value;
+	GList *cols;
+	gint col_num;
+	GtkClipboard *clipboard;
+
+	gtk_tree_view_get_cursor(GTK_TREE_VIEW(ew->listview), &path, &column);
+	if (path && column)
+		{
+		store = gtk_tree_view_get_model(GTK_TREE_VIEW(ew->listview));
+		gtk_tree_model_get_iter(store, &iter, path);
+
+		cols = gtk_tree_view_get_columns(GTK_TREE_VIEW(ew->listview));
+		col_num = g_list_index(cols, (gpointer)column);
+		gtk_tree_model_get(store, &iter, display_order[col_num], &value, -1);
+
+		clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+		gtk_clipboard_set_text(clipboard, value, -1);
+
+		g_list_free(cols);
+		g_free(value);
+		}
+
+	return TRUE;
+}
+
 static gboolean advanced_exif_keypress(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	ExifWin *ew = data;
@@ -402,6 +444,9 @@ GtkWidget *advanced_exif_new(void)
 
 	g_signal_connect(G_OBJECT(ew->window), "key_press_event",
 			 G_CALLBACK(advanced_exif_keypress), ew);
+
+	g_signal_connect(G_OBJECT(ew->listview), "button_release_event",
+			G_CALLBACK(advanced_exif_mouseclick), ew);
 
 	ew->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ew->scrolled), GTK_SHADOW_IN);
