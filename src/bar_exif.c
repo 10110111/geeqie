@@ -97,7 +97,8 @@ static void bar_pane_exif_entry_update_title(ExifEntry *ee);
 static void bar_pane_exif_update(PaneExifData *ped);
 static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 static void bar_pane_exif_notify_cb(FileData *fd, NotifyType type, gpointer data);
-
+static gboolean bar_pane_exif_mouse_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
+static gboolean bar_pane_exif_copy_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
 static void bar_pane_exif_entry_changed(GtkEntry *text_entry, gpointer data)
 {
@@ -185,6 +186,7 @@ static GtkWidget *bar_pane_exif_add_entry(PaneExifData *ped, const gchar *key, c
 
 	bar_pane_exif_entry_dnd_init(ee->ebox);
 	g_signal_connect(ee->ebox, "button_release_event", G_CALLBACK(bar_pane_exif_menu_cb), ped);
+	g_signal_connect(ee->ebox, "button_press_event", G_CALLBACK(bar_pane_exif_copy_cb), ped);
 
 	bar_pane_exif_setup_entry_box(ped, ee);
 
@@ -598,6 +600,19 @@ static void bar_pane_exif_delete_entry_cb(GtkWidget *menu_widget, gpointer data)
 	gtk_widget_destroy(entry);
 }
 
+static void bar_pane_exif_copy_entry_cb(GtkWidget *menu_widget, gpointer data)
+{
+	GtkWidget *widget = data;
+	GtkClipboard *clipboard;
+	const gchar *value;
+	ExifEntry *ee;
+
+	ee = g_object_get_data(G_OBJECT(widget), "entry_data");
+	value = gtk_label_get_text(GTK_LABEL(ee->value_widget));
+	clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_set_text(clipboard, value, -1);
+}
+
 static void bar_pane_exif_toggle_show_all_cb(GtkWidget *menu_widget, gpointer data)
 {
 	PaneExifData *ped = data;
@@ -619,9 +634,11 @@ static void bar_pane_exif_menu_popup(GtkWidget *widget, PaneExifData *ped)
 		/* for the entry */
 		gchar *conf = g_strdup_printf(_("Configure \"%s\""), ee->title);
 		gchar *del = g_strdup_printf(_("Remove \"%s\""), ee->title);
+		gchar *copy = g_strdup_printf(_("Copy \"%s\""), ee->title);
 
 		menu_item_add_stock(menu, conf, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_exif_conf_dialog_cb), widget);
 		menu_item_add_stock(menu, del, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_exif_delete_entry_cb), widget);
+		menu_item_add_stock(menu, copy, GTK_STOCK_COPY, G_CALLBACK(bar_pane_exif_copy_entry_cb), widget);
 		menu_item_add_divider(menu);
 
 		g_free(conf);
@@ -643,6 +660,25 @@ static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent,
 		bar_pane_exif_menu_popup(widget, ped);
 		return TRUE;
 		}
+	return FALSE;
+}
+
+static gboolean bar_pane_exif_copy_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
+	const gchar *value;
+	GtkClipboard *clipboard;
+	ExifEntry *ee;
+
+	if (bevent->button == MOUSE_BUTTON_LEFT)
+		{
+		ee = g_object_get_data(G_OBJECT(widget), "entry_data");
+		value = gtk_label_get_text(GTK_LABEL(ee->value_widget));
+		clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+		gtk_clipboard_set_text(clipboard, value, -1);
+
+		return TRUE;
+		}
+
 	return FALSE;
 }
 
