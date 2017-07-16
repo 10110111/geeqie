@@ -133,7 +133,8 @@ static LogWindow *log_window_create(LayoutWindow *lw)
 	gtk_container_add(GTK_CONTAINER(window), win_vbox);
 	gtk_widget_show(win_vbox);
 
-	gtk_widget_set_size_request(window, lw->options.log_window.w, lw->options.log_window.h);
+	gtk_window_resize(GTK_WINDOW(window), lw->options.log_window.w,
+											lw->options.log_window.h);
 	gtk_window_move(GTK_WINDOW(window), lw->options.log_window.x, lw->options.log_window.y);
 
 	g_signal_connect(G_OBJECT(window), "delete_event",
@@ -150,7 +151,7 @@ static LogWindow *log_window_create(LayoutWindow *lw)
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwin),
 					    GTK_SHADOW_IN);
 
-	gtk_container_add(GTK_CONTAINER(win_vbox), scrolledwin);
+	gtk_box_pack_start(GTK_BOX(win_vbox), scrolledwin, TRUE, TRUE, 0);
 	gtk_widget_show(scrolledwin);
 
 	hbox = pref_box_new(win_vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
