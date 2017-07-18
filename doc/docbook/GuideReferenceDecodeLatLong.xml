@@ -12,133 +12,14 @@
     <para />
     You may also drag-and-drop a URL of this type onto the map to cause the map to be re-centered.
     <para />
-    To enable this feature, create the file
+    This feature uses the file:
     <para />
-    <code>~/.config/geeqie/geocode-parameters.awk</code>
+    <code>/usr/local/lib/geeqie/geocode-parameters.awk</code>
     <para />
-    and copy the following text into it:
-  </para>
-  <para>
-    <programlisting xml:space="preserve">
-      # Store this file in:
-      # ~/.config/geeqie/geocode-parameters.awk
-      #
-      # This file is used to decode the results of internet or other searches
-      # to extract a geo-position from a text string. 
-      # To include other searches, follow the examples below and
-      # ensure the returned value is either in the format:
-      # 89.123 179.123
-      # or
-      # Error: $0
-      #
-      
-      function check_parameters(latitude, longitude)
-      {
-      # Ensure the parameters are numbers    
-      if ((latitude == (latitude+0)) &amp;&amp; (longitude == (longitude+0)))
-      {
-      if (latitude &gt;= -90 &amp;&amp; latitude &lt;= 90 &amp;&amp;
-      longitude &gt;= -180 &amp;&amp; longitude &lt;= 180)
-      {
-      return latitude " " longitude
-      }
-      else
-      {
-      return "Error: " latitude " " longitude
-      }
-      }
-      else
-      {
-      return "Error: " latitude " " longitude
-      }
-      }
-      
-      # This awk file is accessed by an internal function.
-      # The call is of the format:
-      # echo "string_to_be_searched" | awk -f geocode-parameters.awk
-      #
-      # Search the input string for known formats.
-      {
-      if (index($0, "http://www.geonames.org/maps/google_"))
-      {
-      # This is a drag-and-drop or copy-paste from a geonames.org search
-      # in the format e.g.
-      # http://www.geonames.org/maps/google_51.513_-0.092.html
-      
-      gsub(/http:\/\/www.geonames.org\/maps\/google_/, "")
-      gsub(/.html/, "")
-      gsub(/_/, " ")
-      print check_parameters($1, $2)
-      }
-      
-      else if (index($0, "https://www.openstreetmap.org/search?query="))
-      {
-      # This is a copy-paste from an openstreetmap.org search
-      # in the format e.g.
-      # https://www.openstreetmap.org/search?query=51.4878%2C-0.1353#map=11/51.4880/-0.1356
-      
-      gsub(/https:\/\/www.openstreetmap.org\/search\?query=/, "")
-      gsub(/#map=.*/, "")
-      gsub(/%2C/, " ")
-      print check_parameters($1, $2)
-      }
-      
-      else if (index($0, "https://www.openstreetmap.org/#map="))
-      {
-      # This is a copy-paste from an openstreetmap.org search
-      # in the format e.g.
-      # https://www.openstreetmap.org/#map=5/18.271/16.084
-      
-      gsub(/https:\/\/www.openstreetmap.org\/#map=[^\/]*/,"")
-      gsub(/\//," ")
-      print check_parameters($1, $2)
-      }
-      
-      else if (index($0, "https://www.google.com/maps/"))
-      {
-      # This is a copy-paste from a google.com maps search
-      # in the format e.g.
-      # https://www.google.com/maps/place/London,+UK/@51.5283064,-0.3824815,10z/data=....
-      
-      gsub(/https:\/\/www.google.com\/maps.*@/,"")
-      sub(/,/," ")
-      gsub(/,.*/,"")
-      print check_parameters($1, $2)
-      }
-      
-      else if (index($0,".html"))
-      {
-      # This is an unknown html address
-      
-      print "Error: " $0
-      }
-      
-      else if (index($0,"http"))
-      {
-      # This is an unknown html address
-      
-      print "Error: " $0
-      }
-      
-      else if (index($0, ","))
-      {
-      # This is assumed to be a simple lat/long of the format:
-      # 89.123,179.123
-      
-      split($0, latlong, ",")
-      print check_parameters(latlong[1], latlong[2])
-      }
-      
-      else
-      {
-      # This is assumed to be a simple lat/long of the format:
-      # 89.123 179.123
-      
-      split($0, latlong, " ")
-      print check_parameters(latlong[1], latlong[2])
-      }
-      }
-
-    </programlisting>
+    You may create your own decodes by using the above file as an example, and storing the file in:
+    <para />
+    <code>~/.config/geeqie/applications/geocode-parameters.awk</code>
+    <para />
+    If a successful decode was not made from the first file, your local version will then be used.
   </para>
 </section>

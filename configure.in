@@ -562,6 +562,7 @@ AC_CONFIG_FILES([
     plugins/rotate/Makefile
     plugins/ufraw/Makefile
     plugins/import/Makefile
+    plugins/geocode-parameters/Makefile
     geeqie.spec
 ])
 

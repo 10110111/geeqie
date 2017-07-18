@@ -130,10 +130,10 @@ gchar *expand_tilde(const gchar *filename)
 #define GEOCODE_NAME "geocode-parameters.awk"
 #define BUFSIZE 128
 
-gchar *decode_geo_parameters(const gchar *input_text)
+gchar *decode_geo_script(const gchar *path_dir, const gchar *input_text)
 {
 	gchar *message;
-	gchar *path = g_build_filename(get_rc_dir(), GEOCODE_NAME, NULL);
+	gchar *path = g_build_filename(path_dir, GEOCODE_NAME, NULL);
 	gchar *cmd = g_strconcat("echo \'", input_text, "\'  | awk -f ", path, NULL);
 
 	if (g_file_test(path, G_FILE_TEST_EXISTS))
@@ -167,6 +167,23 @@ gchar *decode_geo_parameters(const gchar *input_text)
 
 	g_free(path);
 	g_free(cmd);
+	return message;
+}
+
+gchar *decode_geo_parameters(const gchar *input_text)
+{
+	gchar *message;
+	gchar *dir;
+
+	message = decode_geo_script(GQ_BIN_DIR, input_text);
+	if (strstr(message, "Error"))
+		{
+		g_free(message);
+		dir = g_build_filename(get_rc_dir(), "applications", NULL);
+		message = decode_geo_script(dir, input_text);
+		g_free(dir);
+		}
+
 	return message;
 }
 
