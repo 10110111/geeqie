@@ -214,6 +214,32 @@ static void parse_command_line_process_file(const gchar *file_path, gchar **path
 	parse_command_line_add_file(file_path, path, file, list, collection_list);
 }
 
+static gboolean is_collection(gchar *cmd_param)
+{
+	gchar *path = NULL;
+	gchar *full_name = NULL;
+	gboolean result = FALSE;
+
+	if (file_extension_match(cmd_param, GQ_COLLECTION_EXT))
+		{
+		path = g_build_filename(get_collections_dir(), cmd_param, NULL);
+		}
+	else if (file_extension_match(cmd_param, NULL))
+		{
+		full_name = g_strconcat(cmd_param, GQ_COLLECTION_EXT, NULL);
+		path = g_build_filename(get_collections_dir(), full_name, NULL);
+		}
+
+	if (isfile(path))
+		{
+		result = TRUE;
+		}
+
+	g_free(path);
+	g_free(full_name);
+	return result;
+}
+
 static void parse_command_line(gint argc, gchar *argv[])
 {
 	GList *list = NULL;
@@ -255,6 +281,25 @@ static void parse_command_line(gint argc, gchar *argv[])
 				{
 				parse_command_line_process_file(cmd_all, &command_line->path, &command_line->file,
 								&list, &command_line->collection_list, &first_dir);
+				}
+			else if (is_collection(cmd_line))
+				{
+				gchar *path = NULL;
+				gchar *full_name = NULL;
+
+				if (file_extension_match(cmd_line, GQ_COLLECTION_EXT))
+					{
+					path = g_build_filename(get_collections_dir(), cmd_line, NULL);
+					}
+				else
+					{
+					full_name = g_strconcat(cmd_line, GQ_COLLECTION_EXT, NULL);
+					path = g_build_filename(get_collections_dir(), full_name, NULL);
+					}
+				parse_command_line_process_file(path, &command_line->path, &command_line->file,
+								&list, &command_line->collection_list, &first_dir);
+				g_free(path);
+				g_free(full_name);
 				}
 			else if (strncmp(cmd_line, "--debug", 7) == 0 && (cmd_line[7] == '\0' || cmd_line[7] == '='))
 				{
