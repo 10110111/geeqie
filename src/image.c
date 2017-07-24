@@ -67,6 +67,19 @@ static void image_click_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer d
 		}
 }
 
+static void image_press_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
+{
+	ImageWindow *imd = data;
+	LayoutWindow *lw;
+
+	lw = layout_find_by_image(imd);
+	if (event->button == MOUSE_BUTTON_LEFT && event->type == GDK_2BUTTON_PRESS  && !options->image_lm_click_nav)
+		{
+		if (lw->full_screen)
+			layout_image_full_screen_stop(lw);
+		}
+}
+
 static void image_drag_cb(PixbufRenderer *pr, GdkEventMotion *event, gpointer data)
 {
 	ImageWindow *imd = data;
@@ -1941,8 +1954,10 @@ ImageWindow *image_new(gboolean frame)
 
 	image_set_selectable(imd, 0);
 
-	g_signal_connect(G_OBJECT(imd->pr), "button_press_event",
+	g_signal_connect(G_OBJECT(imd->pr), "clicked",
 			 G_CALLBACK(image_click_cb), imd);
+	g_signal_connect(G_OBJECT(imd->pr), "button_press_event",
+			 G_CALLBACK(image_press_cb), imd);
 	g_signal_connect(G_OBJECT(imd->pr), "scroll_notify",
 			 G_CALLBACK(image_scroll_notify_cb), imd);
 

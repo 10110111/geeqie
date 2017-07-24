@@ -1686,11 +1686,6 @@ static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpoi
 	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
-			if (event->type == GDK_2BUTTON_PRESS)
-				{
-				if (lw->full_screen)
-					layout_image_full_screen_stop(lw);
-				}
 			if (options->image_lm_click_nav && lw->split_mode == SPLIT_NONE)
 				layout_image_next(lw);
 			break;
