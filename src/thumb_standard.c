@@ -22,6 +22,7 @@
 #include "main.h"
 #include "thumb_standard.h"
 
+#include "cache.h"
 #include "image-load.h"
 #include "md5-util.h"
 #include "pixbuf_util.h"
@@ -156,7 +157,8 @@ static gchar *thumb_std_cache_path(const gchar *path, const gchar *uri, gboolean
 		}
 	else
 		{
-		result = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, cache_subfolder, name, NULL);
+		result = g_build_filename(get_thumbnails_standard_cache_dir(),
+													cache_subfolder, name, NULL);
 		}
 
 	g_free(name);
@@ -675,7 +677,11 @@ gboolean thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 	tl->source_size = st.st_size;
 	tl->source_mode = st.st_mode;
 
-	if (!thumb_cache) thumb_cache = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, NULL);
+	if (!thumb_cache)
+		{
+		thumb_cache = g_strdup(get_thumbnails_standard_cache_dir());
+		}
+
 	if (strncmp(tl->fd->path, thumb_cache, strlen(thumb_cache)) != 0)
 		{
 		gchar *pathl;

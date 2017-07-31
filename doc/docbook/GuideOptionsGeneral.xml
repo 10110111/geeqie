@@ -66,51 +66,66 @@
           <guilabel>Cache thumbnails</guilabel>
         </term>
         <listitem>
-          <para>
-            Enable this to save thumbnails to disk, subsequent requests for a thumbnail will be faster. Thumbnails are cached into:
-            <programlisting>$XDG_CACHE_HOME/geeqie/thumbnails/</programlisting>
-            <programlisting>($~/.cache/geeqie/thumbnails/)</programlisting>
-            Refer to
-            <link linkend="GuideReferenceThumbnails">Thumbnails Reference</link>
-            for additional details.
-          </para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <guilabel>Use shared thumbnail cache</guilabel>
-        </term>
-        <listitem>
-          <para>
-            This will use a thumbnail caching method that is compatible with applications that use the standard thumbnail specification. When this option is enabled thumbnails will be stored in
-            <programlisting>$HOME/.thumbnails</programlisting>
-          </para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <guilabel>Cache thumbnails into .thumbnails</guilabel>
-        </term>
-        <listitem>
-          <para>
-            When enabled, Geeqie attempts to store cached thumbnails closer to the source image. This way multiple users can benefit from a single cache, thereby reducing wasted disk space. The resulting location is the source image's folder, in a sub folder with the name
-            <programlisting>.thumbnails</programlisting>
-            When the image source folder cannot be written, Geeqie falls back to saving the thumbnail in the user's home folder.
-          </para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <guilabel>Faster jpeg thumbnailing</guilabel>
-        </term>
-        <listitem>
-          <para>This will speed up thumbnails generation in some cases, but may reduce the quality</para>
+          <para>Enable this to save thumbnails to disk. Subsequent requests for a thumbnail will be faster.</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <guilabel>Use Geeqie thumbnail style and cache</guilabel>
+              </term>
+              <listitem>
+                <para>Thumbnails are stored in a folder hierachy that mirrors the location of the source images. Thumbnails have the same name as the original appended by the file extension .png.</para>
+                <para>
+                  The root of the hierachy is:
+                  <para>
+                    <programlisting>$XDG_CACHE_HOME/geeqie/thumbnails/</programlisting>
+                    or, if $XDG_CACHE_HOME is not defined:
+                    <programlisting>$HOME/.cache/geeqie/thumbnails/</programlisting>
+                  </para>
+                </para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <guilabel>Store thumbnails local to image folder (non-standard)</guilabel>
+              </term>
+              <listitem>
+                <para>
+                  When enabled, Geeqie attempts to store cached thumbnails closer to the source image. This way multiple users can benefit from a single cache, thereby reducing wasted disk space.
+                  <para />
+                  Thumbnails have the same name as the original appended by the file extension .png.
+                  <para />
+                  The resulting location is the source image's folder, in a sub folder with the name
+                  <programlisting>.thumbnails</programlisting>
+                  <para />
+                  When the image source folder cannot be written, Geeqie falls back to saving the thumbnail in the user's home folder.
+                </para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <guilabel>Use standard thumbnail style and cache, shared with other applications</guilabel>
+              </term>
+              <listitem>
+                <para>
+                  This will use a thumbnail caching method that is compatible with applications that use the standard thumbnail specification. When this option is enabled thumbnails will be stored in:
+                  <para>
+                    <programlisting>$XDG_CACHE_HOME/thumbnails/</programlisting>
+                    or, if $XDG_CACHE_HOME is not defined:
+                    <programlisting>$HOME/.cache/thumbnails/</programlisting>
+                  </para>
+                  <para>
+                    All thumbnails are stored in the same folder, with computer-generated filenames. Refer to
+                    <link linkend="GuideReferenceThumbnails">Thumbnails Reference</link>
+                    for additional details.
+                  </para>
+                </para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -121,18 +136,6 @@
         </term>
         <listitem>
           <para>Geeqie will extract thumbnail from EXIF data if available, instead of generating one. This will speed up thumbnails generation, but the EXIF thumbnail may be not in sync with the image if it was modified by a tool which did not also update the thumbnail data.</para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-    <variablelist>
-      <varlistentry>
-        <term>
-          <guilabel>Use xvpics thumbnails when found</guilabel>
-        </term>
-        <listitem>
-          Refer to
-          <link linkend="GuideOptionsHidden" endterm="titleGuideOptionsHidden" />
-          .
         </listitem>
       </varlistentry>
     </variablelist>

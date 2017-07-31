@@ -21,4 +21,8 @@
     Pango mark up:
     <ulink url="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html" />
   </para>
+  <para>
+    Thumbnails:
+    <ulink url="https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html" />
+  </para>
 </section>

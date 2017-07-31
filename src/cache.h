@@ -80,6 +80,7 @@ gchar *cache_get_location(CacheType type, const gchar *source, gint include_name
 gchar *cache_find_location(CacheType type, const gchar *source);
 
 const gchar *get_thumbnails_cache_dir(void);
+const gchar *get_thumbnails_standard_cache_dir(void);
 const gchar *get_metadata_cache_dir(void);
 
 #endif

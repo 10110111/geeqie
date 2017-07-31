@@ -34,10 +34,7 @@
           <guilabel>Clear cache</guilabel>
         </term>
         <listitem>
-          <para>
-            Removes all thumbnails and data stored in the user's home folder:
-            <programlisting>$HOME/.cache/.geeqie/thumbnails</programlisting>
-          </para>
+          <para>Removes all thumbnails and data stored in the designated folder.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -59,10 +56,7 @@
           <guilabel>Clear cache</guilabel>
         </term>
         <listitem>
-          <para>
-            Removes all thumbnails stored in the user's home folder:
-            <programlisting>$HOME/.thumbnails</programlisting>
-          </para>
+          <para>Removes all thumbnails stored in the designated folder.</para>
         </listitem>
       </varlistentry>
     </variablelist>

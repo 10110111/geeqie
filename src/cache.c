@@ -24,6 +24,7 @@
 
 #include "md5-util.h"
 #include "secure_save.h"
+#include "thumb_standard.h"
 #include "ui_fileops.h"
 
 #include <utime.h>
@@ -722,7 +723,8 @@ const gchar *get_thumbnails_cache_dir(void)
 
 	if (USE_XDG)
 		{
-		thumbnails_cache_dir = g_build_filename(xdg_cache_home_get(), GQ_APPNAME_LC, GQ_CACHE_THUMB, NULL);
+		thumbnails_cache_dir = g_build_filename(xdg_cache_home_get(),
+								GQ_APPNAME_LC, GQ_CACHE_THUMB, NULL);
 		}
 	else
 		{
@@ -730,6 +732,18 @@ const gchar *get_thumbnails_cache_dir(void)
 		}
 
 	return thumbnails_cache_dir;
+}
+
+const gchar *get_thumbnails_standard_cache_dir(void)
+{
+	static gchar *thumbnails_standard_cache_dir = NULL;
+
+	if (thumbnails_standard_cache_dir) return thumbnails_standard_cache_dir;
+
+	thumbnails_standard_cache_dir = g_build_filename(xdg_cache_home_get(),
+										THUMB_FOLDER_GLOBAL, NULL);
+
+	return thumbnails_standard_cache_dir;
 }
 
 const gchar *get_metadata_cache_dir(void)

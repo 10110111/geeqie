@@ -24,7 +24,7 @@
 
 
 #if GLIB_CHECK_VERSION (2, 34, 0)
-#define THUMB_FOLDER_GLOBAL ".cache/thumbnails"
+#define THUMB_FOLDER_GLOBAL "thumbnails"
 #else
 #define THUMB_FOLDER_GLOBAL ".thumbnails"
 #endif

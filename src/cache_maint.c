@@ -992,21 +992,21 @@ static void cache_manager_standard_clean_start(GenericDialog *gd, gpointer data)
 		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("running..."));
 	}
 
-	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_NORMAL, NULL);
+	path = g_build_filename(get_thumbnails_standard_cache_dir(), THUMB_FOLDER_NORMAL, NULL);
 	dir_fd = file_data_new_dir(path);
 	filelist_read(dir_fd, &list, NULL);
 	cd->list = list;
 	file_data_unref(dir_fd);
 	g_free(path);
 
-	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_LARGE, NULL);
+	path = g_build_filename(get_thumbnails_standard_cache_dir(), THUMB_FOLDER_LARGE, NULL);
 	dir_fd = file_data_new_dir(path);
 	filelist_read(dir_fd, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
 	file_data_unref(dir_fd);
 	g_free(path);
 
-	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, THUMB_FOLDER_FAIL, NULL);
+	path = g_build_filename(get_thumbnails_standard_cache_dir(), THUMB_FOLDER_FAIL, NULL);
 	dir_fd = file_data_new_dir(path);
 	filelist_read(dir_fd, &list, NULL);
 	cd->list = g_list_concat(cd->list, list);
@@ -1218,7 +1218,7 @@ void cache_manager_show(void)
 
 	sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
-	group = pref_group_new(gd->vbox, FALSE, _("Thumbnail cache"), GTK_ORIENTATION_VERTICAL);
+	group = pref_group_new(gd->vbox, FALSE, _("Geeqie thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
 	cache_manager_location_label(group, get_thumbnails_cache_dir());
 
@@ -1237,7 +1237,7 @@ void cache_manager_show(void)
 
 	group = pref_group_new(gd->vbox, FALSE, _("Shared thumbnail cache"), GTK_ORIENTATION_VERTICAL);
 
-	path = g_build_filename(homedir(), THUMB_FOLDER_GLOBAL, NULL);
+	path = g_build_filename(get_thumbnails_standard_cache_dir(), NULL);
 	cache_manager_location_label(group, path);
 	g_free(path);
 
