@@ -1518,7 +1518,7 @@ static void config_tab_general(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Image loading and caching"), GTK_ORIENTATION_VERTICAL);
 
 	pref_spin_new_int(group, _("Decoded image cache size (Mb):"), NULL,
-			  0, 1024, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
+			  0, 99999, 1, options->image.image_cache_max, &c_options->image.image_cache_max);
 	pref_checkbox_new_int(group, _("Preload next image"),
 			      options->image.enable_read_ahead, &c_options->image.enable_read_ahead);
 
