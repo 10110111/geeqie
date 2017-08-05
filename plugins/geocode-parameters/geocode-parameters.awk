@@ -45,7 +45,7 @@ if (index($0, "http://www.geonames.org/maps/google_"))
     # in the format e.g.
     # http://www.geonames.org/maps/google_51.513_-0.092.html
 
-    gsub(/http:\/\/www.geoxxnames.org\/maps\/google_/, "")
+    gsub(/http:\/\/www.geonames.org\/maps\/google_/, "")
     gsub(/.html/, "")
     gsub(/_/, " ")
     print check_parameters($1, $2)
