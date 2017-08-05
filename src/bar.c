@@ -364,6 +364,24 @@ static gboolean bar_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer 
 	return FALSE;
 }
 
+static void bar_expander_cb(GObject *object, GParamSpec *param_spec, gpointer data)
+{
+	GtkExpander *expander;
+	GtkWidget *child;
+
+	expander = GTK_EXPANDER(object);
+	child = gtk_bin_get_child(GTK_BIN(expander));
+
+	if (gtk_expander_get_expanded(expander))
+		{
+		gtk_widget_show_all(child);
+		}
+	else
+		{
+		gtk_widget_hide(child);
+		}
+}
+
 static gboolean bar_menu_add_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 {
 	bar_menu_add_popup(widget);
@@ -563,6 +581,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 	gtk_box_pack_start(GTK_BOX(bd->vbox), expander, FALSE, TRUE, 0);
 
 	g_signal_connect(expander, "button_release_event", G_CALLBACK(bar_menu_cb), bd);
+	g_signal_connect(expander, "notify::expanded", G_CALLBACK(bar_expander_cb), pd);
 
 	gtk_container_add(GTK_CONTAINER(expander), pane);
 

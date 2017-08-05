@@ -519,13 +519,6 @@ static void bar_pane_gps_update(PaneGPSData *pgd)
 {
 	GList *list;
 
-	/* The widget does not have a parent during bar_pane_gps_new, so calling gtk_widget_show_all there gives a
-	 * "Gtk-CRITICAL **: gtk_widget_realize: assertion `GTK_WIDGET_ANCHORED (widget) || GTK_IS_INVISIBLE (widget)' failed"
-	 * error. gtk_widget_show_all can be given after it has been added to the bar.
-	 */
-	if (gtk_widget_get_parent(pgd->widget) != NULL)
-		gtk_widget_show_all(pgd->widget);
-
 	/* If a create-marker background process is running, kill it
 	 * and start again
 	 */
