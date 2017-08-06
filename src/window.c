@@ -188,11 +188,10 @@ static gchar *html_browsers[] =
 	NULL,		NULL
 };
 
-static void help_browser_run(const gchar *section)
+static void help_browser_run(const gchar *path)
 {
 	gchar *name = options->helpers.html_browser.command_name;
 	gchar *cmd = options->helpers.html_browser.command_line;
-	gchar *path = g_build_filename("file://", GQ_HTMLDIR, section, NULL);
 	gchar *result = NULL;
 	gint i;
 
@@ -223,7 +222,6 @@ static void help_browser_run(const gchar *section)
 		return;
 		}
 
-	g_free(path);
 	g_free(result);
 }
 
@@ -246,7 +244,9 @@ void help_window_show(const gchar *key)
 
 	if (key && strstr(key, ".html") != 0)
 		{
-		help_browser_run(key);
+		gchar *path = g_build_filename("file://", GQ_HTMLDIR, key, NULL);
+		help_browser_run(path);
+		g_free(path);
 		return;
 		}
 
@@ -257,12 +257,24 @@ void help_window_show(const gchar *key)
 		return;
 		}
 
-	path = g_build_filename(GQ_HELPDIR, "README.md", NULL);
-	help_window = help_window_new(_("Help"), "help", path, key);
-	g_free(path);
+	path = g_build_filename(GQ_HELPDIR, "README.html", NULL);
+	if (isfile(path))
+		{
+		g_free(path);
+		path = g_build_filename("file://", GQ_HELPDIR, "README.html", NULL);
+		help_browser_run(path);
+		g_free(path);
+		}
+	else
+		{
+		g_free(path);
+		path = g_build_filename(GQ_HELPDIR, "README.md", NULL);
+		help_window = help_window_new(_("Help"), "help", path, key);
+		g_free(path);
 
-	g_signal_connect(G_OBJECT(help_window), "destroy",
-			 G_CALLBACK(help_window_destroy_cb), NULL);
+		g_signal_connect(G_OBJECT(help_window), "destroy",
+				 G_CALLBACK(help_window_destroy_cb), NULL);
+		}
 }
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
