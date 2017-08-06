@@ -588,10 +588,11 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 				G_CALLBACK(vf_pop_menu_move_cb), vf);
 	menu_item_add_sensitive(menu, _("_Rename..."), active,
 				G_CALLBACK(vf_pop_menu_rename_cb), vf);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
-				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
 	menu_item_add_sensitive(menu, _("_Copy path"), active,
 				G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
+				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
+	menu_item_add_divider(menu);
 
 	menu_item_add_sensitive(menu, _("Enable file _grouping"), active,
 				G_CALLBACK(vf_pop_menu_enable_grouping_cb), vf);

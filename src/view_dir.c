@@ -673,12 +673,12 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 
 	menu_item_add_sensitive(menu, _("_Rename..."), rename_delete_active,
 				G_CALLBACK(vd_pop_menu_rename_cb), vd);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, rename_delete_active,
-				      G_CALLBACK(vd_pop_menu_delete_cb), vd);
 
 	menu_item_add(menu, _("_Copy path"),
 		      G_CALLBACK(vd_pop_menu_copy_path_cb), vd);
 
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, rename_delete_active,
+				      G_CALLBACK(vd_pop_menu_delete_cb), vd);
 	menu_item_add_divider(menu);
 
 

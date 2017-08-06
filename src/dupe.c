@@ -2351,10 +2351,10 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 				G_CALLBACK(dupe_menu_move_cb), dw);
 	menu_item_add_sensitive(menu, _("_Rename..."), on_row,
 				G_CALLBACK(dupe_menu_rename_cb), dw);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, on_row,
-				G_CALLBACK(dupe_menu_delete_cb), dw);
 	menu_item_add_sensitive(menu, _("_Copy path"), on_row,
 				G_CALLBACK(dupe_menu_copy_path_cb), dw);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, on_row,
+				G_CALLBACK(dupe_menu_delete_cb), dw);
 	menu_item_add_divider(menu);
 	menu_item_add_stock_sensitive(menu, _("Rem_ove"), GTK_STOCK_REMOVE, on_row,
 				G_CALLBACK(dupe_menu_remove_cb), dw);

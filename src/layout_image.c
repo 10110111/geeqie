@@ -687,10 +687,9 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
 	item = menu_item_add(menu, _("_Rename..."), G_CALLBACK(li_pop_menu_rename_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
-	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(li_pop_menu_delete_cb), lw);
-	if (!path) gtk_widget_set_sensitive(item, FALSE);
-
 	item = menu_item_add(menu, _("_Copy path"), G_CALLBACK(li_pop_menu_copy_path_cb), lw);
+	if (!path) gtk_widget_set_sensitive(item, FALSE);
+	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(li_pop_menu_delete_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
 
 	menu_item_add_divider(menu);

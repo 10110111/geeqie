@@ -2233,10 +2233,10 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 				G_CALLBACK(pan_move_cb), pw);
 	menu_item_add_sensitive(menu, _("_Rename..."), active,
 				G_CALLBACK(pan_rename_cb), pw);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
-				      G_CALLBACK(pan_delete_cb), pw);
 	menu_item_add_sensitive(menu, _("_Copy path"), active,
 				G_CALLBACK(pan_copy_path_cb), pw);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
+				      G_CALLBACK(pan_delete_cb), pw);
 
 	menu_item_add_divider(menu);
 	item = menu_item_add_check(menu, _("Sort by E_xif date"), pw->exif_date_enable,

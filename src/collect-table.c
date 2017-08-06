@@ -941,10 +941,10 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
 			G_CALLBACK(collection_table_popup_move_cb), ct);
 	menu_item_add_sensitive(menu, _("_Rename..."), over_icon,
 			G_CALLBACK(collection_table_popup_rename_cb), ct);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, over_icon,
-			G_CALLBACK(collection_table_popup_delete_cb), ct);
 	menu_item_add_sensitive(menu, _("_Copy path"), over_icon,
 				G_CALLBACK(collection_table_popup_copy_path_cb), ct);
+	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, over_icon,
+			G_CALLBACK(collection_table_popup_delete_cb), ct);
 	menu_item_add_divider(menu);
 
 	submenu = submenu_add_sort(NULL, G_CALLBACK(collection_table_popup_sort_cb), ct, FALSE, TRUE, FALSE, 0);
