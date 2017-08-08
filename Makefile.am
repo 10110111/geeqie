@@ -8,7 +8,7 @@ DIST_SUBDIRS = src po doc plugins
 man_MANS = geeqie.1
 
 readmedir = @readmedir@
-readme_DATA = README.md COPYING ChangeLog TODO README.lirc
+readme_DATA = README.md COPYING ChangeLog TODO README.lirc AUTHORS README.html ChangeLog.html
 
 desktopdir = $(datadir)/applications
 desktop_in_files = geeqie.desktop.in

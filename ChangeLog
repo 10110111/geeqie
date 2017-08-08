@@ -1,3 +1,1760 @@
+commit 07b95e443e9e9dc1de1bd2486f719d29f78e28d4
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Aug 6 20:17:44 2017 +0100
+
+    Fix #505: ‘Copy path’ and ‘Delete’ are too close in the drop down menu
+    
+    https://github.com/BestImageViewer/geeqie/issues/505
+    
+    This commit attempts to ameliorate this issue by moving the Delete
+    action to the end of a section and ensuring a divider is immedialtely
+    below it.
+
+commit 2d94b0ad40241b9fb072ee59a53b798058cbd711
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Aug 6 19:25:07 2017 +0100
+
+    Prelim: display README in html format
+    
+    If README.html exists, it is displayed in the default browser in
+    preference to README.md in text format.
+    
+    Still requires the automake files to be modified for markdown (or some
+    other command) to generate the README.html file.
+
+commit 980fd785b70072bd6f8a1ae27513b50baec3a90b
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Aug 5 17:36:05 2017 +0100
+
+    Bug fix: GPS map expander
+    
+    When the expander for the GPS map was closed, the map continued to be
+    displayed.
+    The reason is unknown.
+    
+    This commit uses the expander signal to explicitly show or hide the
+    child of the expander.
+
+commit 4a896417f21ff1f95852d410bc8d3f71104c145c
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Aug 5 10:57:44 2017 +0100
+
+    Fix geonames coding error
+
+commit 35f0119cee536bf21cf041791e7a9a3b16b06059
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Aug 4 21:04:45 2017 +0100
+
+    Partial fix #504: Increase limit on Decoded Image Cache Size
+    
+    https://github.com/BestImageViewer/geeqie/issues/504
+
+commit a920f59f969459edcd5081cf3fdc16401fbf0d40
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Aug 4 17:04:07 2017 +0100
+
+    Fix #192: tiff files (and others) appear blurry when 1:1 view
+    
+    https://github.com/BestImageViewer/geeqie/issues/192
+    
+    Up to commit 808d8558b3d5 alpha-channel files at scale 1:1 always had
+    GdkInterpType set to GDK_INTERP_NEAREST - the lowest quality. As there
+    was no scaling, this was ok.
+    Thereafter scaling was set to that selected by the user, resulting in
+    problems when GDK_INTERP_HYPER was selected.
+    This commit reverts to the previous method.
+
+commit 559f0843a8b29057b08e2f1655d0c8eca87a4e22
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon Jul 31 14:36:29 2017 +0100
+
+    Fix #500: Geeqie doesn’t use shared thumbnail folder
+    
+    https://github.com/BestImageViewer/geeqie/issues/500
+
+commit c7cb4da3c29fbb8583c1bafd923b0d2eea285400
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon Jul 24 11:08:35 2017 +0100
+
+    Fix #499: Unable to move zoomed image
+    
+    https://github.com/BestImageViewer/geeqie/issues/499
+
+commit 4c3854b536f28258de7dbd69d427790961aba454
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Jul 23 12:05:26 2017 +0100
+
+    Bug fix: Zoom mode overwritten
+    
+    Zoom mode was overwritten whenever Preferences were saved.
+
+commit 46539884d6e1f6a4b7284aa7aa5e62da8ad885fb
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jul 20 11:11:50 2017 +0100
+
+    Image Search - Ignore rotation
+    
+    In the Image Search window, include a checkbox for Ignore Rotation on
+    the Image Content line.
+
+commit dd8ee57219b0c474a312e408816df85f6f2128a0
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jul 20 09:57:57 2017 +0100
+
+    Collections on command line
+    
+    In the current implementation, the complete path must be used when
+    opening a collection from the command line.
+    This commit permits just the collection name, with or without extension,
+    to be used.
+
+commit 16a51da065d8eb1fb997e11ec2fe4ab99e7b1df7
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Jul 18 19:39:58 2017 +0100
+
+    Move install folder for geocode-parameters
+    
+    Install geocode-parameters.awk in GQ_BIN_DIR.
+    
+    User can put their own version in ~/.config/geeqie/applications/
+
+commit 21700f642591d30ee5b64764aef1552a3ec18a32
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Jul 16 16:32:31 2017 +0100
+
+    Fix compatibility problems with log window
+
+commit 035c3253ded5b1bdf4de7bdd233b7ae6a5851066
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Jul 14 17:02:29 2017 +0100
+
+    Fix #302: possibility to copy exif field values from the info sidebar
+    
+    Copy info sidebar exif values to the clipboard.
+
+commit bfa5abb9b5c01308782e8417aed8c201c90bfc9f
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jul 13 12:00:17 2017 +0100
+
+    Copy exif data to clipboard
+    
+    Click on any cell in the Exif Window, and the data is copied into the
+    clipboard.
+
+commit c4cfa5f5a15fcb253c6df13a5bbbd8da26a027e1
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Mon Jul 10 12:23:19 2017 +0100
+
+    Adding more Entries to mailmap
+
+commit 9ab6445b56c431f6d1c8766b2f7a418be1412b4b
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Mon Jul 10 10:27:47 2017 +0100
+
+    Update mailmap
+
+commit 366ee2bf05dde1d48e40394a1a79e7271164be38
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Mon Jul 10 09:23:52 2017 +0100
+
+    Adding mailmap file to unify commiter
+    
+    If one wants to have different entry in the git `git shortlog`, just
+    give me a hint or just update it.
+
+commit 4bb7c12ddbf99f2290d916008948bd8c3c234991
+Author: Omari Stephens <xsdg@google.com>
+Date:   Mon Jul 10 07:53:04 2017 +0000
+
+    Update translation files after more source file shuffling.
+
+commit d2350bb41d28ae996584339c0e355224ef372430
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sun Jul 9 06:20:35 2017 +0000
+
+    update POTFILES.in
+
+commit 3bbefe2103e73e10631ee2188227a1a7b12f3918
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Jul 7 13:57:17 2017 +0000
+
+    deduplicate shared code in view_file_icon and view_file_list
+    
+    Also, moves view_file.c into the view_file subdir.
+
+commit 1bc4a19f66e15c4867c31d39a62623ba80e7924a
+Author: Omari Stephens <xsdg@google.com>
+Date:   Mon Jul 10 07:51:30 2017 +0000
+
+    Update translation files after source file move.
+
+commit d1306df61ff3147617c45d0f08c00b830e9cffe2
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sun Jul 9 21:40:05 2017 +0000
+
+    Enable C99 mode
+    
+    Also, make AC_INIT macro independent of available branch names.
+
+commit c90b60633ba526a4ea40ea4ecb239348ed0982ec
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sun Jul 9 05:54:05 2017 +0000
+
+    Ran regen_potfiles.sh to add missing files and correct the location of view_file files in POTFILES.in
+
+commit 95dd7b3505a4ff1fcd2720b51803c1b6fb4fd884
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Jul 7 13:48:00 2017 +0000
+
+    Avoid c99 feature
+
+commit c4e6fc621119b126df7a49a03147f957a1b2c185
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Jul 7 13:21:15 2017 +0000
+
+    *phew* commented and simplified.
+
+commit 70751490caa160fb865f95e7d5e594d5094e5424
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Jul 7 13:03:25 2017 +0000
+
+    Hopefully make it not crash
+
+commit eb082bd92226e209b3a08a6d3c6683da2a5229a2
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Jul 7 12:32:25 2017 +0000
+
+    It compiles!
+
+commit 9828bbe6d27398f12c9a0b72504d9efebb87a945
+Author: Omari Stephens <xsdg@google.com>
+Date:   Thu Jul 6 19:33:31 2017 +0000
+
+    Remove all references to "IconData"
+
+commit 6c65564fcd9c0814f215e232fe9cd80f1b6b3bf3
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Jul 7 16:37:12 2017 +0000
+
+    update .gitignore
+
+commit 2aef83cae376bd7307462e0cdd9b7d4490a9b9c5
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Jul 7 12:11:56 2017 +0100
+
+    Ensure .sim files are cleared from cache
+    
+    If file filtering was enabled, the .sim files were not cleared from the
+    geeqie cache
+
+commit 65f3e7f0710f685f77ee3a92ff96ff3b5303cb0a
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jul 6 14:47:45 2017 +0100
+
+    Fix clang compile errors
+
+commit 1891113571d9e39bd29b8b6abc661e178ffbcefd
+Author: Omari Stephens <xsdg@google.com>
+Date:   Wed Jul 5 21:41:18 2017 +0000
+
+    Refactor: move view_file implementations to their own subdirectory.
+
+commit 4606ea7a30474f45cb61009ecaeb2a45e32366d4
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Dec 30 04:24:46 2016 +0000
+
+    Add the ability to use regular expressions for Pan View keyword filtering.
+
+commit 6ea6f44e35fd34e912d387557d386690b623b64d
+Author: Omari Stephens <xsdg@google.com>
+Date:   Thu Dec 29 09:58:59 2016 +0000
+
+    Add pan filtering to all of the pan view modes
+
+commit e67dcc4f4a53d0f583ea07066aa0b65f4a339007
+Author: Omari Stephens <xsdg@google.com>
+Date:   Tue Dec 27 20:35:59 2016 +0000
+
+    Revamp pan view filtering to support different modes and grouping.
+    
+    Conceptually, the filter is a sequence of filter elements, which are considered
+    in order for each image in the pan view.  The end result is that each image is
+    either rejected or displayed as normal.
+
+commit 91062845074df3de5e02fb3ffb630a008b4ad1fd
+Author: Omari Stephens <xsdg@google.com>
+Date:   Tue Dec 27 19:26:45 2016 +0000
+
+    Move filter code into pan-fiew-filter.{c,h}
+
+commit fddcfa7fd51deac6ad83e49bdc8ed3e810416591
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sun Dec 25 08:25:13 2016 +0000
+
+    Adds a keyword filtering feature to Timeline PanView.
+    
+    UI needs some work, and currently only supports intersection between multiple
+    keywords.  Would be easy to support keyword unions, if the UI supported it.
+    
+    Should probably hide the button in modes that don't yet support it.
+
+commit f640a7a5eddf0f46a2d1fa366fe6173d600a503e
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sat Dec 24 22:37:21 2016 +0000
+
+    Pull the search UI construction code out into a distinct function.
+    
+    Also, it looks like the existing code would just leak the search UI widgets.
+    Having the construction code in a distinct function makes it much easier to
+    ensure the appropriate cleanup happens as well.
+
+commit b2335bb939212a413caac77d0ef02bdebb4d7ece
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sat Dec 24 05:23:02 2016 +0000
+
+    Start moving pan view search code to its own module
+    
+    Next step is to pull the construction of the Search UI into the module
+    as well.  Ideally, pan-view.c should just instantiate a Search thing,
+    without having to worry about exactly how it's constructed or destructed.
+
+commit 1ee18ab92d897eca90f5bb35e41c08b4b20ab82b
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Jul 2 19:46:19 2017 +0100
+
+    Minor doc update - config file locations
+
+commit f6a87c016ecead37f8232bea58de4f0b0d3e3680
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jun 29 11:05:59 2017 +0100
+
+    Addl fix #488: Issues using Geeqie to compare pictures
+    
+    https://github.com/BestImageViewer/geeqie/issues/488
+    
+    Implement Alt-Up and Alt-Down keys
+
+commit d058419bfa4d5793fe1390613eaaa010f7029c43
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Jun 28 16:57:11 2017 +0100
+
+    Fix #282: no support for multi-file actions in the sort bar
+    
+    https://github.com/BestImageViewer/geeqie/issues/282
+    
+    Sort manager actions operate on file selections
+    
+    Original patch by Glenn Rolland
+
+commit 35721aae8675431b27b93c2e2cad95103328965d
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jun 25 22:54:21 2017 +0100
+
+    Better Markdown
+
+commit 148d4dddc9638740b393e0f527c083e777a9a93e
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jun 25 22:31:31 2017 +0100
+
+    Using foreign to allow README file called README.md
+
+commit 7f0d622ec3884890b592f082159a0c9f8fc3513f
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jun 25 22:21:09 2017 +0100
+
+    Convert README to markdown
+    
+    This allows to display images and links a better way.
+
+commit 3557bcbb7c1bfe9c7be8d6d3f9400f90e1b6da33
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Jun 25 21:57:35 2017 +0100
+
+    Fix int<->uint problem
+
+commit 6eebdfd3f310e2823e45cda00b57b5e4f6839692
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Jun 25 13:23:51 2017 +0100
+
+    Bug fix: Additional debug features
+    
+    Ensure grep works on entire message line
+    guint/gint compile problem
+    compile with --disable-debug-log (patch by Guillaume Castagnino)
+
+commit 732210aa829e2c0cb9e74fe8fbab8f0dd4056454
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Jun 24 20:47:50 2017 +0100
+
+    Change travis to use trusty
+    
+    Precise is to old to build geeqie.
+
+commit d229ec4d1219531cf11426c88f9ec5abf7d3170a
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sat Jun 24 20:17:51 2017 +0100
+
+    Adding travis yaml
+
+commit 324129463b17052472ce473df3e253bee6476837
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jun 22 13:17:00 2017 +0100
+
+    Additional debug features
+    
+    -g:<regexp>, --grep:<regexp> filter debug output by regular expression
+    +w, --show-log-window        show log window
+    -o:<file>, --log-file:<file> save log data to file
+    
+    Save geomtery and position of log window
+    Various buttons on log window
+
+commit 9c47109d3aa65663b0c95d454dadca43ce0ba7f4
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Jun 21 13:15:32 2017 +0100
+
+    Fix #262: double click and fullscreen
+    
+    https://github.com/BestImageViewer/geeqie/issues/262
+
+commit 3229f865ea34e2a168c8c9b86dc044947fc47b20
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Jun 20 11:11:55 2017 +0100
+
+    Fix #492: Shortcut to Hide all sidebars simultaneously
+    
+    https://github.com/BestImageViewer/geeqie/issues/492
+    
+    Menu item to toggle hiding info, sort, and files panes.
+    Default key is backtick.
+
+commit 12a4fe18405a9132efc3ef19570bf0c59dd6b427
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Jun 18 11:03:09 2017 +0100
+
+    Eliminate FIXME: Log window line limit
+    
+    Set log window line limit in Preferences/Behavior
+
+commit 0dd6923f3b5f44fdaed2a1d1060f7b8df5e7014c
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Jun 17 09:14:58 2017 +0100
+
+    Fix #280: Set defaults for Auto Rename
+    
+    https://github.com/BestImageViewer/geeqie/issues/280
+    
+    Remember last used settings
+
+commit 68c4796e434bae49815d667264a780c8b63fc551
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Jun 16 09:45:57 2017 +0100
+
+    Addl fix #436: Add 'Losslessly rotate image' keyboard shortcuts
+    
+    https://github.com/BestImageViewer/geeqie/issues/436
+
+commit 63a96f8504a2773d03bd8956c17eb6bb09a706c7
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Jun 14 19:26:03 2017 +0100
+
+    Fix #314: Remote commands for thumbnail maintenance
+    
+    https://github.com/BestImageViewer/geeqie/issues/314
+    
+    Additional remote commands so that thumbnail maintenance may be executed
+    from cron.
+
+commit 9313974a67d3e0f2e78757d5ca979bb9de41aa03
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon Jun 12 19:15:29 2017 +0100
+
+    Fix #264, 274, 285, 436: Add 'Losslessly rotate image' keyboard shortcuts
+    
+    https://github.com/BestImageViewer/geeqie/issues/264
+    https://github.com/BestImageViewer/geeqie/issues/274
+    https://github.com/BestImageViewer/geeqie/issues/285
+    https://github.com/BestImageViewer/geeqie/issues/436
+    
+    Additional entries on Edit/Orientation menu:
+    Write orientation to file
+    Write orientation to file (preserve timestamp)
+    
+    Preferences/Metadata option "Write altered image orientation to the
+    metadata" must be off.
+    Exiftran and mogrify must be installed.
+
+commit cb2fa6ae065ec32015e46be3bcf5e7024918fe49
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jun 8 20:46:52 2017 +0100
+
+    Fix #323: Rating system
+    
+    https://github.com/BestImageViewer/geeqie/issues/323
+    
+    Initial implementation.
+    Set values either by Edit menu, or Alt+Keypad+n: n is 0 to 5
+    Alt+keypad+minus sets the value to -1.
+
+commit ca8f5cee69edb5183705eef28cf5f0f82b852f73
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jun 8 11:46:20 2017 +0100
+
+    Ref #202: "Set as wallpaper" doesn't work with GNOME Shell
+    
+    https://github.com/BestImageViewer/geeqie/issues/202
+    
+    Remove menu items for GTK3.
+
+commit 22010917d07dc67b51e6c24dfb633fc4a5eed408
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Jun 8 11:29:16 2017 +0100
+
+    Fix #490: Creating info sidebar panes
+    
+    https://github.com/BestImageViewer/geeqie/issues/490
+    
+    Additional icon in the sidebar panel to create new panes.
+
+commit cdd3c3a4887dae87d8e61e2f1d53313dbf532d0e
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Jun 7 17:53:16 2017 +0100
+
+    Document XMP, Exif and IPTC tag usage
+
+commit 8a3549d0dafcb9e23e3543741084fe9006500183
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon Jun 5 16:55:14 2017 +0100
+
+    Additional keyword menu entries
+    
+    1. Revert all hidden
+    2. Collapse all
+    3. Revert (see Help file)
+
+commit af063456f10b9c818c91e86d3efeb2a1152f99d7
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Jun 3 10:04:14 2017 +0100
+
+    Fix #446: Minor text updates
+    
+    https://github.com/BestImageViewer/geeqie/issues/446
+    
+    Plus warning with info sidebar heights
+
+commit 2e7f616a730ccaa640663023fc4602cf7c2b6c9a
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed May 31 18:45:01 2017 +0100
+
+    Addl fix #488: Hide menus when not in split mode
+    
+    https://github.com/BestImageViewer/geeqie/issues/488
+
+commit d901af03035620e2c958f4d7a6eededfa0bce8af
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed May 31 11:56:38 2017 +0100
+
+    Fix #488: Issues using Geeqie to compare pictures
+    
+    https://github.com/BestImageViewer/geeqie/issues/488
+    
+    Part 3: Use alt+left/right arrow keys to move between split window panes
+
+commit 4b6aa2ade43072a4daab30b81b4900972fec7083
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed May 31 09:01:35 2017 +0100
+
+    Fix #357: Save mark-and-keyword connections
+    
+    https://github.com/BestImageViewer/geeqie/issues/357
+    
+    Patch by unqwist and dragon-sh
+
+commit 521f209ec73efaa8488de1774560c460b577a659
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue May 30 15:51:00 2017 +0100
+
+    Partial fix #488: Split view with sidecars
+    
+    https://github.com/BestImageViewer/geeqie/issues/488
+    
+    Bug 2: fix split view when images with sidecars are involved
+
+commit 50f5ef3cedbeaa251a1e838bf5045a9dc7dda1ee
+Author: Alexander Antimonov <>
+Date:   Mon May 29 12:06:13 2017 +0100
+
+    Fix #381: Feature-Request: Make JPEG comment available for overlays
+    
+    https://github.com/BestImageViewer/geeqie/issues/381
+    
+    Additional tag "imagecomment" for JPEG comments
+
+commit 64b3e53dd4f9a9779478831f2449306f4ac927b8
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun May 28 19:30:41 2017 +0100
+
+    Fix #477: similarity duplicate search
+    
+    https://github.com/BestImageViewer/geeqie/issues/477
+    
+    Additional find dupes option: sort groups with the lowest number of
+    matches to the top of the results list
+
+commit 3fff57c8a02ef253c417c36ef137e21abcfca15a
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat May 27 15:58:00 2017 +0100
+
+    Minor dupe documentation
+    
+    Ctrl+shift+right-click to show debug info.
+
+commit 67d93b5d662ac97d6dd2c421387cd28330e404a1
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri May 26 20:00:22 2017 +0100
+
+    Temporary Fix #133: switching between images causes window to keep shrinking
+    
+    https://github.com/BestImageViewer/geeqie/issues/133
+    
+    Temporary fix to hide problem. You may need to set Preferences/Windows
+    "Limit size when auto-sizing window" to 94% or less.
+
+commit b1dd4301ed1f70051af83fa02965070be39d312d
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu May 25 21:17:08 2017 +0100
+
+    Fix #486: Build error
+    
+    https://github.com/BestImageViewer/geeqie/issues/486
+    
+    Bug solution from Guillaume Castagnino
+
+commit 36d2e8e15cf7e6e230664cea85a6ddf492f766fe
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu May 25 12:53:54 2017 +0100
+
+    Remember keywords layout
+    
+    Save and restore expanded keywords rows
+
+commit 4293c4534ca8c0c8d21ce65fe892ebead8d93d86
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 25 09:07:32 2017 +0100
+
+    Enable silent build as default
+    
+    Mimic Linux kernel builds.
+
+commit 23625715308e7e87ca3ea299a83a152c59b34ebe
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu May 25 07:56:03 2017 +0100
+
+    Fix assignment in dupe keypress function
+    
+    Thanks clang for detecting this typo.
+
+commit 2ed5e0e3bd63a51decd876ea9f2143a0dc977846
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon May 22 13:35:40 2017 +0100
+
+    Fix #445: Info sidebar section heights
+    
+    https://github.com/BestImageViewer/geeqie/issues/445
+    
+    Options in preferences/general to set heights of:
+    Title
+    Comment
+    Keywords
+    
+    Restart of Geeqie required for changes to take effect.
+
+commit 06b80ed3f417c8e1c5a53b0169179794e79f5567
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri May 19 19:49:47 2017 +0100
+
+    Documentation update
+    
+    Desktop files and the sort mnager.
+
+commit 30a7a60d8149a42effe57c5a57e5fe844ae647ce
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri May 19 19:22:55 2017 +0100
+
+    Temporary Fix #207:Symlink doesn't show in Sort Manager
+    
+    https://github.com/BestImageViewer/geeqie/issues/207
+    
+    This fix simply delays showing the sort manager until the user opens it,
+    by which time setup has been completed.
+
+commit d0224edc8344bedbb90c38e730f719eb1402d263
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue May 16 19:56:54 2017 +0100
+
+    Speed up re-read of exif date
+    
+    Remove unnecessary resets of exif date which cause re-reads of exif date
+    to be slow.
+    The initial read of exif date is unfortunately still slow.
+
+commit 7d42ca045284da44b249b42564421163c5969aab
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun May 14 21:57:53 2017 +0100
+
+    Geocode image by drag-drop
+    
+    If an image is not geocoded, drag-and-drop on the map to write latitude
+    and longitude to metadata
+
+commit ab4c998d4835a809e10f25e3aaa3acff8b8b6538
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu May 11 19:06:13 2017 +0100
+
+    Search on geo-position
+    
+    Additional search option to locate images within a distance of a
+    location. The search origin can be specified in a number of ways - see
+    the Help file.
+
+commit 2d3cd230c26931eec9fc02f2f76d72f7bfe5e1c4
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat May 6 11:10:57 2017 +0100
+
+    Temporary Fix #467: Refresh doesn't preserve thumbnail viewpoint
+    
+    https://github.com/BestImageViewer/geeqie/issues/467
+    
+    The reason for the reset of the view is unknown. This patch hides the
+    problem for the moment.
+
+commit 101f1babf7d1381d8249d2f474e9408e89da533b
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu May 4 19:06:48 2017 +0100
+
+    Bug fix: Re-size images in GTK3
+    
+    When compiled with GTK3 if an image is opened with "View in new window"
+    the minimum window size is determined by the image size and screen size
+    etc. If a file selection is opened, the minimum window size is set by
+    the first image displayed.
+    This feature is determined by a call to gtk_widget_set_size_request().
+    
+    When compiled with GTK2, the call to gtk_widget_set_size_request() seems
+    to be ignored, and the window can be resized at will.
+    
+    The GTK2 style is much more practical, so the call to
+    gtk_widget_set_size_request() is ignored in GTK3.
+
+commit d72088e0b2e958a9dc6a05cc9d29207e4d280c6b
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed May 3 11:30:12 2017 +0100
+
+    Fix #123: Limit image expansion in Fit To Window
+    
+    https://github.com/BestImageViewer/geeqie/issues/123
+    
+    Additional option in Preferences/Image to limit the expansion of an
+    image in Fit To Window mode. Stops small images being over-magnified.
+
+commit b8995ea496ae6d027962c106762b5f3b2c736250
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue May 2 09:54:59 2017 +0100
+
+    Fix #442: Path filter combobox not initialised
+
+commit a596e7633553158df293c0638fb32720358b3410
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon May 1 19:05:08 2017 +0100
+
+    Eliminate a FIXME: Collection window position
+
+commit 66fa2e11722e9d538da90e90593defc74c14660f
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Apr 29 19:24:33 2017 +0100
+
+    Bug Fix: Marks checkboxes in GTK 3.14
+    
+    Make marks checkboxes visible in icon mode in GTK 3.14 and later
+
+commit 852582b45f831208e9d22333053bfa6c3cffa53c
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Apr 27 21:36:46 2017 +0100
+
+    Minor documentation update
+
+commit 55a7ed0185e8adb8f30276952b981eb2c5a90714
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Apr 27 10:57:36 2017 +0100
+
+    Additional Fix #245: Eliminate run-time error
+
+commit e5f56d798fbeb235694e58f8741dbbd619225c46
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Apr 14 16:03:13 2017 +0100
+
+    Fix #290: Mouse-only image viewing
+    
+    https://github.com/BestImageViewer/geeqie/issues/290
+    
+    The mouse can now be used to change image, and zoom and pan image.
+    
+    Single middle-click toggles the mouse wheel function between "change
+    image" and "change zoom".
+    In split-view quad mode each pane can be clicked, allowing Connected
+    Zoom to made on any combination of panes.
+    
+    This function cannot be used with "Mouse wheel scrolls image" or
+    "Navigation by left or middle click on image" options.
+
+commit 529b863a529dda3c909878df3265d3246bcf2f3c
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Mar 28 19:27:16 2017 +0100
+
+    Bug fix: Remote --tell output
+    
+    Make the output go where it is supposed to go
+
+commit ecbdd1d662bea569244d6822e594ff6cfb185ed8
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Mar 27 13:22:58 2017 +0100
+
+    Fix #201: Geeqie to pop to top of current windows when open up with -r
+    
+    https://github.com/BestImageViewer/geeqie/issues/201
+    
+    Additional remote option to bring Geeqie widow to the top when opening
+    image:
+    
+    file:<file>  open <file>, bring Geeqie window to the top
+    File:<file>  open <file>, do not bring Geeqie window to the top
+
+commit acb881988e884319771e27a608fbde93f0a8194b
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun Mar 26 11:42:10 2017 +0100
+
+    Fix #130: Doubled path in thumbnail preferences
+    
+    https://github.com/BestImageViewer/geeqie/issues/130
+
+commit e44198de08c121b3d32775e0353b5e326fecc307
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Mar 24 19:45:44 2017 +0000
+
+    Fix #245: Zoom settings on status bar
+    
+    https://github.com/BestImageViewer/geeqie/issues/245
+    
+    Move commonly used zoom settings from Preferences to a button on the
+    status bar
+
+commit 1b57b82a571609d28aa5d4120c2a36e892bcd6f5
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Mar 23 10:06:59 2017 +0000
+
+    Fix #85: can not switch to list view in folder pane with keyboard
+    
+    https://github.com/BestImageViewer/geeqie/issues/85
+    
+    Ctrl-T is now a toggle to switch between list view and tree view in the
+    folder pane
+
+commit 5428ae8e0b4147cf01b0d2ebcaf8f7edf03b989b
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Mar 22 15:58:25 2017 +0000
+
+    Fix #56: "Create folder" under "copy/move" should select new folder
+    
+    https://github.com/BestImageViewer/geeqie/issues/56
+
+commit e08195b8e7b501010fbed20bb45363d38bb7e338
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Mar 22 14:33:48 2017 +0000
+
+    Bug fix: Seg fault in copy/move dialog
+    
+    If a non-existant folder is entered as the destination in a copy/move
+    operation, Geeqie will crash.
+    
+    Check for NULL returned from registered_extension_from_path()
+
+commit e498f547a95eda6d860c75ec058e145521af045e
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Mar 22 10:13:03 2017 +0000
+
+    Minor code amendments
+    
+    Ensure the shortcuts (bookmarks) pane is visible on first run
+    Remove unused defines
+    Document search on Exif date
+
+commit 869cbf2643ab945b0f8a6e8e9f413dd762cd637b
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Mar 21 17:28:55 2017 +0000
+
+    Fix #219: Ability to set solid colour for transparency layer
+    
+    https://github.com/BestImageViewer/geeqie/issues/219
+    
+    The checkerboard colours can be set on the Preferences/Image tab
+
+commit f470e79e48365dcc07fe7714543e7421b8cdfdba
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Mar 17 11:07:16 2017 +0000
+
+    Bug fix: Remote view:filename command
+    
+    The command:
+    geeqie -r view:filename
+    crashes Geeqie if the filename is not preceeded by a path.
+    
+    Use a string function that handles nulls.
+
+commit f12204d3929649abef802f7dcdc172dd7b2b57a9
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Mar 16 10:45:28 2017 +0000
+
+    Ref #242: Documentation update for collections
+    
+    https://github.com/BestImageViewer/geeqie/issues/242
+    
+    Clarify some Collection window functions
+
+commit 2be9b24c7fc96636a690e989200bb32c98409201
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Wed Mar 15 11:06:10 2017 +0000
+
+    Fix #147: Alternative format for sidecar extension
+    
+    https://github.com/BestImageViewer/geeqie/issues/147
+    
+    Add option to store sidecar extension with a format e.g. filename.jpg.xmp rather than filename.xmp
+
+commit 09258d881beb8119e5ab61ab880f707971c0a4b5
+Author: J. R. Schmid <jrs+git@weitnahbei.de>
+Date:   Mon Mar 6 18:41:00 2017 +0100
+
+    Update README.md
+    
+    Making unordered lists into parsable Markdown.
+
+commit a427009441f87cac3d722fade36c6fffe6030328
+Author: J. R. Schmid <sixtyfive@users.noreply.github.com>
+Date:   Mon Mar 6 18:41:00 2017 +0100
+
+    Update README.md
+    
+    Making unordered lists into parsable Markdown.
+
+commit 4fe23213ade9d19ce382855b59706e3392dc093e
+Author: J. R. Schmid <jrs+git@weitnahbei.de>
+Date:   Mon Mar 6 18:38:52 2017 +0100
+
+    Rename README to README.md
+    
+    So that GitHub picks up the Markdown headings...
+
+commit 33b23c8236fd60559c87e62d4c7312b4ac05d048
+Author: J. R. Schmid <sixtyfive@users.noreply.github.com>
+Date:   Mon Mar 6 18:38:52 2017 +0100
+
+    Rename README to README.md
+    
+    So that GitHub picks up the Markdown headings...
+
+commit d8c800519440afcea5391392b20e2ebe3d8dd5b4
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun Feb 26 19:58:21 2017 +0000
+
+    Documentation update for new options
+    
+    Options are:
+    * Whether to use saved window positions also for new windows
+    * Whether to enable navigation by left or middle click on image
+    * Ability to set keyboard scrolling step multiplier
+    * Whether list directory view uses single click to enter a directory or
+    GTK+ activation default (which is currently a double click)
+
+commit 08f1031b6e33ba8794f0d047314845101216fe35
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sat Feb 25 11:11:45 2017 +0000
+
+    Fix #473: Parameter type fix for "motion-notify-event" signal handlers
+    
+    The "motion-notify-event" signal "event" parameter is a GdkEventMotion
+    structure, not GdkEventButton.
+    Patch created by Maciej S. Szmigiero
+
+commit 8eca5b305a68d173b53c55260d8e713d8905d27c
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Feb 24 20:09:35 2017 +0000
+
+    Fix #326: Save position of float file list
+    
+    Save the position of the floated file list/tools window during a
+    session.
+
+commit e45c365df0ed9df46be56fb96b25b6022db64939
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Feb 24 16:25:33 2017 +0000
+
+    Fix #431: Bookmarks (shortcuts) to folders
+    
+    Additional section in the folders pane to permit shortcuts (bookmarks)
+    to commonly used folders or images.
+
+commit dcc7108bdf8f2bbc51368ba33c531447a957fdff
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Feb 22 10:46:07 2017 +0000
+
+    Bug fix: Crash using drag/drop in copy/move dialog
+    
+    In the copy/move dialog, if a folder is dragged onto the bookmarks pane
+    to create a new bookmark, Geeqie will crash.
+    A filedata list was returned instead of a path list.
+
+commit ba6b685566ba3de52a4e802ebde8faf2d2ea25f7
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Thu Feb 16 00:20:26 2017 +0100
+
+    Update german translation
+
+commit fa4df0897c42bf74bfc280ee6bbf8c306ed8fd23
+Author: cclark <cclark@mcb.net>
+Date:   Tue Feb 14 13:07:07 2017 +0000
+
+    Orientation commands and file selections
+    
+    In the current implementation, the orientation commands (rotate, mirror
+    etc.) affect only the single image that has focus.
+    
+    With this commit, the right-click menu orientation commands affect only
+    the single image the right-click is made upon.
+    The orientation commands from the main menu Edit/Orientation will affect
+    all selected files.
+
+commit 3c2b3ad636bc100cbdafc18b680b4adebfaa3f2d
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Feb 3 09:52:26 2017 +0000
+
+    Fix progress bar text
+    
+    Ensure progress bar text is shown in GTK3
+
+commit 93ff6360bf0d80618e0282a8a58e5eabb5964f47
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sat Jan 28 19:58:06 2017 +0000
+
+    Move exif auto-rotate option to a menu
+    
+    Move the exif auto-rotate option from preferences to the
+    edit/orientation menu. The shortcut key is Alt-X. There is also a button
+    on the status bar.
+    The intention is to make it easy for the user to make a comparison
+    beteen the actual and auto-rotated view as an aid to detecting
+    orientations made erroneously e.g. scanned images which have been
+    mirrored by mistake.
+    
+    Expanded documentation on rotation commands.
+    
+    Preserve the setting of the rectangular select option.
+
+commit 36c47f754a41f0e91731dedd02861bac67e6f5f4
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Jan 26 10:28:21 2017 +0000
+
+    Fix #469: Exif rotation problems
+    
+    https://github.com/BestImageViewer/geeqie/issues/469
+
+commit fcc67f90de4b38e97e0031764491cd861b38cfa2
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Jan 24 20:24:58 2017 +0000
+
+    Save position of tools window
+    
+    Correctly save position of tools window when floated
+
+commit 24c93fa48d2f0db94d33103291d0ab1cbb2b2cc4
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Jan 23 20:17:13 2017 +0000
+
+    Update documentation for orientation commands
+    
+    Clarify some sections and remove a TBD
+
+commit 3799ee6f41a99fe88e92937daab3d2aa2381c648
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Jan 23 17:40:40 2017 +0000
+
+    Search on exif date
+    
+    Additional search parameter to search using exif date.
+    The implementation is rather crude. It would be better to have a
+    drop-down box so that other date formats could be also used - e.g.
+    DateTimeDigitized
+    
+    Note: if a file does not have an exif date, it will default to 01
+    January 1970
+
+commit 78193941124b3d1842f3455c44205bc22099bcb3
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jan 18 13:57:37 2017 +0000
+
+    GIF animation settings
+    
+    Preserve GIF animation setting between sessions
+    Include GIF animation on View menu. Shortcut key is "A"
+
+commit 769316dd90a70d9d5b89b509748afb1e6e15d64c
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jan 11 22:00:49 2017 +0000
+
+    Eliminate some deprecations
+
+commit 2bb1e27e4f1acd0d3c73958b97d31318fe6a07f4
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jan 11 13:21:10 2017 +0000
+
+    Fix compile warnings
+    
+    Fix compile warnings introduced in commit 2afb371
+
+commit a51e5cfb5a34ad2e996dfe8ea7f974a8c78c225a
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jan 11 10:48:30 2017 +0000
+
+    Fix compile warning
+    
+    Fix compile warning introduced in commit 2afb371
+
+commit dac946af6f2fb81bbea56bd625954f79a97a61cb
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Jan 10 11:39:44 2017 +0000
+
+    Move duplicates options
+    
+    Move duplicates options Custom Similarity Threshold and Rotation
+    Invariant Duplicate Check to the duplicates window.
+    It makes more sense to place them where the user can easily access them.
+
+commit ea0dc6c59bb8bfae6a8e690890b4413245919dbd
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun Jan 8 18:10:03 2017 +0000
+
+    Right-click menu separators
+    
+    Right-click menu separators are not displayed with GTK 3.20.
+    Replace gtk_menu_item_new() with gtk_separator_menu_item_new().
+
+commit d0d5ee607b43c3706b70b382179d5a349abd6158
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Sun Jan 8 17:41:56 2017 +0100
+
+    Update Polish translation
+
+commit 6385be22a0be36111311269418c23405d4407401
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Sun Jan 8 16:43:39 2017 +0100
+
+    Correct the location of pan-view files in POTFILES.in
+    
+    Commit 58d397efc9e99104d21ea686837396673939ccde didn't update corresponding entries in POTFILES.in
+
+commit 843ba935a260e1aef22e85e4029cc5d53ef095ed
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun Jan 8 14:04:44 2017 +0000
+
+    Temporary fix #459: GTK 3.20 drop-down
+    
+    https://github.com/BestImageViewer/geeqie/issues/459
+    
+    This is just a quick fix to make life easier for the users. The whole
+    GTK 3.0/3.20 problem requires significant effort.
+
+commit 1238348598ca19e1cc0bc1deb9cc726f2cef4180
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sat Jan 7 11:47:30 2017 +0000
+
+    Fix #435: Remember duplicates settings
+    
+    https://github.com/BestImageViewer/geeqie/issues/435
+    
+    Preserve duplicates window settings - Compare By, Thumbnails and Group
+    Selected - between sessions
+
+commit 336bfce88f7f8adea8835287ec048a3816bd8b72
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Jan 6 13:20:26 2017 +0000
+
+    Fix #460: Multiple duplicates
+    
+    https://github.com/BestImageViewer/geeqie/issues/460
+    
+    Ensure the duplicates lists do not contain more than one entry for each
+    physical file
+
+commit b2e963230cacc474952653ef68578dcf60e117f8
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Jan 5 13:53:31 2017 +0000
+
+    Preferences: Open recent list maximum size
+    
+    Implement this function, and change the name to "Recent folder list
+    maximum size"
+
+commit b0b11291d2c9371dddbe42c232e6469f252b524c
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jan 4 20:01:47 2017 +0000
+
+    Rectangular selection
+    
+    Add toggle Rectangular Selection to Select menu. Shortcut key is Alt-R.
+    Also on Collection widow.
+    Removed option from Preferences page as it is redundant
+
+commit 5b98d3244780f0652324559f778e19c05d39749d
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sun Dec 25 01:47:15 2016 +0000
+
+    Add "-Werror -Wno-error=" to the default CFLAGS.
+
+commit 549edfd10186b7e993dd57e03b2a924ccc82499c
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sun Dec 25 01:47:15 2016 +0000
+
+    Fix GCC and Clang compile warnings.
+
+commit d4f41aeb17f23eb0851e9a80b7771ccc76327699
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Jan 2 19:37:33 2017 +0000
+
+    Revised Help documentation
+    
+    Revised documentation for keyboard shortcuts.
+    Context-sensitive F1 help for Collections, Duplicates, Search and Pan
+    View windows
+
+commit 113b1fe27c03671aa1e8ef8727fc3d64e682eaca
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Jan 2 10:13:57 2017 +0000
+
+    F10 in Search window
+    
+    If F10 is pressed when the search window is empty, Geeqie will crash.
+    Bug fix.
+
+commit 0a8ad0640f118a2846c6768c11486c1b74bc4e0f
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun Jan 1 16:57:42 2017 +0000
+
+    Fix #447: Preferences Enable Delete key
+    
+    https://github.com/BestImageViewer/geeqie/issues/447
+    
+    The preference "Enable Delete key" is now used in the main window
+
+commit 2c776698b3aa749294ea455483f68eefd0da3105
+Author: Colin Clark <cclark@mcb.net>
+Date:   Fri Dec 30 11:51:15 2016 +0000
+
+    Status bar tooltips
+    
+    Ensure all status bar items have tooltips
+
+commit 4297e8ce80734506cbc2ba69ba7edd499448a08e
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Dec 29 16:33:08 2016 +0000
+
+    Command line option to print current filename
+    
+    Command line remote option to print the filename of the currently
+    displayed image.
+    
+    geeqie --remote --tell
+    
+    Originator:
+    https://sourceforge.net/p/geeqie/mailman/geeqie-
+    devel/thread/20161227192724.GC1622%40hodi/#msg35573019
+
+commit 58d397efc9e99104d21ea686837396673939ccde
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sat Dec 24 05:38:38 2016 +0000
+
+    Move pan-view components to their own subdir.
+    
+    This makes it easier to modularize pan-view without cluttering the src dir
+    with extra files, and without worrying as much about exposing pan-view-internal
+    APIs to the rest of Geeqie.
+
+commit 28f8352a52078dd9726b609f434886a459bd3f86
+Author: Omari Stephens <xsdg@google.com>
+Date:   Sat Dec 24 05:28:00 2016 +0000
+
+    Update the automake file with new headers
+
+commit f66088a4389d7d4fc19d9e0b0fdf3faeeed637a8
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Dec 23 22:23:02 2016 +0000
+
+    Refactor pan-types.h into discrete header files for each pan-view code module
+
+commit a43d40845dcc2fb63c1ad6cae31b8b1ff5527701
+Author: Omari Stephens <xsdg@google.com>
+Date:   Fri Dec 23 21:36:24 2016 +0000
+
+    Fix errors in -Werror (except GdkPixbuf deprecation warnings)
+    
+    With these changes, Geeqie compiles with
+    ./configure CFLAGS="-Werror -Wno-error=deprecated-declarations"
+
+commit 2afb371e7841b31ec1ecd57fd64de6dd5b12a207
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Dec 20 21:36:52 2016 +0000
+
+    Fix #434: Part 2.0
+    
+    https://github.com/BestImageViewer/geeqie/issues/434
+    
+    Remove data duplicated in the README and Help files
+    Include context-sensitive help in all preferences windows
+    Minor addition to README file
+
+commit 5b6d0c2cbbeb691cc7a8e05f9acfb912360b4841
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Dec 20 19:41:36 2016 +0000
+
+    Fix #434: Remove duplicate data, context-sensitive help
+    
+    https://github.com/BestImageViewer/geeqie/issues/434
+    
+    Remove data duplicated in the README and Help files
+    Include context-sensitive help in all preferences windows
+    Minor addition to README file
+
+commit 43da3985b6333437072f986381f2e181618b38d7
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sat Dec 17 21:27:37 2016 +0000
+
+    Partial fix #395: File selection collection
+    
+    https://github.com/BestImageViewer/geeqie/issues/395
+    
+    Right-click on a file selection has a menu option to append the
+    selection to a new Collection
+
+commit 22b4f6c1486c07bcde031e185927275325e1560e
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sat Dec 17 20:07:11 2016 +0000
+
+    Partial fix 435: Duplicates in file selection
+    
+    https://github.com/BestImageViewer/geeqie/issues/435
+    
+    Right-click on a file selection has a menu option to open the Find
+    Duplicates window
+
+commit aa6a20a43d66ab75cd6fbd59168982e259f0ede3
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Dec 15 19:05:51 2016 +0000
+
+    Fix #401: Find duplicates status bar text
+    
+    https://github.com/BestImageViewer/geeqie/issues/401
+    
+    Ensure display of informative text such as "Reading dimensions.."
+
+commit 5bd5a4021e6dc61a9529d230804edf1e6d2b66b9
+Author: Colin Clark <cclark@mcb.net>
+Date:   Thu Dec 15 13:23:12 2016 +0000
+
+    Fix #411: Use locale for date format
+    
+    https://github.com/BestImageViewer/geeqie/issues/411
+    
+    Use system locale for date format on the search page
+
+commit 8b7e0e011020dc327a138230496c6b5dfa919af0
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Dec 13 20:12:06 2016 +0000
+
+    Fix #417: Natural sort order
+    
+    https://github.com/BestImageViewer/geeqie/issues/417
+    Refer also to commit bd34c324c92456f5182579d6922d7aba664f93c3
+    
+    Include an option on the Files tab of Preferences to permit the
+    selection of either g_utf8_collate_key() or
+    g_utf8_collate_key_for_filename() for the sort order of files and
+    folders
+
+commit 39fc45ba4007a1f6199221b457b9ab4f208b29f3
+Author: Christian Heckendorf <heckendorfc@gmail.com>
+Date:   Sat Dec 3 11:24:36 2016 -0500
+
+    Set animation NULL after free on static images.
+
+commit bcdc68813612fc72a7a548ee8bf3aa495af05e0f
+Author: Martin Pelikán <mpel@google.com>
+Date:   Sat Dec 3 22:53:50 2016 +1100
+
+    Open BigTIFF (64-bit) files using the custom TIFF loader.
+    
+    In the worst case, old libtiff versions will return a different error.
+    See http://www.awaresystems.be/imaging/tiff/bigtiff.html for more info.
+
+commit 13ba566371c98def2eed463f5cd9570729a77743
+Author: Christian Heckendorf <heckendorfc@gmail.com>
+Date:   Sat Aug 27 20:34:00 2016 -0400
+
+    Silence g_object_unref failed assertions.
+
+commit 50318899fbfa59dea58e08e53574c05f5ecf956c
+Author: Christian Heckendorf <heckendorfc@gmail.com>
+Date:   Sat Aug 27 20:32:46 2016 -0400
+
+    Make animation functions static.
+
+commit a27623d3f7fc118568e89c7c7eea179f3f0c3713
+Author: Christian Heckendorf <heckendorfc@gmail.com>
+Date:   Sat Aug 27 14:32:33 2016 -0400
+
+    Stop animation if no file is showing.
+
+commit 15917d4063cec9994ab7c48055f2c10aff7d2b1c
+Author: Christian Heckendorf <heckendorfc@gmail.com>
+Date:   Fri Aug 26 18:38:51 2016 -0400
+
+    Animated images.
+
+commit b484a282824c87553d7e216245279e2f5257a80e
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Aug 24 17:28:23 2016 +0100
+
+    Fix #414 Render Intents
+    
+    https://github.com/BestImageViewer/geeqie/issues/414
+    
+    Permit the user to select the rendering intent.
+
+commit d3fe27a9eccd12d4d16cca61e0d485d19dc39a6b
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Aug 24 17:19:04 2016 +0100
+
+    Map image direction
+    
+    If an image has a valid Exif.GPSInfo.GPSImgDirection tag, and the icon
+    on the map is clicked, a line showing camera direction is displayed
+    also.
+
+commit ba79fd472145e92b54cb13485867c5818a6f0779
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Aug 24 17:01:32 2016 +0100
+
+    Bug Fix #426: geeqie -r file:FILE crashes if FILE does not exist
+    
+    If the file does not exist, default to the home directory
+
+commit d2bda657c12cf2b873b7e0ec8ff37b08f2f36e55
+Author: Michael Cross <mc@xi2.org>
+Date:   Fri Aug 19 12:33:01 2016 +0100
+
+    Wrap cairo_destroy call with appropriate CPP macro
+
+commit e665261ca89196591aae48b98356aad5640a2136
+Author: Michael Cross <mc@xi2.org>
+Date:   Fri Aug 19 11:28:22 2016 +0100
+
+    Fix memory leak
+
+commit 03283a34699c8b88f08b39dee90ae13ee1d63e58
+Author: Michael Cross <mc@xi2.org>
+Date:   Fri Aug 19 07:03:41 2016 +0100
+
+    Fixing Memory leak
+    
+    I also suffer from what I believe is this bug. It was not present in
+    geeqie 1.0 and was simple for me to reproduce in 1.2+. I open a
+    directory containing a few thousand jpg files of around 100k each and
+    just keep hitting the key for "Next Image". After around a minute my
+    computer will freeze.
+    
+    Given this reproducibility, I ran git bisect and found the commit that
+    introduced the behaviour for me was the following
+    
+        commit b4c4a924121c3aa6b2f1eb7570dd3f419d2f4d83
+        Author: Vladimir Nadvornik <nadvornik@suse.cz>
+        Date:   Thu Aug 2 00:15:16 2012 +0200
+    
+            use cairo for drawing
+    
+    I then noticed what I think is a missing cairo_destroy call in
+    cellrenderericon.c. The following patch solves the problem completely
+    for me as far as I can tell.
+
+commit 46fb8433a276270bea054c09a8a80a097e10ffc5
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Aug 8 20:22:40 2016 +0100
+
+    Revised Help files
+
+commit ddcb9e4da33e058996bade6e79a539e1364607ab
+Author: Colin Clark <cclark@mcb.net>
+Date:   Sun Jul 24 21:27:14 2016 +0100
+
+    Bug Fix #233 Custom Border
+    
+    https://github.com/BestImageViewer/geeqie/issues/233
+    
+    In the change from v1.1 to v1.2 (GTK3 and cairo were part of this), the
+    custom border was ignored and simply set to black.
+    Perhaps it was not possible to get a "good" solution with the current
+    design.
+    Possibly this change is not the best solution, but nevertheless it
+    should be sufficient until a better version is produced.
+
+commit 2dd2516887b1a09e81bdd35a989f79e21f4c2562
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jul 20 13:20:24 2016 +0100
+
+    CopyMoveRename
+    
+    In Copy, Move and Rename operations, show a thumbnail of the source file
+    and, if the destination already exists, show a thumbnail for that also.
+    Use the Rename dialogue for Copy and Move operations also.
+
+commit eb8db3e169228914cddab3cfb06c773711883619
+Author: Wayne A. Ptaff <wayne@ptaff.ca>
+Date:   Fri Jul 15 11:51:42 2016 -0400
+
+    Force focus to geeqie after leaving fullscreen
+    
+    On some multi-monitor setups / window manager
+    combinations, the geeqie main window does not
+    claim focus back after leaving fullscreen mode.
+    
+    This fixes https://github.com/BestImageViewer/geeqie/issues/418
+
+commit 9d98d221ea57f57ad52967184b19013ce0e5eeda
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jul 13 20:14:46 2016 +0100
+
+    Bug fix: Crashes with drag-drop in bookmarks
+    
+    Also ameliorates https://github.com/BestImageViewer/geeqie/issues/377
+    
+    bookmark_drag_begin:
+    eliminate a run-time error message
+    
+    bookmark_dnd_get_data:
+    uri_filelist_from_uris returns a list of type FileData. What is required
+    is text.
+    
+    bookmark_drag_set_data:
+    uris_from_filelist expects a list of type FileData, but was given a list
+    of type text
+    
+    The code: "gdk_drag_context_get_dest_window(context) ==
+    gtk_widget_get_window(bm->widget)"
+    does not function as expected. The reason is unknown.
+    In order to avoid crashes, drags from bookmarks are disabled for the
+    moment.
+    There is no significant loss of functionality.
+
+commit 3135c2345d7aab6915495768fff88fff7b2759e7
+Author: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+Date:   Sat Jul 9 19:25:08 2016 +0200
+
+    Add four new preferences
+    
+    This commit adds four new preferences:
+    * Whether to use saved window positions also for new windows (in case saved
+    window positions are enabled),
+    * Whether to enable navigation by left or middle click on image,
+    * Ability to set keyboard scrolling step multiplier,
+    * Whether list directory view uses single click to enter a directory or
+    GTK+ activation default (which is currently a double click).
+    
+    Default values of all these preferences have been set in a such way to not
+    cause any changes in behavior for existing users.
+    
+    Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+
+commit 56b0d4189f43a8a15ee7f34b8575a5889a1f6926
+Author: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+Date:   Sat Jul 9 18:57:08 2016 +0200
+
+    Fix hidden directories not showing in a tree view
+    
+    Directory tree view contains code that when "Show hidden files or folders"
+    option is not enabled but the user enters a path containing hidden
+    directories the missing tree entries are added automatically.
+    
+    This didn't work (at least) in case when the first hidden directory in
+    newly selected path was in a current directory because the tree populating
+    function exited early when directory contents did not change since last
+    run, before checking for this special case.
+    
+    Fix this by skipping this check when we have to add such hidden directory
+    entry.
+    
+    This check must also be skipped when 'force' flag is passed to this
+    function, otherwise when enabling "Show hidden files or folders" option
+    the missing directories are not added to the tree until Geeqie is
+    restarted.
+    
+    Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+
+commit 3e8045cddca9265cd7d430d4b10fe510d05c0187
+Author: Colin Clark <cclark@mcb.net>
+Date:   Tue Jul 5 19:47:40 2016 +0100
+
+    Fix deprecated - gdk_window_get_pointer
+    
+    Also fixes https://github.com/BestImageViewer/geeqie/issues/399
+
+commit efe0e6a38273eb8e43f5109915b9b81f843cc6eb
+Author: Colin Clark <cclark@mcb.net>
+Date:   Wed Jun 29 20:24:54 2016 +0100
+
+    Keyboard Map
+    
+    Add keyboard map option to Help menu.
+    
+    qwerty keyboard only.
+
+commit 8564d94d35f1b5bc6739ecfdf23c095a85fb2986
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Wed Jun 29 21:17:19 2016 +0300
+
+    1 fuzzy (0%), 11 untranslated (0%)
+
+commit f67d58132ac88543fd9ac06636571c6ba5fb4263
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Sun Jun 26 21:26:21 2016 +0300
+
+    fuzzy 0% [8], untranslates 4% [60]
+
+commit 40ff1303b6fa9c9b150fc964c1e460f779728685
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Jun 20 17:03:37 2016 +0100
+
+    Keyword right-click menu
+    
+    https://github.com/BestImageViewer/geeqie/issues/404
+    
+    Change confusing menu prompt from Add to New
+
+commit ceadba598d71c70eefb5f4f95d1e02bcc7f98fe6
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Jun 20 14:31:32 2016 +0100
+
+    Check if GPS data is reasonable
+    
+    https://github.com/BestImageViewer/geeqie/issues/406
+    
+    Fix incorrect logic.
+
+commit 650aa8ea3a5e0bfafc70d60dce16267969d37b36
+Author: Colin Clark <cclark@mcb.net>
+Date:   Mon Jun 20 12:25:27 2016 +0100
+
+    Check if GPS data is reasonable
+    
+    https://github.com/BestImageViewer/geeqie/issues/406
+    
+    Change lat/long fallback values to 0 rather than 1000
+
+commit 7d6343aef24cdee5784719a8f856032f33e3b4ed
+Author: rezso <rezso@rezso.net>
+Date:   Mon Jun 20 01:25:10 2016 +0200
+
+    Use correct thumbnail dirs
+    
+    Since glib 2.34, the thumbnails are in .cache/thumbnails, not in .thumbnails.
+
+commit 9a24b29d4e30fc7bfafc90195d3b0bce6615b04d
+Author: Martin Pelikán <mpel@google.com>
+Date:   Mon Jun 20 01:32:00 2016 +1000
+
+    Properly open and work with large TIFF files.
+    
+    Any file between 2^31 and 2^32 bytes shouldn't have its size displayed
+    as a negative number. Viewing more than 32768 pixels in each dimension
+    is only a matter of using 64bit arithmetic when calculating allocation
+    sizes and pointers into that memory. Multiplying is always suspicious.
+    
+    While there, make the error messages clearer about what went wrong.
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit f05b104afd2437e9e1040c921b75cb09db76010b
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Fri Jun 17 12:01:39 2016 +0300
+
+    fuzzy 3%, unstranslated 10%
+
+commit b34ce94bffbacfa191466342cea33d642d1249c6
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Tue Jun 14 23:02:06 2016 +0300
+
+    fuzzy 3%, untranslated down to 15%
+
+commit 461a5b54b56c5014502c913e990cb55b3ba912f8
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Sat Jun 11 20:56:53 2016 +0300
+
+    fuzzy strings down to 3%
+
+commit 970562d09001c6ef893550bbab2ec83016b1235e
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Fri Jun 3 22:46:24 2016 +0300
+
+    some more changes
+
+commit a0b1c7322ca28e550f48c3654e97adde2c65eb6c
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Fri Jun 3 00:00:00 2016 +0300
+
+    even more changes
+
+commit 65ef9d0700c84e3f0a2cd7c34a3ed8a5d9a334b5
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Wed Jun 1 21:54:27 2016 +0300
+
+    more changes
+
+commit 4f19e0606a4a9eb997c0b97e65cacc50bfb1a248
+Author: nikoss <nikoss@users.noreply.github.com>
+Date:   Wed Jun 1 21:23:35 2016 +0300
+
+    1st change
+
+commit 0b044d1d685307e5755917e31d56a1a3104cd505
+Author: David Kalnischkies <david@kalnischkies.de>
+Date:   Fri May 27 12:04:40 2016 +0100
+
+    Work around changed c++11 std::string implementation
+    
+    Bug was already partly fixed by 96db62d but there was even more
+    positions that was unseen by Solomon.
+    
+    The patch is originally from Debian bug report #800350.
+    
+    Signed-off-by: Klaus Ethgen <Klaus@Ethgen.de>
+
+commit 3b0fff2af120bddbe2af64761e52b66a12041415
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri May 27 11:15:08 2016 +0100
+
+    Update web page
+
+commit 4b953fe8ba3d6b12876817dd282d5e8ee2bfe87d
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Fri May 27 10:46:11 2016 +0100
+
+    Backported stuff from release and web
+
 commit eff44ead88b83c2b10db7308cda41bb09ddb21c3
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Thu May 26 20:58:35 2016 +0100
@@ -2413,6 +4170,282 @@ Date:   Tue Sep 27 21:12:02 2011 +0200
 
     fixed stereo_temp_disable functionality
 
+commit f5470bbc26b15ce585c8f1cedfad3adfa611ef85
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Tue Sep 27 10:29:36 2011 +0200
+
+    added panorama .pto file to the list of known files
+
+commit 0736b5d6b3b31bb24531284b44b90b7b225d9e7c
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jul 29 15:27:09 2011 +0200
+
+    fixed crash on incomplete jpeg file
+
+commit 10f4b603e6b8ad553a7b9c9afb4aa92e43dccae6
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat May 14 22:16:49 2011 +0200
+
+    added Cycle through stereo modes menu entry
+
+commit e9780e09d7e57bd5f5c3594bdd773bb2541ec232
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat May 14 21:53:45 2011 +0200
+
+    do not mix autodetected and user-defined stereo mode
+
+commit c447b43b8f8291da9d941718afaa0b2c9d950efc
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Apr 10 21:11:50 2011 +0200
+
+    more compilation fixes
+
+commit 7a8a4c7e4448572ba18d4ded8cf7e86dbd5bf8e7
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Apr 10 20:30:17 2011 +0200
+
+    compilation fixes
+
+commit 0ec34da9df56efdd6963a0f3569fe24299a8ba0d
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Apr 9 19:27:43 2011 +0200
+
+    fixed libjpeg in autoconf
+
+commit 18f8e33ac8681cd297a980a936bd2ce2467614da
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Apr 9 16:07:31 2011 +0200
+
+    improved mpo parser, consider individual image type code
+
+commit e5235578ba189827610cec22c9ca8bc17c433113
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Apr 8 21:16:41 2011 +0200
+
+    fixed to compile with other libjpeg versions
+
+commit dd008ca74ba4a924b202021a7d0dbd11cf0dc542
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 19:22:29 2011 +0200
+
+    allocate tile pixbuf allways
+
+commit 43b479c1042930d616cb4c8fb9e80ee5fd0900ec
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 18:20:19 2011 +0200
+
+    updated copyright notices
+
+commit a7efe96305e0e1847c2e20b119c86cac03fd9e56
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 18:14:17 2011 +0200
+
+    free mpo data
+
+commit 85dbc07da126d6229f37821e5dd49c3b8546e80e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 13:53:23 2011 +0200
+
+    fixed jpeg_segment_find to support more app2 segments with different signatures
+
+commit c2378af08d9bb0b9ee1f958c9a4b50bc65abbed8
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 12:52:09 2011 +0200
+
+    store stereo flag in loader data
+
+commit 2f3197170c42959552141b2600c9d828542792a8
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 12:02:30 2011 +0200
+
+    fixed freed data access
+
+commit 091dae0b7d6e602da76f624ddac3e335e262e1fa
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 11:58:29 2011 +0200
+
+    load mpo files as SBS
+
+commit c546114c635f93ff254b4d479a1b6370377d054b
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 27 10:57:08 2011 +0200
+
+    added mpo parser
+
+commit 3b1800b11fd5f98ce268b358f17585d43641c3ea
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 26 22:13:39 2011 +0100
+
+    split jpeg parser functions to separate file
+
+commit ec75c814d6f79ec16426ee40aacbf7d0aded8e41
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 26 22:03:30 2011 +0100
+
+    added custom jpeg loader
+
+commit b5b810393f0fae5071a0263db376dadaf595d4c5
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 26 17:57:25 2011 +0100
+
+    infrastructure for image loader backend
+
+commit 09037ad50bd7a839794df37034bcd3dd378cab13
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Mar 25 23:25:15 2011 +0100
+
+    renderer interface cleanup
+
+commit c9965882aeed23e72cf019f6d3859a69d1d4aebd
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Mar 25 23:14:01 2011 +0100
+
+    fixed redrawing on expose event
+
+commit a5a53debed949e9511e6e6fcd454aa324334a8cf
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Mar 25 22:09:59 2011 +0100
+
+    fixed area_changed handling
+
+commit 8a3733bbabbca537e1f741984fa8b5e94cca08c6
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 19:16:07 2011 +0100
+
+    added more anaglyph modes
+
+commit 19f041e7e105a568a57b22cc36e30590ccc75de7
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 12:49:00 2011 +0100
+
+    added half-size (3dtv) stereo mode
+
+commit 797e4dbd59e944c3d3b78d25b44dfe7ae8bb287e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 11:31:08 2011 +0100
+
+    fixed sbs mode
+
+commit e82e902ed059b5ed4e12a1c48e816cdf3c514940
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 11:11:08 2011 +0100
+
+    save and load stereo options
+
+commit f2ee23371ea8a95eb54cd39bf191e658f99cae7e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 10:52:41 2011 +0100
+
+    improved preferences dialog
+
+commit bd4b6cfb641e52f646931b69ddccbcacb0f85a5f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 10:15:07 2011 +0100
+
+    added fixed stereo mode
+
+commit 826ea8c822093a131c5c44c9c02252aff5d60d2e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 00:23:54 2011 +0100
+
+    removed 'swap' entry from menu
+
+commit 28fd30edc8bf0a4d0a62c2732d37f512affaf87b
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sun Mar 20 00:18:13 2011 +0100
+
+    temporarily disable stereo mode, added more stereo prefs
+
+commit 623bc05945e68c9242a69290de12501435a1bc18
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 19 21:42:13 2011 +0100
+
+    type of source stereo image made adjustable from menu
+
+commit bab7032f6f11847e68ce1ac42d68a18d50aed220
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Mar 19 19:53:30 2011 +0100
+
+    stereo mode preferences
+
+commit f5f37819bf9ede89c68114b079feb24d19e49343
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Feb 5 22:22:12 2011 +0100
+
+    change stereo mode from menu
+
+commit 68dc88956d7b42a3ced0e0256d075307e866494f
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Feb 5 18:20:16 2011 +0100
+
+    swap stereo images
+
+commit 8ea74ae53b6c32d3d5492340fe16fdeeedd12f26
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Feb 4 23:49:13 2011 +0100
+
+    added mirrored stereo mode
+
+commit 086196582749a9f9fd254399665c56a892348ce3
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 17:43:05 2011 +0100
+
+    fixed overlay position - part2
+
+commit a081296160a39396e395eab36c091cddfb9f216e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 17:35:29 2011 +0100
+
+    fixed overlay position
+
+commit cb324a14505d277f8c2def3512e71f64d151531b
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 17:15:39 2011 +0100
+
+    do not draw tiles outside the viewport
+
+commit 589a4cb49ae1b9c0a8618ca3918a579ef9e517ae
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Sat Jan 29 14:49:38 2011 +0100
+
+    display pixel aspect ratio support
+
+commit 0a5ec68af089d4b79c3816d3e7df0434ea0ad5e8
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 14:34:57 2011 +0100
+
+    anaglyph support
+
+commit fa7103087ac4eaf5d2ddd560fa472d4c4d8a1fa2
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 13:13:27 2011 +0100
+
+    rt_tile_render cleanup part 3
+
+commit 3dd0e08368b389250b15790036be7f00075a1d74
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 13:05:14 2011 +0100
+
+    rt_tile_render cleanup part 2
+
+commit 808d8558b3d5e2ec8791ca3ea2a0ba14e5e18823
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 12:44:32 2011 +0100
+
+    rt_tile_render cleanup part 1
+
+commit 6b9ed5a71fc7230c795e4edd541fb79a5d022220
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Fri Jan 28 11:05:07 2011 +0100
+
+    first stereo support
+
+commit 63fdb63ce1470f08c4be2d7a2ff02582c331560e
+Author: Vladimir Nadvornik <nadvornik@suse.cz>
+Date:   Thu Jan 27 13:40:05 2011 +0100
+
+    separated tile renderer
+
 commit a8c5cb269996f35d4877e31514956c198c3bd2e5
 Author: Vladimir Nadvornik <nadvornik@suse.cz>
 Date:   Mon Sep 26 15:02:05 2011 +0200
@@ -2458,24 +4491,6 @@ Date:   Thu Dec 16 21:55:03 2010 +0100
     http://sourceforge.net/tracker/?func=detail&aid=2999830&group_id=222125&atid=1054680
     http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=574853 (original report)
 
-commit a3a06975ec99beac1b2f1f16445679dd56fae053
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Tue Sep 27 10:29:36 2011 +0200
-
-    added panorama .pto file to the list of known files
-
-commit 8560f48335b79764ce38fe0518bc0ca571e83c97
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Mon Sep 26 15:02:05 2011 +0200
-
-    ignore raw image support reported by the pixbuf loader
-
-commit df06d685ee882ad294d2581bb635ae1f7e010c7f
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jul 29 15:27:09 2011 +0200
-
-    fixed crash on incomplete jpeg file
-
 commit bd374b070d437d6319946c49ae0166ee4621e737
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sun Jul 24 13:17:34 2011 +0100
@@ -2512,18 +4527,6 @@ Date:   Sun May 15 19:44:04 2011 +0100
 
     Fix a remote command bug
 
-commit 6f3d9d81d7f801188d056f5e839e2509f871d4e4
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat May 14 22:16:49 2011 +0200
-
-    added Cycle through stereo modes menu entry
-
-commit 4aa85ebde8aaadc9d0608ce18185bdb535e99f7c
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat May 14 21:53:45 2011 +0200
-
-    do not mix autodetected and user-defined stereo mode
-
 commit 31f6b82dbee7f4456371a1b527161ebc81342577
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sat Apr 9 19:47:30 2011 +0100
@@ -2559,18 +4562,6 @@ Date:   Thu Apr 21 18:44:15 2011 +0100
 
     Fix wrong line ending
 
-commit b467f6ff37f2bfb7665200b9057241318ca13d09
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Apr 10 21:11:50 2011 +0200
-
-    more compilation fixes
-
-commit a99a24ea8d76dc65d64a119d6ef289052e459316
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Apr 10 20:30:17 2011 +0200
-
-    compilation fixes
-
 commit 556bd46ba743932fd29c225918d8aae722f6a054
 Author: Klaus Ethgen <Klaus@Ethgen.de>
 Date:   Sat Apr 9 19:47:30 2011 +0100
@@ -2580,174 +4571,6 @@ Date:   Sat Apr 9 19:47:30 2011 +0100
     This patch will change the way, geeqie is mangling the path name in the
     rename (copy) dialog when creating new directory. Will fix the bugs
     Debian:529531 and SF:2795791.
-
-commit 843f61148dc90c97dc32e679a122827c41b16dc8
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Apr 9 19:27:43 2011 +0200
-
-    fixed libjpeg in autoconf
-
-commit cf3bcd415010e28d2829430cb7a72be6d03af513
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Apr 9 16:38:46 2011 +0200
-
-    fixed using DEBUG_N from multiple threads
-
-commit d7521059d000c8d93b8debcfe938510ce3c6441f
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Apr 9 16:07:31 2011 +0200
-
-    improved mpo parser, consider individual image type code
-
-commit a745785c1947ad588b53db69a3fc776a34980b18
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Apr 8 21:16:41 2011 +0200
-
-    fixed to compile with other libjpeg versions
-
-commit 787d25f23d5617375351aa5c39acab43856c6bbc
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 19:22:29 2011 +0200
-
-    allocate tile pixbuf allways
-
-commit fd9329870f85d5f189fb18d39144cc103cd055f7
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 18:20:19 2011 +0200
-
-    updated copyright notices
-
-commit 6a4851f99de3d77a5938a213b28855158f2735c9
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 18:14:17 2011 +0200
-
-    free mpo data
-
-commit 11f270dcd05962aee1515d7a64036c21826ef2da
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 13:53:23 2011 +0200
-
-    fixed jpeg_segment_find to support more app2 segments with different signatures
-
-commit f1d8356504bde2e7808f6e537cdf2473d495f573
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 12:52:09 2011 +0200
-
-    store stereo flag in loader data
-
-commit df0bac9a96ebefab2b06f7f64e0bca40474122b5
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 12:02:30 2011 +0200
-
-    fixed freed data access
-
-commit a31cfe80ee313f56cd208fead1b96655272bb92f
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 11:58:29 2011 +0200
-
-    load mpo files as SBS
-
-commit 455dfdd5e7a1f2f850014a013a17c86c64b3deae
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 27 10:57:08 2011 +0200
-
-    added mpo parser
-
-commit e1c487d09182d2e2cd4221d0c627293392709b4b
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 26 22:13:39 2011 +0100
-
-    split jpeg parser functions to separate file
-
-commit f5f26251424cc70bdf972a70b45f9d14315b6420
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 26 22:03:30 2011 +0100
-
-    added custom jpeg loader
-
-commit 3fbd5d8f5f63895c095019485498d2858d925f4b
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 26 17:57:25 2011 +0100
-
-    infrastructure for image loader backend
-
-commit 0ee2027ed427de1155d2b295c4bf564ad61675b0
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Mar 25 23:25:15 2011 +0100
-
-    renderer interface cleanup
-
-commit 484192f435b34976259418735dccef4c1e69b27c
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Mar 25 23:14:01 2011 +0100
-
-    fixed redrawing on expose event
-
-commit 1ed7ba5576c6b1776f27e043de246275331e0bee
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Mar 25 22:09:59 2011 +0100
-
-    fixed area_changed handling
-
-commit 5fcc3c968e80b546f013735a2ee07d0dc5ba0aa2
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 19:16:07 2011 +0100
-
-    added more anaglyph modes
-
-commit 75c23adfa440b4cef19878d35284d0038b77a044
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 12:49:00 2011 +0100
-
-    added half-size (3dtv) stereo mode
-
-commit 2925d1ded2746c3d8416187a0db1ccd6905b5dd3
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 11:31:08 2011 +0100
-
-    fixed sbs mode
-
-commit c6ddf7e73a470f28ebe3fc7e7962e194a1ee7794
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 11:11:08 2011 +0100
-
-    save and load stereo options
-
-commit 4a39e00a4d5927a6344fed1f464798c9f63eb6cc
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 10:52:41 2011 +0100
-
-    improved preferences dialog
-
-commit 3bbfb5ae860e193d4a5221c97e187cf546b06ade
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 10:15:07 2011 +0100
-
-    added fixed stereo mode
-
-commit c156c8a38dda21b3be84f312dbaf9927d1432bab
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 00:23:54 2011 +0100
-
-    removed 'swap' entry from menu
-
-commit 6aef4f63382dde18b88601ee1e6ff0c4ed423dbd
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sun Mar 20 00:18:13 2011 +0100
-
-    temporarily disable stereo mode, added more stereo prefs
-
-commit f6091ebefead1a4170a64a4f988b8e618e4fc29c
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 19 21:42:13 2011 +0100
-
-    type of source stereo image made adjustable from menu
-
-commit bc35f9f7d92fbcfcd82bb050808f590110f0ad5f
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Mar 19 19:53:30 2011 +0100
-
-    stereo mode preferences
 
 commit dc3dea1297365981d2e206fd8afbb84a781ced20
 Author: Tore Ericsson <tore.ericsson@telia.com>
@@ -2772,84 +4595,6 @@ Author: Tore Ericsson <tore.ericsson@telia.com>
 Date:   Mon Feb 14 14:51:44 2011 +0100
 
     Started with Swedish translation
-
-commit 66e79a3db0f88576f11d34d15afef16418177913
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Feb 5 22:22:12 2011 +0100
-
-    change stereo mode from menu
-
-commit ac29d24529dc2ec61c6c98bcb334932f4a8a8850
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Feb 5 18:20:16 2011 +0100
-
-    swap stereo images
-
-commit 44f99597e8e26da1c1ac784b14a9956249543c38
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Feb 4 23:49:13 2011 +0100
-
-    added mirrored stereo mode
-
-commit 12302100dd0db0f03444b2a6834c2a6470089c57
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 17:43:05 2011 +0100
-
-    fixed overlay position - part2
-
-commit 8734f816e3735ee0731059bb57fd01a1087c4ac5
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 17:35:29 2011 +0100
-
-    fixed overlay position
-
-commit 572fb571e10fec6e617518b2a404ea9b10517fd6
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 17:15:39 2011 +0100
-
-    do not draw tiles outside the viewport
-
-commit c95c27d4285bf60a27fe5f72cc7ca6724819ba99
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Sat Jan 29 14:49:38 2011 +0100
-
-    display pixel aspect ratio support
-
-commit f727555d47c89ada005e87bc54fc7533a865a1ee
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 14:34:57 2011 +0100
-
-    anaglyph support
-
-commit 18c37b0f1dfe7a697c7371ace784ed3959a8a574
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 13:13:27 2011 +0100
-
-    rt_tile_render cleanup part 3
-
-commit 55a53285c955e316106b5629ee282986033523f6
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 13:05:14 2011 +0100
-
-    rt_tile_render cleanup part 2
-
-commit 96a6858d3085c50aea7962fda3d9a40abda2fdca
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 12:44:32 2011 +0100
-
-    rt_tile_render cleanup part 1
-
-commit fd265dfbff4365d519595eee9f95a402a7eadd26
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Fri Jan 28 11:05:07 2011 +0100
-
-    first stereo support
-
-commit a1751b3fb98dc6dfdfee2b2770f1d4f5dca92b6f
-Author: Vladimir Nadvornik <nadvornik@suse.cz>
-Date:   Thu Jan 27 13:40:05 2011 +0100
-
-    separated tile renderer
 
 commit 60c56ec5c852ea4b0d8b7df80507bbfbaf4e7610
 Author: Tore Ericsson <tore.ericsson@telia.com>

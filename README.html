@@ -1,0 +1,179 @@
+<pre><code>  ###################################################################
+  ##                          Geeqie x.x                           ##
+  ##                                                               ##
+  ##              Copyright (C) 2008 - 2017 The Geeqie Team        ##
+  ##              Copyright (C) 1999 - 2006 John Ellis.            ##
+  ##                                                               ##
+  ##                      Use at your own risk!                    ##
+  ##                                                               ##
+  ##  This software released under the GNU General Public License. ##
+  ##       Please read the COPYING file for more information.      ##
+  ###################################################################
+</code></pre>
+
+<p>This is Geeqie, a successor of GQview.</p>
+
+<p><a href="https://travis-ci.org/BestImageViewer/geeqie"><img src="https://api.travis-ci.org/BestImageViewer/geeqie.svg?branch=master" alt="Build Status" title="" /></a></p>
+
+<p>Geeqie has been forked from GQview project, because it was not possible to
+contact GQview author and the only maintainer. Geeqie projects goal is to move
+the development forward and also integrate the existing patches.</p>
+
+<p>Geeqie is currently considered stable. Please report any crash or odd behavior
+to the <a href="https://lists.sourceforge.net/lists/listinfo/geeqie-devel">mailing list</a>
+and/or to <a href="https://github.com/BestImageViewer/geeqie/issues">Github</a></p>
+
+<p>For more info see: <a href="http://www.geeqie.org/">http://www.geeqie.org/</a></p>
+
+<p>Please send any question or suggestions to <a href="&#109;&#97;&#x69;&#x6C;&#x74;&#111;:&#103;&#101;&#101;&#x71;&#105;&#101;&#x2D;&#x64;&#x65;&#118;&#101;&#x6C;&#64;&#108;&#x69;&#115;&#116;&#115;&#46;&#x73;&#x6F;&#117;r&#x63;&#101;&#x66;&#x6F;&#114;&#103;&#101;&#x2E;&#110;&#101;&#116;">&#103;&#101;&#101;&#x71;&#105;&#101;&#x2D;&#x64;&#x65;&#118;&#101;&#x6C;&#64;&#108;&#x69;&#115;&#116;&#115;&#46;&#x73;&#x6F;&#117;r&#x63;&#101;&#x66;&#x6F;&#114;&#103;&#101;&#x2E;&#110;&#101;&#116;</a> or
+open an issue on <a href="https://github.com/BestImageViewer/geeqie/issues">https://github.com/BestImageViewer/geeqie/issues</a></p>
+
+<h1>README contents:</h1>
+
+<ul>
+<li>Requirements</li>
+<li>Notes and changes for this release</li>
+<li>Downloading</li>
+<li>Installation</li>
+<li>Description / Features</li>
+</ul>
+
+<h2>Requirements</h2>
+
+<h3>Required libraries:</h3>
+
+<pre><code>GTK+ 3.00
+    www.gtk.org
+    enabled by default
+    disable with configure option: --disable-gtk3
+or
+GTK+ 2.20
+    disabled by default when GTK+3 libraries are found.
+    enable with configure option: --disable-gtk3
+    optional items map display and GPU acceleration are not available
+    with GTK2
+
+    Note: GTK+3 is still somehow experimental. It is needed for some
+    features but we have several complains about the GTK+3 usability.
+
+    So if you need a stable version, you are advised to compile it
+    with GTK+2. If you want to play with the cool new features, use
+    GTK+3.
+</code></pre>
+
+<h3>Optional libraries:</h3>
+
+<pre><code>lcms2 2.0
+or
+lcms 1.14
+    www.littlecms.com
+    for color management support
+    enabled by default
+    disable with configure option: --disable-lcms
+
+exiv2 0.11
+    www.exiv2.org
+    for enhanced exif support
+    enabled by default
+    disable with configure option: --disable-exiv2
+
+lirc
+    www.lirc.org
+    for remote control support
+    enabled by default
+    disable with configure option: --disable-lirc
+
+libchamplain-gtk 0.12
+libchamplain 0.12
+libclutter 1.0
+    wiki.gnome.org/Projects/libchamplain
+    for map display
+    disabled by default
+    enable with configure option: --enable-map
+    enabling will also enable GPU acceleration
+
+libclutter 1.0
+    www.clutter-project.org
+    for GPU acceleration (a check-box on Preferences/Image must also be ticked)
+    disabled by default
+    enable with configure option: --enable-gpu-accel
+    explicitly disabling will also disable the map feature
+
+lua 5.1
+    www.lua.org
+    support for lua scripting
+    enabled by default
+    disable with configure option: --disable-lua
+
+awk
+    when running Geeqie, to use the geo-decode function
+
+markdown
+    when compiling Geeqie, to create this file in html format
+</code></pre>
+
+<h2>Notes and changes for this release            [section:release_notes]</h2>
+
+<p>See NEWS file.</p>
+
+<h3>Code hackers:</h3>
+
+<p>If you plan on making any major changes to the code that will be offered for
+inclusion to the main source, please contact us first - so that we can avoid
+duplication of effort.
+                                                         The Geeqie Team</p>
+
+<h3>Known bugs:</h3>
+
+<p>See the Geeqie Bug Tracker at <a href="https://github.com/BestImageViewer/geeqie/issues">https://github.com/BestImageViewer/geeqie/issues</a></p>
+
+<h2>Downloading</h2>
+
+<p>Geeqie is available as a package with some distributions.</p>
+
+<p>The source tar of the latest release may be downloaded: <a href="http://geeqie.org/geeqie-1.3.tar.xz">http://geeqie.org/geeqie-1.3.tar.xz</a></p>
+
+<p>To download the sources of the latest commits you must have installed git:</p>
+
+<p>Either: <code>git clone git://www.geeqie.org/geeqie.git</code></p>
+
+<p>Or: <code>git clone http://www.geeqie.org/git/geeqie.git</code></p>
+
+<h2>Installation</h2>
+
+<p>Update secondary help documents (optional -  requires use of git):
+        <code>./gen_changelog.sh ; markdown README.md &gt; README.html</code></p>
+
+<p>Show compile options: <code>./autogen.sh --help</code></p>
+
+<p>Compilation: <code>./autogen.sh ; make</code></p>
+
+<p>General install: <code>[sudo] make install</code></p>
+
+<p>Removal: <code>[sudo] make uninstall</code></p>
+
+<h2>Description / Features</h2>
+
+<p>Geeqie is a graphics file viewer. Basic features:</p>
+
+<ul>
+<li>Single click image viewing / navigation.</li>
+<li>Zoom functions.</li>
+<li>Thumbnails, with optional caching and .xvpics support.</li>
+<li>Multiple file selection for move, copy, delete, rename, drag and drop.</li>
+<li>Drag and drop.</li>
+<li>Slideshow.</li>
+<li>Full screen.</li>
+<li>Ability to open images in external editors (configurable).</li>
+<li>Collections.</li>
+<li>Comparison of images to find duplicates by name, size, date, dimensions, or image content similarity.
+<ul>
+<li>Rotation invariant detection</li>
+</ul></li>
+<li>EXIF support.</li>
+<li>support for stereoscopic images
+<ul>
+<li>input: side-by-side (JPS) and MPO format</li>
+<li>output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)</li>
+</ul></li>
+</ul>

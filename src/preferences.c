@@ -2561,72 +2561,88 @@ static void about_credits_cb(GtkWidget *widget, gpointer data)
 	help_window_show("credits");
 }
 
-void show_about_window(void)
+void show_about_window(LayoutWindow *lw)
 {
-	GtkWidget *vbox;
-	GtkWidget *hbox;
-	GtkWidget *label;
-	GtkWidget *button;
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf_logo;
+	GdkPixbuf *pixbuf_icon;
+	gchar *authors[1000];
+	gchar *comment;
+	gint i_authors = 0;
+	gchar *path;
+	FILE *fp = NULL;
+#define LINE_LENGTH 1000
+	gchar line[LINE_LENGTH];
 
-	gchar *buf;
+#if !GTK_CHECK_VERSION(3,0,0)
+	GString *copyright;
 
-	if (about)
+	copyright = g_string_new(NULL);
+	path = g_build_filename(GQ_HELPDIR, "COPYING", NULL);
+	fp = fopen(path, "r");
+	if (fp)
 		{
-		gtk_window_present(GTK_WINDOW(about));
-		return;
+		while(fgets(line, LINE_LENGTH, fp))
+			{
+			copyright = g_string_append(copyright, line);
+			}
+		fclose(fp);
 		}
+	g_free(path);
+#endif
 
-	about = window_new(GTK_WINDOW_TOPLEVEL, "about", NULL, NULL, _("About"));
-	gtk_window_set_type_hint(GTK_WINDOW(about), GDK_WINDOW_TYPE_HINT_DIALOG);
-	g_signal_connect(G_OBJECT(about), "delete_event",
-			 G_CALLBACK(about_delete_cb), NULL);
+	authors[0] = NULL;
+	path = g_build_filename(GQ_HELPDIR, "AUTHORS", NULL);
+	fp = fopen(path, "r");
+	if (fp)
+		{
+		while(fgets(line, LINE_LENGTH, fp))
+			{
+			/* get rid of ending \n from fgets */
+			line[strlen(line) - 1] = '\0';
+			authors[i_authors] = g_strdup(line);
+			i_authors++;
+			}
+		authors[i_authors] = NULL;
+		fclose(fp);
+		}
+	g_free(path);
 
-	gtk_container_set_border_width(GTK_CONTAINER(about), PREF_PAD_BORDER);
+	comment = g_strconcat("Development and bug reports:\n", GQ_EMAIL_ADDRESS,
+						"\nhttps://github.com/BestImageViewer/geeqie/issues",NULL);
 
-	vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
-	gtk_container_add(GTK_CONTAINER(about), vbox);
-	gtk_widget_show(vbox);
+	pixbuf_logo = pixbuf_inline(PIXBUF_INLINE_LOGO);
+	pixbuf_icon = pixbuf_inline(PIXBUF_INLINE_ICON);
+	gtk_show_about_dialog(GTK_WINDOW(lw->window),
+		"title", _("About Geeqie"),
+		"resizable", TRUE,
+		"program-name", GQ_APPNAME,
+		"version", VERSION,
+		"logo", pixbuf_logo,
+		"icon", pixbuf_icon,
+		"website", GQ_WEBSITE,
+		"website-label", "Website",
+		"comments", comment,
+		"authors", authors,
+		"translator-credits", _("translator-credits"),
+#if GTK_CHECK_VERSION(3,0,0)
+		"license-type", GTK_LICENSE_GPL_2_0,
+#else
+		"license",  copyright->str,
+#endif
+		NULL);
 
-	pixbuf = pixbuf_inline(PIXBUF_INLINE_LOGO);
-	button = gtk_image_new_from_pixbuf(pixbuf);
-	g_object_unref(pixbuf);
-	gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, TRUE, 0);
-	gtk_widget_show(button);
+#if !GTK_CHECK_VERSION(3,0,0)
+	g_string_free(copyright, TRUE);
+#endif
+	gint n = 0;
+	while(n < i_authors)
+		{
+		g_free(authors[n]);
+		n++;
+		}
+	g_free(comment);
 
-	buf = g_strdup_printf(_("%s %s\n\nCopyright (c) 2006 John Ellis\nCopyright (c) %s The Geeqie Team\nwebsite: %s\nemail: %s\n\nReleased under the GNU General Public License"),
-			      GQ_APPNAME,
-			      VERSION,
-			      "2008 - 2016",
-			      GQ_WEBSITE,
-			      GQ_EMAIL_ADDRESS);
-	label = gtk_label_new(buf);
-	g_free(buf);
-
-	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
-	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show(label);
-
-	hbox = gtk_hbutton_box_new();
-	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_END);
-	gtk_box_set_spacing(GTK_BOX(hbox), PREF_PAD_BUTTON_GAP);
-	gtk_box_pack_end(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	button = pref_button_new(NULL, NULL, _("Credits..."), FALSE,
-				 G_CALLBACK(about_credits_cb), NULL);
-	gtk_container_add(GTK_CONTAINER(hbox), button);
-	gtk_widget_set_can_default(button, TRUE);
-	gtk_widget_show(button);
-
-	button = pref_button_new(NULL, GTK_STOCK_CLOSE, NULL, FALSE,
-				 G_CALLBACK(about_window_close), NULL);
-	gtk_container_add(GTK_CONTAINER(hbox), button);
-	gtk_widget_set_can_default(button, TRUE);
-	gtk_widget_grab_default(button);
-	gtk_widget_show(button);
-
-	gtk_widget_show(about);
+	return;
 }
 
 static void image_overlay_set_text_colours()

@@ -24,7 +24,7 @@
 
 
 void show_config_window(void);
-void show_about_window(void);
+void show_about_window(LayoutWindow *lw);
 
 /* reusable helper functions */
 void config_entry_to_option(GtkWidget *entry, gchar **option, gchar *(*func)(const gchar *));

@@ -1067,6 +1067,14 @@ static void layout_menu_notes_cb(GtkAction *action, gpointer data)
 	help_window_show("release_notes");
 }
 
+static void layout_menu_changelog_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_exit_fullscreen(lw);
+	help_window_show("changelog");
+}
+
 static char *keyboard_map_hardcoded[][2] = {
 	{"Scroll","Left"},
 	{"FastScroll", "&lt;Shift&gt;Left"},
@@ -1234,7 +1242,7 @@ static void layout_menu_about_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 
 	layout_exit_fullscreen(lw);
-	show_about_window();
+	show_about_window(lw);
 }
 
 static void layout_menu_log_window_cb(GtkAction *action, gpointer data)
@@ -1809,6 +1817,7 @@ static GtkActionEntry menu_entries[] = {
   { "HelpShortcuts",	NULL,			N_("_Keyboard shortcuts"),		NULL,			N_("Keyboard shortcuts"),		CB(layout_menu_help_keys_cb) },
   { "HelpKbd",		NULL,			N_("_Keyboard map"),			NULL,			N_("Keyboard map"),			CB(layout_menu_kbd_map_cb) },
   { "HelpNotes",	NULL,			N_("_Release notes"),			NULL,			N_("Release notes"),			CB(layout_menu_notes_cb) },
+  { "HelpChangeLog",	NULL,			N_("_ChangeLog"),			NULL,			N_("ChangeLog notes"),			CB(layout_menu_changelog_cb) },
   { "About",		GTK_STOCK_ABOUT,	N_("_About"),				NULL,			N_("About"),				CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
   { "ExifWin",		NULL,			N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
@@ -2107,6 +2116,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='HelpShortcuts'/>"
 "      <menuitem action='HelpKbd'/>"
 "      <menuitem action='HelpNotes'/>"
+"      <menuitem action='HelpChangeLog'/>"
 "      <placeholder name='HelpSection'/>"
 "      <separator/>"
 "      <menuitem action='About'/>"

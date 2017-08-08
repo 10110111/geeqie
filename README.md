@@ -1,7 +1,7 @@
       ###################################################################
       ##                          Geeqie x.x                           ##
       ##                                                               ##
-      ##              Copyright (C) 2008 - 2016 The Geeqie Team        ##
+      ##              Copyright (C) 2008 - 2017 The Geeqie Team        ##
       ##              Copyright (C) 1999 - 2006 John Ellis.            ##
       ##                                                               ##
       ##                      Use at your own risk!                    ##
@@ -22,22 +22,18 @@ Geeqie is currently considered stable. Please report any crash or odd behavior
 to the [mailing list](https://lists.sourceforge.net/lists/listinfo/geeqie-devel)
 and/or to [Github](https://github.com/BestImageViewer/geeqie/issues)
 
-For more info see: http://www.geeqie.org/
+For more info see: <http://www.geeqie.org/>
 
-Please send any question or suggestions to geeqie-devel@lists.sourceforge.net or
-open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
+Please send any question or suggestions to <geeqie-devel@lists.sourceforge.net> or
+open an issue on <https://github.com/BestImageViewer/geeqie/issues>
 
 # README contents:
 
 * Requirements
 * Notes and changes for this release
+* Downloading
 * Installation
 * Description / Features
-* Documentation (keyboard shortcuts)
-* Editor command macros
-* Additional comments
-* Translation status
-* Credits
 
 ## Requirements
 
@@ -103,6 +99,13 @@ open an issue on Github (https://github.com/BestImageViewer/geeqie/issues)
         enabled by default
         disable with configure option: --disable-lua
 
+    awk
+        when running Geeqie, to use the geo-decode function
+
+    markdown
+        when compiling Geeqie, to create this file in html format
+
+
 ## Notes and changes for this release            [section:release_notes]
 
 See NEWS file.
@@ -116,17 +119,34 @@ duplication of effort.
 
 ### Known bugs:
 
-See the Geeqie Bug Tracker at https://github.com/BestImageViewer/geeqie/issues
+See the Geeqie Bug Tracker at <https://github.com/BestImageViewer/geeqie/issues>
+
+
+## Downloading
+
+Geeqie is available as a package with some distributions.
+
+The source tar of the latest release may be downloaded: <http://geeqie.org/geeqie-1.3.tar.xz>
+
+To download the sources of the latest commits you must have installed git:
+
+Either: `git clone git://www.geeqie.org/geeqie.git`
+
+Or: `git clone http://www.geeqie.org/git/geeqie.git`
+
 
 ## Installation
 
-Compilation: `./autogen.sh ; make`
+Update secondary help documents (optional -  requires use of git):
+        `./gen_changelog.sh ; markdown README.md > README.html`
 
 Show compile options: `./autogen.sh --help`
 
-General install: `make install`
+Compilation: `./autogen.sh ; make`
 
-Removal: `make uninstall`
+General install: `[sudo] make install`
+
+Removal: `[sudo] make uninstall`
 
 ## Description / Features
 
@@ -148,188 +168,3 @@ Geeqie is a graphics file viewer. Basic features:
     * input: side-by-side (JPS) and MPO format
     * output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
-## Credits                                             [section:credits]
-
-### Translations:
-
-    Grzegorz Kowal <g_kowal@poczta.onet.pl>
-    Zbigniew Chyla <cyba@gnome.pl>
-    Emil Nowak <emil5@go2.pl>
-    Wit Wilinski <wit.wilinski@gmail.com>
-    Tomasz Golinski <tomaszg@math.uwb.edu.pl>
-        for Polish translation
-
-    Christopher R. Gabriel <cgabriel@pluto.linux.it>
-    Di Maggio Salvatore <Salvatore.Dimaggio@bologna.marelli.it>
-    Costantino <inverness1ATvirgilio.it>
-        for Italian translation
-
-    Sandokan <cortex@nextra.sk>
-    Ivan Priesol <priesol@iris-sk.sk>
-    Mgr. Peter Tuharsky <tuharsky@misbb.sk>
-        for Slovak translation
-
-    Rodrigo Sancho Senosiain <ruy_ikari@bigfoot.com>
-    Ariel Fermani <the_end@bbs.frc.utn.edu.ar>
-        for Spanish translation
-
-    Laurent Monin <i18n@norz.org>
-    Eric Lassauge <lassauge@users.sf.net>
-    Jean-Pierre Pedron <jppedron@club-internet.fr>
-    Pascal Bleser <pascal.bleser@atosorigin.com>
-    Nicolas Boos <nicolas.boos@wanadoo.fr>
-    Nicolas Bonifas <nicolas_bonifas@users.sf.net>
-        for French translation
-
-    Fâtih Demir <kabalak@gmx.net>
-        for Turkish translation
-
-    Kam Tik <kamtik@hongkong.com>
-    Abel Cheung <deaddog@deaddog.ws>
-    S.J. Luo <crystal@mickey.ee.nctu.edu.tw>
-    Levin <zjlevin@hotmail.com>
-        for Traditional Chinese (Big5) translation
-
-    Junichi Uekawa <dancer@debian.org>
-    Oleg Andrjushenko <oandr@itec.cn.ua>
-    Michael Bravo <mbravo@tag-ltd.spb.ru>
-    Sergey Pinaev <dfo@antex.ru>
-        for Russian translation
-
-    Guilherme M. Schroeder <slump@ieg.com.br>
-    Vitor Fernandes <vitor_fernandes@SoftHome.net>
-    Herval Ribeiro de Azevêdo <heraze@gmail.com>
-        for Brazilian Portuguese translation
-
-    Shingo Akagaki <akagaki@ece.numazu-ct.ac.jp>
-    Yuuki Ninomiya <gm@debian.or.jp>
-    Sato Satoru <ss@gnome.gr.jp>
-    Takeshi AIHANA <aihana@gnome.gr.jp>
-        for Japanese translation
-
-    Matthias Warkus <mawarkus@t-online.de>
-    Thomas Klausner <wiz@danbala.ifoer.tuwien.ac.at>
-    Danny Milosavljevic <danny_milo@yahoo.com>
-    Ronny Steiner <Post@SIRSteiner.de>
-    Klaus Ethgen <Klaus@Ethgen.de>
-        for German translation
-
-    Matej Erman <matej.erman@guest.arnes.si>
-        for Slovene translation
-
-    MÃtyÃs Tibor <templar@tempi.scene.hu>
-    Koblinger Egmont <egmont@uhulinux.hu>
-    Sári Gábor <saga@externet.hu>
-        for Hungarian translation
-
-    Wu Yulun <migr@operamail.com>
-    Charles Wang <charlesw1234cn@yahoo.com.cn>
-        for simplified Chinese translation
-
-    H.J.Visser <H.J.Visser@harrie.mine.nu>
-    Tino Meinen <a.t.meinen@chello.nl>
-        for Dutch translation
-
-    Lauri Nurmi <lanurmi@iki.fi>
-        for Finnish translation
-
-    Ilmar Kerm <ikerm@hot.ee>
-        for Estonian translation
-
-    Volodymyr M. Lisivka <lvm@mystery.lviv.net>
-        for Ukrainian translation
-
-    Birger Langkjer <birger.langkjer@image.dk>
-        for Danish translation
-
-    Torgeir Ness Sundli <torgeir@mp3bil.no>
-        for Norwegian translation
-
-    Jan Raska <jan.raska@tiscali.cz>
-    Michal Bukovjan <bukm@centrum.cz>
-        for Czech translation
-
-    Phanumas Thanyaboon <maskung@hotmail.com>
-        for Thai translation
-
-    Harald Ersch <hersch@romatsa.ro>
-        for Romanian translation
-
-    pclouds <pclouds@vnlinux.org>
-        for Vietnamese translation
-
-    Tedi Heriyanto <tedi_h@gmx.net>
-        for Indonesian translation
-
-    Vladimir Petrov <vladux@mail.bg>
-        for Bulgarian translation
-
-    Hans Öfverbeck <hans.ofverbeck@home.se>
-        for Swedish translation
-
-    Youssef Assad <youssef@devcabal.org>
-        for Arabic translation
-
-    catux.org <mecatxis@ya.com>
-        for Catalan translation
-
-    Hyun-Jin Moon <moonhyunjin@gmail.com
-        for Korean translation
-
-    Pavel Piatruk <berserker@neolocation.com>
-        for Belarusian translation
-
-    Piarres Beobide <pi@beobide.net>
-        for Basque translation
-
-    Antonio C. Codazzi <f_sophia@libero.it>
-        for Esperanto translation
-
-    Nikos Papadopoulos
-        for Greek translation
-
-### Fixes, additions, and patches:
-
-    Eric Swalens
-    Quy Tonthat
-        for initial Exif support.
-
-    Daniel M. German <dmgerman at uvic.ca>
-        for Canon raw image support.
-
-    Lars Ellenberg
-        for Fujifilm raw image support.
-
-    Diederen Damien <D.Diederen@student.ulg.ac.be>
-        for .xvpics thumbnail reading support.
-
-    Nick Rusnov <nick@grawk.net>
-    Ryan Murray <rmurray@debian.org>
-        for man page.
-
-    Martin Pool <mbp@samba.org>
-        for sort by number, misc. improvements.
-
-    Jörg Mensmann <joerg.mensmann@gmx.de>
-        for Xinerama support patch.
-
-    Vadim Shliakhov
-        for miscellaneous fixes.
-
-    Uwe Ohse
-        for Exif enhancements, histogram and other patches
-
-    Timo Horstschäfer
-        for customizable fullscreen overlay
-
-    Michael Mokeev
-        for print related enhancements
-
-    Carles Pina i Estany
-        for copy path to clipboard patch
-
-    Kjell Morgenstern
-        for random slide show speedup patch
-
-    And...
-        Thanks to the users for finding Geeqie useful.
