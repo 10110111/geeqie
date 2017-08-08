@@ -27,8 +27,8 @@
 #define DOMAIN_INFO  "info"
 
 void log_domain_printf(const gchar *domain, const gchar *format, ...) G_GNUC_PRINTF(2, 3);
-void log_domain_print_debug(const gchar *domain, const gchar *file_name,
-							int line_number, const gchar *format, ...) G_GNUC_PRINTF(4, 5);
+void log_domain_print_debug(const gchar *domain, const gchar *file_name, const gchar *function_name,
+							int line_number, const gchar *format, ...) G_GNUC_PRINTF(5, 6);
 #define log_printf(...) log_domain_printf(DOMAIN_INFO, __VA_ARGS__)
 
 #ifdef DEBUG
@@ -51,9 +51,9 @@ void init_exec_time(void);
 				if (debug_level >= (n)) 	\
 					{ 		\
 					if (debug_level != 1) \
-					{ \
-						log_domain_print_debug(DOMAIN_DEBUG, __FILE__, __LINE__, __VA_ARGS__); \
-					} \
+						{ \
+						log_domain_printf(DOMAIN_DEBUG, "%s:%s:%d: ", __FILE__, __func__, __LINE__); \
+						} \
 					else \
 						{ \
 						log_domain_printf(DOMAIN_DEBUG, __VA_ARGS__); \

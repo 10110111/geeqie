@@ -85,7 +85,7 @@ void log_domain_print_message(const gchar *domain, gchar *buf)
 	g_free(buf);
 }
 
-void log_domain_print_debug(const gchar *domain, const gchar *file_name,
+void log_domain_print_debug(const gchar *domain, const gchar *file_name, const gchar *function_name,
 									int line_number, const gchar *format, ...)
 {
 	va_list ap;
@@ -97,7 +97,7 @@ void log_domain_print_debug(const gchar *domain, const gchar *file_name,
 	message = g_strdup_vprintf(format, ap);
 	va_end(ap);
 
-	location = g_strdup_printf("%s:%d:", file_name, line_number);
+	location = g_strdup_printf("%s:%s:%d:", file_name, function_name, line_number);
 	buf = g_strconcat(location, message, NULL);
 	log_domain_print_message(domain,buf);
 	g_free(location);
