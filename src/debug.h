@@ -52,7 +52,7 @@ void init_exec_time(void);
 					{ 		\
 					if (debug_level != 1) \
 						{ \
-						log_domain_printf(DOMAIN_DEBUG, "%s:%s:%d: ", __FILE__, __func__, __LINE__); \
+						log_domain_print_debug(DOMAIN_DEBUG, __FILE__, __func__, __LINE__, __VA_ARGS__); \
 						} \
 					else \
 						{ \
