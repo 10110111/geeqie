@@ -15,25 +15,125 @@ This is Geeqie, a successor of GQview.
 [![Build Status](https://api.travis-ci.org/BestImageViewer/geeqie.svg?branch=master)](https://travis-ci.org/BestImageViewer/geeqie)
 
 Geeqie has been forked from GQview project, because it was not possible to
-contact GQview author and the only maintainer. Geeqie projects goal is to move
-the development forward and also integrate the existing patches.
+contact the GQview author and only maintainer.
 
-Geeqie is currently considered stable. Please report any crash or odd behavior
-to the [mailing list](https://lists.sourceforge.net/lists/listinfo/geeqie-devel)
-and/or to [Github](https://github.com/BestImageViewer/geeqie/issues)
+The Geeqie project will continue the development forward and maintain the existing code.
 
-For more info see: <http://www.geeqie.org/>
+Geeqie is currently considered stable.
 
-Please send any question or suggestions to <geeqie-devel@lists.sourceforge.net> or
-open an issue on <https://github.com/BestImageViewer/geeqie/issues>
+Please send any questions, problems or suggestions to the [mailing list](mailto:geeqie-devel@sourceforge.net) or
+open an issue on [Geeqie at GitHub](https://github.com/BestImageViewer/geeqie/issues).
+
+Subscribe to the mailing list [here](https://lists.sourceforge.net/lists/listinfo/geeqie-devel).
+
+The project website is <http://www.geeqie.org/> and you will find the latest sources in the
+[Geeqie repository](http://geeqie.org/cgi-bin/gitweb.cgi?p=geeqie.git).
 
 # README contents:
 
-* Requirements
-* Notes and changes for this release
+* Description / Features
 * Downloading
 * Installation
-* Description / Features
+* Notes and changes for this release
+* Requirements
+
+
+## Description / Features
+
+Geeqie is a graphics file viewer. Basic features:
+
+
+* Single click image viewing / navigation.
+
+* Zoom functions.
+
+* Thumbnails, with optional caching and .xvpics support.
+
+* Multiple file selection for move, copy, delete, rename, drag and drop.
+
+* Thumbnail preview of the destination for move, copy and rename functions.
+
+* On-the-fly renaming for move and copy functions, with formatted and auto-rename features.
+
+* File grouping (an image having jpeg, RAW and xmp files will appear as a single entity).
+
+* Selectable exif auto-rotation of images.
+
+
+* Single click file copy or move to pre-defined folders - with undo feature.
+* Drag and drop.
+
+* Collections.
+
+* support for stereoscopic images
+    * input: side-by-side (JPS) and MPO format
+    * output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
+
+*   Viewing raster and vector images, in the following formats:
+3FR, ANI, APM, ARW, BMP, CR2, CRW, CUR, DCR, DNG, ERF, GIF, ICNS, ICO, JPE/JPEG/JPG, JP2/JPC/JPX/J2K/JPF, JPS, K25, KDC, MEF, MPO, MOS, MRW, NEF, ORF, PCX, PEF, PBM/PGM/PNM/PPM, PNG, PTX, QIF/QTIF (QuickTime Image Format), R3D, RAF, RAS (Sun raster), RAW, SR2, SRF, SVG/SVGZ, TGA/TARGA, TIF/TIFF, WBMP, WMF, X3F, XBM, XPM. Animated GIFs are supported.
+
+* Images can be displayed singly in normal or fullscreen mode; static or slideshow mode; in sets of two or four per page for comparison; or as thumbnails of various sizes. Synchronised zoom when multi images are displayed.
+
+* Pan(orama) view displays image thumbnails in calendar, grid, folder and other layouts.
+* All available metadata and Exif/IPTC/XMP data can be displayed, as well as colour histograms and assigned tags, keywords and comments.
+
+* Selectable image overlay display box - can contain any text or meta-data.
+
+* Panels can be docked or floating.
+
+* Tags, both predefined and custom, can be assigned to images, and stored either as image metadata (where the file format allows), sidecar files, or in directory metadata files. Keywords and comments can also be assigned.
+
+* Basic editing in the form of lossless 90/180-degree rotation and flipping is supported; external programs such as GIMP, Inkscape, and custom scripts using ImageMagick can be linked to allow further processing.
+
+* Advanced searching is available using criteria such as filename, file size, age, image dimensions, similarity to a specified image, or by keywords or comments. If images have GPS coordinates embedded, you may also search for images within a radius of a geographical point.
+
+* Geeqie supports applying the colour profile embedded in an image along with the system monitor profile (or a user-specified monitor profile).
+
+* Geeqie sessions can be remotely controlled from external software, so it can be used as an image-viewer component of a bigger application.
+
+* Geeqie includes a 'find duplicates' tool which can compare images using a variety of criteria (filename, file size, visual similarity, dimensions, image content), either within a single folder or between two folders. Finding duplicates ignoring the rotation of images is also supported.
+* Images may be given a rating value (also known as a "star rating").
+
+* Maps from [OpenStreetMap](http://www.openstreetmap.org) may be displayed in a side panel. If an image has GPS coordinates embedded, its position will be displayed on the map - if Image Direction is encoded, that will be displayed also. If an image does not have embedded GPS coordinates, it may be dragged-and-dropped onto the map to encode its position.
+
+## Downloading
+
+Geeqie is available as a package with some distributions.
+
+The source tar of the latest formal release may be downloaded: <http://geeqie.org/geeqie-1.3.tar.xz>
+
+However Geeqie is stable, and you may download the latest version (if you have installed git) from here:
+
+Either: `git clone git://www.geeqie.org/geeqie.git`
+
+Or: `git clone http://www.geeqie.org/git/geeqie.git`
+
+
+## Installation
+
+Update secondary help documents (optional -  requires use of git):
+        `./gen_changelog.sh ; markdown README.md > README.html`
+
+List compile options: `./autogen.sh --help`
+
+Common options:
+`./autogen.sh --disable-gtk3`,
+`./autogen.sh --enable-map`
+
+
+Compilation: `./autogen.sh [options]; make`
+
+Install: `[sudo] make install`
+
+Removal: `[sudo] make uninstall`
+
+
+## Notes and changes for the latest release
+
+See the NEWS file in the installation folder, or [Geeqie News at GitHub](https://github.com/BestImageViewer/geeqie/blob/master/NEWS)
+
+And either the ChangeLog file or [Geeqie ChangeLog at GitHub](https://github.com/BestImageViewer/geeqie/blob/master/ChangeLog)
+
 
 ## Requirements
 
@@ -106,10 +206,6 @@ open an issue on <https://github.com/BestImageViewer/geeqie/issues>
         when compiling Geeqie, to create this file in html format
 
 
-## Notes and changes for this release            [section:release_notes]
-
-See NEWS file.
-
 ### Code hackers:
 
 If you plan on making any major changes to the code that will be offered for
@@ -120,51 +216,3 @@ duplication of effort.
 ### Known bugs:
 
 See the Geeqie Bug Tracker at <https://github.com/BestImageViewer/geeqie/issues>
-
-
-## Downloading
-
-Geeqie is available as a package with some distributions.
-
-The source tar of the latest release may be downloaded: <http://geeqie.org/geeqie-1.3.tar.xz>
-
-To download the sources of the latest commits you must have installed git:
-
-Either: `git clone git://www.geeqie.org/geeqie.git`
-
-Or: `git clone http://www.geeqie.org/git/geeqie.git`
-
-
-## Installation
-
-Update secondary help documents (optional -  requires use of git):
-        `./gen_changelog.sh ; markdown README.md > README.html`
-
-Show compile options: `./autogen.sh --help`
-
-Compilation: `./autogen.sh ; make`
-
-General install: `[sudo] make install`
-
-Removal: `[sudo] make uninstall`
-
-## Description / Features
-
-Geeqie is a graphics file viewer. Basic features:
-
-* Single click image viewing / navigation.
-* Zoom functions.
-* Thumbnails, with optional caching and .xvpics support.
-* Multiple file selection for move, copy, delete, rename, drag and drop.
-* Drag and drop.
-* Slideshow.
-* Full screen.
-* Ability to open images in external editors (configurable).
-* Collections.
-* Comparison of images to find duplicates by name, size, date, dimensions, or image content similarity.
-    * Rotation invariant detection
-* EXIF support.
-* support for stereoscopic images
-    * input: side-by-side (JPS) and MPO format
-    * output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
-
