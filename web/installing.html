@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.2.0">
+    <title>Installing Geeqie</title>
+</head>
+<body>
+    <div id="downloading">
+        <h5>Downloading</h5>
+        <p>To download the sources from the repository, you must first have installed git.</p>
+        <p>Then either: <code>git clone git://www.geeqie.org/geeqie.git</code></p>
+        <p>Or: <code>git clone http://www.geeqie.org/git/geeqie.git</code></p>
+        <h5>Installing</h5>
+        <p>Update secondary help documents (optional - requires use of git): <code>./gen_changelog.sh ; markdown
+        README.md &gt; README.html</code></p>
+        <p>Show compile options: <code>./autogen.sh --help</code></p>
+        <p>Common options: <code>./autogen.sh --disable-gtk3</code>, <code>./autogen.sh --enable-map</code></p>
+        <p>Compilation: <code>./autogen.sh [options]; make</code></p>
+        <p>Install: <code>[sudo] make install</code></p>
+        <p>Removal: <code>[sudo] make uninstall</code></p>
+        <h5>Dependencies</h5>
+        <pre><code>GTK+ 3.00
+    www.gtk.org
+    enabled by default
+    disable with configure option: --disable-gtk3
+or
+GTK+ 2.20
+    disabled by default when GTK+3 libraries are found.
+    enable with configure option: --disable-gtk3
+    optional items map display and GPU acceleration are not available
+    with GTK2
+
+</code></pre>
+        <h5>Optional libraries:</h5>
+        <pre><code>lcms2 2.0
+or
+lcms 1.14
+    www.littlecms.com
+    for color management support
+    enabled by default
+    disable with configure option: --disable-lcms
+
+exiv2 0.11
+    www.exiv2.org
+    for enhanced exif support
+    enabled by default
+    disable with configure option: --disable-exiv2
+
+lirc
+    www.lirc.org
+    for remote control support
+    enabled by default
+    disable with configure option: --disable-lirc
+
+libchamplain-gtk 0.12
+libchamplain 0.12
+libclutter 1.0
+    wiki.gnome.org/Projects/libchamplain
+    for map display
+    disabled by default
+    enable with configure option: --enable-map
+    enabling will also enable GPU acceleration
+
+libclutter 1.0
+    www.clutter-project.org
+    for GPU acceleration (a check-box on Preferences/Image must also be ticked)
+    disabled by default
+    enable with configure option: --enable-gpu-accel
+    explicitly disabling will also disable the map feature
+
+lua 5.1
+    www.lua.org
+    support for lua scripting
+    enabled by default
+    disable with configure option: --disable-lua
+
+awk
+    when running Geeqie, to use the geo-decode function
+
+markdown
+    when compiling Geeqie, to create the README file in html format
+</code></pre>
+    </div>
+</body>
+</html>
