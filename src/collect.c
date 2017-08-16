@@ -1160,6 +1160,13 @@ CollectWindow *collection_window_new(const gchar *path)
 	GtkWidget *extra_label;
 	GdkGeometry geometry;
 
+	/* If the collection is already opened in another window, return that one */
+	cw = collection_window_find_by_path(path);
+	if (cw)
+		{
+		return cw;
+		}
+
 	cw = g_new0(CollectWindow, 1);
 
 	collection_window_list = g_list_append(collection_window_list, cw);
