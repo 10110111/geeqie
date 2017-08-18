@@ -437,7 +437,6 @@ struct _CollectWindow
 	GtkWidget *window;
 	CollectTable *table;
 	GtkWidget *status_box;
-	GList *list;
 
 	GtkWidget *close_dialog;
 

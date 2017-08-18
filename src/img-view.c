@@ -1254,9 +1254,31 @@ static GList *view_window_get_fd_list(ViewWindow *vw)
 	return list;
 }
 
+/* Add file selection list to a collection
+ * Called from a right-click submenu
+ * Inputs:
+ * data: index to the collection list menu item selected, or -1 for new collection
+ */
+static void image_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
+{
+	ViewWindow *vw;
+	ImageWindow *imd;
+	FileData *fd;
+	GList *selection_list = NULL;
+
+	vw = submenu_item_get_data(widget);
+	imd = view_window_active_image(vw);
+	fd = image_get_fd(imd);
+	selection_list = g_list_append(selection_list, fd);
+	pop_menu_collections(selection_list, data);
+
+	filelist_free(selection_list);
+}
+
 static GtkWidget *view_popup_menu(ViewWindow *vw)
 {
 	GtkWidget *menu;
+	GtkWidget *submenu;
 	GtkWidget *item;
 	GList *editmenu_fd_list;
 
@@ -1289,6 +1311,11 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 	menu_item_add(menu, _("_Copy path"), G_CALLBACK(view_copy_path_cb), vw);
 	menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(view_delete_cb), vw);
 
+	menu_item_add_divider(menu);
+
+	submenu = submenu_add_collections(menu, &item,
+				G_CALLBACK(image_pop_menu_collections_cb), vw);
+	gtk_widget_set_sensitive(item, TRUE);
 	menu_item_add_divider(menu);
 
 	if (vw->ss)

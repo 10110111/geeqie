@@ -642,6 +642,23 @@ static GList *layout_image_get_fd_list(LayoutWindow *lw)
 	return list;
 }
 
+/* Add file selection list to a collection
+ * Called from a right-click submenu
+ * Inputs:
+ * data: index to the collection list menu item selected, or -1 for new collection
+ */
+static void layout_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw;
+	GList *selection_list = NULL;
+
+	lw = submenu_item_get_data(widget);
+	selection_list = g_list_append(selection_list, layout_image_get_fd(lw));
+	pop_menu_collections(selection_list, data);
+
+	filelist_free(selection_list);
+}
+
 static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 {
 	GtkWidget *menu;
@@ -691,7 +708,11 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
 	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(li_pop_menu_delete_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
+	menu_item_add_divider(menu);
 
+	submenu = submenu_add_collections(menu, &item,
+				G_CALLBACK(layout_pop_menu_collections_cb), lw);
+	gtk_widget_set_sensitive(item, TRUE);
 	menu_item_add_divider(menu);
 
 	if (layout_image_slideshow_active(lw))

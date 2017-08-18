@@ -37,6 +37,8 @@ GtkWidget *submenu_add_zoom(GtkWidget *menu, GCallback func, gpointer data,
 gchar *alter_type_get_text(AlterType type);
 GtkWidget *submenu_add_alter(GtkWidget *menu, GCallback func, gpointer data);
 
-
+GtkWidget *submenu_add_collections(GtkWidget *menu, GtkWidget **menu_item,
+										GCallback func, gpointer data);
+void pop_menu_collections(GList *selection_list, gpointer data);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

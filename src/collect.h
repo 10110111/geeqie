@@ -86,6 +86,7 @@ CollectWindow *collection_window_find(CollectionData *cd);
 CollectWindow *collection_window_find_by_path(const gchar *path);
 gboolean collection_window_modified_exists(void);
 
-
+gboolean is_collection(gchar *param);
+gchar *collection_path(gchar *param);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

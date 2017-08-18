@@ -828,20 +828,6 @@ static void collection_table_popup_remove_cb(GtkWidget *widget, gpointer data)
 	g_list_free(list);
 }
 
-static void collection_table_popup_add_filelist_cb(GtkWidget *widget, gpointer data)
-{
-	CollectTable *ct = data;
-	GList *list;
-
-	list = layout_list(NULL);
-
-	if (list)
-		{
-		collection_table_add_filelist(ct, list);
-		filelist_free(list);
-		}
-}
-
 static void collection_table_popup_add_file_selection_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
@@ -929,8 +915,6 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
 
 	menu_item_add_stock(menu, _("Append from file selection"), GTK_STOCK_ADD,
 			G_CALLBACK(collection_table_popup_add_file_selection_cb), ct);
-	menu_item_add_stock(menu, _("Append from file list"), GTK_STOCK_ADD,
-			G_CALLBACK(collection_table_popup_add_filelist_cb), ct);
 	menu_item_add_stock(menu, _("Append from collection..."), GTK_STOCK_OPEN,
 			G_CALLBACK(collection_table_popup_add_collection_cb), ct);
 	menu_item_add_divider(menu);

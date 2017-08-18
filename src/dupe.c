@@ -2309,12 +2309,30 @@ static GList *dupe_window_get_fd_list(DupeWindow *dw)
 	return list;
 }
 
+/* Add file selection list to a collection
+ * Called from a right-click menu
+ * Inputs:
+ * data: index to the collection list menu item selected, or -1 for new collection
+ */
+static void dupe_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
+{
+	DupeWindow *dw;
+	GList *selection_list;
+
+	dw = submenu_item_get_data(widget);
+	selection_list = dupe_listview_get_selection(dw, dw->listview);
+	pop_menu_collections(selection_list, data);
+
+	filelist_free(selection_list);
+}
+
 static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
 	gint on_row;
 	GList *editmenu_fd_list;
+	GtkWidget *submenu;
 
 	on_row = (di != NULL);
 
@@ -2340,8 +2358,11 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 			 G_CALLBACK(dupe_menu_popup_destroy_cb), editmenu_fd_list);
 	submenu_add_edit(menu, &item, G_CALLBACK(dupe_menu_edit_cb), dw, editmenu_fd_list);
 	if (!on_row) gtk_widget_set_sensitive(item, FALSE);
-	menu_item_add_stock_sensitive(menu, _("Add to new collection"), GTK_STOCK_INDEX, on_row,
-				G_CALLBACK(dupe_menu_collection_cb), dw);
+
+	submenu = submenu_add_collections(menu, &item,
+								G_CALLBACK(dupe_pop_menu_collections_cb), dw);
+	gtk_widget_set_sensitive(item, on_row);
+
 	menu_item_add_stock_sensitive(menu, _("Print..."), GTK_STOCK_PRINT, on_row,
 				G_CALLBACK(dupe_menu_print_cb), dw);
 	menu_item_add_divider(menu);

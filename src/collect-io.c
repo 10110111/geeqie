@@ -969,6 +969,75 @@ void collect_manager_notify_cb(FileData *fd, NotifyType type, gpointer data)
 		case FILEDATA_CHANGE_WRITE_METADATA:
 			break;
 		}
+}
 
+static gint collection_manager_sort_cb(gconstpointer a, gconstpointer b)
+{
+	const gchar *char_a = a;
+	const gchar *char_b = b;
+
+	return g_strcmp0(char_a, char_b);
+}
+
+/* Creates sorted list of collections
+ * Inputs: none
+ * Outputs: list of type gchar
+ * 			sorted list of collections names excluding extension
+ * 			sorted list of collections names including extension
+ * 			sorted list of collection paths
+ * Return: none
+ * Used lists must be freed with string_list_free()
+ */
+void collect_manager_list(GList **names_exc, GList **names_inc, GList **paths)
+{
+	FileData *dir_fd;
+	GList *list = NULL;
+	gchar *name;
+	FileData *fd;
+	gchar *filename;
+
+	if (names_exc == NULL && names_inc == NULL && paths == NULL)
+		{
+		return;
+		}
+
+	dir_fd = file_data_new_dir((get_collections_dir()));
+
+	filelist_read(dir_fd, &list, NULL);
+
+	while (list)
+		{
+		fd = list->data;
+		filename = g_strdup(filename_from_path((gchar *)fd->path));
+
+		if (file_extension_match(filename, GQ_COLLECTION_EXT))
+			{
+			name = remove_extension_from_path(filename);
+
+			if (names_exc != NULL)
+				{
+				*names_exc = g_list_insert_sorted(*names_exc, g_strdup(name),
+											collection_manager_sort_cb);
+				*names_exc = g_list_first(*names_exc);
+				}
+			if (names_inc != NULL)
+				{
+				*names_inc = g_list_insert_sorted(*names_inc,filename,
+											collection_manager_sort_cb);
+				*names_inc = g_list_first(*names_inc);
+				}
+			if (paths != NULL)
+				{
+				*paths = g_list_insert_sorted(*paths,fd->path,
+											collection_manager_sort_cb);
+				*paths = g_list_first(*paths);
+				}
+			g_free(name);
+			}
+		list = list->next;
+		g_free(filename);
+		}
+
+	filelist_free(list);
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

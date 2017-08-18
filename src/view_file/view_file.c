@@ -504,6 +504,23 @@ static void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	vf->editmenu_fd_list = NULL;
 }
 
+/* Add file selection list to a collection
+ * Called from a right-click menu
+ * Inputs:
+ * data: index to the collection list menu item selected, or -1 for new collection
+ */
+static void vf_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf;
+	GList *selection_list;
+
+	vf = submenu_item_get_data(widget);
+	selection_list = vf_selection_get_list(vf);
+	pop_menu_collections(selection_list, data);
+
+	filelist_free(selection_list);
+}
+
 GtkWidget *vf_pop_menu(ViewFile *vf)
 {
 	GtkWidget *menu;
@@ -603,8 +620,10 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	menu_item_add_stock_sensitive(menu, _("_Find duplicates..."), GTK_STOCK_FIND, active,
 				G_CALLBACK(vf_pop_menu_duplicates_cb), vf);
 	menu_item_add_divider(menu);
-	menu_item_add_stock_sensitive(menu, _("Add to new collection"), GTK_STOCK_INDEX, active,
-				G_CALLBACK(vf_pop_menu_add_collection_cb), vf);
+
+	submenu = submenu_add_collections(menu, &item,
+				G_CALLBACK(vf_pop_menu_collections_cb), vf);
+	gtk_widget_set_sensitive(item, active);
 	menu_item_add_divider(menu);
 
 	submenu = submenu_add_sort(NULL, G_CALLBACK(vf_pop_menu_sort_cb), vf,

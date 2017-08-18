@@ -1030,11 +1030,29 @@ static void search_result_menu_destroy_cb(GtkWidget *widget, gpointer data)
 	filelist_free(editmenu_fd_list);
 }
 
+/* Add file selection list to a collection
+ * Called from a right-click submenu
+ * Inputs:
+ * data: index to the collection list menu item selected, or -1 for new collection
+ */
+static void search_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
+{
+	SearchData *sd;
+	GList *selection_list;
+
+	sd = submenu_item_get_data(widget);
+	selection_list = search_result_selection_list(sd);
+	pop_menu_collections(selection_list, data);
+
+	filelist_free(selection_list);
+}
+
 static GtkWidget *search_result_menu(SearchData *sd, gboolean on_row, gboolean empty)
 {
 	GtkWidget *menu;
 	GtkWidget *item;
 	GList *editmenu_fd_list;
+	GtkWidget *submenu;
 
 	menu = popup_menu_short_lived();
 
@@ -1054,8 +1072,11 @@ static GtkWidget *search_result_menu(SearchData *sd, gboolean on_row, gboolean e
 			 G_CALLBACK(search_result_menu_destroy_cb), editmenu_fd_list);
 	submenu_add_edit(menu, &item, G_CALLBACK(sr_menu_edit_cb), sd, editmenu_fd_list);
 	if (!on_row) gtk_widget_set_sensitive(item, FALSE);
-	menu_item_add_stock_sensitive(menu, _("Add to new collection"), GTK_STOCK_INDEX, on_row,
-				      G_CALLBACK(sr_menu_collection_cb), sd);
+
+	submenu = submenu_add_collections(menu, &item,
+				G_CALLBACK(search_pop_menu_collections_cb), sd);
+	gtk_widget_set_sensitive(item, on_row);
+
 	menu_item_add_stock_sensitive(menu, _("Print..."), GTK_STOCK_PRINT, on_row,
 				      G_CALLBACK(sr_menu_print_cb), sd);
 	menu_item_add_divider(menu);
