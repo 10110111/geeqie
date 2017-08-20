@@ -1254,10 +1254,12 @@ static GList *view_window_get_fd_list(ViewWindow *vw)
 	return list;
 }
 
-/* Add file selection list to a collection
- * Called from a right-click submenu
- * Inputs:
- * data: index to the collection list menu item selected, or -1 for new collection
+/**
+ * @brief Add file selection list to a collection
+ * @param[in] widget 
+ * @param[in] data Index to the collection list menu item selected, or -1 for new collection
+ * 
+ * 
  */
 static void image_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
 {

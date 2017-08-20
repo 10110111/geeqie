@@ -388,9 +388,14 @@ GtkWidget *submenu_add_alter(GtkWidget *menu, GCallback func, gpointer data)
  *-----------------------------------------------------------------------------
  */
 
-/* Add submenu consisting of "New collection", and list of existing collections
- * to a right-click menu.
- * Used by image windows
+/**
+ * @brief Add submenu consisting of "New collection", and list of existing collections to a right-click menu.
+ * @param[in] menu 
+ * @param[in] func 
+ * @param[in] collection_list Type gchar
+ * @param[in] data 
+ * 
+ *  Used by all image windows
  */
 static void add_collection_list(GtkWidget *menu, GCallback func,
 								GList *collection_list, gpointer data)
@@ -438,11 +443,12 @@ GtkWidget *submenu_add_collections(GtkWidget *menu, GtkWidget **menu_item,
 	return submenu;
 }
 
-/* Add file selection list to a collection
- * Called from a right-click submenu
- * Inputs:
- * selection_list: GList of FileData
- * data: index to the collection list menu item selected, or -1 for new collection
+/**
+ * @brief Add file selection list to a collection
+ * @param[in] selection_list Selection list of ::_FileData
+ * @param[in] data Index to the collection list menu item selected, or -1 for new collection
+ * 
+ * 
  */
 void pop_menu_collections(GList *selection_list, gpointer data)
 {

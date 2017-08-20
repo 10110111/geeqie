@@ -44,12 +44,22 @@
 #define COLLECT_DEF_WIDTH 440
 #define COLLECT_DEF_HEIGHT 450
 
-/* list of paths to collections */
+/**
+ *  list of paths to collections */
 
-/* List of currently open Collections*/
-static GList *collection_list = NULL; /* type CollectionData */
-/* List of currently open Collection windows*/
-static GList *collection_window_list = NULL; /* type CollectWindow */
+/**
+ * @brief  List of currently open Collections.
+ * 
+ * Type ::_CollectionData 
+ */
+static GList *collection_list = NULL;
+
+/**
+ * @brief  List of currently open Collection windows.
+ * 
+ * Type ::_CollectWindow
+ */
+static GList *collection_window_list = NULL;
 
 static void collection_window_get_geometry(CollectWindow *cw);
 static void collection_window_refresh(CollectWindow *cw);
@@ -311,11 +321,11 @@ CollectWindow *collection_window_find_by_path(const gchar *path)
 	return NULL;
 }
 
-/* Checks string for existence of Collection.
- * The parameter is the filename,
- * with or without extension of any collection
- *
- * Returns: full pathname if found or NULL
+/**
+ * @brief Checks string for existence of Collection.
+ * @param[in] param Filename, with or without extension of any collection
+ * @returns full pathname if found or NULL
+ * 
  * Return value must be freed with g_free()
  */
 gchar *collection_path(gchar *param)
@@ -343,11 +353,12 @@ gchar *collection_path(gchar *param)
 	return path;
 }
 
-/* Checks input string for existence of Collection.
- * The parameter is the filename
- * with or without extension of any collection
+/**
+ * @brief Checks input string for existence of Collection.
+ * @param[in] param Filename with or without extension of any collection
+ * @returns TRUE if found
  * 
- * Returns TRUE if found
+ * 
  */
 gboolean is_collection(gchar *param)
 {

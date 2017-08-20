@@ -978,14 +978,14 @@ static gint collection_manager_sort_cb(gconstpointer a, gconstpointer b)
 
 	return g_strcmp0(char_a, char_b);
 }
-
-/* Creates sorted list of collections
- * Inputs: none
- * Outputs: list of type gchar
- * 			sorted list of collections names excluding extension
- * 			sorted list of collections names including extension
- * 			sorted list of collection paths
- * Return: none
+ 
+/**
+ * @brief Creates sorted list of collections
+ * @param[out] names_exc sorted list of collections names excluding extension
+ * @param[out] names_inc sorted list of collections names including extension
+ * @param[out] paths sorted list of collection paths
+ * 
+ * Lists of type gchar.
  * Used lists must be freed with string_list_free()
  */
 void collect_manager_list(GList **names_exc, GList **names_inc, GList **paths)

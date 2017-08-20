@@ -2309,10 +2309,12 @@ static GList *dupe_window_get_fd_list(DupeWindow *dw)
 	return list;
 }
 
-/* Add file selection list to a collection
- * Called from a right-click menu
- * Inputs:
- * data: index to the collection list menu item selected, or -1 for new collection
+/**
+ * @brief Add file selection list to a collection
+ * @param[in] widget 
+ * @param[in] data Index to the collection list menu item selected, or -1 for new collection
+ * 
+ * 
  */
 static void dupe_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
 {

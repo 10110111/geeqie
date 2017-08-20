@@ -504,10 +504,12 @@ static void vf_popup_destroy_cb(GtkWidget *widget, gpointer data)
 	vf->editmenu_fd_list = NULL;
 }
 
-/* Add file selection list to a collection
- * Called from a right-click menu
- * Inputs:
- * data: index to the collection list menu item selected, or -1 for new collection
+/**
+ * @brief Add file selection list to a collection
+ * @param[in] widget 
+ * @param[in] data Index to the collection list menu item selected, or -1 for new collection
+ * 
+ * 
  */
 static void vf_pop_menu_collections_cb(GtkWidget *widget, gpointer data)
 {
