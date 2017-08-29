@@ -483,7 +483,12 @@ gboolean copy_file_attributes(const gchar *s, const gchar *t, gint perms, gint m
 			/* Ignores chown errors, while still doing chown
 			   (so root still can copy files preserving ownership) */
 			ret = TRUE;
-			if (chmod(tl, st.st_mode) < 0) ret = FALSE;
+			if (chmod(tl, st.st_mode) < 0) {
+                            struct stat st2;
+                            if (stat(tl, &st2) != 0 || st2.st_mode != st.st_mode) {
+                                ret = FALSE;
+                            }
+                        }
 			}
 
 		tb.actime = st.st_atime;
