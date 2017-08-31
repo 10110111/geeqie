@@ -1255,11 +1255,7 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 
 	menu = popup_menu_short_lived();
 
-	menu_item_add_stock(menu, _("New keyword"), GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
-
-	menu_item_add_divider(menu);
-
-	menu_item_add(menu, _("Add keyword to all selected images"), G_CALLBACK(bar_pane_keywords_add_to_selected_cb), pkd);
+	menu_item_add_stock(menu, _("New keyword"), GTK_STOCK_NEW, G_CALLBACK(bar_pane_keywords_add_dialog_cb), pkd);
 
 	menu_item_add_divider(menu);
 
@@ -1269,6 +1265,7 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		gchar *text;
 		gchar *mark;
 		gint i;
+		gboolean keyword;
 
 		GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(pkd->keyword_treeview));
 
@@ -1277,10 +1274,19 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		gchar *name;
 
 		gtk_tree_model_get(model, &iter, FILTER_KEYWORD_COLUMN_NAME, &name,
-						 FILTER_KEYWORD_COLUMN_MARK, &mark, -1);
+						FILTER_KEYWORD_COLUMN_MARK, &mark,
+						FILTER_KEYWORD_COLUMN_IS_KEYWORD, &keyword, -1);
+
+		if (keyword)
+			{
+			text = g_strdup_printf(_("Add \"%s\" to all selected images"), name);
+			menu_item_add_stock(menu, text, GTK_STOCK_ADD, G_CALLBACK(bar_pane_keywords_add_to_selected_cb), pkd);
+			g_free(text);
+			}
+		menu_item_add_divider(menu);
 
 		text = g_strdup_printf(_("Hide \"%s\""), name);
-		menu_item_add_stock(menu, text, GTK_STOCK_EDIT, G_CALLBACK(bar_pane_keywords_hide_cb), pkd);
+		menu_item_add(menu, text, G_CALLBACK(bar_pane_keywords_hide_cb), pkd);
 		g_free(text);
 
 		submenu = gtk_menu_new();
@@ -1291,11 +1297,14 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 			g_object_set_data(G_OBJECT(item), "mark", GINT_TO_POINTER(i + 1));
 			g_free(text);
 			}
-		text = g_strdup_printf(_("Connect \"%s\" to mark"), name);
-		item = menu_item_add(menu, text, NULL, NULL);
-		gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
-		g_free(text);
 
+		if (keyword)
+			{
+			text = g_strdup_printf(_("Connect \"%s\" to mark"), name);
+			item = menu_item_add(menu, text, NULL, NULL);
+			gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+			g_free(text);
+			}
 		menu_item_add_divider(menu);
 
 		text = g_strdup_printf(_("Edit \"%s\""), name);
