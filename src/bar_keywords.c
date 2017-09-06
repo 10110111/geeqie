@@ -939,7 +939,7 @@ static void bar_pane_keywords_edit_dialog(PaneKeywordsData *pkd, gboolean edit_e
 			 G_CALLBACK(bar_pane_keywords_edit_destroy_cb), cdd);
 
 
-	generic_dialog_add_message(gd, NULL, name ? _("Configure keyword") : _("New keyword"), NULL);
+	generic_dialog_add_message(gd, NULL, name ? _("Configure keyword") : _("New keyword"), NULL, FALSE);
 
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
 				  bar_pane_keywords_edit_ok_cb, TRUE);

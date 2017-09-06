@@ -936,7 +936,7 @@ static void tab_completion_select_show(TabCompData *td)
 	file_dialog_add_button(td->fd, GTK_STOCK_OK, NULL,
 				 tab_completion_select_ok_cb, TRUE);
 
-	generic_dialog_add_message(GENERIC_DIALOG(td->fd), NULL, title, NULL);
+	generic_dialog_add_message(GENERIC_DIALOG(td->fd), NULL, title, NULL, TRUE);
 
 	path = gtk_entry_get_text(GTK_ENTRY(td->entry));
 	if (strlen(path) == 0) path = NULL;

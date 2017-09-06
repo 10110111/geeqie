@@ -1976,7 +1976,7 @@ static void print_job_throw_error(PrintWindow *pw, const gchar *message)
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, NULL, TRUE);
 
 	buf = g_strdup_printf(_("An error occured printing to %s."), print_output_name(pw->output));
-	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_ERROR, _("Printing error"), buf);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_ERROR, _("Printing error"), buf, TRUE);
 	g_free(buf);
 
 	group = pref_group_new(gd->vbox, FALSE, _("Details"), GTK_ORIENTATION_VERTICAL);
@@ -2599,7 +2599,7 @@ static gboolean print_job_start(PrintWindow *pw, RenderFormat format, PrintOutpu
 					   print_job_cancel_cb, pw);
 
 	msg = g_strdup_printf(_("Printing %d pages to %s."), print_layout_page_count(pw), print_output_name(pw->output));
-	generic_dialog_add_message(pw->job_dialog, NULL, msg, NULL);
+	generic_dialog_add_message(pw->job_dialog, NULL, msg, NULL, TRUE);
 	g_free(msg);
 
 	if (pw->job_output == PRINT_OUTPUT_PS_FILE ||

@@ -79,7 +79,7 @@ static gboolean collection_save_confirmed(FileDialog *fd, gboolean overwrite, Co
 					collection_confirm_cancel_cb, fd);
 
 		generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
-					   _("Overwrite existing file?"), fd->dest_path);
+					   _("Overwrite existing file?"), fd->dest_path, TRUE);
 
 		generic_dialog_add_button(gd, GTK_STOCK_OK, _("_Overwrite"), collection_confirm_ok_cb, TRUE);
 
@@ -229,7 +229,7 @@ static void collection_save_or_load_dialog(const gchar *path,
 	fd = file_util_file_dlg(title, "dlg_collection", parent,
 			     collection_save_or_load_dialog_close_cb, cd);
 
-	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, title, NULL);
+	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, title, NULL, TRUE);
 	file_dialog_add_button(fd, stock_id, btntext, btnfunc, TRUE);
 
 	file_dialog_add_path_widgets(fd, get_collections_dir(), path,

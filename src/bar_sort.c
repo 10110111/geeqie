@@ -560,7 +560,7 @@ static void bar_sort_add_cb(GtkWidget *button, gpointer data)
 				       bar_sort_add_cancel_cb, sd);
 	file_dialog_add_button(sd->dialog, GTK_STOCK_OK, NULL, bar_sort_add_ok_cb, TRUE);
 
-	generic_dialog_add_message(GENERIC_DIALOG(sd->dialog), NULL, title, NULL);
+	generic_dialog_add_message(GENERIC_DIALOG(sd->dialog), NULL, title, NULL, FALSE);
 
 	if (sd->mode == BAR_SORT_MODE_FOLDER)
 		{

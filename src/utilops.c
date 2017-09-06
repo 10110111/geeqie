@@ -202,7 +202,7 @@ GenericDialog *file_util_warning_dialog(const gchar *heading, const gchar *messa
 	GenericDialog *gd;
 
 	gd = file_util_gen_dlg(heading, "warning", parent, TRUE, NULL, NULL);
-	generic_dialog_add_message(gd, icon_stock_id, heading, message);
+	generic_dialog_add_message(gd, icon_stock_id, heading, message, TRUE);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, file_util_warning_dialog_ok_cb, TRUE);
 	if (options->place_dialogs_under_mouse)
 		{
@@ -592,7 +592,7 @@ static gint file_util_perform_ci_cb(gpointer resume_data, EditorFlags flags, GLi
 					      NULL, TRUE,
 					      file_util_abort_cb, ud);
 
-			generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, msg->str);
+			generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, NULL, msg->str, TRUE);
 
 			generic_dialog_add_button(d, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
 						  file_util_resume_cb, TRUE);
@@ -1025,7 +1025,7 @@ void file_util_check_ci(UtilityData *ud)
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
 
-		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("Really continue?"), desc);
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("Really continue?"), desc, TRUE);
 
 		generic_dialog_add_button(d, GTK_STOCK_GO_FORWARD, _("Co_ntinue"),
 					  file_util_check_resume_cb, TRUE);
@@ -1039,7 +1039,7 @@ void file_util_check_ci(UtilityData *ud)
 		d = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
-		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("This operation can't continue:"), desc);
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("This operation can't continue:"), desc, TRUE);
 
 		gtk_widget_show(d->dialog);
 		}
@@ -1152,7 +1152,7 @@ static void file_util_fdlg_ok_cb(FileDialog *fdlg, gpointer data)
 		d = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 					ud->parent, TRUE,
 					file_util_check_abort_cb, ud);
-		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("This operation can't continue:"), desc);
+		generic_dialog_add_message(d, GTK_STOCK_DIALOG_WARNING, _("This operation can't continue:"), desc, TRUE);
 
 		gtk_widget_show(d->dialog);
 		ud->phase = UTILITY_PHASE_START;
@@ -1511,7 +1511,7 @@ static void file_util_dialog_init_simple_list(UtilityData *ud)
 
 	box = generic_dialog_add_message(ud->gd, GTK_STOCK_DIALOG_QUESTION,
 					 ud->messages.question,
-					 dir_msg);
+					 dir_msg, TRUE);
 
 	g_free(dir_msg);
 
@@ -1558,7 +1558,7 @@ static void file_util_dialog_init_dest_folder(UtilityData *ud)
 
 	ud->fdlg = fdlg;
 
-	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, ud->messages.question, NULL);
+	generic_dialog_add_message(GENERIC_DIALOG(fdlg), NULL, ud->messages.question, NULL, FALSE);
 
 	label = pref_label_new(GENERIC_DIALOG(fdlg)->vbox, _("Choose the destination folder."));
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -1606,7 +1606,7 @@ static void file_util_dialog_init_source_dest(UtilityData *ud, gboolean second_i
 	ud->gd = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
 
-	box = generic_dialog_add_message(ud->gd, NULL, ud->messages.question, NULL);
+	box = generic_dialog_add_message(ud->gd, NULL, ud->messages.question, NULL, TRUE);
 
 	if (ud->discard_func) generic_dialog_add_button(ud->gd, GTK_STOCK_REVERT_TO_SAVED, _("Discard changes"), file_util_discard_cb, FALSE);
 	if (ud->details_func) generic_dialog_add_button(ud->gd, GTK_STOCK_INFO, _("File details"), file_util_details_cb, FALSE);
@@ -1981,7 +1981,7 @@ static void file_util_details_dialog(UtilityData *ud, FileData *fd)
 
 	message = file_util_details_get_message(ud, fd, &stock_id);
 
-	box = generic_dialog_add_message(gd, stock_id, _("File details"), message);
+	box = generic_dialog_add_message(gd, stock_id, _("File details"), message, TRUE);
 
 	generic_dialog_add_image(gd, box, fd, NULL, FALSE, NULL, NULL, FALSE);
 
@@ -2037,7 +2037,7 @@ static void file_util_write_metadata_details_dialog(UtilityData *ud, FileData *f
 		message2 = g_strdup_printf(_("The following metadata tags will be written to the image file itself."));
 		}
 
-	box = generic_dialog_add_message(gd, stock_id, _("Overview of changed metadata"), message1);
+	box = generic_dialog_add_message(gd, stock_id, _("Overview of changed metadata"), message1, TRUE);
 
 	box = pref_group_new(box, TRUE, message2, GTK_ORIENTATION_HORIZONTAL);
 
@@ -2637,7 +2637,7 @@ static void file_util_delete_dir_full(FileData *fd, GtkWidget *parent, UtilityPh
 					fd->path);
 		box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING,
 						 _("Folder contains subfolders"),
-						 text);
+						 text, TRUE);
 		g_free(text);
 
 		box = pref_group_new(box, TRUE, _("Subfolders:"), GTK_ORIENTATION_VERTICAL);

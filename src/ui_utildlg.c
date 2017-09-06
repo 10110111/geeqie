@@ -181,14 +181,25 @@ GtkWidget *generic_dialog_add_button(GenericDialog *gd, const gchar *stock_id, c
 	return button;
 }
 
+/**
+ * @brief 
+ * @param gd 
+ * @param icon_stock_id 
+ * @param heading 
+ * @param text 
+ * @param expand Used as the "expand" and "fill" parameters in the eventual call to gtk_box_pack_start() 
+ * @returns 
+ * 
+ * 
+ */
 GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock_id,
-				      const gchar *heading, const gchar *text)
+				      const gchar *heading, const gchar *text, gboolean expand)
 {
 	GtkWidget *hbox;
 	GtkWidget *vbox;
 	GtkWidget *label;
 
-	hbox = pref_box_new(gd->vbox, TRUE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	hbox = pref_box_new(gd->vbox, expand, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	if (icon_stock_id)
 		{
 		GtkWidget *image;
@@ -321,7 +332,7 @@ GenericDialog *warning_dialog(const gchar *heading, const gchar *text,
 	gd = generic_dialog_new(heading, "warning", parent, TRUE, NULL, NULL);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, warning_dialog_ok_cb, TRUE);
 
-	generic_dialog_add_message(gd, icon_stock_id, heading, text);
+	generic_dialog_add_message(gd, icon_stock_id, heading, text, TRUE);
 
 	gtk_widget_show(gd->dialog);
 

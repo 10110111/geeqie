@@ -1165,7 +1165,7 @@ static void collection_close_dlg_show(CollectWindow *cw)
 				collection_close_cancel_cb, cw);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
 				   _("Close collection"),
-				   _("Collection has been modified.\nSave first?"));
+				   _("Collection has been modified.\nSave first?"), TRUE);
 
 	generic_dialog_add_button(gd, GTK_STOCK_SAVE, NULL, collection_close_save_cb, TRUE);
 	generic_dialog_add_button(gd, GTK_STOCK_DELETE, _("_Discard"), collection_close_close_cb, FALSE);

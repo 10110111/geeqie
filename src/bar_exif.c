@@ -558,7 +558,7 @@ static void bar_pane_exif_conf_dialog(GtkWidget *widget)
 	g_signal_connect(G_OBJECT(widget), "destroy",
 			 G_CALLBACK(bar_pane_exif_edit_close_cb), gd);
 
-	generic_dialog_add_message(gd, NULL, ee ? _("Configure entry") : _("Add entry"), NULL);
+	generic_dialog_add_message(gd, NULL, ee ? _("Configure entry") : _("Add entry"), NULL, FALSE);
 
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
 				  bar_pane_exif_edit_ok_cb, TRUE);

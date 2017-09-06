@@ -288,7 +288,7 @@ static void bookmark_edit(const gchar *key, const gchar *text, GtkWidget *parent
 	g_signal_connect(G_OBJECT(gd->dialog), "destroy",
 			 G_CALLBACK(bookmark_edit_destroy_cb), p);
 
-	generic_dialog_add_message(gd, NULL, _("Edit Bookmark"), NULL);
+	generic_dialog_add_message(gd, NULL, _("Edit Bookmark"), NULL, FALSE);
 
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
 				  bookmark_edit_ok_cb, TRUE);

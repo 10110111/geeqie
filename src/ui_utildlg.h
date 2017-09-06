@@ -71,7 +71,7 @@ GtkWidget *generic_dialog_add_button(GenericDialog *gd, const gchar *stock_id, c
 void generic_dialog_attach_default(GenericDialog *gd, GtkWidget *widget);
 
 GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock_id,
-				      const gchar *heading, const gchar *text);
+				      const gchar *heading, const gchar *text, gboolean expand);
 
 gboolean generic_dialog_get_alternative_button_order(GtkWidget *widget);
 

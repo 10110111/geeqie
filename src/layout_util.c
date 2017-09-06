@@ -524,7 +524,7 @@ static void layout_menu_write_rotate(GtkToggleAction *action, gpointer data, gbo
 			gd = generic_dialog_new(_("Image orientation"),
 			"Image orientation", NULL, TRUE, NULL, NULL);
 			generic_dialog_add_message(gd, GTK_STOCK_DIALOG_ERROR,
-			"Image orientation", message->str);
+			"Image orientation", message->str, TRUE);
 			generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, NULL, TRUE);
 
 			gtk_widget_show(gd->dialog);

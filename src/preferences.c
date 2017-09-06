@@ -991,7 +991,7 @@ static void filter_default_cb(GtkWidget *widget, gpointer data)
 				"reset_filter", widget, TRUE,
 				dummy_cancel_cb, data);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset filters"),
-				   _("This will reset the file filters to the defaults.\nContinue?"));
+				   _("This will reset the file filters to the defaults.\nContinue?"), TRUE);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, filter_default_ok_cb, TRUE);
 	gtk_widget_show(gd->dialog);
 }
@@ -1022,7 +1022,7 @@ static void safe_delete_clear_cb(GtkWidget *widget, gpointer data)
 				"clear_trash", widget, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Clear trash"),
-				    _("This will remove the trash contents."));
+				    _("This will remove the trash contents."), FALSE);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, safe_delete_clear_ok_cb, TRUE);
 	entry = gtk_entry_new();
 	gtk_widget_set_can_focus(entry, FALSE);
@@ -1070,7 +1070,7 @@ static void image_overlay_default_template_cb(GtkWidget *widget, gpointer data)
 				"reset_image_overlay_template_string", widget, TRUE,
 				dummy_cancel_cb, data);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Reset image overlay template string"),
-				   _("This will reset the image overlay template string to the default.\nContinue?"));
+				   _("This will reset the image overlay template string to the default.\nContinue?"), TRUE);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, image_overlay_default_template_ok_cb, TRUE);
 	gtk_widget_show(gd->dialog);
 }

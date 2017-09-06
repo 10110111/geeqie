@@ -216,7 +216,7 @@ static void bar_pane_gps_close_save_cb(GenericDialog *gd, gpointer data)
 							bar_pane_gps_close_cancel_cb, pgd);
 				generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION,
 							_("Write lat/long to meta-data?"),
-							message->str);
+							message->str, TRUE);
 
 				generic_dialog_add_button(gd, GTK_STOCK_SAVE, NULL,
 												bar_pane_gps_close_save_cb, TRUE);
@@ -843,7 +843,7 @@ void bar_pane_gps_map_centreing(PaneGPSData *pgd)
 	gd = generic_dialog_new(_("Map centering"),
 				"map_centering", NULL, TRUE, NULL, pgd);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO,
-				"Map Centering", message->str);
+				"Map Centering", message->str, TRUE);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, NULL, TRUE);
 
 	gtk_widget_show(gd->dialog);

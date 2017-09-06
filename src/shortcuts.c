@@ -100,7 +100,7 @@ static void shortcuts_add_cb(GtkWidget *button, gpointer data)
 					shortcuts_add_cancel_cb, scd);
 	file_dialog_add_button(scd->dialog, GTK_STOCK_OK, NULL, shortcuts_add_ok_cb, TRUE);
 
-	generic_dialog_add_message(GENERIC_DIALOG(scd->dialog), NULL, title, NULL);
+	generic_dialog_add_message(GENERIC_DIALOG(scd->dialog), NULL, title, NULL, FALSE);
 
 	file_dialog_add_path_widgets(scd->dialog, NULL, NULL, "add_shortcuts", NULL, NULL);
 

@@ -332,7 +332,7 @@ void cache_maintain_home(gboolean metadata, gboolean clear, GtkWidget *parent)
 	cm->button_stop = generic_dialog_add_button(cm->gd, GTK_STOCK_STOP, NULL,
 						    cache_maintain_home_stop_cb, FALSE);
 
-	generic_dialog_add_message(cm->gd, NULL, msg, NULL);
+	generic_dialog_add_message(cm->gd, NULL, msg, NULL, FALSE);
 	gtk_window_set_default_size(GTK_WINDOW(cm->gd->dialog), PURGE_DIALOG_WIDTH, -1);
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -807,7 +807,7 @@ static void cache_manager_render_dialog(GtkWidget *widget, const gchar *path)
 						    cache_manager_render_stop_cb, FALSE);
 	gtk_widget_set_sensitive(cd->button_stop, FALSE);
 
-	generic_dialog_add_message(cd->gd, NULL, _("Create thumbnails"), NULL);
+	generic_dialog_add_message(cd->gd, NULL, _("Create thumbnails"), NULL, FALSE);
 
 	hbox = pref_box_new(cd->gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, 0);
 	pref_spacer(hbox, PREF_PAD_INDENT);
@@ -1066,7 +1066,7 @@ static void cache_manager_standard_process(GtkWidget *widget, gboolean clear)
 						    cache_manager_standard_clean_stop_cb, FALSE);
 	gtk_widget_set_sensitive(cd->button_stop, FALSE);
 
-	generic_dialog_add_message(cd->gd, stock_id, msg, NULL);
+	generic_dialog_add_message(cd->gd, stock_id, msg, NULL, FALSE);
 
 	cd->progress = gtk_progress_bar_new();
 	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(cd->progress), _("click start to begin"));
@@ -1132,7 +1132,7 @@ void cache_manager_main_clear_confirm(GtkWidget *parent)
 				"clear_cache", parent, TRUE,
 				dummy_cancel_cb, NULL);
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, _("Clear cache"),
-				   _("This will remove all thumbnails that have\nbeen saved to disk, continue?"));
+				   _("This will remove all thumbnails that have\nbeen saved to disk, continue?"), TRUE);
 	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, cache_manager_main_clear_ok_cb, TRUE);
 
 	gtk_widget_show(gd->dialog);
@@ -1214,7 +1214,7 @@ void cache_manager_show(void)
 	generic_dialog_add_button(gd, GTK_STOCK_HELP, NULL,
 				  cache_manager_help_cb, FALSE);
 
-	generic_dialog_add_message(gd, NULL, _("Cache and Data Maintenance"), NULL);
+	generic_dialog_add_message(gd, NULL, _("Cache and Data Maintenance"), NULL, FALSE);
 
 	sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 

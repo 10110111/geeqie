@@ -537,7 +537,7 @@ static EditorVerboseData *editor_verbose_window(EditorData *ed, const gchar *tex
 				   NULL, FALSE,
 				   NULL, ed);
 	buf = g_strdup_printf(_("Output of %s"), text);
-	generic_dialog_add_message(vd->gd, NULL, buf, NULL);
+	generic_dialog_add_message(vd->gd, NULL, buf, NULL, TRUE);
 	g_free(buf);
 	vd->button_stop = generic_dialog_add_button(vd->gd, GTK_STOCK_STOP, NULL,
 						   editor_verbose_window_stop, FALSE);

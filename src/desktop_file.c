@@ -350,7 +350,7 @@ static void editor_list_window_delete_cb(GtkWidget *widget, gpointer data)
 
 		text = g_strdup_printf(_("About to delete the file:\n %s"), path);
 		generic_dialog_add_message(ewl->gd, GTK_STOCK_DIALOG_QUESTION,
-					   _("Delete file"), text);
+					   _("Delete file"), text, TRUE);
 		g_free(text);
 
 		gtk_widget_show(ewl->gd->dialog);

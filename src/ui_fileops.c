@@ -108,7 +108,7 @@ static void encoding_dialog(const gchar *path)
 	generic_dialog_add_button(gd, GTK_STOCK_CLOSE, NULL, NULL, TRUE);
 
 	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING,
-				   _("Filename encoding locale mismatch"), string->str);
+				   _("Filename encoding locale mismatch"), string->str, TRUE);
 
 	gtk_widget_show(gd->dialog);
 
