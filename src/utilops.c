@@ -1602,6 +1602,7 @@ static void file_util_dialog_init_source_dest(UtilityData *ud, gboolean second_i
 	GtkWidget *table;
 	GtkWidget *combo;
 	GtkWidget *page;
+	gchar *destination_message;
 
 	ud->gd = file_util_gen_dlg(ud->messages.title, "dlg_confirm",
 				   ud->parent, FALSE,  file_util_cancel_cb, ud);
@@ -1613,7 +1614,17 @@ static void file_util_dialog_init_source_dest(UtilityData *ud, gboolean second_i
 
 	generic_dialog_add_button(ud->gd, GTK_STOCK_OK, ud->messages.title, file_util_ok_cb, TRUE);
 
-	box = pref_group_new(box, TRUE, ud->messages.desc_flist, GTK_ORIENTATION_HORIZONTAL);
+	if (ud->type == UTILITY_TYPE_COPY || ud->type == UTILITY_TYPE_MOVE)
+		{
+		destination_message = g_strconcat(ud->messages.desc_flist," to: ", ud->dest_path, NULL);
+		}
+	else
+		{
+		destination_message = g_strdup(ud->messages.desc_flist);
+		}
+
+	box = pref_group_new(box, TRUE, destination_message, GTK_ORIENTATION_HORIZONTAL);
+	g_free(destination_message);
 
 	ud->listview = file_util_dialog_add_list(box, ud->flist, FALSE, ud->with_sidecars);
 	file_util_dialog_add_list_column(ud->listview, _("Sidecars"), FALSE, UTILITY_COLUMN_SIDECARS);
