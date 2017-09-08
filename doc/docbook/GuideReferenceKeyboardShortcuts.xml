@@ -669,6 +669,33 @@
           </row>
           <row>
             <entry>
+              <keycap>P</keycap>
+            </entry>
+            <entry />
+            <entry>Pause slideshow.</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl +
+                <keycap>Keypad +</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Slideshow faster.</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl +
+                <keycap>Keypad -</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Slideshow slower.</entry>
+          </row>
+          <row>
+            <entry>
               <keycap>E</keycap>
             </entry>
             <entry />

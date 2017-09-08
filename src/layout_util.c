@@ -45,6 +45,7 @@
 #include "preferences.h"
 #include "print.h"
 #include "search.h"
+#include "slideshow.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
 #include "ui_misc.h"
@@ -1017,6 +1018,24 @@ static void layout_menu_slideshow_pause_cb(GtkAction *action, gpointer data)
 	layout_image_slideshow_pause_toggle(lw);
 }
 
+static void layout_menu_slideshow_slower_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	options->slideshow.delay = options->slideshow.delay + 5;
+	if (options->slideshow.delay > SLIDESHOW_MAX_SECONDS)
+		options->slideshow.delay = SLIDESHOW_MAX_SECONDS;
+}
+
+static void layout_menu_slideshow_faster_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	options->slideshow.delay = options->slideshow.delay - 5;
+	if (options->slideshow.delay < SLIDESHOW_MIN_SECONDS * 10)
+		options->slideshow.delay = SLIDESHOW_MIN_SECONDS * 10;
+}
+
 
 static void layout_menu_stereo_mode_next_cb(GtkAction *action, gpointer data)
 {
@@ -1812,6 +1831,8 @@ static GtkActionEntry menu_entries[] = {
   { "HistogramModeCycle",NULL,			N_("Cycle through histogram mo_des"),	"J",			N_("Cycle through histogram modes"),	CB(layout_menu_histogram_toggle_mode_cb) },
   { "HideTools",	NULL,			N_("_Hide file list"),			"<control>H",		N_("Hide file list"),			CB(layout_menu_hide_cb) },
   { "SlideShowPause",	GTK_STOCK_MEDIA_PAUSE,	N_("_Pause slideshow"), 		"P",			N_("Pause slideshow"), 			CB(layout_menu_slideshow_pause_cb) },
+  { "SlideShowFaster",	NULL,	N_("Faster"), 		"<control>KP_Add",			N_("Faster"), 			CB(layout_menu_slideshow_faster_cb) },
+  { "SlideShowSlower",	NULL,	N_("Slower"), 		"<control>KP_Subtract",			N_("Slower"), 			CB(layout_menu_slideshow_slower_cb) },
   { "Refresh",		GTK_STOCK_REFRESH,	N_("_Refresh"),				"R",			N_("Refresh"),				CB(layout_menu_refresh_cb) },
   { "HelpContents",	GTK_STOCK_HELP,		N_("_Contents"),			"F1",			N_("Contents"),				CB(layout_menu_help_cb) },
   { "HelpShortcuts",	NULL,			N_("_Keyboard shortcuts"),		NULL,			N_("Keyboard shortcuts"),		CB(layout_menu_help_keys_cb) },
@@ -2106,6 +2127,9 @@ static const gchar *menu_ui_description =
 "      <menuitem action='Animate'/>"
 "      <menuitem action='SlideShow'/>"
 "      <menuitem action='SlideShowPause'/>"
+"      <menuitem action='SlideShowFaster'/>"
+"      <menuitem action='SlideShowSlower'/>"
+"      <separator/>"
 "      <menuitem action='Refresh'/>"
 "      <placeholder name='SlideShowSection'/>"
 "      <separator/>"

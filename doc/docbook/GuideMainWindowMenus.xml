@@ -1378,6 +1378,22 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <guimenu>Faster</guimenu>
+        </term>
+        <listitem>
+          <para>Decreases slide show interval in units of 0.5 seconds.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guimenu>Slower</guimenu>
+        </term>
+        <listitem>
+          <para>Increases slide show interval in units of 0.5 seconds.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guimenu>Refresh</guimenu>
         </term>
         <listitem>

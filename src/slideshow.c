@@ -304,6 +304,8 @@ static gboolean slideshow_step(SlideShowData *ss, gboolean forward)
 	return TRUE;
 }
 
+static void slideshow_timer_reset(SlideShowData *ss);
+
 static gboolean slideshow_loop_cb(gpointer data)
 {
 	SlideShowData *ss = data;
@@ -316,6 +318,9 @@ static gboolean slideshow_loop_cb(gpointer data)
 		slideshow_free(ss);
 		return FALSE;
 		}
+
+	/* Check if the user has changed the timer interval */
+	slideshow_timer_reset(ss);
 
 	return TRUE;
 }
