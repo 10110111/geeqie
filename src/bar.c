@@ -739,7 +739,16 @@ GtkWidget *bar_update_from_config(GtkWidget *bar, const gchar **attribute_names,
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
+#if !GTK_CHECK_VERSION(3,0,0)
+/* FIXME: In bar_size_allocate() the width obained is the allocated width. In GTK2 this
+ * is the actual width. In GTK3 it is the *minimum* width.
+ * This results in the info sidebar being able to increase, but not
+ * decrease. There does not seem to be a way in GTK3 to get the actual width of
+ * a widget. For GTK3 the only way is to disable it. The width of the sidebar
+ * is therefore not preserved across restarts.
+ */
 	gtk_widget_set_size_request(bar, width, -1);
+#endif
 	if (enabled)
 		{
 		gtk_widget_show(bar);
