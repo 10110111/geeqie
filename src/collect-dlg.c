@@ -229,7 +229,7 @@ static void collection_save_or_load_dialog(const gchar *path,
 	fd = file_util_file_dlg(title, "dlg_collection", parent,
 			     collection_save_or_load_dialog_close_cb, cd);
 
-	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, title, NULL, TRUE);
+	generic_dialog_add_message(GENERIC_DIALOG(fd), NULL, title, NULL, FALSE);
 	file_dialog_add_button(fd, stock_id, btntext, btnfunc, TRUE);
 
 	file_dialog_add_path_widgets(fd, get_collections_dir(), path,
