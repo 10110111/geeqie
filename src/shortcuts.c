@@ -22,6 +22,7 @@
 #include "main.h"
 #include "shortcuts.h"
 
+#include "collect.h"
 #include "layout.h"
 #include "utilops.h"
 #include "ui_bookmark.h"
@@ -47,7 +48,15 @@ static void shortcuts_bookmark_select(const gchar *path, gpointer data)
 {
 	ShortcutsData *scd = data;
 
-	layout_set_path(scd->lw, path);
+	if (file_extension_match(path, GQ_COLLECTION_EXT))
+		{
+		collection_window_new(path);
+		}
+	else
+		{
+		layout_set_path(scd->lw, path);
+		}
+
 }
 
 static void shortcuts_add_close(ShortcutsData *scd)
