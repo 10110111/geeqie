@@ -2502,6 +2502,16 @@ static void collection_table_destroy(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
 
+	/* If there is no unsaved data, save the window geometry
+	 */
+	if (!ct->cd->changed)
+		{
+		if (!collection_save(ct->cd, ct->cd->path))
+			{
+			log_printf("failed saving to collection path: %s\n", ct->cd->path);
+			}
+		}
+
 	if (ct->popup)
 		{
 		g_signal_handlers_disconnect_matched(G_OBJECT(ct->popup), G_SIGNAL_MATCH_DATA,

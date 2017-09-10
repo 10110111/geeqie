@@ -1194,19 +1194,39 @@ void collection_window_close_by_collection(CollectionData *cd)
 	if (cw) collection_window_close_final(cw);
 }
 
+/**
+ * @brief Check if any Collection windows have unsaved data
+ * @returns TRUE if unsaved data exists
+ * 
+ * Also saves window geometry for Collection windows that have
+ * no unsaved data
+ */
 gboolean collection_window_modified_exists(void)
 {
 	GList *work;
+	gboolean ret;
+
+	ret = FALSE;
 
 	work = collection_window_list;
 	while (work)
 		{
 		CollectWindow *cw = work->data;
-		if (cw->cd->changed) return TRUE;
+		if (cw->cd->changed)
+			{
+			ret = TRUE;
+			}
+		else
+			{
+			if (!collection_save(cw->table->cd, cw->table->cd->path))
+				{
+				log_printf("failed saving to collection path: %s\n", cw->table->cd->path);
+				}
+			}
 		work = work->next;
 		}
 
-	return FALSE;
+	return ret;
 }
 
 static gboolean collection_window_delete(GtkWidget *widget, GdkEvent *event, gpointer data)
