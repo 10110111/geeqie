@@ -1,3 +1,203 @@
+commit 876de3dbfdc0f72d3ac245cb35837118b7af6c2d
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Sep 10 10:57:20 2017 +0100
+
+    Add Collections to Shortcuts bar
+
+commit 435f7c0f0b85c97cb25c50ef4e842692e08210f3
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Sep 10 10:10:47 2017 +0100
+
+    Addl Fix #508: Copy and Move windows scale incorrectly
+    
+    https://github.com/BestImageViewer/geeqie/issues/508
+    
+    Collections dialog
+
+commit ba8b5dd931b939dda5becc944b36a399966906fe
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Sep 9 17:40:37 2017 +0100
+
+    Reverse autogen.sh default map option
+    
+    Default is to enable libclutter and libchamplain
+
+commit 5ed2574fb8ccf6974597e804ca7b6b3d2b46c84f
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Sep 8 17:11:02 2017 +0100
+
+    Fix #278: Shortcut to change time between images in slideshow
+    
+    https://github.com/BestImageViewer/geeqie/issues/278
+    
+    Keypad plus and minus to change the interval in 0.5 sec units.
+
+commit 1ceb6bcd100d9dca49481dfc0797551fa2f07d70
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Sep 8 11:25:06 2017 +0100
+
+    Bug fix: Info sidebar width in GTK3
+    
+    In bar_size_allocate() the width obained is the allocated width. In GTK2
+    this is the actual width. In GTK3 it is the *minimum* width. This
+    results in the info sidebar being able to increase, but not decrease.
+    There does not seem to be a way in GTK3 to get the actual width of a
+    widget. For GTK3 the only way is to disable it. The width of the sidebar
+    is therefore not preserved across restarts.
+
+commit 317f0e8a8be59e44829e97836ba6fc7cd63f23c5
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Sep 6 19:56:58 2017 +0100
+
+    Show destination in Copy/Move dialog
+    
+    Expand the information message to include the destination folder for
+    Copy and Move operations.
+
+commit 6d3a29560c9c642b44ed17bc5703366c9a47259c
+Author: cclark <colin.clark@cclark.uk>
+Date:   Wed Sep 6 11:59:47 2017 +0100
+
+    Fix #508: Copy and Move windows scale incorrectly
+    
+    https://github.com/BestImageViewer/geeqie/issues/508
+
+commit 8702dec86a4061ede0449a6fd4a913bbe13e83fe
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Thu Aug 31 11:38:26 2017 +0100
+
+    Fix #507: Slightly rearrange keywords context menu
+    
+    https://github.com/BestImageViewer/geeqie/issues/507
+
+commit 535b244d88286645889ce237c633818359557654
+Author: Alberto Griggio <>
+Date:   Tue Aug 29 10:13:17 2017 +0100
+
+    Fix #506: ignore chmod errors for filesystems not supporting the operation
+    
+    https://github.com/BestImageViewer/geeqie/issues/506
+
+commit 33386eb25cd29261952579c4a13abb7ffc12854b
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Aug 22 10:12:34 2017 +0100
+
+    Update doxygen.conf
+
+commit 3087f7ae361ad30a1040c13a6608eb4866000833
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Aug 20 11:20:48 2017 +0100
+
+    Change recent code comments to Doxygen style
+
+commit ae34634113b2cb77e530f576bd1b85b3d02e7a4d
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Aug 18 14:25:36 2017 +0100
+
+    Right-click menus - collections
+    
+    On all relevent right-click menus include a sub-menu to store an image
+    selection to either a new or existing collection.
+    
+    On Collection window right-click menu, remove "Append from file list" -
+    that can be achieved with "Append from file selection"
+
+commit 01715c038710d26a857d046560a1be91aefa7577
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Aug 16 09:42:42 2017 +0100
+
+    Bug fix: Collection in multiple windows
+    
+    The same collection can be opened in multiple windows, causing problems
+    when different files are appended to different windows.
+    
+    This commit permits only one window per collection.
+
+commit 19dca3c8e345df917cfdee91d394a7bd51504b6e
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Aug 15 20:07:40 2017 +0100
+
+    Append file selection to collection
+    
+    Additional right-click menu item to append file selection to a
+    collection window
+
+commit a3abc18833df49b29f75297f3aac907cf88a8083
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon Aug 14 16:46:55 2017 +0100
+
+    Update website
+
+commit 5e0b8494accda8c26b67d31fc3c446489e54693b
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Aug 11 20:53:32 2017 +0100
+
+    Ref #226: Update website
+    
+    https://github.com/BestImageViewer/geeqie/issues/226
+    
+    Sourceforge email address wrong
+
+commit 123f83373211726cc8ee1911f2a1c4f1c3807df9
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Aug 11 19:41:01 2017 +0100
+
+    Ref #226: Update website
+    
+    https://github.com/BestImageViewer/geeqie/issues/226
+    
+    Update README.md to give a more complete list of features.
+    Update https://en.wikipedia.org/wiki/Geeqie to include a link to
+    README.md on the github site - anyone accessing it will see it in html
+    format.
+    Include a "Preview release" date on above website - to show current
+    source status.
+    
+    Update Licence text to v2.
+
+commit 8ddd74a18d4addbf9f134e36cbefaa066a15b07c
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Thu Aug 10 20:03:50 2017 +0100
+
+    Bug fix: Improve debug output
+    
+    Fix commit 271aa1833d31
+
+commit 89575fd7b1e7f96aca6e29fa1433cf26de332a87
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Aug 9 15:14:27 2017 +0100
+
+    Addl fix #436: Add 'Losslessly rotate image' keyboard shortcuts
+    
+    https://github.com/BestImageViewer/geeqie/issues/436
+    
+    Send stderr to /dev/null
+
+commit 271aa1833d31876835e93aa7c5610914e916a89c
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Aug 8 22:10:21 2017 +0100
+
+    Improve debug output
+    
+    Use __func__ compiler identifier
+
+commit b2c2c8ceb6545921387556e2f29620824574242c
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Aug 8 19:30:01 2017 +0100
+
+    Update secondary user documentation
+    
+    Use standard gtk_about_dialog for Help About
+    Move contributers to AUTHORS file so that they appear in the Credits
+    dialog
+    Change gen_changelog.sh to create ChangeLog.html
+    Include ChangeLog on Help menu
+    Make presence of README.html and ChangeLog.html mandatory
+    
+    It would be better to generate above html files from automake.
+    gtk_about_dialog uses msgid _("translator-credits"), but the translators
+    do not use it.
+
 commit 07b95e443e9e9dc1de1bd2486f719d29f78e28d4
 Author: Colin Clark <colin.clark@cclark.uk>
 Date:   Sun Aug 6 20:17:44 2017 +0100

@@ -118,8 +118,6 @@ List compile options: `./autogen.sh --help`
 
 Common options:
 `./autogen.sh --disable-gtk3`,
-`./autogen.sh --enable-map`
-
 
 Compilation: `./autogen.sh [options]; make`
 
@@ -182,15 +180,14 @@ And either the ChangeLog file or [Geeqie ChangeLog at GitHub](https://github.com
     libclutter 1.0
         wiki.gnome.org/Projects/libchamplain
         for map display
-        disabled by default
-        enable with configure option: --enable-map
-        enabling will also enable GPU acceleration
+        enabled by default
+        disable with configure option: --disable-map
 
     libclutter 1.0
         www.clutter-project.org
         for GPU acceleration (a check-box on Preferences/Image must also be ticked)
-        disabled by default
-        enable with configure option: --enable-gpu-accel
+        enabled by default
+        disable with configure option: --disable-gpu-accel
         explicitly disabling will also disable the map feature
 
     lua 5.1
