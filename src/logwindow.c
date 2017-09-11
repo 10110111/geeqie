@@ -44,6 +44,7 @@ struct _LogWindow
 	GtkWidget *bar;
 	GtkWidget *pause;
 	GtkWidget *wrap;
+	GtkWidget *timer_data;
 	GtkWidget *debug_level;
 };
 
@@ -97,6 +98,13 @@ static void log_window_line_wrap_cb(GtkWidget *widget, gpointer data)
 		{
 		gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(logwin->text), GTK_WRAP_NONE);
 		}
+}
+
+static void log_window_timer_data_cb(GtkWidget *widget, gpointer data)
+{
+	LogWindow *logwin = data;
+
+	options->log_window.timer_data = !options->log_window.timer_data;
 }
 
 static void log_window_regexp_cb(GtkWidget *text_entry, gpointer data)
@@ -166,6 +174,9 @@ static LogWindow *log_window_create(LayoutWindow *lw)
 
 	logwin->wrap = pref_button_new(hbox, NULL, "Line wrap", FALSE,
 					   G_CALLBACK(log_window_line_wrap_cb), logwin);
+
+	logwin->timer_data = pref_button_new(hbox, NULL, "Timer data", FALSE,
+					   G_CALLBACK(log_window_timer_data_cb), logwin);
 
 	pref_label_new(hbox, "Filter regexp");
 

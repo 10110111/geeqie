@@ -97,7 +97,16 @@ void log_domain_print_debug(const gchar *domain, const gchar *file_name, const g
 	message = g_strdup_vprintf(format, ap);
 	va_end(ap);
 
-	location = g_strdup_printf("%s:%s:%d:", file_name, function_name, line_number);
+	if (options && options->log_window.timer_data)
+		{
+		location = g_strdup_printf("%s:%s:%s:%d:", get_exec_time(), file_name,
+												function_name, line_number);
+		}
+	else
+		{
+		location = g_strdup_printf("%s:%s:%d:", file_name, function_name, line_number);
+		}
+
 	buf = g_strconcat(location, message, NULL);
 	log_domain_print_message(domain,buf);
 	g_free(location);

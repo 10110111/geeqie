@@ -638,7 +638,6 @@ struct _LayoutOptions
 		gint h;
 		gint x;
 		gint y;
-		gboolean paused;
 	} log_window;
 
 	gboolean tools_float;

@@ -272,6 +272,7 @@ struct _ConfOptions
 	struct {
 		gboolean paused;
 		gboolean line_wrap;
+		gboolean timer_data;
 	} log_window;
 };
 

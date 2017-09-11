@@ -173,6 +173,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->log_window_lines = 1000;
 	options->log_window.line_wrap = TRUE;
 	options->log_window.paused = FALSE;
+	options->log_window.timer_data = FALSE;
 
 	return options;
 }
