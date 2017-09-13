@@ -40,6 +40,9 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gin
 #define PIXBUF_INLINE_FOLDER_UP		"folder_up"
 #define PIXBUF_INLINE_SCROLLER		"scroller"
 #define PIXBUF_INLINE_BROKEN		"broken"
+#define PIXBUF_INLINE_METADATA		"metadata"
+#define PIXBUF_INLINE_UNKNOWN		"unknown"
+#define PIXBUF_INLINE_VIDEO			"video"
 #define PIXBUF_INLINE_ICON		"icon"
 #define PIXBUF_INLINE_LOGO		"logo"
 

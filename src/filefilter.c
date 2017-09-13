@@ -449,6 +449,15 @@ gboolean filter_file_class(const gchar *name, FileFormatClass file_class)
 	return !!filter_name_find(file_class_extension_list[file_class], name);
 }
 
+FileFormatClass filter_file_get_class(const gchar *name)
+{
+	if (filter_file_class(name, FORMAT_CLASS_IMAGE)) return FORMAT_CLASS_IMAGE;
+	if (filter_file_class(name, FORMAT_CLASS_RAWIMAGE)) return FORMAT_CLASS_RAWIMAGE;
+	if (filter_file_class(name, FORMAT_CLASS_META)) return FORMAT_CLASS_META;
+	if (filter_file_class(name, FORMAT_CLASS_VIDEO)) return FORMAT_CLASS_VIDEO;
+	return FORMAT_CLASS_UNKNOWN;
+}
+
 gboolean filter_name_is_writable(const gchar *name)
 {
 	return !!filter_name_find(file_writable_list, name);

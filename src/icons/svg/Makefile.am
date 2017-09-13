@@ -12,6 +12,9 @@ svg_images = \
 	icon_view.svg		\
 	sheet_blank.svg		\
 	sheet_broken.svg	\
+	sheet_metadata.svg	\
+	sheet_unknown.svg	\
+	sheet_video.svg	\
 	spinner_orbit.svg
 
 EXTRA_DIST = $(svg_images)

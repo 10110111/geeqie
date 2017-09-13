@@ -133,6 +133,7 @@ typedef enum {
 	FORMAT_CLASS_IMAGE,
 	FORMAT_CLASS_RAWIMAGE,
 	FORMAT_CLASS_META,
+	FORMAT_CLASS_VIDEO,
 	FILE_FORMAT_CLASSES
 } FileFormatClass;
 
@@ -546,6 +547,7 @@ struct _FileData {
 	const gchar *name;
 	const gchar *extension;
 	gchar *extended_extension;
+	FileFormatClass format_class;
 	gchar *collate_key_name;
 	gchar *collate_key_name_nocase;
 	gint64 size;

@@ -48,6 +48,7 @@ GList *filter_to_list(const gchar *extensions);
 const gchar *registered_extension_from_path(const gchar *name);
 gboolean filter_name_exists(const gchar *name);
 gboolean filter_file_class(const gchar *name, FileFormatClass file_class);
+FileFormatClass filter_file_get_class(const gchar *name);
 gboolean filter_name_is_writable(const gchar *name);
 gboolean filter_name_allow_sidecar(const gchar *name);
 

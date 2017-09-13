@@ -108,6 +108,9 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_FOLDER_UP,	folder_up },
 	{ PIXBUF_INLINE_SCROLLER,	icon_scroller },
 	{ PIXBUF_INLINE_BROKEN,		icon_broken },
+	{ PIXBUF_INLINE_METADATA,	icon_metadata },
+	{ PIXBUF_INLINE_UNKNOWN,	icon_unknown },
+	{ PIXBUF_INLINE_VIDEO,		icon_video },
 	{ PIXBUF_INLINE_ICON,		gqview_icon },
 	{ PIXBUF_INLINE_LOGO,		geeqie_logo },
 	{ PIXBUF_INLINE_ICON_FLOAT,	icon_float },
@@ -238,7 +241,22 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h,
 
 GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_height)
 {
-	GdkPixbuf *pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN); /* FIXME use different images according to FORMAT_CLASS */
+	GdkPixbuf *pixbuf;
+
+	switch (fd->format_class)
+		{
+		case FORMAT_CLASS_UNKNOWN:
+			pixbuf = pixbuf_inline(PIXBUF_INLINE_UNKNOWN);
+			break;
+		case FORMAT_CLASS_META:
+			pixbuf = pixbuf_inline(PIXBUF_INLINE_METADATA);
+			break;
+		case FORMAT_CLASS_VIDEO:
+			pixbuf = pixbuf_inline(PIXBUF_INLINE_VIDEO);
+			break;
+		default:
+			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
+		}
 
 	if (requested_width && requested_height)
 		{

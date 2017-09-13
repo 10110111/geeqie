@@ -671,7 +671,21 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 		{
 		GdkPixbuf *pixbuf;
 
-		pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
+		switch (imd->image_fd->format_class)
+			{
+			case FORMAT_CLASS_UNKNOWN:
+				pixbuf = pixbuf_inline(PIXBUF_INLINE_UNKNOWN);
+				break;
+			case FORMAT_CLASS_META:
+				pixbuf = pixbuf_inline(PIXBUF_INLINE_METADATA);
+				break;
+			case FORMAT_CLASS_VIDEO:
+				pixbuf = pixbuf_inline(PIXBUF_INLINE_VIDEO);
+				break;
+			default:
+				pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
+			}
+
 		image_change_pixbuf(imd, pixbuf, image_zoom_get(imd), FALSE);
 		g_object_unref(pixbuf);
 

@@ -429,6 +429,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->magick = FD_MAGICK;
 	fd->exifdate = 0;
 	fd->rating = 0;
+	fd->format_class = filter_file_get_class(path_utf8);
 
 	if (disable_sidecars) fd->disable_grouping = TRUE;
 
