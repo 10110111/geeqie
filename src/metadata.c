@@ -395,7 +395,7 @@ gboolean metadata_write_list(FileData *fd, const gchar *key, const GList *values
 			FileData *sfd = work->data;
 			work = work->next;
 
-			if (filter_file_class(sfd->extension, FORMAT_CLASS_META)) continue;
+			if (sfd->format_class == FORMAT_CLASS_META) continue;
 
 			metadata_write_list(sfd, key, values);
 			}
