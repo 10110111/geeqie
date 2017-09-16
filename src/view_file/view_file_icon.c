@@ -191,7 +191,7 @@ static gint vficon_get_icon_width(ViewFile *vf)
 {
 	gint width;
 
-	if (!VFICON(vf)->show_text) return options->thumbnails.max_width;
+	if (!VFICON(vf)->show_text && !vf->marks_enabled ) return options->thumbnails.max_width;
 
 	width = options->thumbnails.max_width + options->thumbnails.max_width / 2;
 	if (width < THUMB_MIN_ICON_WIDTH) width = THUMB_MIN_ICON_WIDTH;
