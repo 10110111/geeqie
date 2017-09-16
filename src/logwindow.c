@@ -37,7 +37,11 @@ struct _LogWindow
 	GtkWidget *scrolledwin;
 	GtkWidget *text;
 
+#if !GTK_CHECK_VERSION(3,0,0)
 	GdkColor colors[LOG_COUNT];
+#else
+	GtkTextTag *color_tags[LOG_COUNT];
+#endif
 
 	guint lines;
 	GtkWidget *regexp_box;
@@ -48,6 +52,7 @@ struct _LogWindow
 	GtkWidget *debug_level;
 };
 
+#if !GTK_CHECK_VERSION(3,0,0)
 typedef struct _LogDef LogDef;
 struct _LogDef
 {
@@ -63,6 +68,7 @@ static LogDef logdefs[LOG_COUNT] = {
 	{ LOG_WARN,	"warning",	"orange" },
 	{ LOG_ERROR,	"error",	"red"	 },
 };
+#endif
 
 static LogWindow *logwindow = NULL;
 
@@ -210,12 +216,10 @@ static void log_window_init(LogWindow *logwin)
 #if !GTK_CHECK_VERSION(3,0,0)
 	GdkColormap *colormap;
 	gboolean success[LOG_COUNT];
-#endif
 	gint i;
 
 	g_assert(logwin != NULL);
 	g_assert(logwin->colors != NULL);
-#if !GTK_CHECK_VERSION(3,0,0)
 	for (i = LOG_NORMAL; i < LOG_COUNT; i++)
 		{
 		gboolean ok = gdk_color_parse(logdefs[i].color, &logwin->colors[i]);
@@ -242,13 +246,31 @@ static void log_window_init(LogWindow *logwin)
 			break;
 			}
 		}
-#endif
+
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(logwin->text));
 	for (i = LOG_NORMAL; i < LOG_COUNT; i++)
 		gtk_text_buffer_create_tag(buffer, logdefs[i].tag,
 				   	   "foreground-gdk", &logwin->colors[i],
 					   "family", "MonoSpace",
 				   	   NULL);
+#else
+	g_assert(logwin != NULL);
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(logwin->text));
+
+	logwin->color_tags[LOG_NORMAL] = gtk_text_buffer_create_tag (buffer,
+							"black_foreground", "foreground", "black",
+							"family", "MonoSpace", NULL);
+	logwin->color_tags[LOG_MSG] = gtk_text_buffer_create_tag (buffer,
+							"blue_foreground", "foreground", "blue",
+							"family", "MonoSpace", NULL);
+	logwin->color_tags[LOG_WARN] = gtk_text_buffer_create_tag (buffer,
+							"orange_foreground", "foreground", "orange",
+							"family", "MonoSpace", NULL);
+	logwin->color_tags[LOG_ERROR] = gtk_text_buffer_create_tag (buffer,
+							"red_foreground", "foreground", "red",
+							"family", "MonoSpace", NULL);
+#endif
 }
 
 static void log_window_show(LogWindow *logwin)
@@ -297,7 +319,7 @@ struct _LogMsg {
 	LogType type;
 };
 
-
+#if !GTK_CHECK_VERSION(3,0,0)
 static void log_window_insert_text(GtkTextBuffer *buffer, GtkTextIter *iter,
 				   const gchar *text, const gchar *tag)
 {
@@ -309,7 +331,19 @@ static void log_window_insert_text(GtkTextBuffer *buffer, GtkTextIter *iter,
 	gtk_text_buffer_insert_with_tags_by_name(buffer, iter, str_utf8, -1, tag, NULL);
 	g_free(str_utf8);
 }
+#else
+static void log_window_insert_text(GtkTextBuffer *buffer, GtkTextIter *iter,
+				   const gchar *text, GtkTextTag *tag)
+{
+	gchar *str_utf8;
 
+	if (!text || !*text) return;
+
+	str_utf8 = utf8_validate_or_convert(text);
+	gtk_text_buffer_insert_with_tags(buffer, iter, str_utf8, -1, tag, NULL);
+	g_free(str_utf8);
+}
+#endif
 
 void log_window_append(const gchar *str, LogType type)
 {
@@ -363,7 +397,12 @@ void log_window_append(const gchar *str, LogType type)
 		GList *prev;
 		LogMsg *oldest_msg = work->data;
 
+#if !GTK_CHECK_VERSION(3,0,0)
 		log_window_insert_text(buffer, &iter, oldest_msg->text, logdefs[oldest_msg->type].tag);
+#else
+		log_window_insert_text(buffer, &iter, oldest_msg->text,
+									logwindow->color_tags[oldest_msg->type]);
+#endif
 
 		prev = work->prev;
 		memory = g_list_delete_link(memory, work);
@@ -371,7 +410,11 @@ void log_window_append(const gchar *str, LogType type)
 		}
 	}
 
+#if !GTK_CHECK_VERSION(3,0,0)
 	log_window_insert_text(buffer, &iter, str, logdefs[type].tag);
+#else
+	log_window_insert_text(buffer, &iter, str, logwindow->color_tags[type]);
+#endif
 
 	if (!options->log_window.paused)
 		{

@@ -40,11 +40,38 @@ static gboolean log_msg_cb(gpointer data)
 	return FALSE;
 }
 
+/**
+ * @brief Appends a user information message to the log window queue
+ * @param data The message
+ * @returns FALSE
+ * 
+ * If the first word of the message is either "error" or "warning"
+ * (case insensitive) the message is color-coded appropriately
+ */
 static gboolean log_normal_cb(gpointer data)
 {
 	gchar *buf = data;
-	log_window_append(buf, LOG_NORMAL);
+	gchar *buf_casefold = g_utf8_casefold(buf, -1);
+	gchar *error_casefold = g_utf8_casefold(_("error"), -1);
+	gchar *warning_casefold = g_utf8_casefold(_("warning"), -1);
+
+	if (buf_casefold == g_strstr_len(buf_casefold, -1, error_casefold))
+		{
+		log_window_append(buf, LOG_ERROR);
+		}
+	else if (buf_casefold == g_strstr_len(buf_casefold, -1, warning_casefold))
+		{
+		log_window_append(buf, LOG_WARN);
+		}
+	else
+		{
+		log_window_append(buf, LOG_NORMAL);
+		}
+
 	g_free(buf);
+	g_free(buf_casefold);
+	g_free(error_casefold);
+	g_free(warning_casefold);
 	return FALSE;
 }
 
