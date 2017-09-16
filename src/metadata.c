@@ -1092,7 +1092,7 @@ void meta_data_connect_mark_with_keyword(GtkTreeModel *keyword_tree, GtkTreeIter
 		path = keyword_tree_get_path(keyword_tree, kw_iter);
 		file_data_register_mark_func(mark, meta_data_get_keyword_mark, meta_data_set_keyword_mark, path, (GDestroyNotify)string_list_free);
 
-		mark_str = g_strdup_printf("%d", mark + 1);
+		mark_str = g_strdup_printf("%d", (mark < 9 ? mark : -1) + 1);
 		gtk_tree_store_set(GTK_TREE_STORE(keyword_tree), kw_iter, KEYWORD_COLUMN_MARK, mark_str, -1);
 		g_free(mark_str);
 		}
@@ -1839,8 +1839,11 @@ GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *pa
 
 		if (mark_str)
 			{
+			gint i = (gint)atoi(mark_str);
+			if (i == 0) i = 10;
+
 			meta_data_connect_mark_with_keyword(GTK_TREE_MODEL(keyword_tree),
-											&iter, (gint)atoi(mark_str) - 1);
+											&iter, i - 1);
 			}
 
 		g_free(name);

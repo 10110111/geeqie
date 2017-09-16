@@ -529,7 +529,7 @@ struct _ImageWindow
 	gboolean mouse_wheel_mode;
 };
 
-#define FILEDATA_MARKS_SIZE 6
+#define FILEDATA_MARKS_SIZE 10
 
 struct _FileDataChangeInfo {
 	FileDataChangeType type;

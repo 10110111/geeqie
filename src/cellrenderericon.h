@@ -24,6 +24,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#define TOGGLE_WIDTH 13
+#define TOGGLE_SPACING 16
+
 
 #define GQV_TYPE_CELL_RENDERER_ICON		(gqv_cell_renderer_icon_get_type())
 #define GQV_CELL_RENDERER_ICON(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GQV_TYPE_CELL_RENDERER_ICON, GQvCellRendererIcon))

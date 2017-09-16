@@ -1292,7 +1292,7 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 		submenu = gtk_menu_new();
 		for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
 			{
-			text = g_strdup_printf(_("Mark %d"), i + 1);
+			text = g_strdup_printf(_("Mark %d"), 1 + (i < 9 ? i : -1));
 			item = menu_item_add(submenu, text, G_CALLBACK(bar_pane_keywords_connect_mark_cb), pkd);
 			g_object_set_data(G_OBJECT(item), "mark", GINT_TO_POINTER(i + 1));
 			g_free(text);

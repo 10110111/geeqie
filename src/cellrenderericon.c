@@ -25,9 +25,6 @@
 
 #define FIXED_ICON_SIZE_MAX 512
 
-#define TOGGLE_WIDTH 13
-#define TOGGLE_SPACING 18
-
 
 static void gqv_cell_renderer_icon_get_property(GObject		*object,
 						guint		param_id,

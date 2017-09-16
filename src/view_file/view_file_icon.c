@@ -48,7 +48,8 @@
 
 /* between these, the icon width is increased by thumb_max_width / 2 */
 #define THUMB_MIN_ICON_WIDTH 128
-#define THUMB_MAX_ICON_WIDTH 150
+#define THUMB_MAX_ICON_WIDTH 160
+#define THUMB_MIN_ICON_WIDTH_WITH_MARKS TOGGLE_SPACING * FILEDATA_MARKS_SIZE
 
 #define VFICON_MAX_COLUMNS 32
 #define THUMB_BORDER_PADDING 2
@@ -196,6 +197,7 @@ static gint vficon_get_icon_width(ViewFile *vf)
 	width = options->thumbnails.max_width + options->thumbnails.max_width / 2;
 	if (width < THUMB_MIN_ICON_WIDTH) width = THUMB_MIN_ICON_WIDTH;
 	if (width > THUMB_MAX_ICON_WIDTH) width = options->thumbnails.max_width;
+	if (vf->marks_enabled && width < THUMB_MIN_ICON_WIDTH_WITH_MARKS) width = THUMB_MIN_ICON_WIDTH_WITH_MARKS;
 
 	return width;
 }

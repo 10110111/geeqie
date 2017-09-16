@@ -650,7 +650,7 @@ static GdkPixbuf *image_osd_info_render(OverlayStateData *osd)
 
 			for (mark = 0; mark < FILEDATA_MARKS_SIZE; mark++)
 				{
-				g_string_append_printf(buf, file_data_get_mark(fd, mark) ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + mark);
+				g_string_append_printf(buf, file_data_get_mark(fd, mark) ? " <span background='#FF00FF'>%c</span>" : " %c", '1' + (mark < 9 ? mark : -1) );
 				}
 
 			if (*text)

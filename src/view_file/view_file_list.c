@@ -854,7 +854,11 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 					FILE_COLUMN_MARKS + 3, file_data_get_mark(fd, 3),
 					FILE_COLUMN_MARKS + 4, file_data_get_mark(fd, 4),
 					FILE_COLUMN_MARKS + 5, file_data_get_mark(fd, 5),
-#if FILEDATA_MARKS_SIZE != 6
+					FILE_COLUMN_MARKS + 6, file_data_get_mark(fd, 6),
+					FILE_COLUMN_MARKS + 7, file_data_get_mark(fd, 7),
+					FILE_COLUMN_MARKS + 8, file_data_get_mark(fd, 8),
+					FILE_COLUMN_MARKS + 9, file_data_get_mark(fd, 9),
+#if FILEDATA_MARKS_SIZE != 10
 #error this needs to be updated
 #endif
 #endif
