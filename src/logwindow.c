@@ -108,8 +108,6 @@ static void log_window_line_wrap_cb(GtkWidget *widget, gpointer data)
 
 static void log_window_timer_data_cb(GtkWidget *widget, gpointer data)
 {
-	LogWindow *logwin = data;
-
 	options->log_window.timer_data = !options->log_window.timer_data;
 }
 
@@ -135,7 +133,6 @@ static LogWindow *log_window_create(LayoutWindow *lw)
 	GtkWidget *text;
 	GtkTextBuffer *buffer;
 	GtkTextIter iter;
-	GtkWidget *button;
 	GtkWidget *win_vbox;
 	GtkWidget *textbox;
 	GtkWidget *hbox;

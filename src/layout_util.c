@@ -877,8 +877,6 @@ static void layout_menu_animate_cb(GtkToggleAction *action, gpointer data)
 
 static void layout_menu_rectangular_selection_cb(GtkToggleAction *action, gpointer data)
 {
-	LayoutWindow *lw = data;
-
 	options->collections.rectangular_selection = gtk_toggle_action_get_active(action);
 }
 
@@ -1020,8 +1018,6 @@ static void layout_menu_slideshow_pause_cb(GtkAction *action, gpointer data)
 
 static void layout_menu_slideshow_slower_cb(GtkAction *action, gpointer data)
 {
-	LayoutWindow *lw = data;
-
 	options->slideshow.delay = options->slideshow.delay + 5;
 	if (options->slideshow.delay > SLIDESHOW_MAX_SECONDS)
 		options->slideshow.delay = SLIDESHOW_MAX_SECONDS;
@@ -1029,8 +1025,6 @@ static void layout_menu_slideshow_slower_cb(GtkAction *action, gpointer data)
 
 static void layout_menu_slideshow_faster_cb(GtkAction *action, gpointer data)
 {
-	LayoutWindow *lw = data;
-
 	options->slideshow.delay = options->slideshow.delay - 5;
 	if (options->slideshow.delay < SLIDESHOW_MIN_SECONDS * 10)
 		options->slideshow.delay = SLIDESHOW_MIN_SECONDS * 10;
@@ -1167,7 +1161,6 @@ static void layout_menu_foreach_func(
 
 static void layout_menu_kbd_map_cb(GtkAction *action, gpointer data)
 {
-	LayoutWindow *lw = data;
 	gint fd = -1;
 	GPtrArray *array;
 	char * tmp_file;
@@ -2447,7 +2440,6 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 void layout_actions_setup(LayoutWindow *lw)
 {
 	GError *error;
-	gint i;
 
 	DEBUG_1("%s layout_actions_setup: start", get_exec_time());
 	if (lw->ui_manager) return;

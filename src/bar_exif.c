@@ -97,7 +97,6 @@ static void bar_pane_exif_entry_update_title(ExifEntry *ee);
 static void bar_pane_exif_update(PaneExifData *ped);
 static gboolean bar_pane_exif_menu_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 static void bar_pane_exif_notify_cb(FileData *fd, NotifyType type, gpointer data);
-static gboolean bar_pane_exif_mouse_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 static gboolean bar_pane_exif_copy_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data);
 
 static void bar_pane_exif_entry_changed(GtkEntry *text_entry, gpointer data)

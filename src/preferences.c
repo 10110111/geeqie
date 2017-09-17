@@ -140,12 +140,6 @@ static GtkWidget *sidecar_ext_entry;
  *-----------------------------------------------------------------------------
  */
 
-static void scroll_reset_cb(GtkWidget *widget, gpointer data)
-{
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
-		c_options->image.scroll_reset_method = GPOINTER_TO_INT(data);
-}
-
 static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 {
 	c_options->image.zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 100.0 + 0.01);
@@ -1546,9 +1540,7 @@ static void config_tab_image(GtkWidget *notebook)
 {
 	GtkWidget *hbox;
 	GtkWidget *vbox;
-	GtkWidget *vbox2;
 	GtkWidget *group;
-	GtkWidget *button;
 	GtkWidget *ct_button;
 	GtkWidget *enlargement_button;
 	GtkWidget *table;
@@ -2539,29 +2531,6 @@ void show_config_window(void)
  * about window
  *-----------------
  */
-
-static GtkWidget *about = NULL;
-
-static gboolean about_delete_cb(GtkWidget *widget, GdkEventAny *event, gpointer data)
-{
-	gtk_widget_destroy(about);
-	about = NULL;
-
-	return TRUE;
-}
-
-static void about_window_close(GtkWidget *widget, gpointer data)
-{
-	if (!about) return;
-
-	gtk_widget_destroy(about);
-	about = NULL;
-}
-
-static void about_credits_cb(GtkWidget *widget, gpointer data)
-{
-	help_window_show("credits");
-}
 
 void show_about_window(LayoutWindow *lw)
 {

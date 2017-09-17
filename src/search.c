@@ -959,13 +959,6 @@ static void sr_menu_edit_cb(GtkWidget *widget, gpointer data)
 	search_result_edit_selected(sd, key);
 }
 
-static void sr_menu_collection_cb(GtkWidget *widget, gpointer data)
-{
-	SearchData *sd = data;
-
-	search_result_collection_from_selection(sd);
-}
-
 static void sr_menu_print_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;

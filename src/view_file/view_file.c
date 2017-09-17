@@ -376,15 +376,6 @@ static void vf_pop_menu_duplicates_cb(GtkWidget *widget, gpointer data)
 	dupe_window_add_files(dw, vf_pop_menu_file_list(vf), FALSE);
 }
 
-static void vf_pop_menu_add_collection_cb(GtkWidget *widget, gpointer data)
-{
-	ViewFile *vf = data;
-	CollectWindow *w;
-
-	w = collection_window_new(NULL);
-	collection_table_add_filelist(w->table, vf_pop_menu_file_list(vf));
-}
-
 static void vf_pop_menu_disable_grouping_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;

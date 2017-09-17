@@ -52,7 +52,6 @@
 
 static GtkWidget *layout_image_pop_menu(LayoutWindow *lw);
 static void layout_image_set_buttons(LayoutWindow *lw);
-static void layout_image_animate_stop(LayoutWindow *lw);
 static gboolean layout_image_animate_new_file(LayoutWindow *lw);
 static void layout_image_animate_update_image(LayoutWindow *lw);
 
@@ -353,17 +352,6 @@ static gboolean layout_image_animate_check(LayoutWindow *lw)
 		}
 
 	return TRUE;
-}
-
-static void layout_image_animate_stop(LayoutWindow *lw)
-{
-	if (!layout_valid(&lw)) return;
-
-	if(lw->options.animate && lw->animation)
-		{
-		lw->animation->valid = FALSE;
-		lw->animation = NULL;
-		}
 }
 
 static void layout_image_animate_update_image(LayoutWindow *lw)

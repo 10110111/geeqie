@@ -2211,13 +2211,6 @@ static void dupe_menu_edit_cb(GtkWidget *widget, gpointer data)
 	dupe_window_edit_selected(dw, key);
 }
 
-static void dupe_menu_collection_cb(GtkWidget *widget, gpointer data)
-{
-	DupeWindow *dw = data;
-
-	dupe_window_collection_from_selection(dw);
-}
-
 static void dupe_menu_print_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;

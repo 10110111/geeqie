@@ -452,11 +452,6 @@ static void gr_cache_metadata(const gchar *text, GIOChannel *channel, gpointer d
 	cache_maintain_home_remote(TRUE, FALSE);
 }
 
-static void gr_cache_clear(const gchar *text, GIOChannel *channel, gpointer data)
-{
-	cache_maintain_home_remote(FALSE, TRUE);
-}
-
 static void gr_cache_render(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	cache_manager_render_remote(text, FALSE, FALSE);
@@ -748,7 +743,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ "-crr:", "--cache-render-recurse:", gr_cache_render_recurse, TRUE, FALSE, N_("<folder> "), N_("render thumbnails recursively") },
 	{ "-crs:", "--cache-render-shared:", gr_cache_render_standard, TRUE, FALSE, N_("<folder> "), N_(" render thumbnails (see Help)") },
 	{ "-crsr:", "--cache-render-shared-recurse:", gr_cache_render_standard_recurse, TRUE, FALSE, N_("<folder>"), N_(" render thumbnails recursively (see Help)") },
-	{ NULL, NULL, NULL, FALSE, FALSE, NULL }
+	{ NULL, NULL, NULL, FALSE, FALSE, NULL, NULL }
 };
 
 static RemoteCommandEntry *remote_command_find(const gchar *text, const gchar **offset)
