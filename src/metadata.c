@@ -298,11 +298,14 @@ gboolean metadata_write_perform(FileData *fd)
 {
 	gboolean success;
 	ExifData *exif;
+	guint ln, lf;
 
 	g_assert(fd->change);
 
+	ln = strlen(fd->change->dest);
+	lf = strlen(GQ_CACHE_EXT_METADATA);
 	if (fd->change->dest &&
-	    strcmp(registered_extension_from_path(fd->change->dest), GQ_CACHE_EXT_METADATA) == 0)
+	    g_ascii_strncasecmp(fd->change->dest + ln - lf, GQ_CACHE_EXT_METADATA, lf) == 0)
 		{
 		success = metadata_legacy_write(fd);
 		if (success) metadata_legacy_delete(fd, fd->change->dest);
