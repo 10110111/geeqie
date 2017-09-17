@@ -450,6 +450,7 @@ static gboolean bookmark_keypress_cb(GtkWidget *button, GdkEventKey *event, gpoi
 		{
 		case GDK_KEY_F10:
 			if (!(event->state & GDK_CONTROL_MASK)) return FALSE;
+			/* fall through */
 		case GDK_KEY_Menu:
 			bookmark_menu_popup(bm, button, 0, event->time, TRUE);
 			return TRUE;

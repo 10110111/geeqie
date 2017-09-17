@@ -698,6 +698,7 @@ static gboolean dest_keypress_cb(GtkWidget *view, GdkEventKey *event, gpointer d
 		{
 		case GDK_KEY_F10:
 			if (!(event->state & GDK_CONTROL_MASK)) return FALSE;
+			/* fall through */
 		case GDK_KEY_Menu:
 			dest_view_store_selection(dd, GTK_TREE_VIEW(view));
 			dest_popup_menu(dd, GTK_TREE_VIEW(view), 0, event->time, TRUE);
