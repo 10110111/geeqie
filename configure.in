@@ -18,7 +18,7 @@ AC_PREREQ(2.57)
 AC_INIT([geeqie], m4_esyscmd_s(git rev-parse --quiet --verify --short HEAD), [geeqie-devel@lists.sourceforge.net], [], [http://www.geeqie.org/])
 
 # Add -Werror to the default CFLAGS
-CFLAGS+=" -Werror -Wno-error=deprecated-declarations"
+CFLAGS+=" -Werror -Wno-error=deprecated-declarations -Wno-error=sign-compare -Wno-error=implicit-fallthrough -Wno-error=return-type"
 
 # Check for rightly dirs
 AC_CONFIG_SRCDIR([src/main.c])
