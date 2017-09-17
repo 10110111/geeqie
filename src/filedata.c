@@ -578,9 +578,9 @@ FileData *file_data_ref(FileData *fd)
 	if (fd == NULL) return NULL;
 	if (fd->magick != FD_MAGICK)
 #ifdef DEBUG_FILEDATA
-		DEBUG_0("fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
+		log_printf("Error: fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
 #else
-		DEBUG_0("fd magick mismatch fd=%p", fd);
+		log_printf("Error: fd magick mismatch fd=%p", fd);
 #endif
 	g_assert(fd->magick == FD_MAGICK);
 	fd->ref++;
@@ -681,9 +681,9 @@ void file_data_unref(FileData *fd)
 	if (fd == NULL) return;
 	if (fd->magick != FD_MAGICK)
 #ifdef DEBUG_FILEDATA
-		DEBUG_0("fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
+		log_printf("Error: fd magick mismatch @ %s:%d  fd=%p", file, line, fd);
 #else
-		DEBUG_0("fd magick mismatch fd=%p", fd);
+		log_printf("Error: fd magick mismatch fd=%p", fd);
 #endif
 	g_assert(fd->magick == FD_MAGICK);
 
@@ -713,7 +713,7 @@ void file_data_unref(FileData *fd)
 void file_data_lock(FileData *fd)
 {
 	if (fd == NULL) return;
-	if (fd->magick != FD_MAGICK) DEBUG_0("fd magick mismatch fd=%p", fd);
+	if (fd->magick != FD_MAGICK) log_printf("Error: fd magick mismatch fd=%p", fd);
 
 	g_assert(fd->magick == FD_MAGICK);
 	fd->locked = TRUE;
@@ -731,7 +731,7 @@ void file_data_lock(FileData *fd)
 void file_data_unlock(FileData *fd)
 {
 	if (fd == NULL) return;
-	if (fd->magick != FD_MAGICK) DEBUG_0("fd magick mismatch fd=%p", fd);
+	if (fd->magick != FD_MAGICK) log_printf("Error: fd magick mismatch fd=%p", fd);
 
 	g_assert(fd->magick == FD_MAGICK);
 	fd->locked = FALSE;

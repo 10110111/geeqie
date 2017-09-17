@@ -406,7 +406,7 @@ static RendererFuncs *pr_backend_renderer_new(PixbufRenderer *pr)
 #ifdef HAVE_CLUTTER
 		return renderer_clutter_new(pr);
 #else
-		DEBUG_0("Geeqie is built without clutter renderer support");
+		log_printf("Warning: Geeqie is built without clutter renderer support");
 #endif
 		}
 	return renderer_tiles_new(pr);

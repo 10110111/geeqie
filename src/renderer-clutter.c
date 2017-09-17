@@ -172,7 +172,7 @@ static void rc_set_shader(CoglHandle material, const RendererClutterShaderInfo *
 	);
 	cogl_shader_compile(shader);
 	gchar *err = cogl_shader_get_info_log(shader);
-	DEBUG_0("%s\n",err);
+	DEBUG_3("%s\n",err);
 	g_free(err);
 
 	program = cogl_create_program ();
@@ -215,7 +215,7 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 	CoglHandle material;
 	CoglHandle tex3d;
 
-	DEBUG_0("%s clut start", get_exec_time());
+	DEBUG_3("%s clut start", get_exec_time());
 
 	for (r = 0; r < CLUT_SIZE; r++)
 		{
@@ -241,7 +241,7 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 		}
 	g_object_unref(tmp_pixbuf);
 
-	DEBUG_0("%s clut upload start", get_exec_time());
+	DEBUG_3("%s clut upload start", get_exec_time());
 #if COGL_VERSION_CHECK(1,18,2)
 	{
 	CoglContext *ctx = clutter_backend_get_cogl_context(clutter_get_default_backend ());
@@ -280,7 +280,7 @@ static void rc_prepare_post_process_lut(RendererClutter *rc)
 	material = clutter_texture_get_cogl_material(CLUTTER_TEXTURE(rc->texture));
 	cogl_material_set_layer(material, 1, tex3d);
 	cogl_handle_unref(tex3d);
-	DEBUG_0("%s clut end", get_exec_time());
+	DEBUG_3("%s clut end", get_exec_time());
 	rc->clut_updated = TRUE;
 }
 
@@ -296,8 +296,8 @@ static void rc_sync_actor(RendererClutter *rc)
 
 	clutter_actor_set_anchor_point(CLUTTER_ACTOR(rc->texture), 0, 0);
 
-	DEBUG_0("scale %d %d", rc->pr->width, rc->pr->height);
-	DEBUG_0("pos   %d %d", rc->pr->x_offset, rc->pr->y_offset);
+	DEBUG_3("scale %d %d", rc->pr->width, rc->pr->height);
+	DEBUG_3("pos   %d %d", rc->pr->x_offset, rc->pr->y_offset);
 
 	clutter_actor_set_scale(CLUTTER_ACTOR(rc->texture),
 			        (gfloat)pr->width / pr->image_width,
@@ -400,13 +400,13 @@ static void rc_schedule_texture_upload(RendererClutter *rc)
 		{
 		/* delay clutter redraw until the texture has some data
 		   set priority between gtk redraw and clutter redraw */
-		DEBUG_0("%s tex upload high prio", get_exec_time());
+		DEBUG_3("%s tex upload high prio", get_exec_time());
 		rc->idle_update = g_idle_add_full(CLUTTER_PRIORITY_REDRAW - 10, rc_area_changed_cb, rc, NULL);
 		}
 	else
 		{
 		/* higher prio than histogram */
-		DEBUG_0("%s tex upload low prio", get_exec_time());
+		DEBUG_3("%s tex upload low prio", get_exec_time());
 
 		rc->idle_update = g_idle_add_full(G_PRIORITY_DEFAULT_IDLE - 5, rc_area_changed_cb, rc, NULL);
 		}
@@ -424,7 +424,7 @@ static gboolean rc_area_changed_cb(gpointer data)
 	if (h > par->h) h = par->h;
 
 
-	DEBUG_0("%s upload start", get_exec_time());
+	DEBUG_3("%s upload start", get_exec_time());
 	if (pr->pixbuf)
 		{
 		CoglHandle texture = clutter_texture_get_cogl_texture(CLUTTER_TEXTURE(rc->texture));
@@ -442,7 +442,7 @@ static gboolean rc_area_changed_cb(gpointer data)
 					gdk_pixbuf_get_rowstride(pr->pixbuf),
 					gdk_pixbuf_get_pixels(pr->pixbuf));
 		}
-	DEBUG_0("%s upload end", get_exec_time());
+	DEBUG_3("%s upload end", get_exec_time());
 	rc_area_clip_add(rc, par->x, par->y, par->w, h);
 
 
@@ -519,19 +519,19 @@ static void rc_update_pixbuf(void *renderer, gboolean lazy)
 	RendererClutter *rc = (RendererClutter *)renderer;
 	PixbufRenderer *pr = rc->pr;
 
-	DEBUG_0("rc_update_pixbuf");
+	DEBUG_3("rc_update_pixbuf");
 
 	rc_remove_pending_updates(rc);
 
 	rc->last_pixbuf_change = g_get_monotonic_time();
-	DEBUG_0("%s change time reset", get_exec_time());
+	DEBUG_3("%s change time reset", get_exec_time());
 
 	if (pr->pixbuf)
 		{
 		gint width = gdk_pixbuf_get_width(pr->pixbuf);
 		gint height = gdk_pixbuf_get_height(pr->pixbuf);
 
-		DEBUG_0("pixbuf size %d x %d (%d)", width, height, gdk_pixbuf_get_has_alpha(pr->pixbuf) ? 32 : 24);
+		DEBUG_3("pixbuf size %d x %d (%d)", width, height, gdk_pixbuf_get_has_alpha(pr->pixbuf) ? 32 : 24);
 
 		gint prev_width, prev_height;
 
@@ -573,7 +573,7 @@ static void rc_update_zoom(void *renderer, gboolean lazy)
 {
 	RendererClutter *rc = (RendererClutter *)renderer;
 
-	DEBUG_0("rc_update_zoom");
+	DEBUG_3("rc_update_zoom");
 	rc_sync_actor(rc);
 }
 
@@ -771,7 +771,7 @@ static void rc_update_viewport(void *renderer)
 			rc->stereo_off_y = rc->pr->stereo_fixed_y_left;
 			}
 		}
-	DEBUG_0("rc_update_viewport  scale %d %d", rc->pr->width, rc->pr->height);
+	DEBUG_3("rc_update_viewport  scale %d %d", rc->pr->width, rc->pr->height);
 
 	clutter_stage_set_color(CLUTTER_STAGE(rc->stage), &stage_color);
 
@@ -795,7 +795,7 @@ static void rc_update_viewport(void *renderer)
 
 static void rc_scroll(void *renderer, gint x_off, gint y_off)
 {
-	DEBUG_0("rc_scroll");
+	DEBUG_3("rc_scroll");
 	RendererClutter *rc = (RendererClutter *)renderer;
 
 	rc_sync_actor(rc);
@@ -883,7 +883,7 @@ RendererFuncs *renderer_clutter_new(PixbufRenderer *pr)
 		if (!GTK_CLUTTER_IS_EMBED(rc->widget))
 			{
 			g_free(rc);
-			DEBUG_0("pixbuf renderer has a child of other type than gtk_clutter_embed");
+			DEBUG_3("pixbuf renderer has a child of other type than gtk_clutter_embed");
 			return NULL;
 			}
 		}

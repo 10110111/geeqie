@@ -1180,7 +1180,7 @@ static void layout_menu_kbd_map_cb(GtkAction *action, gpointer data)
 	fd = g_file_open_tmp("geeqie_keymap_XXXXXX.svg", &tmp_file, &error);
 	if (error)
 		{
-		DEBUG_0("Keyboard Map - cannot create file:%s\n",error->message);
+		log_printf("Error: Keyboard Map - cannot create file:%s\n",error->message);
 		g_error_free(error);
 		}
 	else
@@ -1223,7 +1223,7 @@ static void layout_menu_kbd_map_cb(GtkAction *action, gpointer data)
 
 				converted_line = g_strconcat(pre_key[0], ">", key_name, "<", post_key[1], "\n", NULL);
 				g_io_channel_write_chars(channel, converted_line, -1, NULL, &error);
-				if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+				if (error) {log_printf("Warning: Keyboard Map:%s\n",error->message); g_error_free(error);}
 
 				g_free(converted_line);
 				g_strfreev(pre_key);
@@ -1232,15 +1232,15 @@ static void layout_menu_kbd_map_cb(GtkAction *action, gpointer data)
 			else
 				{
 				g_io_channel_write_chars(channel, keymap_template[keymap_index], -1, NULL, &error);
-				if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+				if (error) {log_printf("Warning: Keyboard Map:%s\n",error->message); g_error_free(error);}
 				g_io_channel_write_chars(channel, "\n", -1, NULL, &error);
-				if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+				if (error) {log_printf("Warning: Keyboard Map:%s\n",error->message); g_error_free(error);}
 				}
 			keymap_index++;
 			}
 
 		g_io_channel_flush(channel, &error);
-		if (error) {DEBUG_0("Keyboard Map:%s\n",error->message); g_error_free(error);}
+		if (error) {log_printf("Warning: Keyboard Map:%s\n",error->message); g_error_free(error);}
 		g_io_channel_unref(channel);
 
 		index=0;

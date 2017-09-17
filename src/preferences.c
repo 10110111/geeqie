@@ -1424,7 +1424,6 @@ static void cache_standard_cb(GtkWidget *widget, gpointer data)
 		{
 		c_options->thumbnails.spec_standard =FALSE;
 		}
-		DEBUG_0("standard %d",c_options->thumbnails.spec_standard);
 }
 
 static void cache_geeqie_cb(GtkWidget *widget, gpointer data)
@@ -1438,7 +1437,6 @@ static void cache_geeqie_cb(GtkWidget *widget, gpointer data)
 		{
 		c_options->thumbnails.spec_standard =FALSE;
 		}
-		DEBUG_0("geeqie %d",c_options->thumbnails.spec_standard);
 }
 
 static void cache_local_cb(GtkWidget *widget, gpointer data)
