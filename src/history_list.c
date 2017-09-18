@@ -24,6 +24,80 @@
 #include "secure_save.h"
 #include "ui_fileops.h"
 
+
+/*
+ *-----------------------------------------------------------------------------
+ * Implements a history chain. Used by the Back and Forward toolbar buttons.
+ * Selecting any folder appends the path to the end of the chain.
+ * Pressing the Back and Forward buttons moves along the chain, but does
+ * not make additions to the chain.
+ * The chain always increases and is deleted at the end of the session
+ *-----------------------------------------------------------------------------
+ */
+
+static GList *history_chain = NULL;
+static guint chain_index = G_MAXUINT;
+static gboolean nav_button = FALSE; /** Used to prevent the nav buttons making entries to the chain **/
+
+const gchar *history_chain_back()
+{
+	nav_button = TRUE;
+
+	chain_index = chain_index > 0 ? chain_index - 1 : 0;
+
+	return g_list_nth_data(history_chain, chain_index);
+}
+
+const gchar *history_chain_forward()
+{
+	nav_button= TRUE;
+	guint last = g_list_length(history_chain) - 1;
+
+	chain_index = chain_index < last ? chain_index + 1 : last;
+
+	return g_list_nth_data(history_chain, chain_index);
+}
+
+/**
+ * @brief Appends a path to the history chain
+ * @param path Path selected
+ * 
+ * Each time the user selects a new path it is appended to the chain
+ * except when it is identical to the current last entry
+ * The pointer is always moved to the end of the chain
+ */
+void history_chain_append_end(const gchar *path)
+{
+	GList *work;
+
+	if (!nav_button)
+		{
+		if(chain_index == G_MAXUINT)
+			{
+			history_chain = g_list_append (history_chain, g_strdup(path));
+			chain_index = 0;
+			}
+		else
+			{
+			work = g_list_last(history_chain);
+			if (g_strcmp0(work->data , path) != 0)
+				{
+				history_chain = g_list_append (history_chain, g_strdup(path));
+				chain_index = g_list_length(history_chain) - 1;
+				DEBUG_3("%d %s", chain_index, path);
+				}
+			else
+				{
+				chain_index = g_list_length(history_chain) - 1;
+				}
+			}
+		}
+	else
+		{
+		nav_button = FALSE;
+		}
+}
+
 /*
  *-----------------------------------------------------------------------------
  * history lists
