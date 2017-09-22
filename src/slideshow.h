@@ -25,7 +25,7 @@
 
 #define SLIDESHOW_SUBSECOND_PRECISION 10
 #define SLIDESHOW_MIN_SECONDS    0.1
-#define SLIDESHOW_MAX_SECONDS 3600.0
+#define SLIDESHOW_MAX_SECONDS 86399.0 /* 24 hours - 1 sec */
 
 /*
  * It works like this, it uses path_list, if that does not exist, it uses

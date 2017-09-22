@@ -145,10 +145,48 @@ static void zoom_increment_cb(GtkWidget *spin, gpointer data)
 	c_options->image.zoom_increment = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) * 100.0 + 0.01);
 }
 
-static void slideshow_delay_cb(GtkWidget *spin, gpointer data)
+static void slideshow_delay_hours_cb(GtkWidget *spin, gpointer data)
 {
-	c_options->slideshow.delay = (gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
-				   (gdouble)SLIDESHOW_SUBSECOND_PRECISION + 0.01);
+	gint mins_secs_tenths, delay;
+
+	mins_secs_tenths = c_options->slideshow.delay %
+						(3600 * SLIDESHOW_SUBSECOND_PRECISION);
+
+	delay = (gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
+								(3600 * SLIDESHOW_SUBSECOND_PRECISION) +
+								mins_secs_tenths);
+
+	c_options->slideshow.delay = delay > 0 ? delay : SLIDESHOW_MIN_SECONDS *
+													SLIDESHOW_SUBSECOND_PRECISION;
+}
+
+static void slideshow_delay_minutes_cb(GtkWidget *spin, gpointer data)
+{
+	gint hours, secs_tenths, delay;
+
+	hours = c_options->slideshow.delay / (3600 * SLIDESHOW_SUBSECOND_PRECISION);
+	secs_tenths = c_options->slideshow.delay % (60 * SLIDESHOW_SUBSECOND_PRECISION);
+
+	delay = hours * (3600 * SLIDESHOW_SUBSECOND_PRECISION) +
+					(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
+					(60 * SLIDESHOW_SUBSECOND_PRECISION) + secs_tenths);
+
+	c_options->slideshow.delay = delay > 0 ? delay : SLIDESHOW_MIN_SECONDS *
+													SLIDESHOW_SUBSECOND_PRECISION;
+}
+
+static void slideshow_delay_seconds_cb(GtkWidget *spin, gpointer data)
+{
+	gint hours_mins, delay;
+
+	hours_mins = c_options->slideshow.delay / (60 * SLIDESHOW_SUBSECOND_PRECISION);
+
+	delay = (hours_mins * (60 * SLIDESHOW_SUBSECOND_PRECISION)) +
+							(gint)(gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin)) *
+							(gdouble)(SLIDESHOW_SUBSECOND_PRECISION) + 0.01);
+
+	c_options->slideshow.delay = delay > 0 ? delay : SLIDESHOW_MIN_SECONDS *
+													SLIDESHOW_SUBSECOND_PRECISION;
 }
 
 /*
@@ -1458,6 +1496,8 @@ static void config_tab_general(GtkWidget *notebook)
 	GtkWidget *ct_button;
 	GtkWidget *table;
 	GtkWidget *spin;
+	gint hours, minutes, remainder;
+	gdouble seconds;
 
 	vbox = scrolled_notebook_page(notebook, _("General"));
 
@@ -1499,10 +1539,28 @@ static void config_tab_general(GtkWidget *notebook)
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
 
 	c_options->slideshow.delay = options->slideshow.delay;
-	spin = pref_spin_new(group, _("Delay between image change:"), _("seconds"),
-			     SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS, 1.0, 1,
-			     options->slideshow.delay ? (gdouble)options->slideshow.delay / SLIDESHOW_SUBSECOND_PRECISION : 10.0,
-			     G_CALLBACK(slideshow_delay_cb), NULL);
+	hours = options->slideshow.delay / (3600 * SLIDESHOW_SUBSECOND_PRECISION);
+	remainder = options->slideshow.delay % (3600 * SLIDESHOW_SUBSECOND_PRECISION);
+	minutes = remainder / (60 * SLIDESHOW_SUBSECOND_PRECISION);
+	seconds = (gdouble)(remainder % (60 * SLIDESHOW_SUBSECOND_PRECISION)) /
+											SLIDESHOW_SUBSECOND_PRECISION;
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+
+	spin = pref_spin_new(hbox, _("Delay between image change hrs:mins:secs.dec"), NULL,
+										0, 23, 1.0, 0,
+										options->slideshow.delay ? hours : 0.0,
+										G_CALLBACK(slideshow_delay_hours_cb), NULL);
+	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
+	spin = pref_spin_new(hbox, ":" , NULL,
+										0, 59, 1.0, 0,
+										options->slideshow.delay ? minutes: 0.0,
+										G_CALLBACK(slideshow_delay_minutes_cb), NULL);
+	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
+	spin = pref_spin_new(hbox, ":", NULL,
+										SLIDESHOW_MIN_SECONDS, 59, 1.0, 1,
+										options->slideshow.delay ? seconds : 10.0,
+										G_CALLBACK(slideshow_delay_seconds_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
 
 	pref_checkbox_new_int(group, _("Random"), options->slideshow.random, &c_options->slideshow.random);
