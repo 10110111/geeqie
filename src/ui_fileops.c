@@ -57,7 +57,6 @@ void print_term(const gchar *text_utf8)
 	gchar *text_l;
 
 	text_l = g_locale_from_utf8(text_utf8, -1, NULL, NULL, NULL);
-	fputs((text_l) ? text_l : text_utf8, stderr);
 	if(command_line && command_line->ssi)
 		secure_fputs(command_line->ssi, (text_l) ? text_l : text_utf8);
 	g_free(text_l);
