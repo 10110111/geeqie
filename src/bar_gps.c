@@ -1048,8 +1048,8 @@ GtkWidget *bar_pane_gps_new_from_config(const gchar **attribute_names, const gch
 		}
 
 	bar_pane_translate_title(PANE_COMMENT, id, &title);
-	latitude = int_latitude / 1000000;
-	longitude = int_longitude / 1000000;
+	latitude = (gdouble)int_latitude / 1000000;
+	longitude = (gdouble)int_longitude / 1000000;
 	ret = bar_pane_gps_new(id, title, map_id, zoom, latitude, longitude, expanded, height);
 	g_free(title);
 	g_free(map_id);
