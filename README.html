@@ -101,11 +101,25 @@ open an issue on <a href="https://github.com/BestImageViewer/geeqie/issues">Geeq
 <p>Common options:
 <code>./autogen.sh --disable-gtk3</code>,</p>
 
-<p>Compilation: <code>./autogen.sh [options]; make</code></p>
+<p>Compilation: <code>./autogen.sh [options]; make -j&lt;no. of cpu cores&gt;</code></p>
 
 <p>Install: <code>[sudo] make install</code></p>
 
 <p>Removal: <code>[sudo] make uninstall</code></p>
+
+<h4>Note:</h4>
+
+<p>The zip files at GitHub contain only the sources - they cannot, by themselves, be used to install Geeqie.</p>
+
+<p>It is recommended to always use <code>git clone  git://www.geeqie.org/geeqie.git</code> to download Geeqie. After installing Geeqie you may delete the folder you have cloned Geeqie into.</p>
+
+<p>However if you leave the folder intact, whenever new features or patches are available, execute:</p>
+
+<p><code>git pull; sudo make uninstall; sudo make distclean; ./autogen.sh; make -j&lt;no. of cpu cores&gt;; sudo make install</code></p>
+
+<p>Only the changed sources are downloaded, which makes this a quick operation.</p>
+
+<p>Your configuration file, history file and desktop files are not affected by this process.</p>
 
 <h2>Notes and changes for the latest release</h2>
 

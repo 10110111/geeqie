@@ -119,11 +119,25 @@ List compile options: `./autogen.sh --help`
 Common options:
 `./autogen.sh --disable-gtk3`,
 
-Compilation: `./autogen.sh [options]; make`
+Compilation: `./autogen.sh [options]; make -j<no. of cpu cores> `
 
 Install: `[sudo] make install`
 
 Removal: `[sudo] make uninstall`
+
+#### Note:
+The zip files at GitHub contain only the sources - they cannot, by themselves, be used to install Geeqie.
+
+It is recommended to always use `git clone  git://www.geeqie.org/geeqie.git` to download Geeqie. After installing Geeqie you may delete the folder you have cloned Geeqie into.
+
+However if you leave the folder intact, whenever new features or patches are available, execute:
+
+`git pull; sudo make uninstall; sudo make distclean; ./autogen.sh; make -j<no. of cpu cores>; sudo make install`
+
+Only the changed sources are downloaded, which makes this a quick operation.
+
+Your configuration file, history file and desktop files are not affected by this process.
+
 
 
 ## Notes and changes for the latest release

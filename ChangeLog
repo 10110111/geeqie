@@ -1,3 +1,220 @@
+commit 39cbcfb55eb391a008c0571e8ad67fc703bac759
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Sep 26 18:42:37 2017 +0100
+
+    Do not send debug data to terminal
+    
+    When running Geeqie from the terminal, a user sees irrelevant messages
+    and when debugging the window gets clogged with unnecessary data.
+    The log window - or log file - contains all debug output anyway.
+
+commit e014563ac8cf2dc36950e1893cf63ab83bb56883
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Sep 26 11:27:32 2017 +0100
+
+    Bug fix: Initialise map coordinates to gdouble
+
+commit 8fc4a35a59fe001fa33fa9c09283fd44f29320d9
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Sep 23 11:35:02 2017 +0100
+
+    Addl Fix #508: Copy and Move windows scale incorrectly
+    
+    https://github.com/BestImageViewer/geeqie/issues/508
+
+commit 86405b9df271184c9feb49e2e9a73b0205d0d87d
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Sep 23 11:01:45 2017 +0100
+
+    Bug fix: Failed editor call blocks further actions
+    
+    When a call to an external editor fails, cancel the action so that
+    further editors can be called
+
+commit b517279681b4da40a17cf63278585c90c483f9e1
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Sep 23 10:53:10 2017 +0100
+
+    Fix #518: [raw file] -> External Editor -> RawTerapee can't be started
+    
+    https://github.com/BestImageViewer/geeqie/issues/518
+    
+    Additional mime types
+
+commit b801467db508b8708d98a27a810d0c266f62b076
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Fri Sep 22 17:43:07 2017 +0100
+
+    Slideshow delay in hrs-mins-secs
+
+commit 44b347085e7fa40d0d6d8facb6adf9a0519ffb4d
+Author: ilexiris <>
+Date:   Thu Sep 21 11:30:39 2017 +0100
+
+    Fix #517: Fix checkbox falling out of sync
+    
+    https://github.com/BestImageViewer/geeqie/pull/517
+
+commit 79917d0d883e50e77960f016a1f9816137c4c0de
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Tue Sep 19 09:51:20 2017 +0100
+
+    Bug fix: Segfault in pan view
+    
+    If an image is double-clicked in pan view, Geeqie crashes
+
+commit 776d9f6b72bcca6de52a53b33285b38b5e75ec85
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon Sep 18 12:00:54 2017 +0100
+
+    Fix #512: The "Back" button does not operate correctly
+    
+    https://github.com/BestImageViewer/geeqie/issues/512
+    
+    Include a Forward button also
+
+commit a685bfbc38ddf9b08b9213ab09dcc5130368422f
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Sep 17 15:53:47 2017 +0100
+
+    Fix the implicit-fallthrough stuff in code
+    
+    First, this flag was not supported by older gcc.
+    
+    And second and more important, there _was_ a bug with a lost break in
+    9643a2546bcc. Combined with a unreachable code segment.
+
+commit f6566dd20a51228bb293a303a9298c0e495828b2
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Sep 17 15:12:21 2017 +0100
+
+    Fix writing to meta files
+    
+    Some time ago, this seemed to break. It should never have worked as it
+    took the image extension and compare it to "...meta".
+
+commit 1f007a8cf9b8d48bffac59d6b87e3917ab95a15e
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Sep 17 13:45:42 2017 +0100
+
+    Remove some stuff that is throwing errors in gcc-7
+    
+    New gcc warns (and errors with -Werror) if there are unused functions or
+    variables.
+    
+    - Remove two leftover functions from ae34634113b2
+    - Remove definition made to much in 035c3253ded5
+    - Remove two variable definitions made in b0b11291d2c9
+    - Remove not really used function in 15917d4063ce
+    - Remove two variable definitions made in 5ed2574fb8cc
+    - Remove variable definition made in efe0e6a38273
+    - Remove variable definition made in c95bd6996583 and since then removed
+      usage
+    - Remove unused variable definition made in bc02fd0eb0d9
+    - Remove unused variable definition made in 324129463b17
+    - Remove two variables left over from fe69cac65ad4 (Pretty old code from
+      John Ellis)
+    - Remove some functions not used anymore with one obsolete variable
+    - Remove Variables introduced in 8746b22d3ed1 and 51a9455bd33f
+    - Fix missed change in definition in 6e3b2edff8cf
+    - Remove unused function from 63a96f8504a2
+    - Remove unused function from c6bdbaa559c7 (Pretty old code)
+
+commit 286b68b24417f9290353189c4795dc381318f1c3
+Author: Klaus Ethgen <Klaus@Ethgen.de>
+Date:   Sun Sep 17 13:37:10 2017 +0100
+
+    Fix configure error with gcc-7
+
+commit 2a4c92c70bbf16fb4de1e0d105ac8b0f12f31d06
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Sep 17 10:33:08 2017 +0100
+
+    Revise DEBUG_0() usage
+    
+    Replace all DEBUG_0() calls with log_printf() or another debug level.
+    This will stop the user seeing irrelevant debug output
+    when the debug level is set to the default of 0.
+
+commit 05b71bc25f0b232d2d95594a111c7f70e4237342
+Author: Matthias Andree <matthias.andree@gmx.de>
+Date:   Sat Sep 16 18:23:08 2017 +0200
+
+    Fix out-of-path (VPATH) builds.
+
+commit 989a7a609ac3cf6584324cc6d1319457b186003d
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sat Sep 16 20:30:53 2017 +0100
+
+    Update log window output
+    
+    Implement message text colors in GTK3
+    
+    For log_printf(), if the first word of the message is "error" or
+    "warning" (case insensitive), display the message with the appropriate
+    color-coding
+
+commit f6831eee50823092bfbc63d45d90286371623300
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Sat Sep 16 20:18:35 2017 +0100
+
+    Bug fix #509: Increase number of marks to 10
+    
+    https://github.com/BestImageViewer/geeqie/issues/509
+
+commit db9a2d6055de1f5203ee899a83dbd2c9b40c2d91
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Sat Sep 16 20:12:22 2017 +0100
+
+    Bug fix: Marks checkboxes in iconview
+    
+    The width of the marks checkboxes was not taken into account in icon view mode
+
+commit 9be75e3431104d6a3a0c80324a8e3ac60316be13
+Author: Tomasz Golinski <tomaszg@math.uwb.edu.pl>
+Date:   Thu Sep 14 10:38:09 2017 +0100
+
+    Addl #510: Rudimentary video support
+    
+    https://github.com/BestImageViewer/geeqie/issues/510
+    
+    Add video files extension to default file filter (disabled by default).
+    Use recorded format_class in fd in metadata.c
+    Do not try to generate/read thumb for files which are not images.
+
+commit d33e0f6aaf3be452f96a68c7424fe05a433d3144
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Wed Sep 13 11:21:58 2017 +0100
+
+    Ref #510: Rudimentary video support
+    
+    https://github.com/BestImageViewer/geeqie/issues/510
+    
+    Implement icons for FORMAT_CLASS
+
+commit bc02fd0eb0d94c078621c59ae23ce8b70da0efd6
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Mon Sep 11 18:19:46 2017 +0100
+
+    Optional timer data in log window
+
+commit babefee67961a4c6c9dd8e66c5bca4a6fd979e07
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Sep 10 19:24:20 2017 +0100
+
+    Save Collection window geometry
+    
+    Previously collection window geometry was preserved only when an
+    explicit save was made.
+    This patch ensures the window position is always saved, unless the
+    window has unsaved data.
+
+commit a7c22f9fa47e177876dc13318f9f5142421e24da
+Author: Colin Clark <colin.clark@cclark.uk>
+Date:   Sun Sep 10 11:11:00 2017 +0100
+
+    Update documentation for autogen.sh options
+
 commit 876de3dbfdc0f72d3ac245cb35837118b7af6c2d
 Author: Colin Clark <colin.clark@cclark.uk>
 Date:   Sun Sep 10 10:57:20 2017 +0100
