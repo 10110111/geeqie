@@ -775,7 +775,7 @@ struct _LayoutWindow
 	GtkWidget *bar_sort;
 	GtkWidget *bar;
 
-//	gint bar_sort_enabled;
+	gboolean bar_sort_enabled; /* Set during start-up, and checked when the editors have loaded */
 //	gint bar_enabled;
 
 //	gint bar_width;

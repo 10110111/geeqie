@@ -28,6 +28,6 @@ GtkWidget *bar_sort_new_from_config(LayoutWindow *lw, const gchar **attribute_na
 void bar_sort_close(GtkWidget *bar);
 
 void bar_sort_write_config(GtkWidget *bar, GString *outstr, gint indent);
-
+void bar_sort_cold_start(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

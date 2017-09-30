@@ -763,6 +763,44 @@ GtkWidget *bar_sort_new_from_config(LayoutWindow *lw, const gchar **attribute_na
 	return bar;
 }
 
+/**
+ * @brief Sets the bar_sort_enabled flag
+ * @param lw 
+ * @param attribute_names 
+ * @param attribute_values 
+ * 
+ * Called from rcfile when processing geeqierc.xml on start-up.
+ * It is neccesary to set the bar_sort_enabled flag because
+ * the sort manager and desktop files are set up in the idle loop, and
+ * setup is not yet completed during initialisation.
+ * The flag is checked in layout_editors_reload_idle_cb.
+ * action, mode, selection and filter_key are ignored.
+ */
+void bar_sort_cold_start(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
+{
+	gboolean enabled = TRUE;
+	gint action = 0;
+	gint mode = 0;
+	gint selection = 0;
+	gchar *filter_key = NULL;
+
+	while (attribute_names && *attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_BOOL_FULL("enabled", enabled)) continue;
+		if (READ_INT_CLAMP_FULL("action", action, 0, BAR_SORT_ACTION_COUNT - 1)) continue;
+		if (READ_INT_CLAMP_FULL("mode", mode, 0, BAR_SORT_MODE_COUNT - 1)) continue;
+		if (READ_INT_CLAMP_FULL("selection", selection, 0, BAR_SORT_SELECTION_COUNT - 1)) continue;
+		if (READ_CHAR_FULL("filter_key", filter_key)) continue;
+
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+
+	lw->bar_sort_enabled = enabled;
+}
+
 GtkWidget *bar_sort_new_default(LayoutWindow *lw)
 {
 	return bar_sort_new_from_config(lw, NULL, NULL);

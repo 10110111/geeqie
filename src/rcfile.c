@@ -1099,17 +1099,11 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 
 		options_parse_func_push(parser_data, options_parse_bar, NULL, lw->bar);
 		}
-#if 0
-/* FIXME: The sort manager and desktop files are set up in the idle loop.
- * Setup is not yet completed when the layout is first displayed.
- */
 	else if (g_ascii_strcasecmp(element_name, "bar_sort") == 0)
 		{
-		GtkWidget *bar = bar_sort_new_from_config(lw, attribute_names, attribute_values);
-		layout_bar_sort_set(lw, bar);
+		bar_sort_cold_start(lw, attribute_names, attribute_values);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
-#endif
 	else if (g_ascii_strcasecmp(element_name, "toolbar") == 0)
 		{
 		options_parse_func_push(parser_data, options_parse_toolbar_and_statusbar, NULL, NULL);

@@ -2528,6 +2528,10 @@ static gboolean layout_editors_reload_idle_cb(gpointer data)
 			LayoutWindow *lw = work->data;
 			work = work->next;
 			layout_actions_setup_editors(lw);
+			if (lw->bar_sort_enabled)
+				{
+				layout_bar_sort_toggle(lw);
+				}
 			}
 
 		DEBUG_1("%s layout_editors_reload_idle_cb: setup_editors done", get_exec_time());
