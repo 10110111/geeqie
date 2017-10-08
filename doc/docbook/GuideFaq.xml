@@ -37,6 +37,15 @@
   <section id="Miscellaneous">
     <title>Miscellaneous</title>
     <para />
+    <section id="OpenCloseMultipleWindows">
+      <title>How can I save and restore multiple Geeqie windows</title>
+      <para>
+        The option
+        <link linkend="titleGuideOptionsLayout">Exit program when this window is closed</link>
+        provides this facility.
+      </para>
+      <para />
+    </section>
     <section id="IwanttobeabletoeditimageswithGeeqie">
       <title>I want to be able to edit images with Geeqie</title>
       <para>

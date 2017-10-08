@@ -17,7 +17,7 @@
   </para>
   <para>
     <emphasis role="strong">
-      display_dialogs_under_mouse: [true
+      place_dialogs_under_mouse: [true
       <emphasis role="i">false</emphasis>
       ]
     </emphasis>
@@ -32,16 +32,6 @@
     <listitem>0: Move to upper left corner.</listitem>
     <listitem>1: Center image.</listitem>
     <listitem>2: Maintain same visible region as previous image, if possible.</listitem>
-  </varlistentry>
-  <para />
-  <varlistentry>
-    <term>
-      <emphasis role="strong">dither_quality:</emphasis>
-      Set the quality when dithering images on displays with a limited color pallet:
-    </term>
-    <listitem>0: No dithering</listitem>
-    <listitem>1: Normal</listitem>
-    <listitem>2: Best</listitem>
   </varlistentry>
   <para>
     <emphasis role="strong">

@@ -831,16 +831,6 @@
       <varlistentry>
         <term>
           <menuchoice>
-            <guimenu>Preferences</guimenu>
-          </menuchoice>
-        </term>
-        <listitem>
-          <para>This submenu contains configuration and maintenance commands</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <menuchoice>
             <shortcut>
               <keycombo>
                 <keycap>Ctrl</keycap>
@@ -848,7 +838,6 @@
               </keycombo>
             </shortcut>
             <guimenu>Preferences</guimenu>
-            <guimenuitem>Preferences…</guimenuitem>
           </menuchoice>
         </term>
         <listitem>
@@ -862,8 +851,7 @@
       <varlistentry>
         <term>
           <menuchoice>
-            <guimenu>Preferences</guimenu>
-            <guimenuitem>Configure Editors…</guimenuitem>
+            <guimenu>Configure Editors…</guimenu>
           </menuchoice>
         </term>
         <listitem>
@@ -877,8 +865,7 @@
       <varlistentry>
         <term>
           <menuchoice>
-            <guimenu>Preferences</guimenu>
-            <guimenuitem>Configure This window…</guimenuitem>
+            <guimenu>Configure This window…</guimenu>
           </menuchoice>
         </term>
         <listitem>
@@ -892,8 +879,7 @@
       <varlistentry>
         <term>
           <menuchoice>
-            <guimenu>Preferences</guimenu>
-            <guimenuitem>Thumbnail maintenance</guimenuitem>
+            <guimenu>Thumbnail maintenance</guimenu>
           </menuchoice>
         </term>
         <listitem>

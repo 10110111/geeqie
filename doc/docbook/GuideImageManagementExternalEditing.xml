@@ -16,7 +16,6 @@
     dialogue presents you with an easy-to-use template. This dialogue is accessed via
     <menuchoice>
       <guimenu>Edit</guimenu>
-      <guimenuitem>Preferences</guimenuitem>
       <guimenuitem>Configure Editors</guimenuitem>
     </menuchoice>
     .

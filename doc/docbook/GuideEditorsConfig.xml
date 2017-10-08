@@ -8,7 +8,6 @@
       This dialog allows user to add new editors or modify the system ones. It is available in the menu
       <menuchoice>
         <guimenu>Edit</guimenu>
-        <guimenuitem>Preferences</guimenuitem>
         <guimenuitem>Configure Editors</guimenuitem>
       </menuchoice>
       .

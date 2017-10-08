@@ -11,7 +11,7 @@ Categories=X-Geeqie;
 OnlyShowIn=X-Geeqie;
 
 # Show in menu "File"
-X-Geeqie-Menu-Path=EditMenu/PreferencesMenu
+#X-Geeqie-Menu-Path=EditMenu/PreferencesMenu
 
 # It can be made verbose
 X-Geeqie-Verbose=true
