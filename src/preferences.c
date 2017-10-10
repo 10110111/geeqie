@@ -38,6 +38,7 @@
 #include "layout_util.h"
 #include "pixbuf_util.h"
 #include "slideshow.h"
+#include "toolbar.h"
 #include "trash.h"
 #include "utilops.h"
 #include "ui_fileops.h"
@@ -426,6 +427,8 @@ static void config_window_apply(void)
 		}
 
 	if (accel_store) gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_apply_cb, NULL);
+
+	toolbar_apply();
 }
 
 /*
@@ -2404,6 +2407,22 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	gtk_widget_show(button);
 }
 
+/* toolbar tab */
+static void config_tab_toolbar(GtkWidget *notebook)
+{
+	GtkWidget *vbox;
+	GtkWidget *toolbardata;
+	LayoutWindow *lw;
+
+	lw = layout_window_list->data;
+
+	vbox = scrolled_notebook_page(notebook, _("Toolbar"));
+
+	toolbardata = toolbar_select_new(lw);
+	gtk_box_pack_start(GTK_BOX(vbox), toolbardata, TRUE, TRUE, 0);
+	gtk_widget_show(vbox);
+}
+
 /* stereo tab */
 static void config_tab_stereo(GtkWidget *notebook)
 {
@@ -2517,6 +2536,7 @@ static void config_window_create(void)
 	config_tab_color(notebook);
 	config_tab_stereo(notebook);
 	config_tab_behavior(notebook);
+	config_tab_toolbar(notebook);
 
 	hbox = gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_END);

@@ -44,6 +44,7 @@
 #include "pixbuf_util.h"
 #include "preferences.h"
 #include "print.h"
+#include "rcfile.h"
 #include "search.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
@@ -1741,7 +1742,7 @@ static GtkActionEntry menu_entries[] = {
   { "OpenRecent",	NULL,			N_("Open recen_t"),			NULL,			N_("Open recent"),			NULL },
   { "Search",		GTK_STOCK_FIND,		N_("_Search..."),			"F3",			N_("Search..."),			CB(layout_menu_search_cb) },
   { "FindDupes",	GTK_STOCK_FIND,		N_("_Find duplicates..."),		"D",			N_("Find duplicates..."),		CB(layout_menu_dupes_cb) },
-  { "PanView",		NULL,			N_("Pa_n view"),			"<control>J",		N_("Pan view"),				CB(layout_menu_pan_cb) },
+  { "PanView",		GTK_STOCK_FILE,			N_("Pa_n view"),			"<control>J",		N_("Pan view"),				CB(layout_menu_pan_cb) },
   { "Print",		GTK_STOCK_PRINT,	N_("_Print..."),			"<shift>P",		N_("Print..."),				CB(layout_menu_print_cb) },
   { "NewFolder",	GTK_STOCK_DIRECTORY,	N_("N_ew folder..."),			"<control>F",		N_("New folder..."),			CB(layout_menu_dir_cb) },
   { "Copy",		GTK_STOCK_COPY,		N_("_Copy..."),				"<control>C",		N_("Copy..."),				CB(layout_menu_copy_cb) },
@@ -1774,7 +1775,7 @@ static GtkActionEntry menu_entries[] = {
   { "Preferences",	GTK_STOCK_PREFERENCES,	N_("P_references..."),			"<control>O",		N_("Preferences..."),			CB(layout_menu_config_cb) },
   { "Editors",		GTK_STOCK_PREFERENCES,	N_("Configure _Editors..."),		NULL,			N_("Configure Editors..."),		CB(layout_menu_editors_cb) },
   { "LayoutConfig",	GTK_STOCK_PREFERENCES,	N_("_Configure this window..."),	NULL,			N_("Configure this window..."),		CB(layout_menu_layout_config_cb) },
-  { "Maintenance",	NULL,			N_("_Thumbnail maintenance..."),	NULL,			N_("Thumbnail maintenance..."),		CB(layout_menu_remove_thumb_cb) },
+  { "Maintenance",	GTK_STOCK_FILE,			N_("_Thumbnail maintenance..."),	NULL,			N_("Thumbnail maintenance..."),		CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,			N_("Set as _wallpaper"),		NULL,			N_("Set as wallpaper"),			CB(layout_menu_wallpaper_cb) },
   { "SaveMetadata",	GTK_STOCK_SAVE,		N_("_Save metadata"),			"<control>S",		N_("Save metadata"),			CB(layout_menu_metadata_write_cb) },
   { "ZoomIn",		GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"equal",		N_("Zoom in"),				CB(layout_menu_zoom_in_cb) },
@@ -1785,14 +1786,14 @@ static GtkActionEntry menu_entries[] = {
   { "Zoom100Alt1",	GTK_STOCK_ZOOM_100,	N_("Zoom _1:1"),			"KP_Divide",		N_("Zoom 1:1"),				CB(layout_menu_zoom_1_1_cb) },
   { "ZoomFit",		GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),			"X",			N_("Zoom to fit"),			CB(layout_menu_zoom_fit_cb) },
   { "ZoomFitAlt1",	GTK_STOCK_ZOOM_FIT,	N_("_Zoom to fit"),			"KP_Multiply",		N_("Zoom to fit"),			CB(layout_menu_zoom_fit_cb) },
-  { "ZoomFillHor",	NULL,			N_("Fit _Horizontally"),		"H",			N_("Fit Horizontally"),			CB(layout_menu_zoom_fit_hor_cb) },
-  { "ZoomFillVert",	NULL,			N_("Fit _Vertically"),			"W",			N_("Fit Vertically"),			CB(layout_menu_zoom_fit_vert_cb) },
-  { "Zoom200",	        NULL,			N_("Zoom _2:1"),			NULL,			N_("Zoom 2:1"),				CB(layout_menu_zoom_2_1_cb) },
-  { "Zoom300",	        NULL,			N_("Zoom _3:1"),			NULL,			N_("Zoom 3:1"),				CB(layout_menu_zoom_3_1_cb) },
-  { "Zoom400",		NULL,			N_("Zoom _4:1"),			NULL,			N_("Zoom 4:1"),				CB(layout_menu_zoom_4_1_cb) },
-  { "Zoom50",		NULL,			N_("Zoom 1:2"),				NULL,			N_("Zoom 1:2"),				CB(layout_menu_zoom_1_2_cb) },
-  { "Zoom33",		NULL,			N_("Zoom 1:3"),				NULL,			N_("Zoom 1:3"),				CB(layout_menu_zoom_1_3_cb) },
-  { "Zoom25",		NULL,			N_("Zoom 1:4"),				NULL,			N_("Zoom 1:4"),				CB(layout_menu_zoom_1_4_cb) },
+  { "ZoomFillHor",	GTK_STOCK_FILE,			N_("Fit _Horizontally"),		"H",			N_("Fit Horizontally"),			CB(layout_menu_zoom_fit_hor_cb) },
+  { "ZoomFillVert",	GTK_STOCK_FILE,			N_("Fit _Vertically"),			"W",			N_("Fit Vertically"),			CB(layout_menu_zoom_fit_vert_cb) },
+  { "Zoom200",	        GTK_STOCK_FILE,			N_("Zoom _2:1"),			NULL,			N_("Zoom 2:1"),				CB(layout_menu_zoom_2_1_cb) },
+  { "Zoom300",	        GTK_STOCK_FILE,			N_("Zoom _3:1"),			NULL,			N_("Zoom 3:1"),				CB(layout_menu_zoom_3_1_cb) },
+  { "Zoom400",		GTK_STOCK_FILE,			N_("Zoom _4:1"),			NULL,			N_("Zoom 4:1"),				CB(layout_menu_zoom_4_1_cb) },
+  { "Zoom50",		GTK_STOCK_FILE,			N_("Zoom 1:2"),				NULL,			N_("Zoom 1:2"),				CB(layout_menu_zoom_1_2_cb) },
+  { "Zoom33",		GTK_STOCK_FILE,			N_("Zoom 1:3"),				NULL,			N_("Zoom 1:3"),				CB(layout_menu_zoom_1_3_cb) },
+  { "Zoom25",		GTK_STOCK_FILE,			N_("Zoom 1:4"),				NULL,			N_("Zoom 1:4"),				CB(layout_menu_zoom_1_4_cb) },
   { "ConnectZoomIn",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"plus",			N_("Connected Zoom in"),		CB(layout_menu_connect_zoom_in_cb) },
   { "ConnectZoomInAlt1",GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"<shift>KP_Add",	N_("Connected Zoom in"),		CB(layout_menu_connect_zoom_in_cb) },
   { "ConnectZoomOut",	GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),			"underscore",		N_("Connected Zoom out"),		CB(layout_menu_connect_zoom_out_cb) },
@@ -1818,10 +1819,10 @@ static GtkActionEntry menu_entries[] = {
   { "ImageOverlayCycle",NULL,			N_("_Cycle through overlay modes"),	"I",			N_("Cycle through Overlay modes"),	CB(layout_menu_overlay_toggle_cb) },
   { "HistogramChanCycle",NULL,			N_("Cycle through histogram ch_annels"),"K",			N_("Cycle through histogram channels"),	CB(layout_menu_histogram_toggle_channel_cb) },
   { "HistogramModeCycle",NULL,			N_("Cycle through histogram mo_des"),	"J",			N_("Cycle through histogram modes"),	CB(layout_menu_histogram_toggle_mode_cb) },
-  { "HideTools",	NULL,			N_("_Hide file list"),			"<control>H",		N_("Hide file list"),			CB(layout_menu_hide_cb) },
+  { "HideTools",	GTK_STOCK_FILE,			N_("_Hide file list"),			"<control>H",		N_("Hide file list"),			CB(layout_menu_hide_cb) },
   { "SlideShowPause",	GTK_STOCK_MEDIA_PAUSE,	N_("_Pause slideshow"), 		"P",			N_("Pause slideshow"), 			CB(layout_menu_slideshow_pause_cb) },
-  { "SlideShowFaster",	NULL,	N_("Faster"), 		"<control>KP_Add",			N_("Faster"), 			CB(layout_menu_slideshow_faster_cb) },
-  { "SlideShowSlower",	NULL,	N_("Slower"), 		"<control>KP_Subtract",			N_("Slower"), 			CB(layout_menu_slideshow_slower_cb) },
+  { "SlideShowFaster",	GTK_STOCK_FILE,	N_("Faster"), 		"<control>KP_Add",			N_("Faster"), 			CB(layout_menu_slideshow_faster_cb) },
+  { "SlideShowSlower",	GTK_STOCK_FILE,	N_("Slower"), 		"<control>KP_Subtract",			N_("Slower"), 			CB(layout_menu_slideshow_slower_cb) },
   { "Refresh",		GTK_STOCK_REFRESH,	N_("_Refresh"),				"R",			N_("Refresh"),				CB(layout_menu_refresh_cb) },
   { "HelpContents",	GTK_STOCK_HELP,		N_("_Contents"),			"F1",			N_("Contents"),				CB(layout_menu_help_cb) },
   { "HelpShortcuts",	NULL,			N_("_Keyboard shortcuts"),		NULL,			N_("Keyboard shortcuts"),		CB(layout_menu_help_keys_cb) },
@@ -1830,7 +1831,7 @@ static GtkActionEntry menu_entries[] = {
   { "HelpChangeLog",	NULL,			N_("_ChangeLog"),			NULL,			N_("ChangeLog notes"),			CB(layout_menu_changelog_cb) },
   { "About",		GTK_STOCK_ABOUT,	N_("_About"),				NULL,			N_("About"),				CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
-  { "ExifWin",		NULL,			N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
+  { "ExifWin",		GTK_STOCK_FILE,			N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
   { "StereoCycle",	NULL,			N_("_Cycle through stereo modes"),	NULL,			N_("Cycle through stereo modes"),	CB(layout_menu_stereo_mode_next_cb) },
   { "SplitNextPane",	NULL,			N_("_Next Pane"),	"<alt>Right",			N_("Next Pane"),	CB(layout_menu_split_pane_next_cb) },
   { "SplitPreviousPane",	NULL,			N_("_Previous Pane"),	"<alt>Left",			N_("Previous Pane"),	CB(layout_menu_split_pane_prev_cb) },
@@ -1843,12 +1844,12 @@ static GtkActionEntry menu_entries[] = {
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	PIXBUF_INLINE_ICON_THUMB,N_("Show _Thumbnails"),		"T",			N_("Show Thumbnails"),			CB(layout_menu_thumb_cb),	 FALSE },
-  { "ShowMarks",        NULL,			N_("Show _Marks"),			"M",			N_("Show Marks"),			CB(layout_menu_marks_cb),	 FALSE  },
+  { "ShowMarks",        GTK_STOCK_FILE,			N_("Show _Marks"),			"M",			N_("Show Marks"),			CB(layout_menu_marks_cb),	 FALSE  },
   { "ShowInfoPixel",	GTK_STOCK_COLOR_PICKER,	N_("Pi_xel Info"),			NULL,			N_("Show Pixel Info"),			CB(layout_menu_info_pixel_cb),	 FALSE  },
   { "FloatTools",	PIXBUF_INLINE_ICON_FLOAT,N_("_Float file list"),		"L",			N_("Float file list"),			CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,			N_("Hide tool_bar"),			NULL,			N_("Hide toolbar"),			CB(layout_menu_toolbar_cb),	 FALSE  },
-  { "SBar",		NULL,			N_("_Info sidebar"),			"<control>K",		N_("Info sidebar"),			CB(layout_menu_bar_cb),		 FALSE  },
-  { "SBarSort",		NULL,			N_("Sort _manager"),			"<shift>S",		N_("Sort manager"),			CB(layout_menu_bar_sort_cb),	 FALSE  },
+  { "SBar",		GTK_STOCK_FILE,			N_("_Info sidebar"),			"<control>K",		N_("Info sidebar"),			CB(layout_menu_bar_cb),		 FALSE  },
+  { "SBarSort",		GTK_STOCK_FILE,			N_("Sort _manager"),			"<shift>S",		N_("Sort manager"),			CB(layout_menu_bar_sort_cb),	 FALSE  },
   { "HideBars",		NULL,			N_("Hide Bars"),			"grave",		N_("Hide Bars"),			CB(layout_menu_hide_bars_cb),	 FALSE  },
   { "SlideShow",	GTK_STOCK_MEDIA_PLAY,	N_("Toggle _slideshow"),		"S",			N_("Toggle slideshow"),			CB(layout_menu_slideshow_cb),	 FALSE  },
   { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,	N_("Use _color profiles"), 		NULL,			N_("Use color profiles"), 		CB(layout_color_menu_enable_cb), FALSE},
@@ -2138,18 +2139,6 @@ static const gchar *menu_ui_description =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='ToolBar'>"
-"    <toolitem action='Thumbnails'/>"
-"    <toolitem action='Back'/>"
-"    <toolitem action='Forward'/>"
-"    <toolitem action='Up'/>"
-"    <toolitem action='Home'/>"
-"    <toolitem action='Refresh'/>"
-"    <toolitem action='ZoomIn'/>"
-"    <toolitem action='ZoomOut'/>"
-"    <toolitem action='ZoomFit'/>"
-"    <toolitem action='Zoom100'/>"
-"    <toolitem action='Preferences'/>"
-"    <toolitem action='FloatTools'/>"
 "  </toolbar>"
 "  <toolbar name='StatusBar'>"
 "    <toolitem action='ExifRotate'/>"
@@ -2483,6 +2472,9 @@ void layout_actions_setup(LayoutWindow *lw)
 		exit(EXIT_FAILURE);
 		}
 
+	layout_toolbar_clear(lw, TOOLBAR_MAIN);
+	layout_toolbar_add_default(lw, TOOLBAR_MAIN);
+
 	DEBUG_1("%s layout_actions_setup: marks", get_exec_time());
 	layout_actions_setup_marks(lw);
 
@@ -2606,6 +2598,170 @@ GtkWidget *layout_actions_toolbar(LayoutWindow *lw, ToolbarType type)
 		}
 	g_object_ref(lw->toolbar[type]);
 	return lw->toolbar[type];
+}
+
+void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type)
+{
+	if (lw->toolbar_merge_id[type])
+		{
+		gtk_ui_manager_remove_ui(lw->ui_manager, lw->toolbar_merge_id[type]);
+		gtk_ui_manager_ensure_update(lw->ui_manager);
+		}
+	string_list_free(lw->toolbar_actions[type]);
+	lw->toolbar_actions[type] = NULL;
+
+	lw->toolbar_merge_id[type] = gtk_ui_manager_new_merge_id(lw->ui_manager);
+}
+
+void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
+{
+	const gchar *path = NULL;
+
+	if (!action || !lw->ui_manager) return;
+
+	if (g_list_find_custom(lw->toolbar_actions[type], action, (GCompareFunc)strcmp)) return;
+
+	switch (type)
+		{
+		case TOOLBAR_MAIN:
+			path = "/ToolBar";
+			break;
+		default:
+			break;
+		}
+
+
+	if (g_str_has_suffix(action, ".desktop"))
+		{
+		/* this may be called before the external editors are read
+		   create a dummy action for now */
+		if (!lw->action_group_editors)
+			{
+			lw->action_group_editors = gtk_action_group_new("MenuActionsExternal");
+			gtk_ui_manager_insert_action_group(lw->ui_manager, lw->action_group_editors, 1);
+			}
+		if (!gtk_action_group_get_action(lw->action_group_editors, action))
+			{
+			GtkActionEntry entry = { action,
+			                         GTK_STOCK_MISSING_IMAGE,
+			                         action,
+			                         NULL,
+			                         NULL,
+			                         NULL };
+			DEBUG_1("Creating temporary action %s", action);
+			gtk_action_group_add_actions(lw->action_group_editors, &entry, 1, lw);
+			}
+		}
+	gtk_ui_manager_add_ui(lw->ui_manager, lw->toolbar_merge_id[type], path, action, action, GTK_UI_MANAGER_TOOLITEM, FALSE);
+	lw->toolbar_actions[type] = g_list_append(lw->toolbar_actions[type], g_strdup(action));
+}
+
+
+void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type)
+{
+	LayoutWindow *lw_first;
+	GList *work_action;
+
+	switch (type)
+		{
+		case TOOLBAR_MAIN:
+			if (layout_window_list)
+				{
+				lw_first = layout_window_list->data;
+				if (lw_first->toolbar_actions[TOOLBAR_MAIN])
+					{
+					work_action = lw_first->toolbar_actions[type];
+					while (work_action)
+						{
+						gchar *action = work_action->data;
+						work_action = work_action->next;
+						layout_toolbar_add(lw, type, action);
+						}
+					}
+				else
+					{
+					layout_toolbar_add(lw, type, "Thumbnails");
+					layout_toolbar_add(lw, type, "Back");
+					layout_toolbar_add(lw, type, "Forward");
+					layout_toolbar_add(lw, type, "Up");
+					layout_toolbar_add(lw, type, "Home");
+					layout_toolbar_add(lw, type, "Refresh");
+					layout_toolbar_add(lw, type, "ZoomIn");
+					layout_toolbar_add(lw, type, "ZoomOut");
+					layout_toolbar_add(lw, type, "ZoomFit");
+					layout_toolbar_add(lw, type, "Zoom100");
+					layout_toolbar_add(lw, type, "Preferences");
+					layout_toolbar_add(lw, type, "FloatTools");
+					}
+				}
+			else
+				{
+				layout_toolbar_add(lw, type, "Thumbnails");
+				layout_toolbar_add(lw, type, "Back");
+				layout_toolbar_add(lw, type, "Forward");
+				layout_toolbar_add(lw, type, "Up");
+				layout_toolbar_add(lw, type, "Home");
+				layout_toolbar_add(lw, type, "Refresh");
+				layout_toolbar_add(lw, type, "ZoomIn");
+				layout_toolbar_add(lw, type, "ZoomOut");
+				layout_toolbar_add(lw, type, "ZoomFit");
+				layout_toolbar_add(lw, type, "Zoom100");
+				layout_toolbar_add(lw, type, "Preferences");
+				layout_toolbar_add(lw, type, "FloatTools");
+				}
+			break;
+		default:
+			break;
+		}
+}
+
+
+
+void layout_toolbar_write_config(LayoutWindow *lw, ToolbarType type, GString *outstr, gint indent)
+{
+	const gchar *name = NULL;
+	GList *work = lw->toolbar_actions[type];
+
+	switch (type)
+		{
+		case TOOLBAR_MAIN:
+			name = "toolbar";
+			break;
+		default:
+			break;
+		}
+
+	WRITE_NL(); WRITE_STRING("<%s>", name);
+	indent++;
+	WRITE_NL(); WRITE_STRING("<clear/>");
+	while (work)
+		{
+		gchar *action = work->data;
+		work = work->next;
+		WRITE_NL(); WRITE_STRING("<toolitem ");
+		write_char_option(outstr, indent + 1, "action", action);
+		WRITE_STRING("/>");
+		}
+	indent--;
+	WRITE_NL(); WRITE_STRING("</%s>", name);
+}
+
+void layout_toolbar_add_from_config(LayoutWindow *lw, ToolbarType type, const char **attribute_names, const gchar **attribute_values)
+{
+	gchar *action = NULL;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+
+		if (READ_CHAR_FULL("action", action)) continue;
+
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+
+	layout_toolbar_add(lw, type, action);
+	g_free(action);
 }
 
 /*

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideOptionsSteroa">
+  <title>Toolbar</title>
+  <para>
+    This dialogue enables you to change the items displayed on the Toolbar.
+    <para />
+    The initial display shows the current setup. You may re-order these items by right-clicking on any item.
+    <para />
+    Additional items may be included by clicking on the "Plus" symbol at the bottom of the tab. A list of all available options is displayed.
+  </para>
+  <para>Most of the Geeqie menu items are available, plus any desktop (External Editor) files.</para>
+  <note>
+    <para>
+      If you select a desktop file, ensure that it includes an icon - the desktop file format is described in the
+      <link linkend="GuideReferenceStandards">Standards section</link>
+    </para>
+  </note>
+</section>

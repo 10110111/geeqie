@@ -1,0 +1,501 @@
+/*
+ * Copyright (C) 2004 John Ellis
+ * Copyright (C) 2008 - 2017 The Geeqie Team
+ *
+ * Author: Colin Clark
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#include "main.h"
+#include "toolbar.h"
+
+#include "collect.h"
+#include "layout_util.h"
+#include "ui_fileops.h"
+#include "ui_misc.h"
+#include "pixbuf_util.h"
+#include "ui_menu.h"
+#include "editors.h"
+
+/** Implements the user-definable toolbar function
+ * Called from the Preferences/toolbar tab
+ **/
+
+typedef struct _ToolbarData ToolbarData;
+struct _ToolbarData
+{
+	GtkWidget *widget;
+	GtkWidget *vbox;
+	GtkWidget *add_button;
+
+	LayoutWindow *lw;
+};
+
+typedef struct _ToolbarButtonData ToolbarButtonData;
+struct _ToolbarButtonData
+{
+	GtkWidget *button;
+	GtkWidget *button_label;
+	GtkWidget *image;
+
+	gchar *name; /* GtkActionEntry terminology */
+	gchar *stock_id;
+};
+
+static 	ToolbarData *toolbarlist;
+
+typedef struct _UseableToolbarItems UseableToolbarItems;
+struct _UseableToolbarItems
+{
+	gchar *name; /* GtkActionEntry terminology */
+	gchar *label;
+	gchar *stock_id;
+};
+
+/* FIXME Should be created by program from menu_entries[]
+ * in layout_util.c */
+ /** The user is limited to selecting from this list of menu items
+  * plus any desktop files
+  **/
+static const UseableToolbarItems useable_toolbar_items[] = {
+	{"FirstImage",	N_("First Image"), GTK_STOCK_GOTO_TOP},
+	{"PrevImage",	N_("Previous Image"), GTK_STOCK_GO_UP},
+	{"NextImage",	N_("Next Image"), GTK_STOCK_GO_DOWN},
+	{"LastImage",	N_("Last Image"), GTK_STOCK_GOTO_BOTTOM},
+	{"Back",	N_("Back"), GTK_STOCK_GO_BACK},
+	{"Forward",	N_("Forward"), GTK_STOCK_GO_FORWARD},
+	{"Home",	N_("Home"), GTK_STOCK_HOME},
+	{"Up",	N_("Up"), GTK_STOCK_GO_UP},
+	{"NewWindow",	N_("New _window"), GTK_STOCK_NEW},
+	{"NewCollection",	N_("New collection"), GTK_STOCK_INDEX},
+	{"OpenCollection",	N_("Open collection"), GTK_STOCK_OPEN},
+	{"Search",	N_("Search"), GTK_STOCK_FIND},
+	{"FindDupes",	N_("Find duplicates"), GTK_STOCK_FIND},
+	{"PanView",	N_("Pan view"), GTK_STOCK_FILE},
+	{"Print",	N_("Print"), GTK_STOCK_PRINT},
+	{"Preferences",	N_("Preferences"), GTK_STOCK_PREFERENCES},
+	{"LayoutConfig",	N_("Configure this window"), GTK_STOCK_PREFERENCES},
+	{"Maintenance",	N_("Thumbnail maintenance"), GTK_STOCK_FILE},
+	{"ZoomIn",	N_("Zoom in"), GTK_STOCK_ZOOM_IN},
+	{"ZoomOut",	N_("Zoom out"), GTK_STOCK_ZOOM_OUT},
+	{"Zoom100",	N_("Zoom 1:1"), GTK_STOCK_ZOOM_100},
+	{"ZoomFit",	N_("Zoom to fit"), GTK_STOCK_ZOOM_FIT},
+	{"ZoomFillHor",	N_("Fit Horizontaly"), GTK_STOCK_FILE},
+	{"ZoomFillVert",	N_("Fit vertically"), GTK_STOCK_FILE},
+	{"Zoom200",	N_("Zoom 2:1"), GTK_STOCK_FILE},
+	{"Zoom300",	N_("Zoom 3:1"), GTK_STOCK_FILE},
+	{"Zoom400",	N_("Zoom 4:1"), GTK_STOCK_FILE},
+	{"Zoom50",	N_("Zoom 1:2"), GTK_STOCK_FILE},
+	{"Zoom33",	N_("Zoom1:3"), GTK_STOCK_FILE},
+	{"Zoom25",	N_("Zoom 1:4"), GTK_STOCK_FILE},
+	{"ConnectZoomIn",	N_("Connected Zoom in"), GTK_STOCK_ZOOM_IN},
+	{"HideTools",	N_("Hide file list"), GTK_STOCK_FILE},
+	{"SlideShowPause",	N_("Pause slideshow"), GTK_STOCK_MEDIA_PAUSE},
+	{"SlideShowFaster",	N_("Slideshow Faster"), GTK_STOCK_FILE},
+	{"SlideShowSlower",	N_("Slideshow Slower"), GTK_STOCK_FILE},
+	{"Refresh",	N_("Refresh"), GTK_STOCK_REFRESH},
+	{"HelpContents",	N_("Help"), GTK_STOCK_HELP},
+	{"ExifWin",	N_("Exif window"), GTK_STOCK_FILE},
+	{"Thumbnails",	N_("Show thumbnails"), PIXBUF_INLINE_ICON_THUMB},
+	{"ShowMarks",	N_("Show marks"), GTK_STOCK_FILE},
+	{"FloatTools",	N_("Float file list"), PIXBUF_INLINE_ICON_FLOAT},
+	{"SBar",	N_("Info sidebar"), GTK_STOCK_FILE},
+	{"SBarSort",	N_("Sort manager"), GTK_STOCK_FILE},
+	{"Quit",	N_("Quit"), GTK_STOCK_QUIT},
+	{NULL,		NULL}
+};
+
+/**
+ * @brief
+ * @param widget Not used
+ * @param data Pointer to vbox list item
+ * @param up Up/Down movement
+ * @param single_step Move up/down one step, or to top/bottom
+ * 
+ */
+static void toolbar_item_move(GtkWidget *widget, gpointer data,
+									gboolean up, gboolean single_step)
+{
+	GtkWidget *list_item = data;
+	GtkWidget *box;
+	gint pos = 0;
+
+	if (!list_item) return;
+	box = gtk_widget_get_ancestor(list_item, GTK_TYPE_BOX);
+	if (!box) return;
+
+	gtk_container_child_get(GTK_CONTAINER(box), list_item, "position", &pos, NULL);
+
+	if (single_step)
+		{
+		pos = up ? (pos - 1) : (pos + 1);
+		if (pos < 0) pos = 0;
+		}
+	else
+		{
+		pos = up ? 0 : -1;
+		}
+
+	gtk_box_reorder_child(GTK_BOX(box), list_item, pos);
+}
+
+static void toolbar_item_move_up_cb(GtkWidget *widget, gpointer data)
+{
+	toolbar_item_move(widget, data, TRUE, TRUE);
+}
+
+static void toolbar_item_move_down_cb(GtkWidget *widget, gpointer data)
+{
+	toolbar_item_move(widget, data, FALSE, TRUE);
+}
+
+static void toolbar_item_move_top_cb(GtkWidget *widget, gpointer data)
+{
+	toolbar_item_move(widget, data, TRUE, FALSE);
+}
+
+static void toolbar_item_move_bottom_cb(GtkWidget *widget, gpointer data)
+{
+	toolbar_item_move(widget, data, FALSE, FALSE);
+}
+
+static void toolbar_item_delete_cb(GtkWidget *widget, gpointer data)
+{
+	gtk_widget_destroy(data);
+}
+
+static void toolbar_menu_popup(GtkWidget *widget)
+{
+	GtkWidget *menu;
+	GtkWidget *vbox;
+
+	vbox = gtk_widget_get_parent(widget);
+
+	menu = popup_menu_short_lived();
+
+	if (widget)
+		{
+		menu_item_add_stock(menu, _("Move to _top"), GTK_STOCK_GOTO_TOP, G_CALLBACK(toolbar_item_move_top_cb), widget);
+		menu_item_add_stock(menu, _("Move _up"), GTK_STOCK_GO_UP, G_CALLBACK(toolbar_item_move_up_cb), widget);
+		menu_item_add_stock(menu, _("Move _down"), GTK_STOCK_GO_DOWN, G_CALLBACK(toolbar_item_move_down_cb), widget);
+		menu_item_add_stock(menu, _("Move to _bottom"), GTK_STOCK_GOTO_BOTTOM, G_CALLBACK(toolbar_item_move_bottom_cb), widget);
+		menu_item_add_divider(menu);
+		menu_item_add_stock(menu, _("Remove"), GTK_STOCK_DELETE, G_CALLBACK(toolbar_item_delete_cb), widget);
+		menu_item_add_divider(menu);
+		}
+
+	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, vbox, 0, GDK_CURRENT_TIME);
+}
+
+static gboolean toolbar_press_cb(GtkWidget *button, GdkEventButton *event, gpointer data)
+{
+	ToolbarButtonData *button_data = data;
+
+	if (event->button == MOUSE_BUTTON_RIGHT)
+		{
+		toolbar_menu_popup(button_data->button);
+		return TRUE;
+		}
+	return FALSE;
+}
+
+static void get_toolbar_item(const gchar *name, gchar **label, gchar **stock_id)
+{
+	const UseableToolbarItems *list = useable_toolbar_items;
+	*label = NULL;
+	*stock_id = NULL;
+
+	while (list->name)
+		{
+		if (g_strcmp0(list->name, name) == 0)
+			{
+			*label = g_strdup(list->label);
+			*stock_id = g_strdup(list->stock_id);
+			break;
+			}
+		list++;
+		}
+}
+
+
+static void toolbar_item_free(ToolbarButtonData *tbbd)
+{
+	if (!tbbd) return;
+
+	g_free(tbbd->name);
+	g_free(tbbd->stock_id);
+	g_free(tbbd);
+}
+
+static void toolbarlist_add_button(const gchar *name, const gchar *label,
+									const gchar *stock_id, GtkBox *box)
+{
+	ToolbarButtonData *toolbar_entry;
+	GtkWidget *hbox;
+
+	toolbar_entry = g_new(ToolbarButtonData,1);
+	toolbar_entry->button = gtk_button_new();
+	gtk_button_set_relief(GTK_BUTTON(toolbar_entry->button), GTK_RELIEF_NONE);
+	gtk_box_pack_start(GTK_BOX(box), toolbar_entry->button, FALSE, FALSE, 0);
+	gtk_widget_show(toolbar_entry->button);
+
+	g_object_set_data_full(G_OBJECT(toolbar_entry->button), "toolbarbuttondata",
+	toolbar_entry, (GDestroyNotify)toolbar_item_free);
+
+	hbox = gtk_hbox_new(FALSE, PREF_PAD_BUTTON_GAP);
+	gtk_container_add(GTK_CONTAINER(toolbar_entry->button), hbox);
+	gtk_widget_show(hbox);
+
+	toolbar_entry->button_label = gtk_label_new(label);
+	toolbar_entry->name = g_strdup(name);
+	toolbar_entry->stock_id = g_strdup(stock_id);
+	g_signal_connect(G_OBJECT(toolbar_entry->button), "button_release_event",
+									G_CALLBACK(toolbar_press_cb), toolbar_entry);
+
+	if (toolbar_entry->stock_id)
+		{
+		GdkPixbuf *pixbuf;
+		gchar *iconl;
+		iconl = path_from_utf8(toolbar_entry->stock_id);
+		pixbuf = gdk_pixbuf_new_from_file(iconl, NULL);
+		g_free(iconl);
+		if (pixbuf)
+			{
+			GdkPixbuf *scaled;
+			gint w, h;
+
+			w = h = 16;
+			gtk_icon_size_lookup(GTK_ICON_SIZE_BUTTON, &w, &h);
+
+			scaled = gdk_pixbuf_scale_simple(pixbuf, w, h,
+							 GDK_INTERP_BILINEAR);
+			toolbar_entry->image = gtk_image_new_from_pixbuf(scaled);
+
+			g_object_unref(scaled);
+			g_object_unref(pixbuf);
+			}
+		else
+			{
+			toolbar_entry->image = gtk_image_new_from_stock(toolbar_entry->stock_id,
+														GTK_ICON_SIZE_BUTTON);
+			}
+		}
+	else
+		{
+		toolbar_entry->image = gtk_image_new_from_stock(GTK_STOCK_JUMP_TO,
+														GTK_ICON_SIZE_BUTTON);
+		}
+	gtk_box_pack_start(GTK_BOX(hbox), toolbar_entry->image, FALSE, FALSE, 0);
+	gtk_widget_show(toolbar_entry->image);
+	gtk_box_pack_start(GTK_BOX(hbox), toolbar_entry->button_label, FALSE, FALSE, 0);
+	gtk_widget_show(toolbar_entry->button_label);
+}
+
+static void toolbarlist_add_cb(GtkWidget *widget, gpointer data)
+{
+	const gchar *name = g_object_get_data(G_OBJECT(widget), "toolbar_add_name");
+	const gchar *label = g_object_get_data(G_OBJECT(widget), "toolbar_add_label");
+	const gchar *stock_id = g_object_get_data(G_OBJECT(widget), "toolbar_add_stock_id");
+	ToolbarData *tbbd = data;
+
+	toolbarlist_add_button(name, label, stock_id, GTK_BOX(tbbd->vbox));
+}
+
+static void get_desktop_data(const gchar *name, gchar **label, gchar **stock_id)
+{
+	GList *editors_list;
+	GList *work;
+	*label = NULL;
+	*stock_id = NULL;
+
+	editors_list = editor_list_get();
+	work = editors_list;
+	while (work)
+		{
+		const EditorDescription *editor = work->data;
+
+		if (g_strcmp0(name, editor->key) == 0)
+			{
+			*label = g_strdup(editor->name);
+			*stock_id = g_strdup(editor->icon);
+			break;
+			}
+		work = work->next;
+		}
+	g_list_free(editors_list);
+}
+
+static void toolbar_menu_add_popup(GtkWidget *widget, gpointer data)
+{
+	GtkWidget *menu;
+	GList *editors_list;
+	GList *work;
+	ToolbarData *toolbarlist = data;
+	const UseableToolbarItems *list = useable_toolbar_items;
+
+	menu = popup_menu_short_lived();
+
+	/* get standard menu item data */
+	while (list->name)
+		{
+		GtkWidget *item;
+		item = menu_item_add_stock(menu, list->label, GTK_STOCK_ADD,
+										G_CALLBACK(toolbarlist_add_cb), toolbarlist);
+		g_object_set_data(G_OBJECT(item), "toolbar_add_name", g_strdup(list->name));
+		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(list->label));
+		g_object_set_data(G_OBJECT(item), "toolbar_add_stock_id", g_strdup(list->stock_id));
+		list++;
+		}
+
+	/* get desktop file data */
+	editors_list = editor_list_get();
+	work = editors_list;
+	while (work)
+		{
+		const EditorDescription *editor = work->data;
+
+		GtkWidget *item;
+		item = menu_item_add_stock(menu, editor->name, GTK_STOCK_ADD,
+										G_CALLBACK(toolbarlist_add_cb), toolbarlist);
+		g_object_set_data(G_OBJECT(item), "toolbar_add_name", g_strdup(editor->key));
+		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(editor->name));
+		g_object_set_data(G_OBJECT(item), "toolbar_add_stock_id", g_strdup(editor->icon));
+		work = work->next;
+		}
+	g_list_free(editors_list);
+
+	gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, widget, 0, GDK_CURRENT_TIME);
+}
+
+static gboolean toolbar_menu_add_cb(GtkWidget *widget, gpointer data)
+{
+	ToolbarData *toolbarlist = data;
+
+	toolbar_menu_add_popup(widget, toolbarlist);
+	return TRUE;
+}
+
+/**
+ * @brief For each layoutwindow, clear toolbar and reload with current selection
+ * 
+ */
+void toolbar_apply()
+{
+	LayoutWindow *lw;
+	GList *work_windows;
+	GList *work_toolbar;
+
+	work_windows = layout_window_list;
+	while (work_windows)
+		{
+		lw = work_windows->data;
+
+		layout_toolbar_clear(lw, TOOLBAR_MAIN);
+
+		work_toolbar = gtk_container_get_children(GTK_CONTAINER(toolbarlist->vbox));
+		while (work_toolbar)
+			{
+			GtkButton *button = work_toolbar->data;
+			ToolbarButtonData *tbbd;
+
+			tbbd = g_object_get_data(G_OBJECT(button),"toolbarbuttondata");
+			layout_toolbar_add(lw, TOOLBAR_MAIN, tbbd->name);
+
+			work_toolbar = work_toolbar->next;
+			}
+		g_list_free(work_toolbar);
+
+		work_windows = work_windows->next;
+		}
+
+}
+
+/**
+ * @brief Load the current toolbar items into the vbox
+ * @param lw 
+ * @param box The vbox displayed in the preferences Toolbar tab
+ * 
+ * Get the current contents of the toolbar, both menu items
+ * and desktop items, and load them into the vbox
+ */
+static void toolbarlist_populate(LayoutWindow *lw, GtkBox *box)
+{
+	GList *work = g_list_first(lw->toolbar_actions[TOOLBAR_MAIN]);
+
+	while (work)
+		{
+		gchar *name = work->data;
+		gchar *label;
+		gchar *icon;
+		work = work->next;
+
+		if (file_extension_match(name, ".desktop"))
+			{
+			get_desktop_data(name, &label, &icon);
+			}
+		else
+			{
+			get_toolbar_item(name, &label, &icon);
+			}
+		toolbarlist_add_button(name, label, icon, box);
+		}
+}
+
+GtkWidget *toolbar_select_new(LayoutWindow *lw)
+{
+	GtkWidget *scrolled;
+	GtkWidget *tbar;
+	GtkWidget *add_box;
+
+	if (!lw) return NULL;
+
+	if (!toolbarlist)
+		{
+		toolbarlist = g_new0(ToolbarData, 1);
+		}
+	toolbarlist->lw = lw;
+
+	toolbarlist->widget = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	gtk_widget_show(toolbarlist->widget);
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+							GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_NONE);
+	gtk_box_pack_start(GTK_BOX(toolbarlist->widget), scrolled, TRUE, TRUE, 0);
+	gtk_widget_show(scrolled);
+
+	toolbarlist->vbox = gtk_vbox_new(FALSE, 0);
+	gtk_widget_show(toolbarlist->vbox);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled), toolbarlist->vbox);
+	gtk_viewport_set_shadow_type(GTK_VIEWPORT(gtk_bin_get_child(GTK_BIN(scrolled))),
+																GTK_SHADOW_NONE);
+
+	add_box = gtk_vbox_new(FALSE, 0);
+	gtk_widget_show(add_box);
+	gtk_box_pack_end(GTK_BOX(toolbarlist->widget), add_box, FALSE, FALSE, 0);
+	tbar = pref_toolbar_new(add_box, GTK_TOOLBAR_ICONS);
+	toolbarlist->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, "NULL", FALSE,
+											_("Add Toolbar Item"),
+											G_CALLBACK(toolbar_menu_add_cb), toolbarlist);
+	gtk_widget_show(toolbarlist->add_button);
+
+	toolbarlist_populate(lw,GTK_BOX(toolbarlist->vbox));
+
+	return toolbarlist->widget;
+}
+
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

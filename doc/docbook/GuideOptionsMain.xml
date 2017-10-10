@@ -30,6 +30,7 @@
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsColor.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsStereo.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsBehavior.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsToolbar.xml" />
     <para />
 
 </chapter>

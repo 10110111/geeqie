@@ -239,6 +239,8 @@ geeqie_SOURCES = \
 	thumb.h		\
 	thumb_standard.c	\
 	thumb_standard.h	\
+	toolbar.c	\
+	toolbar.h	\
 	trash.c		\
 	trash.h		\
 	uri_utils.c	\
