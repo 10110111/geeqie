@@ -183,13 +183,13 @@
         SelectMenu/SelectSection
         SelectMenu/ClipboardSection
         SelectMenu/MarksSection
-        SelectMenu/EditMenu
-        SelectMenu/ExternalMenu
-        SelectMenu/EditSection
-        SelectMenu/OrientationMenu
-        SelectMenu/PropertiesSection
-        SelectMenu/PreferencesMenu
-        SelectMenu/PreferencesSection
+        EditMenu/EditMenu
+        EditMenu/ExternalMenu
+        EditMenu/EditSection
+        EditMenu/OrientationMenu
+        EditMenu/RatingMenu
+        EditMenu/PropertiesSection
+        EditMenu/PreferencesSection
         ViewMenu
         ViewMenu/WindowSection
         ViewMenu/FileDirMenu
@@ -199,6 +199,7 @@
         ViewMenu/ZoomMenu
         ViewMenu/ZoomMenu/ConnectZoomMenu
         ViewMenu/SplitMenu
+        ViewMenu/StereoMenu
         ViewMenu/ColorMenu
         ViewMenu/OverlayMenu
         ViewMenu/ViewSection

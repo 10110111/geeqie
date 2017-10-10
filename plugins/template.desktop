@@ -39,8 +39,12 @@ Exec=command %f
 Categories=X-Geeqie;
 OnlyShowIn=X-Geeqie;
 
-# Show in menu "File"
-#X-Geeqie-Menu-Path=FileMenu/FileOpsSection
+# Uncomment the following line to include in a Geeqie menu,
+# other than in the default path of EditMenu/ExternalMenu
+#X-Geeqie-Menu-Path=<FileMenuPath>
+
+# e.g.
+#X-Geeqie-Menu-Path=SelectMenu/SelectSection
 
 # Valid sections are:
 #    FileMenu
@@ -54,13 +58,13 @@ OnlyShowIn=X-Geeqie;
 #    SelectMenu/SelectSection
 #    SelectMenu/ClipboardSection
 #    SelectMenu/MarksSection
-#    SelectMenu/EditMenu
-#    SelectMenu/ExternalMenu
-#    SelectMenu/EditSection
-#    SelectMenu/OrientationMenu
-#    SelectMenu/PropertiesSection
-#    SelectMenu/PreferencesMenu
-#    SelectMenu/PreferencesSection
+#    EditMenu
+#    EditMenu/ExternalMenu
+#    EditMenu/EditSection
+#    EditMenu/OrientationMenu
+#    EditMenu/RatingMenu
+#    EditMenu/PropertiesSection
+#    EditMenu/PreferencesSection
 #    ViewMenu
 #    ViewMenu/WindowSection
 #    ViewMenu/FileDirMenu
@@ -70,6 +74,7 @@ OnlyShowIn=X-Geeqie;
 #    ViewMenu/ZoomMenu
 #    ViewMenu/ZoomMenu/ConnectZoomMenu
 #    ViewMenu/SplitMenu
+#    ViewMenu/StereoMenu
 #    ViewMenu/ColorMenu
 #    ViewMenu/OverlayMenu
 #    ViewMenu/ViewSection
