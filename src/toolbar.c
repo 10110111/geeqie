@@ -352,7 +352,7 @@ static void toolbar_menu_add_popup(GtkWidget *widget, gpointer data)
 	while (list->name)
 		{
 		GtkWidget *item;
-		item = menu_item_add_stock(menu, list->label, GTK_STOCK_ADD,
+		item = menu_item_add_stock(menu, list->label, list->stock_id,
 										G_CALLBACK(toolbarlist_add_cb), toolbarlist);
 		g_object_set_data(G_OBJECT(item), "toolbar_add_name", g_strdup(list->name));
 		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(list->label));
@@ -368,7 +368,7 @@ static void toolbar_menu_add_popup(GtkWidget *widget, gpointer data)
 		const EditorDescription *editor = work->data;
 
 		GtkWidget *item;
-		item = menu_item_add_stock(menu, editor->name, GTK_STOCK_ADD,
+		item = menu_item_add_stock(menu, editor->name, editor->icon,
 										G_CALLBACK(toolbarlist_add_cb), toolbarlist);
 		g_object_set_data(G_OBJECT(item), "toolbar_add_name", g_strdup(editor->key));
 		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(editor->name));
