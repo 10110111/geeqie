@@ -32,6 +32,9 @@ Exec=command %f
 #       the executable program. Local files may either be passed as file: URLs
 #       or as file path.
 
+# Change the following line to point to an icon of your choosing
+Icon=gtk-file
+
 # Use the following to only show this menu entry if the command is installed
 #TryExec=command
 
