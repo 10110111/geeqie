@@ -8,7 +8,7 @@
     </para>
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsLayout.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideEditorsConfig.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuidePluginsConfig.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsHidden.xml" />
     <para />
 

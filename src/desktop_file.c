@@ -385,7 +385,7 @@ static void editor_list_window_new_cb(GtkWidget *widget, gpointer data)
 
 static void editor_list_window_help_cb(GtkWidget *widget, gpointer data)
 {
-	help_window_show("GuideEditorsConfig.html");
+	help_window_show("GuidePluginsConfig.html");
 }
 
 static void editor_list_window_selection_changed_cb(GtkWidget *widget, gpointer data)
@@ -464,7 +464,7 @@ static void editor_list_window_create(void)
 
 	editor_list_window = ewl = g_new0(EditorListWindow, 1);
 
-	ewl->window = window_new(GTK_WINDOW_TOPLEVEL, "editors", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Editors"));
+	ewl->window = window_new(GTK_WINDOW_TOPLEVEL, "editors", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Plugins"));
 	gtk_window_set_type_hint(GTK_WINDOW(ewl->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	g_signal_connect(G_OBJECT(ewl->window), "delete_event",
 			 G_CALLBACK(editor_list_window_delete), NULL);

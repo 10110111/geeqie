@@ -62,12 +62,12 @@ OnlyShowIn=X-Geeqie;
 #    SelectMenu/ClipboardSection
 #    SelectMenu/MarksSection
 #    EditMenu
-#    EditMenu/ExternalMenu
 #    EditMenu/EditSection
 #    EditMenu/OrientationMenu
 #    EditMenu/RatingMenu
 #    EditMenu/PropertiesSection
 #    EditMenu/PreferencesSection
+#    PluginsMenu
 #    ViewMenu
 #    ViewMenu/WindowSection
 #    ViewMenu/FileDirMenu

@@ -1711,7 +1711,6 @@ static GtkActionEntry menu_entries[] = {
   { "SelectMenu",	NULL,			N_("_Select"),				NULL,			NULL,					NULL },
   { "OrientationMenu",	NULL,			N_("_Orientation"),			NULL,			NULL,					NULL },
   { "RatingMenu",	NULL,			N_("_Rating"),					NULL,			NULL,					NULL },
-  { "ExternalMenu",	NULL,			N_("E_xternal Editors"),		NULL,			NULL,					NULL },
   { "PreferencesMenu",	NULL,			N_("P_references"),			NULL,			NULL,					NULL },
   { "ViewMenu",		NULL,			N_("_View"),				NULL,			NULL,					NULL },
   { "FileDirMenu",	NULL,			N_("_Files and Folders"),		NULL,			NULL,					NULL },
@@ -1721,6 +1720,7 @@ static GtkActionEntry menu_entries[] = {
   { "SplitMenu",	NULL,			N_("Spli_t"),				NULL,			NULL,					NULL },
   { "StereoMenu",	NULL,			N_("Stere_o"),				NULL,			NULL,					NULL },
   { "OverlayMenu",	NULL,			N_("Image _Overlay"),			NULL,			NULL,					NULL },
+  { "PluginsMenu",	NULL,			N_("_Plugins"),				NULL,			NULL,					NULL },
   { "HelpMenu",		NULL,			N_("_Help"),				NULL,			NULL,					NULL },
 
   { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),			"Home",			N_("First Image"),			CB(layout_menu_image_first_cb) },
@@ -1773,7 +1773,7 @@ static GtkActionEntry menu_entries[] = {
   { "SelectNone",	NULL,			N_("Select _none"),			"<control><shift>A",	N_("Select none"),			CB(layout_menu_unselect_all_cb) },
   { "SelectInvert",	NULL,			N_("_Invert Selection"),		"<control><shift>I",	N_("Invert Selection"),			CB(layout_menu_invert_selection_cb) },
   { "Preferences",	GTK_STOCK_PREFERENCES,	N_("P_references..."),			"<control>O",		N_("Preferences..."),			CB(layout_menu_config_cb) },
-  { "Editors",		GTK_STOCK_PREFERENCES,	N_("Configure _Editors..."),		NULL,			N_("Configure Editors..."),		CB(layout_menu_editors_cb) },
+  { "Plugins",		GTK_STOCK_PREFERENCES,	N_("Configure _Plugins..."),		NULL,			N_("Configure Plugins..."),		CB(layout_menu_editors_cb) },
   { "LayoutConfig",	GTK_STOCK_PREFERENCES,	N_("_Configure this window..."),	NULL,			N_("Configure this window..."),		CB(layout_menu_layout_config_cb) },
   { "Maintenance",	GTK_STOCK_FILE,			N_("_Thumbnail maintenance..."),	NULL,			N_("Thumbnail maintenance..."),		CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,			N_("Set as _wallpaper"),		NULL,			N_("Set as wallpaper"),			CB(layout_menu_wallpaper_cb) },
@@ -1966,8 +1966,6 @@ static const gchar *menu_ui_description =
 "      <separator/>"
 "    </menu>"
 "    <menu action='EditMenu'>"
-"      <menu action='ExternalMenu'>"
-"      </menu>"
 "      <placeholder name='EditSection'/>"
 "      <separator/>"
 "      <menu action='OrientationMenu'>"
@@ -1998,7 +1996,7 @@ static const gchar *menu_ui_description =
 "      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
-"      <menuitem action='Editors'/>"
+"      <menuitem action='Plugins'/>"
 "      <menuitem action='LayoutConfig'/>"
 "      <menuitem action='Maintenance'/>"
 "      <placeholder name='PreferencesSection'/>"
@@ -2007,6 +2005,8 @@ static const gchar *menu_ui_description =
 "      <menuitem action='Wallpaper'/>"
 #endif
 "      <separator/>"
+"    </menu>"
+"    <menu action='PluginsMenu'>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ViewInNewWindow'/>"

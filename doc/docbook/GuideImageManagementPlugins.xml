@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<chapter id="GuideImageManagementExternalEditing">
-  <title>External Actions</title>
-  <para>Geeqie provides the facility to execute external commands. In Geeqie these are called external editors.</para>
-  <para>However these commands are not limited to editing images - any external command may be called via this facility.</para>
+<chapter id="GuideImageManagementPlugins">
+  <title>Plugins</title>
+  <para>Geeqie provides the facility to execute external commands - any external command may be called via this facility.</para>
   <para>Actions may be performed on a single file, or on a set of selected files.</para>
-  <para>External editors can do anything from running simple operations like symlink to activating fully featured programs like Gimp. Nor does the action have to be performed on files - you may, for instance, configure an editor to download images from your digital camera.</para>
+  <para>Plugins can do anything from running simple operations like symlink to activating fully featured programs like Gimp. Nor does the action have to be performed on files - you may, for instance, configure a plugin to download images from your digital camera.</para>
   <para>
     To perform these actions, Geeqie uses standard
     <link linkend="GuideReferenceStandards">desktop</link>
@@ -12,25 +11,24 @@
   </para>
   <para>
     It is not necessary to understand the details of desktop file specifications because the
-    <link linkend="GuideEditorsConfig" endterm="titleGuideEditorsConfig" />
+    <link linkend="GuidePluginsConfig" endterm="titleGuidePluginsConfig" />
     dialogue presents you with an easy-to-use template. This dialogue is accessed via
     <menuchoice>
       <guimenu>Edit</guimenu>
-      <guimenuitem>Configure Editors</guimenuitem>
+      <guimenuitem>Configure Plugins</guimenuitem>
     </menuchoice>
     .
   </para>
   <para>
-    Editors will appear in the menu
+    Plugins will appear in the menu
     <menuchoice>
-      <guimenu>Edit</guimenu>
-      <guimenuitem>External Editors</guimenuitem>
+      <guimenu>Plugins</guimenu>
     </menuchoice>
     , unless specified otherwise in the desktop file.
   </para>
   <para />
   <para>Commands that are set to display their output in a window will show a dialogue when the command is executed.</para>
-  <para>The Result dialogue will display the command's text output. If the editor command will result in multiple runs of the same command for each file, you can use the Stop button to stop Geeqie from executing the command for remaining files.</para>
+  <para>The Result dialogue will display the command's text output. If the plugin command will result in multiple runs of the same command for each file, you can use the Stop button to stop Geeqie from executing the command for remaining files.</para>
   <para>
     Once all commands have completed, or if the Stop button was pressed and the pending command has completed, you can use the Close button, or press
     <code>Escape</code>

@@ -64,7 +64,7 @@
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideSidebars.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOtherWindows.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearch.xml" />
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageManagementExternalEditing.xml" />
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageManagementPlugins.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageManagement.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideColorManagement.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImagePresentation.xml" />

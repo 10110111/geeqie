@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<section id="GuideEditorsConfig">
-  <title id="titleGuideEditorsConfig">External Editor Configuration</title>
+<section id="GuidePluginsConfig">
+  <title id="titleGuidePluginsConfig">Plugins Configuration</title>
   <para />
-  <section id="EditorsConfigurationDialog">
-    <title>Editor Configuration Dialog</title>
+  <section id="PluginsConfigurationDialog">
+    <title>Plugins Configuration Dialog</title>
     <para>
-      This dialog allows user to add new editors or modify the system ones. It is available in the menu
+      This dialog allows user to add new plugins or modify the system ones. It is available in the menu
       <menuchoice>
         <guimenu>Edit</guimenu>
-        <guimenuitem>Configure Editors</guimenuitem>
+        <guimenuitem>Configure Plugins</guimenuitem>
       </menuchoice>
       .
     </para>
     <para>
-      The Editors dialog shows list of all relevant editors i.e. all installed desktop files that are designated either:
+      The Plugins dialog shows list of all relevant plugins i.e. all installed desktop files that are designated either:
       <itemizedlist spacing="compact">
         >
         <listitem>
@@ -32,7 +32,7 @@
           <guilabel>Name</guilabel>
         </term>
         <listitem>
-          <para>Editor name as specified in desktop file, and is the name displayed in menus.</para>
+          <para>Plugin name as specified in desktop file, and is the name displayed in menus.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -40,7 +40,7 @@
           <guilabel>Hidden</guilabel>
         </term>
         <listitem>
-          An editor can be
+          A plugin can be
           <emphasis>Hidden</emphasis>
           for one of these reasons:
           <itemizedlist>
@@ -88,8 +88,8 @@
       </varlistentry>
     </variablelist>
   </section>
-  <section id="Addingneweditor">
-    <title>Adding new editor</title>
+  <section id="Addingnewplugin">
+    <title>Adding new plugin</title>
     <para>
       <code>
         <guibutton>
@@ -105,8 +105,8 @@
     </para>
     <para />
   </section>
-  <section id="Modifyinganexistingeditor">
-    <title>Modifying an existing editor</title>
+  <section id="Modifyinganexistingplugin">
+    <title>Modifying an existing plugin</title>
     <para>
       <code>
         <guibutton>
@@ -119,8 +119,8 @@
       opens a text editor with existing desktop file. For desktop files that are not writable by user, it allows saving to a Geeqie specific directory, where it overrides the system file (but only for Geeqie).
     </para>
   </section>
-  <section id="Deletinganeditor">
-    <title>Deleting an editor</title>
+  <section id="Deletingaplugin">
+    <title>Deleting a plugin</title>
     <para>
       <code>
         <guibutton>
@@ -135,8 +135,8 @@
       , see above.
     </para>
   </section>
-  <section id="Specialeditors">
-    <title>Special editors</title>
+  <section id="Specialplugins">
+    <title>Special plugins</title>
     <para>A desktop file with one of the following names has a special function. It will replace the corresponding internal command.</para>
     <para>
       <programlisting xml:space="preserve">
@@ -159,10 +159,9 @@
       </programlisting>
     </para>
     <para>
-      A menu path where the editor will appear, instead of in the default
+      A menu path where the plugin will appear, instead of in the default
       <menuchoice>
-        <guimenu>Edit</guimenu>
-        <guimenuitem>External Editors</guimenuitem>
+        <guimenu>Plugins</guimenu>
       </menuchoice>
       , can be set by including:
       <programlisting>X-Geeqie-Menu-Path=&lt;FileMenuPath&gt;</programlisting>
@@ -184,12 +183,12 @@
         SelectMenu/ClipboardSection
         SelectMenu/MarksSection
         EditMenu/EditMenu
-        EditMenu/ExternalMenu
         EditMenu/EditSection
         EditMenu/OrientationMenu
         EditMenu/RatingMenu
         EditMenu/PropertiesSection
         EditMenu/PreferencesSection
+        PluginsMenu
         ViewMenu
         ViewMenu/WindowSection
         ViewMenu/FileDirMenu
@@ -210,7 +209,7 @@
       </programlisting>
     </para>
     <para>
-      If you want an editor to use a user-definable path, the following entry must be made in the desktop file:
+      If you want a plugin to use a user-definable path, the following entry must be made in the desktop file:
       <programlisting>X-Geeqie-Filter=true</programlisting>
     </para>
     <para>
@@ -218,7 +217,7 @@
       <link linkend="CopyMoveandLink" endterm="titleGuideSidebarsSortManager" />
       . The path of the bookmark clicked will be used by the desktop file.
       <para />
-      If the desktop file is called from the menu, when the external editor is executed you are presented with a dialogue which enables a path to be selected. The path selected, appended by the filename currently being processed, is made available to the editor script either as an environment variable or via a call to geeqie --remote. The following code demonstrates the use of both methods:
+      If the desktop file is called from the menu, when the plugin is executed you are presented with a dialogue which enables a path to be selected. The path selected, appended by the filename currently being processed, is made available to the shell script either as an environment variable or via a call to geeqie --remote. The following code demonstrates the use of both methods:
       <programlisting xml:space="preserve">
         for file in "$@"
         do
@@ -230,15 +229,15 @@
       </programlisting>
     </para>
     <para>
-      If you want to run an editor in full-screen mode and wish full-screen to be maintained, include the following entry in the desktop file:
+      If you want to run a plugin in full-screen mode and wish full-screen to be maintained, include the following entry in the desktop file:
       <programlisting>X-Geeqie-Keep-Fullscreen=true</programlisting>
     </para>
     <para>
-      Any terminal output from the editor command can be displayed with the following command:
+      Any terminal output from the plugin command can be displayed with the following command:
       <programlisting>X-Geeqie-Verbose=true</programlisting>
     </para>
     <para>
-      The editor can be restricted to run on only certain file types, for example:
+      The plugin can be restricted to run on only certain file types, for example:
       <programlisting>X-Geeqie-File-Extensions=.jpg; .cr2</programlisting>
       The entries are case insensitive.
     </para>

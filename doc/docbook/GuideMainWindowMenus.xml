@@ -543,20 +543,6 @@
       <varlistentry>
         <term>
           <menuchoice>
-            <guimenu>External Editors</guimenu>
-          </menuchoice>
-        </term>
-        <listitem>
-          <para>
-            This submenu contains external editors that were found on the system. See
-            <link linkend="GuideImageManagementExternalEditing">Editors section</link>
-            for details.
-          </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <menuchoice>
             <guimenu>Orientation</guimenu>
           </menuchoice>
         </term>
@@ -908,6 +894,25 @@
       </varlistentry>
     </variablelist>
     <para />
+  </section>
+  <section id="Pluginsmenu">
+    <title>Plugins menu</title>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <guimenu>Plugins</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>
+            This menu contains the plugins (desktop files) that were found on the system. See the
+            <link linkend="GuideImageManagementPlugins">Plugins section</link>
+            for details.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
   </section>
   <section id="Viewmenu">
     <title>View menu</title>

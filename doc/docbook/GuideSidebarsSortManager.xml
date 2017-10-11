@@ -60,7 +60,7 @@
       <title>Copy, Move, Link and Desktop actions</title>
       <para>
         Copy, Move and Symbolic Link are available operations to use on the active image; they should be self explanatory. In some cases, Desktop files are also listed. This is detailed in
-        <link linkend="Geeqieextensions" endterm="titleGuideEditorsConfig" />
+        <link linkend="Geeqieextensions" endterm="titleGuidePluginsConfig" />
       </para>
       <para />
     </section>
