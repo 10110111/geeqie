@@ -196,8 +196,8 @@
         </term>
         <listitem>
           <para>
-            Creates a symbolic link. This is implemented via an
-            <link linkend="GuideImageManagementExternalEditing">external editor</link>
+            Creates a symbolic link. This is implemented via a
+            <link linkend="GuideImageManagementPlugins">plugin</link>
             .
           </para>
         </listitem>
@@ -686,7 +686,7 @@
           <warning>
             <para>
               The file rotate.desktop, using external commands exiftran, exiv2 and mogrify, is used to implement this command. Refer to
-              <link linkend="GuideImageManagementExternalEditing">Editors section</link>
+              <link linkend="GuideImageManagementPlugins">Plugins section</link>
               for details.
             </para>
           </warning>
@@ -837,14 +837,14 @@
       <varlistentry>
         <term>
           <menuchoice>
-            <guimenu>Configure Editors…</guimenu>
+            <guimenu>Configure Plugins…</guimenu>
           </menuchoice>
         </term>
         <listitem>
           <para>
             Opens the
-            <link linkend="GuideImageManagementExternalEditing">Editors Dialog</link>
-            for changing of global preferences.
+            <link linkend="GuideImageManagementPlugins">Plugins Dialog</link>
+            for changing of desktop files.
           </para>
         </listitem>
       </varlistentry>

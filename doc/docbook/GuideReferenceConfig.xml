@@ -22,7 +22,7 @@
   </para>
   <para>
     Geeqie-created desktop files used by
-    <link linkend="GuideImageManagementExternalEditing">External Editors</link>
+    <link linkend="GuideImageManagementPlugins">Plugins</link>
     are in the folder:
     <programlisting xml:space="preserve">.../applications</programlisting>
   </para>

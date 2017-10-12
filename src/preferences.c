@@ -458,8 +458,9 @@ static void config_window_help_cb(GtkWidget *widget, gpointer data)
 	"GuideOptionsFiltering.html",
 	"GuideOptionsMetadata.html",
 	"GuideOptionsColor.html",
-	"GuideOptionsSteroa.html",
-	"GuideOptionsBehavior.html"
+	"GuideOptionsStereo.html",
+	"GuideOptionsBehavior.html",
+	"GuideOptionsToolbar.html"
 	};
 
 	i = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
