@@ -580,7 +580,11 @@ static void button_cb(ImageWindow *imd, GdkEventButton *event, gpointer data)
 	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
-			if (options->image_lm_click_nav)
+			if (options->image_l_click_video && options->image_l_click_video_editor && imd->image_fd->format_class == FORMAT_CLASS_VIDEO)
+				{
+				start_editor_from_file(options->image_l_click_video_editor, imd->image_fd);
+				}
+			else if (options->image_lm_click_nav)
 				view_step_next(vw);
 			break;
 		case MOUSE_BUTTON_MIDDLE:

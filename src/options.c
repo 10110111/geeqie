@@ -123,6 +123,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->lazy_image_sync = FALSE;
 	options->mousewheel_scrolls = FALSE;
 	options->image_lm_click_nav = TRUE;
+	options->image_l_click_video = FALSE;
+	options->image_l_click_video_editor = NULL;
 	options->open_recent_list_maxsize = 10;
 	options->place_dialogs_under_mouse = FALSE;
 

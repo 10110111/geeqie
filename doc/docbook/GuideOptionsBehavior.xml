@@ -183,6 +183,14 @@
           <para>If selected, mouse left-click will select the next image; mouse middle-click will select the previous image.</para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Play video by left click on image</guilabel>
+        </term>
+        <listitem>
+          <para>If selected, mouse left-click on an image belonging to the video class will start a program chosen in a box below.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
   </section>
   <section id="Debugging">

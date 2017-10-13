@@ -301,6 +301,8 @@ static void config_window_apply(void)
 
 	options->mousewheel_scrolls = c_options->mousewheel_scrolls;
 	options->image_lm_click_nav = c_options->image_lm_click_nav;
+	options->image_l_click_video = c_options->image_l_click_video;
+	options->image_l_click_video_editor = c_options->image_l_click_video_editor;
 
 	options->file_ops.enable_in_place_rename = c_options->file_ops.enable_in_place_rename;
 
@@ -735,6 +737,48 @@ static void add_stereo_mode_menu(GtkWidget *table, gint column, gint row, const 
 
 	g_signal_connect(G_OBJECT(combo), "changed",
 			 G_CALLBACK(stereo_mode_menu_cb), option_c);
+
+	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
+			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show(combo);
+}
+
+static void video_menu_cb(GtkWidget *combo, gpointer data)
+{
+	gchar **option = data;
+
+	EditorDescription *ed = g_list_nth_data(editor_list_get(), gtk_combo_box_get_active(GTK_COMBO_BOX(combo)));
+	*option = ed->key;
+}
+
+static void video_menu_populate(gpointer data, gpointer user_data)
+{
+	GtkWidget *combo = user_data;
+	EditorDescription *ed = data;
+
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), ed->name);
+}
+
+static void add_video_menu(GtkWidget *table, gint column, gint row, const gchar *text,
+			     gchar *option, gchar **option_c)
+{
+	GtkWidget *combo;
+	gint current;
+/* use lists since they are sorted */
+	GList *eds = editor_list_get();
+
+	*option_c = option;
+
+	pref_table_label(table, column, row, text, 0.0);
+
+	combo = gtk_combo_box_text_new();
+	g_list_foreach(eds,video_menu_populate,(gpointer)combo);
+	current = option ? g_list_index(eds,g_hash_table_lookup(editors,option)): -1;
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
+
+	g_signal_connect(G_OBJECT(combo), "changed",
+			 G_CALLBACK(video_menu_cb), option_c);
 
 	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
 			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -2220,6 +2264,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	GtkWidget *tabcomp;
 	GtkWidget *ct_button;
 	GtkWidget *spin;
+	GtkWidget *table;
 
 	vbox = scrolled_notebook_page(notebook, _("Behavior"));
 
@@ -2289,6 +2334,11 @@ static void config_tab_behavior(GtkWidget *notebook)
 			      options->mousewheel_scrolls, &c_options->mousewheel_scrolls);
 	pref_checkbox_new_int(group, _("Navigation by left or middle click on image"),
 			      options->image_lm_click_nav, &c_options->image_lm_click_nav);
+	pref_checkbox_new_int(group, _("Play video by left click on image"),
+			      options->image_l_click_video, &c_options->image_l_click_video);
+	table = pref_table_new(group, 2, 1, FALSE, FALSE);
+	add_video_menu(table, 0, 0, _("Play with:"), options->image_l_click_video_editor, &c_options->image_l_click_video_editor);
+
 
 #ifdef DEBUG
 	group = pref_group_new(vbox, FALSE, _("Debugging"), GTK_ORIENTATION_VERTICAL);

@@ -1698,7 +1698,11 @@ static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpoi
 	switch (event->button)
 		{
 		case MOUSE_BUTTON_LEFT:
-			if (options->image_lm_click_nav && lw->split_mode == SPLIT_NONE)
+			if (options->image_l_click_video && options->image_l_click_video_editor && imd->image_fd->format_class == FORMAT_CLASS_VIDEO)
+				{
+				start_editor_from_file(options->image_l_click_video_editor, imd->image_fd);
+				}
+			else if (options->image_lm_click_nav && lw->split_mode == SPLIT_NONE)
 				layout_image_next(lw);
 			break;
 		case MOUSE_BUTTON_MIDDLE:
