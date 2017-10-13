@@ -29,6 +29,7 @@
 #include "exif.h"
 #include "filedata.h"
 #include "fullscreen.h"
+#include "history_list.h"
 #include "image.h"
 #include "image-overlay.h"
 #include "img-view.h"
@@ -1692,6 +1693,7 @@ static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpoi
 {
 	LayoutWindow *lw = data;
 	GtkWidget *menu;
+	FileData *dir_fd;
 
 	switch (event->button)
 		{
@@ -1710,6 +1712,16 @@ static void layout_image_button_cb(ImageWindow *imd, GdkEventButton *event, gpoi
 				g_object_set_data(G_OBJECT(menu), "click_parent", imd->widget);
 				}
 			gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, event->time);
+			break;
+		case MOUSE_BUTTON_BACK:
+			dir_fd = file_data_new_dir(history_chain_back());
+			layout_set_fd(lw, dir_fd);
+			file_data_unref(dir_fd);
+			break;
+		case MOUSE_BUTTON_FORWARD:
+			dir_fd = file_data_new_dir(history_chain_forward());
+			layout_set_fd(lw, dir_fd);
+			file_data_unref(dir_fd);
 			break;
 		default:
 			break;

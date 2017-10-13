@@ -169,6 +169,24 @@
           <row>
             <entry />
             <entry>
+              <code>Mouse button 8</code>
+              <footnote id='ref2'>
+                <para>Requires a multi-button mouse.</para>
+              </footnote>
+            </entry>
+            <entry>Forward</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>
+              <code>Mouse button 9</code>
+              <footnoteref linkend='ref2' />
+            </entry>
+            <entry>Back</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>
               <code>Shift + right-click</code>
             </entry>
             <entry>Smooth scroll</entry>
