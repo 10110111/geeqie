@@ -115,7 +115,7 @@ static const UseableToolbarItems useable_toolbar_items[] = {
 	{"SBar",	N_("Info sidebar"), GTK_STOCK_FILE},
 	{"SBarSort",	N_("Sort manager"), GTK_STOCK_FILE},
 	{"Quit",	N_("Quit"), GTK_STOCK_QUIT},
-	{NULL,		NULL}
+	{NULL,		NULL, NULL}
 };
 
 /**
