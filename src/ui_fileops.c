@@ -744,7 +744,9 @@ gchar *remove_level_from_path(const gchar *path)
 	if (!path) return NULL;
 
 	base = strrchr(path, G_DIR_SEPARATOR);
-	if (base) return g_strndup(path, strlen(path)-strlen(base));
+	/* Take account of a file being in the root ( / ) folder - ensure the returned value
+	 * is at least one character long */
+	if (base) return g_strndup(path, (strlen(path)-strlen(base)) == 0 ? 1 : (strlen(path)-strlen(base)));
 
 	return NULL;
 }
