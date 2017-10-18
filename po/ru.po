@@ -1134,9 +1134,7 @@ msgstr "Значение порога похожести:"
 #: ../src/editors.c:289
 #, c-format
 msgid "Desktop file '%s' should not include extension in Icon key: '%s'\n"
-msgstr ""
-"Ссылка '%s' на рабочем столе не должна содержать расширения для значения "
-"пиктограммы (Icon): '%s'\n"
+msgstr "Поле Icon в файле %s не должно содержать расширение %s\n"
 
 #. flash fired (bit 0)
 #: ../src/editors.c:343 ../src/exif.c:220 ../src/exif-common.c:374
