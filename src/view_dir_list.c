@@ -320,30 +320,21 @@ gboolean vdlist_set_fd(ViewDir *vd, FileData *dir_fd)
 
 	ret = vdlist_populate(vd, TRUE);
 
-	if (old_path)
+	/* scroll to make last path visible */
+	FileData *found = NULL;
+	GList *work;
+
+	work = VDLIST(vd)->list;
+	while (work && !found)
 		{
-		/* scroll to make last path visible */
-		FileData *found = NULL;
-		GList *work;
-
-		work = VDLIST(vd)->list;
-		while (work && !found)
-			{
-			FileData *fd = work->data;
-			if (strcmp(old_path, fd->name) == 0) found = fd;
-			work = work->next;
-			}
-
-		if (found) vdlist_scroll_to_row(vd, found, 0.5);
-
-		g_free(old_path);
-		return ret;
+		FileData *fd = work->data;
+		if (!old_path || strcmp(old_path, fd->name) == 0) found = fd;
+		work = work->next;
 		}
 
-	if (gtk_widget_get_realized(vd->view))
-		{
-		gtk_tree_view_scroll_to_point(GTK_TREE_VIEW(vd->view), 0, 0);
-		}
+	if (found) vdlist_scroll_to_row(vd, found, 0.5);
+
+	if (old_path) g_free(old_path);
 
 	return ret;
 }
