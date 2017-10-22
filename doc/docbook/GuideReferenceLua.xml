@@ -4,7 +4,9 @@
   <para>
     Lua scripts allow the functionality of Geeqie to be extended. Lua scripts may only be used in conjunction with the
     <link linkend="OverlayScreenDisplay">Overlay Screen Display</link>
-    .
+    and the
+    <programlisting xml:space="preserve">geeqie --remote --lua:</programlisting>
+    command line option.
   </para>
   <para />
   <para>Some knowledge of the Lua programming language is required.</para>
@@ -63,6 +65,10 @@
               <entry>The file size in bytes</entry>
             </row>
             <row>
+              <entry>Image:get_marks()</entry>
+              <entry>An integer representing the marks set for the file</entry>
+            </row>
+            <row>
               <entry>Image:get_exif()</entry>
               <entry>A data structure containing the entire exif data</entry>
             </row>
@@ -101,6 +107,8 @@
   </section>
   <section id="Warning">
     <title>Warning</title>
-    <warning><para>Lua is a powerful programming language. Errors in script files, besides having undesirable side-effects, may cause Geeqie to crash.</para></warning>
+    <warning>
+      <para>Lua is a powerful programming language. Errors in script files, besides having undesirable side-effects, may cause Geeqie to crash.</para>
+    </warning>
   </section>
 </section>

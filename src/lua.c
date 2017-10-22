@@ -113,6 +113,15 @@ static int lua_image_get_size(lua_State *L)
 	return 1;
 }
 
+static int lua_image_get_marks(lua_State *L)
+{
+	FileData *fd;
+
+	fd = lua_check_image(L, 1);
+	lua_pushnumber(L, fd->marks);
+	return 1;
+}
+
 static ExifData *lua_check_exif(lua_State *L, int index)
 {
 	ExifData **exif;
@@ -184,6 +193,7 @@ void lua_init(void)
 			{"get_date", lua_image_get_date},
 			{"get_size", lua_image_get_size},
 			{"get_exif", lua_image_get_exif},
+			{"get_marks", lua_image_get_marks},
 			{NULL, NULL}
 	};
 	luaL_register(L, "Image", image_methods);

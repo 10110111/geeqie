@@ -39,6 +39,7 @@
 #include <signal.h>
 #include <errno.h>
 
+#include "glua.h"
 
 #define SERVER_MAX_CLIENTS 8
 
@@ -698,6 +699,37 @@ static void gr_raise(const gchar *text, GIOChannel *channel, gpointer data)
 		}
 }
 
+static void gr_lua(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gchar *result = NULL;
+	gchar **lua_command;
+
+	lua_command = g_strsplit(text, ",", 2);
+
+	if (lua_command[0] && lua_command[1])
+		{
+		FileData *fd = file_data_new_group(lua_command[0]);
+		result = g_strdup(lua_callvalue(fd, lua_command[1], NULL));
+		if (result)
+			{
+			g_io_channel_write_chars(channel, result, -1, NULL, NULL);
+			}
+		else
+			{
+			g_io_channel_write_chars(channel, N_("lua error: no data"), -1, NULL, NULL);
+			}
+		}
+	else
+		{
+		g_io_channel_write_chars(channel, N_("lua error: no data"), -1, NULL, NULL);
+		}
+
+	g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+	g_strfreev(lua_command);
+	g_free(result);
+}
+
 typedef struct _RemoteCommandEntry RemoteCommandEntry;
 struct _RemoteCommandEntry {
 	gchar *opt_s;
@@ -743,6 +775,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ "-crr:", "--cache-render-recurse:", gr_cache_render_recurse, TRUE, FALSE, N_("<folder> "), N_("render thumbnails recursively") },
 	{ "-crs:", "--cache-render-shared:", gr_cache_render_standard, TRUE, FALSE, N_("<folder> "), N_(" render thumbnails (see Help)") },
 	{ "-crsr:", "--cache-render-shared-recurse:", gr_cache_render_standard_recurse, TRUE, FALSE, N_("<folder>"), N_(" render thumbnails recursively (see Help)") },
+	{ NULL, "--lua:",               gr_lua,                 TRUE, FALSE, N_("<FILE>,<lua script>"), N_("run lua script on FILE") },
 	{ NULL, NULL, NULL, FALSE, FALSE, NULL, NULL }
 };
 
