@@ -674,9 +674,7 @@ static gboolean collect_manager_process_action(CollectManagerEntry *entry, gchar
 
 	if (action)
 		{
-		g_free(path);
-		path = g_strdup(action->newpath);
-		*path_ptr = path;
+		strcpy(*path_ptr, action->newpath);
 		return TRUE;
 		}
 
