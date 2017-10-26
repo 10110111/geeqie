@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideReferencePixbufLoaders">
+  <title id="GuideReferencePixbufLoaders">Additional pixbuf loaders</title>
+  <para>
+    Geeqie is limited to displaying files for which there are existing pixbuf loaders. In addition to the standard ones included with most distributions, the following loaders may also work.
+    <para />
+    However, you are required to compile and install them yourself.
+  </para>
+  <section id="webp">
+    <title>webp</title>
+    <para>
+      <programlisting>https://github.com/aruiz/webp-pixbuf-loader</programlisting>
+    </para>
+    <para />
+  </section>
+  <section id="xcf">
+    <title>xcf</title>
+    <para>
+      <programlisting>https://gitorious.org/xcf-pixbuf-loader/mainline?p=xcf-pixbuf-loader:mainline.git;a=summary</programlisting>
+    </para>
+  </section>
+  <section id="psd">
+    <title>psd</title>
+    <para>
+      <programlisting>https://cgit.sukimashita.com/gdk-pixbuf-psd.git/</programlisting>
+    </para>
+  </section>
+</section>
