@@ -9,7 +9,7 @@
 # ChangeLog.html is also created
 
 [ ! -e "ChangeLog" ] && exit 1
-[ ! -x "$(command -v git)" ] && exit 1
+[ ! -x "$(command -v git)" ] && exit 0
 
 tail -6614 ChangeLog > ChangeLog.$$.old && \
 LC_ALL=C git log --no-merges --no-notes --encoding=UTF-8 --no-follow 1b58572cf58e9d2d4a0305108395dab5c66d3a09..HEAD > ChangeLog.$$.new && \
