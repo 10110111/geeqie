@@ -2420,6 +2420,15 @@ static void collection_table_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCel
 	ct = cd->ct;
 
 	gtk_tree_model_get(tree_model, iter, CTABLE_COLUMN_POINTER, &list, -1);
+
+#if GTK_CHECK_VERSION(3,0,0)
+	/* FIXME this is a primitive hack to stop a crash.
+	 * When compiled with GTK3, if a Collection window containing
+	 * say, 50 or so, images has its width changed, there is a segfault
+	 * https://github.com/BestImageViewer/geeqie/issues/531
+	 */
+	if (cd->number == COLLECT_TABLE_MAX_COLUMNS) return;
+#endif
 	info = g_list_nth_data(list, cd->number);
 
 	style = gtk_widget_get_style(ct->listview);
