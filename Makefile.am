@@ -31,3 +31,10 @@ dist-hook: geeqie.spec
 	cp $(top_builddir)/geeqie.spec $(distdir)
 
 DISTCLEANFILES = config.report
+
+.PHONY: ChangeLog.html
+ChangeLog.html:
+	./gen_changelog.sh
+
+README.html: README.md
+	./gen_readme.sh
