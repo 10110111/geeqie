@@ -699,6 +699,7 @@ static void gr_raise(const gchar *text, GIOChannel *channel, gpointer data)
 		}
 }
 
+#ifdef HAVE_LUA
 static void gr_lua(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *result = NULL;
@@ -729,6 +730,7 @@ static void gr_lua(const gchar *text, GIOChannel *channel, gpointer data)
 	g_strfreev(lua_command);
 	g_free(result);
 }
+#endif
 
 typedef struct _RemoteCommandEntry RemoteCommandEntry;
 struct _RemoteCommandEntry {
@@ -775,7 +777,9 @@ static RemoteCommandEntry remote_commands[] = {
 	{ "-crr:", "--cache-render-recurse:", gr_cache_render_recurse, TRUE, FALSE, N_("<folder> "), N_("render thumbnails recursively") },
 	{ "-crs:", "--cache-render-shared:", gr_cache_render_standard, TRUE, FALSE, N_("<folder> "), N_(" render thumbnails (see Help)") },
 	{ "-crsr:", "--cache-render-shared-recurse:", gr_cache_render_standard_recurse, TRUE, FALSE, N_("<folder>"), N_(" render thumbnails recursively (see Help)") },
+#ifdef HAVE_LUA
 	{ NULL, "--lua:",               gr_lua,                 TRUE, FALSE, N_("<FILE>,<lua script>"), N_("run lua script on FILE") },
+#endif
 	{ NULL, NULL, NULL, FALSE, FALSE, NULL, NULL }
 };
 
