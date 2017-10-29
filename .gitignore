@@ -84,3 +84,5 @@ Makefile.in
 
 # That two files are autocreated(!)
 /src/gq-marshal.[ch]
+ChangeLog.html
+README.html
