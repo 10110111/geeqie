@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section id="GuideReferenceSupportedFormats">
   <title id="titleGuideReferenceSupportedFormats">Supported File Formats</title>
-  <para>TBD
+  <para>3FR, ANI, APM, ARW, BMP, CR2, CRW, CUR, DNG, ERF, GIF, ICNS, ICO, JPE/JPEG/JPG, JPS, KDC, MEF, MPO, MOS, MRW, NEF, ORF, PEF, PTX, PBM/PGM/PNM/PPM, PNG, QIF/QTIF (QuickTime Image Format), RAF, RAW, RW2, SR2, SRF, SVG/SVGZ, TGA/TARGA, TIF/TIFF, WMF, XBM, XPM. Animated GIFs are supported.</para>
+  <para>
+    Refer to
+    <link linkend="GuideReferencePixbufLoaders" endterm="titleGuideReferencePixbufLoaders" />
+    for additional information.
   </para>
 </section>
