@@ -23,7 +23,7 @@ Geeqie \- GTK based multiformat image viewer
 
 .SH OPTIONS
 .B
-.IP +t,\-\-with\-tools
+.IP \+t,\-\-with\-tools
 Force the toolbox to be shown.
 .br
 .B
@@ -39,12 +39,40 @@ Start in full screen mode.
 Start in slideshow mode.
 .br
 .B
-.IP \-l,\-\-list
+.IP \-l,\-\-list[files...][collections...]
 Open collection window for command line files.
 .br
 .B
-.IP \-\-debug
+.IP \-\-blank
+Start with blank file list.
+.br
+.B
+.IP \-\-geometry=XxY+XOFF+YOFF
+Set main window location.
+.br
+.B
+.IP \-r,\-\-remote
+Send following commands to open window.
+.br
+.B
+.IP \-rh,\-\-remote-help
+Print remote command list.
+.br
+.B
+.IP \-\-debug[=level]
 Turn on debugging output.
+.br
+.B
+.IP \-g:<regexp>,\-\-grep:<regexp>
+Filter debug output.
+.br
+.B
+.IP \+w,\-\-show-log-window
+Show log window.
+.br
+.B
+.IP \-o:<FILE>,\-\-log-file:<FILE>
+Save log data to FILE.
 .br
 .B
 .IP \-v,\-\-version
@@ -53,6 +81,136 @@ Print version.
 .B
 .IP \-h,\-\-help
 Print command line options.
+
+.SH REMOTE OPTIONS
+.B
+.IP \-n,\-\-next
+Next image.
+.br
+.B
+.IP \-b,\-\-back
+Previous image.
+.br
+.B
+.IP \-\-first
+First image.
+.br
+.B
+.IP \-\-last
+Last image.
+.br
+.B
+.IP \-f,\-\-fullscreen
+Toggle full screen.
+.br
+.B
+.IP \-fs,\-\-fullscreen-start
+Start full screen.
+.br
+.B
+.IP \-fS,\-\-fullscreen-stop
+Stop full screen.
+.br
+.B
+.IP \-s,\-\-slideshow
+Toggle slideshow.
+.br
+.B
+.IP \-ss,\-\-slideshow-start
+Start slideshow.
+.br
+.B
+.IP \-sS,\-\-slideshow-stop
+Stop slideshow.
+.br
+.B
+.IP \-\-slideshow-recurse:<FOLDER>
+Start recursive slide show in FOLDER.
+.br
+.B
+.IP \-d<[N][.M]>,\-\-delay=<[N][.M]>
+Set slide show delay to N.M seconds.
+.br
+.B
+.IP \+t,\-\-tools-show
+Show tools.
+.br
+.B
+.IP \-t,\-\-tools-hide
+Hide tools.
+.br
+.B
+.IP \-\-config-load:<FILE>
+Load configuration from FILE.
+.br
+.B
+.IP \-\-get-sidecars:<FILE>
+Get list of sidecars of FILE.
+.br
+.B
+.IP \-\-get-destination:<FILE>
+Get destination path of FILE.
+.br
+.B
+.IP \-\-file:<FILE>
+Open FILE, bring Geeqie window to the top.
+.br
+.B
+.IP \-\-File:<FILE>
+Open FILE, do not bring Geeqie window to the top.
+.br
+.B
+.IP \-\-tell
+Print filename of current image.
+.br
+.B
+.IP \-\-view:<FILE>
+Open FILE in new window.
+.br
+.B
+.IP \-\-list-clear
+Clear command line collection list.
+.br
+.B
+.IP \-\-list-add:<FILE>
+Add FILE to command line collection list.
+.br
+.B
+.IP raise
+Bring the Geeqie window to the top.
+.br
+.B
+.IP \-ct:clear|clean,\-\-cache-thumbs:clear|clean
+Clear or clean thumbnail cache.
+.br
+.B
+.IP \-cs:clear|clean,\-\-cache-shared:clear|clean
+Clear or clean shared thumbnail cache.
+.br
+.B
+.IP \-cm,\-\-cache-metadata
+Clean metadata cache.
+.br
+.B
+.IP \-cr:<folder>,\-\-cache-render:<folder>
+Render thumbnails.
+.br
+.B
+.IP \-crr:<folder>,\-\-cache-render-recurse:<folder>
+Render thumbnails recursively.
+.br
+.B
+.IP \-crs:<folder>,\-\-cache-render-shared:<folder>
+Render thumbnails (see Help).
+.br
+.B
+.IP \-crsr:<folder>,\-\-cache-render-shared-recurse:<folder>
+Render thumbnails recursively (see Help).
+.br
+.B
+.IP \-\-lua:<FILE>,<lua-script>
+Run lua script on FILE.
+.br
 
 .SH USAGE
 Key naming is similar to that of \fBemacs\fP(1): \fIC-key\fP indicates that control should be held, and key should be pressed; \fIS-key\fP  indicates that shift should be held and key should be pressed; these two can be combined, also, into \fIC-S-key\fP.
@@ -469,10 +627,11 @@ close window
 
 .SH LICENSE
 Copyright (C) 1999-2004 by John Ellis.
+Copyright (C) 2004-2017 by The Geeqie Team.
 Use this software at your own risk!  
 This software released under the GNU General Public License. Please read the COPYING file for more information.
 .SH BUGS
-Please send bug reports and feedback to geeqie-devel@lists.sourceforge.net
+Please send bug reports and feedback to https://github.com/BestImageViewer/geeqie/issues
 .SH AUTHOR
 .B John Ellis
 <johne@verizon.net>
