@@ -514,6 +514,11 @@ AM_CONDITIONAL(HAVE_LUA, [test "x$HAVE_LUA" = xyes])
 AC_SUBST(LUA_CFLAGS)
 AC_SUBST(LUA_LIBS)
 
+#  Markdown support
+# ----------------------------------------------------------------------
+
+AM_CONDITIONAL(HAVE_MARKDOWN, [ "$(command -v markdown)" ])
+
 # ----------------------------------------------------------------------
 
 AH_TOP([
