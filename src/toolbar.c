@@ -240,6 +240,13 @@ static void toolbar_item_free(ToolbarButtonData *tbbd)
 	g_free(tbbd);
 }
 
+static void toolbar_button_free(GtkWidget *widget)
+{
+	g_free(g_object_get_data(G_OBJECT(widget), "toolbar_add_name"));
+	g_free(g_object_get_data(G_OBJECT(widget), "toolbar_add_label"));
+	g_free(g_object_get_data(G_OBJECT(widget), "toolbar_add_stock_id"));
+}
+
 static void toolbarlist_add_button(const gchar *name, const gchar *label,
 									const gchar *stock_id, GtkBox *box)
 {
@@ -330,7 +337,7 @@ static void get_desktop_data(const gchar *name, gchar **label, gchar **stock_id)
 		if (g_strcmp0(name, editor->key) == 0)
 			{
 			*label = g_strdup(editor->name);
-			*stock_id = g_strdup(editor->icon);
+			*stock_id = g_strconcat(editor->icon, ".desktop", NULL);
 			break;
 			}
 		work = work->next;
@@ -357,6 +364,7 @@ static void toolbar_menu_add_popup(GtkWidget *widget, gpointer data)
 		g_object_set_data(G_OBJECT(item), "toolbar_add_name", g_strdup(list->name));
 		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(list->label));
 		g_object_set_data(G_OBJECT(item), "toolbar_add_stock_id", g_strdup(list->stock_id));
+		g_signal_connect(G_OBJECT(item), "destroy", G_CALLBACK(toolbar_button_free), item);
 		list++;
 		}
 
@@ -368,11 +376,14 @@ static void toolbar_menu_add_popup(GtkWidget *widget, gpointer data)
 		const EditorDescription *editor = work->data;
 
 		GtkWidget *item;
-		item = menu_item_add_stock(menu, editor->name, editor->icon,
+		gchar *icon = g_strconcat(editor->icon, ".desktop", NULL);
+
+		item = menu_item_add_stock(menu, editor->name, icon,
 										G_CALLBACK(toolbarlist_add_cb), toolbarlist);
 		g_object_set_data(G_OBJECT(item), "toolbar_add_name", g_strdup(editor->key));
 		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(editor->name));
-		g_object_set_data(G_OBJECT(item), "toolbar_add_stock_id", g_strdup(editor->icon));
+		g_object_set_data(G_OBJECT(item), "toolbar_add_stock_id", icon);
+		g_signal_connect(G_OBJECT(item), "destroy", G_CALLBACK(toolbar_button_free), item);
 		work = work->next;
 		}
 	g_list_free(editors_list);
