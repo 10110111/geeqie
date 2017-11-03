@@ -82,7 +82,8 @@ Makefile.in
 /debian/files
 /doc/html/
 
-# That two files are autocreated(!)
+# The files that are autocreated(!)
 /src/gq-marshal.[ch]
 ChangeLog.html
 README.html
+ChangeLog

@@ -3,21 +3,16 @@
 # Script to update ChangeLog file,
 # it keeps "pre-svn" history and inserts git log at top,
 # it uses C locale for date format.
-# It has to be run where ChangeLog is.
-# Old ChangeLog is saved as ChangeLog.bak
+# It has to be run where ChangeLog.gqview is.
 #
 # ChangeLog.html is also created
 
-[ ! -e "ChangeLog" ] && exit 1
+[ ! -e "ChangeLog.gqview" ] && exit 1
 [ ! -x "$(command -v git)" ] && exit 0
 
-tail -6614 ChangeLog > ChangeLog.$$.old && \
 LC_ALL=C git log --no-merges --no-notes --encoding=UTF-8 --no-follow --use-mailmap 1b58572cf58e9d2d4a0305108395dab5c66d3a09..HEAD > ChangeLog.$$.new && \
-cat ChangeLog.$$.old >> ChangeLog.$$.new && \
-mv -f ChangeLog ChangeLog.bak && \
+cat ChangeLog.gqview >> ChangeLog.$$.new && \
 mv -f ChangeLog.$$.new ChangeLog
-
-rm -f ChangeLog.$$.old
 
 
 echo "<textarea rows='6614' cols='100'>" >ChangeLog.$$.old.html && \
