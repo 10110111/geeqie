@@ -37,7 +37,7 @@ dist-hook: geeqie.spec
 
 DISTCLEANFILES = config.report
 
-.PHONY: ChangeLog.html
+.PHONY: ChangeLog
 ChangeLog.html:
 	./gen_changelog.sh
 
