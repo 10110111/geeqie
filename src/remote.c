@@ -492,15 +492,47 @@ static void gr_slideshow_stop(const gchar *text, GIOChannel *channel, gpointer d
 
 static void gr_slideshow_delay(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	gdouble n;
+	gdouble t1, t2, t3, n;
+	gint res;
 
-	n = g_ascii_strtod(text, NULL);
-	if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS)
+	res = sscanf(text, "%lf:%lf:%lf", &t1, &t2, &t3);
+	if (res == 3)
 		{
-		printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
-			    SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
-		return;
+		n = (t1 * 3600) + (t2 * 60) + t3;
+		if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS ||
+				t1 >= 24 || t2 >= 60 || t3 >= 60)
+			{
+			printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
+								SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
+			return;
+			}
 		}
+	else if (res == 2)
+		{
+		n = t1 * 60 + t2;
+		if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS ||
+				t1 >= 60 || t2 >= 60)
+			{
+			printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
+								SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
+			return;
+			}
+		}
+	else if (res == 1)
+		{
+		n = t1;
+		if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS)
+			{
+			printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
+								SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
+			return;
+			}
+		}
+	else
+		{
+		n = 0;
+		}
+
 	options->slideshow.delay = (gint)(n * 10.0 + 0.01);
 }
 
@@ -756,7 +788,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ "-ss","--slideshow-start",    gr_slideshow_start,     FALSE, FALSE, NULL, N_("start slide show") },
 	{ "-sS","--slideshow-stop",     gr_slideshow_stop,      FALSE, FALSE, NULL, N_("stop slide show") },
 	{ NULL, "--slideshow-recurse:", gr_slideshow_start_rec, TRUE,  FALSE, N_("<FOLDER>"), N_("start recursive slide show in FOLDER") },
-	{ "-d", "--delay=",             gr_slideshow_delay,     TRUE,  FALSE, N_("<[N][.M]>"), N_("set slide show delay to N.M seconds") },
+	{ "-d", "--delay=",             gr_slideshow_delay,     TRUE,  FALSE, N_("<[H:][M:][N][.M]>"), N_("set slide show delay to Hrs Mins N.M seconds") },
 	{ "+t", "--tools-show",         gr_tools_show,          FALSE, TRUE,  NULL, N_("show tools") },
 	{ "-t", "--tools-hide",	        gr_tools_hide,          FALSE, TRUE,  NULL, N_("hide tools") },
 	{ "-q", "--quit",               gr_quit,                FALSE, FALSE, NULL, N_("quit") },
