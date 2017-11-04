@@ -3038,7 +3038,7 @@ void file_util_copy_path_to_clipboard(FileData *fd)
 
 	if (!fd || !*fd->path) return;
 
-	clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+	clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 	gtk_clipboard_set_text(clipboard, g_shell_quote(fd->path), -1);
 }
 
@@ -3048,7 +3048,7 @@ void file_util_copy_path_list_to_clipboard(GList *list)
 	GList *work;
 	GString *new;
 
-	clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+	clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 
 	new = g_string_new("");
 	work = list;
