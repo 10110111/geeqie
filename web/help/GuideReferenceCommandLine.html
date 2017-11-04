@@ -422,7 +422,7 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideSidebars.html" title="Sidebars">Sidebars</a></li>
 <li><a class="xref" href="GuideOtherWindows.html" title="Stand-alone Windows">Stand-alone Windows</a></li>
 <li><a class="xref" href="GuideImageSearch.html" title="Search and Select">Search and Select</a></li>
-<li><a class="xref" href="GuideImageManagementExternalEditing.html" title="External Actions">External Actions</a></li>
+<li><a class="xref" href="GuideImageManagementPlugins.html" title="Plugins">Plugins</a></li>
 <li><a class="xref" href="GuideImageManagement.html" title="File Management">File Management</a></li>
 <li><a class="xref" href="GuideColorManagement.html" title="Color Management">Color Management</a></li>
 <li><a class="xref" href="GuideImagePresentation.html" title="Image Presentation">Image Presentation</a></li>
@@ -440,6 +440,7 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideReferenceLIRC.html" title="Infra-red controller">Infra-red controller</a></li>
 <li><a class="xref" href="GuideReferenceXmpExif.html" title="XMP, Exif and IPTC">XMP, Exif and IPTC</a></li>
 <li><a class="xref" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">Supported File Formats</a></li>
+<li><a class="xref" href="GuideReferencePixbufLoaders.html" title="Additional pixbuf loaders">Additional pixbuf loaders</a></li>
 <li><a class="xref" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></li>
 <li><a class="xref" href="GuideReferenceStandards.html" title="Standards">Standards</a></li>
 </ul></div>
@@ -459,7 +460,8 @@ dd.answer div.label { float: left; }
 </ul>
 <p class="para block block-first">
     Geeqie is called by the command:
-    <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">      geeqie [options] [path_to_file_or_collection] <a name="-noteref-ref1"></a><sup><a class="footnote" href="#ref1">1</a></sup>
+    <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">      geeqie [options] [path_to_file_or_collection]
+      <a name="-noteref-ref1"></a><sup><a class="footnote" href="#ref1">1</a></sup>
     </pre></div>
   </p>
 <p class="para block">These are the command line options available to Geeqie:</p>
@@ -622,9 +624,9 @@ dd.answer div.label { float: left; }
 <td class="td-rowsep">Start recursive slide show for &lt;folder&gt; in main window.</td>
 </tr>
 <tr class="tr-shade">
-<td class="td-colsep td-rowsep">-d&lt;[n][.m]&gt;</td>
-<td class="td-colsep td-rowsep">--delay=&lt;[n][.m]&gt;</td>
-<td class="td-rowsep">Set slide show delay to &lt;[n][.m]&gt; seconds, range is 0.1 to 3600</td>
+<td class="td-colsep td-rowsep">-d&lt;[h:][m:][n][.m]&gt;</td>
+<td class="td-colsep td-rowsep">--delay=&lt;[h:][m:][n][.m]&gt;</td>
+<td class="td-rowsep">Set slide show delay to &lt;[hrs:][mins:][n][.m]&gt; seconds, range is 0.1 secs to 24 hours</td>
 </tr>
 <tr>
 <td class="td-colsep td-rowsep">+t</td>
@@ -725,9 +727,14 @@ dd.answer div.label { float: left; }
             </td>
 </tr>
 <tr class="tr-shade">
-<td class="td-colsep">-crsr:&lt;folder&gt;</td>
-<td class="td-colsep">--cache-render-shared-recurse:&lt;folder&gt;</td>
-<td>render thumbnails recursively</td>
+<td class="td-colsep td-rowsep">-crsr:&lt;folder&gt;</td>
+<td class="td-colsep td-rowsep">--cache-render-shared-recurse:&lt;folder&gt;</td>
+<td class="td-rowsep">render thumbnails recursively</td>
+</tr>
+<tr>
+<td class="td-colsep"></td>
+<td class="td-colsep">--lua:&lt;file&gt;,&lt;lua script&gt;</td>
+<td>run lua script on file</td>
 </tr>
 </tbody>
 </table></div>

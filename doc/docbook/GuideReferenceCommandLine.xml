@@ -172,9 +172,9 @@
             <entry>Start recursive slide show for &lt;folder&gt; in main window.</entry>
           </row>
           <row>
-            <entry>-d&lt;[n][.m]&gt;</entry>
-            <entry>--delay=&lt;[n][.m]&gt;</entry>
-            <entry>Set slide show delay to &lt;[n][.m]&gt; seconds, range is 0.1 to 3600</entry>
+            <entry>-d&lt;[h:][m:][n][.m]&gt;</entry>
+            <entry>--delay=&lt;[h:][m:][n][.m]&gt;</entry>
+            <entry>Set slide show delay to &lt;[hrs:][mins:][n][.m]&gt; seconds, range is 0.1 secs to 24 hours</entry>
           </row>
           <row>
             <entry>+t</entry>
@@ -277,14 +277,14 @@
             </entry>
           </row>
           <row>
-            <entry />
-            <entry>--lua:&lt;file&gt;,&lt;lua script&gt;</entry>
-            <entry>run lua script on file</entry>
-          </row>
-          <row>
             <entry>-crsr:&lt;folder&gt;</entry>
             <entry>--cache-render-shared-recurse:&lt;folder&gt;</entry>
             <entry>render thumbnails recursively</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--lua:&lt;file&gt;,&lt;lua script&gt;</entry>
+            <entry>run lua script on file</entry>
           </row>
         </tbody>
       </tgroup>

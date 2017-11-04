@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Behavior Options</title>
-<link rel="previous" href="GuideOptionsStereo.html" title="Stereo image management">
-<link rel="next" href="GuideOptionsToolbar.html" title="Toolbar">
+<title>Additional pixbuf loaders</title>
+<link rel="previous" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">
+<link rel="next" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">
 <link rel="top" href="GuideIndex.html" title="The Geeqie User Manual">
 <style type="text/css">
 
@@ -410,8 +410,8 @@ dd.answer div.label { float: left; }
 </head>
 <body>
 <div class="navbar navbar-top"><table class="navbar"><tr>
-<td class="navbar-prev"><a class="navbar-prev" href="GuideOptionsStereo.html" title="Stereo image management">Stereo image management</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuideOptionsToolbar.html" title="Toolbar">Toolbar</a></td>
+<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">Supported File Formats</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></td>
 </tr></table></div>
 <div class="sidebar"><div class="sidenav"><div class="autotoc"><ul>
 <li><a href="GuideIndex-info.html" title="About This Document">About This Document</a></li>
@@ -427,22 +427,24 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideColorManagement.html" title="Color Management">Color Management</a></li>
 <li><a class="xref" href="GuideImagePresentation.html" title="Image Presentation">Image Presentation</a></li>
 <li><a class="xref" href="GuidePrinting.html" title="Printing">Printing</a></li>
+<li><a class="xref" href="GuideOptionsMain.html" title="Preferences">Preferences</a></li>
+<li><a class="xref" href="GuideOptionsAdditional.html" title="Additional Preferences">Additional Preferences</a></li>
 <li>
-<a class="xref" href="GuideOptionsMain.html" title="Preferences">Preferences</a><div class="autotoc"><ul>
-<li><a class="xref" href="GuideOptionsGeneral.html" title="General Options">General Options</a></li>
-<li><a class="xref" href="GuideOptionsImage.html" title="Image Options">Image Options</a></li>
-<li><a class="xref" href="GuideOptionsWindow.html" title="Window Options">Window Options</a></li>
-<li><a class="xref" href="GuideOptionsKeyboard.html" title="Keyboard Options">Keyboard Options</a></li>
-<li><a class="xref" href="GuideOptionsFiltering.html" title="Files Options">Files Options</a></li>
-<li><a class="xref" href="GuideOptionsMetadata.html" title="Metadata">Metadata</a></li>
-<li><a class="xref" href="GuideOptionsColor.html" title="Color management options">Color management options</a></li>
-<li><a class="xref" href="GuideOptionsStereo.html" title="Stereo image management">Stereo image management</a></li>
-<li>Behavior Options</li>
-<li><a class="xref" href="GuideOptionsToolbar.html" title="Toolbar">Toolbar</a></li>
+<a class="xref" href="GuideReference.html" title="Reference">Reference</a><div class="autotoc"><ul>
+<li><a class="xref" href="GuideReferenceCommandLine.html" title="Command Line Options">Command Line Options</a></li>
+<li><a class="xref" href="GuideReferenceKeyboardShortcuts.html" title="Keyboard and Mouse Shortcuts">Keyboard and Mouse Shortcuts</a></li>
+<li><a class="xref" href="GuideReferenceThumbnails.html" title="Thumbnails">Thumbnails</a></li>
+<li><a class="xref" href="GuideReferenceMetadata.html" title="Metadata Processing">Metadata Processing</a></li>
+<li><a class="xref" href="GuideReferenceLua.html" title="Lua Extensions">Lua Extensions</a></li>
+<li><a class="xref" href="GuideReferenceConfig.html" title="Configuration Files and Locations">Configuration Files and Locations</a></li>
+<li><a class="xref" href="GuideReferenceLIRC.html" title="Infra-red controller">Infra-red controller</a></li>
+<li><a class="xref" href="GuideReferenceXmpExif.html" title="XMP, Exif and IPTC">XMP, Exif and IPTC</a></li>
+<li><a class="xref" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">Supported File Formats</a></li>
+<li>Additional pixbuf loaders</li>
+<li><a class="xref" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></li>
+<li><a class="xref" href="GuideReferenceStandards.html" title="Standards">Standards</a></li>
 </ul></div>
 </li>
-<li><a class="xref" href="GuideOptionsAdditional.html" title="Additional Preferences">Additional Preferences</a></li>
-<li><a class="xref" href="GuideReference.html" title="Reference">Reference</a></li>
 <li><a class="xref" href="GuideFaq.html" title="Frequently Asked Questions">Frequently Asked Questions</a></li>
 <li><a class="xref" href="GuideLicence.html" title="Licence">Licence</a></li>
 <li><a class="xref" href="GuideCredits.html" title="Credits">Credits</a></li>
@@ -451,204 +453,57 @@ dd.answer div.label { float: left; }
 </li>
 </ul></div></div></div>
 <div class="body body-sidebar"><div class="division section">
-<a name="GuideOptionsBehavior"></a><div class="header"><h1 class="section title"><span class="title">Behavior Options</span></h1></div>
+<a name="GuideReferencePixbufLoaders"></a><div class="header"><h1 class="section title"><span class="title"><a name="titleGuideReferencePixbufLoaders"></a>Additional pixbuf loaders</span></h1></div>
 <ul class="linktrail">
 <li class="linktrail linktrail-first"><a class="linktrail" href="GuideIndex.html" title="The Geeqie User Manual">The Geeqie User Manual</a></li>
-<li class="linktrail linktrail-last"><a class="linktrail" href="GuideOptionsMain.html" title="Preferences">Preferences</a></li>
+<li class="linktrail linktrail-last"><a class="linktrail" href="GuideReference.html" title="Reference">Reference</a></li>
 </ul>
-<p class="para block block-first">This section describes the options presented under the Behavior Tab of the preferences dialog.</p>
+<p class="para block block-first">
+    Geeqie is limited to displaying files for which there are existing pixbuf loaders. In addition to the standard ones included with most distributions, the following loaders may also work.
+    <p class="para block block-first"></p>
+    However, you are required to compile and install them yourself.
+  </p>
 <div class="autotoc"><ul>
 <li>
-<span class="label">11.9.1. </span><a class="xref" href="GuideOptionsBehavior.html#Delete" title="Delete">Delete</a>
+<span class="label">13.10.1. </span><a class="xref" href="GuideReferencePixbufLoaders.html#webp" title="webp">webp</a>
 </li>
 <li>
-<span class="label">11.9.2. </span><a class="xref" href="GuideOptionsBehavior.html#Behaviour" title="Behavior">Behavior</a>
+<span class="label">13.10.2. </span><a class="xref" href="GuideReferencePixbufLoaders.html#xcf" title="xcf">xcf</a>
 </li>
 <li>
-<span class="label">11.9.3. </span><a class="xref" href="GuideOptionsBehavior.html#Navigation" title="Navigation">Navigation</a>
+<span class="label">13.10.3. </span><a class="xref" href="GuideReferencePixbufLoaders.html#psd" title="psd">psd</a>
 </li>
 <li>
-<span class="label">11.9.4. </span><a class="xref" href="GuideOptionsBehavior.html#Debugging" title="Debugging">Debugging</a>
+<span class="label">13.10.4. </span><a class="xref" href="GuideReferencePixbufLoaders.html#jp2" title="JP2/JPC/JPX/J2K/JPF">JP2/JPC/JPX/J2K/JPF</a>
 </li>
 </ul></div>
 <div class="division section">
-<a name="Delete"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.9.1. </span>Delete</span></h2></div>
-<div class="block list variablelist"><dl class="variablelist">
-<dt class="term dt-first">
-          <span class="guilabel">Confirm file delete</span>
-        </dt>
-<dd>
-          <p class="para block block-first">Prompts for confirmation before deleting files.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">
-            Enable
-            <span class="keycap">Delete key</span>
-          </span>
-        </dt>
-<dd>
-          <p class="para block block-first">
-            Disable this to disassociate the delete file function from the
-            <span class="keycap">Delete</span>
-            key.
-          </p>
-          <p class="para block">
-            If
-            <span class="emphasis">Confirm file delete</span>
-            , above, is disabled, accidentally hitting the
-            <span class="keycap">Delete</span>
-            can result in files being erroneously deleted without warning. Disabling the
-            <span class="keycap">Delete</span>
-            key will prevent this. The
-            <span class="code" dir="ltr">
-              Ctrl +
-              <span class="keycap">D</span>
-            </span>
-            key sequence is not affected.
-          </p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Safe Delete</span>
-        </dt>
-<dd>
-          <p class="para block block-first">Moves deleted files to a temporary folder, for easy retrieval of deleted files. Files in the temporary folder are retained until the maximum size is reached, at which point deleting additional files will result in the removal of the oldest files to reclaim the space needed for the new files.</p>
-          <div class="admonition block note block-indent"><div class="note-inner">
-            <p class="para block block-first">
-              Files moved to the Safe Delete folder are prefixed with a six digit number in the format:
-              <span class="literal" dir="ltr">nnnnnn_FILENAME</span>
-              <p class="para block"></p>
-              This is used by the delete feature to distinguish which files to remove first when clearing space for new files.
-              <p class="para block"></p>
-              The digit counter increments with each deleted file.
-            </p>
-          </div></div>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Folder</span>
-        </dt>
-<dd>
-          <p class="para block block-first">The location of the folder used by the Safe Delete feature.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Maximum size</span>
-        </dt>
-<dd>
-          <p class="para block block-first">The size to use for the Safe Delete folder, in megabytes. Note that setting this value to 0 (zero) will disable any limit.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Clear button</span>
-        </dt>
-<dd>
-          <p class="para block block-first">Removes all files contained in the Safe Delete folder.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">View button</span>
-        </dt>
-<dd>
-          <p class="para block block-first">Changes the Geeqie main window to display the contents of the Safe Delete folder.</p>
-        </dd>
-</dl></div>
+<a name="webp"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">13.10.1. </span>webp</span></h2></div>
+<p class="para block block-first">
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">https://github.com/aruiz/webp-pixbuf-loader</pre></div>
+    </p>
+<p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Behaviour"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.9.2. </span>Behavior</span></h2></div>
-<div class="block list variablelist"><dl class="variablelist">
-<dt class="term dt-first">
-          <span class="guilabel">Descend folders in tree view</span>
-        </dt>
-<dd>
-          <p class="para block block-first">This will allow Geeqie to read sub folder content to determine if it should display expander indicators in the folder tree view.</p>
-          <div class="admonition block note block-indent"><div class="note-inner">
-            <p class="para block block-first">Disable this if Geeqie wakes up auto mounted network shares, or takes too long to initially display the folder view.</p>
-          </div></div>
-        </dd>
-<dt class="term">
-          <span class="guilabel">In place renaming</span>
-        </dt>
-<dd>
-          <p class="para block block-first">When renaming a single file, this will allow the rename entry to appear directly over the original filename.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">List directory view uses single click to enter</span>
-        </dt>
-<dd>
-          <p class="para block block-first">If selected, a single click will enter a directory, rather than the GTK+ default of a double click.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Recent folder list maximum size</span>
-        </dt>
-<dd>
-          <p class="para block block-first">This is the number of entries to be saved from the recent open folder list drop-down box. The number of entries displayed in the current session is unlimited.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Drag'n drop icon size</span>
-        </dt>
-<dd>
-          <p class="para block block-first">This is the width and height of the icon generated from image and displayed when doing drag and drop actions. High resolution screens may require to increase this number.</p>
-        </dd>
-</dl></div>
+<a name="xcf"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">13.10.2. </span>xcf</span></h2></div>
+<p class="para block block-first">
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">https://gitorious.org/xcf-pixbuf-loader/mainline?p=xcf-pixbuf-loader:mainline.git;a=summary</pre></div>
+    </p>
 </div>
 <div class="division section">
-<a name="Navigation"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.9.3. </span>Navigation</span></h2></div>
-<div class="block list variablelist"><dl class="variablelist">
-<dt class="term dt-first">
-          <span class="guilabel">Progressive keyboard scrolling</span>
-        </dt>
-<dd>
-          <p class="para block block-first">This will cause image panning speed to gradually accelerate when holding down the keyboard arrows.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Keyboard scrolling step multiplier:</span>
-        </dt>
-<dd>
-          <p class="para block block-first">Defines the amount to pan an image when using the keyboard arrows.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Mouse wheel scrolls image</span>
-        </dt>
-<dd>
-          <p class="para block block-first">
-            The default is for the mouse wheel to change the image, and to scroll the image when
-            <span class="keycap">Shift</span>
-            is used in combination with the wheel. Enabling this swaps the behavior so that operating the wheel will scroll the image, and holding down
-            <span class="keycap">Shift</span>
-            will change the image.
-          </p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Navigation by left or middle click on image</span>
-        </dt>
-<dd>
-          <p class="para block block-first">If selected, mouse left-click will select the next image; mouse middle-click will select the previous image.</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Play video by left click on image</span>
-        </dt>
-<dd>
-          <p class="para block block-first">If selected, mouse left-click on an image belonging to the video class will start a program chosen in a box below.</p>
-        </dd>
-</dl></div>
+<a name="psd"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">13.10.3. </span>psd</span></h2></div>
+<p class="para block block-first">
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">https://cgit.sukimashita.com/gdk-pixbuf-psd.git/</pre></div>
+    </p>
 </div>
 <div class="division section">
-<a name="Debugging"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.9.4. </span>Debugging</span></h2></div>
-<div class="block list variablelist"><dl class="variablelist">
-<dt class="term dt-first">
-          <span class="guilabel">Debug level</span>
-        </dt>
-<dd>
-          <p class="para block block-first">Displayed when compiled with the option --enable-debug-log. This defines the verbosity of debug info sent to console and log window (0 disables the debug output).</p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Log Window max. lines</span>
-        </dt>
-<dd>
-          <p class="para block block-first">The maximum number of data lines to be displayed. The window will show the most recent data.</p>
-        </dd>
-</dl></div>
+<a name="jp2"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">13.10.4. </span>JP2/JPC/JPX/J2K/JPF</span></h2></div>
+<p class="para block block-first">If your distribution has the libpixbufloader-jasper.so loader, these file formats will also be displayed.</p>
 </div>
 </div></div>
 <div class="navbar navbar-bottom"><table class="navbar"><tr>
-<td class="navbar-prev"><a class="navbar-prev" href="GuideOptionsStereo.html" title="Stereo image management">Stereo image management</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuideOptionsToolbar.html" title="Toolbar">Toolbar</a></td>
+<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">Supported File Formats</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></td>
 </tr></table></div>
 </body>
 </html>

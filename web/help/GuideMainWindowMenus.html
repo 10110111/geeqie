@@ -432,7 +432,7 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideSidebars.html" title="Sidebars">Sidebars</a></li>
 <li><a class="xref" href="GuideOtherWindows.html" title="Stand-alone Windows">Stand-alone Windows</a></li>
 <li><a class="xref" href="GuideImageSearch.html" title="Search and Select">Search and Select</a></li>
-<li><a class="xref" href="GuideImageManagementExternalEditing.html" title="External Actions">External Actions</a></li>
+<li><a class="xref" href="GuideImageManagementPlugins.html" title="Plugins">Plugins</a></li>
 <li><a class="xref" href="GuideImageManagement.html" title="File Management">File Management</a></li>
 <li><a class="xref" href="GuideColorManagement.html" title="Color Management">Color Management</a></li>
 <li><a class="xref" href="GuideImagePresentation.html" title="Image Presentation">Image Presentation</a></li>
@@ -469,19 +469,22 @@ dd.answer div.label { float: left; }
 <span class="label">2.5.4. </span><a class="xref" href="GuideMainWindowMenus.html#Editmenu" title="Edit menu">Edit menu</a>
 </li>
 <li>
-<span class="label">2.5.5. </span><a class="xref" href="GuideMainWindowMenus.html#Viewmenu" title="View menu">View menu</a>
+<span class="label">2.5.5. </span><a class="xref" href="GuideMainWindowMenus.html#Pluginsmenu" title="Plugins menu">Plugins menu</a>
 </li>
 <li>
-<span class="label">2.5.6. </span><a class="xref" href="GuideMainWindowMenus.html#Helpmenu" title="Help menu">Help menu</a>
+<span class="label">2.5.6. </span><a class="xref" href="GuideMainWindowMenus.html#Viewmenu" title="View menu">View menu</a>
 </li>
 <li>
-<span class="label">2.5.7. </span><a class="xref" href="GuideMainWindowMenus.html#Tearoffmenus" title="Tear off menus">Tear off menus</a>
+<span class="label">2.5.7. </span><a class="xref" href="GuideMainWindowMenus.html#Helpmenu" title="Help menu">Help menu</a>
 </li>
 <li>
-<span class="label">2.5.8. </span><a class="xref" href="GuideMainWindowMenus.html#Keyboardshortcuts" title="Keyboard shortcuts">Keyboard shortcuts</a>
+<span class="label">2.5.8. </span><a class="xref" href="GuideMainWindowMenus.html#Tearoffmenus" title="Tear off menus">Tear off menus</a>
 </li>
 <li>
-<span class="label">2.5.9. </span><a class="xref" href="GuideMainWindowMenus.html#Changingthemainwindowmenubarkeyboardshortcuts" title="Changing the main window menu bar keyboard shortcuts">Changing the main window menu bar keyboard shortcuts</a>
+<span class="label">2.5.9. </span><a class="xref" href="GuideMainWindowMenus.html#Keyboardshortcuts" title="Keyboard shortcuts">Keyboard shortcuts</a>
+</li>
+<li>
+<span class="label">2.5.10. </span><a class="xref" href="GuideMainWindowMenus.html#Changingthemainwindowmenubarkeyboardshortcuts" title="Changing the main window menu bar keyboard shortcuts">Changing the main window menu bar keyboard shortcuts</a>
 </li>
 </ul></div>
 <div class="division section">
@@ -590,8 +593,8 @@ dd.answer div.label { float: left; }
         </dt>
 <dd>
           <p class="para block block-first">
-            Creates a symbolic link. This is implemented via an
-            <a class="link" href="GuideImageManagementExternalEditing.html" title="External Actions">external editor</a>
+            Creates a symbolic link. This is implemented via a
+            <a class="link" href="GuideImageManagementPlugins.html" title="Plugins">plugin</a>
             .
           </p>
         </dd>
@@ -783,16 +786,6 @@ dd.answer div.label { float: left; }
 <a name="Editmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.4. </span>Edit menu</span></h2></div>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
-          <span class="menuchoice"><span class="guimenu">External Editors</span></span>
-        </dt>
-<dd>
-          <p class="para block block-first">
-            This submenu contains external editors that were found on the system. See
-            <a class="link" href="GuideImageManagementExternalEditing.html" title="External Actions">Editors section</a>
-            for details.
-          </p>
-        </dd>
-<dt class="term">
           <span class="menuchoice"><span class="guimenu">Orientation</span></span>
         </dt>
 <dd>
@@ -876,7 +869,7 @@ dd.answer div.label { float: left; }
           <div class="admonition block warning block-indent"><div class="warning-inner">
             <p class="para block block-first">
               The file rotate.desktop, using external commands exiftran, exiv2 and mogrify, is used to implement this command. Refer to
-              <a class="link" href="GuideImageManagementExternalEditing.html" title="External Actions">Editors section</a>
+              <a class="link" href="GuideImageManagementPlugins.html" title="Plugins">Plugins section</a>
               for details.
             </p>
           </div></div>
@@ -949,13 +942,7 @@ dd.answer div.label { float: left; }
 </dl></div>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
-          <span class="menuchoice"><span class="guimenu">Preferences</span></span>
-        </dt>
-<dd>
-          <p class="para block block-first">This submenu contains configuration and maintenance commands</p>
-        </dd>
-<dt class="term">
-          <span class="menuchoice"><span class="guimenu">Preferences</span> ▸ <span class="guimenuitem">Preferences…</span> <span class="shortcut">(
+          <span class="menuchoice"><span class="guimenu">Preferences</span> <span class="shortcut">(
               <span class="keycombo"><span class="keycap">Ctrl</span>+<span class="keycap">O</span></span>
             )</span></span>
         </dt>
@@ -967,17 +954,17 @@ dd.answer div.label { float: left; }
           </p>
         </dd>
 <dt class="term">
-          <span class="menuchoice"><span class="guimenu">Preferences</span> ▸ <span class="guimenuitem">Configure Editors…</span></span>
+          <span class="menuchoice"><span class="guimenu">Configure Plugins…</span></span>
         </dt>
 <dd>
           <p class="para block block-first">
             Opens the
-            <a class="link" href="GuideImageManagementExternalEditing.html" title="External Actions">Editors Dialog</a>
-            for changing of global preferences.
+            <a class="link" href="GuideImageManagementPlugins.html" title="Plugins">Plugins Dialog</a>
+            for changing of desktop files.
           </p>
         </dd>
 <dt class="term">
-          <span class="menuchoice"><span class="guimenu">Preferences</span> ▸ <span class="guimenuitem">Configure This window…</span></span>
+          <span class="menuchoice"><span class="guimenu">Configure This window…</span></span>
         </dt>
 <dd>
           <p class="para block block-first">
@@ -987,7 +974,7 @@ dd.answer div.label { float: left; }
           </p>
         </dd>
 <dt class="term">
-          <span class="menuchoice"><span class="guimenu">Preferences</span> ▸ <span class="guimenuitem">Thumbnail maintenance</span></span>
+          <span class="menuchoice"><span class="guimenu">Thumbnail maintenance</span></span>
         </dt>
 <dd>
           <p class="para block block-first">
@@ -1012,7 +999,22 @@ dd.answer div.label { float: left; }
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Viewmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.5. </span>View menu</span></h2></div>
+<a name="Pluginsmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.5. </span>Plugins menu</span></h2></div>
+<div class="block list variablelist"><dl class="variablelist">
+<dt class="term dt-first">
+          <span class="menuchoice"><span class="guimenu">Plugins</span></span>
+        </dt>
+<dd>
+          <p class="para block block-first">
+            This menu contains the plugins (desktop files) that were found on the system. See the
+            <a class="link" href="GuideImageManagementPlugins.html" title="Plugins">Plugins section</a>
+            for details.
+          </p>
+        </dd>
+</dl></div>
+</div>
+<div class="division section">
+<a name="Viewmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.6. </span>View menu</span></h2></div>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
           <span class="menuchoice"><span class="guimenu">View in new window</span> <span class="shortcut">(
@@ -1274,6 +1276,18 @@ dd.answer div.label { float: left; }
           <p class="para block block-first">Pauses a slide show, the slide show status is displayed in the status bar.</p>
         </dd>
 <dt class="term">
+          <span class="guimenu">Faster</span>
+        </dt>
+<dd>
+          <p class="para block block-first">Decreases slide show interval in units of 0.5 seconds.</p>
+        </dd>
+<dt class="term">
+          <span class="guimenu">Slower</span>
+        </dt>
+<dd>
+          <p class="para block block-first">Increases slide show interval in units of 0.5 seconds.</p>
+        </dd>
+<dt class="term">
           <span class="guimenu">Refresh</span>
         </dt>
 <dd>
@@ -1283,7 +1297,7 @@ dd.answer div.label { float: left; }
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Helpmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.6. </span>Help menu</span></h2></div>
+<a name="Helpmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.7. </span>Help menu</span></h2></div>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
           <span class="menuchoice"><span class="guimenu">Contents</span> <span class="shortcut">(
@@ -1327,12 +1341,12 @@ dd.answer div.label { float: left; }
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Tearoffmenus"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.7. </span>Tear off menus</span></h2></div>
+<a name="Tearoffmenus"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.8. </span>Tear off menus</span></h2></div>
 <p class="para block block-first">Menus can be permanently displayed by selecting the dotted line item at the top of each menu category. A tear off menu will behave the same as an ordinary window. To close a tear off menu, select the dotted line item at the top of the menu.</p>
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Keyboardshortcuts"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.8. </span>Keyboard shortcuts</span></h2></div>
+<a name="Keyboardshortcuts"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.9. </span>Keyboard shortcuts</span></h2></div>
 <p class="para block block-first">
       The keyboard sequence associated to each menu entry is listed within the main window menu bar. For reference, the complete list of default keyboard shortcuts can be found in section
       <a class="link" href="GuideReferenceKeyboardShortcuts.html" title="Keyboard and Mouse Shortcuts">Keyboard Shortcuts</a>
@@ -1341,7 +1355,7 @@ dd.answer div.label { float: left; }
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Changingthemainwindowmenubarkeyboardshortcuts"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.9. </span>Changing the main window menu bar keyboard shortcuts</span></h2></div>
+<a name="Changingthemainwindowmenubarkeyboardshortcuts"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.5.10. </span>Changing the main window menu bar keyboard shortcuts</span></h2></div>
 <p class="para block block-first">
       The section
       <a class="link" href="GuideOptionsKeyboard.html" title="Keyboard Options">Keyboard Options</a>

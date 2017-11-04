@@ -108,9 +108,6 @@ Or: `git clone http://www.geeqie.org/git/geeqie.git`
 
 ## Installation
 
-Update secondary help documents (optional -  requires use of git):
-        `./gen_changelog.sh ; markdown README.md > README.html`
-
 List compile options: `./autogen.sh --help`
 
 Common options:
@@ -123,7 +120,7 @@ Install: `[sudo] make install`
 Removal: `[sudo] make uninstall`
 
 #### Note:
-The zip files at GitHub contain only the sources - they cannot, by themselves, be used to install Geeqie.
+The zip and gzip files at geeqie.org and GitHub contain only the sources - they cannot, by themselves, be used to install Geeqie.
 
 It is recommended to always use `git clone  git://www.geeqie.org/geeqie.git` to download Geeqie. After installing Geeqie you may delete the folder you have cloned Geeqie into.
 
@@ -141,7 +138,7 @@ Your configuration file, history file and desktop files are not affected by this
 
 See the NEWS file in the installation folder, or [Geeqie News at GitHub](https://github.com/BestImageViewer/geeqie/blob/master/NEWS)
 
-And either the ChangeLog file or [Geeqie ChangeLog at GitHub](https://github.com/BestImageViewer/geeqie/blob/master/ChangeLog)
+And either the ChangeLog file or [Geeqie ChangeLog](http://geeqie.org/cgi-bin/gitweb.cgi?p=geeqie.git;a=shortlog)
 
 
 ## Requirements

@@ -39,10 +39,15 @@ GPL header, in every file, like this:
 
 --------------------------------------------------------------------------------
 
-svn change-log:
+git change-log:
 
+If referencing a Geeqie GitHub issue, include the issue number in the summary line.
 Start with a short summary in the first line (without a dot at the end) followed
-by a empty line. Use whole sentences begins with Capital letter. For each
+by a empty line.
+
+If referencing a Geeqie GitHub issue, include a hyperlink to the GitHub issue page
+in the message body.
+Use whole sentences begins with Capital letter. For each
 modification use new line. Or you can write the theme, colon and then every
 change on new line, begin with "- ".
 

@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Window Layout</title>
+<title>Plugins Configuration</title>
 <link rel="previous" href="GuideOptionsLayout.html" title="Window Layout">
-<link rel="next" href="GuidePluginsConfig.html" title="Plugins Configuration">
+<link rel="next" href="GuideOptionsHidden.html" title="Legacy Configuration File Options">
 <link rel="top" href="GuideIndex.html" title="The Geeqie User Manual">
 <style type="text/css">
 
@@ -411,7 +411,7 @@ dd.answer div.label { float: left; }
 <body>
 <div class="navbar navbar-top"><table class="navbar"><tr>
 <td class="navbar-prev"><a class="navbar-prev" href="GuideOptionsLayout.html" title="Window Layout">Window Layout</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuidePluginsConfig.html" title="Plugins Configuration">Plugins Configuration</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideOptionsHidden.html" title="Legacy Configuration File Options">Legacy Configuration File Options</a></td>
 </tr></table></div>
 <div class="sidebar"><div class="sidenav"><div class="autotoc"><ul>
 <li><a href="GuideIndex-info.html" title="About This Document">About This Document</a></li>
@@ -430,8 +430,8 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideOptionsMain.html" title="Preferences">Preferences</a></li>
 <li>
 <a class="xref" href="GuideOptionsAdditional.html" title="Additional Preferences">Additional Preferences</a><div class="autotoc"><ul>
-<li>Window Layout</li>
-<li><a class="xref" href="GuidePluginsConfig.html" title="Plugins Configuration">Plugins Configuration</a></li>
+<li><a class="xref" href="GuideOptionsLayout.html" title="Window Layout">Window Layout</a></li>
+<li>Plugins Configuration</li>
 <li><a class="xref" href="GuideOptionsHidden.html" title="Legacy Configuration File Options">Legacy Configuration File Options</a></li>
 </ul></div>
 </li>
@@ -444,93 +444,273 @@ dd.answer div.label { float: left; }
 </li>
 </ul></div></div></div>
 <div class="body body-sidebar"><div class="division section">
-<a name="GuideOptionsLayout"></a><div class="header"><h1 class="section title"><span class="title"><a name="titleGuideOptionsLayout"></a>Window Layout</span></h1></div>
+<a name="GuidePluginsConfig"></a><div class="header"><h1 class="section title"><span class="title"><a name="titleGuidePluginsConfig"></a>Plugins Configuration</span></h1></div>
 <ul class="linktrail">
 <li class="linktrail linktrail-first"><a class="linktrail" href="GuideIndex.html" title="The Geeqie User Manual">The Geeqie User Manual</a></li>
 <li class="linktrail linktrail-last"><a class="linktrail" href="GuideOptionsAdditional.html" title="Additional Preferences">Additional Preferences</a></li>
 </ul>
+<p class="para block block-first"></p>
+<div class="autotoc"><ul>
+<li>
+<span class="label">12.2.1. </span><a class="xref" href="GuidePluginsConfig.html#PluginsConfigurationDialog" title="Plugins Configuration Dialog">Plugins Configuration Dialog</a>
+</li>
+<li>
+<span class="label">12.2.2. </span><a class="xref" href="GuidePluginsConfig.html#Addingnewplugin" title="Adding new plugin">Adding new plugin</a>
+</li>
+<li>
+<span class="label">12.2.3. </span><a class="xref" href="GuidePluginsConfig.html#Modifyinganexistingplugin" title="Modifying an existing plugin">Modifying an existing plugin</a>
+</li>
+<li>
+<span class="label">12.2.4. </span><a class="xref" href="GuidePluginsConfig.html#Deletingaplugin" title="Deleting a plugin">Deleting a plugin</a>
+</li>
+<li>
+<span class="label">12.2.5. </span><a class="xref" href="GuidePluginsConfig.html#Specialplugins" title="Special plugins">Special plugins</a>
+</li>
+<li>
+<span class="label">12.2.6. </span><a class="xref" href="GuidePluginsConfig.html#Geeqieextensions" title="Geeqie desktop file keys">Geeqie desktop file keys</a>
+</li>
+</ul></div>
+<div class="division section">
+<a name="PluginsConfigurationDialog"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">12.2.1. </span>Plugins Configuration Dialog</span></h2></div>
 <p class="para block block-first">
-    This item is accessed via
-    <span class="menuchoice"><span class="guimenu">Edit</span> ▸ <span class="guimenuitem">Configure this window</span></span>
-    .
-  </p>
+      This dialog allows user to add new plugins or modify the system ones. It is available in the menu
+      <span class="menuchoice"><span class="guimenu">Edit</span> ▸ <span class="guimenuitem">Configure Plugins</span></span>
+      .
+    </p>
+<p class="para block">
+      The Plugins dialog shows list of all relevant plugins i.e. all installed desktop files that are designated either:
+      <div class="block list itemizedlist"><ul class="itemizedlist" compact>
+<li class="li-first">
+          <span class="literal" dir="ltr">Categories=Graphics</span>
+        </li>
+<li>
+          <span class="literal" dir="ltr">Categories=X-Geeqie</span>
+        </li>
+</ul></div>
+      <p class="para block"></p>
+      The list has the following columns:
+    </p>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
-        <span class="guilabel">Home Path</span>
-      </dt>
+          <span class="guilabel">Name</span>
+        </dt>
 <dd>
-        <p class="para block block-first">
-          The path to be moved to when
-          <span class="code" dir="ltr">
-            <span class="guibutton">
-              <span class="guiicon">
-                <span class="inlinegraphic"><img src="user-home.png"></span>
-              </span>
-            </span>
-          </span>
-          is clicked.
-        </p>
-      </dd>
+          <p class="para block block-first">Plugin name as specified in desktop file, and is the name displayed in menus.</p>
+        </dd>
 <dt class="term">
-        <span class="guilabel">Show date in directories list view</span>
-      </dt>
+          <span class="guilabel">Hidden</span>
+        </dt>
 <dd>
-        <p class="para block block-first">The folder pane will show dates.</p>
-      </dd>
-<dt class="term">
-        <span class="guilabel">Exit program when this window is closed</span>
-      </dt>
-<dd>
-        <p class="para block block-first">
-          If multiple instances of Geeqie have been started via
-          <span class="menuchoice"><span class="guimenu">File</span> ▸ <span class="guimenuitem">New Window</span></span>
-          , if this check box is clicked all instances will be closed when this window is exited.
-        </p>
-        <div class="admonition block note block-indent"><div class="note-inner">
-          <p class="para block block-first">When a window with this check box selected is closed, the existence of all other open Geeqie windows will be remembered. When Geeqie is started again, all those windows will be re-opened.</p>
-        </div></div>
-      </dd>
-<dt class="term">
-        <span class="guilabel">Start-up directory</span>
-      </dt>
-<dd>
-        <p class="para block block-first">This may be set for each instance of Geeqie.</p>
-        <div class="block list itemizedlist"><ul class="itemizedlist" compact>
+          A plugin can be
+          <span class="emphasis">Hidden</span>
+          for one of these reasons:
+          <div class="block list itemizedlist"><ul class="itemizedlist">
 <li class="li-first">
-            <span class="para">No change: Use the Current Working Directory. If called from a system menu rather than the command line, the Home directory will probably be used.</span>
-          </li>
+              the desktop file contains
+              <span class="literal" dir="ltr">Hidden=TRUE</span>
+              or
+              <span class="literal" dir="ltr">NoDisplay=TRUE</span>
+            </li>
 <li>
-            <span class="para">Restore last path: Use the folder in use when Geeqie was previously closed.</span>
-          </li>
+              <span class="literal" dir="ltr">TryExec</span>
+              binary was not found
+            </li>
 <li>
-            <span class="para">Home path: Use the folder specified in the Home Path box.</span>
-          </li>
+              <span class="literal" dir="ltr">MimeType</span>
+              list does not contain images
+            </li>
+<li>
+              <span class="literal" dir="ltr">MimeType</span>
+              list is empty and
+              <span class="literal" dir="ltr">Categories</span>
+              does not contain
+              <span class="literal" dir="ltr">X-Geeqie</span>
+            </li>
 </ul></div>
-      </dd>
-<dt class="term">
-        <span class="guilabel">Layout</span>
-      </dt>
-<dd>
-        <p class="para block block-first">
-          The Geeqie main window consists of three main panes: the
-          <a class="link" href="GuideMainWindowFolderPane.html" title="Folder pane">folder pane</a>
-          ,
-          <a class="link" href="GuideMainWindowFilePane.html" title="File Pane">file pane</a>
-          and the
-          <a class="link" href="GuideMainWindowImagePane.html" title="Image Pane">image pane</a>
-          . Their position and order can be changed here. The four choices shown represent the basic layout of the main window,  the difference being that each has the larger pane in a different location: right, bottom, left, and top.
-        </p>
-        <p class="para block">The numbers within each selection represent the order of the pane content.</p>
-        <p class="para block">The order in which the panes are filled is determined by the three row list located below the layout selection. The three numbered rows correspond to the three numbered regions of the selected layout. To change the order of the list, drag a row to the desired location within the list.</p>
-        <div class="admonition block note block-indent"><div class="note-inner">
-          <p class="para block block-first">In this dialogue the file and image panes are labeled as such, however for historical reasons the folder pane is labeled as tools.</p>
-        </div></div>
-      </dd>
+        </dd>
 </dl></div>
+<div class="block list variablelist"><dl class="variablelist">
+<dt class="term dt-first">
+          <span class="guilabel">Desktop file</span>
+        </dt>
+<dd>
+          Name of the desktop file, used as an identifier in
+          <a class="link" href="GuideOptionsKeyboard.html" title="Keyboard Options">Keyboard Options</a>
+          .
+        </dd>
+<dt class="term">
+          <span class="guilabel">Path</span>
+        </dt>
+<dd>Full path to the desktop file. Desktop files in user directories override the system ones with the same name.</dd>
+</dl></div>
+</div>
+<div class="division section">
+<a name="Addingnewplugin"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">12.2.2. </span>Adding new plugin</span></h2></div>
+<p class="para block block-first">
+      <span class="code" dir="ltr">
+        <span class="guibutton">
+          <span class="guiicon">
+            <span class="inlinegraphic"><img src="document-new.png"></span>
+          </span>
+          New
+        </span>
+      </span>
+      opens a text editor with a desktop file template. You must amend the line
+      <div dir="ltr" class=" block programlisting block-indent"><pre class="programlisting">Exec=command %f</pre></div>
+      to contain the command you wish to execute. If it is more than a single command, you must create a script file and call that. If the location of the script file is not in your $PATH environment variable, you must include the full pathname.
+    </p>
+<p class="para block"></p>
+</div>
+<div class="division section">
+<a name="Modifyinganexistingplugin"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">12.2.3. </span>Modifying an existing plugin</span></h2></div>
+<p class="para block block-first">
+      <span class="code" dir="ltr">
+        <span class="guibutton">
+          <span class="guiicon">
+            <span class="inlinegraphic"><img src="gtk-edit.png"></span>
+          </span>
+          Edit
+        </span>
+      </span>
+      opens a text editor with existing desktop file. For desktop files that are not writable by user, it allows saving to a Geeqie specific directory, where it overrides the system file (but only for Geeqie).
+    </p>
+</div>
+<div class="division section">
+<a name="Deletingaplugin"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">12.2.4. </span>Deleting a plugin</span></h2></div>
+<p class="para block block-first">
+      <span class="code" dir="ltr">
+        <span class="guibutton">
+          <span class="guiicon">
+            <span class="inlinegraphic"><img src="edit-delete.png"></span>
+          </span>
+          Delete
+        </span>
+      </span>
+      can delete user writable desktop files. System desktop files can't be deleted directly, but it is possible to edit them and set
+      <span class="literal" dir="ltr">Hidden=TRUE</span>
+      , see above.
+    </p>
+</div>
+<div class="division section">
+<a name="Specialplugins"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">12.2.5. </span>Special plugins</span></h2></div>
+<p class="para block block-first">A desktop file with one of the following names has a special function. It will replace the corresponding internal command.</p>
+<p class="para block">
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">        geeqie-copy-command.desktop
+        geeqie-move-command.desktop
+        geeqie-rename-command.desktop
+        geeqie-delete-command.desktop
+        geeqie-folder-command.desktop
+      </pre></div>
+    </p>
+<p class="para block">This can be used for example for a custom trash command or for manipulation of files under version control.</p>
+</div>
+<div class="division section">
+<a name="Geeqieextensions"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">12.2.6. </span>Geeqie desktop file keys</span></h2></div>
+<p class="para block block-first">
+      A desktop file for use only by Geeqie should have the following entries:
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">        Categories=X-Geeqie;
+        OnlyShowIn=X-Geeqie;
+      </pre></div>
+    </p>
+<p class="para block">
+      A menu path where the plugin will appear, instead of in the default
+      <span class="menuchoice"><span class="guimenu">Plugins</span></span>
+      , can be set by including:
+      <div dir="ltr" class=" block programlisting block-indent"><pre class="programlisting">X-Geeqie-Menu-Path=&lt;FileMenuPath&gt;</pre></div>
+    </p>
+<p class="para block">
+      Possible vales for
+      <span class="emphasis">FileMenuPath</span>
+      are:
+      <div dir="ltr" class=" block programlisting block-indent"><pre class="programlisting">        FileMenu
+        FileMenu/OpenSection
+        FileMenu/SearchSection
+        FileMenu/PrintSection
+        FileMenu/FileOpsSection
+        FileMenu/QuitSection
+        GoMenu
+        SelectMenu
+        SelectMenu/SelectSection
+        SelectMenu/ClipboardSection
+        SelectMenu/MarksSection
+        EditMenu/EditMenu
+        EditMenu/EditSection
+        EditMenu/OrientationMenu
+        EditMenu/RatingMenu
+        EditMenu/PropertiesSection
+        EditMenu/PreferencesSection
+        PluginsMenu
+        ViewMenu
+        ViewMenu/WindowSection
+        ViewMenu/FileDirMenu
+        ViewMenu/FileDirMenu/FolderSection
+        ViewMenu/FileDirMenu/ListSection
+        ViewMenu/DirSection
+        ViewMenu/ZoomMenu
+        ViewMenu/ZoomMenu/ConnectZoomMenu
+        ViewMenu/SplitMenu
+        ViewMenu/StereoMenu
+        ViewMenu/ColorMenu
+        ViewMenu/OverlayMenu
+        ViewMenu/ViewSection
+        ViewMenu/ToolsSection
+        ViewMenu/SlideShowSection
+        HelpMenu
+        HelpMenu/HelpSection
+      </pre></div>
+    </p>
+<p class="para block">
+      If you want a plugin to use a user-definable path, the following entry must be made in the desktop file:
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">X-Geeqie-Filter=true</pre></div>
+    </p>
+<p class="para block">
+      Desktop files containing this entry will be displayed in the Folder action list of the
+      <a class="link" href="GuideSidebarsSortManager.html#CopyMoveandLink" title="Copy, Move, Link and Desktop actions">Sort Manager Sidebar</a>
+      . The path of the bookmark clicked will be used by the desktop file.
+      <p class="para block"></p>
+      If the desktop file is called from the menu, when the plugin is executed you are presented with a dialogue which enables a path to be selected. The path selected, appended by the filename currently being processed, is made available to the shell script either as an environment variable or via a call to geeqie --remote. The following code demonstrates the use of both methods:
+      <div dir="ltr" class=" block programlisting block-indent"><pre class="programlisting">        for file in "$@"
+        do
+        destination=$(geeqie --remote --get-destination:"$file")
+        
+        echo "$destination"
+        echo $GEEQIE_DESTINATION
+        done
+      </pre></div>
+    </p>
+<p class="para block">
+      If you want to run a plugin in full-screen mode and wish full-screen to be maintained, include the following entry in the desktop file:
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">X-Geeqie-Keep-Fullscreen=true</pre></div>
+    </p>
+<p class="para block">
+      Any terminal output from the plugin command can be displayed with the following command:
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">X-Geeqie-Verbose=true</pre></div>
+    </p>
+<p class="para block">
+      The plugin can be restricted to run on only certain file types, for example:
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">X-Geeqie-File-Extensions=.jpg; .cr2</pre></div>
+      The entries are case insensitive.
+    </p>
+<p class="para block">
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">X-Geeqie-Keep-Verbose-Multi=</pre></div>
+      TBD
+    </p>
+<p class="para block">
+      The key or key combination to execute this function can be set with:
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">X-Geeqie-Hotkey=</pre></div>
+      Key combinations are of the form:
+
+      <div dir="ltr" class=" block programlisting block-indent"><pre class="programlisting">X-Geeqie-Hotkey=&lt;control&gt;y</pre></div>
+      <div class="admonition block note block-indent"><div class="note-inner">
+        This value may conflict with a setting in
+        <a class="link" href="GuideOptionsKeyboard.html" title="Keyboard Options">Keyboard Options</a>
+      </div></div>
+    </p>
+</div>
 </div></div>
 <div class="navbar navbar-bottom"><table class="navbar"><tr>
 <td class="navbar-prev"><a class="navbar-prev" href="GuideOptionsLayout.html" title="Window Layout">Window Layout</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuidePluginsConfig.html" title="Plugins Configuration">Plugins Configuration</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideOptionsHidden.html" title="Legacy Configuration File Options">Legacy Configuration File Options</a></td>
 </tr></table></div>
 </body>
 </html>

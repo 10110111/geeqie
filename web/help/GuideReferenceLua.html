@@ -422,7 +422,7 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideSidebars.html" title="Sidebars">Sidebars</a></li>
 <li><a class="xref" href="GuideOtherWindows.html" title="Stand-alone Windows">Stand-alone Windows</a></li>
 <li><a class="xref" href="GuideImageSearch.html" title="Search and Select">Search and Select</a></li>
-<li><a class="xref" href="GuideImageManagementExternalEditing.html" title="External Actions">External Actions</a></li>
+<li><a class="xref" href="GuideImageManagementPlugins.html" title="Plugins">Plugins</a></li>
 <li><a class="xref" href="GuideImageManagement.html" title="File Management">File Management</a></li>
 <li><a class="xref" href="GuideColorManagement.html" title="Color Management">Color Management</a></li>
 <li><a class="xref" href="GuideImagePresentation.html" title="Image Presentation">Image Presentation</a></li>
@@ -440,6 +440,7 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideReferenceLIRC.html" title="Infra-red controller">Infra-red controller</a></li>
 <li><a class="xref" href="GuideReferenceXmpExif.html" title="XMP, Exif and IPTC">XMP, Exif and IPTC</a></li>
 <li><a class="xref" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">Supported File Formats</a></li>
+<li><a class="xref" href="GuideReferencePixbufLoaders.html" title="Additional pixbuf loaders">Additional pixbuf loaders</a></li>
 <li><a class="xref" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></li>
 <li><a class="xref" href="GuideReferenceStandards.html" title="Standards">Standards</a></li>
 </ul></div>
@@ -460,7 +461,9 @@ dd.answer div.label { float: left; }
 <p class="para block block-first">
     Lua scripts allow the functionality of Geeqie to be extended. Lua scripts may only be used in conjunction with the
     <a class="link" href="GuideOptionsWindow.html#OverlayScreenDisplay" title="Overlay Screen Display">Overlay Screen Display</a>
-    .
+    and the
+    <div dir="ltr" class=" block programlisting block-indent"><pre class="programlisting">geeqie --remote --lua:</pre></div>
+    command line option.
   </p>
 <p class="para block"></p>
 <p class="para block">Some knowledge of the Lua programming language is required.</p>
@@ -534,10 +537,14 @@ dd.answer div.label { float: left; }
 <td>The file size in bytes</td>
 </tr>
 <tr>
+<td class="td-colsep">Image:get_marks()</td>
+<td>An integer representing the marks set for the file</td>
+</tr>
+<tr class="tr-shade">
 <td class="td-colsep">Image:get_exif()</td>
 <td>A data structure containing the entire exif data</td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep">&lt;exif_str&gt;:get_datum("&lt;exif_tag&gt;")</td>
 <td>A single exif tag extracted from a structure output by the above command</td>
 </tr>
@@ -568,7 +575,9 @@ dd.answer div.label { float: left; }
 </div>
 <div class="division section">
 <a name="Warning"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">13.5.5. </span>Warning</span></h2></div>
-<div class="admonition block warning block-first block-indent"><div class="warning-inner"><p class="para block block-first">Lua is a powerful programming language. Errors in script files, besides having undesirable side-effects, may cause Geeqie to crash.</p></div></div>
+<div class="admonition block warning block-first block-indent"><div class="warning-inner">
+      <p class="para block block-first">Lua is a powerful programming language. Errors in script files, besides having undesirable side-effects, may cause Geeqie to crash.</p>
+    </div></div>
 </div>
 </div></div>
 <div class="navbar navbar-bottom"><table class="navbar"><tr>
