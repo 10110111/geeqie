@@ -335,7 +335,7 @@ static gboolean advanced_exif_mouseclick(GtkWidget *widget,
 		col_num = g_list_index(cols, (gpointer)column);
 		gtk_tree_model_get(store, &iter, display_order[col_num], &value, -1);
 
-		clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+		clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
 		gtk_clipboard_set_text(clipboard, value, -1);
 
 		g_list_free(cols);

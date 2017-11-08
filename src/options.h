@@ -51,6 +51,7 @@ struct _ConfOptions
 
 	gint open_recent_list_maxsize;
 	gint dnd_icon_size;
+	gint clipboard_selection;
 
 	gboolean save_window_positions;
 	gboolean use_saved_window_positions_for_new_windows;

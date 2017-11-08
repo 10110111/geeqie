@@ -29,6 +29,11 @@ typedef enum {
 } ZoomMode;
 
 typedef enum {
+	PRIMARY	= 0,
+	CLIPBOARD = 1,
+} ClipboardSelection;
+
+typedef enum {
 	MOUSE_BUTTON_LEFT	= 1,
 	MOUSE_BUTTON_MIDDLE	= 2,
 	MOUSE_BUTTON_RIGHT	= 3,

@@ -360,6 +360,7 @@ static void config_window_apply(void)
 
 	options->open_recent_list_maxsize = c_options->open_recent_list_maxsize;
 	options->dnd_icon_size = c_options->dnd_icon_size;
+	options->clipboard_selection = c_options->clipboard_selection;
 
 	options->metadata.save_in_image_file = c_options->metadata.save_in_image_file;
 	options->metadata.save_legacy_IPTC = c_options->metadata.save_legacy_IPTC;
@@ -524,6 +525,22 @@ static void quality_menu_cb(GtkWidget *combo, gpointer data)
 		}
 }
 
+static void clipboard_selection_menu_cb(GtkWidget *combo, gpointer data)
+{
+	gint *option = data;
+
+	switch (gtk_combo_box_get_active(GTK_COMBO_BOX(combo)))
+		{
+		case 0:
+		default:
+			*option = PRIMARY;
+			break;
+		case 1:
+			*option = CLIPBOARD;
+			break;
+		}
+}
+
 static void add_quality_menu(GtkWidget *table, gint column, gint row, const gchar *text,
 			     guint option, guint *option_c)
 {
@@ -549,6 +566,33 @@ static void add_quality_menu(GtkWidget *table, gint column, gint row, const gcha
 
 	g_signal_connect(G_OBJECT(combo), "changed",
 			 G_CALLBACK(quality_menu_cb), option_c);
+
+	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
+			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show(combo);
+}
+
+static void add_clipboard_selection_menu(GtkWidget *table, gint column, gint row, const gchar *text,
+			     guint option, guint *option_c)
+{
+	GtkWidget *combo;
+	gint current = 0;
+
+	*option_c = option;
+
+	pref_table_label(table, column, row, text, 0.0);
+
+	combo = gtk_combo_box_text_new();
+
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("PRIMARY"));
+	if (option == PRIMARY) current = 0;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), _("CLIPBOARD"));
+	if (option == CLIPBOARD) current = 1;
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
+
+	g_signal_connect(G_OBJECT(combo), "changed",
+			 G_CALLBACK(clipboard_selection_menu_cb), option_c);
 
 	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
 			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -2323,6 +2367,9 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	pref_spin_new_int(group, _("Drag'n drop icon size"), NULL,
 			  16, 256, 16, options->dnd_icon_size, &c_options->dnd_icon_size);
+
+	table = pref_table_new(group, 2, 1, FALSE, FALSE);
+	add_clipboard_selection_menu(table, 0, 0, _("Copy path clipboard selection:"), options->clipboard_selection, &c_options->clipboard_selection);
 
 	group = pref_group_new(vbox, FALSE, _("Navigation"), GTK_ORIENTATION_VERTICAL);
 

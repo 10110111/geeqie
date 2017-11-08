@@ -140,6 +140,34 @@
           <para>This is the width and height of the icon generated from image and displayed when doing drag and drop actions. High resolution screens may require to increase this number.</para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Copy path clipboard selection</guilabel>
+        </term>
+        <listitem>
+          <para>
+            This option determines which clipboard selection is used for the "Copy path" menu item. The exact method of the paste operation will depend on the operating system, but in general will be:
+            <variablelist>
+              <varlistentry>
+                <term>
+                  <guilabel>PRIMARY</guilabel>
+                </term>
+                <listitem>
+                  <para>Paste using mouse middle-click, or shift-insert.</para>
+                </listitem>
+              </varlistentry>
+              <varlistentry>
+                <term>
+                  <guilabel>CLIPBOARD</guilabel>
+                </term>
+                <listitem>
+                  <para>Paste using mouse right-click and select paste, or control-v.</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </para>
+        </listitem>
+      </varlistentry>
     </variablelist>
   </section>
   <section id="Navigation">
