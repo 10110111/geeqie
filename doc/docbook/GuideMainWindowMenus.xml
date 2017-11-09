@@ -407,7 +407,24 @@
           </menuchoice>
         </term>
         <listitem>
-          <para>Copy selected item path to clipboard.</para>
+          <para>
+            Copy selected item-path(s) to clipboard
+            <footnote id='ref1'>
+              The clipboard used is selected
+              <link linkend="Behaviour">here.</link>
+            </footnote>
+            . Each data item copied will be enclosed in quotes.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <guimenu>Copy path unquoted</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Copy selected item-path(s) to clipboard. The data will not be enclosed in quotes.</para>
         </listitem>
       </varlistentry>
       <varlistentry>

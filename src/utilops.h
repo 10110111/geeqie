@@ -68,8 +68,8 @@ void file_util_start_filter_from_filelist(const gchar *key, GList *list, const g
 
 void file_util_delete_dir(FileData *source_fd, GtkWidget *parent);
 
-void file_util_copy_path_to_clipboard(FileData *fd);
-void file_util_copy_path_list_to_clipboard(GList *list);
+void file_util_copy_path_to_clipboard(FileData *fd, gboolean quoted);
+void file_util_copy_path_list_to_clipboard(GList *list, gboolean quoted);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -2255,7 +2255,14 @@ static void dupe_menu_copy_path_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
-	file_util_copy_path_list_to_clipboard(dupe_listview_get_selection(dw, dw->listview));
+	file_util_copy_path_list_to_clipboard(dupe_listview_get_selection(dw, dw->listview), TRUE);
+}
+
+static void dupe_menu_copy_path_unquoted_cb(GtkWidget *widget, gpointer data)
+{
+	DupeWindow *dw = data;
+
+	file_util_copy_path_list_to_clipboard(dupe_listview_get_selection(dw, dw->listview), FALSE);
 }
 
 static void dupe_menu_remove_cb(GtkWidget *widget, gpointer data)
@@ -2369,6 +2376,8 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 				G_CALLBACK(dupe_menu_rename_cb), dw);
 	menu_item_add_sensitive(menu, _("_Copy path"), on_row,
 				G_CALLBACK(dupe_menu_copy_path_cb), dw);
+	menu_item_add_sensitive(menu, _("_Copy path unquoted"), on_row,
+				G_CALLBACK(dupe_menu_copy_path_unquoted_cb), dw);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, on_row,
 				G_CALLBACK(dupe_menu_delete_cb), dw);
 	menu_item_add_divider(menu);

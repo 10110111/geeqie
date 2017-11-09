@@ -1170,7 +1170,16 @@ static void view_copy_path_cb(GtkWidget *widget, gpointer data)
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
-	file_util_copy_path_to_clipboard(image_get_fd(imd));
+	file_util_copy_path_to_clipboard(image_get_fd(imd), TRUE);
+}
+
+static void view_copy_path_unquoted_cb(GtkWidget *widget, gpointer data)
+{
+	ViewWindow *vw = data;
+	ImageWindow *imd;
+
+	imd = view_window_active_image(vw);
+	file_util_copy_path_to_clipboard(image_get_fd(imd), FALSE);
 }
 
 static void view_fullscreen_cb(GtkWidget *widget, gpointer data)
@@ -1315,6 +1324,7 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 	menu_item_add(menu, _("_Move..."), G_CALLBACK(view_move_cb), vw);
 	menu_item_add(menu, _("_Rename..."), G_CALLBACK(view_rename_cb), vw);
 	menu_item_add(menu, _("_Copy path"), G_CALLBACK(view_copy_path_cb), vw);
+	menu_item_add(menu, _("_Copy path unquoted"), G_CALLBACK(view_copy_path_unquoted_cb), vw);
 	menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(view_delete_cb), vw);
 
 	menu_item_add_divider(menu);

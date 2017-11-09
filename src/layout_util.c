@@ -289,7 +289,14 @@ static void layout_menu_copy_path_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
-	file_util_copy_path_list_to_clipboard(layout_selection_list(lw));
+	file_util_copy_path_list_to_clipboard(layout_selection_list(lw), TRUE);
+}
+
+static void layout_menu_copy_path_unquoted_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	file_util_copy_path_list_to_clipboard(layout_selection_list(lw), FALSE);
 }
 
 static void layout_menu_move_cb(GtkAction *action, gpointer data)
@@ -1754,6 +1761,7 @@ static GtkActionEntry menu_entries[] = {
   { "EnableGrouping",	NULL,			N_("Enable file _grouping"),		NULL,			N_("Enable file grouping"),		CB(layout_menu_enable_grouping_cb) },
   { "DisableGrouping",	NULL,			N_("Disable file groupi_ng"),		NULL,			N_("Disable file grouping"),		CB(layout_menu_disable_grouping_cb) },
   { "CopyPath",		NULL,			N_("_Copy path to clipboard"),		NULL,			N_("Copy path to clipboard"),		CB(layout_menu_copy_path_cb) },
+  { "CopyPathUnquoted",		NULL,			N_("_Copy path unquoted to clipboard"),		NULL,			N_("Copy path unquoted to clipboard"),		CB(layout_menu_copy_path_unquoted_cb) },
   { "CloseWindow",	GTK_STOCK_CLOSE,	N_("C_lose window"),			"<control>W",		N_("Close window"),			CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, 	N_("_Quit"),				"<control>Q",		N_("Quit"),				CB(layout_menu_exit_cb) },
   { "RotateCW",		NULL,			N_("_Rotate clockwise"),		"bracketright",		N_("Rotate clockwise"),			CB(layout_menu_alter_90_cb) },
@@ -1959,6 +1967,7 @@ static const gchar *menu_ui_description =
 "      <placeholder name='SelectSection'/>"
 "      <separator/>"
 "      <menuitem action='CopyPath'/>"
+"      <menuitem action='CopyPathUnquoted'/>"
 "      <placeholder name='ClipboardSection'/>"
 "      <separator/>"
 "      <menuitem action='ShowMarks'/>"

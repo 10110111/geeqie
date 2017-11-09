@@ -528,7 +528,16 @@ static void vd_pop_menu_copy_path_cb(GtkWidget *widget, gpointer data)
 
 	if (!vd->click_fd) return;
 
-	file_util_copy_path_to_clipboard(vd->click_fd);
+	file_util_copy_path_to_clipboard(vd->click_fd, TRUE);
+}
+
+static void vd_pop_menu_copy_path_unquoted_cb(GtkWidget *widget, gpointer data)
+{
+	ViewDir *vd = data;
+
+	if (!vd->click_fd) return;
+
+	file_util_copy_path_to_clipboard(vd->click_fd, FALSE);
 }
 
 static void vd_pop_submenu_dir_view_as_cb(GtkWidget *widget, gpointer data)
@@ -676,6 +685,9 @@ GtkWidget *vd_pop_menu(ViewDir *vd, FileData *fd)
 
 	menu_item_add(menu, _("_Copy path"),
 		      G_CALLBACK(vd_pop_menu_copy_path_cb), vd);
+
+	menu_item_add(menu, _("_Copy path unquoted"),
+		      G_CALLBACK(vd_pop_menu_copy_path_unquoted_cb), vd);
 
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, rename_delete_active,
 				      G_CALLBACK(vd_pop_menu_delete_cb), vd);

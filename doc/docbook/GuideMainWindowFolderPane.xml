@@ -390,7 +390,21 @@
             <entry />
             <entry>Copy path</entry>
             <entry>
-              <para>Copy sjkhsdlfjhvfljhDelete file or folder</para>
+              <para>
+                Copy selected item-path(s) to clipboard
+                <footnote id='ref1'>
+                  The clipboard used is selected
+                  <link linkend="Behaviour">here.</link>
+                </footnote>
+                . Each data item copied will be enclosed in quotes.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry />
+            <entry>Copy path unquoted</entry>
+            <entry>
+              <para>Copy selected item-path(s) to clipboard. The data will not be enclosed in quotes.</para>
             </entry>
           </row>
           <row>

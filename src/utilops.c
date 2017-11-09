@@ -3032,7 +3032,7 @@ void file_util_rename_dir(FileData *source_fd, const gchar *new_path, GtkWidget 
 }
 
 
-void file_util_copy_path_to_clipboard(FileData *fd)
+void file_util_copy_path_to_clipboard(FileData *fd, gboolean quoted)
 {
 	GtkClipboard *clipboard;
 
@@ -3046,10 +3046,17 @@ void file_util_copy_path_to_clipboard(FileData *fd)
 		{
 		clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
 		}
-	gtk_clipboard_set_text(clipboard, g_shell_quote(fd->path), -1);
+	if (quoted)
+		{
+		gtk_clipboard_set_text(clipboard, g_shell_quote(fd->path), -1);
+		}
+	else
+		{
+		gtk_clipboard_set_text(clipboard, fd->path, -1);
+		}
 }
 
-void file_util_copy_path_list_to_clipboard(GList *list)
+void file_util_copy_path_list_to_clipboard(GList *list, gboolean quoted)
 {
 	GtkClipboard *clipboard;
 	GList *work;
@@ -3072,7 +3079,14 @@ void file_util_copy_path_list_to_clipboard(GList *list)
 
 		if (!fd || !*fd->path) continue;
 
-		g_string_append(new, g_shell_quote(fd->path));
+		if (quoted)
+			{
+			g_string_append(new, g_shell_quote(fd->path));
+			}
+		else
+			{
+			g_string_append(new, fd->path);
+			}
 		if (work) g_string_append_c(new, ' ');
 		}
 

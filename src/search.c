@@ -999,7 +999,14 @@ static void sr_menu_copy_path_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;
 
-	file_util_copy_path_list_to_clipboard(search_result_selection_list(sd));
+	file_util_copy_path_list_to_clipboard(search_result_selection_list(sd), TRUE);
+}
+
+static void sr_menu_copy_path_unquoted_cb(GtkWidget *widget, gpointer data)
+{
+	SearchData *sd = data;
+
+	file_util_copy_path_list_to_clipboard(search_result_selection_list(sd), FALSE);
 }
 
 static void sr_menu_remove_cb(GtkWidget *widget, gpointer data)
@@ -1083,6 +1090,8 @@ static GtkWidget *search_result_menu(SearchData *sd, gboolean on_row, gboolean e
 				G_CALLBACK(sr_menu_rename_cb), sd);
 	menu_item_add_sensitive(menu, _("_Copy path"), on_row,
 				G_CALLBACK(sr_menu_copy_path_cb), sd);
+	menu_item_add_sensitive(menu, _("_Copy path unquoted"), on_row,
+				G_CALLBACK(sr_menu_copy_path_unquoted_cb), sd);
 	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, on_row,
 				      G_CALLBACK(sr_menu_delete_cb), sd);
 	menu_item_add_divider(menu);
