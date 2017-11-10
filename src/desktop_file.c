@@ -581,7 +581,7 @@ static void editor_list_window_create(void)
 					GINT_TO_POINTER(DESKTOP_FILE_COLUMN_PATH), NULL);
 
 	/* set initial sort order */
-    	//gtk_tree_sortable_set_sort_column_id(sortable, DESKTOP_FILE_COLUMN_KEY, GTK_SORT_ASCENDING);
+    gtk_tree_sortable_set_sort_column_id(sortable, DESKTOP_FILE_COLUMN_NAME, GTK_SORT_ASCENDING);
 
 	gtk_container_add(GTK_CONTAINER(scrolled), ewl->view);
 	gtk_widget_show(ewl->view);
