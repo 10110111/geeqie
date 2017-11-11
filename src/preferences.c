@@ -1711,27 +1711,31 @@ static void config_tab_image(GtkWidget *notebook)
 	pref_checkbox_new_int(group, _("Two pass rendering (apply HQ zoom and color correction in second pass)"),
 			      options->image.zoom_2pass, &c_options->image.zoom_2pass);
 
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	enlargement_button = pref_checkbox_new_int(hbox, _("Allow enlargement of image for zoom to fit (max. size in %)"),
-			      options->image.zoom_to_fit_allow_expand, &c_options->image.zoom_to_fit_allow_expand);
-	spin = pref_spin_new_int(hbox, NULL, NULL,
-				 100, 999, 1,
-				 options->image.max_enlargement_size, &c_options->image.max_enlargement_size);
-	pref_checkbox_link_sensitivity(enlargement_button, spin);
-
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
-	ct_button = pref_checkbox_new_int(hbox, _("Limit image size when autofitting (% of window):"),
-					  options->image.limit_autofit_size, &c_options->image.limit_autofit_size);
-	spin = pref_spin_new_int(hbox, NULL, NULL,
-				 10, 150, 1,
-				 options->image.max_autofit_size, &c_options->image.max_autofit_size);
-	pref_checkbox_link_sensitivity(ct_button, spin);
-
 	c_options->image.zoom_increment = options->image.zoom_increment;
 	spin = pref_spin_new(group, _("Zoom increment:"), NULL,
 			     0.01, 4.0, 0.01, 2, (gdouble)options->image.zoom_increment / 100.0,
 			     G_CALLBACK(zoom_increment_cb), NULL);
 	gtk_spin_button_set_update_policy(GTK_SPIN_BUTTON(spin), GTK_UPDATE_ALWAYS);
+
+	group = pref_group_new(vbox, FALSE, _("Fit image to window"), GTK_ORIENTATION_VERTICAL);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	enlargement_button = pref_checkbox_new_int(hbox, _("Allow enlargement of image (max. size in %)"),
+			      options->image.zoom_to_fit_allow_expand, &c_options->image.zoom_to_fit_allow_expand);
+	spin = pref_spin_new_int(hbox, NULL, NULL,
+				 100, 999, 1,
+				 options->image.max_enlargement_size, &c_options->image.max_enlargement_size);
+	pref_checkbox_link_sensitivity(enlargement_button, spin);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(hbox), _("Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to \"Fit image to window\". This value sets the maximum expansion permitted in percent i.e. 100% is full-size."));
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	ct_button = pref_checkbox_new_int(hbox, _("Virtual window size (% of actual window):"),
+					  options->image.limit_autofit_size, &c_options->image.limit_autofit_size);
+	spin = pref_spin_new_int(hbox, NULL, NULL,
+				 10, 150, 1,
+				 options->image.max_autofit_size, &c_options->image.max_autofit_size);
+	pref_checkbox_link_sensitivity(ct_button, spin);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(hbox), _("This value will set the virtual size of the window when \"Fit image to window\" is set. Instead of using the actual size of the window, the specified percentage of the window will be used. It allows one to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too."));
 
 	group = pref_group_new(vbox, FALSE, _("Appearance"), GTK_ORIENTATION_VERTICAL);
 

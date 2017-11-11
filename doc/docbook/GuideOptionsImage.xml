@@ -73,34 +73,39 @@
       </varlistentry>
       <varlistentry>
         <term>
-          <guilabel>Allow enlargement of image for zoom to fit</guilabel>
+          <guilabel>Zoom increment</guilabel>
+        </term>
+        <listitem>
+          <para>Adjusts the step size when zooming in or out on an image. This value corresponds to the percentage of the original image.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+  <section id="FitImageToWindow">
+    <title>Fit Image To Window</title>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <guilabel>Allow enlargement of image (max. size in %)</guilabel>
         </term>
         <listitem>
           <para>
             Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to
             <emphasis>Fit image to window</emphasis>
-            . The value in the adjoining spin box sets the maximum size permitted in percent i.e. 100% is full-size.
+            . This value sets the maximum expansion permitted in percent i.e. 100% is full-size.
           </para>
         </listitem>
       </varlistentry>
       <varlistentry>
         <term>
-          <guilabel>Limit image size when autofitting</guilabel>
+          <guilabel>Virtual window size (% of actual window)</guilabel>
         </term>
         <listitem>
           <para>
-            This percentage will affect the size of the image when
+            This value will set the virtual size of the window when
             <emphasis>Fit image to window</emphasis>
-            is set. Instead of using 100% of the window, it will use the specified percentage. It allows one to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.
+            is set. Instead of using the actual size of the window, the specified percentage of the window will be used. It allows one to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.
           </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <guilabel>Zoom increment</guilabel>
-        </term>
-        <listitem>
-          <para>Adjusts the step size when zooming in or out on an image. This value corresponds to the percentage of the original image.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -127,7 +132,7 @@
           <note>
             <para>
               You may use the
-              <emphasis>Limit image size when autofitting</emphasis>
+              <emphasis>Virtual window size</emphasis>
               (see above) option to keep a border around the image in fullscreen mode.
             </para>
           </note>
