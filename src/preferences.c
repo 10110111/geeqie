@@ -573,7 +573,7 @@ static void add_quality_menu(GtkWidget *table, gint column, gint row, const gcha
 }
 
 static void add_clipboard_selection_menu(GtkWidget *table, gint column, gint row, const gchar *text,
-			     guint option, guint *option_c)
+			     gint option, gint *option_c)
 {
 	GtkWidget *combo;
 	gint current = 0;
