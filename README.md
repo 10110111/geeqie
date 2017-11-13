@@ -126,7 +126,7 @@ It is recommended to always use `git clone  git://www.geeqie.org/geeqie.git` to 
 
 However if you leave the folder intact, whenever new features or patches are available, execute:
 
-`git pull; sudo make uninstall; sudo make distclean; ./autogen.sh; make -j<no. of cpu cores>; sudo make install`
+`git pull; sudo make uninstall; sudo make maintainer-clean; ./autogen.sh; make -j<no. of cpu cores>; sudo make install`
 
 Only the changed sources are downloaded, which makes this a quick operation.
 

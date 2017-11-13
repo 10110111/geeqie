@@ -52,7 +52,7 @@
       </p>
       <p>However if you leave the folder intact, whenever new features or patches are available, execute:</p>
       <p>
-        <code>git pull; sudo make uninstall; sudo make distclean; ./autogen.sh; make -j&lt;no. of cpu cores&gt;; sudo make install</code>
+        <code>git pull; sudo make uninstall; sudo make maintainer-clean; ./autogen.sh; make -j&lt;no. of cpu cores&gt;; sudo make install</code>
       </p>
       <p>Only the changed sources are downloaded, which makes this a quick operation.</p>
       <p>Your configuration file, history file and desktop files are not affected by this process.</p>
