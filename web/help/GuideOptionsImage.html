@@ -462,10 +462,13 @@ dd.answer div.label { float: left; }
 <span class="label">11.2.1. </span><a class="xref" href="GuideOptionsImage.html#Zoom" title="Zoom">Zoom</a>
 </li>
 <li>
-<span class="label">11.2.2. </span><a class="xref" href="GuideOptionsImage.html#Appearance" title="Appearance">Appearance</a>
+<span class="label">11.2.2. </span><a class="xref" href="GuideOptionsImage.html#FitImageToWindow" title="Fit Image To Window">Fit Image To Window</a>
 </li>
 <li>
-<span class="label">11.2.3. </span><a class="xref" href="GuideOptionsImage.html#Convenience" title="Convenience">Convenience</a>
+<span class="label">11.2.3. </span><a class="xref" href="GuideOptionsImage.html#Appearance" title="Appearance">Appearance</a>
+</li>
+<li>
+<span class="label">11.2.4. </span><a class="xref" href="GuideOptionsImage.html#Convenience" title="Convenience">Convenience</a>
 </li>
 </ul></div>
 <div class="division section">
@@ -524,26 +527,6 @@ dd.answer div.label { float: left; }
           </p>
         </dd>
 <dt class="term">
-          <span class="guilabel">Allow enlargement of image for zoom to fit</span>
-        </dt>
-<dd>
-          <p class="para block block-first">
-            Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to
-            <span class="emphasis">Fit image to window</span>
-            . The value in the adjoining spin box sets the maximum size permitted in percent i.e. 100% is full-size.
-          </p>
-        </dd>
-<dt class="term">
-          <span class="guilabel">Limit image size when autofitting</span>
-        </dt>
-<dd>
-          <p class="para block block-first">
-            This percentage will affect the size of the image when
-            <span class="emphasis">Fit image to window</span>
-            is set. Instead of using 100% of the window, it will use the specified percentage. It allows one to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.
-          </p>
-        </dd>
-<dt class="term">
           <span class="guilabel">Zoom increment</span>
         </dt>
 <dd>
@@ -552,7 +535,32 @@ dd.answer div.label { float: left; }
 </dl></div>
 </div>
 <div class="division section">
-<a name="Appearance"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.2.2. </span>Appearance</span></h2></div>
+<a name="FitImageToWindow"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.2.2. </span>Fit Image To Window</span></h2></div>
+<div class="block list variablelist"><dl class="variablelist">
+<dt class="term dt-first">
+          <span class="guilabel">Allow enlargement of image (max. size in %)</span>
+        </dt>
+<dd>
+          <p class="para block block-first">
+            Enable this to allow Geeqie to increase the image size for images that are smaller than the current view area when the zoom is set to
+            <span class="emphasis">Fit image to window</span>
+            . This value sets the maximum expansion permitted in percent i.e. 100% is full-size.
+          </p>
+        </dd>
+<dt class="term">
+          <span class="guilabel">Virtual window size (% of actual window)</span>
+        </dt>
+<dd>
+          <p class="para block block-first">
+            This value will set the virtual size of the window when
+            <span class="emphasis">Fit image to window</span>
+            is set. Instead of using the actual size of the window, the specified percentage of the window will be used. It allows one to keep a border around the image (values lower than 100%) or to auto zoom the image (values greater than 100%). It affects fullscreen mode too.
+          </p>
+        </dd>
+</dl></div>
+</div>
+<div class="division section">
+<a name="Appearance"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.2.3. </span>Appearance</span></h2></div>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
           <span class="guilabel">Custom border color</span>
@@ -570,7 +578,7 @@ dd.answer div.label { float: left; }
           <div class="admonition block note block-indent"><div class="note-inner">
             <p class="para block block-first">
               You may use the
-              <span class="emphasis">Limit image size when autofitting</span>
+              <span class="emphasis">Virtual window size</span>
               (see above) option to keep a border around the image in fullscreen mode.
             </p>
           </div></div>
@@ -586,7 +594,7 @@ dd.answer div.label { float: left; }
 </dl></div>
 </div>
 <div class="division section">
-<a name="Convenience"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.2.3. </span>Convenience</span></h2></div>
+<a name="Convenience"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.2.4. </span>Convenience</span></h2></div>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
           <span class="guilabel">Auto rotate proofs using EXIF information</span>

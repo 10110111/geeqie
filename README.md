@@ -204,6 +204,14 @@ And either the ChangeLog file or [Geeqie ChangeLog](http://geeqie.org/cgi-bin/gi
         enabled by default
         disable with configure option: --disable-lua
 
+    librsvg2-common
+        for displaying .svg images
+
+    libwmf0.2-7-gtk
+        for displaying .wmf images
+
+    (see also "Additional pixbuf loaders" in the References section of the Help file)
+
     awk
         when running Geeqie, to use the geo-decode function
 
