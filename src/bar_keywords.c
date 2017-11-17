@@ -1016,6 +1016,35 @@ static void bar_pane_keywords_connect_mark_cb(GtkWidget *menu_widget, gpointer d
 	meta_data_connect_mark_with_keyword(keyword_tree, &kw_iter, mark);
 }
 
+static void bar_pane_keywords_disconnect_marks_ok_cb(GenericDialog *gd, gpointer data)
+{
+	keyword_tree_disconnect_marks();
+}
+
+static void dummy_cancel_cb(GenericDialog *gd, gpointer data)
+{
+	/* no op, only so cancel button appears */
+}
+
+static void bar_pane_keywords_disconnect_marks_cb(GtkWidget *menu_widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+
+	GenericDialog *gd;
+	GString *message = g_string_new("");
+
+	message = g_string_append(message, _("This will disconnect all Marks Keywords connections"));
+
+	gd = generic_dialog_new(_("Marks Keywords"),
+				"marks_keywords", menu_widget, TRUE, dummy_cancel_cb, pkd);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_WARNING,
+				"Disconnect all Marks Keywords connections?", message->str, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, bar_pane_keywords_disconnect_marks_ok_cb, TRUE);
+
+	gtk_widget_show(gd->dialog);
+
+	g_string_free(message, TRUE);
+}
 
 static void bar_pane_keywords_delete_cb(GtkWidget *menu_widget, gpointer data)
 {
@@ -1322,6 +1351,12 @@ static void bar_pane_keywords_menu_popup(GtkWidget *widget, PaneKeywordsData *pk
 			g_free(text);
 			}
 
+		if (keyword)
+			{
+			text = g_strdup_printf(_("Disconnect all Mark Keyword connections"));
+			menu_item_add_stock(menu, text, GTK_STOCK_DELETE, G_CALLBACK(bar_pane_keywords_disconnect_marks_cb), pkd);
+			g_free(text);
+			}
 		menu_item_add_divider(menu);
 		g_free(mark);
 		g_free(name);

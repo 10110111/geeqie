@@ -1812,6 +1812,35 @@ void keyword_tree_write_config(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_STRING("</keyword_tree>");
 }
 
+ void keyword_tree_node_disconnect_marks(GtkTreeModel *keyword_tree, GtkTreeIter *iter_ptr)
+{
+	GtkTreeIter iter = *iter_ptr;
+
+	while (TRUE)
+		{
+		GtkTreeIter children;
+
+		meta_data_connect_mark_with_keyword((keyword_tree), &iter, -1);
+
+		if (gtk_tree_model_iter_children((keyword_tree), &children, &iter))
+			{
+			keyword_tree_node_disconnect_marks((keyword_tree), &children);
+			}
+
+		if (!gtk_tree_model_iter_next((keyword_tree), &iter)) return;
+		}
+}
+
+void keyword_tree_disconnect_marks()
+{
+	GtkTreeIter iter;
+
+	if (keyword_tree && gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter))
+		{
+		keyword_tree_node_disconnect_marks(GTK_TREE_MODEL(keyword_tree), &iter);
+		}
+}
+
 GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *parent, const gchar **attribute_names, const gchar **attribute_values)
 {
 	gchar *name = NULL;
