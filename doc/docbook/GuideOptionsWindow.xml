@@ -59,6 +59,16 @@
         </listitem>
       </varlistentry>
     </variablelist>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <guilabel>Remember dialog window positions</guilabel>
+        </term>
+        <listitem>
+          <para>This will maintain dialog windows size and position between Geeqie sessions.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
   </section>
   <section id="Size">
     <title>Size</title>

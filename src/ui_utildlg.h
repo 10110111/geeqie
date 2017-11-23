@@ -99,6 +99,7 @@ void file_dialog_add_filter(FileDialog *fd, const gchar *filter, const gchar *fi
 void file_dialog_clear_filter(FileDialog *fd);
 void file_dialog_sync_history(FileDialog *fd, gboolean dir_only);
 
-
+void generic_dialog_windows_load_config(const gchar **window_attributes, const gchar **attribute_values);
+void generic_dialog_windows_write_config(GString *outstr, gint indent);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

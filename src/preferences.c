@@ -255,6 +255,7 @@ static void config_window_apply(void)
 	options->tools_restore_state = c_options->tools_restore_state;
 	options->save_window_positions = c_options->save_window_positions;
 	options->use_saved_window_positions_for_new_windows = c_options->use_saved_window_positions_for_new_windows;
+	options->save_dialog_window_positions = c_options->save_dialog_window_positions;
 	options->image.scroll_reset_method = c_options->image.scroll_reset_method;
 	options->image.zoom_2pass = c_options->image.zoom_2pass;
 	options->image.fit_window_to_image = c_options->image.fit_window_to_image;
@@ -1791,6 +1792,9 @@ static void config_tab_windows(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Remember tool state (float/hidden)"),
 			      options->tools_restore_state, &c_options->tools_restore_state);
+
+	pref_checkbox_new_int(group, _("Remember dialog window positions"),
+			      options->save_dialog_window_positions, &c_options->save_dialog_window_positions);
 
 	group = pref_group_new(vbox, FALSE, _("Size"), GTK_ORIENTATION_VERTICAL);
 

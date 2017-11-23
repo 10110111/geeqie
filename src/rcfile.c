@@ -44,7 +44,7 @@
 #include "metadata.h"
 #include "bar_gps.h"
 #include "dupe.h"
-
+#include "ui_utildlg.h"
 
 /*
  *-----------------------------------------------------------------------------
@@ -337,6 +337,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, save_window_positions);
 	WRITE_NL(); WRITE_BOOL(*options, use_saved_window_positions_for_new_windows);
 	WRITE_NL(); WRITE_BOOL(*options, tools_restore_state);
+	WRITE_NL(); WRITE_BOOL(*options, save_dialog_window_positions);
 
 	WRITE_NL(); WRITE_UINT(*options, log_window_lines);
 	WRITE_NL(); WRITE_BOOL(*options, log_window.timer_data);
@@ -637,6 +638,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, save_window_positions)) continue;
 		if (READ_BOOL(*options, use_saved_window_positions_for_new_windows)) continue;
 		if (READ_BOOL(*options, tools_restore_state)) continue;
+		if (READ_BOOL(*options, save_dialog_window_positions)) continue;
 
 		if (READ_INT(*options, log_window_lines)) continue;
 		if (READ_BOOL(*options, log_window.timer_data)) continue;
@@ -1098,6 +1100,19 @@ static void options_parse_toolbar(GQParserData *parser_data, GMarkupParseContext
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 }
+static void options_parse_dialogs(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	if (g_ascii_strcasecmp(element_name, "window") == 0)
+		{
+		generic_dialog_windows_load_config(attribute_names, attribute_values);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else
+		{
+		log_printf("unexpected in <dialogs>: <%s>\n", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
 
 static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
@@ -1128,6 +1143,10 @@ static void options_parse_layout(GQParserData *parser_data, GMarkupParseContext 
 	else if (g_ascii_strcasecmp(element_name, "statusbar") == 0)
 		{
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "dialogs") == 0)
+		{
+		options_parse_func_push(parser_data, options_parse_dialogs, NULL, NULL);
 		}
 	else
 		{

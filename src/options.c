@@ -59,6 +59,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->save_window_positions = TRUE;
 	options->use_saved_window_positions_for_new_windows = FALSE;
 	options->tools_restore_state = TRUE;
+	options->save_dialog_window_positions = FALSE;
 
 	options->file_ops.confirm_delete = TRUE;
 	options->file_ops.enable_delete_key = TRUE;

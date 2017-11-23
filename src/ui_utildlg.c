@@ -36,6 +36,7 @@
 #include "ui_utildlg.h"
 
 #include "filedata.h"
+#include "rcfile.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
 #include "ui_pathsel.h"
@@ -48,10 +49,96 @@
  *-----------------------------------------------------------------------------
  */
 
+typedef struct _DialogWindow DialogWindow;
+struct _DialogWindow
+{
+	gint x;
+	gint y;
+	gint w;
+	gint h;
+	gchar *title;
+	gchar *role;
+};
+
+static GList *dialog_windows = NULL;
+
+static void generic_dialog_save_window(const gchar *title, const gchar *role, gint x, gint y, gint h, gint w)
+{
+	GList *work;
+
+	work = g_list_first(dialog_windows);
+	while (work)
+		{
+		DialogWindow *dw = work->data;
+		if (g_strcmp0(dw->title ,title) == 0 && g_strcmp0(dw->role, role) == 0)
+			{
+			dw->x = x;
+			dw->y = y;
+			dw->w = w;
+			dw->h = h;
+			return;
+			}
+		work = work->next;
+		}
+
+	DialogWindow *dw = g_new0(DialogWindow, 1);
+	dw->title = g_strdup(title);
+	dw->role = g_strdup(role);
+	dw->x = x;
+	dw->y = y;
+	dw->w = w;
+	dw->h = h;
+
+	dialog_windows = g_list_append(dialog_windows, dw);
+}
+
+static gboolean generic_dialog_find_window(const gchar *title, const gchar *role, gint *x, gint *y, gint *h, gint *w)
+{
+	GList *work;
+
+	work = g_list_first(dialog_windows);
+	while (work)
+		{
+		DialogWindow *dw = work->data;
+
+		if (g_strcmp0(dw->title,title) == 0 && g_strcmp0(dw->role, role) == 0)
+			{
+			*x = dw->x;
+			*y = dw->y;
+			*w = dw->w;
+			*h = dw->h;
+			return TRUE;
+			}
+		work = work->next;
+		}
+	return FALSE;
+}
+
 void generic_dialog_close(GenericDialog *gd)
 {
+	gchar *ident_string;
+	gchar *full_title;
+	gchar *actual_title;
+	gint x, y, h, w;
+
+	gdk_window_get_root_origin(gtk_widget_get_window (gd->dialog), &x, &y);
+	w = gdk_window_get_width(gtk_widget_get_window (gd->dialog));
+	h = gdk_window_get_height(gtk_widget_get_window (gd->dialog));
+
+	/* The window title is modified in window.c: window_new()
+	 * by appending the string " - Geeqie"
+	 */
+	ident_string = g_strconcat(" - ", GQ_APPNAME, NULL);
+	full_title = g_strdup(gtk_window_get_title(GTK_WINDOW(gd->dialog)));
+	actual_title = strndup(full_title, g_strrstr(full_title, ident_string) - full_title);
+
+	generic_dialog_save_window(actual_title, gtk_window_get_role(GTK_WINDOW(gd->dialog)), x, y, w, h);
+
 	gtk_widget_destroy(gd->dialog);
 	g_free(gd);
+	g_free(ident_string);
+	g_free(full_title);
+	g_free(actual_title);
 }
 
 static void generic_dialog_click_cb(GtkWidget *widget, gpointer data)
@@ -227,6 +314,68 @@ GtkWidget *generic_dialog_add_message(GenericDialog *gd, const gchar *icon_stock
 	return vbox;
 }
 
+void generic_dialog_windows_load_config(const gchar **attribute_names, const gchar **attribute_values)
+{
+	DialogWindow *dw =  g_new0(DialogWindow, 1);
+	gchar *title = NULL;
+	gchar *role = NULL;
+	gint x = 0;
+	gint y = 0;
+	gint w = 0;
+	gint h = 0;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+		if (READ_CHAR_FULL("title", title)) continue;
+		if (READ_CHAR_FULL("role", role)) continue;
+		if (READ_INT_FULL("x", x)) continue;
+		if (READ_INT_FULL("y", y)) continue;
+		if (READ_INT_FULL("w", w)) continue;
+		if (READ_INT_FULL("h", h)) continue;
+
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+
+	if (title && title[0] != 0)
+		{
+		dw->title = g_strdup(title);
+		dw->role = g_strdup(role);
+		dw->x = x;
+		dw->y = y;
+		dw->w = w;
+		dw->h = h;
+
+		dialog_windows = g_list_append(dialog_windows, dw);
+		}
+}
+
+void generic_dialog_windows_write_config(GString *outstr, gint indent)
+{
+	GList *work;
+
+	WRITE_NL(); WRITE_STRING("<%s>", "dialogs");
+	indent++;
+
+	work = g_list_first(dialog_windows);
+	while (work)
+		{
+		DialogWindow *dw = work->data;
+		WRITE_NL(); WRITE_STRING("<window ");
+		write_char_option(outstr, indent + 1, "title", dw->title);
+		write_char_option(outstr, indent + 1, "role", dw->role);
+		WRITE_INT(*dw, x);
+		WRITE_INT(*dw, y);
+		WRITE_INT(*dw, w);
+		WRITE_INT(*dw, h);
+		WRITE_STRING("/>");
+		work = work->next;
+		}
+	indent--;
+	WRITE_NL(); WRITE_STRING("</%s>", "dialogs");
+}
+
 static void generic_dialog_setup(GenericDialog *gd,
 				 const gchar *title,
 				 const gchar *role,
@@ -234,6 +383,7 @@ static void generic_dialog_setup(GenericDialog *gd,
 				 void (*cancel_cb)(GenericDialog *, gpointer), gpointer data)
 {
 	GtkWidget *vbox;
+	gint x, y, w, h;
 
 	gd->auto_close = auto_close;
 	gd->data = data;
@@ -241,6 +391,15 @@ static void generic_dialog_setup(GenericDialog *gd,
 
 	gd->dialog = window_new(GTK_WINDOW_TOPLEVEL, role, NULL, NULL, title);
 	gtk_window_set_type_hint(GTK_WINDOW(gd->dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
+
+	if (options->save_dialog_window_positions)
+		{
+		if (generic_dialog_find_window(title, role, &x, &y, &w, &h))
+			{
+			gtk_window_set_default_size(GTK_WINDOW(gd->dialog), w, h);
+			gtk_window_move(GTK_WINDOW(gd->dialog), x, y);
+			}
+		}
 
 	if (parent)
 		{
