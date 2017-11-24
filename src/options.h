@@ -128,6 +128,8 @@ struct _ConfOptions
 		gboolean spec_standard;
 		guint quality;
 		gboolean use_exif;
+		gboolean use_ft_metadata;
+// 		gboolean use_ft_metadata_small;
 	} thumbnails;
 
 	/* file filtering */

@@ -69,6 +69,8 @@ Geeqie is a graphics file viewer. Basic features:
 *   Viewing raster and vector images, in the following formats:
 3FR, ANI, APM, ARW, BMP, CR2, CRW, CUR, DNG, ERF, GIF, ICNS, ICO, JPE/JPEG/JPG, JPS, KDC, MEF, MPO, MOS, MRW, NEF, ORF, PEF, PTX, PBM/PGM/PNM/PPM, PNG, QIF/QTIF (QuickTime Image Format), RAF, RAW, RW2, SR2, SRF, SVG/SVGZ, TGA/TARGA, TIF/TIFF, WMF, XBM, XPM. Animated GIFs are supported.
 
+* Preview and thumbnails of video clips can be displayed. Clips can be run via a defined external program.
+
 * Images can be displayed singly in normal or fullscreen mode; static or slideshow mode; in sets of two or four per page for comparison; or as thumbnails of various sizes. Synchronised zoom when multi images are displayed.
 
 * Pan(orama) view displays image thumbnails in calendar, grid, folder and other layouts.
@@ -218,6 +220,10 @@ And either the ChangeLog file or [Geeqie ChangeLog](http://geeqie.org/cgi-bin/gi
     markdown
         when compiling Geeqie, to create this file in html format
 
+    libffmpegthumbnailer 2.0.0
+        https://github.com/dirkvdb/ffmpegthumbnailer
+        for thumbnailing camera video clips
+        disable with configure option: --disable-ffmpegthumbnailer
 
 ### Code hackers:
 

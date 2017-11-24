@@ -388,6 +388,8 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.spec_standard);
 	WRITE_NL(); WRITE_UINT(*options, thumbnails.quality);
 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.use_exif);
+	WRITE_NL(); WRITE_BOOL(*options, thumbnails.use_ft_metadata);
+// 	WRITE_NL(); WRITE_BOOL(*options, thumbnails.use_ft_metadata_small);
 
 	/* File sorting Options */
 	WRITE_NL(); WRITE_INT(*options, file_sort.method);
@@ -680,6 +682,8 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_BOOL(*options, thumbnails.spec_standard)) continue;
 		if (READ_UINT_CLAMP(*options, thumbnails.quality, GDK_INTERP_NEAREST, GDK_INTERP_HYPER)) continue;
 		if (READ_BOOL(*options, thumbnails.use_exif)) continue;
+		if (READ_BOOL(*options, thumbnails.use_ft_metadata)) continue;
+// 		if (READ_BOOL(*options, thumbnails.use_ft_metadata_small)) continue;
 
 		/* File sorting options */
 		if (READ_UINT(*options, file_sort.method)) continue;

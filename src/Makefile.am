@@ -9,7 +9,8 @@ AM_CFLAGS =				\
 	$(LIBCHAMPLAIN_GTK_CFLAGS)	\
 	$(LUA_CFLAGS)			\
 	$(CLUTTER_CFLAGS)		\
-	$(CLUTTER_GTK_CFLAGS)	\
+	$(CLUTTER_GTK_CFLAGS)		\
+	$(FFMPEGTHUMBNAILER_CFLAGS)	\
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -22,7 +23,8 @@ AM_CXXFLAGS =				\
 	$(LIBCHAMPLAIN_GTK_CFLAGS)	\
 	$(LUA_CFLAGS)			\
 	$(CLUTTER_CFLAGS)		\
-	$(CLUTTER_GTK_CFLAGS)	\
+	$(CLUTTER_GTK_CFLAGS)		\
+	$(FFMPEGTHUMBNAILER_CFLAGS)	\
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -177,6 +179,8 @@ geeqie_SOURCES = \
 	image_load_jpeg.h\
 	image_load_tiff.c\
 	image_load_tiff.h\
+	image_load_ffmpegthumbnailer.c\
+	image_load_ffmpegthumbnailer.h\
 	image-overlay.c	\
 	image-overlay.h	\
 	img-view.c	\
@@ -259,7 +263,7 @@ geeqie_SOURCES = \
 	lua.c		\
 	glua.h
 
-geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS) $(CLUTTER_LIBS) $(CLUTTER_GTK_LIBS)
+geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS) $(CLUTTER_LIBS) $(CLUTTER_GTK_LIBS) $(FFMPEGTHUMBNAILER_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)

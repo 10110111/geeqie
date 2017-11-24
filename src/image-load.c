@@ -24,6 +24,7 @@
 #include "image_load_gdk.h"
 #include "image_load_jpeg.h"
 #include "image_load_tiff.h"
+#include "image_load_ffmpegthumbnailer.h"
 
 #include "exif.h"
 #include "filedata.h"
@@ -539,9 +540,13 @@ static void image_loader_size_cb(gpointer loader,
 		}
 	g_mutex_unlock(il->data_mutex);
 
+#ifdef HAVE_FFMPEGTHUMBNAILER
+	if (il->fd->format_class == FORMAT_CLASS_VIDEO)
+		scale = TRUE;
+#endif
 	mime_types = il->backend.get_format_mime_types(loader);
 	n = 0;
-	while (mime_types[n])
+	while (mime_types[n] && !scale)
 		{
 		if (strstr(mime_types[n], "jpeg")) scale = TRUE;
 		n++;
@@ -603,6 +608,14 @@ static void image_loader_stop_loader(ImageLoader *il)
 static void image_loader_setup_loader(ImageLoader *il)
 {
 	g_mutex_lock(il->data_mutex);
+#ifdef HAVE_FFMPEGTHUMBNAILER
+	if (il->fd->format_class == FORMAT_CLASS_VIDEO)
+		{
+		DEBUG_1("Using custom ffmpegthumbnailer loader");
+		image_loader_backend_set_ft(&il->backend);
+		}
+	else
+#endif
 #ifdef HAVE_JPEG
 	if (il->bytes_total >= 2 && il->mapped_file[0] == 0xff && il->mapped_file[1] == 0xd8)
 		{

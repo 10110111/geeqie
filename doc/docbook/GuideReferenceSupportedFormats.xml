@@ -7,4 +7,8 @@
     <link linkend="GuideReferencePixbufLoaders" endterm="titleGuideReferencePixbufLoaders" />
     for additional information.
   </para>
+  <para>
+    Preview and thumbnails of video clips can be displayed. Clips can be run via a defined external program - see
+    <link linkend="Behaviour">Play video by left click on image</link>.
+  </para>
 </section>

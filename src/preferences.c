@@ -282,6 +282,8 @@ static void config_window_apply(void)
 	options->thumbnails.enable_caching = c_options->thumbnails.enable_caching;
 	options->thumbnails.cache_into_dirs = c_options->thumbnails.cache_into_dirs;
 	options->thumbnails.use_exif = c_options->thumbnails.use_exif;
+	options->thumbnails.use_ft_metadata = c_options->thumbnails.use_ft_metadata;
+// 	options->thumbnails.use_ft_metadata_small = c_options->thumbnails.use_ft_metadata_small;
 	options->thumbnails.spec_standard = c_options->thumbnails.spec_standard;
 	options->metadata.enable_metadata_dirs = c_options->metadata.enable_metadata_dirs;
 	options->file_filter.show_hidden_files = c_options->file_filter.show_hidden_files;
@@ -1628,6 +1630,14 @@ static void config_tab_general(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"),
 			      options->thumbnails.use_exif, &c_options->thumbnails.use_exif);
+
+#ifdef HAVE_FFMPEGTHUMBNAILER_METADATA
+	pref_checkbox_new_int(group, _("Use embedded metadata in video files as thumbnails when available"),
+			      options->thumbnails.use_ft_metadata, &c_options->thumbnails.use_ft_metadata);
+
+// 	pref_checkbox_new_int(group, _("Ignore embedded metadata if size is too small"),
+// 			      options->thumbnails.use_ft_metadata_small, &c_options->thumbnails.use_ft_metadata_small);
+#endif
 
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
 
