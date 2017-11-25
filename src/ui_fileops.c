@@ -535,6 +535,60 @@ gboolean copy_file(const gchar *s, const gchar *t)
 		goto end;
 		}
 
+	/* Do not dereference absolute symlinks, but copy them "as is".
+	* For a relative symlink, we don't know how to properly change it when
+	* copied/moved to another dir to keep pointing it to same target as
+	* a relative symlink, so we turn it into absolute symlink using
+	* realpath() instead. */
+	struct stat st;
+	if (lstat_utf8(sl, &st) && S_ISLNK(st.st_mode))
+		{
+		gchar *link_target;
+
+		link_target = g_malloc(PATH_MAX + 1);
+		readlink(sl, link_target, st.st_size);
+		link_target[st.st_size] = '\0';
+
+		if (link_target[0] != G_DIR_SEPARATOR) // if it is a relative symlink
+			{
+			gchar *absolute;
+
+			absolute = g_malloc(PATH_MAX + 1);
+			char *lastslash = strrchr(sl, G_DIR_SEPARATOR);
+			int len = lastslash - sl + 1;
+
+			strncpy(absolute, sl, len);
+			strcpy(absolute + len, link_target);
+			strcpy(link_target, absolute);
+
+			char *realPath;
+			realPath = realpath(link_target, absolute);
+
+			if (realPath != NULL) // successfully resolved into an absolute path
+				{
+				g_free(link_target);
+				link_target = absolute;
+				}
+			else                 // could not get absolute path, got some error instead
+				{
+				g_free(absolute);
+				goto orig_copy;  // so try a "normal" copy
+				}
+			}
+
+		if (stat_utf8(tl, &st)) unlink(tl); // first try to remove directory entry in destination directory if such entry exists
+
+		gint success = (symlink(link_target, tl) == 0);
+		g_free(link_target);
+
+		if (success)
+			{
+			ret = TRUE;
+			goto end;
+			}
+		} // if symlink did not succeed, continue on to try a copy procedure
+	orig_copy:
+
 	fi = fopen(sl, "rb");
 	if (!fi) goto end;
 
