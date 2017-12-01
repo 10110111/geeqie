@@ -263,7 +263,7 @@ LayoutOptions *init_layout_options(LayoutOptions *options)
 	options->image_overlay.histogram_channel = HCHAN_RGB;
 	options->image_overlay.histogram_mode = 1;
 	options->image_overlay.state = OSD_SHOW_NOTHING;
-	options->animate = FALSE;
+	options->animate = TRUE;
 	options->bars_state.hidden = FALSE;
 	options->log_window.w = 520;
 	options->log_window.h = 400;
