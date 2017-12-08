@@ -1034,7 +1034,7 @@ static EditorFlags editor_command_one(const EditorDescription *editor, GList *li
 		args[n++] = command;
 		args[n] = NULL;
 
-		if ((ed->flags & EDITOR_DEST) && fd->change && fd->change->dest) /* FIXME: error handling */
+		if ((ed->flags & EDITOR_DEST) && fd && fd->change && fd->change->dest) /* FIXME: error handling */
 			{
 			g_setenv("GEEQIE_DESTINATION", fd->change->dest, TRUE);
 			}
