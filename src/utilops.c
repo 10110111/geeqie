@@ -70,7 +70,7 @@ static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 
 	if (second_image)
 		{
-		preview_box = pref_box_new(box, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
+		preview_box = pref_box_new(box, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_SPACE);
 		}
 
 	/* image 1 */
@@ -80,7 +80,7 @@ static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 		{
 		GtkWidget *sep;
 
-		gtk_box_pack_start(GTK_BOX(preview_box), vbox, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(preview_box), vbox, FALSE, TRUE, 0);
 
 		sep = gtk_hseparator_new();
 		gtk_box_pack_start(GTK_BOX(preview_box), sep, FALSE, FALSE, 0);
@@ -88,7 +88,7 @@ static void generic_dialog_add_image(GenericDialog *gd, GtkWidget *box,
 		}
 	else
 		{
-		gtk_box_pack_start(GTK_BOX(box), vbox, TRUE, TRUE, PREF_PAD_GAP);
+		gtk_box_pack_start(GTK_BOX(box), vbox, FALSE, TRUE, PREF_PAD_GAP);
 		}
 	gtk_widget_show(vbox);
 
