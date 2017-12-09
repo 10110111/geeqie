@@ -345,7 +345,7 @@ static void parse_command_line(gint argc, gchar *argv[])
 			else if (strcmp(cmd_line, "-v") == 0 ||
 				 strcmp(cmd_line, "--version") == 0)
 				{
-				printf_term("%s %s\n", GQ_APPNAME, VERSION);
+				printf_term(FALSE, "%s %s\n", GQ_APPNAME, VERSION);
 				exit(0);
 				}
 			else if (strcmp(cmd_line, "--alternate") == 0)
@@ -357,31 +357,31 @@ static void parse_command_line(gint argc, gchar *argv[])
 			else if (strcmp(cmd_line, "-h") == 0 ||
 				 strcmp(cmd_line, "--help") == 0)
 				{
-				printf_term("%s %s\n", GQ_APPNAME, VERSION);
-				printf_term(_("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
-				print_term(_("valid options are:\n"));
-				print_term(_("  +t, --with-tools                 force show of tools\n"));
-				print_term(_("  -t, --without-tools              force hide of tools\n"));
-				print_term(_("  -f, --fullscreen                 start in full screen mode\n"));
-				print_term(_("  -s, --slideshow                  start in slideshow mode\n"));
-				print_term(_("  -l, --list [files] [collections] open collection window for command line\n"));
-				print_term(_("      --blank                      start with blank file list\n"));
-				print_term(_("      --geometry=XxY+XOFF+YOFF     set main window location\n"));
-				print_term(_("  -r, --remote                     send following commands to open window\n"));
-				print_term(_("  -rh,--remote-help                print remote command list\n"));
+				printf_term(FALSE, "%s %s\n", GQ_APPNAME, VERSION);
+				printf_term(FALSE, _("Usage: %s [options] [path]\n\n"), GQ_APPNAME_LC);
+				print_term(FALSE, _("valid options are:\n"));
+				print_term(FALSE, _("  +t, --with-tools                 force show of tools\n"));
+				print_term(FALSE, _("  -t, --without-tools              force hide of tools\n"));
+				print_term(FALSE, _("  -f, --fullscreen                 start in full screen mode\n"));
+				print_term(FALSE, _("  -s, --slideshow                  start in slideshow mode\n"));
+				print_term(FALSE, _("  -l, --list [files] [collections] open collection window for command line\n"));
+				print_term(FALSE, _("      --blank                      start with blank file list\n"));
+				print_term(FALSE, _("      --geometry=XxY+XOFF+YOFF     set main window location\n"));
+				print_term(FALSE, _("  -r, --remote                     send following commands to open window\n"));
+				print_term(FALSE, _("  -rh,--remote-help                print remote command list\n"));
 #ifdef DEBUG
-				print_term(_("      --debug[=level]              turn on debug output\n"));
-				print_term(_("  -g:<regexp>, --grep:<regexp>     filter debug output\n"));
+				print_term(FALSE, _("      --debug[=level]              turn on debug output\n"));
+				print_term(FALSE, _("  -g:<regexp>, --grep:<regexp>     filter debug output\n"));
 #endif
-				print_term(_("  +w, --show-log-window            show log window\n"));
-				print_term(_("  -o:<file>, --log-file:<file>     save log data to file\n"));
-				print_term(_("  -v, --version                    print version info\n"));
-				print_term(_("  -h, --help                       show this message\n\n"));
+				print_term(FALSE, _("  +w, --show-log-window            show log window\n"));
+				print_term(FALSE, _("  -o:<file>, --log-file:<file>     save log data to file\n"));
+				print_term(FALSE, _("  -v, --version                    print version info\n"));
+				print_term(FALSE, _("  -h, --help                       show this message\n\n"));
 
 #if 0
 				/* these options are not officially supported!
 				 * only for testing new features, no need to translate them */
-				print_term(  "  --alternate                use alternate similarity algorithm\n");
+				print_term(FALSE, "  --alternate                use alternate similarity algorithm\n");
 #endif
 
 
@@ -389,7 +389,7 @@ static void parse_command_line(gint argc, gchar *argv[])
 				}
 			else if (!remote_do)
 				{
-				printf_term(_("invalid or ignored: %s\nUse --help for options\n"), cmd_line);
+				printf_term(TRUE, _("invalid or ignored: %s\nUse --help for options\n"), cmd_line);
 				}
 
 			g_free(cmd_all);
@@ -418,16 +418,16 @@ static void parse_command_line(gint argc, gchar *argv[])
 			{
 			GList *work = remote_errors;
 
-			printf_term(_("Invalid or ignored remote options: "));
+			printf_term(TRUE,_("Invalid or ignored remote options: "));
 			while (work)
 				{
 				gchar *opt = work->data;
 
-				printf_term("%s%s", (work == remote_errors) ? "" : ", ", opt);
+				printf_term(TRUE, "%s%s", (work == remote_errors) ? "" : ", ", opt);
 				work = work->next;
 				}
 
-			printf_term(_("\nUse --remote-help for valid remote options.\n"));
+			printf_term(TRUE, _("\nUse --remote-help for valid remote options.\n"));
 			}
 
 		remote_control(argv[0], remote_list, command_line->path, list, command_line->collection_list);

@@ -30,12 +30,12 @@
 
 
 
-void print_term(const gchar *text_utf8);
+void print_term(gboolean err, const gchar *text_utf8);
 
-#define printf_term(...) \
+#define printf_term(err, ...) \
 	do { \
 		gchar *msg = g_strdup_printf(__VA_ARGS__); \
-		print_term(msg); \
+		print_term(err, msg); \
 		g_free(msg); \
 	} while (0)
 

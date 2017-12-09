@@ -502,7 +502,7 @@ static void gr_slideshow_delay(const gchar *text, GIOChannel *channel, gpointer 
 		if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS ||
 				t1 >= 24 || t2 >= 60 || t3 >= 60)
 			{
-			printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
+			printf_term(TRUE, "Remote slideshow delay out of range (%.1f to %.1f)\n",
 								SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
 			return;
 			}
@@ -513,7 +513,7 @@ static void gr_slideshow_delay(const gchar *text, GIOChannel *channel, gpointer 
 		if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS ||
 				t1 >= 60 || t2 >= 60)
 			{
-			printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
+			printf_term(TRUE, "Remote slideshow delay out of range (%.1f to %.1f)\n",
 								SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
 			return;
 			}
@@ -523,7 +523,7 @@ static void gr_slideshow_delay(const gchar *text, GIOChannel *channel, gpointer 
 		n = t1;
 		if (n < SLIDESHOW_MIN_SECONDS || n > SLIDESHOW_MAX_SECONDS)
 			{
-			printf_term("Remote slideshow delay out of range (%.1f to %.1f)\n",
+			printf_term(TRUE, "Remote slideshow delay out of range (%.1f to %.1f)\n",
 								SLIDESHOW_MIN_SECONDS, SLIDESHOW_MAX_SECONDS);
 			return;
 			}
@@ -876,7 +876,7 @@ void remote_help(void)
 	gchar *s_opt_param;
 	gchar *l_opt_param;
 
-	print_term(_("Remote command list:\n"));
+	print_term(FALSE, _("Remote command list:\n"));
 
 	i = 0;
 	while (remote_commands[i].func != NULL)
@@ -885,7 +885,7 @@ void remote_help(void)
 			{
 			s_opt_param = g_strconcat(remote_commands[i].opt_s, remote_commands[i].parameter, NULL);
 			l_opt_param = g_strconcat(remote_commands[i].opt_l, remote_commands[i].parameter, NULL);
-			printf_term("  %-11s%-1s %-30s%-s\n",
+			printf_term(FALSE, "  %-11s%-1s %-30s%-s\n",
 				    (remote_commands[i].opt_s) ? s_opt_param : "",
 				    (remote_commands[i].opt_s && remote_commands[i].opt_l) ? "," : " ",
 				    (remote_commands[i].opt_l) ? l_opt_param : "",
@@ -895,7 +895,7 @@ void remote_help(void)
 			}
 		i++;
 		}
-	printf_term(N_("\n  All other command line parameters are used as plain files if they exists.\n"));
+	printf_term(FALSE, N_("\n  All other command line parameters are used as plain files if they exists.\n"));
 }
 
 GList *remote_build_list(GList *list, gint argc, gchar *argv[], GList **errors)
@@ -945,7 +945,7 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 		gint retry_count = 12;
 		gboolean blank = FALSE;
 
-		printf_term(_("Remote %s not running, starting..."), GQ_APPNAME);
+		printf_term(FALSE, _("Remote %s not running, starting..."), GQ_APPNAME);
 
 		command = g_string_new(arg_exec);
 
@@ -985,11 +985,11 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 			{
 			usleep((retry_count > 10) ? 500000 : 1000000);
 			rc = remote_client_open(buf);
-			if (!rc) print_term(".");
+			if (!rc) print_term(FALSE, ".");
 			retry_count--;
 			}
 
-		print_term("\n");
+		print_term(FALSE, "\n");
 
 		started = TRUE;
 		}
@@ -1081,7 +1081,7 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 		}
 	else
 		{
-		print_term(_("Remote not available\n"));
+		print_term(TRUE, _("Remote not available\n"));
 		}
 
 	_exit(0);

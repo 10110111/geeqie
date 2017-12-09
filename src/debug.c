@@ -92,7 +92,7 @@ void log_domain_print_message(const gchar *domain, gchar *buf)
 
 				if (!ret_exec)
 					{
-					print_term(buf_nl);
+					print_term(FALSE, buf_nl);
 					if (strcmp(domain, DOMAIN_INFO) == 0)
 						g_idle_add(log_normal_cb, buf_nl);
 					else
@@ -103,7 +103,7 @@ void log_domain_print_message(const gchar *domain, gchar *buf)
 		}
 	else
 		{
-		print_term(buf_nl);
+		print_term(FALSE, buf_nl);
 		if (strcmp(domain, DOMAIN_INFO) == 0)
 			g_idle_add(log_normal_cb, buf_nl);
 		else
