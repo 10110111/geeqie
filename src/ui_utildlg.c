@@ -355,25 +355,30 @@ void generic_dialog_windows_write_config(GString *outstr, gint indent)
 {
 	GList *work;
 
-	WRITE_NL(); WRITE_STRING("<%s>", "dialogs");
-	indent++;
-
-	work = g_list_first(dialog_windows);
-	while (work)
+	if (options->save_dialog_window_positions && dialog_windows)
 		{
-		DialogWindow *dw = work->data;
-		WRITE_NL(); WRITE_STRING("<window ");
-		write_char_option(outstr, indent + 1, "title", dw->title);
-		write_char_option(outstr, indent + 1, "role", dw->role);
-		WRITE_INT(*dw, x);
-		WRITE_INT(*dw, y);
-		WRITE_INT(*dw, w);
-		WRITE_INT(*dw, h);
-		WRITE_STRING("/>");
-		work = work->next;
+		WRITE_NL(); WRITE_STRING("<%s>", "dialogs");
+		indent++;
+
+		work = g_list_first(dialog_windows);
+		while (work)
+			{
+			DialogWindow *dw = work->data;
+			WRITE_NL(); WRITE_STRING("<window ");
+			write_char_option(outstr, indent + 1, "title", dw->title);
+			write_char_option(outstr, indent + 1, "role", dw->role);
+			WRITE_INT(*dw, x);
+			WRITE_INT(*dw, y);
+			WRITE_INT(*dw, w);
+			WRITE_INT(*dw, h);
+			WRITE_STRING("/>");
+			work = work->next;
+			}
+		indent--;
+		WRITE_NL(); WRITE_STRING("</%s>", "dialogs");
+
+		dialog_windows = NULL;
 		}
-	indent--;
-	WRITE_NL(); WRITE_STRING("</%s>", "dialogs");
 }
 
 static void generic_dialog_setup(GenericDialog *gd,
