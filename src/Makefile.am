@@ -60,7 +60,7 @@ ICON_PAIRS = \
 	icon_tabcomp		$(srcdir)/ui_tabcomp.png
 
 ui_icons.h: $(extra_ICONS) Makefile.in
-	@(echo '/* Auto generated file, do not edit */'; echo; \
+	@(set -e; echo '/* Auto generated file, do not edit */'; echo; \
 	 echo '#ifndef UI_ICONS_H'; \
 	 echo '#define UI_ICONS_H'; echo; \
 	 $(GDK_PIXBUF_CSOURCE) --raw --extern --build-list $(ICON_PAIRS); \
