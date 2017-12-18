@@ -194,6 +194,8 @@ const gchar *homedir(void)
 	if (!home)
 		home = path_to_utf8(g_get_home_dir());
 
+	DEBUG_1("Home directory: %s", home);
+
 	return home;
 }
 
@@ -205,6 +207,8 @@ static gchar *xdg_dir_get(const gchar *key, const gchar *fallback)
 		{
     		return g_build_filename(homedir(), fallback, NULL);
     		}
+
+	DEBUG_1("Got xdg %s: %s", key, dir);
 
 	return path_to_utf8(dir);
 }
