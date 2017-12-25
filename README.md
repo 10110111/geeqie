@@ -21,7 +21,10 @@ The Geeqie project will continue the development forward and maintain the existi
 
 Geeqie is currently considered stable.
 
-For questions, problems or suggestions, please open an issue on [Geeqie at GitHub](https://github.com/BestImageViewer/geeqie/issues).
+Please send any questions, problems or suggestions to the [mailing list](mailto:geeqie@freelists.org) or
+open an issue on [Geeqie at GitHub](https://github.com/BestImageViewer/geeqie/issues).
+
+Subscribe to the mailing list [here](https://www.freelists.org/list/geeqie).
 
 The project website is <http://www.geeqie.org/> and you will find the latest sources in the
 [Geeqie repository](http://geeqie.org/cgi-bin/gitweb.cgi?p=geeqie.git).
