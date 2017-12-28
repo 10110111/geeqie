@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-20 18:34+0100\n"
+"POT-Creation-Date: 2017-12-28 19:44+0100\n"
 "PO-Revision-Date: 2017-12-28 01:19+0100\n"
 "Last-Translator: Tomasz Golinski <tomaszg@math.uwb.edu.pl>\n"
 "Language-Team: \n"
@@ -128,23 +128,23 @@ msgstr "Prawa autorskie"
 msgid "GPS Map"
 msgstr "Mapa GPS"
 
-#: ../src/bar.c:315
+#: ../src/bar.c:315 ../src/toolbar.c:191
 msgid "Move to _top"
 msgstr "Przesuń na _szczyt"
 
-#: ../src/bar.c:316 ../src/ui_bookmark.c:416
+#: ../src/bar.c:316 ../src/toolbar.c:192 ../src/ui_bookmark.c:416
 msgid "Move _up"
 msgstr "Przesuń w _górę"
 
-#: ../src/bar.c:317 ../src/ui_bookmark.c:418
+#: ../src/bar.c:317 ../src/toolbar.c:193 ../src/ui_bookmark.c:418
 msgid "Move _down"
 msgstr "Przesuń w _dół"
 
-#: ../src/bar.c:318
+#: ../src/bar.c:318 ../src/toolbar.c:194
 msgid "Move to _bottom"
 msgstr "Przesuń na s_pód"
 
-#: ../src/bar.c:320
+#: ../src/bar.c:320 ../src/toolbar.c:196
 msgid "Remove"
 msgstr "Usuń"
 
@@ -750,7 +750,7 @@ msgstr "Nie mogę utworzyć kolekcji"
 msgid "Save collection"
 msgstr "Zapisz kolekcję"
 
-#: ../src/collect-dlg.c:210
+#: ../src/collect-dlg.c:210 ../src/toolbar.c:84
 msgid "Open collection"
 msgstr "Otwarcie kolekcji"
 
@@ -1121,7 +1121,7 @@ msgstr "Podobieństwo (niskie)"
 msgid "Similarity (custom)"
 msgstr "Podobieństwo (dowolne)"
 
-#: ../src/dupe.c:3257
+#: ../src/dupe.c:3257 ../src/toolbar.c:86
 msgid "Find duplicates"
 msgstr "Wyszukaj duplikaty"
 
@@ -2391,7 +2391,7 @@ msgstr "Pomo_c"
 msgid "_First Image"
 msgstr "Pierwszy obraz"
 
-#: ../src/layout_util.c:1733
+#: ../src/layout_util.c:1733 ../src/toolbar.c:74
 msgid "First Image"
 msgstr "Pierwszy obraz"
 
@@ -2401,7 +2401,7 @@ msgid "_Previous Image"
 msgstr "_Poprzedni obraz"
 
 #: ../src/layout_util.c:1734 ../src/layout_util.c:1735
-#: ../src/layout_util.c:1736
+#: ../src/layout_util.c:1736 ../src/toolbar.c:75
 msgid "Previous Image"
 msgstr "_Poprzedni obraz"
 
@@ -2411,7 +2411,7 @@ msgid "_Next Image"
 msgstr "_Następny obraz"
 
 #: ../src/layout_util.c:1737 ../src/layout_util.c:1738
-#: ../src/layout_util.c:1739
+#: ../src/layout_util.c:1739 ../src/toolbar.c:76
 msgid "Next Image"
 msgstr "_Następny obraz"
 
@@ -2419,7 +2419,7 @@ msgstr "_Następny obraz"
 msgid "_Last Image"
 msgstr "_Ostatni obraz"
 
-#: ../src/layout_util.c:1740
+#: ../src/layout_util.c:1740 ../src/toolbar.c:77
 msgid "Last Image"
 msgstr "_Ostatni obraz"
 
@@ -2427,7 +2427,7 @@ msgstr "_Ostatni obraz"
 msgid "_Back"
 msgstr "_Powrót"
 
-#: ../src/layout_util.c:1741
+#: ../src/layout_util.c:1741 ../src/toolbar.c:78
 msgid "Back"
 msgstr "Powrót"
 
@@ -2435,7 +2435,7 @@ msgstr "Powrót"
 msgid "_Forward"
 msgstr "Do _przodu"
 
-#: ../src/layout_util.c:1742
+#: ../src/layout_util.c:1742 ../src/toolbar.c:79
 msgid "Forward"
 msgstr "Do przodu"
 
@@ -2443,8 +2443,8 @@ msgstr "Do przodu"
 msgid "_Home"
 msgstr "Położenie początkowe"
 
-#: ../src/layout_util.c:1743 ../src/options.c:193 ../src/ui_bookmark.c:567
-#: ../src/ui_pathsel.c:1056
+#: ../src/layout_util.c:1743 ../src/options.c:193 ../src/toolbar.c:80
+#: ../src/ui_bookmark.c:567 ../src/ui_pathsel.c:1056
 msgid "Home"
 msgstr "Położenie początkowe"
 
@@ -2452,11 +2452,11 @@ msgstr "Położenie początkowe"
 msgid "_Up"
 msgstr "W _górę"
 
-#: ../src/layout_util.c:1744
+#: ../src/layout_util.c:1744 ../src/toolbar.c:81
 msgid "Up"
 msgstr "W górę"
 
-#: ../src/layout_util.c:1746
+#: ../src/layout_util.c:1746 ../src/toolbar.c:82
 msgid "New _window"
 msgstr "No_we okno"
 
@@ -2468,7 +2468,7 @@ msgstr "No_we okno"
 msgid "_New collection"
 msgstr "_Nowa kolekcja"
 
-#: ../src/layout_util.c:1747 ../src/menu.c:431
+#: ../src/layout_util.c:1747 ../src/menu.c:431 ../src/toolbar.c:83
 msgid "New collection"
 msgstr "_Nowa kolekcja"
 
@@ -2504,7 +2504,7 @@ msgstr "Wyszukaj duplikaty..."
 msgid "Pa_n view"
 msgstr ""
 
-#: ../src/layout_util.c:1752
+#: ../src/layout_util.c:1752 ../src/toolbar.c:87
 msgid "Pan view"
 msgstr ""
 
@@ -2577,7 +2577,7 @@ msgstr "Zamknij okno"
 msgid "_Quit"
 msgstr "Zakończ"
 
-#: ../src/layout_util.c:1766
+#: ../src/layout_util.c:1766 ../src/toolbar.c:117
 msgid "Quit"
 msgstr "Zakończ"
 
@@ -2745,15 +2745,15 @@ msgstr "Zapi_sz metadane"
 msgid "Save metadata"
 msgstr "Zapisz metadane"
 
-#: ../src/layout_util.c:1789 ../src/layout_util.c:1790
+#: ../src/layout_util.c:1789 ../src/layout_util.c:1790 ../src/toolbar.c:92
 msgid "Zoom in"
 msgstr "Powiększ"
 
-#: ../src/layout_util.c:1791 ../src/layout_util.c:1792
+#: ../src/layout_util.c:1791 ../src/layout_util.c:1792 ../src/toolbar.c:93
 msgid "Zoom out"
 msgstr "Pomniejsz"
 
-#: ../src/layout_util.c:1793 ../src/layout_util.c:1794
+#: ../src/layout_util.c:1793 ../src/layout_util.c:1794 ../src/toolbar.c:94
 msgid "Zoom 1:1"
 msgstr "Skala 1:1"
 
@@ -2762,7 +2762,7 @@ msgstr "Skala 1:1"
 msgid "_Zoom to fit"
 msgstr "Dopasuj do okna"
 
-#: ../src/layout_util.c:1795 ../src/layout_util.c:1796
+#: ../src/layout_util.c:1795 ../src/layout_util.c:1796 ../src/toolbar.c:95
 msgid "Zoom to fit"
 msgstr "Dopasuj do okna"
 
@@ -2786,7 +2786,7 @@ msgstr "Dopasuj w pionie"
 msgid "Zoom _2:1"
 msgstr "Skala _2:1"
 
-#: ../src/layout_util.c:1799
+#: ../src/layout_util.c:1799 ../src/toolbar.c:98
 msgid "Zoom 2:1"
 msgstr "Skala 2:1"
 
@@ -2794,7 +2794,7 @@ msgstr "Skala 2:1"
 msgid "Zoom _3:1"
 msgstr "Skala _3:1"
 
-#: ../src/layout_util.c:1800
+#: ../src/layout_util.c:1800 ../src/toolbar.c:99
 msgid "Zoom 3:1"
 msgstr "Skala 3:1"
 
@@ -2802,11 +2802,11 @@ msgstr "Skala 3:1"
 msgid "Zoom _4:1"
 msgstr "Skala _4:1"
 
-#: ../src/layout_util.c:1801
+#: ../src/layout_util.c:1801 ../src/toolbar.c:100
 msgid "Zoom 4:1"
 msgstr "Skala 4:1"
 
-#: ../src/layout_util.c:1802 ../src/layout_util.c:1818
+#: ../src/layout_util.c:1802 ../src/layout_util.c:1818 ../src/toolbar.c:101
 msgid "Zoom 1:2"
 msgstr "Skala _1:2"
 
@@ -2814,11 +2814,11 @@ msgstr "Skala _1:2"
 msgid "Zoom 1:3"
 msgstr "Skala _1:3"
 
-#: ../src/layout_util.c:1804 ../src/layout_util.c:1820
+#: ../src/layout_util.c:1804 ../src/layout_util.c:1820 ../src/toolbar.c:103
 msgid "Zoom 1:4"
 msgstr "Skala _1:4"
 
-#: ../src/layout_util.c:1805 ../src/layout_util.c:1806
+#: ../src/layout_util.c:1805 ../src/layout_util.c:1806 ../src/toolbar.c:104
 msgid "Connected Zoom in"
 msgstr "Powiązane powiększenie"
 
@@ -2915,7 +2915,7 @@ msgstr "Przechodzenie pomiędzy trybami histogramu"
 msgid "_Hide file list"
 msgstr "Ukrycie _listy plików"
 
-#: ../src/layout_util.c:1830
+#: ../src/layout_util.c:1830 ../src/toolbar.c:105
 msgid "Hide file list"
 msgstr "Ukryj listę plików"
 
@@ -2923,7 +2923,7 @@ msgstr "Ukryj listę plików"
 msgid "_Pause slideshow"
 msgstr "W_strzymaj pokaz slajdów"
 
-#: ../src/layout_util.c:1831
+#: ../src/layout_util.c:1831 ../src/toolbar.c:106
 msgid "Pause slideshow"
 msgstr "Wstrzymaj pokaz slajdów"
 
@@ -2939,7 +2939,7 @@ msgstr "Wolniej"
 msgid "_Refresh"
 msgstr "_Odśwież"
 
-#: ../src/layout_util.c:1834
+#: ../src/layout_util.c:1834 ../src/toolbar.c:109
 msgid "Refresh"
 msgstr "Odśwież"
 
@@ -3003,7 +3003,7 @@ msgstr "Okno logów"
 msgid "_Exif window"
 msgstr "Okno danych Exif"
 
-#: ../src/layout_util.c:1842
+#: ../src/layout_util.c:1842 ../src/toolbar.c:111
 msgid "Exif window"
 msgstr "Okno danych Exif"
 
@@ -3091,7 +3091,7 @@ msgstr "Wyświetlaj informacje o pikselach"
 msgid "_Float file list"
 msgstr "Oderwana lista plików"
 
-#: ../src/layout_util.c:1857
+#: ../src/layout_util.c:1857 ../src/toolbar.c:114
 msgid "Float file list"
 msgstr "Oderwana lista plików"
 
@@ -3107,7 +3107,7 @@ msgstr "Ukryj pasek narzędzi"
 msgid "_Info sidebar"
 msgstr "Panel _Informacyjny"
 
-#: ../src/layout_util.c:1859
+#: ../src/layout_util.c:1859 ../src/toolbar.c:115
 msgid "Info sidebar"
 msgstr "Panel informacyjny"
 
@@ -3115,7 +3115,7 @@ msgstr "Panel informacyjny"
 msgid "Sort _manager"
 msgstr "_Menedżer sortowania"
 
-#: ../src/layout_util.c:1860
+#: ../src/layout_util.c:1860 ../src/toolbar.c:116
 msgid "Sort manager"
 msgstr "_Menedżer sortowania"
 
@@ -3502,7 +3502,7 @@ msgstr "Log"
 msgid "Debug level:"
 msgstr "Poziom debugowania:"
 
-#: ../src/main.c:363
+#: ../src/main.c:361
 #, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
@@ -3511,77 +3511,77 @@ msgstr ""
 "Użycie: %s [opcje] [ścieżka]\n"
 "\n"
 
-#: ../src/main.c:364
+#: ../src/main.c:362
 msgid "valid options are:\n"
 msgstr "poprawnymi opcjami są:\n"
 
-#: ../src/main.c:365
+#: ../src/main.c:363
 msgid "  +t, --with-tools                 force show of tools\n"
 msgstr "  +t, --with-tools                 wymusza wyświetlenie narzędzi\n"
 
-#: ../src/main.c:366
+#: ../src/main.c:364
 msgid "  -t, --without-tools              force hide of tools\n"
 msgstr "  -t, --without-tools              wymusza ukrycie narzędzi\n"
 
-#: ../src/main.c:367
+#: ../src/main.c:365
 msgid "  -f, --fullscreen                 start in full screen mode\n"
 msgstr "  -f, --fullscreen                 uruchamia w trybie pełnoekranowym\n"
 
-#: ../src/main.c:368
+#: ../src/main.c:366
 msgid "  -s, --slideshow                  start in slideshow mode\n"
 msgstr "  -s, --slideshow                  uruchamia w trybie pokazu slajdów\n"
 
-#: ../src/main.c:369
+#: ../src/main.c:367
 msgid ""
 "  -l, --list [files] [collections] open collection window for command line\n"
 msgstr ""
 "  -l, --list [pliki] [kolekcje] otwiera okno kolekcji z plikami z wiersza "
 "poleceń\n"
 
-#: ../src/main.c:370
+#: ../src/main.c:368
 msgid "      --blank                      start with blank file list\n"
 msgstr "      --blank                      uruchom z pustą listą plików\n"
 
-#: ../src/main.c:371
+#: ../src/main.c:369
 msgid "      --geometry=XxY+XOFF+YOFF     set main window location\n"
 msgstr "      --geometry=XxY+XOFF+YOFF     ustaw położenie głównego okna\n"
 
-#: ../src/main.c:372
+#: ../src/main.c:370
 msgid ""
 "  -r, --remote                     send following commands to open window\n"
 msgstr ""
 "  -r, --remote                     wyślij następujące polecenia do otwartego "
 "okna\n"
 
-#: ../src/main.c:373
+#: ../src/main.c:371
 msgid "  -rh,--remote-help                print remote command list\n"
 msgstr ""
 "  -rh,--remote-help                wyświetl polecenia zdalnego sterowania\n"
 
-#: ../src/main.c:375
+#: ../src/main.c:373
 msgid "      --debug[=level]              turn on debug output\n"
 msgstr ""
 "      --debug[=poziom]              uaktywnia wyświetlanie komunikatów\n"
 "                                    debugowania\n"
 
-#: ../src/main.c:376
+#: ../src/main.c:374
 msgid "  -g:<regexp>, --grep:<regexp>     filter debug output\n"
 msgstr "  -g:<regexp>, --grep:<regexp>     filtruj komunikaty debugowania\n"
 
-#: ../src/main.c:378
+#: ../src/main.c:376
 msgid "  +w, --show-log-window            show log window\n"
 msgstr "  +w, --show-log-window            wyświetla okno logów\n"
 
-#: ../src/main.c:379
+#: ../src/main.c:377
 msgid "  -o:<file>, --log-file:<file>     save log data to file\n"
 msgstr "  -o:<plik>, --log-file:<plik>     zapisz logi do pliku\n"
 
-#: ../src/main.c:380
+#: ../src/main.c:378
 msgid "  -v, --version                    print version info\n"
 msgstr ""
 "  -v, --version                    wyświetla informacje na temat wersji\n"
 
-#: ../src/main.c:381
+#: ../src/main.c:379
 msgid ""
 "  -h, --help                       show this message\n"
 "\n"
@@ -3589,7 +3589,7 @@ msgstr ""
 "  -h, --help                       wypisuje ten komunikat\n"
 "\n"
 
-#: ../src/main.c:394
+#: ../src/main.c:392
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
@@ -3598,11 +3598,11 @@ msgstr ""
 "niepoprawna lub zignorowana: %s\n"
 "Użyj --help, aby uzyskać informacje o opcjach\n"
 
-#: ../src/main.c:423
+#: ../src/main.c:421
 msgid "Invalid or ignored remote options: "
 msgstr "Niepoprawne lub zignorowane zdalne polecenie: "
 
-#: ../src/main.c:432
+#: ../src/main.c:430
 msgid ""
 "\n"
 "Use --remote-help for valid remote options.\n"
@@ -3610,22 +3610,22 @@ msgstr ""
 "\n"
 "Użyj --remote-help, żeby wyświetlić opcje zdalnego sterowania.\n"
 
-#: ../src/main.c:534
+#: ../src/main.c:532
 #, c-format
 msgid "Creating %s dir:%s\n"
 msgstr "Tworzenie  katalogu %s:%s\n"
 
-#: ../src/main.c:538
+#: ../src/main.c:536
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "Nie można utworzyć katalogu: %s\n"
 
-#: ../src/main.c:590
+#: ../src/main.c:588
 #, c-format
 msgid "error saving file: %s\n"
 msgstr "błąd przy zapisie pliku: %s\n"
 
-#: ../src/main.c:609
+#: ../src/main.c:607
 #, c-format
 msgid ""
 "error saving file: %s\n"
@@ -3634,20 +3634,20 @@ msgstr ""
 "błąd przy zapisie pliku: %s\n"
 "błąd: %s\n"
 
-#: ../src/main.c:719
+#: ../src/main.c:717
 msgid "exit"
 msgstr "wyjście"
 
-#: ../src/main.c:724
+#: ../src/main.c:722
 #, c-format
 msgid "Quit %s"
 msgstr "Zakończ %s"
 
-#: ../src/main.c:726
+#: ../src/main.c:724
 msgid "Collections have been modified. Quit anyway?"
 msgstr "Kolekcje zostały zmienione. Mimo to zakończyć?"
 
-#: ../src/main.c:943 ../src/remote.c:708
+#: ../src/main.c:939 ../src/remote.c:708
 msgid "Command line"
 msgstr "Wiersz poleceń"
 
@@ -4387,7 +4387,8 @@ msgid "Rating:"
 msgstr "Ocena:"
 
 #: ../src/preferences.c:1718
-msgid "Use GPU acceleration via Clutter library (requires restart)"
+#, fuzzy
+msgid "Use GPU acceleration via Clutter library"
 msgstr "Użyj akceleracji GPU przy pomocy biblioteki Clutter (wymaga restartu)"
 
 #: ../src/preferences.c:1722
@@ -4966,7 +4967,7 @@ msgstr "Prawy X"
 msgid "Right Y"
 msgstr "Prawy Y"
 
-#: ../src/preferences.c:2630
+#: ../src/preferences.c:2630 ../src/toolbar.c:89
 msgid "Preferences"
 msgstr "P_referencje..."
 
@@ -5163,7 +5164,7 @@ msgstr "Wystąpił błąd w czasie drukowania na %s."
 msgid "Details"
 msgstr "Szczegóły"
 
-#: ../src/print.c:2597 ../src/print.c:3351
+#: ../src/print.c:2597 ../src/print.c:3351 ../src/toolbar.c:88
 msgid "Print"
 msgstr "Drukuj"
 
@@ -5709,6 +5710,65 @@ msgstr "Dodaj skrót"
 #: ../src/thumb.c:405
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr "Odczyt miniaturki z cache nie powiódł się, próba odtworzenia.\n"
+
+#: ../src/toolbar.c:85
+#, fuzzy
+msgid "Search"
+msgstr "Szukaj:"
+
+#: ../src/toolbar.c:90
+#, fuzzy
+msgid "Configure this window"
+msgstr "Konfiguruj to okno..."
+
+#: ../src/toolbar.c:91
+#, fuzzy
+msgid "Thumbnail maintenance"
+msgstr "Zarządzanie miniaturkami..."
+
+#: ../src/toolbar.c:96
+#, fuzzy
+msgid "Fit Horizontaly"
+msgstr "Dopasuj w poziomie"
+
+#: ../src/toolbar.c:97
+#, fuzzy
+msgid "Fit vertically"
+msgstr "Dopasuj w pionie"
+
+#: ../src/toolbar.c:102
+#, fuzzy
+msgid "Zoom1:3"
+msgstr "Skala _1:3"
+
+#: ../src/toolbar.c:107
+#, fuzzy
+msgid "Slideshow Faster"
+msgstr " Slajdy"
+
+#: ../src/toolbar.c:108
+#, fuzzy
+msgid "Slideshow Slower"
+msgstr " Slajdy"
+
+#: ../src/toolbar.c:110 ../src/window.c:274 ../src/window.c:295
+msgid "Help"
+msgstr "Pomo_c"
+
+#: ../src/toolbar.c:112
+#, fuzzy
+msgid "Show thumbnails"
+msgstr "Pokaż _miniaturki"
+
+#: ../src/toolbar.c:113
+#, fuzzy
+msgid "Show marks"
+msgstr "Pokaż znaczniki"
+
+#: ../src/toolbar.c:503
+#, fuzzy
+msgid "Add Toolbar Item"
+msgstr "Pasek narzędzi"
 
 #: ../src/trash.c:88 ../src/utilops.c:2621 ../src/utilops.c:2632
 #: ../src/utilops.c:2689
@@ -6340,10 +6400,6 @@ msgstr ""
 #: ../src/view_file/view_file_list.c:461
 msgid "Error renaming file"
 msgstr "Błąd podczas zmiany nazwy pliku"
-
-#: ../src/window.c:274 ../src/window.c:295
-msgid "Help"
-msgstr "Pomo_c"
 
 #~ msgid "Thumbnail cache"
 #~ msgstr "Cache miniaturek"

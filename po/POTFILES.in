@@ -45,6 +45,7 @@ src/histogram.c
 src/history_list.c
 src/image.c
 src/image-load.c
+src/image_load_ffmpegthumbnailer.c
 src/image_load_gdk.c
 src/image_load_jpeg.c
 src/image_load_tiff.c
@@ -89,6 +90,7 @@ src/similar.c
 src/slideshow.c
 src/thumb.c
 src/thumb_standard.c
+src/toolbar.c
 src/trash.c
 src/ui_bookmark.c
 src/ui_fileops.c
