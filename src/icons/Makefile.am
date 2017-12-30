@@ -42,11 +42,11 @@ ICONS_INLINE_PAIRS = \
 	icon_view		$(srcdir)/icon_view.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
-	@(echo '/* Auto generated file, do not edit */'; echo; \
+	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \
 	 echo '#ifndef ICONS_INLINE_H'; \
 	 echo '#define ICONS_INLINE_H'; echo; \
 	 $(GDK_PIXBUF_CSOURCE) --raw --extern --build-list $(ICONS_INLINE_PAIRS); \
-	 echo '#endif /* ICONS_INLINE_H */') > $@ || echo "!!! Failed to generate $@ !!!"
+	 echo '#endif /* ICONS_INLINE_H */'" > $@ || echo "!!! Failed to generate $@ !!!"
 
 noinst_DATA = icons_inline.h
 CLEANFILES = $(noinst_DATA)

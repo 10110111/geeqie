@@ -60,11 +60,11 @@ ICON_PAIRS = \
 	icon_tabcomp		$(srcdir)/ui_tabcomp.png
 
 ui_icons.h: $(extra_ICONS) Makefile.in
-	@(set -e; echo '/* Auto generated file, do not edit */'; echo; \
+	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \
 	 echo '#ifndef UI_ICONS_H'; \
 	 echo '#define UI_ICONS_H'; echo; \
 	 $(GDK_PIXBUF_CSOURCE) --raw --extern --build-list $(ICON_PAIRS); \
-	 echo '#endif /* UI_ICONS_H */') > $@ || echo "!!! Failed to generate $@ !!!"
+	 echo '#endif /* UI_ICONS_H */'" > $@ || echo "!!! Failed to generate $@ !!!"
 
 ClayRGB1998_icc.h: ClayRGB1998.icc
 	echo "/*" > $@
