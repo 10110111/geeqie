@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-12-28 19:44+0100\n"
-"PO-Revision-Date: 2017-12-28 01:19+0100\n"
+"PO-Revision-Date: 2017-12-29 16:16+0100\n"
 "Last-Translator: Tomasz Golinski <tomaszg@math.uwb.edu.pl>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -2295,7 +2295,7 @@ msgstr "_Animacja"
 
 #: ../src/layout_image.c:751
 msgid "Hide file _list"
-msgstr "Ukrycie _listy plików"
+msgstr "Ukryj _listę plików"
 
 #: ../src/layout_image.c:1941
 #, c-format
@@ -2913,7 +2913,7 @@ msgstr "Przechodzenie pomiędzy trybami histogramu"
 
 #: ../src/layout_util.c:1830
 msgid "_Hide file list"
-msgstr "Ukrycie _listy plików"
+msgstr "Ukryj _listy plików"
 
 #: ../src/layout_util.c:1830 ../src/toolbar.c:105
 msgid "Hide file list"
@@ -2945,11 +2945,11 @@ msgstr "Odśwież"
 
 #: ../src/layout_util.c:1835
 msgid "_Contents"
-msgstr "Indeks"
+msgstr "_Indeks"
 
 #: ../src/layout_util.c:1835
 msgid "Contents"
-msgstr "Zawartość"
+msgstr "Indeks"
 
 #: ../src/layout_util.c:1836
 msgid "_Keyboard shortcuts"
@@ -3065,23 +3065,23 @@ msgstr "Zapisz orientację do pliku (zachowując znacznik czasu)"
 
 #: ../src/layout_util.c:1854
 msgid "Show _Thumbnails"
-msgstr "Pokaż _miniaturki"
+msgstr "Pokazuj _miniaturki"
 
 #: ../src/layout_util.c:1854
 msgid "Show Thumbnails"
-msgstr "Pokaż miniaturki"
+msgstr "Pokazuj miniaturki"
 
 #: ../src/layout_util.c:1855
 msgid "Show _Marks"
-msgstr "Pokaż znaczniki"
+msgstr "Pokazuj znaczniki"
 
 #: ../src/layout_util.c:1855
 msgid "Show Marks"
-msgstr "Pokaż znaczniki"
+msgstr "Pokazuj znaczniki"
 
 #: ../src/layout_util.c:1856
 msgid "Pi_xel Info"
-msgstr "Wyświetlanie informacji o pikselach"
+msgstr "Informacje o pikselach"
 
 #: ../src/layout_util.c:1856
 msgid "Show Pixel Info"
@@ -3105,7 +3105,7 @@ msgstr "Ukryj pasek narzędzi"
 
 #: ../src/layout_util.c:1859
 msgid "_Info sidebar"
-msgstr "Panel _Informacyjny"
+msgstr "Panel _informacyjny"
 
 #: ../src/layout_util.c:1859 ../src/toolbar.c:115
 msgid "Info sidebar"
@@ -3133,19 +3133,19 @@ msgstr "Przełącz pokaz _slajdów"
 
 #: ../src/layout_util.c:1863
 msgid "Use _color profiles"
-msgstr "Użyj profili kolorów"
+msgstr "Używaj profili kolorów"
 
 #: ../src/layout_util.c:1863
 msgid "Use color profiles"
-msgstr "Użyj profili kolorów"
+msgstr "Używaj profili kolorów"
 
 #: ../src/layout_util.c:1864
 msgid "Use profile from _image"
-msgstr "Użyj prof_ili z obrazu"
+msgstr "Używaj prof_ili z obrazu"
 
 #: ../src/layout_util.c:1864
 msgid "Use profile from image"
-msgstr "Użyj profili z obrazu"
+msgstr "Używaj profili z obrazu"
 
 #: ../src/layout_util.c:1865
 msgid "Toggle _grayscale"
@@ -3161,11 +3161,11 @@ msgstr "_Nakładka"
 
 #: ../src/layout_util.c:1867
 msgid "_Show Histogram"
-msgstr "Pokaż _Histogram"
+msgstr "Pokazuj _histogram"
 
 #: ../src/layout_util.c:1867
 msgid "Show Histogram"
-msgstr "Pokaż Histogram"
+msgstr "Pokazuj histogram"
 
 #: ../src/layout_util.c:1868
 msgid "Rectangular Selection"
@@ -3193,7 +3193,7 @@ msgstr "W postaci listy"
 
 #: ../src/layout_util.c:1874
 msgid "View Images as List"
-msgstr "Wyświetlanie jako listę"
+msgstr "Wyświetlaj obrazy jako listę"
 
 #: ../src/layout_util.c:1875
 msgid "I_cons"
@@ -3201,11 +3201,11 @@ msgstr "Ikony"
 
 #: ../src/layout_util.c:1875
 msgid "View Images as Icons"
-msgstr "Wyświetlanie jako ikony"
+msgstr "Wyświetlaj obrazy jako ikony"
 
 #: ../src/layout_util.c:1879
 msgid "T_oggle Folder View"
-msgstr "Widok drzewiasty"
+msgstr "Przełącz wyświetlanie folderów"
 
 #: ../src/layout_util.c:1879
 msgid "Toggle Folders View"
@@ -4316,8 +4316,7 @@ msgstr "Użyj cache miniaturek Geeqie"
 
 #: ../src/preferences.c:1618
 msgid "Store thumbnails local to image folder (non-standard)"
-msgstr ""
-"Zapisuj miniaturki lokalnie względem katalogu z obrazami (niestandardowe)"
+msgstr "Zapisuj miniaturki lokalnie w katalogu z obrazami (niestandardowe)"
 
 #: ../src/preferences.c:1625
 msgid "Use standard thumbnail style and cache, shared with other applications"
@@ -4327,7 +4326,8 @@ msgstr ""
 #: ../src/preferences.c:1631
 msgid "Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"
 msgstr ""
-"Użyj miniaturek EXIF jeśli są dostępne (miniaturki EXIF mogą być nieaktualne)"
+"Użyj miniaturek EXIF, jeśli są dostępne (miniaturki EXIF mogą być "
+"nieaktualne)"
 
 #: ../src/preferences.c:1635
 msgid "Use embedded metadata in video files as thumbnails when available"
@@ -4340,7 +4340,7 @@ msgstr "Pokaz slajdów"
 
 #: ../src/preferences.c:1653
 msgid "Delay between image change hrs:mins:secs.dec"
-msgstr "Czas między kolejnymi obrazami godz:min:sek.dzies"
+msgstr "Czas między kolejnymi obrazami godz:min:sek,dzies"
 
 #: ../src/preferences.c:1669
 msgid "Random"
@@ -4387,9 +4387,8 @@ msgid "Rating:"
 msgstr "Ocena:"
 
 #: ../src/preferences.c:1718
-#, fuzzy
 msgid "Use GPU acceleration via Clutter library"
-msgstr "Użyj akceleracji GPU przy pomocy biblioteki Clutter (wymaga restartu)"
+msgstr "Użyj akceleracji GPU przy pomocy biblioteki Clutter"
 
 #: ../src/preferences.c:1722
 msgid "Two pass rendering (apply HQ zoom and color correction in second pass)"
@@ -4421,7 +4420,7 @@ msgstr ""
 #: ../src/preferences.c:1743
 #, c-format
 msgid "Virtual window size (% of actual window):"
-msgstr ""
+msgstr "Wirtualny rozmiar okna (% rzeczywistego okna):"
 
 #: ../src/preferences.c:1749
 msgid ""
@@ -4431,6 +4430,11 @@ msgid ""
 "the image (values lower than 100%) or to auto zoom the image (values greater "
 "than 100%). It affects fullscreen mode too."
 msgstr ""
+"Ta wartość ustawia wirtualny rozmiar okna, gdy \"Dopasuj do okna\" jest "
+"zaznaczone. Zamiast używać rzeczywistego rozmiaru okna, określony procent "
+"okna będzie używany. Umożliwia to uzyskanie ramki wokół obrazu (dla wartości "
+"mniejszych niż 100%) lub automatycznego powiększenia obrazu (dla wartości "
+"większych niż 100%). Dotyczy to także trybu pełnoekranowego."
 
 #: ../src/preferences.c:1751
 msgid "Appearance"
@@ -4462,7 +4466,7 @@ msgstr "Usprawnienia"
 
 #: ../src/preferences.c:1775
 msgid "Auto rotate proofs using Exif information"
-msgstr ""
+msgstr "Automatycznie obracaj klatki arkusza próbnego zgodnie z danymi Exif"
 
 #: ../src/preferences.c:1792
 msgid "Windows"
@@ -4474,7 +4478,7 @@ msgstr "Stan"
 
 #: ../src/preferences.c:1796
 msgid "Remember window positions"
-msgstr "Zapamiętanie pozycji okien"
+msgstr "Zapamiętuj pozycje okien"
 
 #: ../src/preferences.c:1799
 msgid "Use saved window positions also for new windows"
@@ -4482,7 +4486,7 @@ msgstr "Używaj zapamiętanych pozycji okien także do nowych okien"
 
 #: ../src/preferences.c:1803
 msgid "Remember tool state (float/hidden)"
-msgstr "Zapamiętanie stanu narzędzi (oderwane/ukryte)"
+msgstr "Zapamiętuj stan narzędzi (oderwane/ukryte)"
 
 #: ../src/preferences.c:1806
 msgid "Remember dialog window positions"
@@ -4490,7 +4494,7 @@ msgstr "Zapamiętuj pozycje okien dialogowych"
 
 #: ../src/preferences.c:1811
 msgid "Fit window to image when tools are hidden/floating"
-msgstr "Dopasowanie okna do obrazu, jeśli narzędzia są ukryte/oderwane"
+msgstr "Dopasuj okno do obrazu, jeśli narzędzia są ukryte/oderwane"
 
 #: ../src/preferences.c:1815
 msgid "Limit size when auto-sizing window (%):"
@@ -4547,8 +4551,7 @@ msgstr ""
 "dostępne zmienne z separatorem.\n"
 "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>"
 "%formatted.FocalLength%</i> może wyświetlić \"1/20s - 400 - 80 mm\" lub "
-"\"1/200 - 80 mm\",\n"
-"gdy nie ma danych o ISO w Exifie.\n"
+"\"1/200 - 80 mm\", gdy nie ma danych o ISO w Exifie.\n"
 "Jeśli linia jest pusta, to jest usuwana. Umożliwia to dodawanie linii, które "
 "całkowicie znikają, jeśli nie ma dostępnych danych.\n"
 
@@ -4634,20 +4637,20 @@ msgid ""
 "1) Save metadata in image files, or sidecar files, according to the XMP "
 "standard"
 msgstr ""
-"1) Zapisywanie metadanych w plikach obrazu lub plikach sidecar zgodnie ze "
+"1) Zapisuj metadane w plikach obrazu lub plikach sidecar zgodnie ze "
 "standardem XMP"
 
 #: ../src/preferences.c:2111
 msgid ""
 "2) Save metadata in '.metadata' folder, local to image folder (non-standard)"
 msgstr ""
-"2) Zapisywanie metadanych w folderze '.metadata' w katalogu z obrazem "
+"2) Zapisuj metadane w folderze '.metadata' w katalogu z obrazem "
 "(niestandardowe)"
 
 #: ../src/preferences.c:2114
 #, c-format
 msgid "3) Save metadata in Geeqie private directory '%s'"
-msgstr "3) Zapisywanie metadanych w prywatnym katalogu Geeqie '%s'"
+msgstr "3) Zapisuj metadane w prywatnym katalogu Geeqie '%s'"
 
 #: ../src/preferences.c:2120
 msgid "Step 1: Write to image files"
@@ -4703,7 +4706,7 @@ msgstr "Dopuść słowa kluczowe różniące się tylko wielkością liter"
 
 #: ../src/preferences.c:2156
 msgid "Write altered image orientation to the metadata"
-msgstr "Zapisz zmienioną orientację obrazu do metadanych"
+msgstr "Zapisuj zmienioną orientację obrazu do metadanych"
 
 #: ../src/preferences.c:2162
 msgid "Auto-save options"
@@ -4711,7 +4714,7 @@ msgstr "Opcje autozapisu"
 
 #: ../src/preferences.c:2164
 msgid "Write metadata after timeout"
-msgstr "Zapisz metadane po upływie danego czasu"
+msgstr "Zapisuj metadane po upływie danego czasu"
 
 #: ../src/preferences.c:2170
 msgid "Timeout (seconds):"
@@ -4723,7 +4726,7 @@ msgstr "Zapisuj metadane przy zmianie obrazu"
 
 #: ../src/preferences.c:2176
 msgid "Write metadata on directory change"
-msgstr "Zapisz metadane przy zmianie katalogu"
+msgstr "Zapisuj metadane przy zmianie katalogu"
 
 #: ../src/preferences.c:2216
 msgid "Perceptual"
@@ -4743,7 +4746,7 @@ msgstr "Zarządzanie kolorami"
 
 #: ../src/preferences.c:2249
 msgid "Input profiles"
-msgstr "Profile wejścia"
+msgstr "Profile wejściowe"
 
 #: ../src/preferences.c:2257
 msgid "Type"
@@ -4792,7 +4795,7 @@ msgstr "Usuń"
 
 #: ../src/preferences.c:2335
 msgid "Confirm file delete"
-msgstr "Potwierdzanie usunięcia pliku"
+msgstr "Potwierdzaj usunięcie pliku"
 
 #: ../src/preferences.c:2337
 msgid "Enable Delete key"
@@ -4820,11 +4823,11 @@ msgstr "Widok"
 
 #: ../src/preferences.c:2374
 msgid "Descend folders in tree view"
-msgstr "Odwrotna kolejność katalogów w widoku drzewiastym"
+msgstr ""
 
 #: ../src/preferences.c:2377
 msgid "In place renaming"
-msgstr "Zmiana nazwy na miejscu"
+msgstr "Zmiana nazwy w miejscu"
 
 #: ../src/preferences.c:2380
 msgid "List directory view uses single click to enter"
@@ -4856,7 +4859,7 @@ msgstr "Mnożnik przewijania klawiaturą"
 
 #: ../src/preferences.c:2398
 msgid "Mouse wheel scrolls image"
-msgstr "Przewijanie obrazu kółkiem myszy"
+msgstr "Kółko myszy przesuwa obraz"
 
 #: ../src/preferences.c:2400
 msgid "Navigation by left or middle click on image"
@@ -4881,7 +4884,7 @@ msgstr ""
 
 #: ../src/preferences.c:2417
 msgid "Log Window max. lines:"
-msgstr "Maksymalna ilość linii w oknie logów"
+msgstr "Maksymalna ilość linii w oknie logów:"
 
 #: ../src/preferences.c:2435
 msgid "Keyboard"
@@ -4993,7 +4996,7 @@ msgstr "Jeden obraz na stronie"
 
 #: ../src/print.c:147
 msgid "Proof sheet"
-msgstr "Wydruk próbny"
+msgstr "Arkusz próbny"
 
 #: ../src/print.c:160
 msgid "Default printer"
@@ -5712,63 +5715,52 @@ msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr "Odczyt miniaturki z cache nie powiódł się, próba odtworzenia.\n"
 
 #: ../src/toolbar.c:85
-#, fuzzy
 msgid "Search"
-msgstr "Szukaj:"
+msgstr "Szukaj"
 
 #: ../src/toolbar.c:90
-#, fuzzy
 msgid "Configure this window"
-msgstr "Konfiguruj to okno..."
+msgstr "Konfiguruj to okno"
 
 #: ../src/toolbar.c:91
-#, fuzzy
 msgid "Thumbnail maintenance"
-msgstr "Zarządzanie miniaturkami..."
+msgstr "Zarządzanie miniaturkami"
 
 #: ../src/toolbar.c:96
-#, fuzzy
 msgid "Fit Horizontaly"
 msgstr "Dopasuj w poziomie"
 
 #: ../src/toolbar.c:97
-#, fuzzy
 msgid "Fit vertically"
 msgstr "Dopasuj w pionie"
 
 #: ../src/toolbar.c:102
-#, fuzzy
 msgid "Zoom1:3"
-msgstr "Skala _1:3"
+msgstr "Skala 1:3"
 
 #: ../src/toolbar.c:107
-#, fuzzy
 msgid "Slideshow Faster"
-msgstr " Slajdy"
+msgstr "Przyspiesz pokaz slajdów"
 
 #: ../src/toolbar.c:108
-#, fuzzy
 msgid "Slideshow Slower"
-msgstr " Slajdy"
+msgstr "Zwolnij pokaz slajdów"
 
 #: ../src/toolbar.c:110 ../src/window.c:274 ../src/window.c:295
 msgid "Help"
 msgstr "Pomo_c"
 
 #: ../src/toolbar.c:112
-#, fuzzy
 msgid "Show thumbnails"
-msgstr "Pokaż _miniaturki"
+msgstr "Pokaż miniaturki"
 
 #: ../src/toolbar.c:113
-#, fuzzy
 msgid "Show marks"
 msgstr "Pokaż znaczniki"
 
 #: ../src/toolbar.c:503
-#, fuzzy
 msgid "Add Toolbar Item"
-msgstr "Pasek narzędzi"
+msgstr "Dodaj element paska narzędzi"
 
 #: ../src/trash.c:88 ../src/utilops.c:2621 ../src/utilops.c:2632
 #: ../src/utilops.c:2689
@@ -6342,11 +6334,11 @@ msgstr "W _górę do nadrzędnego"
 
 #: ../src/view_dir.c:667
 msgid "_Slideshow"
-msgstr "Przeglądanie _slajdowe"
+msgstr "Pokaz _slajdów"
 
 #: ../src/view_dir.c:669
 msgid "Slideshow recursive"
-msgstr "Rekurencyjne przeglądanie slajdowe"
+msgstr "Rekurencyjny pokaz slajdów"
 
 #: ../src/view_dir.c:673
 msgid "Find _duplicates..."
@@ -6362,15 +6354,15 @@ msgstr "Nowy _folder..."
 
 #: ../src/view_dir.c:697 ../src/view_file/view_file.c:640
 msgid "View as _List"
-msgstr "Wyświetlanie jako _lista"
+msgstr "Wyświetlaj jako _lista"
 
 #: ../src/view_dir.c:700
 msgid "View as _Tree"
-msgstr "Wyświetlanie jako _drzewo"
+msgstr "Wyświetlaj jako _drzewo"
 
 #: ../src/view_dir.c:705
 msgid "Show _hidden files"
-msgstr "Wyświetlanie ukrytych plików"
+msgstr "Wyświetlaj ukryte pliki"
 
 #: ../src/view_dir.c:708 ../src/view_file/view_file.c:658
 msgid "Re_fresh"
@@ -6378,11 +6370,11 @@ msgstr "_Odśwież"
 
 #: ../src/view_file/view_file.c:643
 msgid "View as _Icons"
-msgstr "Wyświetlanie jako _ikony"
+msgstr "Wyświetlaj jako _ikony"
 
 #: ../src/view_file/view_file.c:649
 msgid "Show _thumbnails"
-msgstr "Pokaż _miniaturki"
+msgstr "Pokazuj _miniaturki"
 
 #: ../src/view_file/view_file_icon.c:1964 ../src/view_file/view_file_list.c:834
 msgid " [NO GROUPING]"
