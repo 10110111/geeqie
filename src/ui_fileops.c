@@ -555,9 +555,15 @@ gboolean copy_file(const gchar *s, const gchar *t)
 	if (lstat_utf8(sl, &st) && S_ISLNK(st.st_mode))
 		{
 		gchar *link_target;
+		ssize_t i;
 
-		link_target = g_malloc(PATH_MAX + 1);
-		readlink(sl, link_target, st.st_size);
+		link_target = g_malloc(st.st_size + 1);
+		i = readlink(sl, link_target, st.st_size);
+		if (i<0)
+			{
+			g_free(link_target);
+			goto orig_copy;  // try a "normal" copy
+			}
 		link_target[st.st_size] = '\0';
 
 		if (link_target[0] != G_DIR_SEPARATOR) // if it is a relative symlink
@@ -582,6 +588,7 @@ gboolean copy_file(const gchar *s, const gchar *t)
 				}
 			else                 // could not get absolute path, got some error instead
 				{
+				g_free(link_target);
 				g_free(absolute);
 				goto orig_copy;  // so try a "normal" copy
 				}
