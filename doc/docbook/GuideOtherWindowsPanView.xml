@@ -22,6 +22,11 @@
     You can pan the view as you pan an image in normal view mode, using left mouse button and drag.
   </para>
   <para>A primary mouse button click on any image will display informations about the image. Secondary mouse button will show a context menu.</para>
+  <para>
+    The
+    <link linkend="GuideReferenceKeyboardShortcuts" endterm="titleGuideReferenceKeyboardShortcuts" />
+    available are listed in the Reference section.
+  </para>
   <note>
     <para>Pan view recursively visits each folder under the specified folder. This can consume considerable computer resources.</para>
   </note>

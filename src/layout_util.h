@@ -71,5 +71,7 @@ void layout_bars_close(LayoutWindow *lw);
 
 void layout_exif_window_new(LayoutWindow *lw);
 
+gboolean is_help_key(GdkEventKey *event);
+
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -30,6 +30,7 @@
 #include "img-view.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "layout_util.h"
 #include "misc.h"
 #include "pixbuf_util.h"
 #include "print.h"
@@ -992,14 +993,17 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 					collection_remove_by_info(cw->cd, collection_table_get_focus_info(cw->table));
 					}
 				break;
-			case GDK_KEY_F1:
-				help_window_show("GuideReferenceKeyboardShortcuts.html#CollectionsKeyboardShortcuts");
-				break;
 			default:
 				stop_signal = FALSE;
 				break;
 			}
 		}
+	if (!stop_signal && is_help_key(event))
+		{
+		help_window_show("GuideCollections.html");
+		stop_signal = TRUE;
+		}
+
 	return stop_signal;
 }
 

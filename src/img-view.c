@@ -32,6 +32,7 @@
 #include "image-overlay.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "layout_util.h"
 #include "menu.h"
 #include "misc.h"
 #include "pixbuf_util.h"
@@ -562,6 +563,11 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 				stop_signal = FALSE;
 				break;
 			}
+		}
+	if (!stop_signal && is_help_key(event))
+		{
+		help_window_show("GuideOtherWindowsImageWindow.html");
+		stop_signal = TRUE;
 		}
 
 	return stop_signal;

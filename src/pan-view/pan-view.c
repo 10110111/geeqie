@@ -29,6 +29,7 @@
 #include "history_list.h"
 #include "image.h"
 #include "img-view.h"
+#include "layout_util.h"
 #include "menu.h"
 #include "metadata.h"
 #include "misc.h"
@@ -1299,14 +1300,15 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 				case '/':
 					pan_search_toggle_visible(pw, TRUE);
 					break;
-				case GDK_KEY_F1:
-					help_window_show("GuideReferenceKeyboardShortcuts.html#PanViewKeyboardShortcuts");
-					break;
-				default:
 					stop_signal = FALSE;
 					break;
 				}
 			}
+		}
+	if (!stop_signal && is_help_key(event))
+		{
+		help_window_show("GuideOtherWindowsPanView.html");
+		stop_signal = TRUE;
 		}
 
 	return stop_signal;

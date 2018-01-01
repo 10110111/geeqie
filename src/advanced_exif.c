@@ -26,6 +26,7 @@
 #include "metadata.h"
 #include "filedata.h"
 #include "history_list.h"
+#include "layout_util.h"
 #include "misc.h"
 #include "ui_misc.h"
 #include "window.h"
@@ -360,6 +361,11 @@ static gboolean advanced_exif_keypress(GtkWidget *widget, GdkEventKey *event, gp
 				break;
 			}
 		} // if (event->state & GDK_CONTROL...
+	if (!stop_signal && is_help_key(event))
+		{
+		help_window_show("GuideOtherWindowsExif.html");
+		stop_signal = TRUE;
+		}
 
 	return stop_signal;
 } // static gboolean advanced_exif_...

@@ -3005,6 +3005,34 @@ void layout_util_sync(LayoutWindow *lw)
 //	layout_menu_edit_update(lw);
 }
 
+/**
+ * @brief Checks if event key is mapped to Help
+ * @param event 
+ * @returns 
+ * 
+ * Used to check if the user has re-mapped the Help key
+ * in Preferences/Keyboard
+ * 
+ * Note: help_key.accel_mods and event->state
+ * differ in the higher bits
+ */
+gboolean is_help_key(GdkEventKey *event)
+{
+	GtkAccelKey help_key;
+	gboolean ret = FALSE;
+	guint mask = GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK;
+
+	if (gtk_accel_map_lookup_entry("<Actions>/MenuActions/HelpContents", &help_key))
+		{
+		if (help_key.accel_key == event->keyval &&
+					(help_key.accel_mods & mask) == (event->state & mask))
+			{
+			ret = TRUE;
+			}
+		}
+
+	return ret;
+}
 
 /*
  *-----------------------------------------------------------------------------

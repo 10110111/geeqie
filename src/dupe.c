@@ -32,6 +32,7 @@
 #include "img-view.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "layout_util.h"
 #include "md5-util.h"
 #include "menu.h"
 #include "misc.h"
@@ -3165,13 +3166,15 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 						       dupe_popup_menu_pos_cb, listview, 0, GDK_CURRENT_TIME);
 					}
 				break;
-			case GDK_KEY_F1:
-				help_window_show("GuideReferenceKeyboardShortcuts.html#DuplicatesKeyboardShortcuts");
-				break;
 			default:
 				stop_signal = FALSE;
 				break;
 			}
+		}
+	if (!stop_signal && is_help_key(event))
+		{
+		help_window_show("GuideImageSearchFindingDuplicates.html");
+		stop_signal = TRUE;
 		}
 
 	return stop_signal;

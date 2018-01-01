@@ -32,6 +32,7 @@
 #include "image-load.h"
 #include "img-view.h"
 #include "layout.h"
+#include "layout_util.h"
 #include "math.h"
 #include "menu.h"
 #include "metadata.h"
@@ -1367,9 +1368,6 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 					       search_result_menu_pos_cb, sd, 0, GDK_CURRENT_TIME);
 				}
 				break;
-			case GDK_KEY_F1:
-				help_window_show("GuideReferenceKeyboardShortcuts.html#SearchKeyboardShortcuts");
-				break;
 			default:
 				stop_signal = FALSE;
 				break;
@@ -1400,6 +1398,11 @@ static gboolean search_window_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 				stop_signal = FALSE;
 				break;
 			}
+		}
+	if (!stop_signal && is_help_key(event))
+		{
+		help_window_show("GuideImageSearchSearch.html");
+		stop_signal = TRUE;
 		}
 
 	return stop_signal;
