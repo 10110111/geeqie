@@ -342,7 +342,7 @@ static gboolean layout_image_animate_check(LayoutWindow *lw)
 {
 	if (!layout_valid(&lw)) return FALSE;
 
-	if(!lw->options.animate || lw->image->image_fd == NULL)
+	if(!lw->options.animate || lw->image->image_fd == NULL || lw->image->image_fd->extension == NULL || g_ascii_strcasecmp(lw->image->image_fd->extension,".GIF")!=0)
 		{
 		if(lw->animation)
 			{
