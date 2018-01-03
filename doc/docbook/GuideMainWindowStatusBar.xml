@@ -39,18 +39,14 @@
       </varlistentry>
       <varlistentry>
         <term>
-          <guilabel>File Creation Date</guilabel>
+          <guilabel>File Date</guilabel>
         </term>
         <listitem>
-          <para>Images are sorted by file creation date.</para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>
-          <guilabel>Exif Date</guilabel>
-        </term>
-        <listitem>
-          <para>Images are sorted by file Exif date.</para>
+          <para>
+            Images are sorted by one of four types of file date. They are described in the
+            <link linkend="GuideReferenceFileDates">Reference section</link>
+            .
+          </para>
         </listitem>
       </varlistentry>
       <varlistentry>

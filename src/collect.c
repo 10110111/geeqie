@@ -169,6 +169,18 @@ static gint collection_list_sort_cb(gconstpointer a, gconstpointer b)
 			if (cia->fd->cdate > cib->fd->cdate) return 1;
 			return 0;
 			break;
+		case SORT_EXIFTIME:
+			if (cia->fd->exifdate < cib->fd->exifdate) return -1;
+			if (cia->fd->exifdate > cib->fd->exifdate) return 1;
+			break;
+		case SORT_EXIFTIMEDIGITIZED:
+			if (cia->fd->exifdate_digitized < cib->fd->exifdate_digitized) return -1;
+			if (cia->fd->exifdate_digitized > cib->fd->exifdate_digitized) return 1;
+			break;
+		case SORT_RATING:
+			if (cia->fd->rating < cib->fd->rating) return -1;
+			if (cia->fd->rating > cib->fd->rating) return 1;
+			break;
 		case SORT_PATH:
 			return utf8_compare(cia->fd->path, cib->fd->path, options->file_sort.case_sensitive);
 			break;

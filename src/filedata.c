@@ -503,6 +503,41 @@ void read_exif_time_data(FileData *file)
 		}
 }
 
+void read_exif_time_digitized_data(FileData *file)
+{
+	if (file->exifdate > 0)
+		{
+		DEBUG_1("%s set_exif_time_digitized_data: Already exists for %s", get_exec_time(), file->path);
+		return;
+		}
+
+	file->exif = exif_read_fd(file);
+
+	if (file->exif)
+		{
+		gchar *tmp = exif_get_data_as_text(file->exif, "Exif.Photo.DateTimeDigitized");
+		DEBUG_2("%s set_exif_time_digitized_data: reading %p %s", get_exec_time(), file, file->path);
+
+		if (tmp)
+			{
+			struct tm time_str;
+			uint year, month, day, hour, min, sec;
+
+			sscanf(tmp, "%4d:%2d:%2d %2d:%2d:%2d", &year, &month, &day, &hour, &min, &sec);
+			time_str.tm_year  = year - 1900;
+			time_str.tm_mon   = month - 1;
+			time_str.tm_mday  = day;
+			time_str.tm_hour  = hour;
+			time_str.tm_min   = min;
+			time_str.tm_sec   = sec;
+			time_str.tm_isdst = 0;
+
+			file->exifdate_digitized = mktime(&time_str);
+			g_free(tmp);
+			}
+		}
+}
+
 void set_exif_time_data(GList *files)
 {
 	DEBUG_1("%s set_exif_time_data: ...", get_exec_time());
@@ -512,6 +547,19 @@ void set_exif_time_data(GList *files)
 		FileData *file = files->data;
 
 		read_exif_time_data(file);
+		files = files->next;
+		}
+}
+
+void set_exif_time_digitized_data(GList *files)
+{
+	DEBUG_1("%s set_exif_time_digitized_data: ...", get_exec_time());
+
+	while (files)
+		{
+		FileData *file = files->data;
+
+		read_exif_time_digitized_data(file);
 		files = files->next;
 		}
 }
@@ -1046,6 +1094,11 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 			if (fa->exifdate > fb->exifdate) return 1;
 			/* fall back to name */
 			break;
+		case SORT_EXIFTIMEDIGITIZED:
+			if (fa->exifdate_digitized < fb->exifdate_digitized) return -1;
+			if (fa->exifdate_digitized > fb->exifdate_digitized) return 1;
+			/* fall back to name */
+			break;
 		case SORT_RATING:
 			if (fa->rating < fb->rating) return -1;
 			if (fa->rating > fb->rating) return 1;
@@ -1110,6 +1163,10 @@ GList *filelist_sort(GList *list, SortType method, gboolean ascend)
 	if (method == SORT_EXIFTIME)
 		{
 		set_exif_time_data(list);
+		}
+	if (method == SORT_EXIFTIMEDIGITIZED)
+		{
+		set_exif_time_digitized_data(list);
 		}
 	if (method == SORT_RATING)
 		{

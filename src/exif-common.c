@@ -250,6 +250,57 @@ static gchar *exif_build_formatted_DateTime(ExifData *exif)
 	return text;
 }
 
+static gchar *exif_build_formatted_DateTimeDigitized(ExifData *exif)
+{
+	gchar *text = exif_get_data_as_text(exif, "Exif.Photo.DateTimeDigitized");
+	gchar *subsec = NULL;
+	gchar buf[128];
+	gchar *tmp;
+	gint buflen;
+	struct tm tm;
+	GError *error = NULL;
+
+	if (text)
+		{
+		subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTimeDigitized");
+		}
+	else
+		{
+		text = exif_get_data_as_text(exif, "Exif.Image.DateTime");
+		if (text) subsec = exif_get_data_as_text(exif, "Exif.Photo.SubSecTime");
+		}
+
+	/* Convert the stuff into a tm struct */
+	memset(&tm, 0, sizeof(tm)); /* Uh, strptime could let garbage in tm! */
+	if (text && strptime(text, "%Y:%m:%d %H:%M:%S", &tm))
+		{
+		buflen = strftime(buf, sizeof(buf), "%x %X", &tm);
+		if (buflen > 0)
+			{
+			tmp = g_locale_to_utf8(buf, buflen, NULL, NULL, &error);
+			if (error)
+				{
+				log_printf("Error converting locale strftime to UTF-8: %s\n", error->message);
+				g_error_free(error);
+				}
+			else
+				{
+				g_free(text);
+				text = g_strdup(tmp);
+				}
+			}
+		}
+
+	if (subsec)
+		{
+		tmp = text;
+		text = g_strconcat(tmp, ".", subsec, NULL);
+		g_free(tmp);
+		g_free(subsec);
+		}
+	return text;
+}
+
 static gchar *exif_build_formatted_ShutterSpeed(ExifData *exif)
 {
 	ExifRational *r;
@@ -563,6 +614,7 @@ static gchar *exif_build_formatted_GPSAltitude(ExifData *exif)
 ExifFormattedText ExifFormattedList[] = {
 	EXIF_FORMATTED_TAG(Camera,		N_("Camera")),
 	EXIF_FORMATTED_TAG(DateTime,		N_("Date")),
+	EXIF_FORMATTED_TAG(DateTimeDigitized,	N_("DateDigitized")),
 	EXIF_FORMATTED_TAG(ShutterSpeed,	N_("Shutter speed")),
 	EXIF_FORMATTED_TAG(Aperture,		N_("Aperture")),
 	EXIF_FORMATTED_TAG(ExposureBias,	N_("Exposure bias")),

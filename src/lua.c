@@ -167,7 +167,22 @@ static int lua_exif_get_datum(lua_State *L)
 			lua_pushnil(L);
 			return 1;
 			}
-		} // if (strcmp(key, "Exif.Photo.Da...
+		}
+	else if (strcmp(key, "Exif.Photo.DateTimeDigitized") == 0)
+		{
+		memset(&tm, 0, sizeof(tm));
+		if (value && strptime(value, "%Y:%m:%d %H:%M:%S", &tm))
+			{
+			datetime = mktime(&tm);
+			lua_pushnumber(L, datetime);
+			return 1;
+			}
+		else
+			{
+			lua_pushnil(L);
+			return 1;
+			}
+		}
 	lua_pushstring(L, value);
 	return 1;
 }

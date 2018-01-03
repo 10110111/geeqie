@@ -89,7 +89,7 @@
           <guilabel>File date</guilabel>
         </term>
         <listitem>
-          The search will match if the file modification time on disk is equal to, before, after, or between the entered date, depending on the method selected from the drop down menu. The
+          The search will match if the file date is equal to, before, after, or between the entered date, depending on the method selected from the drop down menu. The
           <emphasis>between</emphasis>
           test is inclusive, for example a file with date of 10/04/2003 will match if the date parameters are between 10/04/2003 and 12/31/2003.
           <para />
@@ -103,9 +103,10 @@
           </code>
           button displays a pop up calendar to enter the date.
           <para />
-          The
-          <emphasis role="strong">Exif date</emphasis>
-          checkbox permits searches to be made on the exif date of images. If an image does not have an exif date, it will default to 01 January 1970.
+          One of four date types may be selected. They are described in the
+          <link linkend="GuideReferenceFileDates">Reference section</link>
+          .
+          <note>If an image does not have an exif date, it will default to 01 January 1970.</note>
         </listitem>
       </varlistentry>
       <varlistentry>
