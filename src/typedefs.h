@@ -74,7 +74,8 @@ typedef enum {
 	SORT_PATH,
 	SORT_NUMBER,
 	SORT_EXIFTIME,
-	SORT_RATING
+	SORT_RATING,
+	SORT_CLASS
 } SortType;
 
 typedef enum {

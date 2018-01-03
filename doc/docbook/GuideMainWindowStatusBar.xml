@@ -58,7 +58,30 @@
           <guilabel>Size</guilabel>
         </term>
         <listitem>
-          <para>Image are sorted by file size on disk.</para>
+          <para>Images are sorted by file size on disk.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Rating</guilabel>
+        </term>
+        <listitem>
+          <para>Image are sorted by Xmp.xmp.Rating.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Class</guilabel>
+        </term>
+        <listitem>
+          <para>Image are sorted by class. The class types, and sort order, is:</para>
+          <itemizedlist>
+            <listitem>Unknown</listitem>
+            <listitem>Image</listitem>
+            <listitem>Raw Image</listitem>
+            <listitem>Video</listitem>
+            <listitem>Metadata</listitem>
+          </itemizedlist>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -70,7 +93,7 @@
         </listitem>
       </varlistentry>
     </variablelist>
-    <para />
+    <note>When images have equal rank, for example in rating or class sorts, within each section images will be sorted by filename.</note>
   </section>
   <section id="Filelist">
     <title>File list</title>

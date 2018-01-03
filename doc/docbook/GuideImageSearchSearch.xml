@@ -161,6 +161,21 @@
           </note>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Class</guilabel>
+        </term>
+        <listitem>
+          The search will match if the file's class is, or is not, one of the following types.
+          <itemizedlist>
+            <listitem>Unknown</listitem>
+            <listitem>Image</listitem>
+            <listitem>Raw Image</listitem>
+            <listitem>Video</listitem>
+            <listitem>Metadata</listitem>
+          </itemizedlist>
+        </listitem>
+      </varlistentry>
     </variablelist>
     <para />
     <para />

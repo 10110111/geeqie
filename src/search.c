@@ -144,6 +144,10 @@ struct _SearchData
 	GtkWidget *spin_rating;
 	GtkWidget *spin_rating_end;
 
+	GtkWidget *check_class;
+	GtkWidget *menu_class;
+	GtkWidget *class_type;
+
 	FileData *search_dir_fd;
 	gboolean   search_path_recurse;
 	gchar *search_name;
@@ -180,6 +184,7 @@ struct _SearchData
 	MatchType match_comment;
 	MatchType match_rating;
 	MatchType match_gps;
+	MatchType match_class;
 
 	gboolean match_name_enable;
 	gboolean match_size_enable;
@@ -189,6 +194,7 @@ struct _SearchData
 	gboolean match_keywords_enable;
 	gboolean match_comment_enable;
 	gboolean match_rating_enable;
+	gboolean match_class_enable;
 
 	GList *search_folder_list;
 	GList *search_done_list;
@@ -288,6 +294,11 @@ static const MatchList text_search_menu_gps[] = {
 	{ N_("not geocoded"),	SEARCH_MATCH_NONE },
 	{ N_("less than"),	SEARCH_MATCH_UNDER },
 	{ N_("greater than"),	SEARCH_MATCH_OVER }
+};
+
+static const MatchList text_search_menu_class[] = {
+	{ N_("is"),	SEARCH_MATCH_EQUAL },
+	{ N_("is not"),	SEARCH_MATCH_NONE }
 };
 
 static GList *search_window_list = NULL;
@@ -2032,6 +2043,49 @@ static gboolean search_file_next(SearchData *sd)
 			}
 		}
 
+	if (match && sd->match_class_enable)
+		{
+		tested = TRUE;
+		match = FALSE;
+		gint class;
+		FileFormatClass search_class;
+
+		if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Image")) == 0)
+			{
+			search_class = FORMAT_CLASS_IMAGE;
+			}
+		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Raw Image")) == 0)
+			{
+			search_class = FORMAT_CLASS_RAWIMAGE;
+			}
+		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Video")) == 0)
+			{
+			search_class = FORMAT_CLASS_VIDEO;
+			}
+		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Metadata")) == 0)
+			{
+			search_class = FORMAT_CLASS_META;
+			}
+		else
+			{
+			search_class = FORMAT_CLASS_UNKNOWN;
+			}
+
+		class = fd->format_class;
+		if (sd->match_class == SEARCH_MATCH_EQUAL)
+			{
+			match = (class == search_class);
+			}
+		else if (sd->match_class == SEARCH_MATCH_NONE)
+			{
+			match = (class != search_class);
+			}
+		}
+
 	if (match && sd->match_gps_enable)
 		{
 		/* Calculate the distance the image is from the specified origin.
@@ -2618,6 +2672,13 @@ static void menu_choice_rating_cb(GtkWidget *combo, gpointer data)
 				(sd->match_rating == SEARCH_MATCH_BETWEEN));
 }
 
+static void menu_choice_class_cb(GtkWidget *combo, gpointer data)
+{
+	SearchData *sd = data;
+
+	if (!menu_choice_get_match_type(combo, &sd->match_class)) return;
+}
+
 static void menu_choice_date_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
@@ -2847,6 +2908,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_keywords = SEARCH_MATCH_ALL;
 	sd->match_comment = SEARCH_MATCH_CONTAINS;
 	sd->match_rating = SEARCH_MATCH_EQUAL;
+	sd->match_class = SEARCH_MATCH_EQUAL;
 
 	sd->match_name_enable = TRUE;
 
@@ -3061,6 +3123,22 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_widget_set_sensitive(sd->entry_gps_coord, TRUE);
 
 	gtk_widget_show(sd->entry_gps_coord);
+
+	/* Search for image class */
+	hbox = menu_choice(sd->box_search, &sd->check_class, &sd->menu_class,
+			   _("Image class"), &sd->match_class_enable,
+			   text_search_menu_class, sizeof(text_search_menu_class) / sizeof(MatchList),
+			   G_CALLBACK(menu_choice_class_cb), sd);
+
+	sd->class_type = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Image"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Raw Image"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Video"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Metadata"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Unknown"));
+	gtk_box_pack_start(GTK_BOX(hbox), sd->class_type, FALSE, FALSE, 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(sd->class_type), 0);
+	gtk_widget_show(sd->class_type);
 
 	/* Done the types of searches */
 

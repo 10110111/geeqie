@@ -1051,6 +1051,11 @@ gint filelist_sort_compare_filedata(FileData *fa, FileData *fb)
 			if (fa->rating > fb->rating) return 1;
 			/* fall back to name */
 			break;
+		case SORT_CLASS:
+			if (fa->format_class < fb->format_class) return -1;
+			if (fa->format_class > fb->format_class) return 1;
+			/* fall back to name */
+			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
 			ret = strverscmp(fa->name, fb->name);

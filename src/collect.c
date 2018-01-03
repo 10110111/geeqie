@@ -172,6 +172,10 @@ static gint collection_list_sort_cb(gconstpointer a, gconstpointer b)
 		case SORT_PATH:
 			return utf8_compare(cia->fd->path, cib->fd->path, options->file_sort.case_sensitive);
 			break;
+		case SORT_CLASS:
+			if (cia->fd->format_class < cib->fd->format_class) return -1;
+			if (cia->fd->format_class > cib->fd->format_class) return 1;
+			break;
 #ifdef HAVE_STRVERSCMP
 		case SORT_NUMBER:
 			return strverscmp(cia->fd->name, cib->fd->name);
