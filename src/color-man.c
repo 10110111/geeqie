@@ -443,7 +443,7 @@ static gchar *color_man_get_profile_name(ColorManProfileType type, cmsHPROFILE p
 				cmsUInt32Number r;
 				char buffer[20];
 				buffer[0] = '\0';
-				r = cmsGetProfileInfoASCII(profile, cmsInfoDescription, "en", "US", buffer, 20);
+				cmsGetProfileInfoASCII(profile, cmsInfoDescription, "en", "US", buffer, 20);
 				buffer[19] = '\0'; /* Just to be sure */
 				return g_strdup(buffer);
 #else
