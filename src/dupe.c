@@ -2362,7 +2362,7 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 	submenu_add_edit(menu, &item, G_CALLBACK(dupe_menu_edit_cb), dw, editmenu_fd_list);
 	if (!on_row) gtk_widget_set_sensitive(item, FALSE);
 
-	submenu = submenu_add_collections(menu, &item,
+	submenu_add_collections(menu, &item,
 								G_CALLBACK(dupe_pop_menu_collections_cb), dw);
 	gtk_widget_set_sensitive(item, on_row);
 

@@ -417,7 +417,7 @@ static void add_collection_list(GtkWidget *menu, GCallback func,
 		{
 		const gchar *collection_name = work->data;
 
-		item = menu_item_add(menu, collection_name, func,
+		menu_item_add(menu, collection_name, func,
 													GINT_TO_POINTER(index));
 		work = work->next;
 		index++;
