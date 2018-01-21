@@ -11,38 +11,57 @@ rotate()
     [ "x$ext" = "x" ] && return 1 #no extension
 
     gq_metadata="$GQ_METADATA_DIR/$1.gq.xmp"
-    if [ -f "$gq_metadata" ]; then
-	gq_orientation=`exiv2 -PXkv "$gq_metadata"|grep Xmp.tiff.Orientation|sed -e "s|Xmp.tiff.Orientation *||"`
+    if [ -f "$gq_metadata" ] ; then
+		gq_orientation=`exiv2 -PXkv "$gq_metadata"|grep Xmp.tiff.Orientation|sed -e "s|Xmp.tiff.Orientation *||"`
+		[ $? != 0 ] && exit 1
     else
-	gq_orientation=
+		gq_orientation=
     fi
 
     case "$ext" in
 	jpg|jpeg) 
-		[ -n "$gq_orientation" ] && exiv2 -M "set Exif.Image.Orientation $gq_orientation" "$1"
+		if [ -n "$gq_orientaqtion" ] ; then
+			exiv2 -M "set Exif.Image.Orientation $gq_orientation" "$1"
+			[ $? != 0 ] && exit 1
+		fi
 		if exiftran -aip "$1" ; then
 		    # exiftran ignores xmp, set it manually
 		    exiv2 -M "set Xmp.tiff.Orientation 1" "$1"
+			[ $? != 0 ] && exit 1
 		    #http://dev.exiv2.org/issues/show/639
-		    [ -n "$gq_orientation" ] && exiv2 -M "set Xmp.tiff.Orientation 1" \
-		                                      -M "set Exif.Image.Orientation 1" "$gq_metadata"
+			if [ -n "$gq_orientation" ] ; then
+				exiv2 -M "set Xmp.tiff.Orientation 1" \
+								-M "set Exif.Image.Orientation 1" "$gq_metadata"
+				[ $? != 0 ] && exit 1
+			fi
 		    return 0
+		else
+			exit 1
 		fi
 		;;
 	
 	tif|tiff|png)
-		[ -n "$gq_orientation" ] && exiv2 -M "set Exif.Image.Orientation $gq_orientation" "$1"
+		if [ -n "$gq_orientation" ] ; then
+			exiv2 -M "set Exif.Image.Orientation $gq_orientation" "$1"
+			[ $? != 0 ] && exit 1
+		fi
 		if mogrify -auto-orient "$1" ; then
 		    # mogrify ignores xmp, set it manually
 		    exiv2 -M "set Xmp.tiff.Orientation 1" "$1"
+			[ $? != 0 ] && exit 1
 		    #http://dev.exiv2.org/issues/show/639
-		    [ -n "$gq_orientation" ] && exiv2 -M "set Xmp.tiff.Orientation 1" \
-		                                      -M "set Exif.Image.Orientation 1" "$gq_metadata"
+			if [ -n "$gq_orientation" ] ; then
+				exiv2 -M "set Xmp.tiff.Orientation 1" \
+								-M "set Exif.Image.Orientation 1" "$gq_metadata"
+				[ $? != 0 ] && exit 1
+			fi
 		    return 0
+		else
+			exit 1
 		fi
 		;;
 	*)	#not supported
-		return 0
+		return 4
 		;;
     esac
 }
@@ -50,17 +69,19 @@ rotate()
 rotate_image_file()
 {
 	ext=`echo "${3##*.}" |tr "[:upper:]" "[:lower:]"`
-	[ "x$ext" = "x" ] && return 4 #no extension
+	[ "x$ext" = "x" ] && return 1 #no extension
 
 	case "$ext" in
 	jpg|jpeg)
 		exiftran -i "$1" "$3"
-		return 0
+		[ $? != 0 ]  && return 6
+		return 0;
 		;;
 
 	tif|tiff|png)
 		mogrify $2 "$3"
-		return 0
+		[ $? != 0 ]  && return 7
+		return 0;
 		;;
 
 	*)	#not supported
@@ -131,9 +152,15 @@ for file in "$@" ; do
         # get the sidecars:
         geeqie -r --get-sidecars:"$file" |while read sidecar ; do
             # the main file is included in the sidecar file list, no special handling is required
+			[ ! -w "$sidecar" ] && exit 5
             rotate "$sidecar"
+			ret=$?
         done
+		# Bourne shell runs DO loops in a sub-shell
+		ret=$?
+		[ $ret != 0 ] && exit $ret
     else
+		[ ! -w "$file" ] && exit 5
 		if [ -n "$rotate_image_file" ] ; then
 			if [ -n "$preserve_mtime" ] ; then
 				mtime=`mktemp /tmp/geeqie-rotate.XXXXXXXXXX` || exit 3
@@ -147,12 +174,13 @@ for file in "$@" ; do
 				touch --reference="$mtime" "$file"
 				rm "$mtime"
 			fi
-			if [ $ret -eq 4 ] ; then
-				exit 4
-			fi
+			[ $ret != 0 ]  && exit $ret
 		else
 			rotate "$file"
+			ret=$?
+			[ $ret != 0 ] && exit $ret
 		fi
     fi
 done
 
+exit 0

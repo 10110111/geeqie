@@ -521,13 +521,20 @@ static void layout_menu_write_rotate(GtkToggleAction *action, gpointer data, gbo
 			message = g_string_new("");
 			message = g_string_append(message, _("Operation failed:\n"));
 
-			if (run_result == 3)
-				message = g_string_append(message, _("Cannot create tmp file"));
-			else
-				{
-				message = g_string_append(message, _("File: "));
-				message = g_string_append(message, fd_n->name);
-				}
+			if (run_result == 1)
+				message = g_string_append(message, _("No file extension\n"));
+			else if (run_result == 3)
+				message = g_string_append(message, _("Cannot create tmp file\n"));
+			else if (run_result == 4)
+				message = g_string_append(message, _("Operation not supported for filetype\n"));
+			else if (run_result == 5)
+				message = g_string_append(message, _("File is not writable\n"));
+			else if (run_result == 6)
+				message = g_string_append(message, _("Exiftran error\n"));
+			else if (run_result == 7)
+				message = g_string_append(message, _("Mogrify error\n"));
+
+			message = g_string_append(message, fd_n->name);
 
 			gd = generic_dialog_new(_("Image orientation"),
 			"Image orientation", NULL, TRUE, NULL, NULL);
