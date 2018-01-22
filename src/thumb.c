@@ -337,7 +337,7 @@ gboolean thumb_loader_start(ThumbLoader *tl, FileData *fd)
 
 	if (!tl->fd) tl->fd = file_data_ref(fd);
 
-	if (tl->fd->format_class != FORMAT_CLASS_IMAGE && tl->fd->format_class != FORMAT_CLASS_RAWIMAGE && tl->fd->format_class != FORMAT_CLASS_VIDEO)
+	if (tl->fd->format_class != FORMAT_CLASS_IMAGE && tl->fd->format_class != FORMAT_CLASS_RAWIMAGE && tl->fd->format_class != FORMAT_CLASS_VIDEO && !options->file_filter.disable)
 		{
 		thumb_loader_set_fallback(tl);
 		return FALSE;

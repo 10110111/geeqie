@@ -668,7 +668,7 @@ gboolean thumb_loader_std_start(ThumbLoaderStd *tl, FileData *fd)
 
 
 	tl->fd = file_data_ref(fd);
-	if (!stat_utf8(fd->path, &st) || (tl->fd->format_class != FORMAT_CLASS_IMAGE && tl->fd->format_class != FORMAT_CLASS_RAWIMAGE && tl->fd->format_class != FORMAT_CLASS_VIDEO))
+	if (!stat_utf8(fd->path, &st) || (tl->fd->format_class != FORMAT_CLASS_IMAGE && tl->fd->format_class != FORMAT_CLASS_RAWIMAGE && tl->fd->format_class != FORMAT_CLASS_VIDEO && !options->file_filter.disable))
 		{
 		thumb_loader_std_set_fallback(tl);
 		return FALSE;
