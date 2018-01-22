@@ -2,7 +2,7 @@
 
 helpdir = @htmldir@
 
-EXTRA_DIST = docbook2html.sh docbook
+EXTRA_DIST = docbook2html.sh docbook icons
 
 html/GuideIndex.html: docbook/GuideIndex.xml
 	rm -rf html; mkdir html; cp $(srcdir)/icons/* html/
@@ -20,7 +20,7 @@ install-data-hook: html
 		cd $(srcdir)/html; for f in * ; do $(INSTALL_DATA) "$$f" "$(DESTDIR)$(helpdir)/$$f" ; done; \
 		ln -s -f GuideIndex.html "$(DESTDIR)$(helpdir)/index.html" ; \
 	fi
-	
+
 uninstall-hook:
 	rm "$(DESTDIR)$(helpdir)/"*
 

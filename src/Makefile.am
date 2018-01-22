@@ -195,6 +195,7 @@ geeqie_SOURCES = \
 	layout_image.h	\
 	layout_util.c	\
 	layout_util.h	\
+	keymap_template.c\
 	lirc.c		\
 	lirc.h		\
 	logwindow.c	\
