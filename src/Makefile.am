@@ -64,7 +64,7 @@ ui_icons.h: $(extra_ICONS) Makefile.in
 	 echo '#ifndef UI_ICONS_H'; \
 	 echo '#define UI_ICONS_H'; echo; \
 	 $(GDK_PIXBUF_CSOURCE) --raw --extern --build-list $(ICON_PAIRS); \
-	 echo '#endif /* UI_ICONS_H */'" > $@ || echo "!!! Failed to generate $@ !!!"
+	 echo '#endif /* UI_ICONS_H */'" > $@ || { echo "!!! Failed to generate $@ !!!"; exit 1; }
 
 ClayRGB1998_icc.h: ClayRGB1998.icc
 	echo "/*" > $@
