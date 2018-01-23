@@ -731,32 +731,35 @@ static void bookmark_dnd_get_data(GtkWidget *widget,
 
 	if (!bm->editable) return;
 
-	uris = gtk_selection_data_get_uris(selection_data);
-	list = uri_pathlist_from_uris(uris, &errors);
-	if(errors)
+ 	uris = gtk_selection_data_get_uris(selection_data);
+ 	if (uris)
 		{
-		warning_dialog_dnd_uri_error(errors);
-		string_list_free(errors);
+		list = uri_pathlist_from_uris(uris, &errors);
+		if(errors)
+			{
+			warning_dialog_dnd_uri_error(errors);
+			string_list_free(errors);
+			}
+		g_strfreev(uris);
+
+		work = list;
+		while (work)
+			{
+			gchar *path = work->data;
+			gchar *buf;
+
+			work = work->next;
+
+			if (bm->only_directories && !isdir(path)) continue;
+			buf = bookmark_string(filename_from_path(path), path, NULL);
+			history_list_add_to_key(bm->key, buf, 0);
+			g_free(buf);
+			}
+
+		string_list_free(list);
+
+		bookmark_populate_all(bm->key);
 		}
-	g_strfreev(uris);
-
-	work = list;
-	while (work)
-		{
-		gchar *path = work->data;
-		gchar *buf;
-
-		work = work->next;
-
-		if (bm->only_directories && !isdir(path)) continue;
-		buf = bookmark_string(filename_from_path(path), path, NULL);
-		history_list_add_to_key(bm->key, buf, 0);
-		g_free(buf);
-		}
-
-	string_list_free(list);
-
-	bookmark_populate_all(bm->key);
 }
 
 static void bookmark_list_destroy(GtkWidget *widget, gpointer data)
