@@ -14,6 +14,12 @@ Also test if the latest release, and master branch are affected too.
 
 ```
 
+<!-- What GTK toolkit is used to compile Geeqie? If you compile geeqie
+yourself, please paste the config result at the end of configure. -->
+```
+
+```
+
 ### OS / DISTRIBUTION
 <!---
 Mention the OS, distribution and release you are using geeqie on.
