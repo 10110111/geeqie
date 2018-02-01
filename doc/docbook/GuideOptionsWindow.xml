@@ -197,6 +197,10 @@
             <entry>JPEG image comment</entry>
           </row>
           <row>
+            <entry>rating</entry>
+            <entry>Image rating</entry>
+          </row>
+          <row>
             <entry>&lt;meta_tag&gt;</entry>
             <entry>The Exif, XMP, or IPTC tag from metadata</entry>
           </row>
