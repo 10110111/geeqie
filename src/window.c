@@ -244,7 +244,18 @@ void help_window_show(const gchar *key)
 
 	if (key && strstr(key, ".html") != 0)
 		{
-		gchar *path = g_build_filename("file://", GQ_HTMLDIR, key, NULL);
+		path = g_build_filename(GQ_HTMLDIR, key, NULL);
+		if (!isfile(path))
+			{
+			if (g_strcmp0(key, "index.html") == 0)
+				{
+				path = g_build_filename("http://geeqie.org/help/", "GuideIndex.html", NULL);
+				}
+			else
+				{
+				path = g_build_filename("http://geeqie.org/help/", key, NULL);
+				}
+			}
 		help_browser_run(path);
 		g_free(path);
 		return;
