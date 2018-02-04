@@ -2123,7 +2123,7 @@ void layout_show_config_window(LayoutWindow *lw)
 	pref_label_new(group, _("Home path (empty to use your home directory)"));
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 
-	tabcomp = tab_completion_new(&lc->home_path_entry, lc->options.home_path, NULL, NULL);
+	tabcomp = tab_completion_new(&lc->home_path_entry, lc->options.home_path, NULL, NULL, NULL, NULL);
 	tab_completion_add_select_button(lc->home_path_entry, NULL, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbox), tabcomp, TRUE, TRUE, 0);
 	gtk_widget_show(tabcomp);

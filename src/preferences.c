@@ -2284,7 +2284,7 @@ static void config_tab_color(GtkWidget *notebook)
 		gtk_widget_show(entry);
 		color_profile_input_name_entry[i] = entry;
 
-		tabcomp = tab_completion_new(&entry, options->color_profile.input_file[i], NULL, NULL);
+		tabcomp = tab_completion_new(&entry, options->color_profile.input_file[i], NULL, ".icc", "ICC Files", NULL);
 		tab_completion_add_select_button(entry, _("Select color profile"), FALSE);
 		gtk_widget_set_size_request(entry, 160, -1);
 		gtk_table_attach(GTK_TABLE(table), tabcomp, 2, 3, i + 1, i + 2,
@@ -2304,7 +2304,7 @@ static void config_tab_color(GtkWidget *notebook)
 
 	pref_table_label(table, 0, 0, _("Screen:"), 1.0);
 	tabcomp = tab_completion_new(&color_profile_screen_file_entry,
-				     options->color_profile.screen_file, NULL, NULL);
+				     options->color_profile.screen_file, NULL, ".icc", "ICC Files", NULL);
 	tab_completion_add_select_button(color_profile_screen_file_entry, _("Select color profile"), FALSE);
 	gtk_widget_set_size_request(color_profile_screen_file_entry, 160, -1);
 #ifdef HAVE_LCMS
@@ -2347,7 +2347,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	pref_spacer(hbox, PREF_PAD_INDENT - PREF_PAD_SPACE);
 	pref_label_new(hbox, _("Folder:"));
 
-	tabcomp = tab_completion_new(&safe_delete_path_entry, options->file_ops.safe_delete_path, NULL, NULL);
+	tabcomp = tab_completion_new(&safe_delete_path_entry, options->file_ops.safe_delete_path, NULL, NULL, NULL, NULL);
 	tab_completion_add_select_button(safe_delete_path_entry, NULL, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbox), tabcomp, TRUE, TRUE, 0);
 	gtk_widget_show(tabcomp);

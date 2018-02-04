@@ -87,6 +87,8 @@ struct _TabCompData
 	gchar *fd_title;
 	gboolean fd_folders_only;
 	GtkWidget *fd_button;
+	gchar *filter;
+	gchar *filter_desc;
 
 	guint choices;
 };
@@ -167,6 +169,9 @@ static void tab_completion_destroy(GtkWidget *widget, gpointer data)
 
 	if (td->fd) file_dialog_close(td->fd);
 	g_free(td->fd_title);
+
+	g_free(td->filter);
+	g_free(td->filter_desc);
 
 	g_free(td);
 }
@@ -738,7 +743,7 @@ GtkWidget *tab_completion_new_with_history(GtkWidget **entry, const gchar *text,
 	gtk_box_pack_start(GTK_BOX(box), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
-	tab_completion_add_to_entry(combo_entry, enter_func, data);
+	tab_completion_add_to_entry(combo_entry, enter_func, NULL, NULL, data);
 
 	td = g_object_get_data(G_OBJECT(combo_entry), "tab_completion_data");
 	if (!td) return NULL; /* this should never happen! */
@@ -821,7 +826,7 @@ void tab_completion_append_to_history(GtkWidget *entry, const gchar *path)
 }
 
 GtkWidget *tab_completion_new(GtkWidget **entry, const gchar *text,
-			      void (*enter_func)(const gchar *, gpointer), gpointer data)
+			      void (*enter_func)(const gchar *, gpointer), const gchar *filter, const gchar *filter_desc, gpointer data)
 {
 	GtkWidget *hbox;
 	GtkWidget *button;
@@ -838,13 +843,12 @@ GtkWidget *tab_completion_new(GtkWidget **entry, const gchar *text,
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
 
-	tab_completion_add_to_entry(newentry, enter_func, data);
-
+	tab_completion_add_to_entry(newentry, enter_func, filter, filter_desc, data);
 	if (entry) *entry = newentry;
 	return hbox;
 }
 
-void tab_completion_add_to_entry(GtkWidget *entry, void (*enter_func)(const gchar *, gpointer), gpointer data)
+void tab_completion_add_to_entry(GtkWidget *entry, void (*enter_func)(const gchar *, gpointer), const gchar *filter, const gchar *filter_desc, gpointer data)
 {
 	TabCompData *td;
 	if (!entry)
@@ -858,6 +862,8 @@ void tab_completion_add_to_entry(GtkWidget *entry, void (*enter_func)(const gcha
 	td->entry = entry;
 	td->enter_func = enter_func;
 	td->enter_data = data;
+	td->filter = g_strdup(filter);
+	td->filter_desc = g_strdup(filter_desc);
 
 	g_object_set_data(G_OBJECT(td->entry), "tab_completion_data", td);
 
@@ -923,6 +929,8 @@ static void tab_completion_select_show(TabCompData *td)
 {
 	const gchar *title;
 	const gchar *path;
+	gchar *filter = NULL;
+	gchar *filter_desc = NULL;
 
 	if (td->fd)
 		{
@@ -938,6 +946,23 @@ static void tab_completion_select_show(TabCompData *td)
 
 	generic_dialog_add_message(GENERIC_DIALOG(td->fd), NULL, title, NULL, FALSE);
 
+	if (td->filter)
+		{
+		filter = td->filter;
+		}
+	else
+		{
+		filter = "*";
+		}
+	if (td->filter_desc)
+		{
+		filter_desc = td->filter_desc;
+		}
+	else
+		{
+		filter_desc = _("All files");
+		}
+
 	path = gtk_entry_get_text(GTK_ENTRY(td->entry));
 	if (strlen(path) == 0) path = NULL;
 	if (td->fd_folders_only)
@@ -946,7 +971,7 @@ static void tab_completion_select_show(TabCompData *td)
 		}
 	else
 		{
-		file_dialog_add_path_widgets(td->fd, NULL, path, td->history_key, "*", _("All files"));
+		file_dialog_add_path_widgets(td->fd, NULL, path, td->history_key, filter, filter_desc);
 		}
 
 	gtk_widget_show(GENERIC_DIALOG(td->fd)->dialog);
