@@ -493,6 +493,17 @@ dd.answer div.label { float: left; }
 <p class="para block block-first">
       <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">https://github.com/aruiz/webp-pixbuf-loader</pre></div>
     </p>
+<p class="para block">
+      Example installation script:
+      <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">        sudo apt-get install libglib2.0-dev libgdk-pixbuf2.0-dev libwebp-dev
+        wget https://github.com/aruiz/webp-pixbuf-loader/archive/master.zip
+        unzip master.zip
+        cd webp-pixbuf-loader-master
+        ./waf configure
+        ./waf build
+        sudo ./waf install
+      </pre></div>
+    </p>
 <p class="para block"></p>
 </div>
 <div class="division section">
