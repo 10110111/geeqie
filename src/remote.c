@@ -30,6 +30,7 @@
 #include "layout.h"
 #include "layout_image.h"
 #include "misc.h"
+#include "pixbuf-renderer.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
 #include "rcfile.h"
@@ -608,6 +609,51 @@ static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)
 	gr_raise(text, channel, data);
 }
 
+static void gr_pixel_info(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gchar *pixel_info;
+	gint x_pixel, y_pixel;
+	gint width, height;
+	gint r_mouse, g_mouse, b_mouse;
+	PixbufRenderer *pr;
+	LayoutWindow *lw = NULL;
+
+	if (!layout_valid(&lw)) return;
+
+	pr = (PixbufRenderer*)lw->image->pr;
+
+	if (pr)
+		{
+		pixbuf_renderer_get_image_size(pr, &width, &height);
+		if (width < 1 || height < 1) return;
+
+		pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
+
+		if (x_pixel >= 0 && y_pixel >= 0)
+			{
+			pixbuf_renderer_get_pixel_colors(pr, x_pixel, y_pixel,
+							 &r_mouse, &g_mouse, &b_mouse);
+
+			pixel_info = g_strdup_printf(_("[%d,%d]: RGB(%3d,%3d,%3d)"),
+						 x_pixel, y_pixel,
+						 r_mouse, g_mouse, b_mouse);
+
+			g_io_channel_write_chars(channel, pixel_info, -1, NULL, NULL);
+			g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+			g_free(pixel_info);
+			}
+		else
+			{
+			return;
+			}
+		}
+	else
+		{
+		return;
+		}
+}
+
 static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	LayoutWindow *lw = NULL; /* NULL to force layout_valid() to do some magic */
@@ -798,6 +844,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE, bring Geeqie window to the top") },
 	{ NULL, "File:",                gr_file_load_no_raise,  TRUE,  FALSE, N_("<FILE>"), N_("open FILE, do not bring Geeqie window to the top") },
 	{ NULL, "--tell",               gr_file_tell,           FALSE, FALSE, NULL, N_("print filename of current image") },
+	{ NULL, "--pixel-info",         gr_pixel_info,          FALSE, FALSE, NULL, N_("print pixel info of mouse pointer on current image") },
 	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
 	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },
