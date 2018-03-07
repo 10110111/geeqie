@@ -857,6 +857,26 @@ static void collection_table_popup_add_collection_cb(GtkWidget *widget, gpointer
 	collection_dialog_append(NULL, ct->cd);
 }
 
+static void collection_table_popup_goto_original_cb(GtkWidget *widget, gpointer data)
+{
+	CollectTable *ct = data;
+	GList *list;
+	LayoutWindow *lw = NULL;
+	FileData *fd;
+
+	if (!layout_valid(&lw)) return;
+	list = collection_table_selection_get_list(ct);
+	if (list)
+		{
+		fd = list->data;
+		if (fd)
+			{
+			layout_set_fd(lw, fd);
+			}
+		}
+	g_list_free(list);
+}
+
 static void collection_table_popup_find_dupes_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
@@ -914,6 +934,8 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
 			G_CALLBACK(collection_table_popup_view_cb), ct);
 	menu_item_add_stock_sensitive(menu, _("View in _new window"), GTK_STOCK_NEW, over_icon,
 			G_CALLBACK(collection_table_popup_view_new_cb), ct);
+	menu_item_add_stock(menu, _("Go to original"), GTK_STOCK_FIND,
+			G_CALLBACK(collection_table_popup_goto_original_cb), ct);
 	menu_item_add_divider(menu);
 	menu_item_add_stock_sensitive(menu, _("Rem_ove"), GTK_STOCK_REMOVE, over_icon,
 			G_CALLBACK(collection_table_popup_remove_cb), ct);
