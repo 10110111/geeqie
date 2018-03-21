@@ -171,6 +171,11 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 
 	if (x != 0 || y!= 0)
 		{
+		if (event->state & GDK_SHIFT_MASK)
+			{
+			x *= 3;
+			y *= 3;
+			}
 		keyboard_scroll_calc(&x, &y, event);
 		layout_image_scroll(lw, x, y, (event->state & GDK_SHIFT_MASK));
 		}
