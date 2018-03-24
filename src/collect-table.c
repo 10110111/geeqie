@@ -401,7 +401,7 @@ static void collection_table_select_invert_all(CollectTable *ct)
 	collection_table_update_status(ct);
 }
 
-static void collection_table_select(CollectTable *ct, CollectInfo *info)
+void collection_table_select(CollectTable *ct, CollectInfo *info)
 {
 	ct->prev_selection = info;
 
@@ -1008,7 +1008,7 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
  *-------------------------------------------------------------------
  */
 
-static void collection_table_set_focus(CollectTable *ct, CollectInfo *info)
+void collection_table_set_focus(CollectTable *ct, CollectInfo *info)
 {
 	GtkTreeIter iter;
 	gint row, col;

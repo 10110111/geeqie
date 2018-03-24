@@ -41,6 +41,7 @@ void collection_table_set_labels(CollectTable *ct, GtkWidget *status, GtkWidget 
 
 CollectInfo *collection_table_get_focus_info(CollectTable *ct);
 GList *collection_table_selection_get_list(CollectTable *ct);
-
+void collection_table_set_focus(CollectTable *ct, CollectInfo *info);
+void collection_table_select(CollectTable *ct, CollectInfo *info);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
