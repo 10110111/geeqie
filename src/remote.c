@@ -181,7 +181,7 @@ static gboolean remote_server_read_cb(GIOChannel *source, GIOCondition condition
 	return TRUE;
 }
 
-static gboolean remote_server_exists(const gchar *path)
+gboolean remote_server_exists(const gchar *path)
 {
 	RemoteConnection *rc;
 

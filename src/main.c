@@ -782,6 +782,7 @@ gint main(gint argc, gchar *argv[])
 	CollectionData *first_collection = NULL;
 	gchar *buf;
 	CollectionData *cd = NULL;
+	gchar *app_lock;
 
 #ifdef HAVE_GTHREAD
 #if !GLIB_CHECK_VERSION(2,32,0)
@@ -856,6 +857,16 @@ gint main(gint argc, gchar *argv[])
 
 	DEBUG_1("%s main: parse_command_line", get_exec_time());
 	parse_command_line(argc, argv);
+
+	/* If Geeqie is already running, prevent a second instance
+	 * from being started
+	 */
+	app_lock = g_build_filename(get_rc_dir(), ".command", NULL);
+	if (remote_server_exists(app_lock))
+		{
+		_exit(0);
+		}
+	g_free(app_lock);
 
 	DEBUG_1("%s main: mkdir_if_not_exists", get_exec_time());
 	/* these functions don't depend on config file */

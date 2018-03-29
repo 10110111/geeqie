@@ -47,6 +47,7 @@ void remote_control(const gchar *arg_exec, GList *remote_list, const gchar *path
 		    GList *cmd_list, GList *collection_list);
 
 RemoteConnection *remote_server_init(gchar *path, CollectionData *command_collection);
+gboolean remote_server_exists(const gchar *path);
 
 
 #endif
