@@ -221,6 +221,7 @@ static void parse_command_line(gint argc, gchar *argv[])
 	GList *remote_errors = NULL;
 	gboolean remote_do = FALSE;
 	gchar *first_dir = NULL;
+	gchar *app_lock;
 
 	command_line = g_new0(CommandLine, 1);
 
@@ -411,6 +412,17 @@ static void parse_command_line(gint argc, gchar *argv[])
 		parse_out_relatives(command_line->path);
 		}
 	g_free(first_dir);
+
+	/* If Geeqie is already running, prevent a second instance
+	 * from being started. Open a new window instead.
+	 */
+	app_lock = g_build_filename(get_rc_dir(), ".command", NULL);
+	if (remote_server_exists(app_lock) && !remote_do)
+		{
+		remote_do = TRUE;
+		remote_list = g_list_append(remote_list, "--new-window");
+	}
+	g_free(app_lock);
 
 	if (remote_do)
 		{
@@ -857,16 +869,6 @@ gint main(gint argc, gchar *argv[])
 
 	DEBUG_1("%s main: parse_command_line", get_exec_time());
 	parse_command_line(argc, argv);
-
-	/* If Geeqie is already running, prevent a second instance
-	 * from being started
-	 */
-	app_lock = g_build_filename(get_rc_dir(), ".command", NULL);
-	if (remote_server_exists(app_lock))
-		{
-		_exit(0);
-		}
-	g_free(app_lock);
 
 	DEBUG_1("%s main: mkdir_if_not_exists", get_exec_time());
 	/* these functions don't depend on config file */

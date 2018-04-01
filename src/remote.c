@@ -29,6 +29,7 @@
 #include "img-view.h"
 #include "layout.h"
 #include "layout_image.h"
+#include "layout_util.h"
 #include "misc.h"
 #include "pixbuf-renderer.h"
 #include "slideshow.h"
@@ -56,6 +57,7 @@ static RemoteConnection *remote_client_open(const gchar *path);
 static gint remote_client_send(RemoteConnection *rc, const gchar *text);
 static void gr_raise(const gchar *text, GIOChannel *channel, gpointer data);
 
+static LayoutWindow *lw_id = NULL; /* points to the window set by the --id option */
 
 typedef struct _RemoteClient RemoteClient;
 struct _RemoteClient {
@@ -76,6 +78,7 @@ static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition conditi
 	RemoteConnection *rc;
 	GIOStatus status = G_IO_STATUS_NORMAL;
 
+	lw_id = NULL;
 	rc = client->rc;
 
 	if (condition & G_IO_IN)
@@ -388,37 +391,70 @@ void remote_close(RemoteConnection *rc)
 
 static void gr_image_next(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_next(NULL);
+	layout_image_next(lw_id);
+}
+
+static void gr_new_window(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	LayoutWindow *lw = NULL;
+
+	if (!layout_valid(&lw)) return;
+
+	lw_id = layout_menu_new_window(NULL, lw);
+}
+
+static gboolean gr_close_window_cb()
+{
+	if (!layout_valid(&lw_id)) return FALSE;
+
+	layout_menu_close_cb(NULL, lw_id);
+
+	return FALSE;
+}
+
+static void gr_close_window(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	g_idle_add(gr_close_window_cb, NULL);
 }
 
 static void gr_image_prev(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_prev(NULL);
+	layout_image_prev(lw_id);
 }
 
 static void gr_image_first(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_first(NULL);
+	layout_image_first(lw_id);
 }
 
 static void gr_image_last(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_last(NULL);
+	layout_image_last(lw_id);
 }
 
 static void gr_fullscreen_toggle(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_full_screen_toggle(NULL);
+	layout_image_full_screen_toggle(lw_id);
 }
 
 static void gr_fullscreen_start(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_full_screen_start(NULL);
+	layout_image_full_screen_start(lw_id);
 }
 
 static void gr_fullscreen_stop(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_full_screen_stop(NULL);
+	layout_image_full_screen_stop(lw_id);
+}
+
+static void gr_lw_id(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	lw_id = layout_find_by_layout_id(text);
+	if (!lw_id)
+		{
+		log_printf("remote sent window ID that does not exist:\"%s\"\n",text);
+		}
+	layout_valid(&lw_id);
 }
 
 static void gr_slideshow_start_rec(const gchar *text, GIOChannel *channel, gpointer data)
@@ -429,8 +465,8 @@ static void gr_slideshow_start_rec(const gchar *text, GIOChannel *channel, gpoin
 	file_data_unref(dir_fd);
 	if (!list) return;
 //printf("length: %d\n", g_list_length(list));
-	layout_image_slideshow_stop(NULL);
-	layout_image_slideshow_start_from_list(NULL, list);
+	layout_image_slideshow_stop(lw_id);
+	layout_image_slideshow_start_from_list(lw_id, list);
 }
 
 static void gr_cache_thumb(const gchar *text, GIOChannel *channel, gpointer data)
@@ -478,17 +514,17 @@ static void gr_cache_render_standard_recurse(const gchar *text, GIOChannel *chan
 
 static void gr_slideshow_toggle(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_slideshow_toggle(NULL);
+	layout_image_slideshow_toggle(lw_id);
 }
 
 static void gr_slideshow_start(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_slideshow_start(NULL);
+	layout_image_slideshow_start(lw_id);
 }
 
 static void gr_slideshow_stop(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	layout_image_slideshow_stop(NULL);
+	layout_image_slideshow_stop(lw_id);
 }
 
 static void gr_slideshow_delay(const gchar *text, GIOChannel *channel, gpointer data)
@@ -542,9 +578,9 @@ static void gr_tools_show(const gchar *text, GIOChannel *channel, gpointer data)
 	gboolean popped;
 	gboolean hidden;
 
-	if (layout_tools_float_get(NULL, &popped, &hidden) && hidden)
+	if (layout_tools_float_get(lw_id, &popped, &hidden) && hidden)
 		{
-		layout_tools_float_set(NULL, popped, FALSE);
+		layout_tools_float_set(lw_id, popped, FALSE);
 		}
 }
 
@@ -553,9 +589,9 @@ static void gr_tools_hide(const gchar *text, GIOChannel *channel, gpointer data)
 	gboolean popped;
 	gboolean hidden;
 
-	if (layout_tools_float_get(NULL, &popped, &hidden) && !hidden)
+	if (layout_tools_float_get(lw_id, &popped, &hidden) && !hidden)
 		{
-		layout_tools_float_set(NULL, popped, TRUE);
+		layout_tools_float_set(lw_id, popped, TRUE);
 		}
 }
 
@@ -586,17 +622,17 @@ static void gr_file_load_no_raise(const gchar *text, GIOChannel *channel, gpoint
 			}
 		else
 			{
-			layout_set_path(NULL, filename);
+			layout_set_path(lw_id, filename);
 			}
 		}
 	else if (isdir(filename))
 		{
-		layout_set_path(NULL, filename);
+		layout_set_path(lw_id, filename);
 		}
 	else
 		{
 		log_printf("remote sent filename that does not exist:\"%s\"\n", filename);
-		layout_set_path(NULL, homedir());
+		layout_set_path(lw_id, homedir());
 		}
 
 	g_free(filename);
@@ -618,9 +654,9 @@ static void gr_pixel_info(const gchar *text, GIOChannel *channel, gpointer data)
 	PixbufRenderer *pr;
 	LayoutWindow *lw = NULL;
 
-	if (!layout_valid(&lw)) return;
+	if (!layout_valid(&lw_id)) return;
 
-	pr = (PixbufRenderer*)lw->image->pr;
+	pr = (PixbufRenderer*)lw_id->image->pr;
 
 	if (pr)
 		{
@@ -656,11 +692,11 @@ static void gr_pixel_info(const gchar *text, GIOChannel *channel, gpointer data)
 
 static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	LayoutWindow *lw = NULL; /* NULL to force layout_valid() to do some magic */
-	if (!layout_valid(&lw)) return;
-	if (image_get_path(lw->image))
+	if (!layout_valid(&lw_id)) return;
+
+	if (image_get_path(lw_id->image))
 		{
-		g_io_channel_write_chars(channel, image_get_path(lw->image), -1, NULL, NULL);
+		g_io_channel_write_chars(channel, image_get_path(lw_id->image), -1, NULL, NULL);
 		g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
 		}
 }
@@ -771,9 +807,9 @@ static void gr_raise(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	LayoutWindow *lw = NULL;
 
-	if (layout_valid(&lw))
+	if (layout_valid(&lw_id))
 		{
-		gtk_window_present(GTK_WINDOW(lw->window));
+		gtk_window_present(GTK_WINDOW(lw_id->window));
 		}
 }
 
@@ -849,6 +885,9 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
 	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },
 	{ NULL, "raise",                gr_raise,               FALSE, FALSE, NULL, N_("bring the Geeqie window to the top") },
+	{ NULL, "--id:",                gr_lw_id,               TRUE, FALSE, N_("<ID>"), N_("window id for following commands") },
+	{ NULL, "--new-window",         gr_new_window,          FALSE, FALSE, NULL, N_("new window") },
+	{ NULL, "--close-window",       gr_close_window,        FALSE, FALSE, NULL, N_("close window") },
 	{ "-ct:", "--cache-thumbs:",    gr_cache_thumb,         TRUE, FALSE, N_("clear|clean"), N_("clear or clean thumbnail cache") },
 	{ "-cs:", "--cache-shared:",    gr_cache_shared,        TRUE, FALSE, N_("clear|clean"), N_("clear or clean shared thumbnail cache") },
 	{ "-cm","--cache-metadata",      gr_cache_metadata,               FALSE, FALSE, NULL, N_("    clean the metadata cache") },

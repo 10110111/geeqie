@@ -207,7 +207,7 @@ static void layout_exit_fullscreen(LayoutWindow *lw)
 	layout_image_full_screen_stop(lw);
 }
 
-static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
+LayoutWindow *layout_menu_new_window(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 	LayoutWindow *nw;
@@ -227,6 +227,13 @@ static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 	layout_sort_set(nw, options->file_sort.method, options->file_sort.ascending);
 	layout_set_fd(nw, lw->dir_fd);
 	options->save_window_positions = tmp;
+
+	return nw;
+}
+
+static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
+{
+	layout_menu_new_window(action, data);
 }
 
 static void layout_menu_new_cb(GtkAction *action, gpointer data)
@@ -349,7 +356,7 @@ static void layout_menu_enable_grouping_cb(GtkAction *action, gpointer data)
 	file_data_disable_grouping_list(layout_selection_list(lw), FALSE);
 }
 
-static void layout_menu_close_cb(GtkAction *action, gpointer data)
+void layout_menu_close_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 

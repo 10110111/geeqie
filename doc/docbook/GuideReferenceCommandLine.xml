@@ -247,6 +247,26 @@
             <entry>Bring the geeqie window to the top</entry>
           </row>
           <row>
+            <entry />
+            <entry>--id:&lt;ID&gt;</entry>
+            <entry>
+              Window ID for following commands
+              <footnote id='ref3'>
+                <para>The ID is shown in the titlebar of the window. If multiple windows are open, it can be used to direct commands to a particular window e.g. --remote --id:main --tell</para>
+              </footnote>
+            </entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--new-window</entry>
+            <entry>Open new window</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--close-window</entry>
+            <entry>Close window</entry>
+          </row>
+          <row>
             <entry>-ct:clear|clean</entry>
             <entry>--cache-thumbs:clear|clean</entry>
             <entry>clear or clean thumbnail cache</entry>

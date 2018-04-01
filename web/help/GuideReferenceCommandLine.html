@@ -699,44 +699,62 @@ dd.answer div.label { float: left; }
 <td class="td-rowsep">Bring the geeqie window to the top</td>
 </tr>
 <tr>
+<td class="td-colsep td-rowsep"></td>
+<td class="td-colsep td-rowsep">--id:&lt;ID&gt;</td>
+<td class="td-rowsep">
+              Window ID for following commands
+              <a name="-noteref-ref3"></a><sup><a class="footnote" href="#ref3">2</a></sup>
+            </td>
+</tr>
+<tr class="tr-shade">
+<td class="td-colsep td-rowsep"></td>
+<td class="td-colsep td-rowsep">--new-window</td>
+<td class="td-rowsep">Open new window</td>
+</tr>
+<tr>
+<td class="td-colsep td-rowsep"></td>
+<td class="td-colsep td-rowsep">--close-window</td>
+<td class="td-rowsep">Close window</td>
+</tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">-ct:clear|clean</td>
 <td class="td-colsep td-rowsep">--cache-thumbs:clear|clean</td>
 <td class="td-rowsep">clear or clean thumbnail cache</td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">-cs:clear|clean</td>
 <td class="td-colsep td-rowsep">--cache-shared:clear|clean</td>
 <td class="td-rowsep">clear or clean shared thumbnail cache</td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">-cm</td>
 <td class="td-colsep td-rowsep">--cache-metadata</td>
 <td class="td-rowsep">clean the metadata cache</td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">-cr:&lt;folder&gt;</td>
 <td class="td-colsep td-rowsep">--cache-render:&lt;folder&gt;</td>
 <td class="td-rowsep">render thumbnails</td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">-crr:&lt;folder&gt;</td>
 <td class="td-colsep td-rowsep">--cache-render-recurse:&lt;folder&gt;</td>
 <td class="td-rowsep">render thumbnails recursively</td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">-crs:&lt;folder&gt;</td>
 <td class="td-colsep td-rowsep">--cache-render-shared:&lt;folder&gt;</td>
 <td class="td-rowsep">
               render thumbnails
-              <a name="-noteref-ref2"></a><sup><a class="footnote" href="#ref2">2</a></sup>
+              <a name="-noteref-ref2"></a><sup><a class="footnote" href="#ref2">3</a></sup>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">-crsr:&lt;folder&gt;</td>
 <td class="td-colsep td-rowsep">--cache-render-shared-recurse:&lt;folder&gt;</td>
 <td class="td-rowsep">render thumbnails recursively</td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep"></td>
 <td class="td-colsep">--lua:&lt;file&gt;,&lt;lua script&gt;</td>
 <td>run lua script on file</td>
@@ -749,7 +767,11 @@ dd.answer div.label { float: left; }
 <div class="footnote">
 <a name="ref1"></a><span class="footnote-number"><a class="footnote-ref" href="#-noteref-ref1">1</a></span>The name of a collection, with or without either path or extension (.gqv) may be used. If a path is not used and there is a name conflict with a file or folder, that will take precedence.</div>
 <div class="footnote">
-<a name="ref2"></a><span class="footnote-number"><a class="footnote-ref" href="#-noteref-ref2">2</a></span>
+<a name="ref3"></a><span class="footnote-number"><a class="footnote-ref" href="#-noteref-ref3">2</a></span>
+                <p class="para block block-first">The ID is shown in the titlebar of the window. If multiple windows are open, it can be used to direct commands to a particular window e.g. --remote --id:main --tell</p>
+              </div>
+<div class="footnote">
+<a name="ref2"></a><span class="footnote-number"><a class="footnote-ref" href="#-noteref-ref2">3</a></span>
                 <p class="para block block-first">If standard thumbnail cache is not enabled, this command will be ignored.</p>
               </div>
 </div>
