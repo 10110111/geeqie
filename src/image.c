@@ -210,7 +210,7 @@ static void image_update_title(ImageWindow *imd)
 		collection ? collection : "",
 		imd->image_fd ? " - " : "",
 		imd->title_right ? imd->title_right : "",
-		lw_ident ? lw_ident : ""
+		options->show_window_ids ? (lw_ident ? lw_ident : "") : ""
 		);
 	if (lw_ident)
 		{

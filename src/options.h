@@ -57,6 +57,7 @@ struct _ConfOptions
 	gboolean use_saved_window_positions_for_new_windows;
 	gboolean tools_restore_state;
 	gboolean save_dialog_window_positions;
+	gboolean show_window_ids;
 
 	gint log_window_lines;
 
