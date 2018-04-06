@@ -24,6 +24,7 @@
 #include "image_load_gdk.h"
 #include "image_load_jpeg.h"
 #include "image_load_tiff.h"
+#include "image_load_dds.h"
 #include "image_load_ffmpegthumbnailer.h"
 
 #include "exif.h"
@@ -636,6 +637,12 @@ static void image_loader_setup_loader(ImageLoader *il)
 		}
 	else
 #endif
+	if (il->bytes_total >= 3 && il->mapped_file[0] == 0x44 && il->mapped_file[1] == 0x44 && il->mapped_file[2] == 0x53)
+		{
+		DEBUG_1("Using dds loader");
+		image_loader_backend_set_dds(&il->backend);
+		}
+	else
 		image_loader_backend_set_default(&il->backend);
 
 	il->loader = il->backend.loader_new(image_loader_area_updated_cb, image_loader_size_cb, image_loader_area_prepared_cb, il);

@@ -119,6 +119,7 @@ static GList *editor_mime_types_to_extensions(gchar **mime_types)
 		{"image/svg+xml",	".svg"},
 		{"image/svg+xml-compressed", 	".svg"},
 		{"image/tiff",		".tiff;.tif;.mef"},
+		{"image/vnd-ms.dds",	".dds"},
 		{"image/x-adobe-dng",	".dng"},
 		{"image/x-bmp",		".bmp"},
 		{"image/x-canon-crw",	".crw"},
