@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideReferenceUTC">
+  <title id="titleGuideReferenceUTC">UTC and Daylight Saving Time (DST)</title>
+  <para>Geeqie can display the local time at which a photo was taken, adjusted for UTC offset and Daylight Saving Time.</para>
+  <para>
+    If the image exif data contains the required parameters (see
+    <link linkend="GuideReferenceXmpExif">Pre-formatted tags</link>
+    ), Geeqie will use the latitude and longitude to determine which timezone the image was taken in.
+    <para />
+    The UTC offset and Daylight Saving Time Correction for that timezone, combined with the GPS UTC value, will then be used to compute the correct local time.
+    <para />
+    This value may be displayed in either the Info Sidebar or Overlay Screen Display by using the parameter
+    <code>formatted.localtime</code>
+  </para>
+  <para>
+    The timezone for the image may also be displayed by using the parameter
+    <code>formatted.timezone</code>
+    .
+  </para>
+</section>

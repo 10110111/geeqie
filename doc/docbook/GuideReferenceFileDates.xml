@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideReferenceFileDates">
+  <title>File date types</title>
+  <para>Geeqie understands 4 types of file dates:</para>
+  <itemizedlist spacing="compact">
+    <listitem>
+      <para>Standard date (mtime) - The date the file contents were last modified, or when the file was created if since unchanged.</para>
+    </listitem>
+    <listitem>
+      <para>Status changed (ctime) - The date the file status was last changed. This includes change of owner, change of read/write permission and change of contents.</para>
+    </listitem>
+    <listitem>
+      <para>Exif date original (Exif.Photo.DateTimeOriginal) -  For images from a digital camera, this is the time the photo was taken.</para>
+    </listitem>
+    <listitem>
+      <para>Exif date digitized (Exif.Photo.DateTimeDigitized) -  For scanned images, this the time the scan was made. For images from a digital camera, it may be identical to the above date.</para>
+    </listitem>
+  </itemizedlist>
+</section>

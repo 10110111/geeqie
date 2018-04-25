@@ -251,6 +251,32 @@
             <entry>Latitude, Longitude</entry>
           </row>
           <row>
+            <entry>formatted.localtime</entry>
+            <entry>
+              Local time corrected for UTC offset, DST correction
+              <footnote id='ref1'>
+                <para>
+                  Refer to
+                  <link linkend="GuideReferenceUTC">UTC and DST</link>
+                  section.
+                </para>
+              </footnote>
+            </entry>
+          </row>
+          <row>
+            <entry>formatted.timezone</entry>
+            <entry>
+              Timezone indicated by GPS lat/long values
+              <footnote id='ref1'>
+                <para>
+                  Refer to
+                  <link linkend="GuideReferenceUTC">UTC and DST</link>
+                  section.
+                </para>
+              </footnote>
+            </entry>
+          </row>
+          <row>
             <entry>file.size</entry>
             <entry>file size in bytes</entry>
           </row>

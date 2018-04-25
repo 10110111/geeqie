@@ -264,7 +264,9 @@ geeqie_SOURCES = \
 	window.c	\
 	window.h	\
 	lua.c		\
-	glua.h
+	glua.h		\
+	zonedetect.c	\
+	zonedetect.h
 
 geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS) $(CLUTTER_LIBS) $(CLUTTER_GTK_LIBS) $(FFMPEGTHUMBNAILER_LIBS)
 

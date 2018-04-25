@@ -239,6 +239,66 @@
               <para>Latitude, Longitude</para>
             </entry>
           </row>
+          <row>
+            <entry>
+              <para>formatted.localtime</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.GPSInfo.GPSLatitude
+                <para />
+                Exif.GPSInfo.GPSLatitudeRef
+                <para />
+                Exif.GPSInfo.GPSLongitude
+                <para />
+                Exif.GPSInfo.GPSLongitudeRef
+                <para />
+                Exif.GPSInfo.GPSDateStamp
+                <para />
+                Exif.GPSInfo.GPSTimeStamp
+              </para>
+            </entry>
+            <entry>
+              <para>
+                Local time corrected for UTC offset, DST correction
+                <footnote id='ref1'>
+                  <para>
+                    Refer to
+                    <link linkend="GuideReferenceUTC">UTC and DST</link>
+                    section.
+                  </para>
+                </footnote>
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.timezone</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.GPSInfo.GPSLatitude
+                <para />
+                Exif.GPSInfo.GPSLatitudeRef
+                <para />
+                Exif.GPSInfo.GPSLongitude
+                <para />
+                Exif.GPSInfo.GPSLongitudeRef
+              </para>
+            </entry>
+            <entry>
+              <para>
+                Timezone indicated by lat/long
+                <footnote id='ref1'>
+                  <para>
+                    Refer to
+                    <link linkend="GuideReferenceUTC">UTC and DST</link>
+                    section.
+                  </para>
+                </footnote>
+              </para>
+            </entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
@@ -322,6 +382,14 @@
             </entry>
             <entry>
               <para>GPS altitiude</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.timezone</para>
+            </entry>
+            <entry>
+              <para>Time zone</para>
             </entry>
           </row>
           <row>
@@ -438,6 +506,14 @@
             </entry>
             <entry>
               <para>Date</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.localtime</para>
+            </entry>
+            <entry>
+              <para>Local time</para>
             </entry>
           </row>
           <row>

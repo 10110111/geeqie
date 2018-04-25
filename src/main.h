@@ -123,6 +123,8 @@
 #include "options.h"
 
 #define DESKTOP_FILE_TEMPLATE GQ_APP_DIR "/template.desktop"
+
+#define TIMEZONE_DATABASE "timezone21.bin"
 /*
  *----------------------------------------------------------------------------
  * main.c

@@ -46,6 +46,7 @@
 #include "ui_tabcomp.h"
 #include "ui_utildlg.h"
 #include "window.h"
+#include "zonedetect.h"
 
 #include <math.h>
 
@@ -2739,26 +2740,24 @@ void show_about_window(LayoutWindow *lw)
 	gchar *comment;
 	gint i_authors = 0;
 	gchar *path;
+	GString *copyright;
+	gchar *zd_path;
+	ZoneDetect *cd;
 	FILE *fp = NULL;
 #define LINE_LENGTH 1000
 	gchar line[LINE_LENGTH];
 
-#if !GTK_CHECK_VERSION(3,0,0)
-	GString *copyright;
-
 	copyright = g_string_new(NULL);
-	path = g_build_filename(GQ_HELPDIR, "COPYING", NULL);
-	fp = fopen(path, "r");
-	if (fp)
+	copyright = g_string_append(copyright, "This program comes with absolutely no warranty.\nGNU General Public License, version 2 or later.\nSee https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\n\n");
+
+	zd_path = g_build_filename(GQ_BIN_DIR, TIMEZONE_DATABASE, NULL);
+	cd = ZDOpenDatabase(zd_path);
+	if (cd)
 		{
-		while(fgets(line, LINE_LENGTH, fp))
-			{
-			copyright = g_string_append(copyright, line);
-			}
-		fclose(fp);
+		copyright = g_string_append(copyright, ZDGetNotice(cd));
 		}
-	g_free(path);
-#endif
+	ZDCloseDatabase(cd);
+	g_free(zd_path);
 
 	authors[0] = NULL;
 	path = g_build_filename(GQ_HELPDIR, "AUTHORS", NULL);
@@ -2794,16 +2793,12 @@ void show_about_window(LayoutWindow *lw)
 		"comments", comment,
 		"authors", authors,
 		"translator-credits", _("translator-credits"),
-#if GTK_CHECK_VERSION(3,0,0)
-		"license-type", GTK_LICENSE_GPL_2_0,
-#else
-		"license",  copyright->str,
-#endif
+		"wrap-license", TRUE,
+		"license", copyright->str,
 		NULL);
 
-#if !GTK_CHECK_VERSION(3,0,0)
 	g_string_free(copyright, TRUE);
-#endif
+
 	gint n = 0;
 	while(n < i_authors)
 		{

@@ -56,6 +56,7 @@
 #include "ui_fileops.h"
 #include "cache.h"
 #include "jpeg_parser.h"
+#include "zonedetect.h"
 
 
 static gdouble exif_rational_to_double(ExifRational *r, gint sign)
@@ -607,6 +608,247 @@ static gchar *exif_build_formatted_GPSAltitude(ExifData *exif)
 	return g_strdup_printf("%0.f m %s", alt, (ref==0)?_("Above Sea Level"):_("Below Sea Level"));
 }
 
+/**
+ * @brief Extracts timezone from a ZoneDetect search structure
+ * @param results ZoneDetect search structure
+ * @returns Timezone in the form "Europe/London"
+ * 
+ * Refer to https://github.com/BertoldVdb/ZoneDetect
+ * for structure details
+ */
+static gchar *zd_tz(ZoneDetectResult* results)
+{
+	gchar *timezone = NULL;
+	gchar *timezone_pre = NULL;
+	gchar *timezone_id = NULL;
+	unsigned int index = 0;
+
+    if (!results)
+		{
+		return NULL;
+		}
+
+	while(results[index].lookupResult != ZD_LOOKUP_END)
+		{
+		if(results[index].data)
+			{
+			for(unsigned int i=0; i<results[index].numFields; i++)
+				{
+				if (g_strstr_len(results[index].fieldNames[i], -1, "TimezoneIdPrefix"))
+					{
+					timezone_pre = g_strdup(results[index].data[i]);
+					}
+				if (g_strstr_len(results[index].fieldNames[i], -1, "TimezoneId"))
+					{
+					timezone_id = g_strdup(results[index].data[i]);
+					}
+				}
+			}
+		index++;
+		}
+
+	timezone = g_strconcat(timezone_pre, timezone_id, NULL);
+	g_free(timezone_pre);
+	g_free(timezone_id);
+	return timezone;
+}
+
+/**
+ * @brief Creates local time from GPS lat/long
+ * @param exif 
+ * @returns Localised time and date
+ * 
+ * GPS lat/long is translated to timezone using ZoneDetect.
+ * GPS UTC is converted to Unix time stamp (seconds since 1970).
+ * The TZ environment variable is set to the relevant timezone
+ * and the Unix timestamp converted to local time using locale.
+ * If the conversion fails, unformatted UTC is returned.
+ */
+static gchar *exif_build_formatted_localtime(ExifData *exif)
+{
+	gfloat latitude;
+	gfloat longitude;
+	gchar *text_latitude;
+	gchar *text_longitude;
+	gchar *text_latitude_ref;
+	gchar *text_longitude_ref;
+	gchar *text_date;
+	gchar *text_time;
+	gchar *text_date_time = NULL;
+	gchar buf[128];
+	gchar *tmp;
+	gint buflen;
+	GError *error = NULL;
+	gchar *lat_deg;
+	gchar *lat_min;
+	gchar *lon_deg;
+	gchar *lon_min;
+	gchar *time_zone;
+	gchar *time_zone_org;
+	struct tm *tm_local;
+	struct tm tm_utc;
+	time_t stamp;
+	gchar *zd_path;
+	gchar *zone_selected;
+	ZoneDetect *cd;
+	ZoneDetectResult *results;
+
+	text_latitude = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLatitude");
+	text_longitude = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLongitude");
+	text_latitude_ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLatitudeRef");
+	text_longitude_ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLongitudeRef");
+	text_date = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSDateStamp");
+	text_time = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSTimeStamp");
+
+	if (text_latitude && text_longitude && text_latitude_ref &&
+						text_longitude_ref && text_date && text_time)
+		{
+		text_date_time = g_strconcat(text_date, ":", text_time, NULL);
+
+		lat_deg = strtok(text_latitude, "deg'");
+		lat_min = strtok(NULL, "deg'");
+		latitude = atof(lat_deg) + atof(lat_min) / 60;
+		if (!g_strcmp0(text_latitude_ref, "South"))
+			{
+			latitude = -latitude;
+			}
+		lon_deg = strtok(text_longitude, "deg'");
+		lon_min = strtok(NULL, "deg'");
+		longitude = atof(lon_deg) + atof(lon_min) / 60;
+		if (!g_strcmp0(text_longitude_ref, "West"))
+			{
+			longitude = -longitude;
+			}
+
+		zd_path = g_build_filename(GQ_BIN_DIR, TIMEZONE_DATABASE, NULL);
+		cd = ZDOpenDatabase(zd_path);
+		if (cd)
+			{
+			results = ZDLookup(cd, latitude, longitude, NULL);
+			zone_selected = zd_tz(results);
+			time_zone = g_strconcat("TZ=", zone_selected, NULL);
+			time_zone_org = g_strconcat("TZ=", getenv("TZ"), NULL);
+			putenv("TZ=UTC");
+			g_free(zone_selected);
+
+			memset(&tm_utc, 0, sizeof(tm_utc));
+			if (text_date_time && strptime(text_date_time, "%Y:%m:%d:%H:%M:%S", &tm_utc))
+				{
+				stamp = mktime(&tm_utc);	// Convert the struct to a Unix timestamp
+				putenv(time_zone);	// Switch to destination time zone
+
+				tm_local = localtime(&stamp);
+
+				/* Convert to localtime using locale */
+				buflen = strftime(buf, sizeof(buf), "%x %X", tm_local);
+				if (buflen > 0)
+					{
+					tmp = g_locale_to_utf8(buf, buflen, NULL, NULL, &error);
+					if (error)
+						{
+						log_printf("Error converting locale strftime to UTF-8: %s\n", error->message);
+						g_error_free(error);
+						}
+					else
+						{
+						g_free(text_date_time);
+						text_date_time = g_strdup(tmp);
+						}
+					}
+					g_free(tmp);
+				}
+			putenv(time_zone_org);
+
+			g_free(time_zone);
+			g_free(time_zone_org);
+			}
+		else
+			{
+			log_printf("Error: Init of timezone database %s failed\n", zd_path);
+			}
+		ZDCloseDatabase(cd);
+		g_free(zd_path);
+		}
+
+	g_free(text_latitude);
+	g_free(text_longitude);
+	g_free(text_latitude_ref);
+	g_free(text_longitude_ref);
+	g_free(text_date);
+	g_free(text_time);
+
+	return text_date_time;
+}
+
+/**
+ * @brief Gets timezone from GPS lat/long
+ * @param exif 
+ * @returns Timezone string in the form "Europe/London"
+ * 
+ * 
+ */
+static gchar *exif_build_formatted_timezone(ExifData *exif)
+{
+	gfloat latitude;
+	gfloat longitude;
+	gchar *text_latitude;
+	gchar *text_longitude;
+	gchar *text_latitude_ref;
+	gchar *text_longitude_ref;
+	gchar *lat_deg;
+	gchar *lat_min;
+	gchar *lon_deg;
+	gchar *lon_min;
+	gchar *time_zone = NULL;
+	gchar *zd_path;
+	ZoneDetect *cd;
+	ZoneDetectResult *results;
+
+	text_latitude = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLatitude");
+	text_longitude = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLongitude");
+	text_latitude_ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLatitudeRef");
+	text_longitude_ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLongitudeRef");
+
+	if (text_latitude && text_longitude && text_latitude_ref &&
+						text_longitude_ref)
+		{
+		lat_deg = strtok(text_latitude, "deg'");
+		lat_min = strtok(NULL, "deg'");
+		latitude = atof(lat_deg) + atof(lat_min) / 60;
+		if (g_strcmp0(text_latitude_ref, "South") == 0)
+			{
+			latitude = -latitude;
+			}
+		lon_deg = strtok(text_longitude, "deg'");
+		lon_min = strtok(NULL, "deg'");
+		longitude = atof(lon_deg) + atof(lon_min) / 60;
+		if (g_strcmp0(text_longitude_ref, "West") == 0)
+			{
+			longitude = -longitude;
+			}
+		zd_path = g_build_filename(GQ_BIN_DIR, TIMEZONE_DATABASE, NULL);
+		cd = ZDOpenDatabase(zd_path);
+		if (cd)
+			{
+			results = ZDLookup(cd, latitude, longitude, NULL);
+			time_zone = zd_tz(results);
+			ZDFreeResults(results);
+			}
+		else
+			{
+			log_printf("Error: Init of timezone database %s failed\n", zd_path);
+			}
+		ZDCloseDatabase(cd);
+		g_free(zd_path);
+		}
+
+	g_free(text_latitude);
+	g_free(text_longitude);
+	g_free(text_latitude_ref);
+	g_free(text_longitude_ref);
+
+	return time_zone;
+}
 
 /* List of custom formatted pseudo-exif tags */
 #define EXIF_FORMATTED_TAG(name, label) { EXIF_FORMATTED()#name, label, exif_build_formatted##_##name }
@@ -627,6 +869,8 @@ ExifFormattedText ExifFormattedList[] = {
 	EXIF_FORMATTED_TAG(ColorProfile,	N_("Color profile")),
 	EXIF_FORMATTED_TAG(GPSPosition,		N_("GPS position")),
 	EXIF_FORMATTED_TAG(GPSAltitude,		N_("GPS altitude")),
+	EXIF_FORMATTED_TAG(localtime,		N_("Local time")),
+	EXIF_FORMATTED_TAG(timezone,		N_("Time zone")),
 	{"file.size",				N_("File size"), 	NULL},
 	{"file.date",				N_("File date"), 	NULL},
 	{"file.mode",				N_("File mode"), 	NULL},

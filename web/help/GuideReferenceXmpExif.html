@@ -441,6 +441,7 @@ dd.answer div.label { float: left; }
 <li>XMP, Exif and IPTC</li>
 <li><a class="xref" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">Supported File Formats</a></li>
 <li><a class="xref" href="GuideReferencePixbufLoaders.html" title="Additional pixbuf loaders">Additional pixbuf loaders</a></li>
+<li><a class="xref" href="GuideReferenceUTC.html" title="UTC and Daylight Saving Time (DST)">UTC and Daylight Saving Time (DST)</a></li>
 <li><a class="xref" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></li>
 <li><a class="xref" href="GuideReferenceStandards.html" title="Standards">Standards</a></li>
 </ul></div>
@@ -687,8 +688,53 @@ dd.answer div.label { float: left; }
             </td>
 </tr>
 <tr class="tr-shade">
-<td class="td-colsep">
+<td class="td-colsep td-rowsep">
               <span class="para">formatted.GPSPosition</span>
+            </td>
+<td class="td-colsep td-rowsep">
+              <span class="para">
+                Exif.GPSInfo.GPSLatitude
+                <p class="para block block-first"></p>
+                Exif.GPSInfo.GPSLatitudeRef
+                <p class="para block"></p>
+                Exif.GPSInfo.GPSLongitude
+                <p class="para block"></p>
+                Exif.GPSInfo.GPSLongitudeRef
+              </span>
+            </td>
+<td class="td-rowsep">
+              <span class="para">Latitude, Longitude</span>
+            </td>
+</tr>
+<tr>
+<td class="td-colsep td-rowsep">
+              <span class="para">formatted.localtime</span>
+            </td>
+<td class="td-colsep td-rowsep">
+              <span class="para">
+                Exif.GPSInfo.GPSLatitude
+                <p class="para block block-first"></p>
+                Exif.GPSInfo.GPSLatitudeRef
+                <p class="para block"></p>
+                Exif.GPSInfo.GPSLongitude
+                <p class="para block"></p>
+                Exif.GPSInfo.GPSLongitudeRef
+                <p class="para block"></p>
+                Exif.GPSInfo.GPSDateStamp
+                <p class="para block"></p>
+                Exif.GPSInfo.GPSTimeStamp
+              </span>
+            </td>
+<td class="td-rowsep">
+              <span class="para">
+                Local time corrected for UTC offset, DST correction
+                <a name="-noteref-ref1"></a><sup><a class="footnote" href="#ref1">1</a></sup>
+              </span>
+            </td>
+</tr>
+<tr class="tr-shade">
+<td class="td-colsep">
+              <span class="para">formatted.timezone</span>
             </td>
 <td class="td-colsep">
               <span class="para">
@@ -702,7 +748,10 @@ dd.answer div.label { float: left; }
               </span>
             </td>
 <td>
-              <span class="para">Latitude, Longitude</span>
+              <span class="para">
+                Timezone indicated by lat/long
+                <a name="-noteref-ref1"></a><sup><a class="footnote" href="#ref1">2</a></sup>
+              </span>
             </td>
 </tr>
 </tbody>
@@ -788,13 +837,21 @@ dd.answer div.label { float: left; }
 </tr>
 <tr>
 <td class="td-colsep td-rowsep">
+              <span class="para">formatted.timezone</span>
+            </td>
+<td class="td-rowsep">
+              <span class="para">Time zone</span>
+            </td>
+</tr>
+<tr class="tr-shade">
+<td class="td-colsep td-rowsep">
               <span class="para">Xmp.photoshop.Country</span>
             </td>
 <td class="td-rowsep">
               <span class="para">Country</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">
                 <p class="para block block-first">Xmp.iptc.CountryCode</p>
@@ -804,7 +861,7 @@ dd.answer div.label { float: left; }
               <span class="para">Country Code</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">
               <span class="para">Xmp.photoshop.State</span>
             </td>
@@ -812,7 +869,7 @@ dd.answer div.label { float: left; }
               <span class="para">State</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">Xmp.photoshop.City</span>
             </td>
@@ -820,7 +877,7 @@ dd.answer div.label { float: left; }
               <span class="para">City</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep">
               <span class="para">Xmp.iptc.Location</span>
             </td>
@@ -900,13 +957,21 @@ dd.answer div.label { float: left; }
 </tr>
 <tr>
 <td class="td-colsep td-rowsep">
+              <span class="para">formatted.localtime</span>
+            </td>
+<td class="td-rowsep">
+              <span class="para">Local time</span>
+            </td>
+</tr>
+<tr class="tr-shade">
+<td class="td-colsep td-rowsep">
               <span class="para">formatted.ShutterSpeed</span>
             </td>
 <td class="td-rowsep">
               <span class="para">Shutter speed</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.Aperture</span>
             </td>
@@ -914,7 +979,7 @@ dd.answer div.label { float: left; }
               <span class="para">Aperture</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.ExposureBias</span>
             </td>
@@ -922,7 +987,7 @@ dd.answer div.label { float: left; }
               <span class="para">Exposure bias</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.ISOSpeedRating</span>
             </td>
@@ -930,7 +995,7 @@ dd.answer div.label { float: left; }
               <span class="para">ISO sensitivity</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.FocalLength</span>
             </td>
@@ -938,7 +1003,7 @@ dd.answer div.label { float: left; }
               <span class="para">Focal length</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.FocalLength35mmFilm</span>
             </td>
@@ -946,7 +1011,7 @@ dd.answer div.label { float: left; }
               <span class="para">Focal length 35mm</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.SubjectDistance</span>
             </td>
@@ -954,7 +1019,7 @@ dd.answer div.label { float: left; }
               <span class="para">Subject distance</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.Flash</span>
             </td>
@@ -962,7 +1027,7 @@ dd.answer div.label { float: left; }
               <span class="para">Flash</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.Resolution</span>
             </td>
@@ -970,7 +1035,7 @@ dd.answer div.label { float: left; }
               <span class="para">Resolution</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">formatted.ColorProfile</span>
             </td>
@@ -978,7 +1043,7 @@ dd.answer div.label { float: left; }
               <span class="para">Color profile</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep td-rowsep">
               <span class="para">Exif.Photo.ExposureProgram</span>
             </td>
@@ -986,7 +1051,7 @@ dd.answer div.label { float: left; }
               <span class="para">Exposure Program</span>
             </td>
 </tr>
-<tr class="tr-shade">
+<tr>
 <td class="td-colsep td-rowsep">
               <span class="para">Exif.Photo.MeteringMode</span>
             </td>
@@ -994,7 +1059,7 @@ dd.answer div.label { float: left; }
               <span class="para">Metering Mode</span>
             </td>
 </tr>
-<tr>
+<tr class="tr-shade">
 <td class="td-colsep">
               <span class="para">Exif.Photo.LightSource</span>
             </td>
@@ -1199,6 +1264,24 @@ dd.answer div.label { float: left; }
 </tbody>
 </table>
 </div>
+</div>
+<div class="footnotes">
+<div class="footnote">
+<a name="ref1"></a><span class="footnote-number"><a class="footnote-ref" href="#-noteref-ref1">1</a></span>
+                  <p class="para block block-first">
+                    Refer to
+                    <a class="link" href="GuideReferenceUTC.html" title="UTC and Daylight Saving Time (DST)">UTC and DST</a>
+                    section.
+                  </p>
+                </div>
+<div class="footnote">
+<a name="ref1"></a><span class="footnote-number"><a class="footnote-ref" href="#-noteref-ref1">2</a></span>
+                  <p class="para block block-first">
+                    Refer to
+                    <a class="link" href="GuideReferenceUTC.html" title="UTC and Daylight Saving Time (DST)">UTC and DST</a>
+                    section.
+                  </p>
+                </div>
 </div>
 </div></div>
 <div class="navbar navbar-bottom"><table class="navbar"><tr>
