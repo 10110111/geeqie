@@ -223,7 +223,7 @@ And either the ChangeLog file or [Geeqie ChangeLog](http://geeqie.org/cgi-bin/gi
     markdown
         when compiling Geeqie, to create this file in html format
 
-    libffmpegthumbnailer 2.0.0
+    libffmpegthumbnailer 2.1.0
         https://github.com/dirkvdb/ffmpegthumbnailer
         for thumbnailing camera video clips
         disable with configure option: --disable-ffmpegthumbnailer
