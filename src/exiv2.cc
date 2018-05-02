@@ -374,7 +374,7 @@ public:
 #endif
 			Exiv2::Image *image = imageData_->image();
 
-			if (!image) Exiv2::Error(21);
+			if (!image) throw Exiv2::Error(21);
 			image->setExifData(exifData_);
 			image->setIptcData(iptcData_);
 #if EXIV2_TEST_VERSION(0,16,0)
