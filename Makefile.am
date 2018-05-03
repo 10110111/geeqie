@@ -35,7 +35,7 @@ dist-hook: geeqie.spec
 	cp $(top_builddir)/geeqie.spec $(distdir)
 
 DISTCLEANFILES = config.report
-CLEANFILES = $(desktop_DATA)
+CLEANFILES = $(desktop_DATA) ChangeLog.html
 
 .PHONY: ChangeLog
 ChangeLog.html:
