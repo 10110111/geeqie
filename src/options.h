@@ -61,6 +61,8 @@ struct _ConfOptions
 
 	gint log_window_lines;
 
+	gboolean marks_save;		// save marks on exit
+
 	/* info sidebar component heights */
 	struct {
 		gint height;

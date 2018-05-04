@@ -29,6 +29,7 @@
 #include "metadata.h"
 #include "trash.h"
 #include "histogram.h"
+#include "secure_save.h"
 
 #include "exif.h"
 
@@ -3158,5 +3159,134 @@ gboolean file_data_unregister_real_time_monitor(FileData *fd)
 		}
 
 	return TRUE;
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * Saving marks list, clearing marks
+ * Uses file_data_pool
+ *-----------------------------------------------------------------------------
+ */
+
+static void marks_get_files(gpointer key, gpointer value, gpointer userdata)
+{
+	gchar *file_name = key;
+	GString *result = userdata;
+	FileData *fd;
+
+	if (isfile(file_name))
+		{
+		fd = value;
+		if (fd && fd->marks > 0)
+			{
+			g_string_append_printf(result, "%s,%i\n", fd->path, fd->marks);
+			}
+		}
+}
+
+gboolean marks_list_load(const gchar *path)
+{
+	FILE *f;
+	gchar s_buf[1024];
+	gchar *pathl;
+	gchar *file_path;
+	gchar *marks_value;
+
+	pathl = path_from_utf8(path);
+	f = fopen(pathl, "r");
+	g_free(pathl);
+	if (!f) return FALSE;
+
+	/* first line must start with Marks comment */
+	if (!fgets(s_buf, sizeof(s_buf), f) ||
+					strncmp(s_buf, "#Marks", 6) != 0)
+		{
+		fclose(f);
+		return FALSE;
+		}
+
+	while (fgets(s_buf, sizeof(s_buf), f))
+		{
+		if (s_buf[0]=='#') continue;
+			file_path = strtok(s_buf, ",");
+			marks_value = strtok(NULL, ",");
+			if (isfile(file_path))
+				{
+				FileData *fd = file_data_new_group(file_path);
+				file_data_ref(fd);
+				gint n = 0;
+				while (n <= 9)
+					{
+					gint mark_no = 1 << n;
+					if (atoi(marks_value) & mark_no)
+						{
+						file_data_set_mark(fd, n , 1);
+						}
+					n++;
+					}
+				}
+		}
+
+	fclose(f);
+	return TRUE;
+}
+
+gboolean marks_list_save(gchar *path, gboolean save)
+{
+	SecureSaveInfo *ssi;
+	gchar *pathl;
+	GString  *marks = g_string_new("");
+
+	pathl = path_from_utf8(path);
+	ssi = secure_open(pathl);
+	g_free(pathl);
+	if (!ssi)
+		{
+		log_printf(_("Error: Unable to write marks lists to: %s\n"), path);
+		return FALSE;
+		}
+
+	secure_fprintf(ssi, "#Marks lists\n");
+
+	if (save)
+		{
+		g_hash_table_foreach(file_data_pool, marks_get_files, marks);
+		}
+	secure_fprintf(ssi, "%s", marks->str);
+	g_string_free(marks, FALSE);
+
+	secure_fprintf(ssi, "#end\n");
+	return (secure_close(ssi) == 0);
+}
+
+static void marks_clear(gpointer key, gpointer value, gpointer userdata)
+{
+	gchar *file_name = key;
+	gint mark_no;
+	gint n;
+	FileData *fd;
+
+	if (isfile(file_name))
+		{
+		fd = value;
+		if (fd && fd->marks > 0)
+			{
+			n = 0;
+			while (n <= 9)
+				{
+				mark_no = 1 << n;
+				if (fd->marks & mark_no)
+					{
+					file_data_set_mark(fd, n , 0);
+					}
+				n++;
+				}
+			}
+		}
+}
+
+void marks_clear_all()
+{
+	g_hash_table_foreach(file_data_pool, marks_clear, NULL);
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

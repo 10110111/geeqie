@@ -510,6 +510,7 @@ static void parse_command_line_for_debug_option(gint argc, gchar *argv[])
  */
 
 #define RC_HISTORY_NAME "history"
+#define RC_MARKS_NAME "marks"
 
 static void setup_env_path(void)
 {
@@ -534,6 +535,24 @@ static void keys_save(void)
 
 	path = g_build_filename(get_rc_dir(), RC_HISTORY_NAME, NULL);
 	history_list_save(path);
+	g_free(path);
+}
+
+static void marks_load(void)
+{
+	gchar *path;
+
+	path = g_build_filename(get_rc_dir(), RC_MARKS_NAME, NULL);
+	marks_list_load(path);
+	g_free(path);
+}
+
+static void marks_save(gboolean save)
+{
+	gchar *path;
+
+	path = g_build_filename(get_rc_dir(), RC_MARKS_NAME, NULL);
+	marks_list_save(path, save);
 	g_free(path);
 }
 
@@ -752,6 +771,8 @@ void exit_program(void)
 	layout_image_full_screen_stop(NULL);
 
 	if (metadata_write_queue_confirm(FALSE, exit_program_write_metadata_cb, NULL)) return;
+
+	options->marks_save ? marks_save(TRUE) : marks_save(FALSE);
 
 	if (exit_confirm_dlg()) return;
 
@@ -987,6 +1008,8 @@ gint main(gint argc, gchar *argv[])
 	buf = g_build_filename(get_rc_dir(), ".command", NULL);
 	remote_connection = remote_server_init(buf, cd);
 	g_free(buf);
+
+	marks_load();
 
 	DEBUG_1("%s main: gtk_main", get_exec_time());
 	gtk_main();

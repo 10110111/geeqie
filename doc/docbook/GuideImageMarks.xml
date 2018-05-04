@@ -11,11 +11,11 @@
     <guimenu>Select</guimenu>
     menu gives access to the marks operations of setting, filtering and intersection.
   </para>
-  <para>There are 6 individual marks, any of which can be associated with an image simply by pressing the 1 to 6 keys on the keyboard.</para>
+  <para>There are 10 individual marks, any of which can be associated with an image simply by pressing the 0 to 9 keys on the keyboard, where key 0 represents mark 10.</para>
   <para>
     If the
     <guimenu>Show Marks</guimenu>
-    menu has been selected, each image will have a set of 6 check-boxes displayed adjacent to it in the file pane in both icon and list mode. In addition a set of 6 check-boxes will be shown at the top of the files pane. Clicking any of these will filter the displayed list.
+    menu has been selected, each image will have a set of 10 check-boxes displayed adjacent to it in the file pane in both icon and list mode. In addition a set of 10 check-boxes will be shown at the top of the files pane. Clicking any of these will filter the displayed list.
   </para>
   <para>
     If the
@@ -23,11 +23,17 @@
     is being displayed, the currently set marks for the image are shown. It is not necessary to include an entry into the overlay template for this to happen.
   </para>
   <para>
-    A keyword can be associated with a single mark by right-clicking on the keyword in the sidebar panel. When a meta-data write operation for a file is triggered either <link linkend="Buttons">manually</link> or as defined in
+    A keyword can be associated with a single mark by right-clicking on the keyword in the sidebar panel. When a meta-data write operation for a file is triggered either
+    <link linkend="Buttons">manually</link>
+    or as defined in
     <link linkend="GuideOptionsMetadata" endterm="titleGuideOptionsMetadata" />
     , the keyword data indicated by the current set of mark-to-keyword links will be written.
   </para>
-  <para>Neither marks, nor the associations between keywords and marks, are preserved when Geeqie is shut down.</para>
+  <para>
+    The associations between keywords and marks is preserved when Geeqie is shut down. The current setting of marks can also be optionally saved - the setting is in the
+    <link linkend="Behaviour">Behavior tab of Preferences</link>
+    .
+  </para>
   <para />
   <para />
 </section>

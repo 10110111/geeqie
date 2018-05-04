@@ -445,6 +445,19 @@
       <varlistentry>
         <term>
           <menuchoice>
+            <guimenu>Clear marks</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Clear all marks for all images</para>
+          <warning>
+            <para>Marks that are linked to keywords will also be cleared. This may result in a metadata write operation being triggered.</para>
+          </warning>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
             <guimenu>Mark n</guimenu>
           </menuchoice>
         </term>

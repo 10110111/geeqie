@@ -79,6 +79,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.disable_saver = TRUE;
 	options->fullscreen.screen = -1;
 
+	options->marks_save = TRUE;
+
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	memset(&options->image.alpha_color_1, 0, sizeof(options->image.alpha_color_1));
 	memset(&options->image.alpha_color_2, 0, sizeof(options->image.alpha_color_2));

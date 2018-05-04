@@ -407,6 +407,8 @@ static void config_window_apply(void)
 	options->info_comment.height = c_options->info_comment.height;
 	options->info_rating.height = c_options->info_rating.height;
 
+	options->marks_save = c_options->marks_save;
+
 #ifdef DEBUG
 	set_debug_level(debug_c);
 #endif
@@ -2333,6 +2335,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	GtkWidget *ct_button;
 	GtkWidget *spin;
 	GtkWidget *table;
+	GtkWidget *marks;
 
 	vbox = scrolled_notebook_page(notebook, _("Behavior"));
 
@@ -2385,6 +2388,10 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("List directory view uses single click to enter"),
 			      options->view_dir_list_single_click_enter, &c_options->view_dir_list_single_click_enter);
+
+	marks = pref_checkbox_new_int(group, _("Save marks on exit"),
+				options->marks_save, &c_options->marks_save);
+	gtk_widget_set_tooltip_text(marks,"Note that marks linked to a keyword will be saved irrespective of this setting");
 
 	pref_spin_new_int(group, _("Recent folder list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);

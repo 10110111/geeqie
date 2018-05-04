@@ -126,6 +126,14 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <guilabel>Save marks on exit</guilabel>
+        </term>
+        <listitem>
+          <para>Save all marks that have been set. Note that marks that are linked to a keyword will always be saved irrespective of this setting.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guilabel>Recent folder list maximum size</guilabel>
         </term>
         <listitem>

@@ -343,6 +343,8 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_UINT(*options, log_window_lines);
 	WRITE_NL(); WRITE_BOOL(*options, log_window.timer_data);
 
+	WRITE_NL(); WRITE_BOOL(*options, marks_save);
+
 	/* File operations Options */
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_in_place_rename);
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.confirm_delete);
@@ -646,6 +648,8 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 
 		if (READ_INT(*options, log_window_lines)) continue;
 		if (READ_BOOL(*options, log_window.timer_data)) continue;
+
+		if (READ_BOOL(*options, marks_save)) continue;
 
 		/* Properties dialog options */
 		if (READ_CHAR(*options, properties.tabs_order)) continue;

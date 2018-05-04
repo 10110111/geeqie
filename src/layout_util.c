@@ -231,6 +231,39 @@ LayoutWindow *layout_menu_new_window(GtkAction *action, gpointer data)
 	return nw;
 }
 
+
+static void clear_marks_cancel_cb(GenericDialog *gd, gpointer data)
+{
+	generic_dialog_close(gd);
+}
+
+static void clear_marks_help_cb(GenericDialog *gd, gpointer data)
+{
+	help_window_show("GuideMainWindowMenus.html");
+}
+
+void layout_menu_clear_marks_ok_cb(GenericDialog *gd, gpointer data)
+{
+	marks_clear_all();
+	generic_dialog_close(gd);
+}
+
+static void layout_menu_clear_marks_cb(GtkAction *action, gpointer data)
+{
+	GenericDialog *gd;
+
+	gd = generic_dialog_new(_("Clear Marks"),
+				"marks_clear", NULL, FALSE, clear_marks_cancel_cb, NULL);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_QUESTION, "Clear all marks?",
+				"This will clear all marks for all images,\nincluding those linked to keywords",
+				TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, layout_menu_clear_marks_ok_cb, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_HELP, NULL,
+				clear_marks_help_cb, FALSE);
+
+	gtk_widget_show(gd->dialog);
+}
+
 static void layout_menu_new_window_cb(GtkAction *action, gpointer data)
 {
 	layout_menu_new_window(action, data);
@@ -1867,7 +1900,7 @@ static GtkActionEntry menu_entries[] = {
   { "SplitDownPane",	NULL,			N_("_Down Pane"),	"<alt>Down",			N_("Down Pane"),	CB(layout_menu_split_pane_updown_cb) },
   { "WriteRotation",	NULL,			N_("_Write orientation to file"),  		NULL,		N_("Write orientation to file"),			CB(layout_menu_write_rotate_cb) },
   { "WriteRotationKeepDate",	NULL,			N_("_Write orientation to file (preserve timestamp)"),  		NULL,		N_("Write orientation to file (preserve timestamp)"),			CB(layout_menu_write_rotate_keep_date_cb) },
-
+  { "ClearMarks",	NULL,		N_("Clear Marks..."),			NULL,		N_("Clear Marks"),			CB(layout_menu_clear_marks_cb) },
 };
 
 static GtkToggleActionEntry menu_toggle_entries[] = {
@@ -1991,6 +2024,7 @@ static const gchar *menu_ui_description =
 "      <placeholder name='ClipboardSection'/>"
 "      <separator/>"
 "      <menuitem action='ShowMarks'/>"
+"      <menuitem action='ClearMarks'/>"
 "      <placeholder name='MarksSection'/>"
 "      <separator/>"
 "    </menu>"
