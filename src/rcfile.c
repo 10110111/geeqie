@@ -512,6 +512,22 @@ static void write_color_profile(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_STRING("</color_profiles>");
 }
 
+static void write_marks_tooltips(GString *outstr, gint indent)
+{
+	gint i;
+
+	WRITE_NL(); WRITE_STRING("<marks_tooltips>");
+	indent++;
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		WRITE_NL();
+		write_char_option(outstr, indent, "<tooltip text", options->marks_tooltips[i]);
+		WRITE_STRING("/>");
+		}
+	indent--;
+	WRITE_NL(); WRITE_STRING("</marks_tooltips>");
+}
+
 
 /*
  *-----------------------------------------------------------------------------
@@ -564,6 +580,9 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 
 	WRITE_SEPARATOR();
 	filter_write_list(outstr, indent);
+
+	WRITE_SEPARATOR();
+	write_marks_tooltips(outstr, indent);
 
 	WRITE_SEPARATOR();
 	keyword_tree_write_config(outstr, indent);
@@ -831,7 +850,22 @@ static void options_load_profile(GQParserData *parser_data, GMarkupParseContext 
 
 }
 
+static void options_load_marks_tooltips(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	gint i = GPOINTER_TO_INT(data);
+	if (i < 0 || i >= FILEDATA_MARKS_SIZE) return;
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+		if (READ_CHAR_FULL("text",  options->marks_tooltips[i])) continue;
 
+		log_printf("unkown attribute %s = %s\n", option, value);
+		}
+	i++;
+	options_parse_func_set_data(parser_data, GINT_TO_POINTER(i));
+
+}
 
 /*
  *-----------------------------------------------------------------------------
@@ -869,6 +903,20 @@ static void options_parse_color_profiles(GQParserData *parser_data, GMarkupParse
 	if (g_ascii_strcasecmp(element_name, "profile") == 0)
 		{
 		options_load_profile(parser_data, context, element_name, attribute_names, attribute_values, data, error);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else
+		{
+		log_printf("unexpected in <profile>: <%s>\n", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
+static void options_parse_marks_tooltips(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	if (g_ascii_strcasecmp(element_name, "tooltip") == 0)
+		{
+		options_load_marks_tooltips(parser_data, context, element_name, attribute_names, attribute_values, data, error);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else
@@ -947,6 +995,11 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 	else if (g_ascii_strcasecmp(element_name, "filter") == 0)
 		{
 		options_parse_func_push(parser_data, options_parse_filter, options_parse_filter_end, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "marks_tooltips") == 0)
+		{
+		options_load_marks_tooltips(parser_data, context, element_name, attribute_names, attribute_values, data, error);
+		options_parse_func_push(parser_data, options_parse_marks_tooltips, NULL, NULL);
 		}
 	else if (g_ascii_strcasecmp(element_name, "keyword_tree") == 0)
 		{

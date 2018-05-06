@@ -17,6 +17,7 @@
     <guimenu>Show Marks</guimenu>
     menu has been selected, each image will have a set of 10 check-boxes displayed adjacent to it in the file pane in both icon and list mode. In addition a set of 10 check-boxes will be shown at the top of the files pane. Clicking any of these will filter the displayed list.
   </para>
+  <para>Moving the mouse over any of the check-boxes at the top of the files pane will show mnemonic text for that mark. The text can be modified by right-clicking on the check box.</para>
   <para>
     If the
     <link linkend="InformationandhistogramOverlay" endterm="titleInformationandhistogramOverlay" />

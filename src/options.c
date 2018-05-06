@@ -34,6 +34,8 @@
 
 ConfOptions *init_options(ConfOptions *options)
 {
+	gint i;
+
 	if (!options) options = g_new0(ConfOptions, 1);
 
 	options->collections.rectangular_selection = FALSE;
@@ -80,6 +82,10 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.screen = -1;
 
 	options->marks_save = TRUE;
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		options->marks_tooltips[i] = g_strdup_printf("%s%d", _("Mark "), i + 1);
+		}
 
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	memset(&options->image.alpha_color_1, 0, sizeof(options->image.alpha_color_1));
