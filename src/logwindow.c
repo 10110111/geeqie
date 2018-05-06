@@ -165,6 +165,7 @@ static LogWindow *log_window_create(LayoutWindow *lw)
 	gtk_box_pack_start(GTK_BOX(win_vbox), scrolledwin, TRUE, TRUE, 0);
 	gtk_widget_show(scrolledwin);
 
+#ifdef DEBUG
 	hbox = pref_box_new(win_vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 
 	gtk_widget_show(hbox);
@@ -188,6 +189,7 @@ static LogWindow *log_window_create(LayoutWindow *lw)
 	gtk_widget_show(textbox);
 	g_signal_connect(G_OBJECT(textbox), "activate",
 			 G_CALLBACK(log_window_regexp_cb), logwin);
+#endif
 
 	text = gtk_text_view_new();
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
