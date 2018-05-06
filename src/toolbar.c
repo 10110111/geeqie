@@ -88,7 +88,7 @@ static const UseableToolbarItems useable_toolbar_items[] = {
 	{"Print",	N_("Print"), GTK_STOCK_PRINT},
 	{"Preferences",	N_("Preferences"), GTK_STOCK_PREFERENCES},
 	{"LayoutConfig",	N_("Configure this window"), GTK_STOCK_PREFERENCES},
-	{"Maintenance",	N_("Thumbnail maintenance"), GTK_STOCK_FILE},
+	{"Maintenance",	N_("Cache maintenance"), GTK_STOCK_FILE},
 	{"ZoomIn",	N_("Zoom in"), GTK_STOCK_ZOOM_IN},
 	{"ZoomOut",	N_("Zoom out"), GTK_STOCK_ZOOM_OUT},
 	{"Zoom100",	N_("Zoom 1:1"), GTK_STOCK_ZOOM_100},

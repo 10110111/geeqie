@@ -1836,7 +1836,7 @@ static GtkActionEntry menu_entries[] = {
   { "Preferences",	GTK_STOCK_PREFERENCES,	N_("P_references..."),			"<control>O",		N_("Preferences..."),			CB(layout_menu_config_cb) },
   { "Plugins",		GTK_STOCK_PREFERENCES,	N_("Configure _Plugins..."),		NULL,			N_("Configure Plugins..."),		CB(layout_menu_editors_cb) },
   { "LayoutConfig",	GTK_STOCK_PREFERENCES,	N_("_Configure this window..."),	NULL,			N_("Configure this window..."),		CB(layout_menu_layout_config_cb) },
-  { "Maintenance",	GTK_STOCK_FILE,			N_("_Thumbnail maintenance..."),	NULL,			N_("Thumbnail maintenance..."),		CB(layout_menu_remove_thumb_cb) },
+  { "Maintenance",	GTK_STOCK_FILE,			N_("_Cache maintenance..."),	NULL,			N_("Cache maintenance..."),		CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,			N_("Set as _wallpaper"),		NULL,			N_("Set as wallpaper"),			CB(layout_menu_wallpaper_cb) },
   { "SaveMetadata",	GTK_STOCK_SAVE,		N_("_Save metadata"),			"<control>S",		N_("Save metadata"),			CB(layout_menu_metadata_write_cb) },
   { "ZoomIn",		GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"equal",		N_("Zoom in"),				CB(layout_menu_zoom_in_cb) },
