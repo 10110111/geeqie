@@ -940,40 +940,43 @@ void view_window_new(FileData *fd)
 {
 	GList *list;
 
-	if (file_extension_match(fd->path, GQ_COLLECTION_EXT))
+	if (fd)
 		{
-		ViewWindow *vw;
-		CollectionData *cd;
-		CollectInfo *info;
-
-		cd = collection_new(fd->path);
-		if (collection_load(cd, fd->path, COLLECTION_LOAD_NONE))
+		if (file_extension_match(fd->path, GQ_COLLECTION_EXT))
 			{
-			info = collection_get_first(cd);
+			ViewWindow *vw;
+			CollectionData *cd;
+			CollectInfo *info;
+
+			cd = collection_new(fd->path);
+			if (collection_load(cd, fd->path, COLLECTION_LOAD_NONE))
+				{
+				info = collection_get_first(cd);
+				}
+			else
+				{
+				collection_unref(cd);
+				cd = NULL;
+				info = NULL;
+				}
+			vw = real_view_window_new(NULL, NULL, cd, info);
+			if (vw && cd)
+				{
+				g_signal_connect(G_OBJECT(vw->window), "destroy",
+						 G_CALLBACK(view_window_collection_unref_cb), cd);
+				}
+			}
+		else if (isdir(fd->path) && filelist_read(fd, &list, NULL))
+			{
+			list = filelist_sort_path(list);
+			list = filelist_filter(list, FALSE);
+			real_view_window_new(NULL, list, NULL, NULL);
+			filelist_free(list);
 			}
 		else
 			{
-			collection_unref(cd);
-			cd = NULL;
-			info = NULL;
+			real_view_window_new(fd, NULL, NULL, NULL);
 			}
-		vw = real_view_window_new(NULL, NULL, cd, info);
-		if (vw && cd)
-			{
-			g_signal_connect(G_OBJECT(vw->window), "destroy",
-					 G_CALLBACK(view_window_collection_unref_cb), cd);
-			}
-		}
-	else if (isdir(fd->path) && filelist_read(fd, &list, NULL))
-		{
-		list = filelist_sort_path(list);
-		list = filelist_filter(list, FALSE);
-		real_view_window_new(NULL, list, NULL, NULL);
-		filelist_free(list);
-		}
-	else
-		{
-		real_view_window_new(fd, NULL, NULL, NULL);
 		}
 }
 
