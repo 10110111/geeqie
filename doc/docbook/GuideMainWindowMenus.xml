@@ -1445,6 +1445,20 @@
       <varlistentry>
         <term>
           <menuchoice>
+            <guimenu>On-line help search</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>
+            Use a web browser to search Geeqie's on-line help files. The search engine used is defined in
+            <link linkend="OnLineHelpSearch">Preferences General</link>
+            .
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
             <guimenu>Keyboard shortcuts</guimenu>
           </menuchoice>
         </term>

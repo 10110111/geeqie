@@ -131,6 +131,7 @@ static GtkWidget *color_profile_input_name_entry[COLOR_PROFILE_INPUTS];
 static GtkWidget *color_profile_screen_file_entry;
 
 static GtkWidget *sidecar_ext_entry;
+static GtkWidget *help_search_engine_entry;
 
 
 #define CONFIG_WINDOW_DEF_WIDTH		700
@@ -408,6 +409,7 @@ static void config_window_apply(void)
 	options->info_rating.height = c_options->info_rating.height;
 
 	options->marks_save = c_options->marks_save;
+	config_entry_to_option(help_search_engine_entry, &options->help_search_engine, NULL);
 
 #ifdef DEBUG
 	set_debug_level(debug_c);
@@ -1583,6 +1585,19 @@ static void cache_local_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
+static void help_search_engine_entry_icon_cb(GtkEntry *entry, GtkEntryIconPosition pos,
+									GdkEvent *event, gpointer userdata)
+{
+	if (pos == GTK_ENTRY_ICON_PRIMARY)
+		{
+		gtk_entry_set_text(GTK_ENTRY(userdata), HELP_SEARCH_ENGINE);
+		}
+	else
+		{
+		gtk_entry_set_text(GTK_ENTRY(userdata), "");
+		}
+}
+
 /* general options tab */
 static void config_tab_general(GtkWidget *notebook)
 {
@@ -1698,6 +1713,27 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_spin_new_int(hbox, _("Rating:"), NULL,
 				 1, 9999, 1,
 				 options->info_rating.height, &c_options->info_rating.height);
+
+	group = pref_group_new(vbox, FALSE, _("On-line help search engine"), GTK_ORIENTATION_VERTICAL);
+
+	help_search_engine_entry = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(help_search_engine_entry), options->help_search_engine);
+	gtk_box_pack_start(GTK_BOX(group), help_search_engine_entry, FALSE, FALSE, 0);
+	gtk_widget_show(help_search_engine_entry);
+
+	gtk_widget_set_tooltip_text(help_search_engine_entry, _("The format varies between search engines, e.g the format may be:\nhttps://www.search_engine.com/search?q=site:geeqie.org/help\nhttps://www.search_engine.com/?q=site:geeqie.org/help"));
+
+	gtk_entry_set_icon_from_stock(GTK_ENTRY(help_search_engine_entry),
+						GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY(help_search_engine_entry),
+						GTK_ENTRY_ICON_SECONDARY, _("Clear"));
+	gtk_entry_set_icon_from_stock(GTK_ENTRY(help_search_engine_entry),
+						GTK_ENTRY_ICON_PRIMARY, GTK_STOCK_REVERT_TO_SAVED);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY(help_search_engine_entry),
+						GTK_ENTRY_ICON_PRIMARY, _("Default"));
+	g_signal_connect(GTK_ENTRY(help_search_engine_entry), "icon-press",
+						G_CALLBACK(help_search_engine_entry_icon_cb),
+						help_search_engine_entry);
 }
 
 /* image tab */

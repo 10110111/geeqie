@@ -222,4 +222,15 @@
     </note>
     <variablelist />
   </section>
+  <section id="OnLineHelpSearch">
+    <title>On-line help search</title>
+    <para>
+      An internet search engine may be used to search the help files on Geeqie's website. The string used to conduct the search is defined here. In most cases it will be in one of two formats:
+      <para />
+      <code>https://www.search-engine.com/search?q=site:geeqie.org/help</code>
+      <para />
+      <code>https://www.search-engine.com/?q=site:geeqie.org/help'</code>
+    </para>
+    <variablelist />
+  </section>
 </section>

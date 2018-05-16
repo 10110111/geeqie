@@ -1125,6 +1125,14 @@ static void layout_menu_help_cb(GtkAction *action, gpointer data)
 	help_window_show("index.html");
 }
 
+static void layout_menu_help_search_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_exit_fullscreen(lw);
+	help_search_window_show();
+}
+
 static void layout_menu_help_keys_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1886,6 +1894,7 @@ static GtkActionEntry menu_entries[] = {
   { "SlideShowSlower",	GTK_STOCK_FILE,	N_("Slower"), 		"<control>KP_Subtract",			N_("Slower"), 			CB(layout_menu_slideshow_slower_cb) },
   { "Refresh",		GTK_STOCK_REFRESH,	N_("_Refresh"),				"R",			N_("Refresh"),				CB(layout_menu_refresh_cb) },
   { "HelpContents",	GTK_STOCK_HELP,		N_("_Contents"),			"F1",			N_("Contents"),				CB(layout_menu_help_cb) },
+  { "HelpSearch",	NULL,		N_("On-line help search"),			NULL,			N_("On-line help search"),				CB(layout_menu_help_search_cb) },
   { "HelpShortcuts",	NULL,			N_("_Keyboard shortcuts"),		NULL,			N_("Keyboard shortcuts"),		CB(layout_menu_help_keys_cb) },
   { "HelpKbd",		NULL,			N_("_Keyboard map"),			NULL,			N_("Keyboard map"),			CB(layout_menu_kbd_map_cb) },
   { "HelpNotes",	NULL,			N_("_Release notes"),			NULL,			N_("Release notes"),			CB(layout_menu_notes_cb) },
@@ -2189,6 +2198,7 @@ static const gchar *menu_ui_description =
 "    <menu action='HelpMenu'>"
 "      <separator/>"
 "      <menuitem action='HelpContents'/>"
+"      <menuitem action='HelpSearch'/>"
 "      <menuitem action='HelpShortcuts'/>"
 "      <menuitem action='HelpKbd'/>"
 "      <menuitem action='HelpNotes'/>"

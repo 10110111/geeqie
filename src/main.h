@@ -125,6 +125,8 @@
 #define DESKTOP_FILE_TEMPLATE GQ_APP_DIR "/template.desktop"
 
 #define TIMEZONE_DATABASE "timezone21.bin"
+
+#define HELP_SEARCH_ENGINE "https://duckduckgo.com/?q=site:geeqie.org/help "
 /*
  *----------------------------------------------------------------------------
  * main.c

@@ -25,6 +25,8 @@
 #include "pixbuf_util.h"
 #include "ui_fileops.h"
 #include "ui_help.h"
+#include "ui_misc.h"
+#include "ui_utildlg.h"
 
 GtkWidget *window_new(GtkWindowType type, const gchar *role, const gchar *icon,
 		      const gchar *icon_file, const gchar *subtitle)
@@ -313,4 +315,91 @@ void help_window_show(const gchar *key)
 		}
 }
 
+/*
+ *-----------------------------------------------------------------------------
+ * on-line help search dialog
+ *-----------------------------------------------------------------------------
+ */
+
+typedef struct _HelpSearchData HelpSearchData;
+struct _HelpSearchData {
+	GenericDialog *gd;
+	GtkWidget *edit_widget;
+	gchar *text_entry;
+};
+
+static void help_search_window_show_icon_press(GtkEntry *entry, GtkEntryIconPosition pos,
+									GdkEvent *event, gpointer userdata)
+{
+	HelpSearchData *hsd = userdata;
+
+	g_free(hsd->text_entry);
+	hsd->text_entry = g_strdup("");
+	gtk_entry_set_text(GTK_ENTRY(hsd->edit_widget), hsd->text_entry);
+}
+
+static void help_search_window_ok_cb(GenericDialog *gd, gpointer data)
+{
+	HelpSearchData *hsd = data;
+	gchar *search_command;
+
+	search_command = g_strconcat(options->help_search_engine,
+						gtk_entry_get_text(GTK_ENTRY(hsd->edit_widget)),
+						NULL);
+	help_browser_run(search_command);
+	g_free(search_command);
+
+	g_free(hsd);
+}
+
+static void help_search_window_cancel_cb(GenericDialog *gd, gpointer data)
+{
+	HelpSearchData *hsd = data;
+
+	g_free(hsd);
+}
+
+void help_search_window_show()
+{
+	HelpSearchData *hsd;
+	GenericDialog *gd;
+	GtkWidget *table;
+	GtkWidget *label1;
+	GtkWidget *label2;
+
+	hsd = g_new0(HelpSearchData, 1);
+	hsd->gd = gd = generic_dialog_new(_("On-line help search"), "help_search",
+				NULL, TRUE,
+				help_search_window_cancel_cb, hsd);
+	generic_dialog_add_message(gd, NULL, _("Search the on-line help files.\n"), NULL, FALSE);
+
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL,
+				  help_search_window_ok_cb, TRUE);
+
+	label1 = pref_label_new(GENERIC_DIALOG(gd)->vbox, _("Search engine:"));
+	gtk_misc_set_alignment(GTK_MISC(label1), 0.0, 0.5);
+
+	label2 = pref_label_new(GENERIC_DIALOG(gd)->vbox, options->help_search_engine);
+	gtk_misc_set_alignment(GTK_MISC(label2), 0.0, 0.5);
+	pref_spacer(GENERIC_DIALOG(gd)->vbox, 0);
+
+	table = pref_table_new(gd->vbox, 3, 1, FALSE, TRUE);
+	pref_table_label(table, 0, 0, _("Search terms:"), 1.0);
+	hsd->edit_widget = gtk_entry_new();
+	gtk_widget_set_size_request(hsd->edit_widget, 300, -1);
+	gtk_table_attach_defaults(GTK_TABLE(table), hsd->edit_widget, 1, 2, 0, 1);
+	generic_dialog_attach_default(gd, hsd->edit_widget);
+	gtk_widget_show(hsd->edit_widget);
+
+	gtk_entry_set_icon_from_stock(GTK_ENTRY(hsd->edit_widget),
+						GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY(hsd->edit_widget),
+						GTK_ENTRY_ICON_SECONDARY, _("Clear"));
+	g_signal_connect(GTK_ENTRY(hsd->edit_widget), "icon-press",
+						G_CALLBACK(help_search_window_show_icon_press), hsd);
+
+	gtk_widget_grab_focus(hsd->edit_widget);
+
+	gtk_widget_show(gd->dialog);
+}
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

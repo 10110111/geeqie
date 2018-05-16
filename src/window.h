@@ -27,7 +27,7 @@ void window_set_icon(GtkWidget *window, const gchar *icon, const gchar *file);
 gboolean window_maximized(GtkWidget *window);
 
 void help_window_show(const gchar *key);
-
+void help_search_window_show();
 
 #endif /* WINDOW_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

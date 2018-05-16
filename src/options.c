@@ -220,6 +220,8 @@ void setup_default_options(ConfOptions *options)
 		{
 		options->marks_tooltips[i] = g_strdup_printf("%s%d", _("Mark "), i + 1);
 		}
+
+	options->help_search_engine = g_strdup(HELP_SEARCH_ENGINE);
 }
 
 void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)
