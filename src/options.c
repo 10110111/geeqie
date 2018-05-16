@@ -82,10 +82,6 @@ ConfOptions *init_options(ConfOptions *options)
 	options->fullscreen.screen = -1;
 
 	options->marks_save = TRUE;
-	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
-		{
-		options->marks_tooltips[i] = g_strdup_printf("%s%d", _("Mark "), i + 1);
-		}
 
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	memset(&options->image.alpha_color_1, 0, sizeof(options->image.alpha_color_1));
@@ -219,6 +215,11 @@ void setup_default_options(ConfOptions *options)
 
 	options->shell.path = g_strdup(GQ_DEFAULT_SHELL_PATH);
 	options->shell.options = g_strdup(GQ_DEFAULT_SHELL_OPTIONS);
+
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		options->marks_tooltips[i] = g_strdup_printf("%s%d", _("Mark "), i + 1);
+		}
 }
 
 void copy_layout_options(LayoutOptions *dest, const LayoutOptions *src)
