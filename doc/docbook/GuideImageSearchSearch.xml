@@ -177,6 +177,16 @@
           </itemizedlist>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Marks</guilabel>
+        </term>
+        <listitem>
+          The search will match if the file does or does not have a mark attached to it. Refer to
+          <link linkend="GuideImageMarks">Marking Images</link>
+          .
+        </listitem>
+      </varlistentry>
     </variablelist>
     <para />
     <para />

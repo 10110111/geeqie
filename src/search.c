@@ -55,7 +55,7 @@
 
 
 #define DEF_SEARCH_WIDTH  700
-#define DEF_SEARCH_HEIGHT 450
+#define DEF_SEARCH_HEIGHT 650
 
 #define SEARCH_BUFFER_MATCH_LOAD 20
 #define SEARCH_BUFFER_MATCH_HIT  5
@@ -148,6 +148,8 @@ struct _SearchData
 	GtkWidget *check_class;
 	GtkWidget *menu_class;
 	GtkWidget *class_type;
+	GtkWidget *marks_type;
+	GtkWidget *menu_marks;
 
 	FileData *search_dir_fd;
 	gboolean   search_path_recurse;
@@ -185,6 +187,7 @@ struct _SearchData
 	MatchType match_rating;
 	MatchType match_gps;
 	MatchType match_class;
+	MatchType match_marks;
 
 	gboolean match_name_enable;
 	gboolean match_size_enable;
@@ -195,6 +198,7 @@ struct _SearchData
 	gboolean match_comment_enable;
 	gboolean match_rating_enable;
 	gboolean match_class_enable;
+	gboolean match_marks_enable;
 
 	GList *search_folder_list;
 	GList *search_done_list;
@@ -297,6 +301,11 @@ static const MatchList text_search_menu_gps[] = {
 };
 
 static const MatchList text_search_menu_class[] = {
+	{ N_("is"),	SEARCH_MATCH_EQUAL },
+	{ N_("is not"),	SEARCH_MATCH_NONE }
+};
+
+static const MatchList text_search_menu_marks[] = {
 	{ N_("is"),	SEARCH_MATCH_EQUAL },
 	{ N_("is not"),	SEARCH_MATCH_NONE }
 };
@@ -2098,6 +2107,58 @@ static gboolean search_file_next(SearchData *sd)
 			}
 		}
 
+	if (match && sd->match_marks_enable)
+		{
+		tested = TRUE;
+		match = FALSE;
+		gint search_marks;
+		gint i;
+		gchar *marks_string;
+
+		if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->marks_type)), _("Any mark")) == 0)
+			{
+			search_marks = -1;
+			}
+		else
+			{
+			for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+				{
+				marks_string = g_strdup_printf("%s%d", _("Mark "), i + 1);
+				if (g_strcmp0(marks_string, options->marks_tooltips[i]) != 0)
+					{
+					g_free(marks_string);
+					marks_string = g_strdup_printf("%s%d %s", _("Mark "), i + 1,
+													options->marks_tooltips[i]);
+					}
+
+				if (g_strcmp0(gtk_combo_box_text_get_active_text(
+								GTK_COMBO_BOX_TEXT(sd->marks_type)),
+								marks_string) == 0)
+					{
+					search_marks = 1 << i;
+					}
+				g_free(marks_string);
+				}
+			}
+
+		if (sd->match_marks == SEARCH_MATCH_EQUAL)
+			{
+			match = (fd->marks & search_marks);
+			}
+		else
+			{
+			if (search_marks == -1)
+				{
+				match = fd->marks ? FALSE : TRUE;
+				}
+			else
+				{
+				match = (fd->marks & search_marks) ? FALSE : TRUE;
+				}
+			}
+		}
+
 	if (match && sd->match_gps_enable)
 		{
 		/* Calculate the distance the image is from the specified origin.
@@ -2691,6 +2752,13 @@ static void menu_choice_class_cb(GtkWidget *combo, gpointer data)
 	if (!menu_choice_get_match_type(combo, &sd->match_class)) return;
 }
 
+static void menu_choice_marks_cb(GtkWidget *combo, gpointer data)
+{
+	SearchData *sd = data;
+
+	if (!menu_choice_get_match_type(combo, &sd->match_marks)) return;
+}
+
 static void menu_choice_date_cb(GtkWidget *combo, gpointer data)
 {
 	SearchData *sd = data;
@@ -2900,6 +2968,8 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	GtkTreeSelection *selection;
 	GtkWidget *combo;
 	GdkGeometry geometry;
+	gint i;
+	gchar *marks_string;
 
 	sd = g_new0(SearchData, 1);
 
@@ -2921,6 +2991,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->match_comment = SEARCH_MATCH_CONTAINS;
 	sd->match_rating = SEARCH_MATCH_EQUAL;
 	sd->match_class = SEARCH_MATCH_EQUAL;
+	sd->match_marks = SEARCH_MATCH_EQUAL;
 
 	sd->match_name_enable = TRUE;
 
@@ -3160,6 +3231,34 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_box_pack_start(GTK_BOX(hbox), sd->class_type, FALSE, FALSE, 0);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(sd->class_type), 0);
 	gtk_widget_show(sd->class_type);
+
+	/* Search for image marks */
+	hbox = menu_choice(sd->box_search, &sd->check_class, &sd->menu_marks,
+			   _("Marks"), &sd->match_marks_enable,
+			   text_search_menu_marks, sizeof(text_search_menu_marks) / sizeof(MatchList),
+			   G_CALLBACK(menu_choice_marks_cb), sd);
+
+	sd->marks_type = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->marks_type), _("Any mark"));
+	for (i = 0; i < FILEDATA_MARKS_SIZE; i++)
+		{
+		marks_string = g_strdup_printf("%s%d", _("Mark "), i + 1);
+		if (g_strcmp0(marks_string, options->marks_tooltips[i]) != 0)
+			{
+			g_free(marks_string);
+			marks_string = g_strdup_printf("%s%d %s", _("Mark "), i + 1,
+											options->marks_tooltips[i]);
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->marks_type), marks_string);
+			}
+		else
+			{
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->marks_type), marks_string);
+			}
+		g_free(marks_string);
+		}
+	gtk_box_pack_start(GTK_BOX(hbox), sd->marks_type, FALSE, FALSE, 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(sd->marks_type), 0);
+	gtk_widget_show(sd->marks_type);
 
 	/* Done the types of searches */
 
