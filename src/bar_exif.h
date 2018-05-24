@@ -31,7 +31,7 @@ void bar_pane_exif_entry_add_from_config(GtkWidget *pane, const gchar **attribut
 
 const gchar **bar_exif_key_list;
 const gint bar_exif_key_count;
-
+GList *bar_pane_exif_list();
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -1322,10 +1322,31 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 
 static void pan_info_add_exif(PanTextAlignment *ta, FileData *fd)
 {
+	GList *exif_list;
+	gchar *text;
+	gchar *title;
+	gchar *key;
 
 	if (!fd) return;
 
-	pan_text_alignment_add(ta, NULL, NULL);
+	exif_list = bar_pane_exif_list();
+	while (exif_list)
+		{
+		title = exif_list->data;
+		exif_list = exif_list->next;
+		key = exif_list->data;
+		exif_list = exif_list->next;
+
+		text = metadata_read_string(fd, key, METADATA_FORMATTED);
+		if (text && text[0] != '\0')
+			{
+			pan_text_alignment_add(ta, title, text);
+			}
+
+		g_free(text);
+		}
+
+	string_list_free(exif_list);
 }
 
 

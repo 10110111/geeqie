@@ -33,6 +33,7 @@
 #include "rcfile.h"
 #include "dnd.h"
 #include "ui_utildlg.h"
+#include "layout.h"
 
 
 #include <math.h>
@@ -725,6 +726,38 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 	WRITE_NL(); WRITE_STRING("</pane_exif>");
 }
 
+GList * bar_pane_exif_list()
+{
+	PaneExifData *ped;
+	GList *list;
+	GList *work_windows;
+	GList *exif_list = NULL;
+	LayoutWindow *lw;
+	GtkWidget *bar;
+	GtkWidget *pane;
+	GtkWidget *entry;
+	ExifEntry *ee;
+
+	work_windows = layout_window_list;
+	lw = work_windows->data;
+	bar = lw->bar;
+	pane = bar_find_pane_by_id(bar, PANE_EXIF, "exif");
+	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
+
+	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));
+	while (list)
+		{
+		entry = list->data;
+		list = list->next;
+		ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+		exif_list = g_list_append(exif_list, g_strdup(ee->title));
+		exif_list = g_list_append(exif_list, g_strdup(ee->key));
+		}
+
+	g_list_free(list);
+
+	return exif_list;
+}
 
 void bar_pane_exif_close(GtkWidget *widget)
 {
