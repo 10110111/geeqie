@@ -22,6 +22,8 @@
 #include "misc.h"
 #include "ui_fileops.h"
 
+#include <langinfo.h>
+
 gdouble get_zoom_increment(void)
 {
 	return ((options->image.zoom_increment != 0) ? (gdouble)options->image.zoom_increment / 100.0 : 1.0);
@@ -235,6 +237,19 @@ int runcmd(gchar *cmd)
 
 	return retval;
 #endif
+}
+
+/**
+ * @brief Returns integer representing first_day_of_week
+ * @returns Integer in range 1 to 7
+ * 
+ * Uses current locale to get first day of week
+ * 
+ * Sunday == 1
+ */
+gint date_get_first_day_of_week()
+{
+	return nl_langinfo(_NL_TIME_FIRST_WEEKDAY)[0];
 }
 
 

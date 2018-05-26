@@ -27,6 +27,6 @@ gint utf8_compare(const gchar *s1, const gchar *s2, gboolean case_sensitive);
 gchar *expand_tilde(const gchar *filename);
 int runcmd(gchar *cmd);
 gchar *decode_geo_parameters(const gchar *input_text);
-
+gint date_get_first_day_of_week();
 #endif /* MISC_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

@@ -24,6 +24,7 @@
 #include <glib/gprintf.h>
 #include <math.h>
 
+#include "misc.h"
 #include "pan-util.h"
 #include "pan-view.h"
 #include "pan-view-filter.h"
@@ -293,6 +294,8 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 		days = pan_date_value(dt, PAN_DATE_LENGTH_DAY);
 		dt = pan_date_to_time(year, month, 1);
 		col = pan_date_value(dt, PAN_DATE_LENGTH_WEEK);
+		col = col - (date_get_first_day_of_week() - 1);
+		if (col < 0) col = col + 7;
 		row = 1;
 
 		x = PAN_BOX_BORDER;
