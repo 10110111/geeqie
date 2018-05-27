@@ -384,6 +384,8 @@ static gchar *exif_build_formatted_ISOSpeedRating(ExifData *exif)
 	gchar *text;
 
 	text = exif_get_data_as_text(exif, "Exif.Photo.ISOSpeedRatings");
+	/* old canon may set this instead */
+	if (!text) text = exif_get_data_as_text(exif, "Exif.CanonSi.ISOSpeed");
 	/* kodak may set this instead */
 	if (!text) text = exif_get_data_as_text(exif, "Exif.Photo.ExposureIndex");
 	return text;
