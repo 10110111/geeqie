@@ -56,6 +56,7 @@
 #define PAN_CAL_DOT_COLOR 128, 128, 128
 #define PAN_CAL_DOT_ALPHA 128
 
+#define PAN_CAL_DAY_OF_WEEK_COLOR 128, 128, 128
 
 /*
  *-----------------------------------------------------------------------------
@@ -200,6 +201,7 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	gint month = 0;
 	gint end_year = 0;
 	gint end_month = 0;
+	gint day_of_week;
 
 	list = pan_list_tree(dir_fd, SORT_NONE, TRUE, pw->ignore_symlinks);
 	pan_filter_fd_list(&list, pw->filter_ui->filter_elements);
@@ -268,6 +270,7 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 		{
 		PanItem *pi_month;
 		PanItem *pi_text;
+		PanItem *pi_day_number;
 		gint day;
 		gint days;
 		gint col;
@@ -391,11 +394,19 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 				}
 
 			buf = g_strdup_printf("%d", day);
-			pan_item_text_new(pw, x + 4, y + 4, buf, PAN_TEXT_ATTR_BOLD | PAN_TEXT_ATTR_HEADING,
+			pi_day_number = pan_item_text_new(pw, x + 4, y + 4, buf, PAN_TEXT_ATTR_BOLD | PAN_TEXT_ATTR_HEADING,
 					  PAN_TEXT_BORDER_SIZE,
 					  PAN_CAL_DAY_TEXT_COLOR, 255);
 			g_free(buf);
 
+			day_of_week = date_get_first_day_of_week() + col;
+			if (day_of_week > 7) day_of_week = day_of_week - 7;
+
+			buf = date_get_abbreviated_day_name(day_of_week);
+			pan_item_text_new(pw, x + 4 + pi_day_number->width + 4, y + 4, buf, PAN_TEXT_ATTR_NONE,
+					  PAN_TEXT_BORDER_SIZE,
+					  PAN_CAL_DAY_OF_WEEK_COLOR, 255);
+			g_free(buf);
 
 			pan_item_size_coordinates(pi_day, PAN_BOX_BORDER, width, height);
 

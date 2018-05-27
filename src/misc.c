@@ -252,5 +252,46 @@ gint date_get_first_day_of_week()
 	return nl_langinfo(_NL_TIME_FIRST_WEEKDAY)[0];
 }
 
+/**
+ * @brief Get an abbreviated day name from locale
+ * @param day Integer in range 1 to 7, representing day of week
+ * @returns String containing abbreviated day name
+ * 
+ *  Uses current locale to get day name
+ * 
+ * Sunday == 1
+ * Result must be freed
+ */
+gchar *date_get_abbreviated_day_name(gint day)
+{
+	gchar *abday = NULL;
+
+	switch (day)
+		{
+		case 1:
+		abday = g_strdup(nl_langinfo(ABDAY_1));
+		break;
+		case 2:
+		abday = g_strdup(nl_langinfo(ABDAY_2));
+		break;
+		case 3:
+		abday = g_strdup(nl_langinfo(ABDAY_3));
+		break;
+		case 4:
+		abday = g_strdup(nl_langinfo(ABDAY_4));
+		break;
+		case 5:
+		abday = g_strdup(nl_langinfo(ABDAY_5));
+		break;
+		case 6:
+		abday = g_strdup(nl_langinfo(ABDAY_6));
+		break;
+		case 7:
+		abday = g_strdup(nl_langinfo(ABDAY_7));
+		break;
+		}
+
+	return abday;
+}
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
