@@ -742,20 +742,22 @@ GList * bar_pane_exif_list()
 	lw = work_windows->data;
 	bar = lw->bar;
 	pane = bar_find_pane_by_id(bar, PANE_EXIF, "exif");
-	ped = g_object_get_data(G_OBJECT(pane), "pane_data");
-
-	list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));
-	while (list)
+	if (pane)
 		{
-		entry = list->data;
-		list = list->next;
-		ee = g_object_get_data(G_OBJECT(entry), "entry_data");
-		exif_list = g_list_append(exif_list, g_strdup(ee->title));
-		exif_list = g_list_append(exif_list, g_strdup(ee->key));
+		ped = g_object_get_data(G_OBJECT(pane), "pane_data");
+
+		list = gtk_container_get_children(GTK_CONTAINER(ped->vbox));
+		while (list)
+			{
+			entry = list->data;
+			list = list->next;
+			ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+			exif_list = g_list_append(exif_list, g_strdup(ee->title));
+			exif_list = g_list_append(exif_list, g_strdup(ee->key));
+			}
+
+		g_list_free(list);
 		}
-
-	g_list_free(list);
-
 	return exif_list;
 }
 
