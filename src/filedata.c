@@ -506,7 +506,7 @@ void read_exif_time_data(FileData *file)
 
 void read_exif_time_digitized_data(FileData *file)
 {
-	if (file->exifdate > 0)
+	if (file->exifdate_digitized > 0)
 		{
 		DEBUG_1("%s set_exif_time_digitized_data: Already exists for %s", get_exec_time(), file->path);
 		return;
