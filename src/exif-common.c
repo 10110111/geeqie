@@ -876,6 +876,7 @@ ExifFormattedText ExifFormattedList[] = {
 	{"file.size",				N_("File size"), 	NULL},
 	{"file.date",				N_("File date"), 	NULL},
 	{"file.mode",				N_("File mode"), 	NULL},
+	{"file.ctime",				N_("File ctime"), 	NULL},
 	{ NULL, NULL, NULL }
 };
 
@@ -1135,6 +1136,10 @@ gchar *metadata_file_info(FileData *fd, const gchar *key, MetadataFormat format)
 	if (strcmp(key, "file.mode") == 0)
 		{
 		return mode_number(fd->mode);
+		}
+	if (strcmp(key, "file.ctime") == 0)
+		{
+		return g_strdup(text_from_time(fd->cdate));
 		}
 	return g_strdup("");
 }

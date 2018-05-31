@@ -288,6 +288,10 @@
             <entry>file.mode</entry>
             <entry>file mode flags</entry>
           </row>
+          <row>
+            <entry>file.ctime</entry>
+            <entry>refer to operating system documentation for the meaning of ctime</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
