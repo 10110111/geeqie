@@ -852,6 +852,32 @@ static gchar *exif_build_formatted_timezone(ExifData *exif)
 	return time_zone;
 }
 
+static gchar *exif_build_formatted_star_rating(ExifData *exif)
+{
+	gint n;
+	gchar *ret = NULL;
+	GString *str = g_string_new(NULL);
+
+	exif_get_integer(exif, "Xmp.xmp.Rating", &n);
+
+	if (n == -1)
+		{
+		ret = g_strdup("⨷");
+		}
+	else if (n > 0 && n < 6)
+		{
+		while (n > 0)
+			{
+			str = g_string_append(str, "🟊");
+			n = n - 1;
+			}
+		ret = g_strdup(str->str);
+		g_string_free(str, TRUE);
+		}
+
+	return ret;
+}
+
 /* List of custom formatted pseudo-exif tags */
 #define EXIF_FORMATTED_TAG(name, label) { EXIF_FORMATTED()#name, label, exif_build_formatted##_##name }
 
@@ -873,6 +899,7 @@ ExifFormattedText ExifFormattedList[] = {
 	EXIF_FORMATTED_TAG(GPSAltitude,		N_("GPS altitude")),
 	EXIF_FORMATTED_TAG(localtime,		N_("Local time")),
 	EXIF_FORMATTED_TAG(timezone,		N_("Time zone")),
+	EXIF_FORMATTED_TAG(star_rating,		N_("Star rating")),
 	{"file.size",				N_("File size"), 	NULL},
 	{"file.date",				N_("File date"), 	NULL},
 	{"file.mode",				N_("File mode"), 	NULL},

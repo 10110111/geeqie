@@ -299,6 +299,17 @@
               </para>
             </entry>
           </row>
+          <row>
+            <entry>
+              <para>formatted.star_rating</para>
+            </entry>
+            <entry>
+              <para>Xmp.xmp.Rating</para>
+            </entry>
+            <entry>
+              <para>Rating shown as a set of 🟊  characters</para>
+            </entry>
+          </row>
         </tbody>
       </tgroup>
     </table>

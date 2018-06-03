@@ -114,6 +114,7 @@ static const gchar default_config_exif[] =
 "                <entry key = 'formatted.SubjectDistance' if_set = 'true' editable = 'false' />"
 "                <entry key = 'formatted.Resolution' if_set = 'true' editable = 'false' />"
 "                <entry key = '" ORIENTATION_KEY "' if_set = 'true' editable = 'false' />"
+"                <entry key = 'formatted.star_rating' if_set = 'true' editable = 'false' />"
 "            </pane_exif>"
 "        </bar>"
 "    </layout>"

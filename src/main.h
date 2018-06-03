@@ -115,7 +115,8 @@
 				"(%number%/%total%) [%zoom%] <b>%name%</b>\n" \
 				"%res%|%date%|%size%\n" \
 				"%formatted.Aperture%|%formatted.ShutterSpeed%|%formatted.ISOSpeedRating:ISO *%|%formatted.FocalLength%|%formatted.ExposureBias:* Ev%\n" \
-				"%formatted.Camera:40%|%formatted.Flash%"
+				"%formatted.Camera:40%|%formatted.Flash%\n"            \
+				"%formatted.star_rating%"
 
 #define GQ_LINK_STR "↗"
 #include "typedefs.h"
