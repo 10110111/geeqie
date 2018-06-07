@@ -2219,6 +2219,13 @@ static void pan_popup_menu_destroy_cb(GtkWidget *widget, gpointer data)
 	filelist_free(editmenu_fd_list);
 }
 
+static void pan_play_cb(GtkWidget *widget, gpointer data)
+{
+	PanWindow *pw = data;
+
+	start_editor_from_file(options->image_l_click_video_editor, pw->click_pi->fd);
+}
+
 static GList *pan_view_get_fd_list(PanWindow *pw)
 {
 	GList *list = NULL;
@@ -2253,12 +2260,17 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 	GtkWidget *menu;
 	GtkWidget *submenu;
 	GtkWidget *item;
-	gboolean active;
+	gboolean active, video;
 	GList *editmenu_fd_list;
 
 	active = (pw->click_pi != NULL);
+	video = (active && pw->click_pi->fd && pw->click_pi->fd->format_class == FORMAT_CLASS_VIDEO);
 
 	menu = popup_menu_short_lived();
+
+	menu_item_add_stock_sensitive(menu, _("_Play"), GTK_STOCK_MEDIA_PLAY, video,
+			    G_CALLBACK(pan_play_cb), pw);
+	menu_item_add_divider(menu);
 
 	menu_item_add_stock(menu, _("Zoom _in"), GTK_STOCK_ZOOM_IN,
 			    G_CALLBACK(pan_zoom_in_cb), pw);

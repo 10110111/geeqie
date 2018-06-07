@@ -146,6 +146,8 @@ typedef enum {
 	FILE_FORMAT_CLASSES
 } FileFormatClass;
 
+extern gchar *format_class_list[];
+
 typedef enum {
 	SS_ERR_NONE = 0,
 	SS_ERR_DISABLED, /**< secsave is disabled. */

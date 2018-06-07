@@ -1044,6 +1044,13 @@ static void sr_menu_clear_cb(GtkWidget *widget, gpointer data)
 	search_result_clear(sd);
 }
 
+static void sr_menu_play_cb(GtkWidget *widget, gpointer data)
+{
+	SearchData *sd = data;
+
+	start_editor_from_file(options->image_l_click_video_editor, sd->click_fd);
+}
+
 static void search_result_menu_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	GList *editmenu_fd_list = data;
@@ -1076,8 +1083,14 @@ static GtkWidget *search_result_menu(SearchData *sd, gboolean on_row, gboolean e
 	GtkWidget *item;
 	GList *editmenu_fd_list;
 	GtkWidget *submenu;
+	gboolean video;
 
 	menu = popup_menu_short_lived();
+
+	video = (on_row && sd->click_fd && sd->click_fd->format_class == FORMAT_CLASS_VIDEO);
+	menu_item_add_stock_sensitive(menu, _("_Play"), GTK_STOCK_MEDIA_PLAY, video,
+			    G_CALLBACK(sr_menu_play_cb), sd);
+	menu_item_add_divider(menu);
 
 	menu_item_add_sensitive(menu, _("_View"), on_row,
 				G_CALLBACK(sr_menu_view_cb), sd);

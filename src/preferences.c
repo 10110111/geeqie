@@ -104,7 +104,7 @@ enum {
 	AE_ACCEL
 };
 
-static gchar *format_class_list[] = {
+gchar *format_class_list[] = {
 	N_("Unknown"),
 	N_("Image"),
 	N_("RAW Image"),

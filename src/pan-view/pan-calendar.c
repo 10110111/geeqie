@@ -204,7 +204,7 @@ void pan_calendar_compute(PanWindow *pw, FileData *dir_fd, gint *width, gint *he
 	gint day_of_week;
 
 	list = pan_list_tree(dir_fd, SORT_NONE, TRUE, pw->ignore_symlinks);
-	pan_filter_fd_list(&list, pw->filter_ui->filter_elements);
+	pan_filter_fd_list(&list, pw->filter_ui->filter_elements, pw->filter_ui->filter_classes);
 
 	if (pw->cache_list && pw->exif_date_enable)
 		{
