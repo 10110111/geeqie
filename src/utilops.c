@@ -1584,8 +1584,16 @@ static void file_util_dialog_init_dest_folder(UtilityData *ud)
 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
 	pref_spacer(GENERIC_DIALOG(fdlg)->vbox, 0);
 
-	file_dialog_add_button(fdlg, GTK_STOCK_EDIT, "With Rename", file_util_fdlg_rename_cb, TRUE);
-	file_dialog_add_button(fdlg, stock_id, ud->messages.title, file_util_fdlg_ok_cb, TRUE);
+	if (options->with_rename)
+		{
+		file_dialog_add_button(fdlg, stock_id, ud->messages.title, file_util_fdlg_ok_cb, TRUE);
+		file_dialog_add_button(fdlg, GTK_STOCK_EDIT, "With Rename", file_util_fdlg_rename_cb, TRUE);
+		}
+	else
+		{
+		file_dialog_add_button(fdlg, GTK_STOCK_EDIT, "With Rename", file_util_fdlg_rename_cb, TRUE);
+		file_dialog_add_button(fdlg, stock_id, ud->messages.title, file_util_fdlg_ok_cb, TRUE);
+		}
 
 	file_dialog_add_path_widgets(fdlg, NULL, ud->dest_path, "move_copy", NULL, NULL);
 

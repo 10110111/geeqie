@@ -409,6 +409,7 @@ static void config_window_apply(void)
 	options->info_rating.height = c_options->info_rating.height;
 
 	options->marks_save = c_options->marks_save;
+	options->with_rename = c_options->with_rename;
 	config_entry_to_option(help_search_engine_entry, &options->help_search_engine, NULL);
 
 #ifdef DEBUG
@@ -2372,6 +2373,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	GtkWidget *spin;
 	GtkWidget *table;
 	GtkWidget *marks;
+	GtkWidget *with_rename;
 
 	vbox = scrolled_notebook_page(notebook, _("Behavior"));
 
@@ -2428,6 +2430,10 @@ static void config_tab_behavior(GtkWidget *notebook)
 	marks = pref_checkbox_new_int(group, _("Save marks on exit"),
 				options->marks_save, &c_options->marks_save);
 	gtk_widget_set_tooltip_text(marks,"Note that marks linked to a keyword will be saved irrespective of this setting");
+
+	with_rename = pref_checkbox_new_int(group, _("Use \"With Rename\" as default for Copy/Move dialogs"),
+				options->with_rename, &c_options->with_rename);
+	gtk_widget_set_tooltip_text(with_rename,"Change the default button for Copy/Move dialogs");
 
 	pref_spin_new_int(group, _("Recent folder list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);

@@ -64,6 +64,8 @@ struct _ConfOptions
 	gboolean marks_save;		// save marks on exit
 	gchar *marks_tooltips[FILEDATA_MARKS_SIZE];
 
+	gboolean with_rename;
+
 	gchar *help_search_engine;
 
 	/* info sidebar component heights */
