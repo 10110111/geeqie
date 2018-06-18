@@ -187,6 +187,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->log_window.paused = FALSE;
 	options->log_window.timer_data = FALSE;
 
+	options->read_metadata_in_idle = FALSE;
 	return options;
 }
 

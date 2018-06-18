@@ -288,6 +288,8 @@ struct _ConfOptions
 		gboolean line_wrap;
 		gboolean timer_data;
 	} log_window;
+
+	gboolean read_metadata_in_idle;
 };
 
 ConfOptions *options;

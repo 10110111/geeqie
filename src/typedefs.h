@@ -595,6 +595,7 @@ struct _FileData {
 	GHashTable *modified_xmp; // hash table which contains unwritten xmp metadata in format: key->list of string values
 	GList *cached_metadata;
 	gint rating;
+	gboolean metadata_in_idle_loaded;
 
 	SelectionType selected;  // Used by view_file_icon.
 };
@@ -887,6 +888,8 @@ struct _ViewFile
 
 	/* file list for edit menu */
 	GList *editmenu_fd_list;
+
+	guint read_metadata_in_idle_id;
 };
 
 struct _ViewFileInfoList

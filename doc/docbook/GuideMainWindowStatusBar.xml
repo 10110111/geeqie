@@ -6,8 +6,14 @@
   <para />
   <section id="ProgressBar">
     <title>Progress Bar</title>
-    <para>The Progress bar updates to display the current state of thumbnail generation. When this section contains no text, thumbnail generation is idle. When “Loading thumbs...” is displayed, thumbnails are currently being generated when Geeqie is idle; the progress bar will update to display the percentage of thumbnails that are completed.</para>
-    <para />
+    <para>
+      The Progress bar updates to display the current state of thumbnail generation, or the reading of metadata in the current folder.
+      <para />
+      When “Loading thumbs...” is displayed, thumbnails are currently being generated when Geeqie is idle; the progress bar will update to display the percentage of thumbnails that are completed.
+      <para />
+      When “Loading meta...” is displayed, certain metadata is being loaded when Geeqie is idle; the progress bar will update to display the percentage of files that have been read. Refer to
+      <link linkend="PreLoadMetadata">Preferences metadata.</link>
+    </para>
   </section>
   <section id="Sortmethod">
     <title>Sort method</title>

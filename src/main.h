@@ -128,6 +128,8 @@
 #define TIMEZONE_DATABASE "timezone21.bin"
 
 #define HELP_SEARCH_ENGINE "https://duckduckgo.com/?q=site:geeqie.org/help "
+
+#define STAR_RATING_NOT_READ -12345
 /*
  *----------------------------------------------------------------------------
  * main.c

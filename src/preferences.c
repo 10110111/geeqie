@@ -412,6 +412,7 @@ static void config_window_apply(void)
 	options->with_rename = c_options->with_rename;
 	config_entry_to_option(help_search_engine_entry, &options->help_search_engine, NULL);
 
+	options->read_metadata_in_idle = c_options->read_metadata_in_idle;
 #ifdef DEBUG
 	set_debug_level(debug_c);
 #endif
@@ -2220,6 +2221,12 @@ static void config_tab_metadata(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Write metadata on directory change"),
 			      options->metadata.confirm_on_dir_change, &c_options->metadata.confirm_on_dir_change);
+
+	group = pref_group_new(vbox, FALSE, _("Pre-load metadata"), GTK_ORIENTATION_VERTICAL);
+
+	ct_button = pref_checkbox_new_int(group, _("Read metadata in background"),
+					  options->read_metadata_in_idle, &c_options->read_metadata_in_idle);
+	gtk_widget_set_tooltip_text(ct_button,"On folder change, read DateTimeOriginal, DateTimeDigitized and Star Rating in the idle loop.\nIf this is not selected, initial loading of the folder will be faster but sorting on these items will be slower");
 }
 
 /* metadata tab */

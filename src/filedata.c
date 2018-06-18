@@ -429,7 +429,7 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->ref = 1;
 	fd->magick = FD_MAGICK;
 	fd->exifdate = 0;
-	fd->rating = 0;
+	fd->rating = STAR_RATING_NOT_READ;
 	fd->format_class = filter_file_get_class(path_utf8);
 
 	if (disable_sidecars) fd->disable_grouping = TRUE;
@@ -477,7 +477,10 @@ void read_exif_time_data(FileData *file)
 		return;
 		}
 
-	file->exif = exif_read_fd(file);
+	if (!file->exif)
+		{
+		exif_read_fd(file);
+		}
 
 	if (file->exif)
 		{
@@ -512,7 +515,10 @@ void read_exif_time_digitized_data(FileData *file)
 		return;
 		}
 
-	file->exif = exif_read_fd(file);
+	if (!file->exif)
+		{
+		exif_read_fd(file);
+		}
 
 	if (file->exif)
 		{
@@ -536,6 +542,18 @@ void read_exif_time_digitized_data(FileData *file)
 			file->exifdate_digitized = mktime(&time_str);
 			g_free(tmp);
 			}
+		}
+}
+
+void read_rating_data(FileData *file)
+{
+	gchar *rating_str;
+
+	rating_str = metadata_read_string(file, RATING_KEY, METADATA_PLAIN);
+	if (rating_str)
+		{
+		file->rating = atoi(rating_str);
+		g_free(rating_str);
 		}
 }
 
@@ -1161,18 +1179,6 @@ GList *filelist_insert_sort_full(GList *list, gpointer data, SortType method, gb
 
 GList *filelist_sort(GList *list, SortType method, gboolean ascend)
 {
-	if (method == SORT_EXIFTIME)
-		{
-		set_exif_time_data(list);
-		}
-	if (method == SORT_EXIFTIMEDIGITIZED)
-		{
-		set_exif_time_digitized_data(list);
-		}
-	if (method == SORT_RATING)
-		{
-		set_rating_data(list);
-		}
 	return filelist_sort_full(list, method, ascend, (GCompareFunc) filelist_sort_file_cb);
 }
 

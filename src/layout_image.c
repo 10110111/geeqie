@@ -1125,6 +1125,7 @@ void layout_image_alter_orientation(LayoutWindow *lw, AlterType type)
 static void image_alter_rating(FileData *fd_n, const gchar *rating)
 {
 	metadata_write_string(fd_n, RATING_KEY, rating);
+	read_rating_data(fd_n);
 }
 
 void layout_image_rating(LayoutWindow *lw, const gchar *rating)

@@ -479,6 +479,8 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_INT(*options, stereo.fixed_x2);
 	WRITE_NL(); WRITE_INT(*options, stereo.fixed_y2);
 
+	WRITE_NL(); WRITE_BOOL(*options, read_metadata_in_idle);
+
 	/* copy move rename */
 	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.auto_start);
 	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.auto_padding);
@@ -801,6 +803,8 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, stereo.fixed_y1)) continue;
 		if (READ_INT(*options, stereo.fixed_x2)) continue;
 		if (READ_INT(*options, stereo.fixed_y2)) continue;
+
+		if (READ_BOOL(*options, read_metadata_in_idle)) continue;
 
 		/* copy move rename */
 		if (READ_INT(*options, cp_mv_rn.auto_start))  continue;

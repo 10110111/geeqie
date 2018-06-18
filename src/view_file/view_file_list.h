@@ -69,6 +69,7 @@ void vflist_selection_to_mark(ViewFile *vf, gint mark, SelectionToMarkMode mode)
 void vflist_color_set(ViewFile *vf, FileData *fd, gboolean color_set);
 
 void vflist_thumb_progress_count(GList *list, gint *count, gint *done);
+void vflist_read_metadata_progress_count(GList *list, gint *count, gint *done);
 void vflist_set_thumb_fd(ViewFile *vf, FileData *fd);
 FileData *vflist_thumb_next_fd(ViewFile *vf);
 void vflist_thumb_reset_all(ViewFile *vf);

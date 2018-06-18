@@ -1690,6 +1690,19 @@ void vficon_thumb_progress_count(GList *list, gint *count, gint *done)
 		}
 }
 
+void vficon_read_metadata_progress_count(GList *list, gint *count, gint *done)
+{
+	GList *work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+
+		if (fd->metadata_in_idle_loaded) (*done)++;
+		(*count)++;
+		}
+}
+
 void vficon_set_thumb_fd(ViewFile *vf, FileData *fd)
 {
 	GtkTreeModel *store;

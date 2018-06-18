@@ -72,6 +72,6 @@ void vf_notify_cb(FileData *fd, NotifyType type, gpointer data);
 void vf_thumb_update(ViewFile *vf);
 void vf_thumb_cleanup(ViewFile *vf);
 void vf_thumb_stop(ViewFile *vf);
-
+void vf_read_metadata_in_idle(ViewFile *vf);
 #endif /* VIEW_FILE_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

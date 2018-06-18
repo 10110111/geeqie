@@ -363,6 +363,10 @@ static void layout_sort_menu_cb(GtkWidget *widget, gpointer data)
 
 	type = (SortType)GPOINTER_TO_INT(data);
 
+	if (type == SORT_EXIFTIME || type == SORT_EXIFTIMEDIGITIZED || type == SORT_RATING)
+		{
+		vf_read_metadata_in_idle(lw->vf);
+		}
 	layout_sort_set(lw, type, lw->sort_ascend);
 }
 
@@ -547,11 +551,30 @@ static GtkWidget *layout_zoom_button(LayoutWindow *lw, GtkWidget *box, gint size
 
 void layout_status_update_progress(LayoutWindow *lw, gdouble val, const gchar *text)
 {
+	static gdouble thumb = 0;
+	static gdouble meta = 0;
+
 	if (!layout_valid(&lw)) return;
 	if (!lw->info_progress_bar) return;
 
+	/* Give priority to the loading meta data message
+	 */
+	if(!g_strcmp0(text, "Loading thumbs..."))
+		{
+		thumb = val;
+		if (meta)
+			{
+			return;
+			}
+		}
+	else
+		{
+		meta = val;
+		}
+
 	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(lw->info_progress_bar), val);
-	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(lw->info_progress_bar), (text) ? text : " ");
+	gtk_progress_bar_set_text(GTK_PROGRESS_BAR(lw->info_progress_bar),
+									val ? ((text) ? text : " ") : " ");
 }
 
 void layout_status_update_info(LayoutWindow *lw, const gchar *text)
@@ -1095,6 +1118,11 @@ gboolean layout_set_fd(LayoutWindow *lw, FileData *fd)
 
 	if (options->metadata.confirm_on_dir_change && dir_changed)
 		metadata_write_queue_confirm(FALSE, NULL, NULL);
+
+	if (lw->vf && (options->read_metadata_in_idle || (lw->sort_method == SORT_EXIFTIME || lw->sort_method == SORT_EXIFTIMEDIGITIZED || lw->sort_method == SORT_RATING)))
+		{
+		vf_read_metadata_in_idle(lw->vf);
+		}
 
 	return TRUE;
 }

@@ -1079,6 +1079,24 @@ void vflist_thumb_progress_count(GList *list, gint *count, gint *done)
 		}
 }
 
+void vflist_read_metadata_progress_count(GList *list, gint *count, gint *done)
+{
+	GList *work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		work = work->next;
+
+		if (fd->metadata_in_idle_loaded) (*done)++;
+
+		if (fd->sidecar_files)
+			{
+			vflist_read_metadata_progress_count(fd->sidecar_files, count, done);
+			}
+		(*count)++;
+		}
+}
+
 void vflist_set_thumb_fd(ViewFile *vf, FileData *fd)
 {
 	GtkTreeStore *store;
