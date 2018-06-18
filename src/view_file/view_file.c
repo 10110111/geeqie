@@ -484,6 +484,23 @@ static void vf_pop_menu_toggle_view_type_cb(GtkWidget *widget, gpointer data)
 	layout_views_set(vf->layout, vf->layout->options.dir_view_type, new_type);
 }
 
+static void vf_pop_menu_toggle_star_rating(ViewFile *vf)
+{
+	GtkAllocation allocation;
+
+	options->show_star_rating = !options->show_star_rating;
+
+	gtk_widget_get_allocation(vf->listview, &allocation);
+	vf_star_rating_set(vf, options->show_star_rating);
+}
+
+static void vf_pop_menu_show_star_rating_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	vf_pop_menu_toggle_star_rating(vf);
+}
+
 static void vf_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
@@ -659,6 +676,18 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 	case FILEVIEW_ICON:
 		menu_item_add_check(menu, _("Show filename _text"), VFICON(vf)->show_text,
 				    G_CALLBACK(vficon_pop_menu_show_names_cb), vf);
+		break;
+	}
+
+	switch (vf->type)
+	{
+	case FILEVIEW_LIST:
+		menu_item_add_check(menu, _("Show star rating"), options->show_star_rating,
+				    G_CALLBACK(vflist_pop_menu_show_star_rating_cb), vf);
+		break;
+	case FILEVIEW_ICON:
+		menu_item_add_check(menu, _("Show star rating"), options->show_star_rating,
+				    G_CALLBACK(vficon_pop_menu_show_star_rating_cb), vf);
 		break;
 	}
 
@@ -1110,6 +1139,19 @@ void vf_marks_set(ViewFile *vf, gboolean enable)
 	else
 		gtk_widget_hide(vf->filter);
 
+	vf_refresh_idle(vf);
+}
+
+void vf_star_rating_set(ViewFile *vf, gboolean enable)
+{
+	if (options->show_star_rating == enable) return;
+	options->show_star_rating = enable;
+
+	switch (vf->type)
+		{
+		case FILEVIEW_LIST: vflist_star_rating_set(vf, enable); break;
+		case FILEVIEW_ICON: vficon_star_rating_set(vf, enable); break;
+		}
 	vf_refresh_idle(vf);
 }
 

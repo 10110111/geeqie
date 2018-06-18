@@ -294,4 +294,31 @@ gchar *date_get_abbreviated_day_name(gint day)
 	return abday;
 }
 
+gchar *convert_rating_to_stars(gint rating)
+{
+	gchar *ret;
+	GString *str = g_string_new(NULL);
+
+	if (rating == -1)
+		{
+		ret = g_strdup("⨷");
+		}
+	else if (rating > 0 && rating < 6)
+		{
+		while (rating > 0)
+			{
+			str = g_string_append(str, "🟊");
+			rating = rating - 1;
+			}
+		ret = g_strdup(str->str);
+		g_string_free(str, TRUE);
+		}
+	else
+		{
+		ret = g_strdup("");
+		}
+
+	return ret;
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

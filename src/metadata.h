@@ -112,5 +112,6 @@ void keyword_tree_write_config(GString *outstr, gint indent);
 GtkTreeIter *keyword_add_from_config(GtkTreeStore *keyword_tree, GtkTreeIter *parent, const gchar **attribute_names, const gchar **attribute_values);
 
 void keyword_tree_disconnect_marks();
+gchar *metadata_read_rating_stars(FileData *fd);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

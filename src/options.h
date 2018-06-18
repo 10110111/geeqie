@@ -34,6 +34,7 @@ struct _ConfOptions
 	gboolean image_l_click_video;
 	gchar *image_l_click_video_editor;
 	gboolean show_icon_names;
+	gboolean show_star_rating;
 
 	/* various */
 	gboolean tree_descend_subdirs;

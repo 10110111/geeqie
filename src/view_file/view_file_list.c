@@ -47,8 +47,10 @@ enum {
 	FILE_COLUMN_VERSION,
 	FILE_COLUMN_THUMB,
 	FILE_COLUMN_FORMATTED,
+	FILE_COLUMN_FORMATTED_WITH_STARS,
 	FILE_COLUMN_NAME,
 	FILE_COLUMN_SIDECARS,
+	FILE_COLUMN_STAR_RATING,
 	FILE_COLUMN_SIZE,
 	FILE_COLUMN_DATE,
 	FILE_COLUMN_EXPANDED,
@@ -65,6 +67,8 @@ enum {
 	FILE_VIEW_COLUMN_MARKS_LAST = FILE_VIEW_COLUMN_MARKS + FILEDATA_MARKS_SIZE - 1,
 	FILE_VIEW_COLUMN_THUMB,
 	FILE_VIEW_COLUMN_FORMATTED,
+	FILE_VIEW_COLUMN_FORMATTED_WITH_STARS,
+	FILE_VIEW_COLUMN_STAR_RATING,
 	FILE_VIEW_COLUMN_SIZE,
 	FILE_VIEW_COLUMN_DATE,
 	FILE_VIEW_COLUMN_COUNT
@@ -422,6 +426,53 @@ void vflist_pop_menu_thumbs_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
+void vflist_star_rating_set(ViewFile *vf, gboolean enable)
+{
+	GList *columns, *work;
+
+	columns = gtk_tree_view_get_columns(GTK_TREE_VIEW(vf->listview));
+
+	work = columns;
+	while (work)
+		{
+		GtkTreeViewColumn *column = work->data;
+		gint col_idx = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(column), "column_store_idx"));
+		work = work->next;
+
+		if (vflist_is_multiline(vf))
+			{
+			if (col_idx == FILE_COLUMN_FORMATTED_WITH_STARS)
+				{
+				gtk_tree_view_column_set_visible(column, enable);
+				}
+			if (col_idx == FILE_COLUMN_FORMATTED)
+				{
+				gtk_tree_view_column_set_visible(column, !enable);
+				}
+			}
+		else
+			{
+			if (col_idx == FILE_COLUMN_STAR_RATING)
+				{
+				gtk_tree_view_column_set_visible(column, enable);
+				}
+			}
+		}
+	g_list_free(columns);
+}
+
+void vflist_pop_menu_show_star_rating_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	options->show_star_rating = !options->show_star_rating;
+
+	vflist_populate_view(vf, TRUE);
+
+	vflist_color_set(vf, VFLIST(vf)->click_fd, FALSE);
+	vflist_star_rating_set(vf, options->show_star_rating);
+}
+
 void vflist_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
@@ -768,14 +819,21 @@ static void vflist_collapse_cb(GtkTreeView *tree_view, GtkTreeIter *iter, GtkTre
  */
 
 
-static gchar* vflist_get_formatted(ViewFile *vf, const gchar *name, const gchar *sidecars, const gchar *size, const gchar *time, gboolean expanded)
+static gchar* vflist_get_formatted(ViewFile *vf, const gchar *name, const gchar *sidecars, const gchar *size, const gchar *time, gboolean expanded, gboolean with_stars, const gchar *star_rating)
  {
 	gboolean multiline = vflist_is_multiline(vf);
 	gchar *text;
 
 	if (multiline)
 		{
-		text = g_strdup_printf("%s %s\n%s\n%s", name, expanded ? "" : sidecars, size, time);
+		if (with_stars)
+			{
+					text = g_strdup_printf("%s %s\n%s\n%s\n%s", name, expanded ? "" : sidecars, size, time, star_rating);
+			}
+		else
+			{
+			text = g_strdup_printf("%s %s\n%s\n%s", name, expanded ? "" : sidecars, size, time);
+			}
 		}
 	else
 		{
@@ -792,7 +850,8 @@ static void vflist_set_expanded(ViewFile *vf, GtkTreeIter *iter, gboolean expand
 	gchar *size;
 	gchar *time;
 	gchar *formatted;
-
+	gchar *formatted_with_stars;
+	gchar *star_rating;
 	store = GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(vf->listview)));
 
 	gtk_tree_model_get(GTK_TREE_MODEL(store), iter,
@@ -800,10 +859,16 @@ static void vflist_set_expanded(ViewFile *vf, GtkTreeIter *iter, gboolean expand
 					FILE_COLUMN_SIDECARS, &sidecars,
 					FILE_COLUMN_SIZE, &size,
 					FILE_COLUMN_DATE, &time,
+					FILE_COLUMN_STAR_RATING, &star_rating,
 					-1);
-	formatted = vflist_get_formatted(vf, name, sidecars, size, time, expanded);
+
+	formatted = vflist_get_formatted(vf, name, sidecars, size, time, expanded, FALSE, NULL);
+	formatted_with_stars = vflist_get_formatted(vf, name, sidecars, size, time, expanded, TRUE, star_rating);
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_FORMATTED, formatted,
+					FILE_COLUMN_EXPANDED, expanded,
+					-1);
+	gtk_tree_store_set(store, iter, FILE_COLUMN_FORMATTED_WITH_STARS, formatted_with_stars,
 					FILE_COLUMN_EXPANDED, expanded,
 					-1);
 	g_free(time);
@@ -822,7 +887,18 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	gchar *link = islink(fd->path) ? GQ_LINK_STR : "";
 	const gchar *disabled_grouping;
 	gchar *formatted;
+	gchar *formatted_with_stars;
 	gboolean expanded = FALSE;
+	gchar *star_rating;
+
+	if (options->show_star_rating)
+		{
+		star_rating = metadata_read_rating_stars(fd);
+		}
+	else
+		{
+		star_rating = NULL;
+		}
 
 	if (fd->sidecar_files) /* expanded has no effect on files without sidecars */
 		{
@@ -835,14 +911,17 @@ static void vflist_setup_iter(ViewFile *vf, GtkTreeStore *store, GtkTreeIter *it
 	name = g_strdup_printf("%s%s%s", link, fd->name, disabled_grouping);
 	size = text_from_size(fd->size);
 
-	formatted = vflist_get_formatted(vf, name, sidecars, size, time, expanded);
+	formatted = vflist_get_formatted(vf, name, sidecars, size, time, expanded, FALSE, NULL);
+	formatted_with_stars = vflist_get_formatted(vf, name, sidecars, size, time, expanded, TRUE, star_rating);
 
 	gtk_tree_store_set(store, iter, FILE_COLUMN_POINTER, fd,
 					FILE_COLUMN_VERSION, fd->version,
 					FILE_COLUMN_THUMB, fd->thumb_pixbuf,
 					FILE_COLUMN_FORMATTED, formatted,
+					FILE_COLUMN_FORMATTED_WITH_STARS, formatted_with_stars,
 					FILE_COLUMN_SIDECARS, sidecars,
 					FILE_COLUMN_NAME, name,
+					FILE_COLUMN_STAR_RATING, star_rating,
 					FILE_COLUMN_SIZE, size,
 					FILE_COLUMN_DATE, time,
 #define STORE_SET_IS_SLOW 1
@@ -1608,9 +1687,32 @@ static void vflist_listview_set_columns(GtkWidget *listview, gboolean thumb, gbo
 	g_object_set(G_OBJECT(cell), "height", options->thumbnails.max_height, NULL);
 	gtk_tree_view_column_set_visible(column, thumb);
 
-	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_FORMATTED);
+	if (options->show_star_rating)
+		{
+		column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_FORMATTED_WITH_STARS);
+		if (!column) return;
+		gtk_tree_view_set_expander_column(GTK_TREE_VIEW(listview), column);
+		gtk_tree_view_column_set_visible(column, TRUE);
+
+		column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_FORMATTED);
+		if (!column) return;
+		gtk_tree_view_column_set_visible(column, FALSE);
+		}
+	else
+		{
+		column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_FORMATTED);
+		if (!column) return;
+		gtk_tree_view_set_expander_column(GTK_TREE_VIEW(listview), column);
+		gtk_tree_view_column_set_visible(column, TRUE);
+
+		column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_FORMATTED_WITH_STARS);
+		if (!column) return;
+		gtk_tree_view_column_set_visible(column, FALSE);
+		}
+
+	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_STAR_RATING);
 	if (!column) return;
-	gtk_tree_view_set_expander_column(GTK_TREE_VIEW(listview), column);
+	gtk_tree_view_column_set_visible(column, !multiline && options->show_star_rating);
 
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(listview), FILE_VIEW_COLUMN_SIZE);
 	if (!column) return;
@@ -1910,7 +2012,9 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 	flist_types[FILE_COLUMN_VERSION] = G_TYPE_INT;
 	flist_types[FILE_COLUMN_THUMB] = GDK_TYPE_PIXBUF;
 	flist_types[FILE_COLUMN_FORMATTED] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_FORMATTED_WITH_STARS] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_NAME] = G_TYPE_STRING;
+	flist_types[FILE_COLUMN_STAR_RATING] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_SIDECARS] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_SIZE] = G_TYPE_STRING;
 	flist_types[FILE_COLUMN_DATE] = G_TYPE_STRING;
@@ -1952,6 +2056,14 @@ ViewFile *vflist_new(ViewFile *vf, FileData *dir_fd)
 
 	vflist_listview_add_column(vf, FILE_COLUMN_FORMATTED, _("Name"), FALSE, FALSE, TRUE);
 	g_assert(column == FILE_VIEW_COLUMN_FORMATTED);
+	column++;
+
+	vflist_listview_add_column(vf, FILE_COLUMN_FORMATTED_WITH_STARS, _("NameStars"), FALSE, FALSE, TRUE);
+	g_assert(column == FILE_VIEW_COLUMN_FORMATTED_WITH_STARS);
+	column++;
+
+	vflist_listview_add_column(vf, FILE_COLUMN_STAR_RATING, _("Stars"), FALSE, FALSE, FALSE);
+	g_assert(column == FILE_VIEW_COLUMN_STAR_RATING);
 	column++;
 
 	vflist_listview_add_column(vf, FILE_COLUMN_SIZE, _("Size"), FALSE, TRUE, FALSE);

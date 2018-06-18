@@ -56,6 +56,7 @@
 #include "ui_fileops.h"
 #include "cache.h"
 #include "jpeg_parser.h"
+#include "misc.h"
 #include "zonedetect.h"
 
 
@@ -855,27 +856,10 @@ static gchar *exif_build_formatted_timezone(ExifData *exif)
 static gchar *exif_build_formatted_star_rating(ExifData *exif)
 {
 	gint n;
-	gchar *ret = NULL;
-	GString *str = g_string_new(NULL);
 
 	exif_get_integer(exif, "Xmp.xmp.Rating", &n);
 
-	if (n == -1)
-		{
-		ret = g_strdup("⨷");
-		}
-	else if (n > 0 && n < 6)
-		{
-		while (n > 0)
-			{
-			str = g_string_append(str, "🟊");
-			n = n - 1;
-			}
-		ret = g_strdup(str->str);
-		g_string_free(str, TRUE);
-		}
-
-	return ret;
+	return convert_rating_to_stars(n);
 }
 
 /* List of custom formatted pseudo-exif tags */

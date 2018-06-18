@@ -29,5 +29,6 @@ int runcmd(gchar *cmd);
 gchar *decode_geo_parameters(const gchar *input_text);
 gint date_get_first_day_of_week();
 gchar *date_get_abbreviated_day_name(gint day);
+gchar *convert_rating_to_stars(gint rating);
 #endif /* MISC_H */
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

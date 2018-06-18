@@ -39,6 +39,7 @@ gboolean vficon_refresh(ViewFile *vf);
 void vficon_sort_set(ViewFile *vf, SortType type, gboolean ascend);
 
 void vficon_marks_set(ViewFile *vf, gboolean enable);
+void vficon_star_rating_set(ViewFile *vf, gboolean enable);
 
 GList *vficon_selection_get_one(ViewFile *vf, FileData *fd);
 GList *vficon_pop_menu_file_list(ViewFile *vf);
@@ -47,6 +48,7 @@ void vficon_pop_menu_rename_cb(GtkWidget *widget, gpointer data);
 void vficon_pop_menu_refresh_cb(GtkWidget *widget, gpointer data);
 void vficon_popup_destroy_cb(GtkWidget *widget, gpointer data);
 void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data);
+void vficon_pop_menu_show_star_rating_cb(GtkWidget *widget, gpointer data);
 
 FileData *vficon_index_get_data(ViewFile *vf, gint row);
 gint vficon_index_by_fd(ViewFile *vf, FileData *in_fd);

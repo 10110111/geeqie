@@ -125,6 +125,23 @@ void vficon_pop_menu_show_names_cb(GtkWidget *widget, gpointer data)
 	vficon_toggle_filenames(vf);
 }
 
+static void vficon_toggle_star_rating(ViewFile *vf)
+{
+	GtkAllocation allocation;
+
+	options->show_star_rating = !options->show_star_rating;
+
+	gtk_widget_get_allocation(vf->listview, &allocation);
+	vficon_populate_at_new_size(vf, allocation.width, allocation.height, TRUE);
+}
+
+void vficon_pop_menu_show_star_rating_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	vficon_toggle_star_rating(vf);
+}
+
 void vficon_pop_menu_refresh_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
@@ -615,6 +632,13 @@ static void vficon_selection_remove(ViewFile *vf, FileData *fd, SelectionType ma
 }
 
 void vficon_marks_set(ViewFile *vf, gint enable)
+{
+	GtkAllocation allocation;
+	gtk_widget_get_allocation(vf->listview, &allocation);
+	vficon_populate_at_new_size(vf, allocation.width, allocation.height, TRUE);
+}
+
+void vficon_star_rating_set(ViewFile *vf, gint enable)
 {
 	GtkAllocation allocation;
 	gtk_widget_get_allocation(vf->listview, &allocation);
@@ -1542,7 +1566,7 @@ static void vficon_populate(ViewFile *vf, gboolean resize, gboolean keep_positio
 				{
 				g_object_set(G_OBJECT(cell), "fixed_width", thumb_width,
 							     "fixed_height", options->thumbnails.max_height,
-							     "show_text", VFICON(vf)->show_text,
+							     "show_text", VFICON(vf)->show_text || options->show_star_rating,
 							     "show_marks", vf->marks_enabled,
 							     "num_marks", FILEDATA_MARKS_SIZE,
 							     NULL);
@@ -1947,6 +1971,7 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 	FileData *fd;
 	ColumnData *cd = data;
 	ViewFile *vf = cd->vf;
+	gchar *star_rating;
 
 	if (!GQV_IS_CELL_RENDERER_ICON(cell)) return;
 
@@ -1959,24 +1984,56 @@ static void vficon_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCellRenderer 
 		GdkColor color_fg;
 		GdkColor color_bg;
 		GtkStyle *style;
-		gchar *name_sidecars;
+		gchar *name_sidecars = NULL;
 		gchar *link;
 		GtkStateType state = GTK_STATE_NORMAL;
 
 		g_assert(fd->magick == FD_MAGICK);
 
+		if (options->show_star_rating)
+			{
+			star_rating = metadata_read_rating_stars(fd);
+			}
+		else
+			{
+			star_rating = NULL;
+			}
+
 		link = islink(fd->path) ? GQ_LINK_STR : "";
 		if (fd->sidecar_files)
 			{
 			gchar *sidecars = file_data_sc_list_to_string(fd);
-			name_sidecars = g_strdup_printf("%s%s %s", link, fd->name, sidecars);
+			if (options->show_star_rating && VFICON(vf)->show_text)
+				{
+				name_sidecars = g_strdup_printf("%s%s %s\n%s", link, fd->name, sidecars, star_rating);
+				}
+			else if (options->show_star_rating)
+				{
+				name_sidecars = g_strdup_printf("%s", star_rating);
+				}
+			else if (VFICON(vf)->show_text)
+				{
+				name_sidecars = g_strdup_printf("%s%s %s", link, fd->name, sidecars);
+				}
 			g_free(sidecars);
 			}
 		else
 			{
 			gchar *disabled_grouping = fd->disable_grouping ? _(" [NO GROUPING]") : "";
-			name_sidecars = g_strdup_printf("%s%s%s", link, fd->name, disabled_grouping);
+			if (options->show_star_rating && VFICON(vf)->show_text)
+				{
+				name_sidecars = g_strdup_printf("%s%s%s\n%s", link, fd->name, disabled_grouping, star_rating);
+				}
+			else if (options->show_star_rating)
+				{
+				name_sidecars = g_strdup_printf("%s", star_rating);
+				}
+			else if (VFICON(vf)->show_text)
+				{
+				name_sidecars = g_strdup_printf("%s%s%s", link, fd->name, disabled_grouping);
+				}
 			}
+		g_free(star_rating);
 
 		style = gtk_widget_get_style(vf->listview);
 		if (fd->selected & SELECTION_SELECTED)

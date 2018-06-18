@@ -38,6 +38,7 @@ gboolean vflist_refresh(ViewFile *vf);
 
 void vflist_thumb_set(ViewFile *vf, gboolean enable);
 void vflist_marks_set(ViewFile *vf, gboolean enable);
+void vflist_star_rating_set(ViewFile *vf, gboolean enable);
 void vflist_sort_set(ViewFile *vf, SortType type, gboolean ascend);
 
 GList *vflist_selection_get_one(ViewFile *vf, FileData *fd);
@@ -73,6 +74,6 @@ void vflist_read_metadata_progress_count(GList *list, gint *count, gint *done);
 void vflist_set_thumb_fd(ViewFile *vf, FileData *fd);
 FileData *vflist_thumb_next_fd(ViewFile *vf);
 void vflist_thumb_reset_all(ViewFile *vf);
-
+void vflist_pop_menu_show_star_rating_cb(GtkWidget *widget, gpointer data);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

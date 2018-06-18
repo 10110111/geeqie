@@ -166,6 +166,14 @@
           <para>Toggles display of file names in the icon view display mode.</para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <emphasis role="bold">Show star rating</emphasis>
+        </term>
+        <listitem>
+          <para>Toggles display of the "star rating" (Xmp.xmp.Rating).</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
     <para />
   </section>

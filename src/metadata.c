@@ -749,6 +749,16 @@ guint64 metadata_read_int(FileData *fd, const gchar *key, guint64 fallback)
 	return ret;
 }
 
+gchar *metadata_read_rating_stars(FileData *fd)
+{
+	gchar *ret;
+	gint n = metadata_read_int(fd, RATING_KEY, METADATA_PLAIN);
+
+	ret = convert_rating_to_stars(n);
+
+	return ret;
+}
+
 gdouble metadata_read_GPS_coord(FileData *fd, const gchar *key, gdouble fallback)
 {
 	gdouble coord;
