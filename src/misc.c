@@ -299,7 +299,7 @@ gchar *convert_rating_to_stars(gint rating)
 	gchar *ret;
 	GString *str = g_string_new(NULL);
 	gunichar rejected = 0x274C; //Unicode Character 'CROSS MARK'
-	gunichar star = 0x1F7CA; //Unicode Character 'HEAVY FIVE POINTED BLACK STAR'
+	gunichar star = 0x2738; //Unicode Character 'Heavy Eight Pointed Rectilinear Black Star'
 
 	if (rating == -1)
 		{
