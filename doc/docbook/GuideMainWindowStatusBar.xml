@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <section id="GuideMainWindowStatusBar">
   <title id="titleGuideMainWindowStatusBar">Status Bar</title>
-  <para>The status bar contains information and details about the contents of the main window. Information displayed includes the progress of generating thumbnails, the number of files in the file list with byte size, the current file selection count including byte size, details about the currently displayed image, and the zoom setting. The current sort preference is also displayed, and can be adjusted from the status bar.</para>
-  <para>The status bar is comprised of five sections, from left to right these are a progress bar, sort method, file list counts, image details, and zoom setting. Each section is described below.</para>
+  <para>The status bar contains information and details about the contents of the main window. Information displayed includes the progress of generating thumbnails, the number of files in the file list with byte size, the current file selection count including byte size, details about the currently displayed image, and the zoom and image scroll settings. The current sort preference is also displayed, and can be adjusted from the status bar.</para>
+  <para>The status bar is comprised of five sections, from left to right these are a progress bar, sort method, file list counts, image details, and zoom and scroll setting. Each section is described below.</para>
   <para />
   <section id="ProgressBar">
     <title>Progress Bar</title>
@@ -111,8 +111,8 @@
     <title>Buttons</title>
     <para>Statusbar buttons corresponds to selected menu action.</para>
     <para />
-    <section id="Zoom">
-      <title>Zoom</title>
+    <section id="ZoomAndScroll">
+      <title>Zoom and Scroll</title>
       <para>The button label displays the current zoom ratio. A ratio of 1:1 is the image's original size. When the left number is larger the image is displayed larger than original size, when the right number is larger the image is displayed smaller.</para>
       <para>A tilde (~) appears within the ratio display when the zoom is set to fit the image within the display area. In this zoom mode the ratio is automatically adjusted, and the displayed ratio may not be the actual ratio because the status bar display rounds the actual value to the nearest tenth (0.1).</para>
       <para />

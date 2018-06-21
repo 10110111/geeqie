@@ -800,7 +800,7 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 	gtk_widget_show(toolbar);
 	gtk_box_pack_end(GTK_BOX(hbox), toolbar_frame, FALSE, FALSE, 0);
 	lw->info_zoom = layout_zoom_button(lw, hbox, ZOOM_LABEL_WIDTH, TRUE);
-	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_zoom), _("Select zoom mode"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_zoom), _("Select zoom and scroll mode"));
 	gtk_widget_show(lw->info_zoom);
 
 	if (small_format)
