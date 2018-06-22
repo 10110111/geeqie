@@ -130,6 +130,9 @@
 #define HELP_SEARCH_ENGINE "https://duckduckgo.com/?q=site:geeqie.org/help "
 
 #define STAR_RATING_NOT_READ -12345
+#define STAR_RATING_REJECTED 0x274C //Unicode Character 'Cross Mark'
+#define STAR_RATING_STAR 0x2738 //Unicode Character 'Heavy Eight Pointed Rectilinear Black Star'
+
 /*
  *----------------------------------------------------------------------------
  * main.c

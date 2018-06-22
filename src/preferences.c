@@ -413,6 +413,9 @@ static void config_window_apply(void)
 	config_entry_to_option(help_search_engine_entry, &options->help_search_engine, NULL);
 
 	options->read_metadata_in_idle = c_options->read_metadata_in_idle;
+
+	options->star_rating.star = c_options->star_rating.star;
+	options->star_rating.rejected = c_options->star_rating.rejected;
 #ifdef DEBUG
 	set_debug_level(debug_c);
 #endif
@@ -1600,6 +1603,94 @@ static void help_search_engine_entry_icon_cb(GtkEntry *entry, GtkEntryIconPositi
 		}
 }
 
+static void star_rating_star_icon_cb(GtkEntry *entry, GtkEntryIconPosition pos,
+									GdkEvent *event, gpointer userdata)
+{
+	gchar *rating_symbol;
+
+	if (pos == GTK_ENTRY_ICON_PRIMARY)
+		{
+		rating_symbol = g_strdup_printf("U+%X", STAR_RATING_STAR);
+		gtk_entry_set_text(GTK_ENTRY(userdata), rating_symbol);
+		g_free(rating_symbol);
+		}
+	else
+		{
+		gtk_entry_set_text(GTK_ENTRY(userdata), "U+");
+		gtk_widget_grab_focus(GTK_WIDGET(userdata));
+		gtk_editable_select_region(GTK_EDITABLE(userdata), 2, 2);
+		}
+}
+
+static void star_rating_rejected_icon_cb(GtkEntry *entry, GtkEntryIconPosition pos,
+									GdkEvent *event, gpointer userdata)
+{
+	gchar *rating_symbol;
+
+	if (pos == GTK_ENTRY_ICON_PRIMARY)
+		{
+		rating_symbol = g_strdup_printf("U+%X", STAR_RATING_REJECTED);
+		gtk_entry_set_text(GTK_ENTRY(userdata), rating_symbol);
+		g_free(rating_symbol);
+		}
+	else
+		{
+		gtk_entry_set_text(GTK_ENTRY(userdata), "U+");
+		gtk_widget_grab_focus(GTK_WIDGET(userdata));
+		gtk_editable_select_region(GTK_EDITABLE(userdata), 2, 2);
+		}
+}
+
+static guint star_rating_symbol_test(GtkWidget *widget, gpointer data)
+{
+	GtkContainer *hbox = data;
+	GString *str = g_string_new(NULL);
+	GtkEntry *hex_code_entry;
+	gchar *hex_code_full;
+	gchar **hex_code;
+	GList *list;
+	guint64 hex_value = 0;
+
+	list = gtk_container_get_children(hbox);
+
+	hex_code_entry = g_list_nth_data(list, 2);
+	hex_code_full = g_strdup(gtk_entry_get_text(hex_code_entry));
+
+	hex_code = g_strsplit(hex_code_full, "+", 2);
+	if (hex_code[0] && hex_code[1])
+		{
+		g_ascii_string_to_unsigned(hex_code[1], 16, 0, 0x10FFFF, &hex_value, NULL);
+		}
+	if (!hex_value)
+		{
+		hex_value = 0x003F; // Unicode 'Question Mark'
+		}
+	str = g_string_append_unichar(str, hex_value);
+	gtk_label_set_text(g_list_nth_data(list, 1), str->str);
+
+	g_strfreev(hex_code);
+	g_string_free(str, TRUE);
+	g_free(hex_code_full);
+
+	return hex_value;
+}
+
+static void star_rating_star_test_cb(GtkWidget *widget, gpointer data)
+{
+	guint64 star_symbol;
+
+	star_symbol = star_rating_symbol_test(widget, data);
+	c_options->star_rating.star = star_symbol;
+}
+
+static void star_rating_rejected_test_cb(GtkWidget *widget, gpointer data)
+{
+	guint64 rejected_symbol;
+
+	rejected_symbol = star_rating_symbol_test(widget, data);
+	c_options->star_rating.rejected = rejected_symbol;
+}
+
 /* general options tab */
 static void config_tab_general(GtkWidget *notebook)
 {
@@ -1614,6 +1705,9 @@ static void config_tab_general(GtkWidget *notebook)
 	GtkWidget *spin;
 	gint hours, minutes, remainder;
 	gdouble seconds;
+	GtkWidget *star_rating_entry;
+	GString *str;
+	gchar *rating_symbol;
 
 	vbox = scrolled_notebook_page(notebook, _("General"));
 
@@ -1659,6 +1753,75 @@ static void config_tab_general(GtkWidget *notebook)
 // 	pref_checkbox_new_int(group, _("Ignore embedded metadata if size is too small"),
 // 			      options->thumbnails.use_ft_metadata_small, &c_options->thumbnails.use_ft_metadata_small);
 #endif
+
+	group = pref_group_new(vbox, FALSE, _("Star Rating"), GTK_ORIENTATION_VERTICAL);
+
+	c_options->star_rating.star = options->star_rating.star;
+	c_options->star_rating.rejected = options->star_rating.rejected;
+
+	str = g_string_new(NULL);
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	pref_label_new(hbox, "Star character: ");
+	str = g_string_append_unichar(str, options->star_rating.star);
+	pref_label_new(hbox, g_strdup(str->str));
+	rating_symbol = g_strdup_printf("U+%X", options->star_rating.star);
+	star_rating_entry = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(star_rating_entry), rating_symbol);
+	gtk_box_pack_start(GTK_BOX(hbox), star_rating_entry, FALSE, FALSE, 0);
+	gtk_entry_set_width_chars(GTK_ENTRY(star_rating_entry), 15);
+	gtk_widget_show(star_rating_entry);
+	button = pref_button_new(NULL, NULL, _("Set"), FALSE,
+					G_CALLBACK(star_rating_star_test_cb), hbox);
+	gtk_widget_set_tooltip_text(button, _("Display selected character"));
+	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+	gtk_widget_set_tooltip_text(star_rating_entry, _("Hexadecimal representation of a Unicode character. A list of all Unicode characters may be found on the Internet."));
+	gtk_entry_set_icon_from_stock(GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_SECONDARY, _("Clear"));
+	gtk_entry_set_icon_from_stock(GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_PRIMARY, GTK_STOCK_REVERT_TO_SAVED);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_PRIMARY, _("Default"));
+	g_signal_connect(GTK_ENTRY(star_rating_entry), "icon-press",
+						G_CALLBACK(star_rating_star_icon_cb),
+						star_rating_entry);
+
+	g_string_free(str, TRUE);
+	g_free(rating_symbol);
+
+	str = g_string_new(NULL);
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	pref_label_new(hbox, "Rejected character: ");
+	str = g_string_append_unichar(str, options->star_rating.rejected);
+	pref_label_new(hbox, g_strdup(str->str));
+	rating_symbol = g_strdup_printf("U+%X", options->star_rating.rejected);
+	star_rating_entry = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(star_rating_entry), rating_symbol);
+	gtk_box_pack_start(GTK_BOX(hbox), star_rating_entry, FALSE, FALSE, 0);
+	gtk_entry_set_width_chars(GTK_ENTRY(star_rating_entry), 15);
+	gtk_widget_show(star_rating_entry);
+	button = pref_button_new(NULL, NULL, _("Set"), FALSE,
+					G_CALLBACK(star_rating_rejected_test_cb), hbox);
+	gtk_widget_set_tooltip_text(button, _("Display selected character"));
+	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+	gtk_widget_set_tooltip_text(star_rating_entry, _("Hexadecimal representation of a Unicode character. A list of all Unicode characters may be found on the Internet."));
+	gtk_entry_set_icon_from_stock(GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_SECONDARY, GTK_STOCK_CLEAR);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_SECONDARY, _("Clear"));
+	gtk_entry_set_icon_from_stock(GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_PRIMARY, GTK_STOCK_REVERT_TO_SAVED);
+	gtk_entry_set_icon_tooltip_text (GTK_ENTRY(star_rating_entry),
+						GTK_ENTRY_ICON_PRIMARY, _("Default"));
+	g_signal_connect(GTK_ENTRY(star_rating_entry), "icon-press",
+						G_CALLBACK(star_rating_rejected_icon_cb),
+						star_rating_entry);
+
+	g_string_free(str, TRUE);
+	g_free(rating_symbol);
 
 	group = pref_group_new(vbox, FALSE, _("Slide show"), GTK_ORIENTATION_VERTICAL);
 

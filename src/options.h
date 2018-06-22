@@ -290,6 +290,12 @@ struct _ConfOptions
 		gboolean timer_data;
 	} log_window;
 
+	/* star rating */
+	struct {
+		gunichar star;
+		gunichar rejected;
+	} star_rating;
+
 	gboolean read_metadata_in_idle;
 };
 

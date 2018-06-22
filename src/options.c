@@ -189,6 +189,8 @@ ConfOptions *init_options(ConfOptions *options)
 	options->log_window.timer_data = FALSE;
 
 	options->read_metadata_in_idle = FALSE;
+	options->star_rating.star = STAR_RATING_STAR;
+	options->star_rating.rejected = STAR_RATING_REJECTED;
 	return options;
 }
 

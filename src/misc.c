@@ -298,12 +298,10 @@ gchar *convert_rating_to_stars(gint rating)
 {
 	gchar *ret;
 	GString *str = g_string_new(NULL);
-	gunichar rejected = 0x274C; //Unicode Character 'CROSS MARK'
-	gunichar star = 0x2738; //Unicode Character 'Heavy Eight Pointed Rectilinear Black Star'
 
 	if (rating == -1)
 		{
-		str = g_string_append_unichar(str, rejected);
+		str = g_string_append_unichar(str, options->star_rating.rejected);
 		ret = g_strdup(str->str);
 		g_string_free(str, TRUE);
 		}
@@ -311,7 +309,7 @@ gchar *convert_rating_to_stars(gint rating)
 		{
 		while (rating > 0)
 			{
-			str = g_string_append_unichar(str, star);
+			str = g_string_append_unichar(str, options->star_rating.star);
 			rating = rating - 1;
 			}
 		ret = g_strdup(str->str);

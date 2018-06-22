@@ -140,6 +140,10 @@
       </varlistentry>
     </variablelist>
   </section>
+  <section id="StarRatingCharacters">
+    <title>Star Rating</title>
+    <para>The characters used to display the Star Rating are defined here. They are defined as a hexadecimal Unicode character. The complete list of Unicode characters can be found in many places on the Internet.</para>
+  </section>
   <section id="Slideshow">
     <title>Slide show</title>
     <variablelist>

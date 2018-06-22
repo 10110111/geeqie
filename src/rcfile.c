@@ -306,6 +306,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 {
 	/* General Options */
 	WRITE_NL(); WRITE_BOOL(*options, show_icon_names);
+	WRITE_NL(); WRITE_BOOL(*options, show_star_rating);
 	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_BOOL(*options, tree_descend_subdirs);
@@ -481,6 +482,9 @@ static void write_global_attributes(GString *outstr, gint indent)
 
 	WRITE_NL(); WRITE_BOOL(*options, read_metadata_in_idle);
 
+	WRITE_NL(); WRITE_UINT(*options, star_rating.star);
+	WRITE_NL(); WRITE_UINT(*options, star_rating.rejected);
+
 	/* copy move rename */
 	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.auto_start);
 	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.auto_padding);
@@ -638,6 +642,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 
 		/* General options */
 		if (READ_BOOL(*options, show_icon_names)) continue;
+		if (READ_BOOL(*options, show_star_rating)) continue;
 
 		if (READ_BOOL(*options, tree_descend_subdirs)) continue;
 		if (READ_BOOL(*options, view_dir_list_single_click_enter)) continue;
@@ -805,6 +810,9 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, stereo.fixed_y2)) continue;
 
 		if (READ_BOOL(*options, read_metadata_in_idle)) continue;
+
+		if (READ_UINT(*options, star_rating.star)) continue;
+		if (READ_UINT(*options, star_rating.rejected)) continue;
 
 		/* copy move rename */
 		if (READ_INT(*options, cp_mv_rn.auto_start))  continue;
