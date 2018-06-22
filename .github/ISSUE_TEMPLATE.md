@@ -1,6 +1,8 @@
 <!---
 Verify first that your issue/request is not already reported on GitHub.
 Also test if the latest release, and master branch are affected too.
+
+Bevore sending the report, please remove the comments.
 -->
 
 ### ISSUE TYPE
