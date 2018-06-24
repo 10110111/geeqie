@@ -4,6 +4,27 @@
   <para>Geeqie provides comprehensive set of search methods, including not only the standard functions such as file date or size, but also image similarity.</para>
   <para>There is a duplicate file finder, which uses search parameters such as image dimensions or checksum. Two sets of image files may be compared.</para>
   <para>Geeqie also has a set of temporary "marks" or "tags" which may be allocated to any image as an aide to file organising.</para>
+  <section id="GuideImageSearchCache">
+    <title id="titleGuideImageSearchCache">Caching Data For Searches</title>
+    <para>
+      Searching large numbers of files for similarity can take significant cpu time. Part of this is the time to compute the similarity matrix for each file.
+      <para />
+      If the
+      <link linkend="PreferencesThumbnails">Cache Thumbnails</link>
+      option is selected in Preferences/General, the similarity matrix and the checksum will also be cached. This will reduce the time needed for future searches.
+      <note>If you frequently search on similarity and your images are in a tree arrangement under a single point, initiating a one-time search on similarity from the top of the tree will generate the similarity data for all images.</note>
+      <para>Similarity data are stored in a folder hierachy that mirrors the location of the source images. The data have the same name as the original appended by the file extension .sim.</para>
+      <para>
+        The root of the hierachy is:
+        <para>
+          <programlisting>$XDG_CACHE_HOME/geeqie/thumbnails/</programlisting>
+          or, if $XDG_CACHE_HOME is not defined:
+          <programlisting>$HOME/.cache/geeqie/thumbnails/</programlisting>
+        </para>
+      </para>
+    </para>
+    <para />
+  </section>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearchSearch.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageSearchFindingDuplicates.xml" />
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideImageMarks.xml" />
