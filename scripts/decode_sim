@@ -25,7 +25,7 @@ while (<$in_fh>)
    }
    elsif (/^Dimensions=\[(\d+) x (\d+)\]$/)
    {
-      printf "Original image dimensions: %d×%d\n", $1, $2;
+      printf "Original image dimensions: %dx%d\n", $1, $2;
    }
    elsif (/^Date=(.*)/)
    {
@@ -41,10 +41,10 @@ while (<$in_fh>)
    }
    elsif ($raw =~ /^SimilarityGrid\[(\d+) x (\d+)\]=(.*)$/s)
    {
-      printf "Similarity image %d×%d\n", $1, $2;
+      printf "Similarity image %dx%d\n", $1, $2;
       if ($1 != 32 or $2 != 32)
       {
-	 print "Warning, similarity data are not size 32×32!\n";
+	 print "Warning, similarity data are not size 32x32!\n";
       }
 
       my $simn = $1 * $2 * 3;
