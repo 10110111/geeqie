@@ -348,8 +348,7 @@ static void thumb_loader_std_save(ThumbLoaderStd *tl, GdkPixbuf *pixbuf)
 		mark_uri = (tl->cache_local) ? tl->local_uri :tl->thumb_uri;
 
 		mark_app = g_strdup_printf("%s %s", GQ_APPNAME, VERSION);
-		mark_mtime = g_strdup_printf("%lu", tl->source_mtime);
-
+		mark_mtime = g_strdup_printf("%llu", (unsigned long long)tl->source_mtime);
 		pathl = path_from_utf8(tmp_path);
 		success = gdk_pixbuf_save(pixbuf, pathl, "png", NULL,
 					  THUMB_MARKER_URI, mark_uri,
