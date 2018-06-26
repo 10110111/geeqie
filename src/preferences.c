@@ -1659,13 +1659,13 @@ static guint star_rating_symbol_test(GtkWidget *widget, gpointer data)
 	hex_code = g_strsplit(hex_code_full, "+", 2);
 	if (hex_code[0] && hex_code[1])
 		{
-		g_ascii_string_to_unsigned(hex_code[1], 16, 0, 0x10FFFF, &hex_value, NULL);
+		hex_value = strtoull(hex_code[1], NULL, 16);
 		}
-	if (!hex_value)
+	if (!hex_value || hex_value > 0x10FFFF)
 		{
 		hex_value = 0x003F; // Unicode 'Question Mark'
 		}
-	str = g_string_append_unichar(str, hex_value);
+	str = g_string_append_unichar(str, (gunichar)hex_value);
 	gtk_label_set_text(g_list_nth_data(list, 1), str->str);
 
 	g_strfreev(hex_code);
