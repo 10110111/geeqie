@@ -136,7 +136,8 @@ static void tab_completion_read_dir(TabCompData *td, const gchar *path)
 	while ((dir = readdir(dp)) != NULL)
 		{
 		gchar *name = dir->d_name;
-		if (strcmp(name, ".") != 0 && strcmp(name, "..") != 0)
+		if (strcmp(name, ".") != 0 && strcmp(name, "..") != 0 &&
+						(name[0] != '.' || options->file_filter.show_hidden_files))
 			{
 			gchar *abspath = g_build_filename(pathl, name, NULL);
 
