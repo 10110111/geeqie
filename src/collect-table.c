@@ -33,6 +33,7 @@
 #include "layout.h"
 #include "layout_image.h"
 #include "menu.h"
+#include "metadata.h"
 #include "print.h"
 #include "utilops.h"
 #include "ui_fileops.h"
@@ -248,6 +249,16 @@ static void collection_table_toggle_filenames(CollectTable *ct)
 	GtkAllocation allocation;
 	ct->show_text = !ct->show_text;
 	options->show_icon_names = ct->show_text;
+
+	gtk_widget_get_allocation(ct->listview, &allocation);
+	collection_table_populate_at_new_size(ct, allocation.width, allocation.height, TRUE);
+}
+
+static void collection_table_toggle_stars(CollectTable *ct)
+{
+	GtkAllocation allocation;
+	ct->show_stars = !ct->show_stars;
+	options->show_star_rating = ct->show_stars;
 
 	gtk_widget_get_allocation(ct->listview, &allocation);
 	collection_table_populate_at_new_size(ct, allocation.width, allocation.height, TRUE);
@@ -903,6 +914,13 @@ static void collection_table_popup_show_names_cb(GtkWidget *widget, gpointer dat
 	collection_table_toggle_filenames(ct);
 }
 
+static void collection_table_popup_show_stars_cb(GtkWidget *widget, gpointer data)
+{
+	CollectTable *ct = data;
+
+	collection_table_toggle_stars(ct);
+}
+
 static void collection_table_popup_destroy_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
@@ -989,6 +1007,8 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
 
 	menu_item_add_check(menu, _("Show filename _text"), ct->show_text,
 			G_CALLBACK(collection_table_popup_show_names_cb), ct);
+	menu_item_add_check(menu, _("Show star rating"), ct->show_stars,
+				G_CALLBACK(collection_table_popup_show_stars_cb), ct);
 	menu_item_add_divider(menu);
 	menu_item_add_stock(menu, _("_Save collection"), GTK_STOCK_SAVE,
 			G_CALLBACK(collection_table_popup_save_cb), ct);
@@ -1817,7 +1837,7 @@ static void collection_table_populate(CollectTable *ct, gboolean resize)
 				{
 				g_object_set(G_OBJECT(cell), "fixed_width", thumb_width,
 							     "fixed_height", options->thumbnails.max_height,
-							     "show_text", ct->show_text, NULL);
+							     "show_text", ct->show_text || ct->show_stars, NULL);
 				}
 			}
 		if (gtk_widget_get_realized(ct->listview)) gtk_tree_view_columns_autosize(GTK_TREE_VIEW(ct->listview));
@@ -2447,6 +2467,8 @@ static void collection_table_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCel
 	CollectInfo *info;
 	GdkColor color_fg;
 	GdkColor color_bg;
+	gchar *star_rating = NULL;
+	gchar *display_text = NULL;
 
 	ct = cd->ct;
 
@@ -2479,12 +2501,45 @@ static void collection_table_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCel
 		shift_color(&color_bg, -1, 0);
 		}
 
+	if (ct->show_stars && info && info->fd)
+		{
+		star_rating = metadata_read_rating_stars(info->fd);
+		}
+	else
+		{
+		star_rating = g_strdup("");
+		}
+
+	if (info && info->fd)
+		{
+		if (ct->show_text && ct->show_stars)
+			{
+			display_text = g_strconcat(info->fd->name, "\n", star_rating, NULL);
+			}
+		else if (ct->show_text)
+			{
+			display_text = g_strdup(info->fd->name);
+			}
+		else if (ct->show_stars)
+			{
+			display_text = g_strdup(star_rating);
+			}
+		else
+			{
+			display_text = g_strdup("");
+			}
+		}
+	else
+		{
+		display_text = g_strdup("");
+		}
+
 	if (GQV_IS_CELL_RENDERER_ICON(cell))
 		{
 		if (info)
 			{
 			g_object_set(cell,	"pixbuf", info->pixbuf,
-						"text", info->fd->name,
+						"text",  display_text,
 						"cell-background-gdk", &color_bg,
 						"cell-background-set", TRUE,
 						"foreground-gdk", &color_fg,
@@ -2500,6 +2555,9 @@ static void collection_table_cell_data_cb(GtkTreeViewColumn *tree_column, GtkCel
 						"has-focus", FALSE,  NULL);
 			}
 		}
+
+	g_free(display_text);
+	g_free(star_rating);
 }
 
 static void collection_table_append_column(CollectTable *ct, gint n)
@@ -2583,6 +2641,7 @@ CollectTable *collection_table_new(CollectionData *cd)
 
 	ct->cd = cd;
 	ct->show_text = options->show_icon_names;
+	ct->show_stars = options->show_star_rating;
 
 	ct->scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(ct->scrolled), GTK_SHADOW_IN);

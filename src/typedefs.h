@@ -439,6 +439,7 @@ struct _CollectTable
 	guint drop_idle_id; /* event source id */
 
 	gboolean show_text;
+	gboolean show_stars;
 
 	/* file list for edit menu */
 	GList *editmenu_fd_list;
