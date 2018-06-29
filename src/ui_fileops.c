@@ -823,14 +823,14 @@ gchar *remove_level_from_path(const gchar *path)
 {
 	const gchar *base;
 
-	if (!path) return NULL;
+	if (!path) return g_strdup("");
 
 	base = strrchr(path, G_DIR_SEPARATOR);
 	/* Take account of a file being in the root ( / ) folder - ensure the returned value
 	 * is at least one character long */
 	if (base) return g_strndup(path, (strlen(path)-strlen(base)) == 0 ? 1 : (strlen(path)-strlen(base)));
 
-	return NULL;
+	return g_strdup("");
 }
 
 gboolean file_extension_match(const gchar *path, const gchar *ext)
