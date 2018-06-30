@@ -1544,6 +1544,64 @@ static void search_gps_dnd_received_cb(GtkWidget *pane, GdkDragContext *context,
 		}
 }
 
+static void search_path_entry_dnd_received_cb(GtkWidget *pane, GdkDragContext *context,
+										gint x, gint y,
+										GtkSelectionData *selection_data, guint info,
+										guint time, gpointer data)
+{
+	SearchData *sd = data;
+	GList *list;
+	FileData *fd;
+
+	if (info == TARGET_URI_LIST)
+		{
+		list = uri_filelist_from_gtk_selection_data(selection_data);
+		/* If more than one file, use only the first file in a list.
+		*/
+		if (list != NULL)
+			{
+			fd = list->data;
+			gtk_entry_set_text(GTK_ENTRY(sd->path_entry),
+						g_strdup_printf("%s", fd->path));
+			gtk_widget_set_tooltip_text(GTK_WIDGET(sd->path_entry),g_strdup_printf("%s", fd->path));
+			}
+		}
+
+	if (info == TARGET_TEXT_PLAIN)
+		{
+		gtk_entry_set_text(GTK_ENTRY(sd->path_entry),"");
+		}
+}
+
+static void search_image_content_dnd_received_cb(GtkWidget *pane, GdkDragContext *context,
+										gint x, gint y,
+										GtkSelectionData *selection_data, guint info,
+										guint time, gpointer data)
+{
+	SearchData *sd = data;
+	GList *list;
+	FileData *fd;
+
+	if (info == TARGET_URI_LIST)
+		{
+		list = uri_filelist_from_gtk_selection_data(selection_data);
+		/* If more than one file, use only the first file in a list.
+		*/
+		if (list != NULL)
+			{
+			fd = list->data;
+			gtk_entry_set_text(GTK_ENTRY(sd->entry_similarity),
+						g_strdup_printf("%s", fd->path));
+			gtk_widget_set_tooltip_text(GTK_WIDGET(sd->entry_similarity),g_strdup_printf("%s", fd->path));
+			}
+		}
+
+	if (info == TARGET_TEXT_PLAIN)
+		{
+		gtk_entry_set_text(GTK_ENTRY(sd->entry_similarity),"");
+		}
+}
+
 static void search_dnd_init(SearchData *sd)
 {
 	gtk_drag_source_set(sd->result_view, GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
@@ -1561,6 +1619,22 @@ static void search_dnd_init(SearchData *sd)
 
 	g_signal_connect(G_OBJECT(sd->entry_gps_coord), "drag_data_received",
 					G_CALLBACK(search_gps_dnd_received_cb), sd);
+
+	gtk_drag_dest_set(GTK_WIDGET(sd->path_entry),
+					GTK_DEST_DEFAULT_ALL,
+					result_drop_types, n_result_drop_types,
+					GDK_ACTION_COPY);
+
+	g_signal_connect(G_OBJECT(sd->path_entry), "drag_data_received",
+					G_CALLBACK(search_path_entry_dnd_received_cb), sd);
+
+	gtk_drag_dest_set(GTK_WIDGET(sd->entry_similarity),
+					GTK_DEST_DEFAULT_ALL,
+					result_drop_types, n_result_drop_types,
+					GDK_ACTION_COPY);
+
+	g_signal_connect(G_OBJECT(sd->entry_similarity), "drag_data_received",
+					G_CALLBACK(search_image_content_dnd_received_cb), sd);
 }
 
 /*
