@@ -323,4 +323,37 @@ gchar *convert_rating_to_stars(gint rating)
 	return ret;
 }
 
+gchar *get_symbolic_link(const gchar *path_utf8)
+{
+	gchar *sl;
+	struct stat st;
+	gchar *ret = g_strdup("");
+
+	sl = path_from_utf8(path_utf8);
+
+	if (lstat(sl, &st) == 0 && S_ISLNK(st.st_mode))
+		{
+		gchar *buf;
+		gint l;
+
+		buf = g_malloc(st.st_size + 1);
+		l = readlink(sl, buf, st.st_size);
+
+		if (l == st.st_size)
+			{
+			buf[l] = '\0';
+
+			ret = buf;
+			}
+		else
+			{
+			g_free(buf);
+			}
+		}
+
+	g_free(sl);
+
+	return ret;
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

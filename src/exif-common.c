@@ -888,6 +888,10 @@ ExifFormattedText ExifFormattedList[] = {
 	{"file.date",				N_("File date"), 	NULL},
 	{"file.mode",				N_("File mode"), 	NULL},
 	{"file.ctime",				N_("File ctime"), 	NULL},
+	{"file.owner",				N_("File owner"), 	NULL},
+	{"file.group",				N_("File group"), 	NULL},
+	{"file.link",				N_("File link"), 	NULL},
+	{"file.class",				N_("File class"), 	NULL},
 	{ NULL, NULL, NULL }
 };
 
@@ -1151,6 +1155,22 @@ gchar *metadata_file_info(FileData *fd, const gchar *key, MetadataFormat format)
 	if (strcmp(key, "file.ctime") == 0)
 		{
 		return g_strdup(text_from_time(fd->cdate));
+		}
+	if (strcmp(key, "file.class") == 0)
+		{
+		return g_strdup(format_class_list[fd->format_class]);
+		}
+	if (strcmp(key, "file.owner") == 0)
+		{
+		return g_strdup(fd->owner);
+		}
+	if (strcmp(key, "file.group") == 0)
+		{
+		return g_strdup(fd->group);
+		}
+	if (strcmp(key, "file.link") == 0)
+		{
+		return g_strdup(fd->sym_link);
 		}
 	return g_strdup("");
 }
