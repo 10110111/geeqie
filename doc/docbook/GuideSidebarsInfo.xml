@@ -292,6 +292,22 @@
             <entry>file.ctime</entry>
             <entry>refer to operating system documentation for the meaning of ctime</entry>
           </row>
+          <row>
+            <entry>file.owner</entry>
+            <entry>the file's owner. Refer to operating system documentation for the meaning of file permissions</entry>
+          </row>
+          <row>
+            <entry>file.group</entry>
+            <entry>the file's group. Refer to operating system documentation for the meaning of file permissions</entry>
+          </row>
+          <row>
+            <entry>file.class</entry>
+            <entry>the file's class e.g. Image, RAW image etc.</entry>
+          </row>
+          <row>
+            <entry>file.link</entry>
+            <entry>if the file is a symbolic link, shows the path of the source file</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
