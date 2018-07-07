@@ -1288,6 +1288,10 @@ CollectWindow *collection_window_new(const gchar *path)
 	gtk_window_set_geometry_hints(GTK_WINDOW(cw->window), NULL, &geometry,
 				      GDK_HINT_MIN_SIZE | GDK_HINT_BASE_SIZE);
 
+	if (options->collections_on_top)
+		{
+		gtk_window_set_keep_above(GTK_WINDOW(cw->window), TRUE);
+		}
 
 	if (options->save_window_positions && path && collection_load_only_geometry(cw->cd, path))
 		{

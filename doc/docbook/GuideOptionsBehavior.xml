@@ -134,6 +134,22 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <guilabel>Use "With Rename" as default for Copy/Move dialogs</guilabel>
+        </term>
+        <listitem>
+          <para>Move the "With Rename" button to the default position.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Open Collections on top</guilabel>
+        </term>
+        <listitem>
+          <para>Open collection windows with "Always on Top" set.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guilabel>Recent folder list maximum size</guilabel>
         </term>
         <listitem>

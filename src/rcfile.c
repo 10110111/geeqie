@@ -348,6 +348,7 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_CHAR(*options, help_search_engine);
 
 	WRITE_NL(); WRITE_BOOL(*options, with_rename);
+	WRITE_NL(); WRITE_BOOL(*options, collections_on_top);
 
 	/* File operations Options */
 	WRITE_NL(); WRITE_BOOL(*options, file_ops.enable_in_place_rename);
@@ -680,6 +681,8 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 
 		if (READ_BOOL(*options, marks_save)) continue;
 		if (READ_CHAR(*options, help_search_engine)) continue;
+
+		if (READ_BOOL(*options, collections_on_top)) continue;
 
 		/* Properties dialog options */
 		if (READ_CHAR(*options, properties.tabs_order)) continue;

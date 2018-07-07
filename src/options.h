@@ -66,6 +66,7 @@ struct _ConfOptions
 	gchar *marks_tooltips[FILEDATA_MARKS_SIZE];
 
 	gboolean with_rename;
+	gboolean collections_on_top;
 
 	gchar *help_search_engine;
 

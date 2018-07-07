@@ -254,7 +254,7 @@ void filter_add_defaults(void)
 	/* non-image files that might be desirable to show */
 	filter_add_if_missing("xmp", "XMP sidecar", ".xmp", FORMAT_CLASS_META, TRUE, FALSE, TRUE);
 	filter_add_if_missing("meta", "GQview legacy metadata", GQ_CACHE_EXT_METADATA, FORMAT_CLASS_META, TRUE, FALSE, TRUE);
-	filter_add_if_missing("gqv", GQ_APPNAME " image collection", GQ_COLLECTION_EXT, FORMAT_CLASS_META, FALSE, FALSE, TRUE);
+	filter_add_if_missing("gqv", GQ_APPNAME " image collection", GQ_COLLECTION_EXT, FORMAT_CLASS_COLLECTION, FALSE, FALSE, TRUE);
 	filter_add_if_missing("ufraw", "UFRaw ID file", ".ufraw", FORMAT_CLASS_META, FALSE, FALSE, TRUE);
 	filter_add_if_missing("pto", "Panorama script file", ".pto", FORMAT_CLASS_META, FALSE, FALSE, TRUE);
 
@@ -469,6 +469,7 @@ FileFormatClass filter_file_get_class(const gchar *name)
 	if (filter_file_class(name, FORMAT_CLASS_RAWIMAGE)) return FORMAT_CLASS_RAWIMAGE;
 	if (filter_file_class(name, FORMAT_CLASS_META)) return FORMAT_CLASS_META;
 	if (filter_file_class(name, FORMAT_CLASS_VIDEO)) return FORMAT_CLASS_VIDEO;
+	if (filter_file_class(name, FORMAT_CLASS_COLLECTION)) return FORMAT_CLASS_COLLECTION;
 	return FORMAT_CLASS_UNKNOWN;
 }
 

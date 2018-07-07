@@ -1367,8 +1367,15 @@ gboolean vficon_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer dat
 
 			if (bevent->type == GDK_2BUTTON_PRESS && vf->layout)
 				{
-				vficon_selection_remove(vf, VFICON(vf)->click_fd, SELECTION_PRELIGHT, &iter);
-				layout_image_full_screen_start(vf->layout);
+				if (VFICON(vf)->click_fd->format_class == FORMAT_CLASS_COLLECTION)
+					{
+					collection_window_new(VFICON(vf)->click_fd->path);
+					}
+				else
+					{
+					vficon_selection_remove(vf, VFICON(vf)->click_fd, SELECTION_PRELIGHT, &iter);
+					layout_image_full_screen_start(vf->layout);
+					}
 				}
 			break;
 		case MOUSE_BUTTON_RIGHT:

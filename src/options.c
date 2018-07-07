@@ -83,6 +83,7 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->marks_save = TRUE;
 	options->with_rename = FALSE;
+	options->collections_on_top = FALSE;
 
 	memset(&options->image.border_color, 0, sizeof(options->image.border_color));
 	memset(&options->image.alpha_color_1, 0, sizeof(options->image.alpha_color_1));

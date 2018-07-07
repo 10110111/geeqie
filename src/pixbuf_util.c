@@ -111,6 +111,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_METADATA,	icon_metadata },
 	{ PIXBUF_INLINE_UNKNOWN,	icon_unknown },
 	{ PIXBUF_INLINE_VIDEO,		icon_video },
+	{ PIXBUF_INLINE_COLLECTION,	icon_collection },
 	{ PIXBUF_INLINE_ICON,		gqview_icon },
 	{ PIXBUF_INLINE_LOGO,		geeqie_logo },
 	{ PIXBUF_INLINE_ICON_FLOAT,	icon_float },
@@ -253,6 +254,9 @@ GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_he
 			break;
 		case FORMAT_CLASS_VIDEO:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_VIDEO);
+			break;
+		case FORMAT_CLASS_COLLECTION:
+			pixbuf = pixbuf_inline(PIXBUF_INLINE_COLLECTION);
 			break;
 		default:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);

@@ -152,12 +152,14 @@
           <listitem>
             This may be used to define sets of file types, for use in the
             <emphasis>Grouping</emphasis>
-            function described above. The drop-down list has 4 entries:
+            function described above. The drop-down list has 6 entries:
             <itemizedlist>
               <listitem>Unknown</listitem>
               <listitem>Image</listitem>
               <listitem>RAW Image</listitem>
               <listitem>Metadata</listitem>
+              <listitem>Video</listitem>
+              <listitem>Collection</listitem>
             </itemizedlist>
           </listitem>
         </varlistentry>

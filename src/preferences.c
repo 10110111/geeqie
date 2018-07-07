@@ -109,7 +109,8 @@ gchar *format_class_list[] = {
 	N_("Image"),
 	N_("RAW Image"),
 	N_("Metadata"),
-	N_("Video")
+	N_("Video"),
+	N_("Collection")
 	};
 
 /* config memory values */
@@ -410,6 +411,7 @@ static void config_window_apply(void)
 
 	options->marks_save = c_options->marks_save;
 	options->with_rename = c_options->with_rename;
+	options->collections_on_top = c_options->collections_on_top;
 	config_entry_to_option(help_search_engine_entry, &options->help_search_engine, NULL);
 
 	options->read_metadata_in_idle = c_options->read_metadata_in_idle;
@@ -2544,6 +2546,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 	GtkWidget *table;
 	GtkWidget *marks;
 	GtkWidget *with_rename;
+	GtkWidget *collections_on_top;
 
 	vbox = scrolled_notebook_page(notebook, _("Behavior"));
 
@@ -2604,6 +2607,10 @@ static void config_tab_behavior(GtkWidget *notebook)
 	with_rename = pref_checkbox_new_int(group, _("Use \"With Rename\" as default for Copy/Move dialogs"),
 				options->with_rename, &c_options->with_rename);
 	gtk_widget_set_tooltip_text(with_rename,"Change the default button for Copy/Move dialogs");
+
+	collections_on_top = pref_checkbox_new_int(group, _("Open collections on top"),
+				options->collections_on_top, &c_options->collections_on_top);
+	gtk_widget_set_tooltip_text(collections_on_top,"Open collections window on top");
 
 	pref_spin_new_int(group, _("Recent folder list maximum size"), NULL,
 			  1, 50, 1, options->open_recent_list_maxsize, &c_options->open_recent_list_maxsize);

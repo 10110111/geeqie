@@ -24,6 +24,7 @@
 
 #include "bar.h"
 #include "cache_maint.h"
+#include "collect.h"
 #include "dnd.h"
 #include "editors.h"
 #include "img-view.h"
@@ -38,6 +39,7 @@
 #include "ui_tree_edit.h"
 #include "uri_utils.h"
 #include "view_file.h"
+
 
 #include <gdk/gdkkeysyms.h> /* for keyboard values */
 
@@ -644,7 +646,14 @@ gboolean vflist_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer dat
 
 	if (bevent->button == MOUSE_BUTTON_LEFT && bevent->type == GDK_2BUTTON_PRESS)
 		{
-		if (vf->layout) layout_image_full_screen_start(vf->layout);
+		if (VFLIST(vf)->click_fd->format_class == FORMAT_CLASS_COLLECTION)
+			{
+			collection_window_new(VFLIST(vf)->click_fd->path);
+			}
+		else
+			{
+			if (vf->layout) layout_image_full_screen_start(vf->layout);
+			}
 		}
 
 	return FALSE;
