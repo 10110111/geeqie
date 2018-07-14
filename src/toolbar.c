@@ -111,6 +111,7 @@ static const UseableToolbarItems useable_toolbar_items[] = {
 	{"ExifWin",	N_("Exif window"), GTK_STOCK_FILE},
 	{"Thumbnails",	N_("Show thumbnails"), PIXBUF_INLINE_ICON_THUMB},
 	{"ShowMarks",	N_("Show marks"), GTK_STOCK_FILE},
+	{"ImageGuidelines",	N_("Show guidelines"), PIXBUF_INLINE_ICON_GUIDELINES},
 	{"FloatTools",	N_("Float file list"), PIXBUF_INLINE_ICON_FLOAT},
 	{"SBar",	N_("Info sidebar"), GTK_STOCK_FILE},
 	{"SBarSort",	N_("Sort manager"), GTK_STOCK_FILE},

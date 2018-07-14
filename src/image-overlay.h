@@ -37,7 +37,8 @@ typedef enum {
 	OSD_SHOW_NOTHING	= 0,
 	OSD_SHOW_INFO		= 1 << 0,
 	OSD_SHOW_STATUS		= 1 << 1,
-	OSD_SHOW_HISTOGRAM	= 1 << 2
+	OSD_SHOW_HISTOGRAM	= 1 << 2,
+	OSD_SHOW_GUIDELINES	= 1 << 3
 } OsdShowFlags;
 
 void set_image_overlay_template_string(gchar **template_string, const gchar *value);

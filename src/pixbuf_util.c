@@ -120,6 +120,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_CONFIG,	icon_config },
 	{ PIXBUF_INLINE_ICON_TOOLS,	icon_tools },
 	{ PIXBUF_INLINE_ICON_VIEW,	icon_view },
+	{ PIXBUF_INLINE_ICON_GUIDELINES,	icon_guidelines },
 	{ NULL, NULL }
 };
 

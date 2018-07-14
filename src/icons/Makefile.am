@@ -21,7 +21,8 @@ ICONS_INLINE = \
 	icon_book.png		\
 	icon_config.png		\
 	icon_tools.png		\
-	icon_view.png
+	icon_view.png		\
+	icon_guidelines.png
 
 ICONS_INLINE_PAIRS = \
 	folder_closed		$(srcdir)/folder_closed.png	\
@@ -41,7 +42,8 @@ ICONS_INLINE_PAIRS = \
 	icon_book		$(srcdir)/icon_book.png		\
 	icon_config		$(srcdir)/icon_config.png	\
 	icon_tools		$(srcdir)/icon_tools.png	\
-	icon_view		$(srcdir)/icon_view.png
+	icon_view		$(srcdir)/icon_view.png		\
+	icon_guidelines	$(srcdir)/icon_guidelines.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
 	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \
