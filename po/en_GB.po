@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-06-24 10:14+0100\n"
-"PO-Revision-Date: 2018-06-24 11:15+0100\n"
+"PO-Revision-Date: 2018-07-14 14:54+0100\n"
 "Last-Translator: Colin Clark <colin.clark@cclark.uk>\n"
 "Language-Team: British English <>\n"
 "Language: en_GB\n"
@@ -4088,7 +4088,7 @@ msgstr ""
 
 #: ../src/pan-view/pan-view.c:2022
 msgid "Do not show this dialog again"
-msgstr ""
+msgstr "Do not show this dialogue again"
 
 #: ../src/pan-view/pan-view.c:2271 ../src/search.c:1091
 msgid "_Play"
@@ -4523,7 +4523,7 @@ msgstr ""
 
 #: ../src/preferences.c:2011
 msgid "Remember dialog window positions"
-msgstr ""
+msgstr "Remember dialogue window positions"
 
 #: ../src/preferences.c:2014
 msgid "Show window IDs"
@@ -4857,7 +4857,7 @@ msgstr ""
 
 #: ../src/preferences.c:2604
 msgid "Use \"With Rename\" as default for Copy/Move dialogs"
-msgstr ""
+msgstr "Use \"With Rename\" as default for Copy/Move dialogues"
 
 #: ../src/preferences.c:2608
 msgid "Recent folder list maximum size"
