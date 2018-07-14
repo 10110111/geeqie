@@ -55,7 +55,15 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gin
 #define PIXBUF_INLINE_ICON_TOOLS	"icon_tools"
 #define PIXBUF_INLINE_ICON_VIEW		"icon_view"
 #define PIXBUF_INLINE_ICON_GUIDELINES	"icon_guidelines"
-
+#define PIXBUF_INLINE_ICON_PANORAMA		"icon_panorama"
+#define PIXBUF_INLINE_ICON_MAINTENANCE	"icon_maintenance"
+#define PIXBUF_INLINE_ICON_ZOOMFILLHOR	"icon_zoomfillhor"
+#define PIXBUF_INLINE_ICON_ZOOMFILLVERT	"icon_zoomfillvert"
+#define PIXBUF_INLINE_ICON_HIDETOOLS	"icon_hidetools"
+#define PIXBUF_INLINE_ICON_EXIF		"icon_exif"
+#define PIXBUF_INLINE_ICON_MARKS	"icon_marks"
+#define PIXBUF_INLINE_ICON_INFO		"icon_info"
+#define PIXBUF_INLINE_ICON_SORT		"icon_sort"
 
 GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gboolean counter_clockwise);
 GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gboolean mirror, gboolean flip);

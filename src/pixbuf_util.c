@@ -121,6 +121,15 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_TOOLS,	icon_tools },
 	{ PIXBUF_INLINE_ICON_VIEW,	icon_view },
 	{ PIXBUF_INLINE_ICON_GUIDELINES,	icon_guidelines },
+	{ PIXBUF_INLINE_ICON_PANORAMA,	icon_panorama },
+	{ PIXBUF_INLINE_ICON_MAINTENANCE,	icon_maintenance },
+	{ PIXBUF_INLINE_ICON_ZOOMFILLHOR,	icon_zoomfillhor },
+	{ PIXBUF_INLINE_ICON_ZOOMFILLVERT,	icon_zoomfillvert },
+	{ PIXBUF_INLINE_ICON_HIDETOOLS,	icon_hidetools },
+	{ PIXBUF_INLINE_ICON_EXIF,	icon_exif },
+	{ PIXBUF_INLINE_ICON_MARKS,	icon_marks },
+	{ PIXBUF_INLINE_ICON_INFO,	icon_info },
+	{ PIXBUF_INLINE_ICON_SORT,	icon_sort },
 	{ NULL, NULL }
 };
 
