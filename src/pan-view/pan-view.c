@@ -2003,9 +2003,7 @@ static gboolean pan_warning(FileData *dir_fd)
 
 	box = generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO,
 					 _("Pan view performance may be poor."),
-					 _("To improve performance of thumbnails in the pan view the"
-					   " following options can be enabled. Note that both options"
-					   " must be enabled to notice a change in performance."), TRUE);
+					 _("To improve the performance of thumbnails in\npan view the following options can be enabled.\n\nNote that both options must be enabled to\nnotice a change in performance."), TRUE);
 
 	group = pref_box_new(box, FALSE, GTK_ORIENTATION_HORIZONTAL, 0);
 	pref_spacer(group, PREF_PAD_INDENT);
