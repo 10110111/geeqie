@@ -26,6 +26,7 @@
 #include "image_load_tiff.h"
 #include "image_load_dds.h"
 #include "image_load_ffmpegthumbnailer.h"
+#include "image_load_collection.h"
 
 #include "exif.h"
 #include "filedata.h"
@@ -641,6 +642,12 @@ static void image_loader_setup_loader(ImageLoader *il)
 		{
 		DEBUG_1("Using dds loader");
 		image_loader_backend_set_dds(&il->backend);
+		}
+	else
+	if (il->fd->format_class == FORMAT_CLASS_COLLECTION)
+		{
+		DEBUG_1("Using custom collection loader");
+		image_loader_backend_set_collection(&il->backend);
 		}
 	else
 		image_loader_backend_set_default(&il->backend);

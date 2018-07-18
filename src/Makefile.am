@@ -181,6 +181,8 @@ geeqie_SOURCES = \
 	image_load_tiff.h\
 	image_load_dds.c\
 	image_load_dds.h\
+	image_load_collection.c\
+	image_load_collection.h\
 	image_load_ffmpegthumbnailer.c\
 	image_load_ffmpegthumbnailer.h\
 	image-overlay.c	\
