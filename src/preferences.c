@@ -110,7 +110,8 @@ gchar *format_class_list[] = {
 	N_("RAW Image"),
 	N_("Metadata"),
 	N_("Video"),
-	N_("Collection")
+	N_("Collection"),
+	N_("Pdf")
 	};
 
 /* config memory values */

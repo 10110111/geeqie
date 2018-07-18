@@ -1,0 +1,152 @@
+/*
+ * Copyright (C) 20018 - The Geeqie Team
+ *
+ * Author: Colin Clark
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#include "main.h"
+
+#include "image-load.h"
+#include "image_load_pdf.h"
+
+#ifdef HAVE_PDF
+#include <poppler/glib/poppler.h>
+
+typedef struct _ImageLoaderPDF ImageLoaderPDF;
+struct _ImageLoaderPDF {
+	ImageLoaderBackendCbAreaUpdated area_updated_cb;
+	ImageLoaderBackendCbSize size_cb;
+	ImageLoaderBackendCbAreaPrepared area_prepared_cb;
+	gpointer data;
+	GdkPixbuf *pixbuf;
+	guint requested_width;
+	guint requested_height;
+	gboolean abort;
+};
+
+static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize count, GError **error)
+{
+	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
+	ImageLoader *il = ld->data;
+	GError *poppler_error;
+	gchar *uri;
+	PopplerPage *page;
+	PopplerDocument *document;
+	gint page_num;
+	gdouble width, height;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	gboolean ret = FALSE;
+
+	uri = g_filename_to_uri(il->fd->path, NULL, &poppler_error);
+	if (uri == NULL)
+		{
+		log_printf("warning: pdf reader error: %s\n", poppler_error->message);
+		}
+	else
+		{
+		page_num = 0;
+		document = poppler_document_new_from_file(uri, NULL, &poppler_error);
+		page = poppler_document_get_page(document, page_num);
+		poppler_page_get_size(page, &width, &height);
+
+		surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+		cr = cairo_create(surface);
+		poppler_page_render(page, cr);
+
+		ld->pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, width, height);
+		ld->area_updated_cb(loader, 0, 0, width, height, ld->data);
+
+		cairo_destroy (cr);
+		cairo_surface_destroy(surface);
+		g_free(uri);
+		g_object_unref(page);
+		g_object_unref(document);
+		ret = TRUE;
+		}
+
+	return ret;
+}
+
+static gpointer image_loader_pdf_new(ImageLoaderBackendCbAreaUpdated area_updated_cb, ImageLoaderBackendCbSize size_cb, ImageLoaderBackendCbAreaPrepared area_prepared_cb, gpointer data)
+{
+	ImageLoaderPDF *loader = g_new0(ImageLoaderPDF, 1);
+	loader->area_updated_cb = area_updated_cb;
+	loader->size_cb = size_cb;
+	loader->area_prepared_cb = area_prepared_cb;
+	loader->data = data;
+	return (gpointer) loader;
+}
+
+static void image_loader_pdf_set_size(gpointer loader, int width, int height)
+{
+	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
+	ld->requested_width = width;
+	ld->requested_height = height;
+}
+
+static GdkPixbuf* image_loader_pdf_get_pixbuf(gpointer loader)
+{
+	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
+	return ld->pixbuf;
+}
+
+static gchar* image_loader_pdf_get_format_name(gpointer loader)
+{
+	return g_strdup("pdf");
+}
+
+static gchar** image_loader_pdf_get_format_mime_types(gpointer loader)
+{
+	static gchar *mime[] = {"application/pdf", NULL};
+	return g_strdupv(mime);
+}
+
+static gboolean image_loader_pdf_close(gpointer loader, GError **error)
+{
+	return TRUE;
+}
+
+static void image_loader_pdf_abort(gpointer loader)
+{
+	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
+	ld->abort = TRUE;
+}
+
+static void image_loader_pdf_free(gpointer loader)
+{
+	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
+	if (ld->pixbuf) g_object_unref(ld->pixbuf);
+	g_free(ld);
+}
+
+void image_loader_backend_set_pdf(ImageLoaderBackend *funcs)
+{
+	funcs->loader_new = image_loader_pdf_new;
+	funcs->set_size = image_loader_pdf_set_size;
+	funcs->load = image_loader_pdf_load;
+	funcs->write = NULL;
+	funcs->get_pixbuf = image_loader_pdf_get_pixbuf;
+	funcs->close = image_loader_pdf_close;
+	funcs->abort = image_loader_pdf_abort;
+	funcs->free = image_loader_pdf_free;
+	funcs->get_format_name = image_loader_pdf_get_format_name;
+	funcs->get_format_mime_types = image_loader_pdf_get_format_mime_types;
+}
+
+#endif
+/* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

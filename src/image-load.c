@@ -25,6 +25,7 @@
 #include "image_load_jpeg.h"
 #include "image_load_tiff.h"
 #include "image_load_dds.h"
+#include "image_load_pdf.h"
 #include "image_load_ffmpegthumbnailer.h"
 #include "image_load_collection.h"
 
@@ -615,6 +616,14 @@ static void image_loader_setup_loader(ImageLoader *il)
 		{
 		DEBUG_1("Using custom ffmpegthumbnailer loader");
 		image_loader_backend_set_ft(&il->backend);
+		}
+	else
+#endif
+#ifdef HAVE_PDF
+	if (il->fd->format_class == FORMAT_CLASS_PDF)
+		{
+		DEBUG_1("Using custom pdf loader");
+		image_loader_backend_set_pdf(&il->backend);
 		}
 	else
 #endif

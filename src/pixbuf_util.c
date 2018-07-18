@@ -130,6 +130,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_MARKS,	icon_marks },
 	{ PIXBUF_INLINE_ICON_INFO,	icon_info },
 	{ PIXBUF_INLINE_ICON_SORT,	icon_sort },
+	{ PIXBUF_INLINE_ICON_PDF,	icon_pdf },
 	{ NULL, NULL }
 };
 
@@ -267,6 +268,9 @@ GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_he
 			break;
 		case FORMAT_CLASS_COLLECTION:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_COLLECTION);
+			break;
+		case FORMAT_CLASS_PDF:
+			pixbuf = pixbuf_inline(PIXBUF_INLINE_ICON_PDF);
 			break;
 		default:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);

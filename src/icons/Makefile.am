@@ -31,7 +31,8 @@ ICONS_INLINE = \
 	icon_exif.png	\
 	icon_marks.png	\
 	icon_info.png	\
-	icon_sort.png
+	icon_sort.png	\
+	icon_pdf.png
 
 ICONS_INLINE_PAIRS = \
 	folder_closed		$(srcdir)/folder_closed.png	\
@@ -61,7 +62,8 @@ ICONS_INLINE_PAIRS = \
 	icon_exif	$(srcdir)/icon_exif.png	\
 	icon_marks	$(srcdir)/icon_marks.png	\
 	icon_info	$(srcdir)/icon_info.png	\
-	icon_sort	$(srcdir)/icon_sort.png
+	icon_sort	$(srcdir)/icon_sort.png	\
+	icon_pdf	$(srcdir)/icon_pdf.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
 	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \

@@ -228,6 +228,10 @@ And either the ChangeLog file or [Geeqie ChangeLog](http://geeqie.org/cgi-bin/gi
         for thumbnailing camera video clips
         disable with configure option: --disable-ffmpegthumbnailer
 
+    libpoppler-glib-dev 0.62
+        for displaying pdf files
+        disable with configure option: --disable-pdf
+
 ### Code hackers:
 
 If you plan on making any major changes to the code that will be offered for
