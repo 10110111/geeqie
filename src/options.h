@@ -140,6 +140,7 @@ struct _ConfOptions
 		guint quality;
 		gboolean use_exif;
 		gboolean use_ft_metadata;
+		gint collection_preview;
 // 		gboolean use_ft_metadata_small;
 	} thumbnails;
 

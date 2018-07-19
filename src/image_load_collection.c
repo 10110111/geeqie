@@ -22,7 +22,9 @@
 #include "image-load.h"
 #include "image_load_collection.h"
 
+#include "cache.h"
 #include "misc.h"
+#include "ui_fileops.h"
 
 typedef struct _ImageLoaderCOLLECTION ImageLoaderCOLLECTION;
 struct _ImageLoaderCOLLECTION {
@@ -42,7 +44,6 @@ static gboolean image_loader_collection_load(gpointer loader, const guchar *buf,
 	ImageLoader *il = ld->data;
 
 	#define LINE_LENGTH 1000
-	#define MAX_LINES 23
 
 	gboolean ret = FALSE;
 	gchar *randname;
@@ -51,28 +52,41 @@ static gboolean image_loader_collection_load(gpointer loader, const guchar *buf,
 	gint line_count = 0;
 	GString *file_names = g_string_new(NULL);
 	gchar line[LINE_LENGTH];
+	gchar **split_line = NULL;
+	gchar *cache_found;
+	gchar *pathl;
 
 	if (runcmd("which montage >/dev/null 2>&1") == 0)
 		{
-		fp = fopen(il->fd->path, "r");
+		pathl = path_from_utf8(il->fd->path);
+		fp = fopen(pathl, "r");
+		g_free(pathl);
 		if (fp)
 			{
-			while(fgets(line, LINE_LENGTH, fp) && line_count < MAX_LINES)
+			while(fgets(line, LINE_LENGTH, fp) && line_count < options->thumbnails.collection_preview)
 				{
-				/* get rid of ending \n from fgets */
-				line[strlen(line) - 1] = '\0';
 				if (line[0] && line[0] != '#')
 					{
-					file_names = g_string_append(file_names, line);
-					file_names = g_string_append(file_names, " ");
+					split_line = g_strsplit(line, "\"", 4);
+					cache_found = cache_find_location(CACHE_TYPE_THUMB, split_line[1]);
+					if (cache_found)
+						{
+						file_names = g_string_append(file_names, g_strconcat("\"", cache_found,"\" ", NULL));
+						line_count++;
+						}
+					g_free(cache_found);
 					}
-				line_count++;
+					if (split_line)
+						{
+						g_strfreev(split_line);
+						}
+					split_line = NULL;
 				}
 			fclose(fp);
 
 			if (file_names->len > 0)
 				{
-				randname = g_strdup("geeqie_collection_XXXXXX.png");
+				randname = g_strdup("/tmp/geeqie_collection_XXXXXX.png");
 				g_mkstemp(randname);
 
 				cmd_line = g_strdup_printf("montage %s -geometry %dx%d+1+1 %s >/dev/null 2>&1", file_names->str, options->thumbnails.max_width, options->thumbnails.max_height, randname);

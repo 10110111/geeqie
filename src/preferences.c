@@ -287,6 +287,7 @@ static void config_window_apply(void)
 	options->thumbnails.enable_caching = c_options->thumbnails.enable_caching;
 	options->thumbnails.cache_into_dirs = c_options->thumbnails.cache_into_dirs;
 	options->thumbnails.use_exif = c_options->thumbnails.use_exif;
+	options->thumbnails.collection_preview = c_options->thumbnails.collection_preview;
 	options->thumbnails.use_ft_metadata = c_options->thumbnails.use_ft_metadata;
 // 	options->thumbnails.use_ft_metadata_small = c_options->thumbnails.use_ft_metadata_small;
 	options->thumbnails.spec_standard = c_options->thumbnails.spec_standard;
@@ -1748,6 +1749,11 @@ static void config_tab_general(GtkWidget *notebook)
 
 	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"),
 			      options->thumbnails.use_exif, &c_options->thumbnails.use_exif);
+
+	spin = pref_spin_new_int(group, _("Collection preview:"), NULL,
+				 1, 999, 1,
+				 options->thumbnails.collection_preview, &c_options->thumbnails.collection_preview);
+	gtk_widget_set_tooltip_text(spin, _("The maximum number of thumbnails shown in a Collection preview montage"));
 
 #ifdef HAVE_FFMPEGTHUMBNAILER_METADATA
 	pref_checkbox_new_int(group, _("Use embedded metadata in video files as thumbnails when available"),
