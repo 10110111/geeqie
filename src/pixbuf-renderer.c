@@ -2047,10 +2047,12 @@ static gboolean pr_mouse_motion_cb(GtkWidget *widget, GdkEventMotion *event, gpo
 		accel = 1;
 		}
 
-	/* do the scroll */
-	pixbuf_renderer_scroll(pr, (pr->drag_last_x - event->x) * accel,
-			       (pr->drag_last_y - event->y) * accel);
-
+	/* do the scroll - not when drawing rectangle*/
+	if (!options->draw_rectangle)
+		{
+		pixbuf_renderer_scroll(pr, (pr->drag_last_x - event->x) * accel,
+					(pr->drag_last_y - event->y) * accel);
+		}
 	pr_drag_signal(pr, event);
 
 	pr->drag_last_x = event->x;

@@ -36,6 +36,7 @@ struct _ConfOptions
 	gboolean show_icon_names;
 	gboolean show_star_rating;
 	gboolean show_guidelines;
+	gboolean draw_rectangle;
 
 	/* various */
 	gboolean tree_descend_subdirs;

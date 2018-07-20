@@ -508,6 +508,13 @@ static void layout_menu_exif_rotate_cb(GtkToggleAction *action, gpointer data)
 	layout_image_reset_orientation(lw);
 }
 
+static void layout_menu_select_rectangle_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	options->draw_rectangle = gtk_toggle_action_get_active(action);
+}
+
 static void layout_menu_write_rotate(GtkToggleAction *action, gpointer data, gboolean keep_date)
 {
 	LayoutWindow *lw = data;
@@ -1949,6 +1956,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "RectangularSelection",	NULL,			N_("Rectangular Selection"),			"<alt>R",			N_("Rectangular Selection"),			CB(layout_menu_rectangular_selection_cb),	 FALSE },
   { "Animate",	NULL,	N_("GIF _animation"),		"A",			N_("Toggle GIF animation"),			CB(layout_menu_animate_cb),	 FALSE  },
   { "ExifRotate",	GTK_STOCK_ORIENTATION_PORTRAIT,			N_("_Exif rotate"),  		"<alt>X",		N_("Exif rotate"),			CB(layout_menu_exif_rotate_cb), FALSE },
+  { "DrawRectangle",	PIXBUF_INLINE_ICON_DRAW_RECTANGLE,			N_("Draw Rectangle"),  		NULL,		N_("Draw Rectangle"),			CB(layout_menu_select_rectangle_cb), FALSE },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -2085,6 +2093,8 @@ static const gchar *menu_ui_description =
 "      </menu>"
 "      <menuitem action='SaveMetadata'/>"
 "      <placeholder name='PropertiesSection'/>"
+"      <separator/>"
+"      <menuitem action='DrawRectangle'/>"
 "      <separator/>"
 "      <menuitem action='Preferences'/>"
 "      <menuitem action='Plugins'/>"
@@ -3043,6 +3053,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "ExifRotate");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->image.exif_rotate_enable);
+
+	action = gtk_action_group_get_action(lw->action_group, "DrawRectangle");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->draw_rectangle);
 
 	action = gtk_action_group_get_action(lw->action_group, "RectangularSelection");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->collections.rectangular_selection);

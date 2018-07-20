@@ -690,6 +690,33 @@ static void gr_pixel_info(const gchar *text, GIOChannel *channel, gpointer data)
 		}
 }
 
+static void gr_rectangle(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gchar *rectangle_info;
+	PixbufRenderer *pr;
+	LayoutWindow *lw = NULL;
+	gint x1, y1, x2, y2;
+
+	if (!layout_valid(&lw_id)) return;
+
+	pr = (PixbufRenderer*)lw_id->image->pr;
+
+	if (pr)
+		{
+		image_get_rectangle(&x1, &y1, &x2, &y2);
+		rectangle_info = g_strdup_printf(_("%dx%d+%d+%d"),
+					(x2 > x1) ? x2 - x1 : x1 - x2,
+					(y2 > y1) ? y2 - y1 : y1 - y2,
+					(x2 > x1) ? x1 : x2,
+					(y2 > y1) ? y1 : y2);
+
+		g_io_channel_write_chars(channel, rectangle_info, -1, NULL, NULL);
+		g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+		g_free(rectangle_info);
+		}
+}
+
 static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	if (!layout_valid(&lw_id)) return;
@@ -881,6 +908,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "File:",                gr_file_load_no_raise,  TRUE,  FALSE, N_("<FILE>"), N_("open FILE, do not bring Geeqie window to the top") },
 	{ NULL, "--tell",               gr_file_tell,           FALSE, FALSE, NULL, N_("print filename of current image") },
 	{ NULL, "--pixel-info",         gr_pixel_info,          FALSE, FALSE, NULL, N_("print pixel info of mouse pointer on current image") },
+	{ NULL, "--get-rectangle",      gr_rectangle,           FALSE, FALSE, NULL, N_("get rectangle co-ordinates") },
 	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
 	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },

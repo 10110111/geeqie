@@ -150,6 +150,7 @@ void image_set_image_as_tiles(ImageWindow *imd, gint width, gint height,
 /* reset default options */
 void image_options_sync(void);
 
+void image_get_rectangle(gint *x1, gint *y1, gint *x2, gint *y2);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

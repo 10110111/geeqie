@@ -131,6 +131,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_INFO,	icon_info },
 	{ PIXBUF_INLINE_ICON_SORT,	icon_sort },
 	{ PIXBUF_INLINE_ICON_PDF,	icon_pdf },
+	{ PIXBUF_INLINE_ICON_DRAW_RECTANGLE,	icon_draw_rectangle },
 	{ NULL, NULL }
 };
 

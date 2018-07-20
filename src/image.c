@@ -48,6 +48,14 @@ static void image_update_title(ImageWindow *imd);
 static void image_read_ahead_start(ImageWindow *imd);
 static void image_cache_set(ImageWindow *imd, FileData *fd);
 
+// For draw rectangle function
+static gint pixbuf_start_x;
+static gint pixbuf_start_y;
+static gint image_start_x;
+static gint image_start_y;
+static gint rect_x1, rect_x2, rect_y1, rect_y2;
+static gint rect_id = 0;
+
 /*
  *-------------------------------------------------------------------
  * 'signals'
@@ -68,10 +76,92 @@ static void image_click_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer d
 		}
 }
 
+static void switch_coords_orientation(ImageWindow *imd, gint x, gint y, gint width, gint height)
+{
+	switch (imd->orientation)
+		{
+		case EXIF_ORIENTATION_TOP_LEFT:
+			/* normal -- nothing to do */
+			rect_x1 = image_start_x;
+			rect_y1 = image_start_y;
+			rect_x2 = x;
+			rect_y2 = y;
+			break;
+		case EXIF_ORIENTATION_TOP_RIGHT:
+			/* mirrored */
+			rect_x1 = width - x;
+			rect_y1 = image_start_y;
+			rect_x2 = width - image_start_x;
+			rect_y2 = y;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_RIGHT:
+			/* upside down */
+			rect_x1 = width - x;
+			rect_y1 = height - y;
+			rect_x2 = width - image_start_x;
+			rect_y2 = height - image_start_y;
+			break;
+		case EXIF_ORIENTATION_BOTTOM_LEFT:
+			/* flipped */
+			rect_x1 = image_start_x;
+			rect_y1 = height - y;
+			rect_x2 = x;
+			rect_y2 = height - image_start_y;
+			break;
+		case EXIF_ORIENTATION_LEFT_TOP:
+			/* left mirrored */
+			rect_x1 = image_start_y;
+			rect_y1 = image_start_x;
+			rect_x2 = y;
+			rect_y2 = x;
+			break;
+		case EXIF_ORIENTATION_RIGHT_TOP:
+			/* rotated -90 (270) */
+			rect_x1 = image_start_y;
+			rect_y1 = width - x;
+			rect_x2 = y;
+			rect_y2 = width - image_start_x;
+			break;
+		case EXIF_ORIENTATION_RIGHT_BOTTOM:
+			/* right mirrored */
+			rect_x1 = height - y;
+			rect_y1 = width - x;
+			rect_x2 = height - image_start_y;
+			rect_y2 = width - image_start_x;
+			break;
+		case EXIF_ORIENTATION_LEFT_BOTTOM:
+			/* rotated 90 */
+			rect_x1 = height - y;
+			rect_y1 = image_start_x;
+			rect_x2 = height - image_start_y;
+			rect_y2 = x;
+			break;
+		default:
+			/* The other values are out of range */
+			break;
+		}
+}
+
 static void image_press_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer data)
 {
 	ImageWindow *imd = data;
 	LayoutWindow *lw;
+	gint x_pixel, y_pixel;
+
+	if(options->draw_rectangle)
+		{
+		pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
+
+		pixbuf_start_x = event->x;
+		pixbuf_start_y = event->y;
+		image_start_x = x_pixel;
+		image_start_y = y_pixel;
+		}
+
+	if (rect_id)
+		{
+		pixbuf_renderer_overlay_remove((PixbufRenderer *)imd->pr, rect_id);
+		}
 
 	lw = layout_find_by_image(imd);
 	if (lw && event->button == MOUSE_BUTTON_LEFT && event->type == GDK_2BUTTON_PRESS
@@ -86,6 +176,40 @@ static void image_drag_cb(PixbufRenderer *pr, GdkEventMotion *event, gpointer da
 {
 	ImageWindow *imd = data;
 	gint width, height;
+	gint rect_width;
+	gint rect_height;
+	GdkPixbuf *rect_pixbuf;
+	gint x_pixel, y_pixel;
+
+	if (options->draw_rectangle)
+		{
+		pixbuf_renderer_get_image_size(pr, &width, &height);
+		pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
+		switch_coords_orientation(imd, x_pixel, y_pixel, width, height);
+
+		if (rect_id)
+			{
+			pixbuf_renderer_overlay_remove((PixbufRenderer *)imd->pr, rect_id);
+			}
+
+		rect_width = pr->drag_last_x - pixbuf_start_x;
+		if (rect_width <= 0)
+			{
+			rect_width = 1;
+			}
+		rect_height = pr->drag_last_y - pixbuf_start_y;
+		if (rect_height <= 0)
+			{
+			rect_height = 1;
+			}
+
+		rect_pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, rect_width, rect_height);
+		pixbuf_set_rect_fill(rect_pixbuf, 0, 0, rect_width, rect_height, 255, 255, 255, 0);
+		pixbuf_set_rect(rect_pixbuf, 1, 1, rect_width-2, rect_height - 2, 0, 0, 0, 255, 1, 1, 1, 1);
+		pixbuf_set_rect(rect_pixbuf, 2, 2, rect_width-4, rect_height - 4, 255, 255, 255, 255, 1, 1, 1, 1);
+
+		rect_id = pixbuf_renderer_overlay_add((PixbufRenderer *)imd->pr, rect_pixbuf, pixbuf_start_x, pixbuf_start_y, OVL_NORMAL);
+		}
 
 	pixbuf_renderer_get_scaled_size(pr, &width, &height);
 
@@ -2024,4 +2148,13 @@ ImageWindow *image_new(gboolean frame)
 
 	return imd;
 }
+
+void image_get_rectangle(gint *x1, gint *y1, gint *x2, gint *y2)
+{
+	*x1 = rect_x1;
+	*y1 = rect_y1;
+	*x2 = rect_x2;
+	*y2 = rect_y2;
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
