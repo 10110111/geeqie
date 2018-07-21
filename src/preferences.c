@@ -1562,22 +1562,14 @@ static void cache_standard_cb(GtkWidget *widget, gpointer data)
 		c_options->thumbnails.spec_standard =TRUE;
 		c_options->thumbnails.cache_into_dirs = FALSE;
 		}
-	else
-		{
-		c_options->thumbnails.spec_standard =FALSE;
-		}
 }
 
 static void cache_geeqie_cb(GtkWidget *widget, gpointer data)
 {
-	if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
-		{
-		c_options->thumbnails.spec_standard =TRUE;
-		c_options->thumbnails.cache_into_dirs = FALSE;
-		}
-	else
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		{
 		c_options->thumbnails.spec_standard =FALSE;
+		c_options->thumbnails.cache_into_dirs = FALSE;
 		}
 }
 
@@ -1587,10 +1579,6 @@ static void cache_local_cb(GtkWidget *widget, gpointer data)
 		{
 		c_options->thumbnails.cache_into_dirs = TRUE;
 		c_options->thumbnails.spec_standard =FALSE;
-		}
-	else
-		{
-		c_options->thumbnails.cache_into_dirs = FALSE;
 		}
 }
 
@@ -1727,24 +1715,26 @@ static void config_tab_general(GtkWidget *notebook)
 	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_checkbox_link_sensitivity(ct_button, subgroup);
 
+	c_options->thumbnails.spec_standard = options->thumbnails.spec_standard;
+	c_options->thumbnails.cache_into_dirs = options->thumbnails.cache_into_dirs;
 	group_frame = pref_frame_new(subgroup, TRUE, _("Use Geeqie thumbnail style and cache"),
 										GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	button = pref_radiobutton_new(group_frame, NULL,  get_thumbnails_cache_dir(),
-							!options->thumbnails.spec_standard,
+							!options->thumbnails.spec_standard && !options->thumbnails.cache_into_dirs,
 							G_CALLBACK(cache_geeqie_cb), NULL);
 
 	group_frame = pref_frame_new(subgroup, TRUE,
 							_("Store thumbnails local to image folder (non-standard)"),
 							GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_radiobutton_new(group_frame, button, "*/.thumbnails",
-							options->thumbnails.cache_into_dirs,
+							!options->thumbnails.spec_standard && options->thumbnails.cache_into_dirs,
 							G_CALLBACK(cache_local_cb), NULL);
 
 	group_frame = pref_frame_new(subgroup, TRUE,
 							_("Use standard thumbnail style and cache, shared with other applications"),
 							GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
 	pref_radiobutton_new(group_frame, button, get_thumbnails_standard_cache_dir(),
-							options->thumbnails.spec_standard,
+							options->thumbnails.spec_standard && !options->thumbnails.cache_into_dirs,
 							G_CALLBACK(cache_standard_cb), NULL);
 
 	pref_checkbox_new_int(group, _("Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"),
