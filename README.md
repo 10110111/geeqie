@@ -1,7 +1,7 @@
       ###################################################################
       ##                          Geeqie x.x                           ##
       ##                                                               ##
-      ##              Copyright (C) 2008 - 2017 The Geeqie Team        ##
+      ##              Copyright (C) 2008 - 2018 The Geeqie Team        ##
       ##              Copyright (C) 1999 - 2006 John Ellis.            ##
       ##                                                               ##
       ##                      Use at your own risk!                    ##
@@ -102,14 +102,13 @@ Geeqie is a graphics file viewer. Basic features:
 
 Geeqie is available as a package with some distributions.
 
-The source tar of the latest formal release may be downloaded: <http://geeqie.org/geeqie-1.3.tar.xz>
-
 However Geeqie is stable, and you may download the latest version (if you have installed git) from here:
 
 Either: `git clone git://www.geeqie.org/geeqie.git`
 
 Or: `git clone http://www.geeqie.org/git/geeqie.git`
 
+For Ubuntu and other Debian-based systems, [this script](http://www.geeqie.org/web/geeqie-install-debian.sh) will download Geeqie sources, all dependencies, and compile and install Geeqie. You may also select which optional libraries to install.
 
 ## Installation
 
