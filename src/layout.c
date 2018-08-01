@@ -1366,7 +1366,7 @@ gboolean layout_geometry_get_tools(LayoutWindow *lw, gint *x, gint *y, gint *w, 
 	*h = gdk_window_get_height(window);
 	gtk_widget_get_allocation(gtk_paned_get_child1(GTK_PANED(lw->tools_pane)), &allocation);
 
-	if (GTK_IS_VPANED(lw->tools_pane))
+	if (gtk_orientable_get_orientation(GTK_ORIENTABLE(lw->tools_pane)) == GTK_ORIENTATION_VERTICAL)
 		{
 		*divider_pos = allocation.height;
 		}
