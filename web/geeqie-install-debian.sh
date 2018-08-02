@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2018-07-26"
+version="2018-08-02"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -11,8 +11,9 @@ additional pixbuf loaders.
 Command line options are:
 -v --version The version of this file
 -h --help Output this text
--c --commit Checkout and compile commit ident
--t --tag Checkout and compile tag (e.g. v1.4 or v1.3)
+-c --commit=ID Checkout and compile commit ID
+-t --tag=TAG Checkout and compile TAG (e.g. v1.4 or v1.3)
+-b --back=N Checkout commit -N (e.g. "-b 1" for last-but-one commit)
 '
 
 # Essential for compiling
@@ -72,30 +73,106 @@ optional_loaders_array=(
 "xcf"
 )
 
+####################################################################
+# Get System Info
+# Derived from: https://github.com/coto/server-easy-install (GPL)
+####################################################################
+lowercase()
+{
+	echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
+}
+
+systemProfile()
+{
+	OS=`lowercase \`uname\``
+	KERNEL=`uname -r`
+	MACH=`uname -m`
+
+	if [ "${OS}" == "windowsnt" ]
+	then
+		OS=windows
+	elif [ "${OS}" == "darwin" ]
+	then
+		OS=mac
+	else
+		OS=`uname`
+		if [ "${OS}" = "SunOS" ]
+		then
+			OS=Solaris
+			ARCH=`uname -p`
+			OSSTR="${OS} ${REV}(${ARCH} `uname -v`)"
+		elif [ "${OS}" = "AIX" ]
+		then
+			OSSTR="${OS} `oslevel` (`oslevel -r`)"
+		elif [ "${OS}" = "Linux" ]
+		then
+			if [ -f /etc/redhat-release ]
+			then
+				DistroBasedOn='RedHat'
+				DIST=`cat /etc/redhat-release |sed s/\ release.*//`
+				PSUEDONAME=`cat /etc/redhat-release | sed s/.*\(// | sed s/\)//`
+				REV=`cat /etc/redhat-release | sed s/.*release\ // | sed s/\ .*//`
+			elif [ -f /etc/SuSE-release ]
+			then
+				DistroBasedOn='SuSe'
+				PSUEDONAME=`cat /etc/SuSE-release | tr "\n" ' '| sed s/VERSION.*//`
+				REV=`cat /etc/SuSE-release | tr "\n" ' ' | sed s/.*=\ //`
+			elif [ -f /etc/mandrake-release ]
+			then
+				DistroBasedOn='Mandrake'
+				PSUEDONAME=`cat /etc/mandrake-release | sed s/.*\(// | sed s/\)//`
+				REV=`cat /etc/mandrake-release | sed s/.*release\ // | sed s/\ .*//`
+			elif [ -f /etc/debian_version ]
+			then
+				DistroBasedOn='Debian'
+				if [ -f /etc/lsb-release ]
+				then
+					DIST=`cat /etc/lsb-release | grep '^DISTRIB_ID' | awk -F=  '{ print $2 }'`
+					PSUEDONAME=`cat /etc/lsb-release | grep '^DISTRIB_CODENAME' | awk -F=  '{ print $2 }'`
+					REV=`cat /etc/lsb-release | grep '^DISTRIB_RELEASE' | awk -F=  '{ print $2 }'`
+				fi
+			fi
+			if [ -f /etc/UnitedLinux-release ]
+			then
+				DIST="${DIST}[`cat /etc/UnitedLinux-release | tr "\n" ' ' | sed s/VERSION.*//`]"
+			fi
+			OS=`lowercase $OS`
+			DistroBasedOn=`lowercase $DistroBasedOn`
+			readonly OS
+			readonly DIST
+			readonly DistroBasedOn
+			readonly PSUEDONAME
+			readonly REV
+			readonly KERNEL
+			readonly MACH
+		fi
+	fi
+}
+
 install_essential()
 {
 arraylength=${#essential_array[@]}
 for (( i=0; i<${arraylength}; i=i+1 ));
 do
-	res=$(dpkg-query --show --showformat='${Status}' ${essential_array[$i]} 2>&1)
-	if [[ $res != "install ok installed"* ]]
+	package_query ${essential_array[$i]}
+	if [ $? != 0 ]
 	then
-		sudo apt-get --assume-yes install ${essential_array[$i]}
+		package_install ${essential_array[$i]}
 	fi
 done
 
 if [[ $1 == "GTK3" ]]
 then
-	res=$(dpkg-query --show --showformat='${Status}' "libgtk-3-dev" 2>&1)
-	if [[ $res != "install ok installed"* ]]
+	package_query "libgtk-3-dev"
+	if [ $? != 0 ]
 	then
-		sudo apt-get --assume-yes install libgtk-3-dev
+		package_install libgtk-3-dev
 	fi
 else
-	res=$(dpkg-query --show --showformat='${Status}' "libgtk2.0-dev" 2>&1)
-	if [[ $res != "install ok installed"* ]]
+	package_query "libgtk2.0-dev"
+	if [ $? != 0 ]
 	then
-		sudo apt-get --assume-yes install libgtk2.0-dev
+		package_install libgtk2.0-dev
 	fi
 fi
 }
@@ -109,18 +186,17 @@ then
 	set $options
 	while [ $# -gt 0 ];
 	do
-		sudo apt-get --assume-yes install $1
+		package_install $1
 		shift
 	done
 	IFS=$OLDIFS
 fi
-return
 }
 
 install_webp()
 {
 rm -rf webp-pixbuf-loader-master
-sudo apt-get --assume-yes install libglib2.0-dev libgdk-pixbuf2.0-dev libwebp-dev
+package_install libglib2.0-dev libgdk-pixbuf2.0-dev libwebp-dev python-minimal
 wget https://github.com/aruiz/webp-pixbuf-loader/archive/master.zip
 unzip master.zip
 cd webp-pixbuf-loader-master
@@ -149,6 +225,7 @@ rm -rf gdk-pixbuf-psd
 install_xcf()
 {
 rm -rf xcf-pixbuf-loader
+package_install libbz2-dev
 git clone https://github.com/StephaneDelcroix/xcf-pixbuf-loader.git
 cd xcf-pixbuf-loader
 ./autogen.sh
@@ -218,10 +295,49 @@ fi
 exit
 }
 
+package_query()
+{
+if [[ $DistroBasedOn == "debian" ]]
+then
+	res=$(dpkg-query --show --showformat='${Status}' $1  2>&1)
+	if [[ "$res" == "install ok installed"* ]]
+	then
+		status=0
+	else
+		status=1
+	fi
+fi
+return $status
+}
+
+package_install()
+{
+if [[ $DistroBasedOn == "debian" ]]
+then
+	sudo apt-get --assume-yes install $@
+fi
+}
 
 # Entry point
+
+# Check system type
+systemProfile
+if [[ $DistroBasedOn != "debian" ]]
+then
+	zenity --error --title="Install Geeqie and dependencies" --width=370 --text="Unknown operating system:\n
+Operating System: $OS
+Distribution: $DIST
+Psuedoname: $PSUEDONAME
+Revision: $REV
+DistroBasedOn: $DistroBasedOn
+Kernel: $KERNEL
+Machine: $MACH" 2>/dev/null
+
+	exit
+fi
+
 # Parse the comand line
-OPTS=$(getopt -o vhc:t: --long version,help,commit:,tag: -- "$@")
+OPTS=$(getopt -o vhc:t:b: --long version,help,commit:,tag:,back: -- "$@")
 eval set -- "$OPTS"
 
 while true;
@@ -242,6 +358,11 @@ do
 		;;
 	-t | --tag )
 		TAG="$2"
+		shift;
+		shift
+		;;
+	-b | --back )
+		BACK="$2"
 		shift;
 		shift
 		;;
@@ -274,20 +395,40 @@ else
 	fi
 fi
 
+# Use GTK3 as default
+gk2_installed=FALSE
+gtk3_installed=TRUE
+
 if [[ $mode == "install" ]]
 then
 	message="This script is for use on Ubuntu and other\nDebian-based installations.\nIt will download, compile, and install Geeqie source\ncode and its dependencies.\n\nA sub-folder named \"geeqie\" will be created in the\nfolder this script is run from, and the source code\nwill be downloaded to that sub-folder.\n\nIn this dialog you must select whether to compile\nfor GTK2 or GTK3.\nIf you want to use GPS maps or pdf preview,\nyou must choose GTK3.\nThe GTK2 version has a slightly different\nlook-and-feel compared to the GTK3 version,\nbut otherwise has the same features.\nYou may easily switch between the two after\ninstallation.\n\nIn subsequent dialogs you may choose which\noptional features to install."
 
 	title="Install Geeqie and dependencies"
+	install_option=TRUE
 else
 	message="This script is for use on Ubuntu and other\nDebian-based installations.\nIt will update the Geeqie source code and its\ndependencies, and will compile and install Geeqie.\n\nYou may also switch the installed version from\nGTK2 to GTK3 and vice versa.\n\nIn this dialog you must select whether to compile\nfor GTK2 or GTK3.\nIf you want to use GPS maps or pdf preview,\nyou must choose GTK3.\nThe GTK2 version has a slightly different\nlook-and-feel compared to the GTK3 version,\nbut otherwise has the same features.\n\nIn subsequent dialogs you may choose which\noptional features to install."
 
 	title="Update Geeqie and re-install"
+	install_option=FALSE
+
+	# When updating, use previous installation as default
+	if [[ -f config.log ]]
+	then
+		grep gtk-2.0 config.log >/dev/null
+		if [[ $? != 0 ]]
+		then
+			gtk2_installed=FALSE
+			gtk3_installed=TRUE
+		else
+			gtk2_installed=TRUE
+			gtk3_installed=FALSE
+		fi
+	fi
 fi
 
 # Ask whether to install GTK2 or GTK3 or uninstall
 
-gtk_version=$(zenity --title="$title" --width=370 --text="$message" --list --radiolist --column "" --column "" TRUE "GTK3 (required for GPS maps and pdf preview)" FALSE "GTK2" FALSE "Uninstall" --cancel-label="Cancel" --ok-label="OK" --hide-header 2>/dev/null)
+gtk_version=$(zenity --title="$title" --width=370 --text="$message" --list --radiolist --column "" --column "" "$gtk3_installed" "GTK3 (required for GPS maps and pdf preview)" "$gtk2_installed" "GTK2" FALSE "Uninstall" --cancel-label="Cancel" --ok-label="OK" --hide-header 2>/dev/null)
 
 if [[ $? == 1 ]]
 then
@@ -307,14 +448,14 @@ zen_pid=$!
 arraylength=${#optional_array[@]}
 for (( i=0; i<${arraylength}; i=i+2 ));
 do
-	res=$(dpkg-query --show --showformat='${Status}' ${optional_array[$i+1]}  2>&1)
-	if [[ $res != "install ok installed"* ]]
+	package_query ${optional_array[$i+1]}
+	if [ $? != 0 ]
 	then
 		if [ -z "$option_string" ]
 		then
-			option_string=$'TRUE\n'"${optional_array[$i]}"$'\n'"${optional_array[$i+1]}"
+			option_string="$install_option"$'\n'"${optional_array[$i]}"$'\n'"${optional_array[$i+1]}"
 		else
-			option_string="$option_string"$'\nTRUE\n'"${optional_array[$i]}"$'\n'"${optional_array[$i+1]}"
+			option_string="$option_string"$'\n'"$install_option"$'\n'"${optional_array[$i]}"$'\n'"${optional_array[$i+1]}"
 		fi
 	fi
 done
@@ -325,14 +466,14 @@ then
 	arraylength=${#optional_gtk3_array[@]}
 	for (( i=0; i<${arraylength}; i=i+2 ));
 	do
-		res=$(dpkg-query --show --showformat='${Status}' ${optional_gtk3_array[$i+1]}  2>&1)
-		if [[ $res != "install ok installed"* ]]
+		package_query ${optional_gtk3_array[$i+1]}
+		if [ $? != 0 ]
 		then
 			if [ -z "$option_string" ]
 			then
-				option_string=$'TRUE\n'"${optional_gtk3_array[$i]}"$'\n'"${optional_gtk3_array[$i+1]}"
+				option_string="$install_option"$'\n'"${optional_gtk3_array[$i]}"$'\n'"${optional_gtk3_array[$i+1]}"
 			else
-				option_string="$option_string"$'\nTRUE\n'"${optional_gtk3_array[$i]}"$'\n'"${optional_gtk3_array[$i+1]}"
+				option_string="$option_string"$'\n'"$install_option"$'\n'"${optional_gtk3_array[$i]}"$'\n'"${optional_gtk3_array[$i+1]}"
 			fi
 		fi
 	done
@@ -345,9 +486,10 @@ if [[ $? == 1 ]]
 then
 	if [ -z "$loaders_string" ]
 	then
-		loaders_string=$'nFALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
+		loaders_string=$'FALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
 	else
 		loaders_string="$loaders_string"$'\nFALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
+
 	fi
 fi
 
@@ -380,7 +522,7 @@ kill $zen_pid 2>/dev/null
 # Ask the user which options to install
 if [ -n "$option_string" ]
 then
-	options=$(echo "$option_string" | zenity --title="$title" --width=370 --height=400 --list --checklist --text 'Select which library files to install:' --column='Select' --column='Library files' --column='Library' --hide-column=3 --print-column=3 2>/dev/null)
+	options=$(echo "$option_string" | zenity --title="$title" --width=400 --height=500 --list --checklist --text 'Select which library files to install:' --column='Select' --column='Library files' --column='Library' --hide-column=3 --print-column=3 2>/dev/null)
 
 	if [[ $? == 1 ]]
 	then
@@ -405,15 +547,20 @@ install_extra_loaders
 
 if [[ $mode == "install" ]]
 then
-	ret=$(git clone git://www.geeqie.org/geeqie.git)
+	ret=$(git clone git://www.geeqie.org/geeqie.git  2>&1 >/dev/null)
 else
 	git checkout master
-	ret=$(git pull)
+	if [[ $? != 0 ]]
+	then
+		zenity --title="$title" --width=370 --height=400 --error --text="Git checkout master error"  2>/dev/null
+		exit
+	fi
+	ret=$(git pull 2>&1 >/dev/null)
 fi
 
 if [[ $? != 0 ]]
 then
-	echo "$ret"
+	zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
 	exit
 fi
 
@@ -425,13 +572,30 @@ else
 	sudo make maintainer-clean
 fi
 
-if [[ "$COMMIT" ]]
+if [[ "$BACK" ]]
 then
-	git checkout "$COMMIT"
-fi
-if [[ "TAG" ]]
+	ret=$(git checkout master~"$BACK" 2>&1 >/dev/null)
+	if [[ $1 != 0 ]]
+	then
+		zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
+		exit
+	fi
+elif [[ "$COMMIT" ]]
 then
-	git checkout "$TAG"
+	ret=$(git checkout "$COMMIT" 2>&1 >/dev/null)
+	if [[ $1 != 0 ]]
+	then
+		zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
+		exit
+	fi
+elif [[ "$TAG" ]]
+then
+	ret=$(git checkout "$TAG" 2>&1 >/dev/null)
+	if [[ $1 != 0 ]]
+	then
+		zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
+		exit
+	fi
 fi
 
 if [[ $gtk_version == "GTK3"* ]]
@@ -445,5 +609,3 @@ make -j
 sudo make install
 
 exit
-
-
