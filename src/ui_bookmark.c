@@ -541,6 +541,17 @@ static void bookmark_drag_begin(GtkWidget *button, GdkDragContext *context, gpoi
 	g_object_unref(pixbuf);
 }
 
+static gboolean bookmark_path_tooltip_cb(GtkWidget *button, gpointer data)
+{
+	BookMarkData *bm = data;
+	BookButtonData *b;
+
+	b = g_object_get_data(G_OBJECT(button), "bookbuttondata");
+	gtk_widget_set_tooltip_text(GTK_WIDGET(button), b->path);
+
+	return FALSE;
+}
+
 static void bookmark_populate(BookMarkData *bm)
 {
 	GtkBox *box;
@@ -691,6 +702,9 @@ static void bookmark_populate(BookMarkData *bm)
 					 G_CALLBACK(bookmark_drag_set_data), bm);
 			g_signal_connect(G_OBJECT(b->button), "drag_begin",
 					 G_CALLBACK(bookmark_drag_begin), bm);
+
+			gtk_widget_set_has_tooltip(GTK_WIDGET(b->button), TRUE);
+			g_signal_connect(G_OBJECT(b->button), "query_tooltip", G_CALLBACK(bookmark_path_tooltip_cb), bm);
 			}
 
 		work = work->prev;
