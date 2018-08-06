@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2018-08-02"
+version="2018-08-06"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -202,8 +202,8 @@ unzip master.zip
 cd webp-pixbuf-loader-master
 ./waf configure
 ./waf build
-sudo ./waf install
-sudo gdk-pixbuf-query-loaders --update-cache
+sudo --askpass ./waf install
+sudo --askpass gdk-pixbuf-query-loaders --update-cache
 cd -
 rm -rf webp-pixbuf-loader-master
 rm master.zip
@@ -216,8 +216,8 @@ git clone https://github.com/and-rom/gdk-pixbuf-psd.git
 cd gdk-pixbuf-psd
 ./autogen.sh
 make
-sudo make install
-sudo gdk-pixbuf-query-loaders --update-cache
+sudo --askpass make install
+sudo --askpass gdk-pixbuf-query-loaders --update-cache
 cd -
 rm -rf gdk-pixbuf-psd
 }
@@ -232,7 +232,7 @@ cd xcf-pixbuf-loader
 make
 
 # There must be a better way...
-loader_locn=$(gdk-pixbuf-query-loaders | grep "LoaderDir"  | tr -d '#[:space:]')
+loader_locn=$(gdk-pixbuf-query-loaders | grep "LoaderDir" | tr -d '#[:space:]')
 
 OLDIFS=$IFS
 IFS='='
@@ -241,11 +241,11 @@ OLDIFS=$IFS
 
 if [ -d $2 ]
 then
-	sudo cp .libs/libioxcf.so $2
-	sudo gdk-pixbuf-query-loaders --update-cache
+	sudo --askpass cp .libs/libioxcf.so $2
+	sudo --askpass gdk-pixbuf-query-loaders --update-cache
 fi
 cd -
-rm -rf  xcf-pixbuf-loader
+rm -rf xcf-pixbuf-loader
 }
 
 install_extra_loaders()
@@ -281,25 +281,26 @@ uninstall()
 current_dir=$(basename $PWD)
 if [[ $current_dir == "geeqie" ]]
 then
-	sudo make uninstall
-	zenity --title="Uninstall Geeqie" --width=370 --text="WARNING.\nThis will delete folder:\n\n$PWD\n\nand all sub-folders!" --question --ok-label="Cancel" --cancel-label="OK"  2>/dev/null
+	sudo --askpass make uninstall
+	zenity --title="Uninstall Geeqie" --width=370 --text="WARNING.\nThis will delete folder:\n\n$PWD\n\nand all sub-folders!" --question --ok-label="Cancel" --cancel-label="OK" 2>/dev/null
 
 	if [[ $? == 1 ]]
 	then
 		cd ..
-		sudo rm -rf geeqie
+		sudo --askpass rm -rf geeqie
 	fi
 else
-	zenity --title="Uninstall Geeqie" --width=370 --text="This is not a geeqie installation folder!\n\n$PWD" --warning  2>/dev/null
+	zenity --title="Uninstall Geeqie" --width=370 --text="This is not a geeqie installation folder!\n\n$PWD" --warning 2>/dev/null
 fi
-exit
+
+exit_install
 }
 
 package_query()
 {
 if [[ $DistroBasedOn == "debian" ]]
 then
-	res=$(dpkg-query --show --showformat='${Status}' $1  2>&1)
+	res=$(dpkg-query --show --showformat='${Status}' $1 2>>$install_log)
 	if [[ "$res" == "install ok installed"* ]]
 	then
 		status=0
@@ -314,11 +315,38 @@ package_install()
 {
 if [[ $DistroBasedOn == "debian" ]]
 then
-	sudo apt-get --assume-yes install $@
+	sudo --askpass apt-get --assume-yes install $@ >>$install_log 2>&1
 fi
 }
 
+exit_install()
+{
+rm $install_pass_script >/dev/null 2>&1
+#~ rm $install_log >/dev/null 2>&1
+
+if [[ -p $zen_pipe ]]
+then
+	echo "100" > $zen_pipe
+	echo "#End" > $zen_pipe
+fi
+
+zenity --title="$title" --width=370 --text=$'Geeqie is not installed\nLog file: '$install_log --info 2>/dev/null
+
+rm $zen_pipe >/dev/null 2>&1
+
+exit 1
+}
+
 # Entry point
+
+# If uninstall has been run, maybe the current directory no longer exists
+ls $PWD >/dev/null
+if [[ $? != 0 ]]
+then
+	zenity --error --title="Install Geeqie and dependencies" --width=370 --text="Folder $PWD does not exist!" 2>/dev/null
+
+	exit
+fi
 
 # Check system type
 systemProfile
@@ -435,11 +463,28 @@ then
 	exit
 fi
 
+# Environment variable SUDO_ASKPASS cannot be "zenity --password",
+# so create a temporary script containing the command
+install_pass_script=$(mktemp --tmpdir geeqie_install_XXXXXX.sh)
+echo $'#!/bin/bash
+zenity --password --title=\"'$title$'\" --width=370 2>/dev/null
+if [[ $? > 0 ]]
+then
+	exit 1
+fi
+\n' > $install_pass_script
+chmod +x $install_pass_script
+export SUDO_ASKPASS=$install_pass_script
+
 if [[ $gtk_version == "Uninstall" ]]
 then
 	uninstall
 	exit
 fi
+
+# Put the install log in tmp, to avoid writing to PWD during a new install
+rm install.log 2>/dev/null
+install_log=$(mktemp --tmpdir geeqie_install_XXXXXX.log)
 
 sleep 100 | zenity --title="$title" --text="Checking for installed files" --width=370 --progress --pulsate 2>/dev/null &
 zen_pid=$!
@@ -526,7 +571,7 @@ then
 
 	if [[ $? == 1 ]]
 	then
-		exit
+		exit_install
 	fi
 fi
 
@@ -537,75 +582,127 @@ then
 
 	if [[ $? == 1 ]]
 	then
-		exit
+		exit_install
 	fi
 fi
 
+# Start of Zenity progress section
+zen_pipe=$(mktemp --dry-run --tmpdir geeqie_install_pipe_XXXXXX)
+mkfifo $zen_pipe
+(tail  -f $zen_pipe 2>/dev/null) | zenity --progress --title="$title" --width=370 --text="Installing options..." --auto-close --auto-kill --percentage=0 2>/dev/null &
+
+echo "2" > $zen_pipe
+echo "#Installing essential libraries..." > $zen_pipe
+
 install_essential $gtk_version
+
+echo "4" > $zen_pipe
+echo "#Installing options..." > $zen_pipe
+
 install_options
+
+echo "6" > $zen_pipe
+echo "#Installing extra loaders..." > $zen_pipe
+
 install_extra_loaders
+
+echo "10" > $zen_pipe
+echo "#Getting new sources from server..." > $zen_pipe
 
 if [[ $mode == "install" ]]
 then
-	ret=$(git clone git://www.geeqie.org/geeqie.git  2>&1 >/dev/null)
+	ret=$(git clone git://www.geeqie.org/geeqie.git >>$install_log 2>&1)
 else
-	git checkout master
+	git checkout master >>$install_log 2>&1
 	if [[ $? != 0 ]]
 	then
-		zenity --title="$title" --width=370 --height=400 --error --text="Git checkout master error"  2>/dev/null
-		exit
+		git_error=$(tail -n5 $install_log 2>&1)
+		zenity --title="$title" --width=370 --height=400 --error --text=$'Git error:\n\n'"$git_error" 2>/dev/null
+		exit_install
 	fi
-	ret=$(git pull 2>&1 >/dev/null)
+	ret=$(git pull >>$install_log 2>&1)
 fi
 
 if [[ $? != 0 ]]
 then
-	zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
-	exit
+	git_error=$(tail -n5 $install_log 2>&1)
+	zenity --title="$title" --width=370 --height=400 --error --text=$'Git error:\n\n'"$git_error" 2>/dev/null
+	exit_install
 fi
+
+echo "20" > $zen_pipe
+echo "#Cleaning installed version..." > $zen_pipe
 
 if [[ $mode == "install" ]]
 then
 	cd geeqie
 else
-	sudo make uninstall
-	sudo make maintainer-clean
+	sudo --askpass make uninstall >>$install_log 2>&1
+	sudo --askpass make maintainer-clean >>$install_log 2>&1
 fi
+
+echo "30" > $zen_pipe
+echo "#Checkout required version..." > $zen_pipe
 
 if [[ "$BACK" ]]
 then
-	ret=$(git checkout master~"$BACK" 2>&1 >/dev/null)
-	if [[ $1 != 0 ]]
+	ret=$(git checkout master~"$BACK" >>$install_log 2>&1)
+	if [[ $? != 0 ]]
 	then
-		zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
-		exit
+		git_error=$(tail -n5 $install_log 2>&1)
+		zenity --title="$title" --width=370 --height=400 --error --text=$'Git error:\n\n'"$git_error" 2>/dev/null
+		exit_install
 	fi
 elif [[ "$COMMIT" ]]
 then
-	ret=$(git checkout "$COMMIT" 2>&1 >/dev/null)
-	if [[ $1 != 0 ]]
+	ret=$(git checkout "$COMMIT" >>$install_log 2>&1)
+	if [[ $? != 0 ]]
 	then
-		zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
-		exit
+		git_error=$(tail -n5 $install_log 2>&1)
+		zenity --title="$title" --width=370 --height=400 --error --text=$'Git error:\n\n'"$git_error" 2>/dev/null
+		exit_install
 	fi
 elif [[ "$TAG" ]]
 then
-	ret=$(git checkout "$TAG" 2>&1 >/dev/null)
-	if [[ $1 != 0 ]]
+	ret=$(git checkout "$TAG" >>$install_log 2>&1)
+	if [[ $? != 0 ]]
 	then
-		zenity --title="$title" --width=370 --height=400 --error --text="Git error:\n\n $ret" 2>/dev/null
+	echo "error"
+		git_error=$(tail -n5 $install_log 2>&1)
+		zenity --title="$title" --width=370 --height=400 --error --text=$'Git error:\n\n'"$git_error" 2>/dev/null
+		exit_install
 		exit
 	fi
 fi
 
+echo "40" > $zen_pipe
+echo "#Creating configuration files..." > $zen_pipe
+
 if [[ $gtk_version == "GTK3"* ]]
 then
-	./autogen.sh
+	./autogen.sh >>$install_log 2>&1
 else
-	./autogen.sh --disable-gtk3
+	./autogen.sh --disable-gtk3 >>$install_log 2>&1
 fi
 
-make -j
-sudo make install
+echo "60" > $zen_pipe
+echo "#Compiling..." > $zen_pipe
+
+export CFLAGS=$CFLAGS" -Wno-deprecated-declarations"
+export CXXFLAGS=$CXXFLAGS" -Wno-deprecated-declarations"
+make -j >>$install_log 2>&1
+
+echo "90 " > $zen_pipe
+echo "#Installing Geeqie..." > $zen_pipe
+
+sudo --askpass make install >>$install_log 2>&1
+
+rm $install_pass_script
+mv -f $install_log install.log;
+
+echo "100 " > $zen_pipe
+rm $zen_pipe
+
+(for i in $(seq 0 4 100); do echo "$i"; sleep 0.1; done) | zenity --progress --title="$title" --width=370 --text="Geeqie installation complete...\n" --auto-close 2>/dev/null
 
 exit
