@@ -812,8 +812,17 @@ static gchar *exif_build_formatted_timezone(ExifData *exif)
 	text_latitude_ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLatitudeRef");
 	text_longitude_ref = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSLongitudeRef");
 
-	if (text_latitude && text_longitude && text_latitude_ref &&
-						text_longitude_ref)
+	if ((text_latitude && g_strrstr(text_latitude, "deg")) &&
+		(text_longitude && g_strrstr(text_longitude, "deg")) &&
+		(
+			(text_latitude_ref && g_strrstr(text_latitude_ref, "N")) ||
+			(text_latitude_ref && g_strrstr(text_latitude_ref, "S"))
+		) &&
+		(
+			(text_longitude_ref && g_strrstr(text_longitude_ref, "E")) ||
+			(text_longitude_ref && g_strrstr(text_longitude_ref, "W"))
+		)
+		)
 		{
 		lat_deg = strtok(text_latitude, "deg'");
 		lat_min = strtok(NULL, "deg'");
