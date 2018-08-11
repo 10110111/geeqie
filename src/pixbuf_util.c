@@ -132,6 +132,12 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_SORT,	icon_sort },
 	{ PIXBUF_INLINE_ICON_PDF,	icon_pdf },
 	{ PIXBUF_INLINE_ICON_DRAW_RECTANGLE,	icon_draw_rectangle },
+	{ PIXBUF_INLINE_ICON_MOVE,	icon_move },
+	{ PIXBUF_INLINE_ICON_RENAME,	icon_rename },
+	{ PIXBUF_INLINE_ICON_SELECT_ALL,	icon_select_all },
+	{ PIXBUF_INLINE_ICON_SELECT_NONE,	icon_select_none },
+	{ PIXBUF_INLINE_ICON_SELECT_INVERT,	icon_select_invert },
+	{ PIXBUF_INLINE_ICON_SELECT_RECTANGLE,	icon_select_rectangle },
 	{ NULL, NULL }
 };
 

@@ -33,7 +33,14 @@ ICONS_INLINE = \
 	icon_info.png	\
 	icon_sort.png	\
 	icon_pdf.png	\
-	icon_draw_rectangle.png
+	icon_draw_rectangle.png \
+	icon_move.png \
+	icon_rename.png \
+	icon_select_all.png \
+	icon_select_none.png \
+	icon_select_invert.png \
+	icon_select_rectangle.png
+
 
 ICONS_INLINE_PAIRS = \
 	folder_closed		$(srcdir)/folder_closed.png	\
@@ -65,7 +72,13 @@ ICONS_INLINE_PAIRS = \
 	icon_info	$(srcdir)/icon_info.png	\
 	icon_sort	$(srcdir)/icon_sort.png	\
 	icon_pdf	$(srcdir)/icon_pdf.png \
-	icon_draw_rectangle	$(srcdir)/icon_draw_rectangle.png
+	icon_draw_rectangle	$(srcdir)/icon_draw_rectangle.png \
+	icon_move	$(srcdir)/icon_move.png \
+	icon_rename	$(srcdir)/icon_rename.png \
+	icon_select_all	$(srcdir)/icon_select_all.png \
+	icon_select_none	$(srcdir)/icon_select_none.png \
+	icon_select_invert	$(srcdir)/icon_select_invert.png \
+	icon_select_rectangle	$(srcdir)/icon_select_rectangle.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
 	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \
@@ -83,4 +96,3 @@ CLEANFILES = $(noinst_DATA)
 EXTRA_DIST = \
 	$(ICONS_INLINE)		\
 	marker.xpm
-
