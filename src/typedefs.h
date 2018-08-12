@@ -731,7 +731,7 @@ struct _LayoutWindow
 
 //	gint tools_float;
 //	gint tools_hidden;
-
+	GtkWidget *menu_tool_bar; /*Combined menu and toolbar box */
 	GtkWidget *menu_bar; /* referenced by lw, exist during whole lw lifetime */
 	/* toolbar */
 

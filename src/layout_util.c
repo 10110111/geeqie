@@ -2703,6 +2703,24 @@ GtkWidget *layout_actions_toolbar(LayoutWindow *lw, ToolbarType type)
 	return lw->toolbar[type];
 }
 
+GtkWidget *layout_actions_menu_tool_bar(LayoutWindow *lw)
+{
+	GtkWidget *menu_bar;
+	GtkWidget *toolbar;
+
+	if (lw->menu_tool_bar) return lw->menu_tool_bar;
+
+	menu_bar = layout_actions_menu_bar(lw);
+	toolbar = layout_actions_toolbar(lw, TOOLBAR_MAIN);
+	lw->menu_tool_bar = gtk_vbox_new(FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(lw->menu_tool_bar), menu_bar, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(lw->menu_tool_bar), toolbar, FALSE, FALSE, 0);
+
+	g_object_ref(lw->menu_tool_bar);
+	return lw->menu_tool_bar;
+}
+
 void layout_toolbar_clear(LayoutWindow *lw, ToolbarType type)
 {
 	if (lw->toolbar_merge_id[type])
