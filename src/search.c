@@ -154,6 +154,7 @@ struct _SearchData
 	FileData *search_dir_fd;
 	gboolean   search_path_recurse;
 	gchar *search_name;
+	GRegex *search_name_regex;
 	gboolean   search_name_match_case;
 	gint64 search_size;
 	gint64 search_size_end;
@@ -172,6 +173,7 @@ struct _SearchData
 	CacheData *search_similarity_cd;
 	GList *search_keyword_list;
 	gchar *search_comment;
+	GRegex *search_comment_regex;
 	gint   search_rating;
 	gint   search_rating_end;
 	gboolean   search_comment_match_case;
@@ -1915,13 +1917,13 @@ static gboolean search_file_next(SearchData *sd)
 			{
 			if (sd->search_name_match_case)
 				{
-				match = (strstr(fd->name, sd->search_name) != NULL);
+				match = g_regex_match(sd->search_name_regex, fd->name, 0, NULL);
 				}
 			else
 				{
 				/* sd->search_name is converted in search_start() */
 				gchar *haystack = g_utf8_strdown(fd->name, -1);
-				match = (strstr(haystack, sd->search_name) != NULL);
+				match = g_regex_match(sd->search_name_regex, haystack, 0, NULL);
 				g_free(haystack);
 				}
 			}
@@ -2112,11 +2114,11 @@ static gboolean search_file_next(SearchData *sd)
 
 			if (sd->match_comment == SEARCH_MATCH_CONTAINS)
 				{
-				match = (strstr(comment, sd->search_comment) != NULL);
+				match = g_regex_match(sd->search_comment_regex, comment, 0, NULL);
 				}
 			else if (sd->match_comment == SEARCH_MATCH_NONE)
 				{
-				match = (strstr(comment, sd->search_comment) == NULL);
+				match = !g_regex_match(sd->search_comment_regex, comment, 0, NULL);
 				}
 			g_free(comment);
 			}
@@ -2459,6 +2461,8 @@ static void search_similarity_load_done_cb(ImageLoader *il, gpointer data)
 
 static void search_start(SearchData *sd)
 {
+	GError *error = NULL;
+
 	search_stop(sd);
 	search_result_clear(sd);
 
@@ -2475,12 +2479,40 @@ static void search_start(SearchData *sd)
 		sd->search_name = tmp;
 		}
 
+	if(sd->search_name_regex)
+		{
+		g_regex_unref(sd->search_name_regex);
+		}
+
+	sd->search_name_regex = g_regex_new(sd->search_name, 0, 0, &error);
+	if (error)
+		{
+		log_printf("Error: could not compile regular expression %s\n%s\n", sd->search_name, error->message);
+		g_error_free(error);
+		error = NULL;
+		sd->search_name_regex = g_regex_new("", 0, 0, NULL);
+		}
+
 	if (!sd->search_comment_match_case)
 		{
 		/* convert to lowercase here, so that this is only done once per search */
 		gchar *tmp = g_utf8_strdown(sd->search_comment, -1);
 		g_free(sd->search_comment);
 		sd->search_comment = tmp;
+		}
+
+	if(sd->search_comment_regex)
+		{
+		g_regex_unref(sd->search_comment_regex);
+		}
+
+	sd->search_comment_regex = g_regex_new(sd->search_comment, 0, 0, &error);
+	if (error)
+		{
+		log_printf("Error: could not compile regular expression %s\n%s\n", sd->search_comment, error->message);
+		g_error_free(error);
+		error = NULL;
+		sd->search_comment_regex = g_regex_new("", 0, 0, NULL);
 		}
 
 	sd->search_count = 0;
@@ -3032,7 +3064,9 @@ static void search_window_destroy_cb(GtkWidget *widget, gpointer data)
 	file_data_unref(sd->search_dir_fd);
 
 	g_free(sd->search_name);
+	g_regex_unref(sd->search_name_regex);
 	g_free(sd->search_comment);
+	g_regex_unref(sd->search_comment_regex);
 	g_free(sd->search_similarity_path);
 	string_list_free(sd->search_keyword_list);
 
@@ -3149,6 +3183,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_widget_show(combo);
 	pref_checkbox_new_int(hbox, _("Match case"),
 			      sd->search_name_match_case, &sd->search_name_match_case);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(combo), "When set to \"contains\", this field uses Perl Compatible Regular Expressions.\ne.g. use \n.*\\.jpg\n and not \n*.jpg\n\nSee the Help file.");
 
 	/* Search for file size */
 	hbox = menu_choice(sd->box_search, &sd->check_size, &sd->menu_size,
@@ -3257,6 +3292,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_widget_show(sd->entry_comment);
 	pref_checkbox_new_int(hbox, _("Match case"),
 			      sd->search_comment_match_case, &sd->search_comment_match_case);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(sd->entry_comment), "This field uses Perl Compatible Regular Expressions.\ne.g. use \nabc.*ghk\n and not \nabc*ghk\n\nSee the Help file.");
 
 	/* Search for image rating */
 	hbox = menu_choice(sd->box_search, &sd->check_rating, &sd->menu_rating,

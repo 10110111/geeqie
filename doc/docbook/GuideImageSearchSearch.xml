@@ -72,7 +72,13 @@
         <term>
           <guilabel>File name</guilabel>
         </term>
-        <listitem>The search will match if the entered text appears within the file name, or if the text exactly matches the file name, depending on the method selected from the drop down menu. The text comparison can be made to be case sensitive by enabling the Match case checkbox.</listitem>
+        <listitem>
+          The search will match if the entered text appears within the file name, or if the text exactly matches the file name, depending on the method selected from the drop down menu. The text comparison can be made to be case sensitive by enabling the Match case checkbox.
+          <para />
+          If "contains" is selected,
+          <link linkend="GuideReferencePCRE">Perl Compatible Regular Expressions</link>
+          are used.
+        </listitem>
       </varlistentry>
       <varlistentry>
         <term>
@@ -136,6 +142,16 @@
           <guilabel>Keywords</guilabel>
         </term>
         <listitem>The search will match if the file's associated keywords match all, match any, or exclude the entered keywords, depending on the method selected from the drop down menu. Keywords can be separated with a space, comma, or tab character.</listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Comment</guilabel>
+        </term>
+        <listitem>
+          The search will match if the file's Comments field contains the entered pattern.
+          <link linkend="GuideReferencePCRE">Perl Compatible Regular Expressions</link>
+          are used.
+        </listitem>
       </varlistentry>
       <varlistentry>
         <term>

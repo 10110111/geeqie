@@ -531,7 +531,13 @@ dd.answer div.label { float: left; }
 <dt class="term dt-first">
           <span class="guilabel">File name</span>
         </dt>
-<dd>The search will match if the entered text appears within the file name, or if the text exactly matches the file name, depending on the method selected from the drop down menu. The text comparison can be made to be case sensitive by enabling the Match case checkbox.</dd>
+<dd>
+          The search will match if the entered text appears within the file name, or if the text exactly matches the file name, depending on the method selected from the drop down menu. The text comparison can be made to be case sensitive by enabling the Match case checkbox.
+          <p class="para block block-first"></p>
+          If "contains" is selected,
+          <a class="link" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a>
+          are used.
+        </dd>
 <dt class="term">
           <span class="guilabel">File size</span>
         </dt>
@@ -585,6 +591,14 @@ dd.answer div.label { float: left; }
           <span class="guilabel">Keywords</span>
         </dt>
 <dd>The search will match if the file's associated keywords match all, match any, or exclude the entered keywords, depending on the method selected from the drop down menu. Keywords can be separated with a space, comma, or tab character.</dd>
+<dt class="term">
+          <span class="guilabel">Comment</span>
+        </dt>
+<dd>
+          The search will match if the file's Comments field contains the entered pattern.
+          <a class="link" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a>
+          are used.
+        </dd>
 <dt class="term">
           <span class="guilabel">Geocoded position</span>
         </dt>

@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Standards</title>
-<link rel="previous" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">
-<link rel="next" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">
+<title>Caching Data For Searches</title>
+<link rel="previous" href="GuideImageSearchCache.html" title="Caching Data For Searches">
+<link rel="next" href="GuideImageSearchSearch.html" title="Search Window">
 <link rel="top" href="GuideIndex.html" title="The Geeqie User Manual">
 <style type="text/css">
 
@@ -410,8 +410,8 @@ dd.answer div.label { float: left; }
 </head>
 <body>
 <div class="navbar navbar-top"><table class="navbar"><tr>
-<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a></td>
+<td class="navbar-prev"><a class="navbar-prev" href="GuideImageSearchCache.html" title="Caching Data For Searches">Caching Data For Searches</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideImageSearchSearch.html" title="Search Window">Search Window</a></td>
 </tr></table></div>
 <div class="sidebar"><div class="sidenav"><div class="autotoc"><ul>
 <li><a href="GuideIndex-info.html" title="About This Document">About This Document</a></li>
@@ -421,7 +421,14 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideMainWindow.html" title="Main Window">Main Window</a></li>
 <li><a class="xref" href="GuideSidebars.html" title="Sidebars">Sidebars</a></li>
 <li><a class="xref" href="GuideOtherWindows.html" title="Stand-alone Windows">Stand-alone Windows</a></li>
-<li><a class="xref" href="GuideImageSearch.html" title="Search and Select">Search and Select</a></li>
+<li>
+<a class="xref" href="GuideImageSearch.html" title="Search and Select">Search and Select</a><div class="autotoc"><ul>
+<li>Caching Data For Searches</li>
+<li><a class="xref" href="GuideImageSearchSearch.html" title="Search Window">Search Window</a></li>
+<li><a class="xref" href="GuideImageSearchFindingDuplicates.html" title="Finding Duplicates">Finding Duplicates</a></li>
+<li><a class="xref" href="GuideImageMarks.html" title="Marking Images">Marking Images</a></li>
+</ul></div>
+</li>
 <li><a class="xref" href="GuideImageManagementPlugins.html" title="Plugins">Plugins</a></li>
 <li><a class="xref" href="GuideImageManagement.html" title="File Management">File Management</a></li>
 <li><a class="xref" href="GuideColorManagement.html" title="Color Management">Color Management</a></li>
@@ -429,24 +436,7 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuidePrinting.html" title="Printing">Printing</a></li>
 <li><a class="xref" href="GuideOptionsMain.html" title="Preferences">Preferences</a></li>
 <li><a class="xref" href="GuideOptionsAdditional.html" title="Additional Preferences">Additional Preferences</a></li>
-<li>
-<a class="xref" href="GuideReference.html" title="Reference">Reference</a><div class="autotoc"><ul>
-<li><a class="xref" href="GuideReferenceCommandLine.html" title="Command Line Options">Command Line Options</a></li>
-<li><a class="xref" href="GuideReferenceKeyboardShortcuts.html" title="Keyboard and Mouse Shortcuts">Keyboard and Mouse Shortcuts</a></li>
-<li><a class="xref" href="GuideReferenceThumbnails.html" title="Thumbnails">Thumbnails</a></li>
-<li><a class="xref" href="GuideReferenceMetadata.html" title="Metadata Processing">Metadata Processing</a></li>
-<li><a class="xref" href="GuideReferenceLua.html" title="Lua Extensions">Lua Extensions</a></li>
-<li><a class="xref" href="GuideReferenceConfig.html" title="Configuration Files and Locations">Configuration Files and Locations</a></li>
-<li><a class="xref" href="GuideReferenceLIRC.html" title="Infra-red controller">Infra-red controller</a></li>
-<li><a class="xref" href="GuideReferenceXmpExif.html" title="XMP, Exif and IPTC">XMP, Exif and IPTC</a></li>
-<li><a class="xref" href="GuideReferenceSupportedFormats.html" title="Supported File Formats">Supported File Formats</a></li>
-<li><a class="xref" href="GuideReferencePixbufLoaders.html" title="Additional pixbuf loaders">Additional pixbuf loaders</a></li>
-<li><a class="xref" href="GuideReferenceUTC.html" title="UTC and Daylight Saving Time (DST)">UTC and Daylight Saving Time (DST)</a></li>
-<li><a class="xref" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></li>
-<li>Standards</li>
-<li><a class="xref" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a></li>
-</ul></div>
-</li>
+<li><a class="xref" href="GuideReference.html" title="Reference">Reference</a></li>
 <li><a class="xref" href="GuideFaq.html" title="Frequently Asked Questions">Frequently Asked Questions</a></li>
 <li><a class="xref" href="GuideLicence.html" title="Licence">Licence</a></li>
 <li><a class="xref" href="GuideCredits.html" title="Credits">Credits</a></li>
@@ -455,39 +445,33 @@ dd.answer div.label { float: left; }
 </li>
 </ul></div></div></div>
 <div class="body body-sidebar"><div class="division section">
-<a name="GuideReferenceStandards"></a><div class="header"><h1 class="section title"><span class="title"><a name="titleGuideReferenceStandards"></a>Standards</span></h1></div>
+<a name="GuideImageSearchCache"></a><div class="header"><h1 class="section title"><span class="title"><a name="titleGuideImageSearchCache"></a>Caching Data For Searches</span></h1></div>
 <ul class="linktrail">
 <li class="linktrail linktrail-first"><a class="linktrail" href="GuideIndex.html" title="The Geeqie User Manual">The Geeqie User Manual</a></li>
-<li class="linktrail linktrail-last"><a class="linktrail" href="GuideReference.html" title="Reference">Reference</a></li>
+<li class="linktrail linktrail-last"><a class="linktrail" href="GuideImageSearch.html" title="Search and Select">Search and Select</a></li>
 </ul>
 <p class="para block block-first">
-    Desktop files:
-    <a class="ulink" href="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html" title="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html">https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html</a>
-  </p>
-<p class="para block">
-    Desktop files:
-    <a class="ulink" href="http://standards.freedesktop.org/desktop-entry-spec/" title="http://standards.freedesktop.org/desktop-entry-spec/">http://standards.freedesktop.org/desktop-entry-spec/</a>
-  </p>
-<p class="para block">
-    XMP:
-    <a class="ulink" href="http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf" title="http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf">http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf</a>
-  </p>
-<p class="para block">
-    IPTC4XMP:
-    <a class="ulink" href="http://xml.coverpages.org/IPTC-CoreSchema200503-ImplGuideLines3.pdf" title="http://xml.coverpages.org/IPTC-CoreSchema200503-ImplGuideLines3.pdf">http://xml.coverpages.org/IPTC-CoreSchema200503-ImplGuideLines3.pdf</a>
-  </p>
-<p class="para block">
-    Pango mark up:
-    <a class="ulink" href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html" title="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">https://developer.gnome.org/pango/stable/PangoMarkupFormat.html</a>
-  </p>
-<p class="para block">
-    Thumbnails:
-    <a class="ulink" href="https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html" title="https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html">https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html</a>
-  </p>
+      Searching large numbers of files for similarity can take significant cpu time. Part of this is the time to compute the similarity matrix for each file.
+      <p class="para block block-first"></p>
+      If the
+      <a class="link" href="GuideOptionsGeneral.html#PreferencesThumbnails" title="Thumbnails">Cache Thumbnails</a>
+      option is selected in Preferences/General, the similarity matrix and the checksum will also be cached. This will reduce the time needed for future searches.
+      <div class="admonition block note block-indent"><div class="note-inner">If you frequently search on similarity and your images are in a tree arrangement under a single point, initiating a one-time search on similarity from the top of the tree will generate the similarity data for all images.</div></div>
+      <p class="para block">Similarity data are stored in a folder hierachy that mirrors the location of the source images. The data have the same name as the original appended by the file extension .sim.</p>
+      <p class="para block">
+        The root of the hierachy is:
+        <p class="para block block-first">
+          <div dir="ltr" class=" block programlisting block-indent block-first"><pre class="programlisting">$XDG_CACHE_HOME/geeqie/thumbnails/</pre></div>
+          or, if $XDG_CACHE_HOME is not defined:
+          <div dir="ltr" class=" block programlisting block-indent"><pre class="programlisting">$HOME/.cache/geeqie/thumbnails/</pre></div>
+        </p>
+      </p>
+    </p>
+<p class="para block"></p>
 </div></div>
 <div class="navbar navbar-bottom"><table class="navbar"><tr>
-<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a></td>
+<td class="navbar-prev"><a class="navbar-prev" href="GuideImageSearchCache.html" title="Caching Data For Searches">Caching Data For Searches</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideImageSearchSearch.html" title="Search Window">Search Window</a></td>
 </tr></table></div>
 </body>
 </html>

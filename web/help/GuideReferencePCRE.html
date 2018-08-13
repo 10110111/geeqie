@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Standards</title>
-<link rel="previous" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">
-<link rel="next" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">
+<title>Perl Compatible Regular Expressions</title>
+<link rel="previous" href="GuideReferenceStandards.html" title="Standards">
+<link rel="next" href="GuideFaq.html" title="Frequently Asked Questions">
 <link rel="top" href="GuideIndex.html" title="The Geeqie User Manual">
 <style type="text/css">
 
@@ -410,8 +410,8 @@ dd.answer div.label { float: left; }
 </head>
 <body>
 <div class="navbar navbar-top"><table class="navbar"><tr>
-<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a></td>
+<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceStandards.html" title="Standards">Standards</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideFaq.html" title="Frequently Asked Questions">Frequently Asked Questions</a></td>
 </tr></table></div>
 <div class="sidebar"><div class="sidenav"><div class="autotoc"><ul>
 <li><a href="GuideIndex-info.html" title="About This Document">About This Document</a></li>
@@ -443,8 +443,8 @@ dd.answer div.label { float: left; }
 <li><a class="xref" href="GuideReferencePixbufLoaders.html" title="Additional pixbuf loaders">Additional pixbuf loaders</a></li>
 <li><a class="xref" href="GuideReferenceUTC.html" title="UTC and Daylight Saving Time (DST)">UTC and Daylight Saving Time (DST)</a></li>
 <li><a class="xref" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></li>
-<li>Standards</li>
-<li><a class="xref" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a></li>
+<li><a class="xref" href="GuideReferenceStandards.html" title="Standards">Standards</a></li>
+<li>Perl Compatible Regular Expressions</li>
 </ul></div>
 </li>
 <li><a class="xref" href="GuideFaq.html" title="Frequently Asked Questions">Frequently Asked Questions</a></li>
@@ -455,39 +455,25 @@ dd.answer div.label { float: left; }
 </li>
 </ul></div></div></div>
 <div class="body body-sidebar"><div class="division section">
-<a name="GuideReferenceStandards"></a><div class="header"><h1 class="section title"><span class="title"><a name="titleGuideReferenceStandards"></a>Standards</span></h1></div>
+<a name="GuideReferencePCRE"></a><div class="header"><h1 class="section title"><span class="title"><a name="titleGuideReferencePCRE"></a>Perl Compatible Regular Expressions</span></h1></div>
 <ul class="linktrail">
 <li class="linktrail linktrail-first"><a class="linktrail" href="GuideIndex.html" title="The Geeqie User Manual">The Geeqie User Manual</a></li>
 <li class="linktrail linktrail-last"><a class="linktrail" href="GuideReference.html" title="Reference">Reference</a></li>
 </ul>
 <p class="para block block-first">
-    Desktop files:
-    <a class="ulink" href="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html" title="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html">https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html</a>
-  </p>
-<p class="para block">
-    Desktop files:
-    <a class="ulink" href="http://standards.freedesktop.org/desktop-entry-spec/" title="http://standards.freedesktop.org/desktop-entry-spec/">http://standards.freedesktop.org/desktop-entry-spec/</a>
-  </p>
-<p class="para block">
-    XMP:
-    <a class="ulink" href="http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf" title="http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf">http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf</a>
-  </p>
-<p class="para block">
-    IPTC4XMP:
-    <a class="ulink" href="http://xml.coverpages.org/IPTC-CoreSchema200503-ImplGuideLines3.pdf" title="http://xml.coverpages.org/IPTC-CoreSchema200503-ImplGuideLines3.pdf">http://xml.coverpages.org/IPTC-CoreSchema200503-ImplGuideLines3.pdf</a>
-  </p>
-<p class="para block">
-    Pango mark up:
-    <a class="ulink" href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html" title="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">https://developer.gnome.org/pango/stable/PangoMarkupFormat.html</a>
-  </p>
-<p class="para block">
-    Thumbnails:
-    <a class="ulink" href="https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html" title="https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html">https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html</a>
+    The Filename and Comment sections on the search window use
+    <a class="ulink" href="https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions" title="https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions">Perl Compatible Regular Expressions</a>
+    . In general use there are a number of differences to the wildcard expansion used on the command line:
+    <div class="block list itemizedlist"><ul class="itemizedlist">
+<li class="li-first">Use "." and not "?" for a single character.</li>
+<li>Use "abc.*ghk" and not "abc*ghk" for multiple characters</li>
+<li>Use "\." to represent the dot in a file extension</li>
+</ul></div>
   </p>
 </div></div>
 <div class="navbar navbar-bottom"><table class="navbar"><tr>
-<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceDecodeLatLong.html" title="Decoding Latitude and Longitude">Decoding Latitude and Longitude</a></td>
-<td class="navbar-next"><a class="navbar-next" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Perl Compatible Regular Expressions</a></td>
+<td class="navbar-prev"><a class="navbar-prev" href="GuideReferenceStandards.html" title="Standards">Standards</a></td>
+<td class="navbar-next"><a class="navbar-next" href="GuideFaq.html" title="Frequently Asked Questions">Frequently Asked Questions</a></td>
 </tr></table></div>
 </body>
 </html>
