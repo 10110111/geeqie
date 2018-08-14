@@ -885,7 +885,7 @@ static void options_load_marks_tooltips(GQParserData *parser_data, GMarkupParseC
 		const gchar *value = *attribute_values++;
 		if (READ_CHAR_FULL("text",  options->marks_tooltips[i])) continue;
 
-		log_printf("unkown attribute %s = %s\n", option, value);
+		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 	i++;
 	options_parse_func_set_data(parser_data, GINT_TO_POINTER(i));
