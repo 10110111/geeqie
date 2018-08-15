@@ -89,6 +89,8 @@ gboolean layout_thumb_get(LayoutWindow *lw);
 void layout_marks_set(LayoutWindow *lw, gboolean enable);
 gboolean layout_marks_get(LayoutWindow *lw);
 
+void layout_file_filter_set(LayoutWindow *lw, gboolean enable);
+
 void layout_sort_set(LayoutWindow *lw, SortType type, gboolean ascend);
 gboolean layout_sort_get(LayoutWindow *lw, SortType *type, gboolean *ascend);
 

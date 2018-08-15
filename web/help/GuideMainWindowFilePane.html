@@ -468,16 +468,19 @@ dd.answer div.label { float: left; }
 <span class="label">2.1.2. </span><a class="xref" href="GuideMainWindowFilePane.html#Iconview" title="Icon view">Icon view</a>
 </li>
 <li>
-<span class="label">2.1.3. </span><a class="xref" href="GuideMainWindowFilePane.html#Multipleselection" title="Multiple selection">Multiple selection</a>
+<span class="label">2.1.3. </span><a class="xref" href="GuideMainWindowFilePane.html#Filefilter" title="File Filter">File Filter</a>
 </li>
 <li>
-<span class="label">2.1.4. </span><a class="xref" href="GuideMainWindowFilePane.html#Sorting" title="Sorting">Sorting</a>
+<span class="label">2.1.4. </span><a class="xref" href="GuideMainWindowFilePane.html#Multipleselection" title="Multiple selection">Multiple selection</a>
 </li>
 <li>
-<span class="label">2.1.5. </span><a class="xref" href="GuideMainWindowFilePane.html#Contextmenu" title="Context menu">Context menu</a>
+<span class="label">2.1.5. </span><a class="xref" href="GuideMainWindowFilePane.html#Sorting" title="Sorting">Sorting</a>
 </li>
 <li>
-<span class="label">2.1.6. </span><a class="xref" href="GuideMainWindowFilePane.html#DragandDrop" title="Drag and Drop">Drag and Drop</a>
+<span class="label">2.1.6. </span><a class="xref" href="GuideMainWindowFilePane.html#Contextmenu" title="Context menu">Context menu</a>
+</li>
+<li>
+<span class="label">2.1.7. </span><a class="xref" href="GuideMainWindowFilePane.html#DragandDrop" title="Drag and Drop">Drag and Drop</a>
 </li>
 </ul></div>
 <div class="division section">
@@ -530,19 +533,39 @@ dd.answer div.label { float: left; }
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Multipleselection"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.3. </span>Multiple selection</span></h2></div>
+<a name="Filefilter"></a><div class="header"><h2 class="section title"><span class="title"><a name="titleFilefilter"></a><span class="label">2.1.3. </span>File Filter</span></h2></div>
+<p class="para block block-first">
+      A filter box can be opened by selecting
+      <span class="emphasis emphasis-bold">Show File Filter</span>
+      from the View menu.
+    </p>
+<p class="para block">
+      Characters you type into this box will be used for pattern matching to select the files displayed.
+      <a class="link" href="GuideReferencePCRE.html" title="Perl Compatible Regular Expressions">Regular expressions</a>
+      are used in this field.
+      <p class="para block"></p>
+      For basic pattern matching "JPG" will match any filename containing those characters.
+      <p class="para block"></p>
+      To make a case-insensitive search, use "(?i)JPG"
+      <p class="para block"></p>
+      If you type a newline, the text will be saved in the dropdown box list. The last 10 items are saved.
+    </p>
+<p class="para block"></p>
+</div>
+<div class="division section">
+<a name="Multipleselection"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.4. </span>Multiple selection</span></h2></div>
 <p class="para block block-first">It is possible to select more than one image from the file pane. Multiple files can be selected with several methods:</p>
 <p class="para block"></p>
 <div class="autotoc"><ul>
 <li>
-<span class="label">2.1.3.1. </span><a class="xref" href="GuideMainWindowFilePane.html#Mouse" title="Mouse">Mouse</a>
+<span class="label">2.1.4.1. </span><a class="xref" href="GuideMainWindowFilePane.html#Mouse" title="Mouse">Mouse</a>
 </li>
 <li>
-<span class="label">2.1.3.2. </span><a class="xref" href="GuideMainWindowFilePane.html#Keyboard" title="Keyboard">Keyboard</a>
+<span class="label">2.1.4.2. </span><a class="xref" href="GuideMainWindowFilePane.html#Keyboard" title="Keyboard">Keyboard</a>
 </li>
 </ul></div>
 <div class="division section">
-<a name="Mouse"></a><div class="header"><h3 class="section title"><span class="title"><span class="label">2.1.3.1. </span>Mouse</span></h3></div>
+<a name="Mouse"></a><div class="header"><h3 class="section title"><span class="title"><span class="label">2.1.4.1. </span>Mouse</span></h3></div>
 <div class="block list itemizedlist"><ul class="itemizedlist" compact>
 <li class="li-first">
           <span class="para"><span class="code" dir="ltr">Ctrl</span> + Primary mouse button will add or remove the file from the selection.</span>
@@ -560,7 +583,7 @@ dd.answer div.label { float: left; }
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Keyboard"></a><div class="header"><h3 class="section title"><span class="title"><span class="label">2.1.3.2. </span>Keyboard</span></h3></div>
+<a name="Keyboard"></a><div class="header"><h3 class="section title"><span class="title"><span class="label">2.1.4.2. </span>Keyboard</span></h3></div>
 <div class="block list itemizedlist"><ul class="itemizedlist" compact>
 <li class="li-first">
           <span class="para"><span class="code" dir="ltr">Ctrl + Arrows</span> will move the focus without changing the selection.</span>
@@ -593,13 +616,13 @@ dd.answer div.label { float: left; }
 </div>
 </div>
 <div class="division section">
-<a name="Sorting"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.4. </span>Sorting</span></h2></div>
+<a name="Sorting"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.5. </span>Sorting</span></h2></div>
 <p class="para block block-first">The order of the images can be changed by clicking the sort area of the status bar or from the context menu. The sort methods are by file name, number, file date, or file size. The number method will sort file names by their natural order, for example files with names of file_10, file_12, and file_9 will appear in order file_9, file_10, and file_12.</p>
 <p class="para block">Selecting the ascending menu item will toggle between increasing and decreasing sort order.</p>
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="Contextmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.5. </span>Context menu</span></h2></div>
+<a name="Contextmenu"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.6. </span>Context menu</span></h2></div>
 <p class="para block block-first">
       Right clicking the mouse or pressing the menu key while the file pane has focus will display a menu. The menu functions will perform the same as those that match the window's
       <a class="link" href="GuideMainWindowMenus.html" title="Menus">menu bar</a>
@@ -646,7 +669,7 @@ dd.answer div.label { float: left; }
 <p class="para block"></p>
 </div>
 <div class="division section">
-<a name="DragandDrop"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.6. </span>Drag and Drop</span></h2></div>
+<a name="DragandDrop"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">2.1.7. </span>Drag and Drop</span></h2></div>
 <p class="para block block-first">Drag and drop can be initialized with the primary or middle mouse buttons in the file pane. Dragging a file that is selected will include all selected files in the drag. Dragging a file that is not selected will first change the selection to the dragged file, and clear the previous selection.</p>
 <p class="para block"></p>
 </div>

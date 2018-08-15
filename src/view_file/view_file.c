@@ -25,6 +25,7 @@
 #include "collect.h"
 #include "collect-table.h"
 #include "editors.h"
+#include "history_list.h"
 #include "layout.h"
 #include "menu.h"
 #include "thumb.h"
@@ -844,6 +845,35 @@ static gboolean vf_marks_tooltip_cb(GtkWidget *widget,
 	return FALSE;
 }
 
+static void vf_file_filter_save_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	gchar *entry_text;
+
+	entry_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(vf->file_filter_combo)))));
+
+	history_list_add_to_key("file_filter", entry_text, 10);
+
+	vf_refresh(vf);
+
+	g_free(entry_text);
+}
+
+static void vf_file_filter_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	vf_refresh(vf);
+}
+
+static gboolean vf_file_filter_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
+{
+	ViewFile *vf = data;
+
+	gtk_widget_grab_focus(widget);
+
+	return TRUE;
+}
 
 static GtkWidget *vf_marks_filter_init(ViewFile *vf)
 {
@@ -867,6 +897,61 @@ static GtkWidget *vf_marks_filter_init(ViewFile *vf)
 		}
 	gtk_container_add(GTK_CONTAINER(frame), hbox);
 	gtk_widget_show(hbox);
+	return frame;
+}
+
+void vf_file_filter_set(ViewFile *vf, gboolean enable)
+{
+	if (enable)
+		{
+		gtk_widget_show(vf->file_filter_combo);
+		gtk_widget_show(vf->file_filter_frame);
+		}
+	else
+		{
+		gtk_widget_hide(vf->file_filter_combo);
+		gtk_widget_hide(vf->file_filter_frame);
+		}
+
+	vf_refresh(vf);
+}
+
+static GtkWidget *vf_file_filter_init(ViewFile *vf)
+{
+	GtkWidget *frame = gtk_frame_new(NULL);
+	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
+	GList *work;
+	gint n = 0;
+	GtkWidget *combo_entry;
+
+	vf->file_filter_combo = gtk_combo_box_text_new_with_entry();
+	combo_entry = gtk_bin_get_child(GTK_BIN(vf->file_filter_combo));
+	gtk_widget_show(gtk_bin_get_child(GTK_BIN(vf->file_filter_combo)));
+	gtk_widget_show((GTK_WIDGET(vf->file_filter_combo)));
+
+	work = history_list_get_by_key("file_filter");
+	while (work)
+		{
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(vf->file_filter_combo), (gchar *)work->data);
+		work = work->next;
+		n++;
+		}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(vf->file_filter_combo), 0);
+
+	g_signal_connect(G_OBJECT(combo_entry), "activate",
+		G_CALLBACK(vf_file_filter_save_cb), vf);
+		
+	g_signal_connect(G_OBJECT(vf->file_filter_combo), "changed",
+		G_CALLBACK(vf_file_filter_cb), vf);
+
+	g_signal_connect(G_OBJECT(combo_entry), "button_press_event",
+			 G_CALLBACK(vf_file_filter_press_cb), vf);
+
+	gtk_box_pack_start(GTK_BOX(hbox), vf->file_filter_combo, FALSE, FALSE, 0);
+	gtk_widget_show(vf->file_filter_combo);
+	gtk_container_add(GTK_CONTAINER(frame), hbox);
+	gtk_widget_show(hbox);
+
 	return frame;
 }
 
@@ -894,9 +979,11 @@ ViewFile *vf_new(FileViewType type, FileData *dir_fd)
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	vf->filter = vf_marks_filter_init(vf);
+	vf->file_filter_frame = vf_file_filter_init(vf);
 
 	vf->widget = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vf->widget), vf->filter, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vf->widget), vf->file_filter_frame, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vf->widget), vf->scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(vf->scrolled);
 
@@ -1168,6 +1255,39 @@ guint vf_marks_get_filter(ViewFile *vf)
 			ret |= 1 << i;
 			}
 		}
+	return ret;
+}
+
+GRegex *vf_file_filter_get_filter(ViewFile *vf)
+{
+	GRegex *ret = NULL;
+	GError *error = NULL;
+	gchar *file_filter_text = NULL;
+
+	if (!gtk_widget_get_visible(vf->file_filter_combo))
+		{
+		return g_regex_new("", 0, 0, NULL);
+		}
+
+	file_filter_text = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(vf->file_filter_combo));
+
+	if (file_filter_text[0] != '\0')
+		{
+		ret = g_regex_new(file_filter_text, 0, 0, &error);
+		if (error)
+			{
+			log_printf("Error: could not compile regular expression %s\n%s\n", file_filter_text, error->message);
+			g_error_free(error);
+			error = NULL;
+			ret = g_regex_new("", 0, 0, NULL);
+			}
+		g_free(file_filter_text);
+		}
+	else
+		{
+		ret = g_regex_new("", 0, 0, NULL);
+		}
+
 	return ret;
 }
 

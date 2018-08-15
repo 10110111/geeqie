@@ -273,6 +273,7 @@ LayoutOptions *init_layout_options(LayoutOptions *options)
 	options->order = g_strdup("123");
 	options->show_directory_date = FALSE;
 	options->show_marks = FALSE;
+	options->show_file_filter = FALSE;
 	options->show_thumbnails = FALSE;
 	options->style = 0;
 	options->show_info_pixel = FALSE;

@@ -619,6 +619,7 @@ struct _LayoutOptions
 
 	gboolean show_thumbnails;
 	gboolean show_marks;
+	gboolean show_file_filter;
 	gboolean show_directory_date;
 	gboolean show_info_pixel;
 
@@ -861,6 +862,8 @@ struct _ViewFile
 	GtkWidget *scrolled;
 	GtkWidget *filter;
 	GtkWidget *filter_check[FILEDATA_MARKS_SIZE];
+	GtkWidget *file_filter_combo;
+	GtkWidget *file_filter_frame;
 
 	FileData *dir_fd;
 	GList *list;

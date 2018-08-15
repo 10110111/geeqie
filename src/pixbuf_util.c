@@ -138,6 +138,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_SELECT_NONE,	icon_select_none },
 	{ PIXBUF_INLINE_ICON_SELECT_INVERT,	icon_select_invert },
 	{ PIXBUF_INLINE_ICON_SELECT_RECTANGLE,	icon_select_rectangle },
+	{ PIXBUF_INLINE_ICON_FILE_FILTER,	icon_file_filter },
 	{ NULL, NULL }
 };
 

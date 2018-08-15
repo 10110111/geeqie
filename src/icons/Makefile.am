@@ -39,7 +39,8 @@ ICONS_INLINE = \
 	icon_select_all.png \
 	icon_select_none.png \
 	icon_select_invert.png \
-	icon_select_rectangle.png
+	icon_select_rectangle.png \
+	icon_file_filter.png
 
 
 ICONS_INLINE_PAIRS = \
@@ -78,7 +79,8 @@ ICONS_INLINE_PAIRS = \
 	icon_select_all	$(srcdir)/icon_select_all.png \
 	icon_select_none	$(srcdir)/icon_select_none.png \
 	icon_select_invert	$(srcdir)/icon_select_invert.png \
-	icon_select_rectangle	$(srcdir)/icon_select_rectangle.png
+	icon_select_rectangle	$(srcdir)/icon_select_rectangle.png \
+	icon_file_filter	$(srcdir)/icon_file_filter.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
 	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \

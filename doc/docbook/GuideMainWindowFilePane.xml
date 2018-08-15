@@ -57,6 +57,26 @@
     </para>
     <para />
   </section>
+  <section id="Filefilter">
+    <title id="titleFilefilter">File Filter</title>
+    <para>
+      A filter box can be opened by selecting
+      <emphasis role="bold">Show File Filter</emphasis>
+      from the View menu.
+    </para>
+    <para>
+      Characters you type into this box will be used for pattern matching to select the files displayed.
+      <link linkend="GuideReferencePCRE">Regular expressions</link>
+      are used in this field.
+      <para />
+      For basic pattern matching "JPG" will match any filename containing those characters.
+      <para />
+      To make a case-insensitive search, use "(?i)JPG"
+      <para />
+      If you type a newline, the text will be saved in the dropdown box list. The last 10 items are saved.
+    </para>
+    <para />
+  </section>
   <section id="Multipleselection">
     <title>Multiple selection</title>
     <para>It is possible to select more than one image from the file pane. Multiple files can be selected with several methods:</para>

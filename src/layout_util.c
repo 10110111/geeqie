@@ -117,6 +117,15 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 			return TRUE;
 			}
 		}
+
+	if (lw->vf->file_filter_combo && gtk_widget_has_focus(gtk_bin_get_child(GTK_BIN(lw->vf->file_filter_combo))))
+		{
+		if (gtk_widget_event(gtk_bin_get_child(GTK_BIN(lw->vf->file_filter_combo)), (GdkEvent *)event))
+			{
+			return TRUE;
+			}
+		}
+
 	if (lw->vd && lw->options.dir_view_type == DIRVIEW_TREE && gtk_widget_has_focus(lw->vd->view) &&
 	    !layout_key_match(event->keyval) &&
 	    gtk_widget_event(lw->vd->view, (GdkEvent *)event))
@@ -1387,6 +1396,13 @@ static void layout_menu_invert_selection_cb(GtkAction *action, gpointer data)
 	layout_select_invert(lw);
 }
 
+static void layout_menu_file_filter_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_file_filter_set(lw, gtk_toggle_action_get_active(action));
+}
+
 static void layout_menu_marks_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1940,6 +1956,7 @@ static GtkActionEntry menu_entries[] = {
 static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Thumbnails",	PIXBUF_INLINE_ICON_THUMB,N_("Show _Thumbnails"),		"T",			N_("Show Thumbnails"),			CB(layout_menu_thumb_cb),	 FALSE },
   { "ShowMarks",        PIXBUF_INLINE_ICON_MARKS,	N_("Show _Marks"),			"M",			N_("Show Marks"),			CB(layout_menu_marks_cb),	 FALSE  },
+  { "ShowFileFilter", PIXBUF_INLINE_ICON_FILE_FILTER,	N_("Show File Filter"),	NULL,	N_("Show File Filter"),	CB(layout_menu_file_filter_cb),	 FALSE  },
   { "ShowInfoPixel",	GTK_STOCK_COLOR_PICKER,	N_("Pi_xel Info"),			NULL,			N_("Show Pixel Info"),			CB(layout_menu_info_pixel_cb),	 FALSE  },
   { "FloatTools",	PIXBUF_INLINE_ICON_FLOAT,N_("_Float file list"),		"L",			N_("Float file list"),			CB(layout_menu_float_cb),	 FALSE  },
   { "HideToolbar",	NULL,			N_("Hide tool_bar"),			NULL,			N_("Hide toolbar"),			CB(layout_menu_toolbar_cb),	 FALSE  },
@@ -2053,6 +2070,7 @@ static const gchar *menu_ui_description =
 "      <menuitem action='SelectNone'/>"
 "      <menuitem action='SelectInvert'/>"
 "      <menuitem action='RectangularSelection'/>"
+"      <menuitem action='ShowFileFilter'/>"
 "      <placeholder name='SelectSection'/>"
 "      <separator/>"
 "      <menuitem action='CopyPath'/>"
@@ -3004,6 +3022,16 @@ void layout_util_sync_color(LayoutWindow *lw)
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), layout_image_get_desaturate(lw));
 }
 
+void layout_util_sync_file_filter(LayoutWindow *lw)
+{
+	GtkAction *action;
+
+	if (!lw->action_group) return;
+
+	action = gtk_action_group_get_action(lw->action_group, "ShowFileFilter");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_file_filter);
+}
+
 void layout_util_sync_marks(LayoutWindow *lw)
 {
 	GtkAction *action;
@@ -3077,6 +3105,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "RectangularSelection");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->collections.rectangular_selection);
+
+	action = gtk_action_group_get_action(lw->action_group, "ShowFileFilter");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_file_filter);
 
 	if (osd_flags & OSD_SHOW_HISTOGRAM)
 		{

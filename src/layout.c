@@ -862,6 +862,11 @@ static void layout_list_sync_thumb(LayoutWindow *lw)
 	if (lw->vf) vf_thumb_set(lw->vf, lw->options.show_thumbnails);
 }
 
+static void layout_list_sync_file_filter(LayoutWindow *lw)
+{
+	if (lw->vf) vf_file_filter_set(lw->vf, lw->options.show_file_filter);
+}
+
 static GtkWidget *layout_list_new(LayoutWindow *lw)
 {
 	lw->vf = vf_new(lw->options.file_view_type, NULL);
@@ -873,6 +878,7 @@ static GtkWidget *layout_list_new(LayoutWindow *lw)
 	vf_marks_set(lw->vf, lw->options.show_marks);
 
 	layout_list_sync_thumb(lw);
+	layout_list_sync_file_filter(lw);
 
 	return lw->vf->widget;
 }
@@ -1176,6 +1182,18 @@ void layout_thumb_set(LayoutWindow *lw, gboolean enable)
 
 	layout_util_sync_thumb(lw);
 	layout_list_sync_thumb(lw);
+}
+
+void layout_file_filter_set(LayoutWindow *lw, gboolean enable)
+{
+	if (!layout_valid(&lw)) return;
+
+	if (lw->options.show_file_filter == enable) return;
+
+	lw->options.show_file_filter = enable;
+
+	layout_util_sync_file_filter(lw);
+	layout_list_sync_file_filter(lw);
 }
 
 void layout_marks_set(LayoutWindow *lw, gboolean enable)
@@ -2476,6 +2494,7 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 	WRITE_NL(); WRITE_UINT(*layout, dir_view_type);
 	WRITE_NL(); WRITE_UINT(*layout, file_view_type);
 	WRITE_NL(); WRITE_BOOL(*layout, show_marks);
+	WRITE_NL(); WRITE_BOOL(*layout, show_file_filter);
 	WRITE_NL(); WRITE_BOOL(*layout, show_thumbnails);
 	WRITE_NL(); WRITE_BOOL(*layout, show_directory_date);
 	WRITE_NL(); WRITE_CHAR(*layout, home_path);
@@ -2565,6 +2584,7 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_UINT(*layout, dir_view_type)) continue;
 		if (READ_UINT(*layout, file_view_type)) continue;
 		if (READ_BOOL(*layout, show_marks)) continue;
+		if (READ_BOOL(*layout, show_file_filter)) continue;
 		if (READ_BOOL(*layout, show_thumbnails)) continue;
 		if (READ_BOOL(*layout, show_directory_date)) continue;
 		if (READ_CHAR(*layout, home_path)) continue;

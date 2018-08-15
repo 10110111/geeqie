@@ -72,6 +72,7 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gin
 #define PIXBUF_INLINE_ICON_SELECT_NONE	"icon_select_none"
 #define PIXBUF_INLINE_ICON_SELECT_INVERT	"icon_select_invert"
 #define PIXBUF_INLINE_ICON_SELECT_RECTANGLE	"icon_select_rectangle"
+#define PIXBUF_INLINE_ICON_FILE_FILTER	"icon_file_filter"
 
 GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gboolean counter_clockwise);
 GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gboolean mirror, gboolean flip);

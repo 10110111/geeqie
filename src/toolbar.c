@@ -94,6 +94,7 @@ static const UseableToolbarItems useable_toolbar_items[] = {
 	{"SelectAll",	N_("Select all"), PIXBUF_INLINE_ICON_SELECT_ALL},
 	{"SelectNone",	N_("Select none"), PIXBUF_INLINE_ICON_SELECT_NONE},
 	{"SelectInvert",	N_("Select invert"), PIXBUF_INLINE_ICON_SELECT_INVERT},
+	{"ShowFileFilter",	N_("Show file filter"), PIXBUF_INLINE_ICON_FILE_FILTER},
 	{"RectangularSelection",	N_("Select rectangle"), PIXBUF_INLINE_ICON_SELECT_RECTANGLE},
 	{"Print",	N_("Print"), GTK_STOCK_PRINT},
 	{"Preferences",	N_("Preferences"), GTK_STOCK_PREFERENCES},
