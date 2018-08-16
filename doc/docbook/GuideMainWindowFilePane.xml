@@ -74,6 +74,12 @@
       To make a case-insensitive search, use "(?i)JPG"
       <para />
       If you type a newline, the text will be saved in the dropdown box list. The last 10 items are saved.
+      <para />
+      To delete an item, select it from the drop-down list, click on the text box to select the text, and then press
+      <keycap>Delete</keycap>
+      followed by
+      <keycap>Enter</keycap>
+      .
     </para>
     <para />
   </section>

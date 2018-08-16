@@ -862,8 +862,13 @@ struct _ViewFile
 	GtkWidget *scrolled;
 	GtkWidget *filter;
 	GtkWidget *filter_check[FILEDATA_MARKS_SIZE];
-	GtkWidget *file_filter_combo;
-	GtkWidget *file_filter_frame;
+
+	struct {
+		GtkWidget *combo;
+		GtkWidget *frame;
+		gint count;
+		gint last_selected;
+	} file_filter;
 
 	FileData *dir_fd;
 	GList *list;

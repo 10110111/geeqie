@@ -118,9 +118,9 @@ gboolean layout_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 			}
 		}
 
-	if (lw->vf->file_filter_combo && gtk_widget_has_focus(gtk_bin_get_child(GTK_BIN(lw->vf->file_filter_combo))))
+	if (lw->vf->file_filter.combo && gtk_widget_has_focus(gtk_bin_get_child(GTK_BIN(lw->vf->file_filter.combo))))
 		{
-		if (gtk_widget_event(gtk_bin_get_child(GTK_BIN(lw->vf->file_filter_combo)), (GdkEvent *)event))
+		if (gtk_widget_event(gtk_bin_get_child(GTK_BIN(lw->vf->file_filter.combo)), (GdkEvent *)event))
 			{
 			return TRUE;
 			}
