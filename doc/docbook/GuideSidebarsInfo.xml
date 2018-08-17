@@ -114,7 +114,12 @@
       <para>This action cannot be undone.</para>
     </warning>
     <para>Irrespective of their position in a hierarchy in the right-hand box, all keywords are written as individual entries into metadata. When metadata for an image is read in, Geeqie will attempt to recreate any hierarchies within the data, and display it accordingly in the right-hand box.</para>
-    <para>Right-click on the left-hand box allows the keywords to be written to the currently selected files - the keywords may be either added to the existing contents, or entirely replace the existing content.</para>
+    <para>
+      Right-click on the left-hand box allows the selected keywords to be written to the currently selected files - the keywords may be either added to the existing contents, or entirely replace the existing content.
+      <warning>
+        <para>Keyword completion is used when selecting keywords. If the selected area includes part of a keyword, the selection will autmatically be expanded to cover the whole keyword. If no text is selected, all keywords will be used.</para>
+      </warning>
+    </para>
     <para>
       Right-click on the right-hand box allows a connection to be made between a keyword and a mark. The
       <link linkend="GuideImageMarks" endterm="titleGuideImageMarks" />

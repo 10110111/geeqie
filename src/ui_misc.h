@@ -199,6 +199,7 @@ GtkWidget *pref_color_button_new(GtkWidget *parent_box,
 				 GCallback func, gpointer data);
 
 gchar *text_widget_text_pull(GtkWidget *text_widget);
+gchar *text_widget_text_pull_selected(GtkWidget *text_widget);
 
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

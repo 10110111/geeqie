@@ -1732,4 +1732,34 @@ gchar *text_widget_text_pull(GtkWidget *text_widget)
 
 }
 
+gchar *text_widget_text_pull_selected(GtkWidget *text_widget)
+{
+	if (GTK_IS_TEXT_VIEW(text_widget))
+		{
+		GtkTextBuffer *buffer;
+		GtkTextIter start, end;
+		GtkTextIter selection_start, selection_end;
+
+		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_widget));
+		gtk_text_buffer_get_bounds(buffer, &start, &end);
+
+		if (gtk_text_buffer_get_selection_bounds(buffer, &start, &end))
+			{
+			gtk_text_iter_set_line_offset(&start, 0);
+			gtk_text_iter_forward_to_line_end(&end);
+			}
+
+		return gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+		}
+	else if (GTK_IS_ENTRY(text_widget))
+		{
+		return g_strdup(gtk_entry_get_text(GTK_ENTRY(text_widget)));
+		}
+	else
+		{
+		return NULL;
+		}
+
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

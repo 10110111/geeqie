@@ -62,6 +62,19 @@ GList *keyword_list_pull(GtkWidget *text_widget)
 	return list;
 }
 
+static GList *keyword_list_pull_selected(GtkWidget *text_widget)
+{
+	GList *list;
+	gchar *text;
+
+	text = text_widget_text_pull_selected(text_widget);
+	list = string_to_keywords_list(text);
+
+	g_free(text);
+
+	return list;
+}
+
 /* the "changed" signal should be blocked before calling this */
 static void keyword_list_push(GtkWidget *textview, GList *list)
 {
@@ -416,7 +429,7 @@ static void bar_pane_keywords_set_selection(PaneKeywordsData *pkd, gboolean appe
 	GList *list = NULL;
 	GList *work;
 
-	keywords = keyword_list_pull(pkd->keyword_view);
+	keywords = keyword_list_pull_selected(pkd->keyword_view);
 
 	list = layout_selection_list(pkd->pane.lw);
 	list = file_data_process_groups_in_selection(list, FALSE, NULL);
@@ -460,8 +473,8 @@ static void bar_pane_keywords_populate_popup_cb(GtkTextView *textview, GtkMenu *
 	PaneKeywordsData *pkd = data;
 
 	menu_item_add_divider(GTK_WIDGET(menu));
-	menu_item_add_stock(GTK_WIDGET(menu), _("Add keywords to selected files"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_keywords_sel_add_cb), pkd);
-	menu_item_add_stock(GTK_WIDGET(menu), _("Replace existing keywords in selected files"), GTK_STOCK_CONVERT, G_CALLBACK(bar_pane_keywords_sel_replace_cb), pkd);
+	menu_item_add_stock(GTK_WIDGET(menu), _("Add selected keywords to selected files"), GTK_STOCK_ADD, G_CALLBACK(bar_pane_keywords_sel_add_cb), pkd);
+	menu_item_add_stock(GTK_WIDGET(menu), _("Replace existing keywords in selected files with selected keywords"), GTK_STOCK_CONVERT, G_CALLBACK(bar_pane_keywords_sel_replace_cb), pkd);
 }
 
 
