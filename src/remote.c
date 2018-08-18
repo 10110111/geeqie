@@ -697,6 +697,7 @@ static void gr_rectangle(const gchar *text, GIOChannel *channel, gpointer data)
 	LayoutWindow *lw = NULL;
 	gint x1, y1, x2, y2;
 
+	if (!options->draw_rectangle) return;
 	if (!layout_valid(&lw_id)) return;
 
 	pr = (PixbufRenderer*)lw_id->image->pr;
