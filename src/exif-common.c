@@ -724,52 +724,55 @@ static gchar *exif_build_formatted_localtime(ExifData *exif)
 			}
 
 		zd_path = g_build_filename(GQ_BIN_DIR, TIMEZONE_DATABASE, NULL);
-		cd = ZDOpenDatabase(zd_path);
-		if (cd)
+		if (g_file_test(zd_path, G_FILE_TEST_EXISTS))
 			{
-			results = ZDLookup(cd, latitude, longitude, NULL);
-			zone_selected = zd_tz(results);
-			time_zone = g_strconcat("TZ=", zone_selected, NULL);
-			time_zone_org = g_strconcat("TZ=", getenv("TZ"), NULL);
-			putenv("TZ=UTC");
-			g_free(zone_selected);
-
-			memset(&tm_utc, 0, sizeof(tm_utc));
-			if (text_date_time && strptime(text_date_time, "%Y:%m:%d:%H:%M:%S", &tm_utc))
+			cd = ZDOpenDatabase(zd_path);
+			if (cd)
 				{
-				stamp = mktime(&tm_utc);	// Convert the struct to a Unix timestamp
-				putenv(time_zone);	// Switch to destination time zone
+				results = ZDLookup(cd, latitude, longitude, NULL);
+				zone_selected = zd_tz(results);
+				time_zone = g_strconcat("TZ=", zone_selected, NULL);
+				time_zone_org = g_strconcat("TZ=", getenv("TZ"), NULL);
+				putenv("TZ=UTC");
+				g_free(zone_selected);
 
-				tm_local = localtime(&stamp);
-
-				/* Convert to localtime using locale */
-				buflen = strftime(buf, sizeof(buf), "%x %X", tm_local);
-				if (buflen > 0)
+				memset(&tm_utc, 0, sizeof(tm_utc));
+				if (text_date_time && strptime(text_date_time, "%Y:%m:%d:%H:%M:%S", &tm_utc))
 					{
-					tmp = g_locale_to_utf8(buf, buflen, NULL, NULL, &error);
-					if (error)
-						{
-						log_printf("Error converting locale strftime to UTF-8: %s\n", error->message);
-						g_error_free(error);
-						}
-					else
-						{
-						g_free(text_date_time);
-						text_date_time = g_strdup(tmp);
-						}
-					}
-					g_free(tmp);
-				}
-			putenv(time_zone_org);
+					stamp = mktime(&tm_utc);	// Convert the struct to a Unix timestamp
+					putenv(time_zone);	// Switch to destination time zone
 
-			g_free(time_zone);
-			g_free(time_zone_org);
+					tm_local = localtime(&stamp);
+
+					/* Convert to localtime using locale */
+					buflen = strftime(buf, sizeof(buf), "%x %X", tm_local);
+					if (buflen > 0)
+						{
+						tmp = g_locale_to_utf8(buf, buflen, NULL, NULL, &error);
+						if (error)
+							{
+							log_printf("Error converting locale strftime to UTF-8: %s\n", error->message);
+							g_error_free(error);
+							}
+						else
+							{
+							g_free(text_date_time);
+							text_date_time = g_strdup(tmp);
+							}
+						}
+						g_free(tmp);
+					}
+				putenv(time_zone_org);
+
+				g_free(time_zone);
+				g_free(time_zone_org);
+				}
+			else
+				{
+				log_printf("Error: Init of timezone database %s failed\n", zd_path);
+				}
+			ZDCloseDatabase(cd);
 			}
-		else
-			{
-			log_printf("Error: Init of timezone database %s failed\n", zd_path);
-			}
-		ZDCloseDatabase(cd);
 		g_free(zd_path);
 		}
 
@@ -839,18 +842,21 @@ static gchar *exif_build_formatted_timezone(ExifData *exif)
 			longitude = -longitude;
 			}
 		zd_path = g_build_filename(GQ_BIN_DIR, TIMEZONE_DATABASE, NULL);
-		cd = ZDOpenDatabase(zd_path);
-		if (cd)
+		if (g_file_test(zd_path, G_FILE_TEST_EXISTS))
 			{
-			results = ZDLookup(cd, latitude, longitude, NULL);
-			time_zone = zd_tz(results);
-			ZDFreeResults(results);
+			cd = ZDOpenDatabase(zd_path);
+			if (cd)
+				{
+				results = ZDLookup(cd, latitude, longitude, NULL);
+				time_zone = zd_tz(results);
+				ZDFreeResults(results);
+				}
+			else
+				{
+				log_printf("Error: Init of timezone database %s failed\n", zd_path);
+				}
+			ZDCloseDatabase(cd);
 			}
-		else
-			{
-			log_printf("Error: Init of timezone database %s failed\n", zd_path);
-			}
-		ZDCloseDatabase(cd);
 		g_free(zd_path);
 		}
 

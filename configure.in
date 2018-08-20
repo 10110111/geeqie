@@ -619,7 +619,6 @@ AC_CONFIG_FILES([
     plugins/ufraw/Makefile
     plugins/import/Makefile
     plugins/geocode-parameters/Makefile
-    plugins/ZoneDetect/Makefile
     geeqie.spec
 ])
 
@@ -685,4 +684,3 @@ cat <<EOF
   (or you take blue pill and the story ends :)
 
 EOF
-

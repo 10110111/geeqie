@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2018-08-06"
+version="2018-08-20"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -14,6 +14,7 @@ Command line options are:
 -c --commit=ID Checkout and compile commit ID
 -t --tag=TAG Checkout and compile TAG (e.g. v1.4 or v1.3)
 -b --back=N Checkout commit -N (e.g. "-b 1" for last-but-one commit)
+-d --debug=yes Compile with debug output
 '
 
 # Essential for compiling
@@ -151,190 +152,190 @@ systemProfile()
 
 install_essential()
 {
-arraylength=${#essential_array[@]}
-for (( i=0; i<${arraylength}; i=i+1 ));
-do
-	package_query ${essential_array[$i]}
-	if [ $? != 0 ]
-	then
-		package_install ${essential_array[$i]}
-	fi
-done
+	arraylength=${#essential_array[@]}
+	for (( i=0; i<${arraylength}; i=i+1 ));
+	do
+		package_query ${essential_array[$i]}
+		if [ $? != 0 ]
+		then
+			package_install ${essential_array[$i]}
+		fi
+	done
 
-if [[ $1 == "GTK3" ]]
-then
-	package_query "libgtk-3-dev"
-	if [ $? != 0 ]
+	if [[ $1 == "GTK3" ]]
 	then
-		package_install libgtk-3-dev
+		package_query "libgtk-3-dev"
+		if [ $? != 0 ]
+		then
+			package_install libgtk-3-dev
+		fi
+	else
+		package_query "libgtk2.0-dev"
+		if [ $? != 0 ]
+		then
+			package_install libgtk2.0-dev
+		fi
 	fi
-else
-	package_query "libgtk2.0-dev"
-	if [ $? != 0 ]
-	then
-		package_install libgtk2.0-dev
-	fi
-fi
 }
 
 install_options()
 {
-if [ -n "$options" ]
-then
-	OLDIFS=$IFS
-	IFS='|'
-	set $options
-	while [ $# -gt 0 ];
-	do
-		package_install $1
-		shift
-	done
-	IFS=$OLDIFS
-fi
+	if [ -n "$options" ]
+	then
+		OLDIFS=$IFS
+		IFS='|'
+		set $options
+		while [ $# -gt 0 ];
+		do
+			package_install $1
+			shift
+		done
+		IFS=$OLDIFS
+	fi
 }
 
 install_webp()
 {
-rm -rf webp-pixbuf-loader-master
-package_install libglib2.0-dev libgdk-pixbuf2.0-dev libwebp-dev python-minimal
-wget https://github.com/aruiz/webp-pixbuf-loader/archive/master.zip
-unzip master.zip
-cd webp-pixbuf-loader-master
-./waf configure
-./waf build
-sudo --askpass ./waf install
-sudo --askpass gdk-pixbuf-query-loaders --update-cache
-cd -
-rm -rf webp-pixbuf-loader-master
-rm master.zip
+	rm -rf webp-pixbuf-loader-master
+	package_install libglib2.0-dev libgdk-pixbuf2.0-dev libwebp-dev python-minimal
+	wget https://github.com/aruiz/webp-pixbuf-loader/archive/master.zip
+	unzip master.zip
+	cd webp-pixbuf-loader-master
+	./waf configure
+	./waf build
+	sudo --askpass ./waf install
+	sudo --askpass gdk-pixbuf-query-loaders --update-cache
+	cd -
+	rm -rf webp-pixbuf-loader-master
+	rm master.zip
 }
 
 install_psd()
 {
-rm -rf gdk-pixbuf-psd
-git clone https://github.com/and-rom/gdk-pixbuf-psd.git
-cd gdk-pixbuf-psd
-./autogen.sh
-make
-sudo --askpass make install
-sudo --askpass gdk-pixbuf-query-loaders --update-cache
-cd -
-rm -rf gdk-pixbuf-psd
+	rm -rf gdk-pixbuf-psd
+	git clone https://github.com/and-rom/gdk-pixbuf-psd.git
+	cd gdk-pixbuf-psd
+	./autogen.sh
+	make
+	sudo --askpass make install
+	sudo --askpass gdk-pixbuf-query-loaders --update-cache
+	cd -
+	rm -rf gdk-pixbuf-psd
 }
 
 install_xcf()
 {
-rm -rf xcf-pixbuf-loader
-package_install libbz2-dev
-git clone https://github.com/StephaneDelcroix/xcf-pixbuf-loader.git
-cd xcf-pixbuf-loader
-./autogen.sh
-make
+	rm -rf xcf-pixbuf-loader
+	package_install libbz2-dev
+	git clone https://github.com/StephaneDelcroix/xcf-pixbuf-loader.git
+	cd xcf-pixbuf-loader
+	./autogen.sh
+	make
 
-# There must be a better way...
-loader_locn=$(gdk-pixbuf-query-loaders | grep "LoaderDir" | tr -d '#[:space:]')
+	# There must be a better way...
+	loader_locn=$(gdk-pixbuf-query-loaders | grep "LoaderDir" | tr -d '#[:space:]')
 
-OLDIFS=$IFS
-IFS='='
-set $loader_locn
-OLDIFS=$IFS
+	OLDIFS=$IFS
+	IFS='='
+	set $loader_locn
+	OLDIFS=$IFS
 
-if [ -d $2 ]
-then
-	sudo --askpass cp .libs/libioxcf.so $2
-	sudo --askpass gdk-pixbuf-query-loaders --update-cache
-fi
-cd -
-rm -rf xcf-pixbuf-loader
+	if [ -d $2 ]
+	then
+		sudo --askpass cp .libs/libioxcf.so $2
+		sudo --askpass gdk-pixbuf-query-loaders --update-cache
+	fi
+	cd -
+	rm -rf xcf-pixbuf-loader
 }
 
 install_extra_loaders()
 {
-if [ -n "$extra_loaders" ]
-then
-	OLDIFS=$IFS
-	IFS='|'
-	set $extra_loaders
-	while [ $# -gt 0 ];
-	do
-		case $1 in
-		"webp" )
-			install_webp
-		;;
-		"psd" )
-			install_psd
-		;;
-		"xcf" )
-			install_xcf
-		;;
-		esac
+	if [ -n "$extra_loaders" ]
+	then
+		OLDIFS=$IFS
+		IFS='|'
+		set $extra_loaders
+		while [ $# -gt 0 ];
+		do
+			case $1 in
+			"webp" )
+				install_webp
+			;;
+			"psd" )
+				install_psd
+			;;
+			"xcf" )
+				install_xcf
+			;;
+			esac
 
-		shift
-	done
-	IFS=$OLDIFS
-fi
-return
+			shift
+		done
+		IFS=$OLDIFS
+	fi
+	return
 }
 
 uninstall()
 {
-current_dir=$(basename $PWD)
-if [[ $current_dir == "geeqie" ]]
-then
-	sudo --askpass make uninstall
-	zenity --title="Uninstall Geeqie" --width=370 --text="WARNING.\nThis will delete folder:\n\n$PWD\n\nand all sub-folders!" --question --ok-label="Cancel" --cancel-label="OK" 2>/dev/null
-
-	if [[ $? == 1 ]]
+	current_dir=$(basename $PWD)
+	if [[ $current_dir == "geeqie" ]]
 	then
-		cd ..
-		sudo --askpass rm -rf geeqie
-	fi
-else
-	zenity --title="Uninstall Geeqie" --width=370 --text="This is not a geeqie installation folder!\n\n$PWD" --warning 2>/dev/null
-fi
+		sudo --askpass make uninstall
+		zenity --title="Uninstall Geeqie" --width=370 --text="WARNING.\nThis will delete folder:\n\n$PWD\n\nand all sub-folders!" --question --ok-label="Cancel" --cancel-label="OK" 2>/dev/null
 
-exit_install
+		if [[ $? == 1 ]]
+		then
+			cd ..
+			sudo --askpass rm -rf geeqie
+		fi
+	else
+		zenity --title="Uninstall Geeqie" --width=370 --text="This is not a geeqie installation folder!\n\n$PWD" --warning 2>/dev/null
+	fi
+
+	exit_install
 }
 
 package_query()
 {
-if [[ $DistroBasedOn == "debian" ]]
-then
-	res=$(dpkg-query --show --showformat='${Status}' $1 2>>$install_log)
-	if [[ "$res" == "install ok installed"* ]]
+	if [[ $DistroBasedOn == "debian" ]]
 	then
-		status=0
-	else
-		status=1
+		res=$(dpkg-query --show --showformat='${Status}' $1 2>>$install_log)
+		if [[ "$res" == "install ok installed"* ]]
+		then
+			status=0
+		else
+			status=1
+		fi
 	fi
-fi
-return $status
+	return $status
 }
 
 package_install()
 {
-if [[ $DistroBasedOn == "debian" ]]
-then
-	sudo --askpass apt-get --assume-yes install $@ >>$install_log 2>&1
-fi
+	if [[ $DistroBasedOn == "debian" ]]
+	then
+		sudo --askpass apt-get --assume-yes install $@ >>$install_log 2>&1
+	fi
 }
 
 exit_install()
 {
-rm $install_pass_script >/dev/null 2>&1
-#~ rm $install_log >/dev/null 2>&1
+	rm $install_pass_script >/dev/null 2>&1
+	#~ rm $install_log >/dev/null 2>&1
 
-if [[ -p $zen_pipe ]]
-then
-	echo "100" > $zen_pipe
-	echo "#End" > $zen_pipe
-fi
+	if [[ -p $zen_pipe ]]
+	then
+		echo "100" > $zen_pipe
+		echo "#End" > $zen_pipe
+	fi
 
-zenity --title="$title" --width=370 --text=$'Geeqie is not installed\nLog file: '$install_log --info 2>/dev/null
+	zenity --title="$title" --width=370 --text=$'Geeqie is not installed\nLog file: '$install_log --info 2>/dev/null
 
-rm $zen_pipe >/dev/null 2>&1
+	rm $zen_pipe >/dev/null 2>&1
 
-exit 1
+	exit 1
 }
 
 # Entry point
@@ -365,7 +366,7 @@ Machine: $MACH" 2>/dev/null
 fi
 
 # Parse the comand line
-OPTS=$(getopt -o vhc:t:b: --long version,help,commit:,tag:,back: -- "$@")
+OPTS=$(getopt -o vhc:t:b:d: --long version,help,commit:,tag:,back:,debug: -- "$@")
 eval set -- "$OPTS"
 
 while true;
@@ -391,6 +392,11 @@ do
 		;;
 	-b | --back )
 		BACK="$2"
+		shift;
+		shift
+		;;
+	-d | --debug )
+		DEBUG="$2"
 		shift;
 		shift
 		;;
@@ -674,15 +680,21 @@ then
 		exit
 	fi
 fi
+if [[ "$DEBUG" == "yes" ]]
+then
+	debug_opt=""
+else
+	debug_opt="--disable-debug-log"
+fi
 
 echo "40" > $zen_pipe
 echo "#Creating configuration files..." > $zen_pipe
 
 if [[ $gtk_version == "GTK3"* ]]
 then
-	./autogen.sh >>$install_log 2>&1
+	./autogen.sh "$debug_opt" >>$install_log 2>&1
 else
-	./autogen.sh --disable-gtk3 >>$install_log 2>&1
+	./autogen.sh "$debug_opt" --disable-gtk3 >>$install_log 2>&1
 fi
 
 echo "60" > $zen_pipe
@@ -692,10 +704,33 @@ export CFLAGS=$CFLAGS" -Wno-deprecated-declarations"
 export CXXFLAGS=$CXXFLAGS" -Wno-deprecated-declarations"
 make -j >>$install_log 2>&1
 
+if [[ $? != 0 ]]
+then
+	zenity --title="$title" --width=370 --height=400 --error --text=$'Compile error' 2>/dev/null
+	exit_install
+	exit
+fi
+
 echo "90 " > $zen_pipe
 echo "#Installing Geeqie..." > $zen_pipe
 
 sudo --askpass make install >>$install_log 2>&1
+
+# This is a temporary fix until the ZoneDetect project releases its source code
+zonedetect_message="ZoneDetect database not loaded"
+if [[ -d "/usr/local/lib/geeqie" ]]
+then
+	if [[ ! -f "/usr/local/lib/geeqie/timezone21.bin" ]]
+	then
+		sudo --askpass wget --directory-prefix=/usr/local/lib/geeqie/ https://github.com/BertoldVdb/ZoneDetect/raw/master/database/timezone21.bin >>$install_log 2>&1
+		if [[ $? == 0 ]]
+		then
+			zonedetect_message=""
+		fi
+	else
+		zonedetect_message=""
+	fi
+fi
 
 rm $install_pass_script
 mv -f $install_log install.log;
@@ -703,6 +738,6 @@ mv -f $install_log install.log;
 echo "100 " > $zen_pipe
 rm $zen_pipe
 
-(for i in $(seq 0 4 100); do echo "$i"; sleep 0.1; done) | zenity --progress --title="$title" --width=370 --text="Geeqie installation complete...\n" --auto-close 2>/dev/null
+(for i in $(seq 0 4 100); do echo "$i"; sleep 0.1; done) | zenity --progress --title="$title" --width=370 --text="Geeqie installation complete...\n$zonedetect_message" --auto-close --percentage=0 2>/dev/null
 
 exit
