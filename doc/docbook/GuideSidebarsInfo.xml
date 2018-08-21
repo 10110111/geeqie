@@ -282,6 +282,14 @@
             </entry>
           </row>
           <row>
+            <entry>formatted.countryname</entry>
+            <entry>ISO 3166 country name indicated by GPS lat/long values</entry>
+          </row>
+          <row>
+            <entry>formatted.countrycode</entry>
+            <entry>ISO 3166 two-letter abbreviated country name indicated by GPS lat/long values</entry>
+          </row>
+          <row>
             <entry>file.size</entry>
             <entry>file size in bytes</entry>
           </row>

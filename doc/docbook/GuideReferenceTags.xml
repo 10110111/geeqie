@@ -301,6 +301,44 @@
           </row>
           <row>
             <entry>
+              <para>formatted.countryname</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.GPSInfo.GPSLatitude
+                <para />
+                Exif.GPSInfo.GPSLatitudeRef
+                <para />
+                Exif.GPSInfo.GPSLongitude
+                <para />
+                Exif.GPSInfo.GPSLongitudeRef
+              </para>
+            </entry>
+            <entry>
+              <para>ISO 3166 country name indicated by lat/long</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>formatted.countrycode</para>
+            </entry>
+            <entry>
+              <para>
+                Exif.GPSInfo.GPSLatitude
+                <para />
+                Exif.GPSInfo.GPSLatitudeRef
+                <para />
+                Exif.GPSInfo.GPSLongitude
+                <para />
+                Exif.GPSInfo.GPSLongitudeRef
+              </para>
+            </entry>
+            <entry>
+              <para>ISO 3166 two-letter abbreviated country name indicated by lat/long</para>
+            </entry>
+          </row>
+          <row>
+            <entry>
               <para>formatted.star_rating</para>
             </entry>
             <entry>
