@@ -362,6 +362,14 @@
               <para>Rating</para>
             </entry>
           </row>
+          <row>
+            <entry>
+              <para>Xmp.photoshop.Headline</para>
+            </entry>
+            <entry>
+              <para>Headline</para>
+            </entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
