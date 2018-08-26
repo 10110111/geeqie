@@ -486,6 +486,7 @@ static void config_window_help_cb(GtkWidget *widget, gpointer data)
 	"GuideOptionsKeyboard.html",
 	"GuideOptionsFiltering.html",
 	"GuideOptionsMetadata.html",
+	"GuideOptionsKeywords.html",
 	"GuideOptionsColor.html",
 	"GuideOptionsStereo.html",
 	"GuideOptionsBehavior.html",
