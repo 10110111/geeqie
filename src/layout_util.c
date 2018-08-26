@@ -25,6 +25,7 @@
 #include "advanced_exif.h"
 #include "bar_sort.h"
 #include "bar.h"
+#include "bar_keywords.h"
 #include "cache_maint.h"
 #include "collect.h"
 #include "collect-dlg.h"
@@ -1656,6 +1657,25 @@ static void layout_menu_metadata_write_cb(GtkAction *action, gpointer data)
 	metadata_write_queue_confirm(TRUE, NULL, NULL);
 }
 
+static GtkWidget *last_focussed = NULL;
+static void layout_menu_keyword_autocomplete_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	GtkWidget *tmp;
+	gboolean auto_has_focus;
+
+	tmp = gtk_window_get_focus(GTK_WINDOW(lw->window));
+	auto_has_focus = bar_keywords_autocomplete_focus(lw);
+
+	if (auto_has_focus)
+		{
+		gtk_widget_grab_focus(last_focussed);
+		}
+	else
+		{
+		last_focussed = tmp;
+		}
+}
 
 /*
  *-----------------------------------------------------------------------------
@@ -1888,6 +1908,7 @@ static GtkActionEntry menu_entries[] = {
   { "Maintenance",	PIXBUF_INLINE_ICON_MAINTENANCE,	N_("_Cache maintenance..."),	NULL,			N_("Cache maintenance..."),		CB(layout_menu_remove_thumb_cb) },
   { "Wallpaper",	NULL,			N_("Set as _wallpaper"),		NULL,			N_("Set as wallpaper"),			CB(layout_menu_wallpaper_cb) },
   { "SaveMetadata",	GTK_STOCK_SAVE,		N_("_Save metadata"),			"<control>S",		N_("Save metadata"),			CB(layout_menu_metadata_write_cb) },
+  { "KeywordAutocomplete",	NULL,	N_("Keyword autocomplete"),		"<alt>K",		N_("Keyword Autocomplete"),			CB(layout_menu_keyword_autocomplete_cb) },
   { "ZoomIn",		GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"equal",		N_("Zoom in"),				CB(layout_menu_zoom_in_cb) },
   { "ZoomInAlt1",	GTK_STOCK_ZOOM_IN,	N_("Zoom _in"),				"KP_Add",		N_("Zoom in"),				CB(layout_menu_zoom_in_cb) },
   { "ZoomOut",		GTK_STOCK_ZOOM_OUT,	N_("Zoom _out"),			"minus",		N_("Zoom out"),				CB(layout_menu_zoom_out_cb) },
@@ -2110,6 +2131,7 @@ static const gchar *menu_ui_description =
 "        <separator/>"
 "      </menu>"
 "      <menuitem action='SaveMetadata'/>"
+"      <menuitem action='KeywordAutocomplete'/>"
 "      <placeholder name='PropertiesSection'/>"
 "      <separator/>"
 "      <menuitem action='DrawRectangle'/>"

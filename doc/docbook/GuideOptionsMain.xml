@@ -27,6 +27,7 @@
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsKeyboard.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsFiltering.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsMetadata.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsKeywords.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsColor.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsStereo.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsBehavior.xml" />

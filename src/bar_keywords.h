@@ -28,5 +28,8 @@ void bar_pane_keywords_entry_add_from_config(GtkWidget *pane, const gchar **attr
 /* used in search.c */
 GList *keyword_list_pull(GtkWidget *text_widget);
 
+GList *keyword_list_get();
+void keyword_list_set(GList *keyword_list);
+gboolean bar_keywords_autocomplete_focus(LayoutWindow *lw);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

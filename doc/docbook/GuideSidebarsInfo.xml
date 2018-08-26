@@ -165,6 +165,25 @@
     </note>
     <para />
   </section>
+  <section id="KeywordAutocompletion">
+    <title id="titleKeywordAutocompletion">Keyword Autocompletion</title>
+    <para>
+      The text box at the bottom of the keywords pane is used for autocompletion. Any keywords typed into the standard keyword box or the autocompletion box will be remembered as candidates for future autocompletion.
+      <para />
+      Frequently used sets of keywords can be entered as comma-delimited lists.
+      <para />
+      The list of keywords used for autocompletion can be edited on the
+      <link linkend="GuideOptionsKeywords">Keywords</link>
+      tab of the Preferences dialog.
+      <para />
+      The menu action "Keyword autocomplete", set to
+      <code>Alt + K</code>
+      by default, will shift the keyboard focus to the autocomplete box. Pressing
+      <code>Alt + K</code>
+      a second time will shift the keyboard focus back to the previous object.
+    </para>
+    <para />
+  </section>
   <section id="Listpanes-ExifFileinfoCopyrightLocationandGPS">
     <title id="titleExif">List panes</title>
     <para>

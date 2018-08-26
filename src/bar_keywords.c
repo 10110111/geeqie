@@ -37,10 +37,16 @@
 #include "rcfile.h"
 #include "layout.h"
 #include "dnd.h"
+#include "secure_save.h"
 
 
 //static void bar_pane_keywords_keyword_update_all(void);
 static void bar_pane_keywords_changed(GtkTextBuffer *buffer, gpointer data);
+
+static void autocomplete_keywords_list_load(const gchar *path);
+static GtkListStore *keyword_store = NULL;
+static gboolean autocomplete_keywords_list_save(gchar *path);
+static gboolean autocomplete_activate_cb(GtkWidget *widget, gpointer data);
 
 /*
  *-------------------------------------------------------------------
@@ -138,6 +144,8 @@ struct _PaneKeywordsData
 	gint height;
 
 	GList *expanded_rows;
+
+	GtkWidget *autocomplete;
 };
 
 typedef struct _ConfDialogData ConfDialogData;
@@ -336,6 +344,10 @@ gint bar_pane_keywords_event(GtkWidget *bar, GdkEvent *event)
 
 	if (gtk_widget_has_focus(pkd->keyword_view)) return gtk_widget_event(pkd->keyword_view, event);
 
+	if (gtk_widget_has_focus(pkd->autocomplete))
+		{
+		return gtk_widget_event(pkd->autocomplete, event);
+		}
 	return FALSE;
 }
 
@@ -1430,6 +1442,10 @@ void bar_pane_keywords_close(GtkWidget *bar)
 static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 {
 	PaneKeywordsData *pkd = data;
+	gchar *path;
+
+	path = g_build_filename(get_rc_dir(), "keywords", NULL);
+	autocomplete_keywords_list_save(path);
 
 	string_list_free(pkd->expanded_rows);
 	if (pkd->click_tpath) gtk_tree_path_free(pkd->click_tpath);
@@ -1446,13 +1462,15 @@ static void bar_pane_keywords_destroy(GtkWidget *widget, gpointer data)
 static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, const gchar *key, gboolean expanded, gint height)
 {
 	PaneKeywordsData *pkd;
-	GtkWidget *hbox;
+	GtkWidget *hbox, *vbox;
 	GtkWidget *scrolled;
 	GtkTextBuffer *buffer;
 	GtkTreeModel *store;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;
+	GtkEntryCompletion *completion;
+	gchar *path;
 
 	pkd = g_new0(PaneKeywordsData, 1);
 
@@ -1471,9 +1489,11 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	pkd->expand_checked = TRUE;
 	pkd->expanded_rows = NULL;
 
+	vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
 	hbox = gtk_hbox_new(FALSE, PREF_PAD_GAP);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
-	pkd->widget = hbox;
+	pkd->widget = vbox;
 	g_object_set_data(G_OBJECT(pkd->widget), "pane_data", pkd);
 	g_signal_connect(G_OBJECT(pkd->widget), "destroy",
 			 G_CALLBACK(bar_pane_keywords_destroy), pkd);
@@ -1504,6 +1524,26 @@ static GtkWidget *bar_pane_keywords_new(const gchar *id, const gchar *title, con
 	gtk_box_pack_start(GTK_BOX(hbox), scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(scrolled);
 
+	pkd->autocomplete = gtk_entry_new();
+	gtk_box_pack_end(GTK_BOX(vbox), pkd->autocomplete, FALSE, FALSE, 0);
+	gtk_widget_show(pkd->autocomplete);
+	gtk_widget_show(vbox);
+	gtk_widget_set_tooltip_text(pkd->autocomplete, "Keyword autocomplete");
+
+	path = g_build_filename(get_rc_dir(), "keywords", NULL);
+	autocomplete_keywords_list_load(path);
+
+	completion = gtk_entry_completion_new();
+	gtk_entry_set_completion(GTK_ENTRY(pkd->autocomplete), completion);
+	gtk_entry_completion_set_inline_completion(completion, TRUE);
+	gtk_entry_completion_set_inline_selection(completion, TRUE);
+	g_object_unref(completion);
+
+	gtk_entry_completion_set_model(completion, GTK_TREE_MODEL(keyword_store));
+	gtk_entry_completion_set_text_column(completion, 0);
+
+	g_signal_connect(G_OBJECT(pkd->autocomplete), "activate",
+			 G_CALLBACK(autocomplete_activate_cb), pkd);
 
 	if (!keyword_tree || !gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_tree), &iter))
 		{
@@ -1686,5 +1726,259 @@ void bar_pane_keywords_entry_add_from_config(GtkWidget *pane, const gchar **attr
 			}
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * Autocomplete keywords
+ *-----------------------------------------------------------------------------
+ */
+
+static gboolean autocomplete_activate_cb(GtkWidget *widget, gpointer data)
+{
+	PaneKeywordsData *pkd = data;
+	gchar *entry_text;
+	GtkTextBuffer *buffer;
+	GtkTextIter iter;
+	GtkTreeIter iter_t;
+	gchar *kw_cr;
+	gchar *kw_split;
+	gboolean valid;
+	gboolean found = FALSE;
+	gchar *string;
+
+	entry_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(pkd->autocomplete)));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pkd->keyword_view));
+
+	kw_split = strtok(entry_text, ",");
+	while (kw_split != NULL)
+		{
+		kw_cr = g_strconcat(kw_split, "\n", NULL);
+		g_strchug(kw_cr);
+		gtk_text_buffer_get_end_iter(buffer, &iter);
+		gtk_text_buffer_insert(buffer, &iter, kw_cr, -1);
+
+		kw_split = strtok(NULL, ",");
+		g_free(kw_cr);
+		}
+
+	g_free(entry_text);
+	entry_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(pkd->autocomplete)));
+
+	gtk_entry_set_text(GTK_ENTRY(pkd->autocomplete), "");
+
+	valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_store), &iter_t);
+	while (valid)
+		{
+		gtk_tree_model_get (GTK_TREE_MODEL(keyword_store), &iter_t, 0, &string, -1);
+		if (g_strcmp0(entry_text, string) == 0)
+			{
+			found = TRUE;
+			break;
+			}
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(keyword_store), &iter_t);
+		}
+
+	if (!found)
+		{
+		gtk_list_store_append (keyword_store, &iter_t);
+		gtk_list_store_set(keyword_store, &iter_t, 0, entry_text, -1);
+		}
+
+	g_free(entry_text);
+	return FALSE;
+}
+
+gint autocomplete_sort_iter_compare_func (GtkTreeModel *model,
+									GtkTreeIter *a,
+									GtkTreeIter *b,
+									gpointer userdata)
+{
+	gint ret = 0;
+	gchar *name1, *name2;
+
+	gtk_tree_model_get(model, a, 0, &name1, -1);
+	gtk_tree_model_get(model, b, 0, &name2, -1);
+
+	if (name1 == NULL || name2 == NULL)
+		{
+		if (name1 == NULL && name2 == NULL)
+			{
+			ret = 0;
+			}
+		else
+			{
+			ret = (name1 == NULL) ? -1 : 1;
+			}
+		}
+	else
+		{
+		ret = g_utf8_collate(name1,name2);
+		}
+
+	g_free(name1);
+	g_free(name2);
+
+	return ret;
+}
+
+static void autocomplete_keywords_list_load(const gchar *path)
+{
+	FILE *f;
+	gchar s_buf[1024];
+	gchar *pathl;
+	gint len;
+	GtkTreeIter iter;
+	GtkTreeSortable *sortable;
+
+	if (keyword_store) return;
+	keyword_store = gtk_list_store_new(1, G_TYPE_STRING);
+
+	sortable = GTK_TREE_SORTABLE(keyword_store);
+	gtk_tree_sortable_set_sort_func(sortable, 0, autocomplete_sort_iter_compare_func,
+												GINT_TO_POINTER(0), NULL);
+
+	gtk_tree_sortable_set_sort_column_id(sortable, 0, GTK_SORT_ASCENDING);
+
+	pathl = path_from_utf8(path);
+	f = fopen(pathl, "r");
+	g_free(pathl);
+
+	if (!f)
+		{
+		log_printf("Warning: keywords file %s not loaded", pathl);
+		return;
+		}
+
+	/* first line must start with Keywords comment */
+	if (!fgets(s_buf, sizeof(s_buf), f) ||
+					strncmp(s_buf, "#Keywords", 9) != 0)
+		{
+		fclose(f);
+		log_printf("Warning: keywords file %s not loaded", pathl);
+		return;
+		}
+
+	while (fgets(s_buf, sizeof(s_buf), f))
+		{
+		if (s_buf[0]=='#') continue;
+
+		len = strlen(s_buf);
+		if( s_buf[len-1] == '\n' )
+			{
+			s_buf[len-1] = 0;
+			}
+		gtk_list_store_append (keyword_store, &iter);
+		gtk_list_store_set(keyword_store, &iter, 0, g_strdup(s_buf), -1);
+		}
+
+	fclose(f);
+}
+
+static gboolean autocomplete_keywords_list_save(gchar *path)
+{
+	SecureSaveInfo *ssi;
+	gchar *pathl;
+	gchar *string;
+	gchar *string_nl;
+	GtkTreeIter  iter;
+	gboolean     valid;
+
+	pathl = path_from_utf8(path);
+	ssi = secure_open(pathl);
+	g_free(pathl);
+
+	if (!ssi)
+		{
+		log_printf(_("Error: Unable to write keywords list to: %s\n"), path);
+		return FALSE;
+		}
+
+	secure_fprintf(ssi, "#Keywords list\n");
+
+	valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_store), &iter);
+
+	while (valid)
+		{
+		gtk_tree_model_get (GTK_TREE_MODEL(keyword_store), &iter, 0, &string, -1);
+		string_nl = g_strconcat(string, "\n", NULL);
+		secure_fprintf(ssi, "%s", string_nl);
+
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(keyword_store), &iter);
+
+		g_free(string_nl);
+		}
+
+	secure_fprintf(ssi, "#end\n");
+	return (secure_close(ssi) == 0);
+}
+
+GList *keyword_list_get()
+{
+	GList *ret_list = NULL;
+	gchar *string;
+	gchar *string_nl;
+	GtkTreeIter iter;
+	gboolean valid;
+
+	valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(keyword_store), &iter);
+
+	while (valid)
+		{
+		gtk_tree_model_get (GTK_TREE_MODEL(keyword_store), &iter, 0, &string, -1);
+		string_nl = g_strconcat(string, "\n", NULL);
+		ret_list = g_list_append(ret_list, string);
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(keyword_store), &iter);
+
+		g_free(string_nl);
+		}
+
+	return ret_list;
+}
+
+void keyword_list_set(GList *keyword_list)
+{
+	GList *ret = NULL;
+	GtkTreeIter  iter;
+
+	if (!keyword_list) return;
+
+	gtk_list_store_clear(keyword_store);
+
+	while (keyword_list)
+		{
+		gtk_list_store_append (keyword_store, &iter);
+		gtk_list_store_set(keyword_store, &iter, 0, keyword_list->data, -1);
+
+		keyword_list = keyword_list->next;
+		}
+}
+
+gboolean bar_keywords_autocomplete_focus(LayoutWindow *lw)
+{
+	GtkWidget *pane;
+	GtkWidget *current_focus;
+	GList *children;
+	gboolean ret;
+
+	current_focus = gtk_window_get_focus(GTK_WINDOW(lw->window));
+	pane = bar_find_pane_by_id(lw->bar, PANE_KEYWORDS, "keywords");
+
+	children = gtk_container_get_children(GTK_CONTAINER(pane));
+	children = g_list_last(children);
+
+	if (current_focus == children->data)
+		{
+		ret = TRUE;
+		}
+	else
+		{
+		gtk_widget_grab_focus(children->data);
+		ret = FALSE;
+		}
+
+	g_list_free(children);
+
+	return ret;
 }
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

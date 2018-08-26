@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section id="GuideOptionsKeywords">
+  <title id="titleGuideOptionsKeywords">Keywords</title>
+  <para>This section describes the keywords list used for autocompletion.</para>
+  <para />
+  <section id="KeywordSearch">
+    <title>Keyword Search</title>
+    <para />
+    <para>Pressing the Search button will open a dialog which permits a recursive search to be made for keywords already attached to images. The result of the search is automatically appended to the existing list.</para>
+  </section>
+  <section id="KeywordList">
+    <title>Keyword List</title>
+    <para />
+    <para>
+      The list shows all keywords currently used for autocompletion. Text may be copy-pasted into the list or deleted from the list.
+      <para />
+      When the list is saved, duplicates will autmatically be removed and the list sorted into alphabetical order.
+    </para>
+  </section>
+</section>

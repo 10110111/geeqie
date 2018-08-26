@@ -23,6 +23,7 @@
 #include "preferences.h"
 
 #include "bar_exif.h"
+#include "bar_keywords.h"
 #include "cache.h"
 #include "cache_maint.h"
 #include "editors.h"
@@ -36,6 +37,7 @@
 #include "img-view.h"
 #include "layout_config.h"
 #include "layout_util.h"
+#include "metadata.h"
 #include "pixbuf_util.h"
 #include "slideshow.h"
 #include "toolbar.h"
@@ -43,6 +45,7 @@
 #include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_misc.h"
+#include "ui_spinner.h"
 #include "ui_tabcomp.h"
 #include "ui_utildlg.h"
 #include "window.h"
@@ -62,6 +65,9 @@
 #define EDITOR_COMMAND_MAX_LENGTH 1024
 
 static void image_overlay_set_text_colours();
+
+GtkWidget *keyword_text;
+static void config_tab_keywords_save();
 
 typedef struct _ThumbSize ThumbSize;
 struct _ThumbSize
@@ -438,6 +444,8 @@ static void config_window_apply(void)
 		color_man_update();
 		}
 #endif
+
+	config_tab_keywords_save();
 
 	image_options_sync();
 
@@ -2391,6 +2399,349 @@ static void config_tab_metadata(GtkWidget *notebook)
 	gtk_widget_set_tooltip_text(ct_button,"On folder change, read DateTimeOriginal, DateTimeDigitized and Star Rating in the idle loop.\nIf this is not selected, initial loading of the folder will be faster but sorting on these items will be slower");
 }
 
+/* keywords tab */
+
+typedef struct _KeywordFindData KeywordFindData;
+struct _KeywordFindData
+{
+	GenericDialog *gd;
+
+	GList *list;
+	GList *list_dir;
+
+	GtkWidget *button_close;
+	GtkWidget *button_stop;
+	GtkWidget *button_start;
+	GtkWidget *progress;
+	GtkWidget *spinner;
+
+	GtkWidget *group;
+	GtkWidget *entry;
+
+	gboolean recurse;
+
+	guint idle_id; /* event source id */
+};
+
+#define KEYWORD_DIALOG_WIDTH 400
+
+static void keywords_find_folder(KeywordFindData *kfd, FileData *dir_fd)
+{
+	GList *list_d = NULL;
+	GList *list_f = NULL;
+
+	if (kfd->recurse)
+		{
+		filelist_read(dir_fd, &list_f, &list_d);
+		}
+	else
+		{
+		filelist_read(dir_fd, &list_f, NULL);
+		}
+
+	list_f = filelist_filter(list_f, FALSE);
+	list_d = filelist_filter(list_d, TRUE);
+
+	kfd->list = g_list_concat(list_f, kfd->list);
+	kfd->list_dir = g_list_concat(list_d, kfd->list_dir);
+}
+
+static void keywords_find_reset(KeywordFindData *kfd)
+{
+	filelist_free(kfd->list);
+	kfd->list = NULL;
+
+	filelist_free(kfd->list_dir);
+	kfd->list_dir = NULL;
+}
+
+static void keywords_find_close_cb(GenericDialog *fd, gpointer data)
+{
+	KeywordFindData *kfd = data;
+
+	if (!gtk_widget_get_sensitive(kfd->button_close)) return;
+
+	keywords_find_reset(kfd);
+	generic_dialog_close(kfd->gd);
+	g_free(kfd);
+}
+
+static void keywords_find_finish(KeywordFindData *kfd)
+{
+	keywords_find_reset(kfd);
+
+	gtk_entry_set_text(GTK_ENTRY(kfd->progress), _("done"));
+	spinner_set_interval(kfd->spinner, -1);
+
+	gtk_widget_set_sensitive(kfd->group, TRUE);
+	gtk_widget_set_sensitive(kfd->button_start, TRUE);
+	gtk_widget_set_sensitive(kfd->button_stop, FALSE);
+	gtk_widget_set_sensitive(kfd->button_close, TRUE);
+}
+
+static void keywords_find_stop_cb(GenericDialog *fd, gpointer data)
+{
+	KeywordFindData *kfd = data;
+
+	g_idle_remove_by_data(kfd);
+
+	keywords_find_finish(kfd);
+}
+
+static gboolean keywords_find_file(gpointer data)
+{
+	KeywordFindData *kfd = data;
+	GtkTextIter iter;
+	GtkTextBuffer *buffer;
+	gchar *tmp;
+	GList *keywords;
+
+	if (kfd->list)
+		{
+		FileData *fd;
+
+		fd = kfd->list->data;
+		kfd->list = g_list_remove(kfd->list, fd);
+
+		keywords = metadata_read_list(fd, KEYWORD_KEY, METADATA_PLAIN);
+		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(keyword_text));
+
+		while (keywords)
+			{
+			gtk_text_buffer_get_end_iter(buffer, &iter);
+			tmp = g_strconcat(keywords->data, "\n", NULL);
+			gtk_text_buffer_insert(buffer, &iter, tmp, -1);
+			g_free(tmp);
+			keywords = keywords->next;
+			}
+
+		gtk_entry_set_text(GTK_ENTRY(kfd->progress), fd->path);
+		file_data_unref(fd);
+		string_list_free(keywords);
+
+		return (TRUE);
+		}
+	else if (kfd->list_dir)
+		{
+		FileData *fd;
+
+		fd = kfd->list_dir->data;
+		kfd->list_dir = g_list_remove(kfd->list_dir, fd);
+
+		keywords_find_folder(kfd, fd);
+
+		file_data_unref(fd);
+
+		return TRUE;
+		}
+
+	keywords_find_finish(kfd);
+
+	return FALSE;
+}
+
+static void keywords_find_start_cb(GenericDialog *fd, gpointer data)
+{
+	KeywordFindData *kfd = data;
+	gchar *path;
+
+	if (kfd->list || !gtk_widget_get_sensitive(kfd->button_start)) return;
+
+	path = remove_trailing_slash((gtk_entry_get_text(GTK_ENTRY(kfd->entry))));
+	parse_out_relatives(path);
+
+	if (!isdir(path))
+		{
+		warning_dialog(_("Invalid folder"),
+				_("The specified folder can not be found."),
+				GTK_STOCK_DIALOG_WARNING, kfd->gd->dialog);
+		}
+	else
+		{
+		FileData *dir_fd;
+
+		gtk_widget_set_sensitive(kfd->group, FALSE);
+		gtk_widget_set_sensitive(kfd->button_start, FALSE);
+		gtk_widget_set_sensitive(kfd->button_stop, TRUE);
+		gtk_widget_set_sensitive(kfd->button_close, FALSE);
+		spinner_set_interval(kfd->spinner, SPINNER_SPEED);
+
+		dir_fd = file_data_new_dir(path);
+		keywords_find_folder(kfd, dir_fd);
+		file_data_unref(dir_fd);
+		kfd->idle_id = g_idle_add(keywords_find_file, kfd);
+		}
+
+	g_free(path);
+}
+
+static void keywords_find_dialog(GtkWidget *widget, const gchar *path)
+{
+	KeywordFindData *kfd;
+	GtkWidget *hbox;
+	GtkWidget *label;
+
+	kfd = g_new0(KeywordFindData, 1);
+
+	kfd->gd = generic_dialog_new(_("Search for keywords"),
+									"search_for_keywords",
+									widget, FALSE,
+									NULL, kfd);
+	gtk_window_set_default_size(GTK_WINDOW(kfd->gd->dialog), KEYWORD_DIALOG_WIDTH, -1);
+	kfd->gd->cancel_cb = keywords_find_close_cb;
+	kfd->button_close = generic_dialog_add_button(kfd->gd, GTK_STOCK_CLOSE, NULL,
+						     keywords_find_close_cb, FALSE);
+	kfd->button_start = generic_dialog_add_button(kfd->gd, GTK_STOCK_OK, _("S_tart"),
+						     keywords_find_start_cb, FALSE);
+	kfd->button_stop = generic_dialog_add_button(kfd->gd, GTK_STOCK_STOP, NULL,
+						    keywords_find_stop_cb, FALSE);
+	gtk_widget_set_sensitive(kfd->button_stop, FALSE);
+
+	generic_dialog_add_message(kfd->gd, NULL, _("Search for keywords"), NULL, FALSE);
+
+	hbox = pref_box_new(kfd->gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, 0);
+	pref_spacer(hbox, PREF_PAD_INDENT);
+	kfd->group = pref_box_new(hbox, TRUE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+
+	hbox = pref_box_new(kfd->group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+	pref_label_new(hbox, _("Folder:"));
+
+	label = tab_completion_new(&kfd->entry, path, NULL, NULL, NULL, NULL);
+	tab_completion_add_select_button(kfd->entry,_("Select folder") , TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+	gtk_widget_show(label);
+
+	pref_checkbox_new_int(kfd->group, _("Include subfolders"), FALSE, &kfd->recurse);
+
+	pref_line(kfd->gd->vbox, PREF_PAD_SPACE);
+	hbox = pref_box_new(kfd->gd->vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
+
+	kfd->progress = gtk_entry_new();
+	gtk_widget_set_can_focus(kfd->progress, FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(kfd->progress), FALSE);
+	gtk_entry_set_text(GTK_ENTRY(kfd->progress), _("click start to begin"));
+	gtk_box_pack_start(GTK_BOX(hbox), kfd->progress, TRUE, TRUE, 0);
+	gtk_widget_show(kfd->progress);
+
+	kfd->spinner = spinner_new(NULL, -1);
+	gtk_box_pack_start(GTK_BOX(hbox), kfd->spinner, FALSE, FALSE, 0);
+	gtk_widget_show(kfd->spinner);
+
+	kfd->list = NULL;
+
+	gtk_widget_show(kfd->gd->dialog);
+}
+
+static void keywords_find_cb(GtkWidget *widget, gpointer data)
+{
+	const gchar *path = layout_get_path(NULL);
+
+	if (!path || !*path) path = homedir();
+	keywords_find_dialog(widget, path);
+}
+
+static void config_tab_keywords_save()
+{
+	GtkTextIter start, end;
+	GtkTextBuffer *buffer;
+	GList *kw_list = NULL;
+	GList *work;
+	gchar *buffer_text;
+	gchar *kw_split;
+	gboolean found;
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(keyword_text));
+	gtk_text_buffer_get_bounds(buffer, &start, &end);
+
+	buffer_text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+
+	kw_split = strtok(buffer_text, "\n");
+	while (kw_split != NULL)
+		{
+		work = kw_list;
+		found = FALSE;
+		while (work)
+			{
+			if (g_strcmp0(work->data, kw_split) == 0)
+				{
+				found = TRUE;
+				break;
+				}
+			work = work->next;
+			}
+		if (!found)
+			{
+			kw_list = g_list_append(kw_list, g_strdup(kw_split));
+			}
+		kw_split = strtok(NULL, "\n");
+		}
+
+	keyword_list_set(kw_list);
+
+	string_list_free(kw_list);
+	g_free(buffer_text);
+}
+
+static void config_tab_keywords(GtkWidget *notebook)
+{
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *group;
+	GtkWidget *button;
+	GtkWidget *scrolled;
+	GtkTextIter iter;
+	GtkTextBuffer *buffer;
+	gchar *tmp;
+
+	vbox = scrolled_notebook_page(notebook, _("Keywords"));
+
+	group = pref_group_new(vbox, TRUE, _("Edit keywords autocompletion list"), GTK_ORIENTATION_VERTICAL);
+
+	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+
+	button = pref_button_new(hbox, GTK_STOCK_EXECUTE, _("Search"), FALSE,
+				   G_CALLBACK(keywords_find_cb), keyword_text);
+	gtk_widget_set_tooltip_text(button, "Search for existing keywords");
+
+
+	keyword_text = gtk_text_view_new();
+	gtk_widget_set_size_request(keyword_text, 20, 20);
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 0);
+	gtk_widget_show(scrolled);
+
+	gtk_container_add(GTK_CONTAINER(scrolled), keyword_text);
+	gtk_widget_show(keyword_text);
+
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(keyword_text), TRUE);
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(keyword_text));
+	gtk_text_buffer_create_tag(buffer, "monospace",
+				"family", "monospace", NULL);
+
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(keyword_text), GTK_WRAP_WORD);
+	gtk_text_buffer_get_start_iter(buffer, &iter);
+	gtk_text_buffer_create_mark(buffer, "end", &iter, FALSE);
+	gchar *path;
+
+	path = g_build_filename(get_rc_dir(), "keywords", NULL);
+
+	GList *kwl = keyword_list_get();
+	kwl = g_list_first(kwl);
+	while (kwl)
+	{
+		gtk_text_buffer_get_end_iter (buffer, &iter);
+	    tmp = g_strconcat(kwl->data, "\n", NULL);
+		gtk_text_buffer_insert(buffer, &iter, tmp, -1);
+		kwl = kwl->next;
+		g_free(tmp);
+	}
+
+	gtk_text_buffer_set_modified(buffer, FALSE);
+
+	g_free(path);
+}
+
 /* metadata tab */
 #ifdef HAVE_LCMS
 static void intent_menu_cb(GtkWidget *combo, gpointer data)
@@ -2878,6 +3229,7 @@ static void config_window_create(void)
 	config_tab_accelerators(notebook);
 	config_tab_files(notebook);
 	config_tab_metadata(notebook);
+	config_tab_keywords(notebook);
 	config_tab_color(notebook);
 	config_tab_stereo(notebook);
 	config_tab_behavior(notebook);
