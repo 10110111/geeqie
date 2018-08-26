@@ -417,6 +417,8 @@ static void config_window_apply(void)
 	options->info_comment.height = c_options->info_comment.height;
 	options->info_rating.height = c_options->info_rating.height;
 
+	options->show_predefined_keyword_tree = c_options->show_predefined_keyword_tree;
+
 	options->marks_save = c_options->marks_save;
 	options->with_rename = c_options->with_rename;
 	options->collections_on_top = c_options->collections_on_top;
@@ -1886,6 +1888,11 @@ static void config_tab_general(GtkWidget *notebook)
 	pref_spin_new_int(hbox, _("Rating:"), NULL,
 				 1, 9999, 1,
 				 options->info_rating.height, &c_options->info_rating.height);
+
+	group = pref_group_new(vbox, FALSE, _("Show predefined keyword tree"), GTK_ORIENTATION_VERTICAL);
+
+	pref_checkbox_new_int(group, _("Show predefined keyword tree (NOTE! Geeqie must be restarted for change to take effect)"),
+				options->show_predefined_keyword_tree, &c_options->show_predefined_keyword_tree);
 
 	group = pref_group_new(vbox, FALSE, _("On-line help search engine"), GTK_ORIENTATION_VERTICAL);
 

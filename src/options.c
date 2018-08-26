@@ -156,6 +156,7 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->show_icon_names = TRUE;
 	options->show_star_rating = FALSE;
+	options->show_predefined_keyword_tree = TRUE;
 
 	options->slideshow.delay = 50;
 	options->slideshow.random = FALSE;
