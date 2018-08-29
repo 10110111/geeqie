@@ -24,6 +24,7 @@ essential_array=(
 "autoconf"
 "libglib2.0-0"
 "intltool"
+"libtool"
 )
 
 # Optional for both GTK2 and GTK3
