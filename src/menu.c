@@ -116,7 +116,7 @@ GtkWidget *submenu_add_edit(GtkWidget *menu, GtkWidget **menu_item, GCallback fu
 	GtkWidget *item;
 	GtkWidget *submenu;
 
-	item = menu_item_add(menu, _("_Edit"), NULL, NULL);
+	item = menu_item_add(menu, _("Plugins"), NULL, NULL);
 
 	submenu = gtk_menu_new();
 	g_object_set_data(G_OBJECT(submenu), "submenu_data", data);
