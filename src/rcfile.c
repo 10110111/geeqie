@@ -494,6 +494,10 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.auto_padding);
 	WRITE_NL(); WRITE_CHAR(*options, cp_mv_rn.auto_end);
 	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.formatted_start);
+
+	/* printer */
+	WRITE_NL(); WRITE_CHAR(*options, printer.font);
+	WRITE_NL(); WRITE_INT(*options, printer.text_fields);
 }
 
 static void write_color_profile(GString *outstr, gint indent)
@@ -828,6 +832,10 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, cp_mv_rn.auto_padding)) continue;
 		if (READ_CHAR(*options, cp_mv_rn.auto_end)) continue;
 		if (READ_INT(*options, cp_mv_rn.formatted_start)) continue;
+
+		/* printer */
+		if (READ_CHAR(*options, printer.font)) continue;
+		if (READ_INT(*options, printer.text_fields)) continue;
 
 		/* Dummy options */
 		if (READ_DUMMY(*options, image.dither_quality, "deprecated since 2012-08-13")) continue;

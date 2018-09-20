@@ -301,6 +301,12 @@ struct _ConfOptions
 		gunichar rejected;
 	} star_rating;
 
+	/* Printer */
+	struct {
+		gchar *font;
+		gint text_fields;
+	} printer;
+
 	gboolean read_metadata_in_idle;
 };
 
