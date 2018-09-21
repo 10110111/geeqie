@@ -904,7 +904,7 @@ static void collection_table_popup_print_cb(GtkWidget *widget, gpointer data)
 
 	fd = (ct->click_info) ? ct->click_info->fd : NULL;
 
-	print_window_new(fd, collection_table_selection_get_list(ct), collection_table_get_list(ct), ct->listview);
+	print_window_new(fd, collection_table_selection_get_list(ct), collection_table_get_list(ct), gtk_widget_get_toplevel(ct->listview));
 }
 
 static void collection_table_popup_show_names_cb(GtkWidget *widget, gpointer data)

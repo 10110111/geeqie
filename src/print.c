@@ -491,6 +491,11 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	pw->source_selection = file_data_process_groups_in_selection(selection, FALSE, NULL);
 	pw->text_fields = options->printer.text_fields;
 
+	if (print_layout_page_count(pw) == 0)
+		{
+		return;
+		}
+
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);
 	gtk_widget_show(vbox);
