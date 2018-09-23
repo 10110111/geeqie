@@ -303,8 +303,14 @@ struct _ConfOptions
 
 	/* Printer */
 	struct {
-		gchar *font;
+		gchar *image_font;
+		gchar *page_font;
 		gint text_fields;
+		gboolean show_image_text;
+		gboolean show_page_text;
+		gchar *page_text;
+		gint image_text_position;
+		gint page_text_position;
 	} printer;
 
 	gboolean read_metadata_in_idle;

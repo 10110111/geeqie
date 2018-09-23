@@ -29,6 +29,9 @@
 #define PRINT_SETTINGS "print_settings" // filename save printer settings
 #define PAGE_SETUP "page_setup" // filename save page setup
 
+/* padding between objects */
+#define PRINT_TEXT_PADDING 3.0
+
 /* method to use when scaling down image data */
 #define PRINT_MAX_INTERP GDK_INTERP_HYPER
 
@@ -40,6 +43,14 @@ typedef enum {
 	TEXT_INFO_FILEPATH = 1 << 4
 } TextInfo;
 
+/* reverse order is important */
+typedef enum {
+	FOOTER_2,
+	FOOTER_1,
+	HEADER_2,
+	HEADER_1
+} TextPosition;
+
 typedef struct _PrintWindow PrintWindow;
 struct _PrintWindow
 {
@@ -48,10 +59,13 @@ struct _PrintWindow
 
 	TextInfo	text_fields;
 	gint		 job_page;
+	GtkTextBuffer *page_text;
 	ImageLoader	*job_loader;
 
 	GList *print_pixbuf_queue;
 	gboolean job_render_finished;
+	GSList *image_group;
+	GSList *page_group;
 };
 
 static gint print_layout_page_count(PrintWindow *pw)
@@ -170,20 +184,31 @@ static void print_text_cb_dims(GtkWidget *widget, gpointer data)
 
 static void print_set_font_cb(GtkWidget *widget, gpointer data)
 {
+	gpointer option;
+
+	if (g_strcmp0(data, "Image text font") == 0)
+		{
+		option = options->printer.image_font;
+		}
+	else
+		{
+		option = options->printer.page_font;
+		}
+
 #if GTK_CHECK_VERSION(3,4,0)
 	GtkWidget *dialog;
 	char *font;
 	PangoFontDescription *font_desc;
 
-	dialog = gtk_font_chooser_dialog_new("Printer Font", GTK_WINDOW(gtk_widget_get_toplevel(widget)));
-	gtk_font_chooser_set_font(GTK_FONT_CHOOSER(dialog), options->printer.font);
+	dialog = gtk_font_chooser_dialog_new(data, GTK_WINDOW(gtk_widget_get_toplevel(widget)));
+	gtk_font_chooser_set_font(GTK_FONT_CHOOSER(dialog), option);
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) != GTK_RESPONSE_CANCEL)
 		{
 		font_desc = gtk_font_chooser_get_font_desc(GTK_FONT_CHOOSER(dialog));
 		font = pango_font_description_to_string(font_desc);
-		g_free(options->printer.font);
-		options->printer.font = g_strdup(font);
+		g_free(option);
+		option = g_strdup(font);
 		g_free(font);
 		}
 
@@ -192,8 +217,156 @@ static void print_set_font_cb(GtkWidget *widget, gpointer data)
 	const char *font;
 
 	font = gtk_font_button_get_font_name(GTK_FONT_BUTTON(widget));
-	options->printer.font = g_strdup(font);
+	option = g_strdup(font);
 #endif
+}
+
+static gint set_toggle(GSList *list, TextPosition pos)
+{
+	GtkToggleButton *current_sel;
+	GtkToggleButton *new_sel;
+	gint new_pos = - 1;
+
+	current_sel = g_slist_nth(list, pos)->data;
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(current_sel)))
+		{
+		new_pos = (pos - 1);
+		if (new_pos < 0)
+			{
+			new_pos = HEADER_1;
+			}
+		new_sel = g_slist_nth(list, new_pos)->data;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(new_sel), TRUE);
+		}
+	return new_pos;
+}
+
+static void image_text_position_h1_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->page_group, HEADER_1);
+		if (new_set >= 0)
+			{
+			options->printer.page_text_position = new_set;
+			}
+		options->printer.image_text_position = HEADER_1;
+		}
+}
+
+static void image_text_position_h2_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->page_group, HEADER_2);
+		if (new_set >= 0)
+			{
+			options->printer.page_text_position = new_set;
+			}
+		options->printer.image_text_position = HEADER_2;
+		}
+}
+
+static void image_text_position_f1_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->page_group, FOOTER_1);
+		if (new_set >= 0)
+			{
+			options->printer.page_text_position = new_set;
+			}
+		options->printer.image_text_position = FOOTER_1;
+		}
+}
+
+static void image_text_position_f2_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->page_group, FOOTER_2);
+		if (new_set >= 0)
+			{
+			options->printer.page_text_position = new_set;
+			}
+		options->printer.image_text_position = FOOTER_2;
+		}
+}
+
+static void page_text_position_h1_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->image_group, HEADER_1);
+		if (new_set >= 0)
+			{
+			options->printer.image_text_position = new_set;
+			}
+		options->printer.page_text_position = HEADER_1;
+		}
+}
+
+static void page_text_position_h2_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->image_group, HEADER_2);
+		if (new_set >= 0)
+			{
+			options->printer.image_text_position = new_set;
+			}
+		options->printer.page_text_position = HEADER_2;
+		}
+}
+
+static void page_text_position_f1_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->image_group, FOOTER_1);
+		if (new_set >= 0)
+			{
+			options->printer.image_text_position = new_set;
+			}
+		options->printer.page_text_position = FOOTER_1;
+		}
+}
+
+static void page_text_position_f2_cb(GtkWidget *widget, gpointer data)
+{
+	PrintWindow *pw = data;
+	gint new_set;
+
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		new_set = set_toggle(pw->image_group, FOOTER_2);
+		if (new_set >= 0)
+			{
+			options->printer.image_text_position = new_set;
+			}
+		options->printer.page_text_position = FOOTER_2;
+		}
 }
 
 static void print_text_menu(GtkWidget *box, PrintWindow *pw)
@@ -201,33 +374,126 @@ static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 	GtkWidget *group;
 	GtkWidget *hbox;
 	GtkWidget *button;
+	GtkWidget *button1;
+	GtkWidget *button2;
+	GtkWidget *image_text_button;
+	GtkWidget *page_text_button;
+	GtkWidget *subgroup;
+	GtkWidget *page_text_view;
 
-	group = pref_group_new(box, FALSE, _("Show"), GTK_ORIENTATION_VERTICAL);
+	group = pref_group_new(box, FALSE, _("Image text"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new(group, _("Name"), (pw->text_fields & TEXT_INFO_FILENAME),
+	image_text_button = pref_checkbox_new_int(group, _("Show image text"),
+										options->printer.show_image_text, &options->printer.show_image_text);
+
+	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+
+	pref_checkbox_link_sensitivity(image_text_button, subgroup);
+
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(subgroup), hbox, FALSE, FALSE, 0);
+
+	/* order is important */
+	button1 = pref_radiobutton_new(hbox, NULL,  "Header 1",
+							options->printer.image_text_position == HEADER_1,
+							G_CALLBACK(image_text_position_h1_cb), pw);
+	button1 = pref_radiobutton_new(hbox, button1,  "Header 2",
+							options->printer.image_text_position == HEADER_2,
+							G_CALLBACK(image_text_position_h2_cb), pw);
+	button1 = pref_radiobutton_new(hbox, button1, "Footer 1",
+							options->printer.image_text_position == FOOTER_1,
+							G_CALLBACK(image_text_position_f1_cb), pw);
+	button1 = pref_radiobutton_new(hbox, button1, "Footer 2",
+							options->printer.image_text_position == FOOTER_2,
+							G_CALLBACK(image_text_position_f2_cb), pw);
+	gtk_widget_show(hbox);
+	pw->image_group = (gtk_radio_button_get_group(GTK_RADIO_BUTTON(button1)));
+
+	pref_checkbox_new(subgroup, _("Name"), (pw->text_fields & TEXT_INFO_FILENAME),
 			  G_CALLBACK(print_text_cb_name), pw);
-	pref_checkbox_new(group, _("Path"), (pw->text_fields & TEXT_INFO_FILEPATH),
+	pref_checkbox_new(subgroup, _("Path"), (pw->text_fields & TEXT_INFO_FILEPATH),
 			  G_CALLBACK(print_text_cb_path), pw);
-	pref_checkbox_new(group, _("Date"), (pw->text_fields & TEXT_INFO_FILEDATE),
+	pref_checkbox_new(subgroup, _("Date"), (pw->text_fields & TEXT_INFO_FILEDATE),
 			  G_CALLBACK(print_text_cb_date), pw);
-	pref_checkbox_new(group, _("Size"), (pw->text_fields & TEXT_INFO_FILESIZE),
+	pref_checkbox_new(subgroup, _("Size"), (pw->text_fields & TEXT_INFO_FILESIZE),
 			  G_CALLBACK(print_text_cb_size), pw);
-	pref_checkbox_new(group, _("Dimensions"), (pw->text_fields & TEXT_INFO_DIMENSIONS),
+	pref_checkbox_new(subgroup, _("Dimensions"), (pw->text_fields & TEXT_INFO_DIMENSIONS),
 			  G_CALLBACK(print_text_cb_dims), pw);
 
-	group = pref_group_new(box, FALSE, _("Font"), GTK_ORIENTATION_VERTICAL);
-
-	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+	hbox = pref_box_new(subgroup, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
 #if GTK_CHECK_VERSION(3,4,0)
 	button = pref_button_new(NULL, GTK_STOCK_SELECT_FONT, _("Font"), FALSE,
-				 G_CALLBACK(print_set_font_cb), pw);
+				 G_CALLBACK(print_set_font_cb), "Image text font");
 #else
 	button = gtk_font_button_new();
-	gtk_font_button_set_title(GTK_FONT_BUTTON(button), "Printer Font");
-	gtk_font_button_set_font_name(GTK_FONT_BUTTON(button), options->printer.font);
+	gtk_font_button_set_title(GTK_FONT_BUTTON(button), "Image text Font");
+	gtk_font_button_set_font_name(GTK_FONT_BUTTON(button), options->printer.image_font);
 	g_signal_connect(G_OBJECT(button), "font-set",
-				 G_CALLBACK(print_set_font_cb),NULL);
+				 G_CALLBACK(print_set_font_cb), "Image text font");
+#endif
+	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show(button);
+
+	pref_spacer(group, PREF_PAD_GAP);
+
+	group = pref_group_new(box, FALSE, _("Page text"), GTK_ORIENTATION_VERTICAL);
+
+	page_text_button = pref_checkbox_new_int(group, _("Show page text"),
+					  options->printer.show_page_text, &options->printer.show_page_text);
+
+	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+	pref_checkbox_link_sensitivity(page_text_button, subgroup);
+
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(subgroup), hbox, FALSE, FALSE, 0);
+
+	/* order is important */
+	button2 = pref_radiobutton_new(hbox, NULL, "Header 1",
+							options->printer.page_text_position == HEADER_1,
+							G_CALLBACK(page_text_position_h1_cb), pw);
+	button2 = pref_radiobutton_new(hbox, button2,  "Header 2",
+							options->printer.page_text_position == HEADER_2,
+							G_CALLBACK(page_text_position_h2_cb), pw);
+	button2 = pref_radiobutton_new(hbox, button2, "Footer 1",
+							options->printer.page_text_position == FOOTER_1,
+							G_CALLBACK(page_text_position_f1_cb), pw);
+	button2 = pref_radiobutton_new(hbox, button2, "Footer 2",
+							options->printer.page_text_position == FOOTER_2,
+							G_CALLBACK(page_text_position_f2_cb), pw);
+	gtk_widget_show(hbox);
+	pw->page_group = (gtk_radio_button_get_group(GTK_RADIO_BUTTON(button2)));
+
+	GtkWidget *scrolled;
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_widget_set_size_request(scrolled, 50, 50);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start(GTK_BOX(subgroup), scrolled, TRUE, TRUE, 5);
+	gtk_widget_show(scrolled);
+
+	page_text_view = gtk_text_view_new();
+	pw->page_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(page_text_view ));
+	gtk_text_buffer_set_text(GTK_TEXT_BUFFER(pw->page_text), options->printer.page_text, -1);
+	g_object_ref(pw->page_text);
+
+	gtk_widget_set_tooltip_markup(page_text_view, ("Text shown on each page of a single or multi-page print job"));
+	gtk_container_add(GTK_CONTAINER(scrolled), page_text_view);
+	gtk_widget_show(page_text_view);
+
+	hbox = pref_box_new(subgroup, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
+
+#if GTK_CHECK_VERSION(3,4,0)
+	button = pref_button_new(NULL, GTK_STOCK_SELECT_FONT, _("Font"), FALSE,
+				 G_CALLBACK(print_set_font_cb), "Page text font");
+#else
+	button = gtk_font_button_new();
+	gtk_font_button_set_title(GTK_FONT_BUTTON(button), "Page text Font");
+	gtk_font_button_set_font_name(GTK_FONT_BUTTON(button), options->printer.page_font);
+	g_signal_connect(G_OBJECT(button), "font-set",
+				 G_CALLBACK(print_set_font_cb), "Page text font");
 #endif
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	gtk_widget_show(button);
@@ -249,145 +515,237 @@ static gboolean paginate_cb(GtkPrintOperation *operation,
 		}
 }
 
-/* Returns the "depth" of a layout, that is the distance from the
- * top of the layout to the baseline of the first line in the
- * layout. */
-int get_layout_depth(PangoLayout *layout)
-{
-  PangoLayoutLine *layout_line = pango_layout_get_line(layout,0);
-  PangoRectangle rect;
-
-  pango_layout_line_get_extents(layout_line, NULL, &rect);
-
-  return PANGO_ASCENT(rect);
-}
-
 static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 									gint page_nr, gpointer data)
 {
-	FileData *fd;
 	PrintWindow *pw = data;
+	FileData *fd;
 	cairo_t *cr;
-	gdouble width, height;
-	gdouble width_pixbuf_image, height_pixbuf_image;
+	gdouble context_width, context_height;
+	gdouble pixbuf_image_width, pixbuf_image_height;
 	gdouble width_offset;
 	gdouble height_offset;
 	GdkPixbuf *pixbuf;
 	GdkPixbuf *pixbuf_scaled;
-	PangoLayout *layout;
+	PangoLayout *layout_image = NULL;
+	PangoLayout *layout_page = NULL;
 	PangoFontDescription *desc;
-	GString *text = g_string_new(NULL);
+	GString *image_text = g_string_new(NULL);
+	GString *page_text = g_string_new(NULL);
 	PangoRectangle ink_rect, logical_rect;
-	gdouble depth;
-	gdouble text_padding;
-	gdouble x, y, w, h, scale;
+	gdouble w, h, scale;
+	gdouble image_text_width, image_text_height, page_text_width, page_text_height;
+	gint image_y;
+	gint incr_y;
 	gdouble pango_height;
+	gdouble pango_image_height;
+	gdouble pango_page_height;
+	GtkTextIter start, end;
+	gchar *tmp;
 
 	pixbuf = g_list_nth_data(pw->print_pixbuf_queue, page_nr);
-	width_pixbuf_image = gdk_pixbuf_get_width(pixbuf);
-	height_pixbuf_image = gdk_pixbuf_get_height(pixbuf);
+	pixbuf_image_width = gdk_pixbuf_get_width(pixbuf);
+	pixbuf_image_height = gdk_pixbuf_get_height(pixbuf);
 
 	fd = g_list_nth_data(pw->source_selection, page_nr);
 
-	if (pw->text_fields & TEXT_INFO_FILENAME)
+	if (options->printer.show_image_text)
 		{
-		text = g_string_append(text, g_strdup(fd->name));
-		text = g_string_append(text, "\n");
+		if (pw->text_fields & TEXT_INFO_FILENAME)
+			{
+			image_text = g_string_append(image_text, g_strdup(fd->name));
+			image_text = g_string_append(image_text, "\n");
+			}
+		if (pw->text_fields & TEXT_INFO_FILEDATE)
+			{
+			image_text = g_string_append(image_text, g_strdup(text_from_time(fd->date)));
+			image_text = g_string_append(image_text, "\n");
+			}
+		if (pw->text_fields & TEXT_INFO_FILESIZE)
+			{
+			image_text = g_string_append(image_text, g_strdup(text_from_size(fd->size)));
+			image_text = g_string_append(image_text, "\n");
+			}
+		if (pw->text_fields & TEXT_INFO_DIMENSIONS)
+			{
+			g_string_append_printf(image_text, "%d x %d", (gint)pixbuf_image_width,
+												(gint)pixbuf_image_height);
+			image_text = g_string_append(image_text, "\n");
+			}
+		if (pw->text_fields & TEXT_INFO_FILEPATH)
+			{
+			image_text = g_string_append(image_text, g_strdup(fd->path));
+			image_text = g_string_append(image_text, "\n");
+			}
+		if (image_text->len > 0)
+			{
+			image_text = g_string_truncate(image_text, image_text->len - 1);
+			}
 		}
-	if (pw->text_fields & TEXT_INFO_FILEDATE)
+
+	if (options->printer.show_page_text)
 		{
-		text = g_string_append(text, g_strdup(text_from_time(fd->date)));
-		text = g_string_append(text, "\n");
-		}
-	if (pw->text_fields & TEXT_INFO_FILESIZE)
-		{
-		text = g_string_append(text, g_strdup(text_from_size(fd->size)));
-		text = g_string_append(text, "\n");
-		}
-	if (pw->text_fields & TEXT_INFO_DIMENSIONS)
-		{
-		g_string_append_printf(text, "%d x %d", (gint)width_pixbuf_image,
-											(gint)height_pixbuf_image);
-		text = g_string_append(text, "\n");
-		}
-	if (pw->text_fields & TEXT_INFO_FILEPATH)
-		{
-		text = g_string_append(text, g_strdup(fd->path));
-		text = g_string_append(text, "\n");
+		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(pw->page_text), &start, &end);
+
+		tmp = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(pw->page_text), &start, &end, FALSE);
+		page_text = g_string_append(page_text, tmp);
+
+		g_free(tmp);
 		}
 
 	cr = gtk_print_context_get_cairo_context(context);
-	width = gtk_print_context_get_width(context);
-	height = gtk_print_context_get_height(context);
+	context_width = gtk_print_context_get_width(context);
+	context_height = gtk_print_context_get_height(context);
 
-	if (text->len > 0)
+	pango_image_height = 0;
+	pango_page_height = 0;
+	image_text_width = 0;
+	page_text_width = 0;
+
+	if (image_text->len > 0)
 		{
-		text = g_string_truncate(text, text->len - 1);
+		layout_image = pango_cairo_create_layout(cr);
 
-		layout = pango_cairo_create_layout(cr);
+		pango_layout_set_text(layout_image, image_text->str, -1);
+		desc = pango_font_description_from_string(options->printer.image_font);
+		pango_layout_set_font_description(layout_image, desc);
 
-		pango_layout_set_text(layout, text->str, -1);
-		desc = pango_font_description_from_string(options->printer.font);
-		pango_layout_set_font_description(layout, desc);
+		pango_layout_get_extents(layout_image, &ink_rect, &logical_rect);
+		image_text_width = ((gdouble)logical_rect.width / PANGO_SCALE) ;
+		image_text_height = ((gdouble)logical_rect.height / PANGO_SCALE);
 
-		pango_layout_get_extents(layout, &ink_rect, &logical_rect);
-		x = ((gdouble)logical_rect.width / PANGO_SCALE) ;
-		y = ((gdouble)logical_rect.height / PANGO_SCALE);
+		pango_layout_set_alignment(layout_image, PANGO_ALIGN_CENTER);
+		pango_layout_set_text(layout_image, image_text->str, -1);
 
-		pango_layout_set_alignment(layout, PANGO_ALIGN_CENTER);
-		pango_layout_set_text(layout, text->str, -1);
+		pango_image_height = image_text_height + PRINT_TEXT_PADDING * 2;
 
-		depth = (gdouble)get_layout_depth(layout);
-		text_padding = depth / 2 / PANGO_SCALE ;
-
-		pango_height = y + text_padding * 2;
-
-		}
-	else
-		{
-		pango_height = 0;
-		depth = 0;
-		text_padding = 0;
-		x = 0;
-		y = 0;
+		pango_font_description_free(desc);
 		}
 
-	if ((width / width_pixbuf_image) < ((height - pango_height) / height_pixbuf_image))
+	if (page_text->len > 0)
 		{
-		w = width;
-		scale = width / width_pixbuf_image;
-		h = height_pixbuf_image * scale;
-		height_offset = (height - (h + pango_height)) / 2;
+		layout_page = pango_cairo_create_layout(cr);
+
+		pango_layout_set_text(layout_page, page_text->str, -1);
+		desc = pango_font_description_from_string(options->printer.page_font);
+		pango_layout_set_font_description(layout_page, desc);
+
+		pango_layout_get_extents(layout_page, &ink_rect, &logical_rect);
+		page_text_width = ((gdouble)logical_rect.width / PANGO_SCALE) ;
+		page_text_height = ((gdouble)logical_rect.height / PANGO_SCALE);
+
+		pango_layout_set_alignment(layout_page, PANGO_ALIGN_CENTER);
+		pango_layout_set_text(layout_page, page_text->str, -1);
+
+		pango_page_height = page_text_height + PRINT_TEXT_PADDING * 2;
+
+		pango_font_description_free(desc);
+		}
+
+	pango_height = pango_image_height + pango_page_height;
+
+	if ((context_width / pixbuf_image_width) < ((context_height - pango_height) / pixbuf_image_height))
+		{
+		w = context_width;
+		scale = context_width / pixbuf_image_width;
+		h = pixbuf_image_height * scale;
+		height_offset = (context_height - (h + pango_height)) / 2;
 		width_offset = 0;
 		}
 	else
 		{
-		h = height - pango_height ;
-		scale = (height - pango_height) / height_pixbuf_image;
-		w = width_pixbuf_image * scale;
+		h = context_height - pango_height ;
+		scale = (context_height - pango_height) / pixbuf_image_height;
+		w = pixbuf_image_width * scale;
 		height_offset = 0;
-		width_offset = (width - (width_pixbuf_image * scale)) / 2;
+		width_offset = (context_width - (pixbuf_image_width * scale)) / 2;
 		}
 
-	if (text->len > 0)
+	incr_y = height_offset + PRINT_TEXT_PADDING;
+
+	if (options->printer.page_text_position == HEADER_1 && page_text->len > 0)
 		{
-		cairo_move_to(cr, (w / 2) - (x / 2) + width_offset, h + height_offset + text_padding);
-		pango_cairo_show_layout(cr, layout);
+		cairo_move_to(cr, (w / 2) - (page_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_page);
+
+		incr_y = incr_y + PRINT_TEXT_PADDING + pango_page_height;
+		}
+
+	if (options->printer.image_text_position == HEADER_1 && image_text->len > 0)
+		{
+		cairo_move_to(cr, (w / 2) - (image_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_image);
+
+		incr_y = incr_y + PRINT_TEXT_PADDING + pango_image_height;
+		}
+
+	if (options->printer.page_text_position == HEADER_2 && page_text->len > 0)
+		{
+		cairo_move_to(cr, (w / 2) - (page_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_page);
+
+		incr_y = incr_y + PRINT_TEXT_PADDING + pango_page_height;
+		}
+
+	if (options->printer.image_text_position == HEADER_2 && image_text->len > 0)
+		{
+		cairo_move_to(cr, (w / 2) - (image_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_image);
+
+		incr_y = incr_y + PRINT_TEXT_PADDING + pango_image_height;
+		}
+
+	image_y = incr_y;
+	incr_y = incr_y + h + PRINT_TEXT_PADDING;
+
+	if (options->printer.page_text_position == FOOTER_1 && page_text->len > 0)
+		{
+		cairo_move_to(cr, (w / 2) - (page_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_page);
+
+		incr_y = incr_y + PRINT_TEXT_PADDING + pango_page_height;
+		}
+
+	if (options->printer.image_text_position == FOOTER_1 && image_text->len > 0)
+		{
+		cairo_move_to(cr, (w / 2) - (image_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_image);
+
+		incr_y = incr_y + PRINT_TEXT_PADDING + pango_image_height;
+		}
+
+	if (options->printer.page_text_position == FOOTER_2 && page_text->len > 0)
+		{
+		cairo_move_to(cr, (w / 2) - (page_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_page);
+
+		incr_y = incr_y + PRINT_TEXT_PADDING + pango_page_height;
+		}
+
+	if (options->printer.image_text_position == FOOTER_2 && image_text->len > 0)
+		{
+		cairo_move_to(cr, (w / 2) - (image_text_width / 2) + width_offset, incr_y);
+		pango_cairo_show_layout(cr, layout_image);
 		}
 
 	pixbuf_scaled = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
 	gdk_pixbuf_scale(pixbuf, pixbuf_scaled, 0, 0, w, h, 0, 0,  scale, scale, PRINT_MAX_INTERP);
 
-	cairo_rectangle(cr, width_offset, height_offset, w, h);
+	cairo_rectangle(cr, width_offset, image_y, w, h);
 
-	gdk_cairo_set_source_pixbuf(cr, pixbuf_scaled, width_offset, height_offset);
+	gdk_cairo_set_source_pixbuf(cr, pixbuf_scaled, width_offset, image_y);
+
 	cairo_fill(cr);
 
-	if (text->len > 0)
+	if (image_text->len > 0)
 		{
-		g_object_unref(layout);
-		g_string_free(text, TRUE);
-		pango_font_description_free(desc);
+		g_object_unref(layout_image);
+		g_string_free(image_text, TRUE);
+		}
+	if (page_text->len > 0)
+		{
+		g_object_unref(layout_page);
+		g_string_free(page_text, TRUE);
 		}
 
 	g_object_unref(pixbuf_scaled);
@@ -418,7 +776,16 @@ GObject *option_tab_cb(GtkPrintOperation *operation, gpointer user_data)
 
 static void print_pref_store(PrintWindow *pw)
 {
+	gchar *tmp;
+	GtkTextIter start, end;
+
 	options->printer.text_fields = pw->text_fields;
+
+	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(pw->page_text), &start, &end);
+	tmp = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(pw->page_text), &start, &end, FALSE);
+	g_free(options->printer.page_text);
+	options->printer.page_text = g_strdup(tmp);
+	g_free(tmp);
 }
 
 static void end_print_cb(GtkPrintOperation *operation,
@@ -471,6 +838,7 @@ static void end_print_cb(GtkPrintOperation *operation,
 		work = work->next;
 		}
 	g_list_free(pw->print_pixbuf_queue);
+	g_object_unref(pw->page_text);
 	g_free(pw);
 }
 

@@ -496,8 +496,14 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_INT(*options, cp_mv_rn.formatted_start);
 
 	/* printer */
-	WRITE_NL(); WRITE_CHAR(*options, printer.font);
+	WRITE_NL(); WRITE_CHAR(*options, printer.image_font);
+	WRITE_NL(); WRITE_CHAR(*options, printer.page_font);
+	WRITE_NL(); WRITE_CHAR(*options, printer.page_text);
 	WRITE_NL(); WRITE_INT(*options, printer.text_fields);
+	WRITE_NL(); WRITE_INT(*options, printer.image_text_position);
+	WRITE_NL(); WRITE_INT(*options, printer.page_text_position);
+	WRITE_NL(); WRITE_BOOL(*options, printer.show_image_text);
+	WRITE_NL(); WRITE_BOOL(*options, printer.show_page_text);
 }
 
 static void write_color_profile(GString *outstr, gint indent)
@@ -834,8 +840,14 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, cp_mv_rn.formatted_start)) continue;
 
 		/* printer */
-		if (READ_CHAR(*options, printer.font)) continue;
+		if (READ_CHAR(*options, printer.image_font)) continue;
+		if (READ_CHAR(*options, printer.page_font)) continue;
+		if (READ_CHAR(*options, printer.page_text)) continue;
 		if (READ_INT(*options, printer.text_fields)) continue;
+		if (READ_INT(*options, printer.image_text_position)) continue;
+		if (READ_INT(*options, printer.page_text_position)) continue;
+		if (READ_BOOL(*options, printer.show_image_text)) continue;
+		if (READ_BOOL(*options, printer.show_page_text)) continue;
 
 		/* Dummy options */
 		if (READ_DUMMY(*options, image.dither_quality, "deprecated since 2012-08-13")) continue;

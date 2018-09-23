@@ -195,8 +195,12 @@ ConfOptions *init_options(ConfOptions *options)
 	options->star_rating.star = STAR_RATING_STAR;
 	options->star_rating.rejected = STAR_RATING_REJECTED;
 
-	options->printer.font = g_strdup("Serif 10");
+	options->printer.image_font = g_strdup("Serif 10");
+	options->printer.page_font = g_strdup("Serif 10");
+	options->printer.page_text = NULL;
 	options->printer.text_fields = 1;
+	options->printer.image_text_position = 1;
+	options->printer.page_text_position = 3;
 
 	return options;
 }
