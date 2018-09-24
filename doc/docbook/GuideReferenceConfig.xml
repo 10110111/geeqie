@@ -3,7 +3,7 @@
   <title id="titleGuideReferenceConfig">Configuration Files and Locations</title>
   <para>The following data lists the locations Geeqie uses for various actions. The uppercase symbols are environment variables. If they are not set on your system the fallback locations are listed in parentheses.</para>
   <para>
-    Geqqie will first attempt to load a configuration file from:
+    Geeqie will first attempt to load a configuration file from:
     <programlisting xml:space="preserve">/etc/geeqie/geeqierc.xml</programlisting>
   </para>
   <para>It will then continue with the following locations.</para>
