@@ -23,6 +23,7 @@
     </para>
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsGeneral.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsImage.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsOSD.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsWindow.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsKeyboard.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="GuideOptionsFiltering.xml" />

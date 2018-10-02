@@ -26,6 +26,7 @@
 #include "bar_keywords.h"
 #include "cache.h"
 #include "cache_maint.h"
+#include "dnd.h"
 #include "editors.h"
 #include "exif.h"
 #include "filedata.h"
@@ -484,6 +485,7 @@ static void config_window_help_cb(GtkWidget *widget, gpointer data)
 	{
 	"GuideOptionsGeneral.html",
 	"GuideOptionsImage.html",
+	"GuideOptionsOSD.html",
 	"GuideOptionsWindow.html",
 	"GuideOptionsKeyboard.html",
 	"GuideOptionsFiltering.html",
@@ -1231,7 +1233,7 @@ static void image_overlay_default_template_cb(GtkWidget *widget, gpointer data)
 
 static void image_overlay_help_cb(GtkWidget *widget, gpointer data)
 {
-	help_window_show("GuideOptionsWindow.html#OverlayScreenDisplay");
+	help_window_show("GuideOptionsOSD.html");
 }
 
 static void image_overlay_set_font_cb(GtkWidget *widget, gpointer data)
@@ -2005,9 +2007,6 @@ static void config_tab_windows(GtkWidget *notebook)
 	GtkWidget *button;
 	GtkWidget *ct_button;
 	GtkWidget *spin;
-	GtkWidget *image_overlay_template_view;
-	GtkWidget *scrolled;
-	GtkTextBuffer *buffer;
 
 	vbox = scrolled_notebook_page(notebook, _("Windows"));
 
@@ -2054,9 +2053,169 @@ static void config_tab_windows(GtkWidget *notebook)
 			      options->fullscreen.clean_flip, &c_options->fullscreen.clean_flip);
 	pref_checkbox_new_int(group, _("Disable screen saver"),
 			      options->fullscreen.disable_saver, &c_options->fullscreen.disable_saver);
+}
 
+/* overlay screen display tab */
+static const gchar *predefined_tags[][2] = {
+	{"%name%",							N_("Name")},
+	{"%path:60%*",						N_("Path")},
+	{"%date%",							N_("Date")},
+	{"%size%",							N_("Size")},
+	{"%zoom%",							N_("Zoom")},
+	{"%dimensions%",					N_("Dimensions")},
+	{"%collection%",					N_("Collection")},
+	{"%number%",						N_("Collection number")},
+	{"%total%",							N_("Collection total")},
+	{"%file.ctime%",					N_("File ctime")},
+	{"%file.mode%",						N_("File mode")},
+	{"%file.owner%",					N_("File owner")},
+	{"%file.group%",					N_("File group")},
+	{"%file.link%",						N_("File link")},
+	{"%file.class%",					N_("File class")},
+	{"%formatted.DateTime%",			N_("Image date")},
+	{"%formatted.DateTimeDigitized%",	N_("Date digitized")},
+	{"%formatted.ShutterSpeed%",		N_("ShutterSpeed")},
+	{"%formatted.Aperture%",			N_("Aperture")},
+	{"%formatted.ExposureBias%",		N_("Exposure bias")},
+	{"%formatted.Resolution%",			N_("Resolution")},
+	{"%formatted.Camera%",				N_("Camera")},
+	{"%formatted.ShutterSpeed%",		N_("Shutter speed")},
+	{"%formatted.ISOSpeedRating%",		N_("ISO")},
+	{"%formatted.FocalLength%",			N_("Focal length")},
+	{"%formatted.FocalLength35mmFilm%",	N_("Focal len. 35mm")},
+	{"%formatted.SubjectDistance%",		N_("Subject distance")},
+	{"%formatted.Flash%",				N_("Flash")},
+	{"%formatted.ColorProfile%",		N_("Color profile")},
+	{"%formatted.GPSPosition%",			N_("Lat, Long")},
+	{"%formatted.GPSAltitude%",			N_("Altitude")},
+	{"%formatted.localtime%",			N_("Local time")},
+	{"%formatted.timezone%",			N_("Timezone")},
+	{"%formatted.countryname%",			N_("Country name")},
+	{"%formatted.countrycode%",			N_("Country code")},
+	{"%formatted.star_rating%",			N_("Star rating")},
+	{NULL, NULL}};
+
+static GtkTargetEntry osd_drag_types[] = {
+	{ "text/plain", GTK_TARGET_SAME_APP, TARGET_TEXT_PLAIN }
+};
+
+typedef struct _TagData TagData;
+struct _TagData
+{
+	gchar *key;
+	gchar *title;
+};
+
+static void tag_button_cb(GtkWidget *widget, gpointer data)
+{
+	GtkTextView *image_overlay_template_view = data;
+	GtkTextBuffer *buffer;
+	TagData *td;
+
+	buffer = gtk_text_view_get_buffer(image_overlay_template_view);
+	td = g_object_get_data(G_OBJECT(widget), "tag_data");
+	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), td->key, -1);
+
+	gtk_widget_grab_focus(GTK_WIDGET(image_overlay_template_view));
+}
+
+static void osd_dnd_get_cb(GtkWidget *btn, GdkDragContext *context,
+								GtkSelectionData *selection_data, guint info,
+								guint time, gpointer data)
+{
+	TagData *td;
+	GtkTextView *image_overlay_template_view = data;
+
+	td = g_object_get_data(G_OBJECT(btn), "tag_data");
+	gtk_selection_data_set_text(selection_data, td->key, -1);
+
+	gtk_widget_grab_focus(GTK_WIDGET(image_overlay_template_view));
+}
+
+static void osd_btn_destroy_cb(GtkWidget *btn, GdkDragContext *context,
+								GtkSelectionData *selection_data, guint info,
+								guint time, gpointer data)
+{
+	TagData *td;
+
+	td = g_object_get_data(G_OBJECT(btn), "tag_data");
+	g_free(td->key);
+	g_free(td->title);
+}
+
+static void set_osd_button(GtkWidget *widget, const gchar *key, const gchar *title,
+										GtkWidget *image_overlay_template_view)
+{
+	GtkWidget *new_button;
+	TagData *td;
+
+	new_button = pref_button_new(widget, NULL, _(title), TRUE,
+							G_CALLBACK(tag_button_cb), image_overlay_template_view);
+
+	td = g_new0(TagData, 1);
+	td->key = g_strdup(key);
+	td->title = g_strdup(title);
+
+	g_object_set_data(G_OBJECT(new_button), "tag_data", td);
+
+	gtk_drag_source_set(new_button, GDK_BUTTON1_MASK, osd_drag_types, 1, GDK_ACTION_COPY);
+	g_signal_connect(G_OBJECT(new_button), "drag_data_get",
+							G_CALLBACK(osd_dnd_get_cb), image_overlay_template_view);
+	g_signal_connect(G_OBJECT(new_button), "destroy",
+							G_CALLBACK(osd_btn_destroy_cb), new_button);
+}
+
+static void config_tab_osd(GtkWidget *notebook)
+{
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	GtkWidget *vbox_buttons;
+	GtkWidget *group;
+	GtkWidget *button;
+	GtkWidget *image_overlay_template_view;
+	GtkWidget *scrolled;
+	GtkTextBuffer *buffer;
+	GtkWidget *label;
+	GtkWidget *	subgroup;
+	gint i = 0;
+	gint rows = 0;
+	gint cols = 0;
+
+	vbox = scrolled_notebook_page(notebook, _("OSD"));
+
+	image_overlay_template_view = gtk_text_view_new();
 
 	group = pref_group_new(vbox, FALSE, _("Overlay Screen Display"), GTK_ORIENTATION_VERTICAL);
+
+	hbox = gtk_hbox_new(FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+
+	pref_label_new(hbox, _("To include predefined tags in the template, click a button or drag-and-drop"));
+
+	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(subgroup), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+
+	for (cols = 0; cols < 6; cols++)
+		{
+		vbox_buttons = gtk_vbox_new(FALSE, 0);
+		rows = 0;
+
+		gtk_box_pack_start(GTK_BOX(hbox), vbox_buttons, FALSE, FALSE, 0);
+
+		while (rows < 6 && predefined_tags[i][0])
+			{
+			set_osd_button(vbox_buttons, predefined_tags[i][0], predefined_tags[i][1], image_overlay_template_view);
+			i = i + 1;
+			rows++;
+			}
+		gtk_widget_show(vbox_buttons);
+		}
+
+	pref_line(group, PREF_PAD_GAP);
 
 	pref_label_new(group, _("Image overlay template"));
 
@@ -2064,25 +2223,13 @@ static void config_tab_windows(GtkWidget *notebook)
 	gtk_widget_set_size_request(scrolled, 200, 150);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+									GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(group), scrolled, TRUE, TRUE, 5);
 	gtk_widget_show(scrolled);
 
-	image_overlay_template_view = gtk_text_view_new();
-
 	gtk_widget_set_tooltip_markup(image_overlay_template_view,
-	_("<i>%name%</i> results in the filename of the picture.\n"
-	  "Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>%date%</i>,\n"
-	  "<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> (resolution),\n"
-	  "<i>%rating%</i>, <i>%keywords%</i>, <i>%comment%</i> (XMP), <i>%imagecomment%</i> (JPEG)\n"
-	  "To access exif data use the exif name, e. g. <i>%formatted.Camera%</i> is the formatted camera name,\n"
-	  "<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
-	  "<i>%formatted.Camera:20</i> notation will truncate the displayed data to 20 characters and will add 3 dots at the end to denote the truncation.\n"
-	  "If two or more variables are connected with the |-sign, it prints available variables with a separator.\n"
-	  "<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - 80 mm\",\n"
-	  "if there's no ISO information in the Exif data.\n"
-	  "If a line is empty, it is removed. This allows one to add lines that totally disappear when no data is available.\n"
-	));
+					_("Extensive formatting options are shown in the Help file"));
+
 	gtk_container_add(GTK_CONTAINER(scrolled), image_overlay_template_view);
 	gtk_widget_show(image_overlay_template_view);
 
@@ -2127,7 +2274,51 @@ static void config_tab_windows(GtkWidget *notebook)
 	g_signal_connect(G_OBJECT(buffer), "changed",
 			 G_CALLBACK(image_overlay_template_view_changed_cb), image_overlay_template_view);
 
+	pref_line(group, PREF_PAD_GAP);
 
+	group = pref_group_new(vbox, FALSE, _("Exif, XMP or IPTC tags"), GTK_ORIENTATION_VERTICAL);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+	label = gtk_label_new(_("%Exif.Image.Orientation%"));
+	gtk_box_pack_start(GTK_BOX(hbox),label, FALSE,FALSE,0);
+	gtk_widget_show(label);
+	pref_spacer(group,TRUE);
+
+	group = pref_group_new(vbox, FALSE, _("Field separators"), GTK_ORIENTATION_VERTICAL);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+	label = gtk_label_new(_("Separator shown only if both fields are non-null:\n%formatted.ShutterSpeed%|%formatted.ISOSpeedRating%"));
+	gtk_box_pack_start(GTK_BOX(hbox),label, FALSE,FALSE,0);
+	gtk_widget_show(label);
+	pref_spacer(group,TRUE);
+
+	group = pref_group_new(vbox, FALSE, _("Field maximum length"), GTK_ORIENTATION_VERTICAL);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+	label = gtk_label_new(_("%path:39%"));
+	gtk_box_pack_start(GTK_BOX(hbox),label, FALSE,FALSE,0);
+	gtk_widget_show(label);
+	pref_spacer(group,TRUE);
+
+	group = pref_group_new(vbox, FALSE, _("Pre- and post- text"), GTK_ORIENTATION_VERTICAL);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+	label = gtk_label_new(_("Text shown only if the field is non-null:\n%formatted.Aperture:F no. * setting%\n %formatted.Aperture:10:F no. * setting%"));
+	gtk_box_pack_start(GTK_BOX(hbox),label, FALSE,FALSE,0);
+	gtk_widget_show(label);
+	pref_spacer(group,TRUE);
+
+	group = pref_group_new(vbox, FALSE, _("Pango markup"), GTK_ORIENTATION_VERTICAL);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
+	gtk_widget_show(hbox);
+	label = gtk_label_new(_("<b>bold</b>\n<u>underline</u>\n<i>italic</i>\n<s>strikethrough</s>"));
+	gtk_box_pack_start(GTK_BOX(hbox),label, FALSE,FALSE,0);
+	gtk_widget_show(label);
 }
 
 static GtkTreeModel *create_class_model(void)
@@ -3229,10 +3420,12 @@ static void config_window_create(void)
 
 	notebook = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
+	gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), TRUE);
 	gtk_box_pack_start(GTK_BOX(win_vbox), notebook, TRUE, TRUE, 0);
 
 	config_tab_general(notebook);
 	config_tab_image(notebook);
+	config_tab_osd(notebook);
 	config_tab_windows(notebook);
 	config_tab_accelerators(notebook);
 	config_tab_files(notebook);
