@@ -21,8 +21,10 @@
 #include "main.h"
 #include "print.h"
 
+#include "exif.h"
 #include "filedata.h"
 #include "image-load.h"
+#include "pixbuf_util.h"
 #include "ui_misc.h"
 #include "ui_fileops.h"
 
@@ -527,6 +529,7 @@ static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 	gdouble height_offset;
 	GdkPixbuf *pixbuf;
 	GdkPixbuf *pixbuf_scaled;
+	GdkPixbuf *rotated = NULL;
 	PangoLayout *layout_image = NULL;
 	PangoLayout *layout_page = NULL;
 	PangoFontDescription *desc;
@@ -543,11 +546,17 @@ static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 	GtkTextIter start, end;
 	gchar *tmp;
 
+	fd = g_list_nth_data(pw->source_selection, page_nr);
+
 	pixbuf = g_list_nth_data(pw->print_pixbuf_queue, page_nr);
+	if (fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
+		{
+		rotated = pixbuf_apply_orientation(pixbuf, fd->exif_orientation);
+		pixbuf = rotated;
+		}
+
 	pixbuf_image_width = gdk_pixbuf_get_width(pixbuf);
 	pixbuf_image_height = gdk_pixbuf_get_height(pixbuf);
-
-	fd = g_list_nth_data(pw->source_selection, page_nr);
 
 	if (options->printer.show_image_text)
 		{
@@ -749,6 +758,7 @@ static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 		}
 
 	g_object_unref(pixbuf_scaled);
+	if (rotated) g_object_unref(rotated);
 
 	return;
 }
