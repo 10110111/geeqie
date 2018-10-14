@@ -619,6 +619,7 @@ AC_CONFIG_FILES([
     plugins/ufraw/Makefile
     plugins/import/Makefile
     plugins/geocode-parameters/Makefile
+    plugins/export-jpeg/Makefile
     geeqie.spec
 ])
 

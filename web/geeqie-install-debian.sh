@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2018-08-20"
+version="2018-10-14"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -51,6 +51,10 @@ optional_array=(
 "imagemagick"
 "ufraw (for RAW file handling)"
 "ufraw"
+"exiv2 command line (for jpeg export)"
+"exiv2"
+"jpgicc (for jpeg export color correction)"
+"liblcms2-utils"
 "markdown (for generating README help file)"
 "markdown"
 )

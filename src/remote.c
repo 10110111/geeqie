@@ -718,6 +718,35 @@ static void gr_rectangle(const gchar *text, GIOChannel *channel, gpointer data)
 		}
 }
 
+static void gr_render_intent(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gchar *render_intent;
+
+	switch (options->color_profile.render_intent)
+		{
+		case 0:
+			render_intent = g_strdup("Perceptual");
+			break;
+		case 1:
+			render_intent = g_strdup("Relative Colorimetric");
+			break;
+		case 2:
+			render_intent = g_strdup("Saturation");
+			break;
+		case 3:
+			render_intent = g_strdup("Absolute Colorimetric");
+			break;
+		default:
+			render_intent = g_strdup("none");
+			break;
+		}
+
+	g_io_channel_write_chars(channel, render_intent, -1, NULL, NULL);
+	g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+	g_free(render_intent);
+}
+
 static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	if (!layout_valid(&lw_id)) return;
@@ -910,6 +939,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "--tell",               gr_file_tell,           FALSE, FALSE, NULL, N_("print filename of current image") },
 	{ NULL, "--pixel-info",         gr_pixel_info,          FALSE, FALSE, NULL, N_("print pixel info of mouse pointer on current image") },
 	{ NULL, "--get-rectangle",      gr_rectangle,           FALSE, FALSE, NULL, N_("get rectangle co-ordinates") },
+	{ NULL, "--get-render-intent",  gr_render_intent,       FALSE, FALSE, NULL, N_("get render intent") },
 	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
 	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },

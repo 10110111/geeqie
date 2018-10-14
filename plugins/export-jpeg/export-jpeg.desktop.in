@@ -1,0 +1,19 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+_Name=Export jpeg
+
+Exec=geeqie-export-jpeg %f
+
+# show only if these are installed
+#TryExec=exiv2
+#TryExec=jpgicc
+
+# Desktop files that are usable only in Geeqie should be marked like this:
+Categories=X-Geeqie;
+OnlyShowIn=X-Geeqie;
+
+# It can be made verbose
+#X-Geeqie-Verbose=true
+
+Icon=geeqie
