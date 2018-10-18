@@ -139,6 +139,12 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_SELECT_INVERT,	icon_select_invert },
 	{ PIXBUF_INLINE_ICON_SELECT_RECTANGLE,	icon_select_rectangle },
 	{ PIXBUF_INLINE_ICON_FILE_FILTER,	icon_file_filter },
+	{ PIXBUF_INLINE_ICON_CW,	icon_rotate_clockwise },
+	{ PIXBUF_INLINE_ICON_CCW,	icon_rotate_counter_clockwise },
+	{ PIXBUF_INLINE_ICON_180,	icon_rotate_180 },
+	{ PIXBUF_INLINE_ICON_MIRROR,	icon_mirror },
+	{ PIXBUF_INLINE_ICON_FLIP,	icon_flip },
+	{ PIXBUF_INLINE_ICON_ORIGINAL,	icon_original },
 	{ NULL, NULL }
 };
 

@@ -74,6 +74,13 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gin
 #define PIXBUF_INLINE_ICON_SELECT_RECTANGLE	"icon_select_rectangle"
 #define PIXBUF_INLINE_ICON_FILE_FILTER	"icon_file_filter"
 
+#define PIXBUF_INLINE_ICON_CW	"icon_rotate_clockwise"
+#define PIXBUF_INLINE_ICON_CCW	"icon_rotate_counter_clockwise"
+#define PIXBUF_INLINE_ICON_180	"icon_rotate_180"
+#define PIXBUF_INLINE_ICON_MIRROR	"icon_mirror"
+#define PIXBUF_INLINE_ICON_FLIP	"icon_flip"
+#define PIXBUF_INLINE_ICON_ORIGINAL	"icon_original"
+
 GdkPixbuf *pixbuf_copy_rotate_90(GdkPixbuf *src, gboolean counter_clockwise);
 GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gboolean mirror, gboolean flip);
 GdkPixbuf* pixbuf_apply_orientation(GdkPixbuf *pixbuf, gint orientation);

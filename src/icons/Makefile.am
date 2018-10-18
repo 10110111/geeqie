@@ -40,8 +40,13 @@ ICONS_INLINE = \
 	icon_select_none.png \
 	icon_select_invert.png \
 	icon_select_rectangle.png \
-	icon_file_filter.png
-
+	icon_file_filter.png \
+	icon_rotate_clockwise.png \
+	icon_rotate_counter_clockwise.png \
+	icon_rotate_180.png \
+	icon_mirror.png \
+	icon_flip.png \
+	icon_original.png
 
 ICONS_INLINE_PAIRS = \
 	folder_closed		$(srcdir)/folder_closed.png	\
@@ -80,7 +85,13 @@ ICONS_INLINE_PAIRS = \
 	icon_select_none	$(srcdir)/icon_select_none.png \
 	icon_select_invert	$(srcdir)/icon_select_invert.png \
 	icon_select_rectangle	$(srcdir)/icon_select_rectangle.png \
-	icon_file_filter	$(srcdir)/icon_file_filter.png
+	icon_file_filter	$(srcdir)/icon_file_filter.png \
+	icon_rotate_clockwise	$(srcdir)/icon_rotate_clockwise.png \
+	icon_rotate_counter_clockwise	$(srcdir)/icon_rotate_counter_clockwise.png \
+	icon_rotate_180	$(srcdir)/icon_rotate_180.png \
+	icon_mirror	$(srcdir)/icon_mirror.png \
+	icon_flip	$(srcdir)/icon_flip.png \
+	icon_original	$(srcdir)/icon_original.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
 	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \
