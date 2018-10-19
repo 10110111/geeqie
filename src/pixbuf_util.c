@@ -234,6 +234,15 @@ gboolean register_theme_icon_as_stock(const gchar *key, const gchar *icon)
 				{
 				DEBUG_1("Couldn't load icon %s: %s", icon2, error->message);
 				g_error_free(error);
+				error = NULL;
+
+				/* try as an absolute path */
+				pixbuf = gdk_pixbuf_new_from_file(icon, &error);
+				if (error)
+					{
+					DEBUG_1("Couldn't load icon as absolute path %s: %s", icon, error->message);
+					g_error_free(error);
+					}
 				}
 			g_free(icon2);
 			}
