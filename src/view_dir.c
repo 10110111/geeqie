@@ -49,6 +49,8 @@ static PixmapFolders *folder_icons_new(GtkWidget *widget)
 	pf->open   = gtk_widget_render_icon(widget, GTK_STOCK_OPEN, size, NULL);
 	pf->deny   = gtk_widget_render_icon(widget, GTK_STOCK_STOP, size, NULL);
 	pf->parent = gtk_widget_render_icon(widget, GTK_STOCK_GO_UP, size, NULL);
+	/* FIXME: this is not a suitable icon */
+	pf->link = gtk_widget_render_icon(widget, GTK_STOCK_REDO, size, NULL);
 #else
 	/* GQView legacy icons */
 	pf->close  = pixbuf_inline(PIXBUF_INLINE_FOLDER_CLOSED);
@@ -67,6 +69,7 @@ static void folder_icons_free(PixmapFolders *pf)
 	g_object_unref(pf->open);
 	g_object_unref(pf->deny);
 	g_object_unref(pf->parent);
+	g_object_unref(pf->link);
 
 	g_free(pf);
 }

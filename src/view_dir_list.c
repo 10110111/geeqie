@@ -149,6 +149,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 	FileData *fd;
 	SortType sort_type = SORT_NAME;
 	gboolean sort_ascend = TRUE;
+	gchar *link;
 
 	old_list = VDLIST(vd)->list;
 
@@ -190,7 +191,11 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 
 		if (access_file(fd->path, R_OK | X_OK) && fd->name)
 			{
-			if (fd->name[0] == '.' && fd->name[1] == '\0')
+			if (islink(fd->path))
+				{
+				pixbuf = vd->pf->link;
+				}
+			else if (fd->name[0] == '.' && fd->name[1] == '\0')
 				{
 				pixbuf = vd->pf->open;
 				}
@@ -237,6 +242,15 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 				match = -1;
 				}
 
+			if (islink(fd->path))
+				{
+				link = realpath(fd->path, NULL);
+				}
+			else
+				{
+				link = NULL;
+				}
+
 			if (match < 0)
 				{
 				GtkTreeIter new;
@@ -254,6 +268,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 						   DIR_COLUMN_POINTER, fd,
 						   DIR_COLUMN_ICON, pixbuf,
 						   DIR_COLUMN_NAME, fd->name,
+						   DIR_COLUMN_LINK, link,
 						   DIR_COLUMN_DATE, date,
 						   -1);
 
@@ -268,6 +283,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 				gtk_list_store_set(store, &iter,
 						   DIR_COLUMN_ICON, pixbuf,
 						   DIR_COLUMN_NAME, fd->name,
+						   DIR_COLUMN_LINK, link,
 						   DIR_COLUMN_DATE, date,
 						   -1);
 
@@ -292,6 +308,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 	vd->drop_fd = NULL;
 
 	filelist_free(old_list);
+	g_free(link);
 	return ret;
 }
 
@@ -433,7 +450,7 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 
 	vd->type = DIRVIEW_LIST;
 
-	store = gtk_list_store_new(5, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
+	store = gtk_list_store_new(6, G_TYPE_POINTER, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING);
 	vd->view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 	g_object_unref(store);
 
@@ -462,6 +479,8 @@ ViewDir *vdlist_new(ViewDir *vd, FileData *dir_fd)
 	gtk_tree_view_column_set_cell_data_func(column, renderer, vd_color_cb, vd, NULL);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(vd->view), column);
+
+	gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(vd->view), DIR_COLUMN_LINK);
 
 	return vd;
 }

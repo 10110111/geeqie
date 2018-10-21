@@ -992,6 +992,7 @@ struct _PixmapFolders
 	GdkPixbuf *open;
 	GdkPixbuf *deny;
 	GdkPixbuf *parent;
+	GdkPixbuf *link;
 };
 
 struct _SecureSaveInfo {
