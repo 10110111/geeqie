@@ -908,6 +908,7 @@ static ViewWindow *real_view_window_new(FileData *fd, GList *list, CollectionDat
 	gtk_widget_set_size_request(vw->imd->pr, w, h);
 #endif
 
+	gtk_window_set_focus_on_map(GTK_WINDOW(vw->window), FALSE);
 	gtk_widget_show(vw->window);
 
 	view_window_list = g_list_append(view_window_list, vw);
