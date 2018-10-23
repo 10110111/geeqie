@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2018-10-14"
+version="2018-10-23"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -57,6 +57,8 @@ optional_array=(
 "liblcms2-utils"
 "markdown (for generating README help file)"
 "markdown"
+"gphoto2 (for tethered photography)"
+"gphoto2"
 )
 
 # Optional for GTK3 only

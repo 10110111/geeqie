@@ -620,6 +620,7 @@ AC_CONFIG_FILES([
     plugins/import/Makefile
     plugins/geocode-parameters/Makefile
     plugins/export-jpeg/Makefile
+    plugins/tethered-photography/Makefile
     geeqie.spec
 ])
 
