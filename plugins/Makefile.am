@@ -1,4 +1,3 @@
-#FIXME enable or disable individual plugins from configure
 
 SUBDIRS = rotate symlink ufraw import geocode-parameters export-jpeg tethered-photography camera-import image-crop
 qq_desktoptemplatedir = $(appdir)

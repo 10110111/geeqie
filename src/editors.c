@@ -184,6 +184,8 @@ gboolean editor_read_desktop_file(const gchar *path)
 	gchar *try_exec;
 	GtkTreeIter iter;
 	gboolean category_geeqie = FALSE;
+	GList *work;
+	gboolean disabled;
 
 	if (g_hash_table_lookup(editors, key)) return FALSE; /* the file found earlier wins */
 
@@ -352,9 +354,25 @@ gboolean editor_read_desktop_file(const gchar *path)
 
 	if (editor->ignored) return TRUE;
 
+	work = options->disabled_plugins;
+
+	disabled = FALSE;
+	while (work)
+		{
+		if (g_strcmp0(path, work->data) == 0)
+			{
+			disabled = TRUE;
+			break;
+			}
+		work = work->next;
+		}
+
+	editor->disabled = disabled;
+
 	gtk_list_store_append(desktop_file_list, &iter);
 	gtk_list_store_set(desktop_file_list, &iter,
 			   DESKTOP_FILE_COLUMN_KEY, key,
+			   DESKTOP_FILE_COLUMN_DISABLED, editor->disabled,
 			   DESKTOP_FILE_COLUMN_NAME, editor->name,
 			   DESKTOP_FILE_COLUMN_HIDDEN, editor->hidden ? _("yes") : _("no"),
 			   DESKTOP_FILE_COLUMN_WRITABLE, access_file(path, W_OK),
@@ -383,7 +401,7 @@ void editor_table_clear(void)
 		}
 	else
 		{
-		desktop_file_list = gtk_list_store_new(DESKTOP_FILE_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
+		desktop_file_list = gtk_list_store_new(DESKTOP_FILE_COLUMN_COUNT, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_STRING);
 		}
 	if (editors)
 		{
@@ -469,6 +487,11 @@ static void editor_list_add_cb(gpointer key, gpointer value, gpointer data)
 	    strcmp(editor->key, CMD_RENAME) == 0 ||
 	    strcmp(editor->key, CMD_DELETE) == 0 ||
 	    strcmp(editor->key, CMD_FOLDER) == 0) return;
+
+	if (editor->disabled)
+		{
+		return;
+		}
 
 	*listp = g_list_prepend(*listp, editor);
 }

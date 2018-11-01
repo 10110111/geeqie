@@ -29,6 +29,14 @@
     <variablelist spacing="compact">
       <varlistentry>
         <term>
+          <guilabel>Disabled</guilabel>
+        </term>
+        <listitem>
+          <para>If the checkbox is ticked, the plugin will not be displayed in Geeqie menus.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guilabel>Name</guilabel>
         </term>
         <listitem>

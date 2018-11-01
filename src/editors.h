@@ -58,6 +58,7 @@ struct _EditorDescription {
 	EditorFlags flags;
 	gboolean hidden;	/* explicitly hidden, shown in configuration dialog */
 	gboolean ignored;	/* not interesting, do not show at all */
+	gboolean disabled;	/* display disabled by user */
 };
 
 #define EDITOR_ERRORS(flags) ((flags) & EDITOR_ERROR_MASK)
@@ -74,6 +75,7 @@ enum {
 
 enum {
 	DESKTOP_FILE_COLUMN_KEY,
+	DESKTOP_FILE_COLUMN_DISABLED,
 	DESKTOP_FILE_COLUMN_NAME,
 	DESKTOP_FILE_COLUMN_HIDDEN,
 	DESKTOP_FILE_COLUMN_WRITABLE,

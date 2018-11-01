@@ -414,6 +414,7 @@ static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkT
 {
 	gint n = GPOINTER_TO_INT(data);
 	gint ret = 0;
+	gboolean bool1, bool2;
 
 	switch (n)
 		{
@@ -441,12 +442,92 @@ static gint editor_list_window_sort_cb(GtkTreeModel *model, GtkTreeIter *a, GtkT
 			g_free(s2);
 			}
 			break;
+		case DESKTOP_FILE_COLUMN_DISABLED:
+			{
+			gtk_tree_model_get(model, a, n, &bool1, -1);
+			gtk_tree_model_get(model, b, n, &bool2, -1);
+
+			if (bool1 == bool2)
+				{
+				ret = 0;
+				}
+			else if (bool1 > bool2)
+				{
+				ret = -1;
+				}
+			else
+				{
+				ret = 1;
+				}
+			break;
+			}
 
     		default:
        			g_return_val_if_reached(0);
 		}
 
 	return ret;
+}
+
+static void plugin_disable_cb(GtkCellRendererToggle *renderer, gchar *path_str, gpointer data)
+{
+	EditorListWindow *ewl = data;
+	GtkTreePath *tpath;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	gboolean disabled;
+	gchar *path;
+	GList *list;
+	gchar *haystack;
+
+	tpath = gtk_tree_path_new_from_string(path_str);
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(ewl->view));
+	gtk_tree_model_get_iter(GTK_TREE_MODEL(model), &iter, tpath);
+	gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, DESKTOP_FILE_COLUMN_DISABLED, &disabled, -1);
+	gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, DESKTOP_FILE_COLUMN_PATH, &path, -1);
+
+	gtk_list_store_set(GTK_LIST_STORE(desktop_file_list), &iter, DESKTOP_FILE_COLUMN_DISABLED, !disabled, -1);
+
+	if (!disabled)
+		{
+		options->disabled_plugins = g_list_append((options->disabled_plugins), g_strdup(path));
+		}
+	else
+		{
+		list = options->disabled_plugins;
+		while (list)
+			{
+			haystack = list->data;
+
+			if (haystack && strcmp(haystack, path) == 0)
+				{
+				g_free(haystack);
+				options->disabled_plugins = g_list_remove(options->disabled_plugins, haystack);
+				}
+
+			list = list->next;
+			}
+		}
+
+	layout_editors_reload_start();
+	layout_editors_reload_finish();
+}
+
+static void plugin_disable_set_func(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
+							GtkTreeModel *tree_model, GtkTreeIter *iter, gpointer data)
+{
+	gboolean disabled;
+
+	gtk_tree_model_get(tree_model, iter, DESKTOP_FILE_COLUMN_DISABLED, &disabled, -1);
+
+	if (disabled)
+		{
+		g_object_set(GTK_CELL_RENDERER(cell), "active", TRUE, NULL);
+		}
+	else
+		{
+		g_object_set(GTK_CELL_RENDERER(cell), "active", FALSE, NULL);
+		}
 }
 
 static void editor_list_window_create(void)
@@ -532,6 +613,19 @@ static void editor_list_window_create(void)
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(ewl->view), FALSE);
 
 	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Disabled"));
+	gtk_tree_view_column_set_resizable(column, TRUE);
+
+	renderer = gtk_cell_renderer_toggle_new();
+	g_signal_connect(G_OBJECT(renderer), "toggled",
+			 G_CALLBACK(plugin_disable_cb), ewl);
+	gtk_tree_view_column_pack_start(column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, plugin_disable_set_func,
+						NULL, NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(ewl->view), column);
+	gtk_tree_view_column_set_sort_column_id(column, DESKTOP_FILE_COLUMN_DISABLED);
+
+	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Name"));
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	renderer = gtk_cell_renderer_text_new();
@@ -579,6 +673,8 @@ static void editor_list_window_create(void)
 					GINT_TO_POINTER(DESKTOP_FILE_COLUMN_NAME), NULL);
 	gtk_tree_sortable_set_sort_func(sortable, DESKTOP_FILE_COLUMN_PATH, editor_list_window_sort_cb,
 					GINT_TO_POINTER(DESKTOP_FILE_COLUMN_PATH), NULL);
+	gtk_tree_sortable_set_sort_func(sortable, DESKTOP_FILE_COLUMN_DISABLED, editor_list_window_sort_cb,
+					GINT_TO_POINTER(DESKTOP_FILE_COLUMN_DISABLED), NULL);
 
 	/* set initial sort order */
     gtk_tree_sortable_set_sort_column_id(sortable, DESKTOP_FILE_COLUMN_NAME, GTK_SORT_ASCENDING);

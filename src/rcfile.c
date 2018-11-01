@@ -551,6 +551,38 @@ static void write_marks_tooltips(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_STRING("</marks_tooltips>");
 }
 
+static void write_disabled_plugins(GString *outstr, gint indent)
+{
+	GtkTreeIter iter;
+	gboolean valid;
+	gboolean disabled;
+	gchar *desktop_path;
+
+	WRITE_NL(); WRITE_STRING("<disabled_plugins>");
+	indent++;
+
+	if (desktop_file_list)
+		{
+		valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(desktop_file_list), &iter);
+		while (valid)
+			{
+			gtk_tree_model_get(GTK_TREE_MODEL(desktop_file_list), &iter, DESKTOP_FILE_COLUMN_DISABLED, &disabled, -1);
+			gtk_tree_model_get(GTK_TREE_MODEL(desktop_file_list), &iter, DESKTOP_FILE_COLUMN_PATH, &desktop_path, -1);
+
+			if (disabled)
+				{
+				WRITE_NL();
+				write_char_option(outstr, indent, "<plugin path", desktop_path);
+				WRITE_STRING("/>");
+				}
+			g_free(desktop_path);
+			valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(desktop_file_list), &iter);
+			}
+		}
+
+	indent--;
+	WRITE_NL(); WRITE_STRING("</disabled_plugins>");
+}
 
 /*
  *-----------------------------------------------------------------------------
@@ -606,6 +638,9 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 
 	WRITE_SEPARATOR();
 	write_marks_tooltips(outstr, indent);
+
+	WRITE_SEPARATOR();
+	write_disabled_plugins(outstr, indent);
 
 	WRITE_SEPARATOR();
 	keyword_tree_write_config(outstr, indent);
@@ -914,6 +949,30 @@ static void options_load_marks_tooltips(GQParserData *parser_data, GMarkupParseC
 
 }
 
+static void options_load_disabled_plugins(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	gint i = GPOINTER_TO_INT(data);
+	struct {
+		gchar *path;
+	} tmp;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+		tmp.path = NULL;
+		if (READ_CHAR_FULL("path", tmp.path))
+			{
+			options->disabled_plugins = g_list_append(options->disabled_plugins, g_strdup(tmp.path));
+			continue;
+			}
+
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+	i++;
+	options_parse_func_set_data(parser_data, GINT_TO_POINTER(i));
+}
+
 /*
  *-----------------------------------------------------------------------------
  * xml file structure (private)
@@ -964,6 +1023,20 @@ static void options_parse_marks_tooltips(GQParserData *parser_data, GMarkupParse
 	if (g_ascii_strcasecmp(element_name, "tooltip") == 0)
 		{
 		options_load_marks_tooltips(parser_data, context, element_name, attribute_names, attribute_values, data, error);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else
+		{
+		log_printf("unexpected in <profile>: <%s>\n", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
+static void options_parse_disabled_plugins(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	if (g_ascii_strcasecmp(element_name, "plugin") == 0)
+		{
+		options_load_disabled_plugins(parser_data, context, element_name, attribute_names, attribute_values, data, error);
 		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
 		}
 	else
@@ -1052,6 +1125,11 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 		{
 		if (!keyword_tree) keyword_tree_new();
 		options_parse_func_push(parser_data, options_parse_keyword_tree, NULL, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "disabled_plugins") == 0)
+		{
+		options_load_disabled_plugins(parser_data, context, element_name, attribute_names, attribute_values, data, error);
+		options_parse_func_push(parser_data, options_parse_disabled_plugins, NULL, NULL);
 		}
 	else
 		{

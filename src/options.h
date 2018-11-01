@@ -314,6 +314,8 @@ struct _ConfOptions
 	} printer;
 
 	gboolean read_metadata_in_idle;
+
+	GList *disabled_plugins;
 };
 
 ConfOptions *options;
