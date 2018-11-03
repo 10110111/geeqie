@@ -1211,7 +1211,11 @@ static gboolean pan_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, g
 				if (fd) file_util_rename(fd, NULL, GTK_WIDGET(pr));
 				break;
 			case 'D': case 'd':
-				if (fd) file_util_delete(fd, NULL, GTK_WIDGET(pr));
+				if (fd)
+					{
+					options->file_ops.safe_delete_enable = TRUE;
+					file_util_delete(fd, NULL, GTK_WIDGET(pr));
+					}
 				break;
 			case 'F': case 'f':
 				pan_search_toggle_visible(pw, TRUE);
@@ -2151,7 +2155,24 @@ static void pan_delete_cb(GtkWidget *widget, gpointer data)
 	FileData *fd;
 
 	fd = pan_menu_click_fd(pw);
-	if (fd) file_util_delete(fd, NULL, pw->imd->widget);
+	if (fd)
+		{
+		options->file_ops.safe_delete_enable = FALSE;
+		file_util_delete(fd, NULL, pw->imd->widget);
+		}
+}
+
+static void pan_move_to_trash_cb(GtkWidget *widget, gpointer data)
+{
+	PanWindow *pw = data;
+	FileData *fd;
+
+	fd = pan_menu_click_fd(pw);
+	if (fd)
+		{
+		options->file_ops.safe_delete_enable = TRUE;
+		file_util_delete(fd, NULL, pw->imd->widget);
+		}
 }
 
 static void pan_copy_path_cb(GtkWidget *widget, gpointer data)
@@ -2301,8 +2322,16 @@ static GtkWidget *pan_popup_menu(PanWindow *pw)
 				G_CALLBACK(pan_copy_path_cb), pw);
 	menu_item_add_sensitive(menu, _("_Copy path unquoted"), active,
 				G_CALLBACK(pan_copy_path_unquoted_cb), pw);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
-				      G_CALLBACK(pan_delete_cb), pw);
+
+	menu_item_add_divider(menu);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_move_to_trash ? _("Move to Trash...") :
+					_("Move to Trash"), PIXBUF_INLINE_ICON_TRASH, active,
+						G_CALLBACK(pan_move_to_trash_cb), pw);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_delete ? _("_Delete...") :
+					_("_Delete"), GTK_STOCK_DELETE, active,
+						G_CALLBACK(pan_delete_cb), pw);
 
 	menu_item_add_divider(menu);
 

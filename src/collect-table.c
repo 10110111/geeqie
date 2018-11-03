@@ -34,6 +34,7 @@
 #include "layout_image.h"
 #include "menu.h"
 #include "metadata.h"
+#include "pixbuf_util.h"
 #include "print.h"
 #include "utilops.h"
 #include "ui_fileops.h"
@@ -733,6 +734,15 @@ static void collection_table_popup_delete_cb(GtkWidget *widget, gpointer data)
 {
 	CollectTable *ct = data;
 
+	options->file_ops.safe_delete_enable = FALSE;
+	file_util_delete(NULL, collection_table_popup_file_list(ct), ct->listview);
+}
+
+static void collection_table_popup_move_to_trash_cb(GtkWidget *widget, gpointer data)
+{
+	CollectTable *ct = data;
+
+	options->file_ops.safe_delete_enable = TRUE;
 	file_util_delete(NULL, collection_table_popup_file_list(ct), ct->listview);
 }
 
@@ -994,10 +1004,18 @@ static GtkWidget *collection_table_popup_menu(CollectTable *ct, gboolean over_ic
 				G_CALLBACK(collection_table_popup_copy_path_cb), ct);
 	menu_item_add_sensitive(menu, _("_Copy path unquoted"), over_icon,
 				G_CALLBACK(collection_table_popup_copy_path_unquoted_cb), ct);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, over_icon,
-			G_CALLBACK(collection_table_popup_delete_cb), ct);
-	menu_item_add_divider(menu);
 
+	menu_item_add_divider(menu);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_move_to_trash ? _("Move to Trash...") :
+					_("Move to Trash"), PIXBUF_INLINE_ICON_TRASH, over_icon,
+				G_CALLBACK(collection_table_popup_move_to_trash_cb), ct);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_delete ? _("_Delete...") :
+					_("_Delete"), GTK_STOCK_DELETE, over_icon,
+				G_CALLBACK(collection_table_popup_delete_cb), ct);
+
+	menu_item_add_divider(menu);
 	submenu = submenu_add_sort(NULL, G_CALLBACK(collection_table_popup_sort_cb), ct, FALSE, TRUE, FALSE, 0);
 	menu_item_add_divider(submenu);
 	menu_item_add(submenu, _("Randomize"),

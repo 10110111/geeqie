@@ -477,10 +477,16 @@ dd.answer div.label { float: left; }
 <a name="Delete"></a><div class="header"><h2 class="section title"><span class="title"><span class="label">11.11.1. </span>Delete</span></h2></div>
 <div class="block list variablelist"><dl class="variablelist">
 <dt class="term dt-first">
-          <span class="guilabel">Confirm file delete</span>
+          <span class="guilabel">Confirm permanent file delete</span>
         </dt>
 <dd>
           <p class="para block block-first">Prompts for confirmation before deleting files.</p>
+        </dd>
+<dt class="term">
+          <span class="guilabel">Confirm move file to Trash</span>
+        </dt>
+<dd>
+          <p class="para block block-first">Prompts for confirmation before moving files to the trash bin.</p>
         </dd>
 <dt class="term">
           <span class="guilabel">
@@ -510,7 +516,7 @@ dd.answer div.label { float: left; }
           </p>
         </dd>
 <dt class="term">
-          <span class="guilabel">Safe Delete</span>
+          <span class="guilabel">Use Geeqie trash location</span>
         </dt>
 <dd>
           <p class="para block block-first">Moves deleted files to a temporary folder, for easy retrieval of deleted files. Files in the temporary folder are retained until the maximum size is reached, at which point deleting additional files will result in the removal of the oldest files to reclaim the space needed for the new files.</p>
@@ -524,6 +530,12 @@ dd.answer div.label { float: left; }
               The digit counter increments with each deleted file.
             </p>
           </div></div>
+        </dd>
+<dt class="term">
+          <span class="guilabel">Use system Trash bin</span>
+        </dt>
+<dd>
+          <p class="para block block-first">Moves deleted files to the system-defined trash bin.</p>
         </dd>
 <dt class="term">
           <span class="guilabel">Folder</span>

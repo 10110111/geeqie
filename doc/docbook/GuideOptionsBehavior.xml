@@ -7,10 +7,18 @@
     <variablelist>
       <varlistentry>
         <term>
-          <guilabel>Confirm file delete</guilabel>
+          <guilabel>Confirm permanent file delete</guilabel>
         </term>
         <listitem>
           <para>Prompts for confirmation before deleting files.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Confirm move file to Trash</guilabel>
+        </term>
+        <listitem>
+          <para>Prompts for confirmation before moving files to the trash bin.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -44,7 +52,7 @@
       </varlistentry>
       <varlistentry>
         <term>
-          <guilabel>Safe Delete</guilabel>
+          <guilabel>Use Geeqie trash location</guilabel>
         </term>
         <listitem>
           <para>Moves deleted files to a temporary folder, for easy retrieval of deleted files. Files in the temporary folder are retained until the maximum size is reached, at which point deleting additional files will result in the removal of the oldest files to reclaim the space needed for the new files.</para>
@@ -58,6 +66,14 @@
               The digit counter increments with each deleted file.
             </para>
           </note>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Use system Trash bin</guilabel>
+        </term>
+        <listitem>
+          <para>Moves deleted files to the system-defined trash bin.</para>
         </listitem>
       </varlistentry>
       <varlistentry>

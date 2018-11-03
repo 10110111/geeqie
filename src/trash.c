@@ -118,11 +118,6 @@ static gchar *file_util_safe_dest(const gchar *path)
 	return dest;
 }
 
-static void file_util_safe_del_toggle_cb(GtkWidget *button, gpointer data)
-{
-	options->file_ops.safe_delete_enable = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
-}
-
 static void file_util_safe_del_close_cb(GtkWidget *dialog, gpointer data)
 {
 	GenericDialog **gd = data;
@@ -138,55 +133,55 @@ gboolean file_util_safe_unlink(const gchar *path)
 
 	if (!isfile(path)) return FALSE;
 
-	if (!isdir(options->file_ops.safe_delete_path))
+	if (!options->file_ops.use_system_trash)
 		{
-		DEBUG_1("creating trash: %s", options->file_ops.safe_delete_path);
-		if (!options->file_ops.safe_delete_path || !mkdir_utf8(options->file_ops.safe_delete_path, 0755))
+		if (!isdir(options->file_ops.safe_delete_path))
 			{
-			result = _("Could not create folder");
-			success = FALSE;
+			DEBUG_1("creating trash: %s", options->file_ops.safe_delete_path);
+			if (!options->file_ops.safe_delete_path || !mkdir_utf8(options->file_ops.safe_delete_path, 0755))
+				{
+				result = _("Could not create folder");
+				success = FALSE;
+				}
+			}
+
+		if (success)
+			{
+			gchar *dest;
+
+			dest = file_util_safe_dest(path);
+			if (dest)
+				{
+				DEBUG_1("safe deleting %s to %s", path, dest);
+				success = move_file(path, dest);
+				}
+			else
+				{
+				success = FALSE;
+				}
+
+			if (!success && !access_file(path, W_OK))
+				{
+				result = _("Permission denied");
+				}
+			g_free(dest);
+			}
+
+		if (result && !gd)
+			{
+			GtkWidget *button;
+			gchar *buf;
+
+			buf = g_strdup_printf(_("Unable to access or create the trash folder.\n\"%s\""), options->file_ops.safe_delete_path);
+			gd = file_util_warning_dialog(result, buf, GTK_STOCK_DIALOG_WARNING, NULL);
+			g_free(buf);
 			}
 		}
-
-	if (success)
+	else
 		{
-		gchar *dest;
-
-		dest = file_util_safe_dest(path);
-		if (dest)
-			{
-			DEBUG_1("safe deleting %s to %s", path, dest);
-			success = move_file(path, dest);
-			}
-		else
-			{
-			success = FALSE;
-			}
-
-		if (!success && !access_file(path, W_OK))
-			{
-			result = _("Permission denied");
-			}
-		g_free(dest);
-		}
-
-	if (result && !gd)
-		{
-		GtkWidget *button;
-		gchar *buf;
-
-		buf = g_strdup_printf(_("Unable to access or create the trash folder.\n\"%s\""), options->file_ops.safe_delete_path);
-		gd = file_util_warning_dialog(result, buf, GTK_STOCK_DIALOG_WARNING, NULL);
-		g_free(buf);
-
-		button = gtk_check_button_new_with_label(_("Turn off safe delete"));
-		g_signal_connect(G_OBJECT(button), "toggled",
-				 G_CALLBACK(file_util_safe_del_toggle_cb), NULL);
-		gtk_box_pack_start(GTK_BOX(gd->vbox), button, FALSE, FALSE, 0);
-		gtk_widget_show(button);
-
-		g_signal_connect(G_OBJECT(gd->dialog), "destroy",
-				 G_CALLBACK(file_util_safe_del_close_cb), &gd);
+		GFile *tmp = g_file_new_for_path (path);
+		g_file_trash(tmp, FALSE, NULL);
+		g_object_unref(tmp);
 		}
 
 	return success;
@@ -194,7 +189,7 @@ gboolean file_util_safe_unlink(const gchar *path)
 
 gchar *file_util_safe_delete_status(void)
 {
-	gchar *buf;
+	gchar *buf = NULL;
 
 	if (is_valid_editor_command(CMD_DELETE))
 		{
@@ -204,18 +199,21 @@ gchar *file_util_safe_delete_status(void)
 		{
 		if (options->file_ops.safe_delete_enable)
 			{
-			gchar *buf2;
-			if (options->file_ops.safe_delete_folder_maxsize > 0)
-				buf2 = g_strdup_printf(_(" (max. %d MB)"), options->file_ops.safe_delete_folder_maxsize);
-			else
-				buf2 = g_strdup("");
+			if (!options->file_ops.use_system_trash)
+				{
+				gchar *buf2;
+				if (options->file_ops.safe_delete_folder_maxsize > 0)
+					buf2 = g_strdup_printf(_(" (max. %d MB)"), options->file_ops.safe_delete_folder_maxsize);
+				else
+					buf2 = g_strdup("");
 
-			buf = g_strdup_printf(_("Safe delete: %s%s\nTrash: %s"), _("on"), buf2, options->file_ops.safe_delete_path);
-			g_free(buf2);
-			}
-		else
-			{
-			buf = g_strdup_printf(_("Safe delete: %s"), _("off"));
+				buf = g_strdup_printf(_("Using Geeqie Trash bin\n%s"), buf2);
+				g_free(buf2);
+				}
+			else
+				{
+				buf = g_strdup(_("Using system Trash bin"));
+				}
 			}
 		}
 

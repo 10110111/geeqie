@@ -923,6 +923,7 @@ static gboolean collection_window_keypress(GtkWidget *widget, GdkEventKey *event
 				file_util_rename(NULL, collection_table_selection_get_list(cw->table), cw->window);
 				break;
 			case 'D': case 'd':
+				options->file_ops.safe_delete_enable = TRUE;
 				file_util_delete(NULL, collection_table_selection_get_list(cw->table), cw->window);
 				break;
 			case 'S': case 's':

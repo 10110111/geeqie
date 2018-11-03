@@ -36,6 +36,7 @@
 #include "md5-util.h"
 #include "menu.h"
 #include "misc.h"
+#include "pixbuf_util.h"
 #include "print.h"
 #include "thumb.h"
 #include "ui_fileops.h"
@@ -2249,6 +2250,15 @@ static void dupe_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
 	DupeWindow *dw = data;
 
+	options->file_ops.safe_delete_enable = FALSE;
+	file_util_delete(NULL, dupe_listview_get_selection(dw, dw->listview), dw->window);
+}
+
+static void dupe_menu_move_to_trash_cb(GtkWidget *widget, gpointer data)
+{
+	DupeWindow *dw = data;
+
+	options->file_ops.safe_delete_enable = TRUE;
 	file_util_delete(NULL, dupe_listview_get_selection(dw, dw->listview), dw->window);
 }
 
@@ -2379,8 +2389,17 @@ static GtkWidget *dupe_menu_popup_main(DupeWindow *dw, DupeItem *di)
 				G_CALLBACK(dupe_menu_copy_path_cb), dw);
 	menu_item_add_sensitive(menu, _("_Copy path unquoted"), on_row,
 				G_CALLBACK(dupe_menu_copy_path_unquoted_cb), dw);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, on_row,
+
+	menu_item_add_divider(menu);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_move_to_trash ? _("Move to Trash...") :
+					_("Move to Trash"), PIXBUF_INLINE_ICON_TRASH, on_row,
+				G_CALLBACK(dupe_menu_move_to_trash_cb), dw);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_delete ? _("_Delete...") :
+					_("_Delete"), GTK_STOCK_DELETE, on_row,
 				G_CALLBACK(dupe_menu_delete_cb), dw);
+
 	menu_item_add_divider(menu);
 	menu_item_add_stock_sensitive(menu, _("Rem_ove"), GTK_STOCK_REMOVE, on_row,
 				G_CALLBACK(dupe_menu_remove_cb), dw);
@@ -3069,6 +3088,7 @@ static gboolean dupe_window_keypress_cb(GtkWidget *widget, GdkEventKey *event, g
 					file_util_rename(NULL, dupe_listview_get_selection(dw, listview), dw->window);
 					break;
 				case 'D': case 'd':
+					options->file_ops.safe_delete_enable = TRUE;
 					file_util_delete(NULL, dupe_listview_get_selection(dw, listview), dw->window);
 					break;
 				default:

@@ -95,8 +95,10 @@ struct _ConfOptions
 		gboolean enable_in_place_rename;
 
 		gboolean confirm_delete;
+		gboolean confirm_move_to_trash;
 		gboolean enable_delete_key;
 		gboolean safe_delete_enable;
+		gboolean use_system_trash;
 		gchar *safe_delete_path;
 		gint safe_delete_folder_maxsize;
 	} file_ops;

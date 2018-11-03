@@ -407,6 +407,7 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 				file_util_rename(image_get_fd(imd), NULL, imd->widget);
 				break;
 			case 'D': case 'd':
+				options->file_ops.safe_delete_enable = TRUE;
 				file_util_delete(image_get_fd(imd), NULL, imd->widget);
 				break;
 			case 'W': case 'w':
@@ -445,6 +446,13 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 						 fd ? g_list_append(NULL, file_data_ref(fd)) : NULL,
 						 filelist_copy(vw->list), vw->window);
 				}
+				break;
+			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
+				if (options->file_ops.enable_delete_key)
+					{
+					options->file_ops.safe_delete_enable = FALSE;
+					file_util_delete(image_get_fd(imd), NULL, imd->widget);
+					}
 				break;
 			default:
 				stop_signal = FALSE;
@@ -541,6 +549,7 @@ static gboolean view_window_key_press_cb(GtkWidget *widget, GdkEventKey *event, 
 			case GDK_KEY_Delete: case GDK_KEY_KP_Delete:
 				if (options->file_ops.enable_delete_key)
 					{
+					options->file_ops.safe_delete_enable = TRUE;
 					file_util_delete(image_get_fd(imd), NULL, imd->widget);
 					}
 				break;
@@ -1159,6 +1168,17 @@ static void view_delete_cb(GtkWidget *widget, gpointer data)
 	ImageWindow *imd;
 
 	imd = view_window_active_image(vw);
+	options->file_ops.safe_delete_enable = FALSE;
+	file_util_delete(image_get_fd(imd), NULL, imd->widget);
+}
+
+static void view_move_to_trash_cb(GtkWidget *widget, gpointer data)
+{
+	ViewWindow *vw = data;
+	ImageWindow *imd;
+
+	imd = view_window_active_image(vw);
+	options->file_ops.safe_delete_enable = TRUE;
 	file_util_delete(image_get_fd(imd), NULL, imd->widget);
 }
 
@@ -1323,7 +1343,16 @@ static GtkWidget *view_popup_menu(ViewWindow *vw)
 	menu_item_add(menu, _("_Rename..."), G_CALLBACK(view_rename_cb), vw);
 	menu_item_add(menu, _("_Copy path"), G_CALLBACK(view_copy_path_cb), vw);
 	menu_item_add(menu, _("_Copy path unquoted"), G_CALLBACK(view_copy_path_unquoted_cb), vw);
-	menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(view_delete_cb), vw);
+
+	menu_item_add_divider(menu);
+	menu_item_add_stock(menu,
+				options->file_ops.confirm_move_to_trash ? _("Move to Trash...") :
+					_("Move to Trash"), PIXBUF_INLINE_ICON_TRASH,
+				G_CALLBACK(view_move_to_trash_cb), vw);
+	menu_item_add_stock(menu,
+				options->file_ops.confirm_delete ? _("_Delete...") :
+					_("_Delete"), GTK_STOCK_DELETE,
+				G_CALLBACK(view_delete_cb), vw);
 
 	menu_item_add_divider(menu);
 

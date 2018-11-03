@@ -424,7 +424,16 @@
               </code>
             </entry>
             <entry />
-            <entry>Delete selected images.</entry>
+            <entry>Move selected images to trash bin.</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Shift + Delete
+              </code>
+            </entry>
+            <entry />
+            <entry>Permanently delete selected images.</entry>
           </row>
           <row>
             <entry>

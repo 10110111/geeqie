@@ -28,6 +28,7 @@
 #include "history_list.h"
 #include "layout.h"
 #include "menu.h"
+#include "pixbuf_util.h"
 #include "thumb.h"
 #include "ui_menu.h"
 #include "ui_fileops.h"
@@ -343,6 +344,15 @@ static void vf_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
 	ViewFile *vf = data;
 
+	options->file_ops.safe_delete_enable = FALSE;
+	file_util_delete(NULL, vf_pop_menu_file_list(vf), vf->listview);
+}
+
+static void vf_pop_menu_move_to_trash_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	options->file_ops.safe_delete_enable = TRUE;
 	file_util_delete(NULL, vf_pop_menu_file_list(vf), vf->listview);
 }
 
@@ -624,8 +634,15 @@ GtkWidget *vf_pop_menu(ViewFile *vf)
 				G_CALLBACK(vf_pop_menu_copy_path_cb), vf);
 	menu_item_add_sensitive(menu, _("_Copy path unquoted"), active,
 				G_CALLBACK(vf_pop_menu_copy_path_unquoted_cb), vf);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, active,
-				      G_CALLBACK(vf_pop_menu_delete_cb), vf);
+	menu_item_add_divider(menu);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_move_to_trash ? _("Move to Trash...") :
+					_("Move to Trash"), PIXBUF_INLINE_ICON_TRASH, active,
+				G_CALLBACK(vf_pop_menu_move_to_trash_cb), vf);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_delete ? _("_Delete...") :
+					_("_Delete"), GTK_STOCK_DELETE, active,
+				G_CALLBACK(vf_pop_menu_delete_cb), vf);
 	menu_item_add_divider(menu);
 
 	menu_item_add_sensitive(menu, _("Enable file _grouping"), active,

@@ -260,6 +260,7 @@ static void bar_sort_undo_folder(SortData *sd, GtkWidget *button)
 					work = g_list_append(work, file_data_new_group(delete_list->data));
 					delete_list = delete_list->next;
 					}
+				options->file_ops.safe_delete_enable = TRUE;
 				file_util_delete(NULL, work, button);
 				}
 			break;

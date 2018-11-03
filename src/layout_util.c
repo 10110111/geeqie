@@ -372,6 +372,15 @@ static void layout_menu_delete_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
+	options->file_ops.safe_delete_enable = FALSE;
+	file_util_delete(NULL, layout_selection_list(lw), layout_window(lw));
+}
+
+static void layout_menu_move_to_trash_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	options->file_ops.safe_delete_enable = TRUE;
 	file_util_delete(NULL, layout_selection_list(lw), layout_window(lw));
 }
 
@@ -381,6 +390,17 @@ static void layout_menu_delete_key_cb(GtkAction *action, gpointer data)
 
 	if (options->file_ops.enable_delete_key)
 		{
+		options->file_ops.safe_delete_enable = FALSE;
+		file_util_delete(NULL, layout_selection_list(lw), layout_window(lw));
+		}
+}
+static void layout_menu_move_to_trash_key_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	if (options->file_ops.enable_delete_key)
+		{
+		options->file_ops.safe_delete_enable = TRUE;
 		file_util_delete(NULL, layout_selection_list(lw), layout_window(lw));
 		}
 }
@@ -1877,9 +1897,10 @@ static GtkActionEntry menu_entries[] = {
   { "Copy",		GTK_STOCK_COPY,		N_("_Copy..."),				"<control>C",		N_("Copy..."),				CB(layout_menu_copy_cb) },
   { "Move",	PIXBUF_INLINE_ICON_MOVE,			N_("_Move..."),				"<control>M",		N_("Move..."),				CB(layout_menu_move_cb) },
   { "Rename",	PIXBUF_INLINE_ICON_RENAME,	N_("_Rename..."),			"<control>R",		N_("Rename..."),			CB(layout_menu_rename_cb) },
-  { "Delete",		GTK_STOCK_DELETE,	N_("_Delete..."),			"<control>D",		N_("Delete..."),			CB(layout_menu_delete_cb) },
-  { "DeleteAlt1",	GTK_STOCK_DELETE,	N_("_Delete..."),			"Delete",		N_("Delete..."),			CB(layout_menu_delete_key_cb) },
-  { "DeleteAlt2",	GTK_STOCK_DELETE,	N_("_Delete..."),			"KP_Delete",		N_("Delete..."),			CB(layout_menu_delete_key_cb) },
+  { "Delete",	PIXBUF_INLINE_ICON_TRASH,	N_("Move to Trash..."),		"<control>D",	N_("Move to Trash..."),		CB(layout_menu_move_to_trash_cb) },
+  { "DeleteAlt1",	PIXBUF_INLINE_ICON_TRASH,N_("Move to Trash..."),	"Delete",		N_("Move to Trash..."),		CB(layout_menu_move_to_trash_key_cb) },
+  { "DeleteAlt2",	PIXBUF_INLINE_ICON_TRASH,N_("Move to Trash..."),	"KP_Delete",	N_("Move to Trash..."),		CB(layout_menu_move_to_trash_key_cb) },
+  { "PermanentDelete",	GTK_STOCK_DELETE,	N_("Delete..."),			"<shift>Delete",N_("Delete..."),			CB(layout_menu_delete_cb) }, 
   { "EnableGrouping",	NULL,			N_("Enable file _grouping"),		NULL,			N_("Enable file grouping"),		CB(layout_menu_enable_grouping_cb) },
   { "DisableGrouping",	NULL,			N_("Disable file groupi_ng"),		NULL,			N_("Disable file grouping"),		CB(layout_menu_disable_grouping_cb) },
   { "CopyPath",		NULL,			N_("_Copy path to clipboard"),		NULL,			N_("Copy path to clipboard"),		CB(layout_menu_copy_path_cb) },
@@ -2066,7 +2087,10 @@ static const gchar *menu_ui_description =
 "      <menuitem action='Copy'/>"
 "      <menuitem action='Move'/>"
 "      <menuitem action='Rename'/>"
+"      <separator/>"
 "      <menuitem action='Delete'/>"
+"      <menuitem action='PermanentDelete'/>"
+"      <separator/>"
 "      <placeholder name='FileOpsSection'/>"
 "      <separator/>"
 "      <placeholder name='QuitSection'/>"

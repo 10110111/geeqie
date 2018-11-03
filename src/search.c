@@ -37,6 +37,7 @@
 #include "menu.h"
 #include "metadata.h"
 #include "misc.h"
+#include "pixbuf_util.h"
 #include "print.h"
 #include "thumb.h"
 #include "ui_bookmark.h"
@@ -1015,6 +1016,15 @@ static void sr_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
 	SearchData *sd = data;
 
+	options->file_ops.safe_delete_enable = FALSE;
+	file_util_delete(NULL, search_result_selection_list(sd), sd->window);
+}
+
+static void sr_menu_move_to_trash_cb(GtkWidget *widget, gpointer data)
+{
+	SearchData *sd = data;
+
+	options->file_ops.safe_delete_enable = TRUE;
 	file_util_delete(NULL, search_result_selection_list(sd), sd->window);
 }
 
@@ -1128,13 +1138,16 @@ static GtkWidget *search_result_menu(SearchData *sd, gboolean on_row, gboolean e
 				G_CALLBACK(sr_menu_copy_path_cb), sd);
 	menu_item_add_sensitive(menu, _("_Copy path unquoted"), on_row,
 				G_CALLBACK(sr_menu_copy_path_unquoted_cb), sd);
-	menu_item_add_stock_sensitive(menu, _("_Delete..."), GTK_STOCK_DELETE, on_row,
-				      G_CALLBACK(sr_menu_delete_cb), sd);
+
 	menu_item_add_divider(menu);
-	menu_item_add_stock_sensitive(menu, _("Rem_ove"), GTK_STOCK_REMOVE, on_row,
-				      G_CALLBACK(sr_menu_remove_cb), sd);
-	menu_item_add_stock_sensitive(menu, _("C_lear"), GTK_STOCK_CLEAR, !empty,
-				      G_CALLBACK(sr_menu_clear_cb), sd);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_move_to_trash ? _("Move to Trash...") :
+					_("Move to Trash"), PIXBUF_INLINE_ICON_TRASH, on_row,
+				G_CALLBACK(sr_menu_move_to_trash_cb), sd);
+	menu_item_add_stock_sensitive(menu,
+				options->file_ops.confirm_delete ? _("_Delete...") :
+					_("_Delete"), GTK_STOCK_DELETE, on_row,
+				G_CALLBACK(sr_menu_delete_cb), sd);
 
 	return menu;
 }
@@ -1345,6 +1358,7 @@ static gboolean search_result_keypress_cb(GtkWidget *widget, GdkEventKey *event,
 				file_util_rename(NULL, search_result_selection_list(sd), widget);
 				break;
 			case 'D': case 'd':
+				options->file_ops.safe_delete_enable = TRUE;
 				file_util_delete(NULL, search_result_selection_list(sd), widget);
 				break;
 			case 'A': case 'a':

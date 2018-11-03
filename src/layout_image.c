@@ -544,6 +544,16 @@ static void li_pop_menu_delete_cb(GtkWidget *widget, gpointer data)
 {
 	LayoutWindow *lw = data;
 
+	options->file_ops.safe_delete_enable = FALSE;
+	file_util_delete(layout_image_get_fd(lw), NULL,
+			 li_pop_menu_click_parent(widget, lw));
+}
+
+static void li_pop_menu_move_to_trash_cb(GtkWidget *widget, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	options->file_ops.safe_delete_enable = TRUE;
 	file_util_delete(layout_image_get_fd(lw), NULL,
 			 li_pop_menu_click_parent(widget, lw));
 }
@@ -705,7 +715,17 @@ static GtkWidget *layout_image_pop_menu(LayoutWindow *lw)
 	item = menu_item_add(menu, _("_Copy path"), G_CALLBACK(li_pop_menu_copy_path_cb), lw);
 	item = menu_item_add(menu, _("_Copy path unquoted"), G_CALLBACK(li_pop_menu_copy_path_unquoted_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
-	item = menu_item_add_stock(menu, _("_Delete..."), GTK_STOCK_DELETE, G_CALLBACK(li_pop_menu_delete_cb), lw);
+	menu_item_add_divider(menu);
+
+	item = menu_item_add_stock(menu,
+				options->file_ops.confirm_move_to_trash ? _("Move to Trash...") :
+					_("Move to Trash"), PIXBUF_INLINE_ICON_TRASH,
+								G_CALLBACK(li_pop_menu_move_to_trash_cb), lw);
+	if (!path) gtk_widget_set_sensitive(item, FALSE);
+	item = menu_item_add_stock(menu,
+				options->file_ops.confirm_delete ? _("_Delete...") :
+					_("_Delete"), GTK_STOCK_DELETE,
+								G_CALLBACK(li_pop_menu_delete_cb), lw);
 	if (!path) gtk_widget_set_sensitive(item, FALSE);
 	menu_item_add_divider(menu);
 

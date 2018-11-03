@@ -261,7 +261,8 @@ static void config_window_apply(void)
 
 	options->file_ops.confirm_delete = c_options->file_ops.confirm_delete;
 	options->file_ops.enable_delete_key = c_options->file_ops.enable_delete_key;
-	options->file_ops.safe_delete_enable = c_options->file_ops.safe_delete_enable;
+	options->file_ops.confirm_move_to_trash = c_options->file_ops.confirm_move_to_trash;
+	options->file_ops.use_system_trash = c_options->file_ops.use_system_trash;
 	options->file_ops.safe_delete_folder_maxsize = c_options->file_ops.safe_delete_folder_maxsize;
 	options->tools_restore_state = c_options->tools_restore_state;
 	options->save_window_positions = c_options->save_window_positions;
@@ -3081,6 +3082,22 @@ static void config_tab_color(GtkWidget *notebook)
 }
 
 /* advanced entry tab */
+static void use_geeqie_trash_cb(GtkWidget *widget, gpointer data)
+{
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		c_options->file_ops.use_system_trash = FALSE;
+		}
+}
+
+static void use_system_trash_cb(GtkWidget *widget, gpointer data)
+{
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		c_options->file_ops.use_system_trash = TRUE;
+		}
+}
+
 static void config_tab_behavior(GtkWidget *notebook)
 {
 	GtkWidget *hbox;
@@ -3099,13 +3116,15 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Delete"), GTK_ORIENTATION_VERTICAL);
 
-	pref_checkbox_new_int(group, _("Confirm file delete"),
+	pref_checkbox_new_int(group, _("Confirm permanent file delete"),
 			      options->file_ops.confirm_delete, &c_options->file_ops.confirm_delete);
+	pref_checkbox_new_int(group, _("Confirm move file to Trash"),
+			      options->file_ops.confirm_move_to_trash, &c_options->file_ops.confirm_move_to_trash);
 	pref_checkbox_new_int(group, _("Enable Delete key"),
 			      options->file_ops.enable_delete_key, &c_options->file_ops.enable_delete_key);
 
-	ct_button = pref_checkbox_new_int(group, _("Safe delete"),
-					  options->file_ops.safe_delete_enable, &c_options->file_ops.safe_delete_enable);
+	ct_button = pref_radiobutton_new(group, NULL, _("Use Geeqie trash location"),
+					!options->file_ops.use_system_trash, G_CALLBACK(use_geeqie_trash_cb),NULL);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(ct_button, hbox);
@@ -3133,7 +3152,11 @@ static void config_tab_behavior(GtkWidget *notebook)
 	button = pref_button_new(NULL, GTK_STOCK_CLEAR, NULL, FALSE,
 				 G_CALLBACK(safe_delete_clear_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+	pref_radiobutton_new(group, ct_button, _("Use system Trash bin"),
+					options->file_ops.use_system_trash, G_CALLBACK(use_system_trash_cb), NULL);
 	gtk_widget_show(button);
+
+	pref_spacer(group, PREF_PAD_GROUP);
 
 
 	group = pref_group_new(vbox, FALSE, _("Behavior"), GTK_ORIENTATION_VERTICAL);
@@ -3168,6 +3191,8 @@ static void config_tab_behavior(GtkWidget *notebook)
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 	add_clipboard_selection_menu(table, 0, 0, _("Copy path clipboard selection:"), options->clipboard_selection, &c_options->clipboard_selection);
 
+	pref_spacer(group, PREF_PAD_GROUP);
+
 	group = pref_group_new(vbox, FALSE, _("Navigation"), GTK_ORIENTATION_VERTICAL);
 
 	pref_checkbox_new_int(group, _("Progressive keyboard scrolling"),
@@ -3185,6 +3210,8 @@ static void config_tab_behavior(GtkWidget *notebook)
 
 
 #ifdef DEBUG
+	pref_spacer(group, PREF_PAD_GROUP);
+
 	group = pref_group_new(vbox, FALSE, _("Debugging"), GTK_ORIENTATION_VERTICAL);
 
 	pref_spin_new_int(group, _("Debug level:"), NULL,
