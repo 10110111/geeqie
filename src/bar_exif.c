@@ -709,6 +709,7 @@ static void bar_pane_exif_write_config(GtkWidget *pane, GString *outstr, gint in
 	write_char_option(outstr, indent, "id", ped->pane.id);
 	write_char_option(outstr, indent, "title", gtk_label_get_text(GTK_LABEL(ped->pane.title)));
 	WRITE_BOOL(ped->pane, expanded);
+	WRITE_BOOL(*ped, show_all);
 	WRITE_STRING(">");
 	indent++;
 
@@ -802,7 +803,7 @@ static void bar_pane_exif_size_allocate(GtkWidget *pane, GtkAllocation *alloc, g
 #endif
 }
 
-static GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolean expanded)
+static GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolean expanded, gboolean show_all)
 {
 	PaneExifData *ped;
 
@@ -815,6 +816,7 @@ static GtkWidget *bar_pane_exif_new(const gchar *id, const gchar *title, gboolea
 	ped->pane.id = g_strdup(id);
 	ped->pane.expanded = expanded;
 	ped->pane.type = PANE_EXIF;
+	ped->show_all = show_all;
 
 	ped->size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 	ped->widget = gtk_event_box_new();
@@ -850,6 +852,7 @@ GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gc
 	gchar *title = NULL;
 	gchar *id = g_strdup("exif");
 	gboolean expanded = TRUE;
+	gboolean show_all = FALSE;
 	GtkWidget *ret;
 
 	while (*attribute_names)
@@ -860,12 +863,13 @@ GtkWidget *bar_pane_exif_new_from_config(const gchar **attribute_names, const gc
 		if (READ_CHAR_FULL("id", id)) continue;
 		if (READ_CHAR_FULL("title", title)) continue;
 		if (READ_BOOL_FULL("expanded", expanded)) continue;
+		if (READ_BOOL_FULL("show_all", show_all)) continue;
 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
 	bar_pane_translate_title(PANE_EXIF, id, &title);
-	ret = bar_pane_exif_new(id, title, expanded);
+	ret = bar_pane_exif_new(id, title, expanded, show_all);
 	g_free(title);
 	g_free(id);
 	return ret;
@@ -886,6 +890,7 @@ void bar_pane_exif_update_from_config(GtkWidget *pane, const gchar **attribute_n
 
 		if (READ_CHAR_FULL("title", title)) continue;
 		if (READ_BOOL_FULL("expanded", ped->pane.expanded)) continue;
+		if (READ_BOOL_FULL("show_all", ped->show_all)) continue;
 		if (READ_CHAR_FULL("id", ped->pane.id)) continue;
 
 
