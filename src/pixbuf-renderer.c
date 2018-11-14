@@ -2879,10 +2879,15 @@ gboolean pixbuf_renderer_get_mouse_position(PixbufRenderer *pr, gint *x_pixel_re
 	x_pixel_clamped = CLAMP(x_pixel, 0, pr->image_width - 1);
 	y_pixel_clamped = CLAMP(y_pixel, 0, pr->image_height - 1);
 
-	if(x_pixel != x_pixel_clamped || y_pixel != y_pixel_clamped)
+	if (x_pixel != x_pixel_clamped)
 		{
 		/* mouse is not on pr */
-		x_pixel = y_pixel = -1;
+		x_pixel = -1;
+		}
+	if (y_pixel != y_pixel_clamped)
+		{
+		/* mouse is not on pr */
+		y_pixel = -1;
 		}
 
 	*x_pixel_return = x_pixel;

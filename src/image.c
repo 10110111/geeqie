@@ -154,8 +154,24 @@ static void image_press_cb(PixbufRenderer *pr, GdkEventButton *event, gpointer d
 
 		pixbuf_start_x = event->x;
 		pixbuf_start_y = event->y;
-		image_start_x = x_pixel;
-		image_start_y = y_pixel;
+
+		if (x_pixel == -1)
+			{
+			image_start_x = 0;
+			}
+		else
+			{
+			image_start_x = x_pixel;
+			}
+
+		if (y_pixel == -1)
+			{
+			image_start_y = 0;
+			}
+		else
+			{
+			image_start_y = y_pixel;
+			}
 		}
 
 	if (rect_id)
@@ -180,13 +196,32 @@ static void image_drag_cb(PixbufRenderer *pr, GdkEventMotion *event, gpointer da
 	gint rect_height;
 	GdkPixbuf *rect_pixbuf;
 	gint x_pixel, y_pixel;
+	gint image_x_pixel, image_y_pixel;
 
 	if (options->draw_rectangle)
 		{
 		pixbuf_renderer_get_image_size(pr, &width, &height);
 		pixbuf_renderer_get_mouse_position(pr, &x_pixel, &y_pixel);
-		switch_coords_orientation(imd, x_pixel, y_pixel, width, height);
 
+		if (x_pixel == -1)
+			{
+			image_x_pixel = width;
+			}
+		else
+			{
+			image_x_pixel = x_pixel;
+			}
+
+		if (y_pixel == -1)
+			{
+			image_y_pixel = height;
+			}
+		else
+			{
+			image_y_pixel = y_pixel;
+			}
+
+		switch_coords_orientation(imd, image_x_pixel, image_y_pixel, width, height);
 		if (rect_id)
 			{
 			pixbuf_renderer_overlay_remove((PixbufRenderer *)imd->pr, rect_id);
