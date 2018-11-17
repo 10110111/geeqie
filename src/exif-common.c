@@ -662,7 +662,7 @@ static void zd_tz(ZoneDetectResult *results, gchar **timezone, gchar **countryna
 /**
  * @brief Gets timezone data from an exif structure
  * @param[in] exif
- * @returns TRUE if timezone data found
+ * @returns TRUE if timezone data found AND GPS date and time found
  * @param[out] exif_date_time exif date/time in the form 2018:11:30:17:05:04
  * @param[out] timezone in the form "Europe/London"
  * @param[out] countryname in the form "United Kingdom"
@@ -696,11 +696,8 @@ static gboolean exif_build_tz_data(ExifData *exif, gchar **exif_date_time, gchar
 	text_date = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSDateStamp");
 	text_time = exif_get_data_as_text(exif, "Exif.GPSInfo.GPSTimeStamp");
 
-	if (text_latitude && text_longitude && text_latitude_ref &&
-						text_longitude_ref && text_date && text_time)
+	if (text_latitude && text_longitude && text_latitude_ref && text_longitude_ref)
 		{
-		*exif_date_time = g_strconcat(text_date, ":", text_time, NULL);
-
 		lat_deg = strtok(text_latitude, "deg'");
 		lat_min = strtok(NULL, "deg'");
 		latitude = atof(lat_deg) + atof(lat_min) / 60;
@@ -738,6 +735,14 @@ static gboolean exif_build_tz_data(ExifData *exif, gchar **exif_date_time, gchar
 		g_free(zd_path);
 		}
 
+	if (ret && text_date && text_time)
+		{
+		*exif_date_time = g_strconcat(text_date, ":", text_time, NULL);
+		}
+	else
+		{
+		ret = FALSE;
+		}
 	return ret;
 }
 
