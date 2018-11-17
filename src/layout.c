@@ -2532,6 +2532,14 @@ void layout_write_attributes(LayoutOptions *layout, GString *outstr, gint indent
 
 	WRITE_NL(); WRITE_BOOL(*layout, toolbar_hidden);
 	WRITE_NL(); WRITE_BOOL(*layout, show_info_pixel);
+	WRITE_SEPARATOR();
+
+	WRITE_NL(); WRITE_BOOL(*layout, bars_state.info);
+	WRITE_NL(); WRITE_BOOL(*layout, bars_state.sort);
+	WRITE_NL(); WRITE_BOOL(*layout, bars_state.tools_float);
+	WRITE_NL(); WRITE_BOOL(*layout, bars_state.tools_hidden);
+	WRITE_NL(); WRITE_BOOL(*layout, bars_state.hidden);
+	WRITE_SEPARATOR();
 
 	WRITE_NL(); WRITE_UINT(*layout, image_overlay.state);
 	WRITE_NL(); WRITE_INT(*layout, image_overlay.histogram_channel);
@@ -2617,6 +2625,12 @@ void layout_load_attributes(LayoutOptions *layout, const gchar **attribute_names
 		if (READ_BOOL(*layout, tools_hidden)) continue;
 		if (READ_BOOL(*layout, toolbar_hidden)) continue;
 		if (READ_BOOL(*layout, show_info_pixel)) continue;
+
+		if (READ_BOOL(*layout, bars_state.info)) continue;
+		if (READ_BOOL(*layout, bars_state.sort)) continue;
+		if (READ_BOOL(*layout, bars_state.tools_float)) continue;
+		if (READ_BOOL(*layout, bars_state.tools_hidden)) continue;
+		if (READ_BOOL(*layout, bars_state.hidden)) continue;
 
 		if (READ_UINT(*layout, image_overlay.state)) continue;
 		if (READ_INT(*layout, image_overlay.histogram_channel)) continue;

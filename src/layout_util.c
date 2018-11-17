@@ -1114,6 +1114,10 @@ static void layout_menu_hide_bars_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
 
+	if (lw->options.bars_state.hidden == gtk_toggle_action_get_active(action))
+		{
+		return;
+		}
 	layout_bars_hide_toggle(lw);
 }
 
@@ -3155,6 +3159,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 	action = gtk_action_group_get_action(lw->action_group, "ShowFileFilter");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), lw->options.show_file_filter);
 
+	action = gtk_action_group_get_action(lw->action_group, "HideBars");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), (lw->options.bars_state.hidden));
+
 	if (osd_flags & OSD_SHOW_HISTOGRAM)
 		{
 		action = gtk_action_group_get_action(lw->action_group, "HistogramChanR");
@@ -3407,7 +3414,14 @@ static void layout_bars_hide_toggle(LayoutWindow *lw)
 		lw->options.bars_state.hidden = FALSE;
 		if (lw->options.bars_state.sort)
 			{
-			gtk_widget_show(lw->bar_sort);
+			if (lw->bar_sort)
+				{
+				gtk_widget_show(lw->bar_sort);
+				}
+			else
+				{
+				layout_bar_sort_set_default(lw);
+				}
 			}
 		if (lw->options.bars_state.info)
 			{
@@ -3424,7 +3438,11 @@ static void layout_bars_hide_toggle(LayoutWindow *lw)
 		lw->options.bars_state.tools_float = lw->options.tools_float;
 		lw->options.bars_state.tools_hidden = lw->options.tools_hidden;
 
-		gtk_widget_hide(lw->bar);
+		if (lw->bar)
+			{
+			gtk_widget_hide(lw->bar);
+			}
+
 		if (lw->bar_sort)
 			gtk_widget_hide(lw->bar_sort);
 		layout_tools_float_set(lw, lw->options.tools_float, TRUE);
