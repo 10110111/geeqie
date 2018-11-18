@@ -100,17 +100,26 @@ Geeqie is a graphics file viewer. Basic features:
 
 ## Downloading
 
-Geeqie is available as a package with some distributions.
+Geeqie is available as a package with some distributions, however Geeqie is stable and you may compile the latest version from sources.
 
-However Geeqie is stable, and you may download the latest version (if you have installed git) from here:
+There are two scripts which will download and compile the sources for you.
+
+The first script will install Geeqie to a defined location, and will run under any system. However, it is left to you to make sure dependencies are fulfilled.
+To get the script, from the command line type:<br/><br/>
+`wget https://raw.githubusercontent.com/pixlsus/Scripts/master/build-geeqie`
+
+The second script will run only on Debian-based system, but will fulfil all dependencies and also give you the opportunity to include additional pixbuf loaders and other useful programs.
+To get the script, from the command line type:<br/><br/>
+`wget https://raw.githubusercontent.com/BestImageViewer/geeqie/master/web/geeqie-install-debian.sh`
+
+
+If you wish to compile the sources yourself you may download the latest version (if you have installed git) from here:
 
 Either: `git clone git://www.geeqie.org/geeqie.git`
 
 Or: `git clone http://www.geeqie.org/git/geeqie.git`
 
-For Ubuntu and other Debian-based systems, [this script](http://www.geeqie.org/web/geeqie-install-debian.sh) will download Geeqie sources, all dependencies, and compile and install Geeqie. You may also select which optional libraries to install.
-
-## Installation
+## Manual Installation
 
 List compile options: `./autogen.sh --help`
 
@@ -237,6 +246,19 @@ And either the ChangeLog file or [Geeqie ChangeLog](http://geeqie.org/cgi-bin/gi
         https://github.com/BertoldVdb/ZoneDetect/raw/master/database/timezone21.bin
         and copy to the location of the Geeqie ancilliary files, which is usually:
         /usr/local/lib/geeqie/
+
+    libimage-exiftool-perl
+        For the jpeg extraction plugin
+
+    liblcms2-utils
+        For the command-line tool jpgicc, used by the jpeg extraction plugin
+
+     ImageMagick
+     exiftran
+     gphoto2
+     ufraw
+     exiv2
+        Additional command-line tools for various operations
 
 ### Code hackers:
 

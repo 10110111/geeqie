@@ -57,8 +57,10 @@ optional_array=(
 "liblcms2-utils"
 "markdown (for generating README help file)"
 "markdown"
-"gphoto2 (for tethered photography)"
+"gphoto2 (for tethered photography and camera download plugins)"
 "gphoto2"
+"libimage-exiftool-perl (for jpeg extraction plugin)"
+"libimage-exiftool-perl"
 )
 
 # Optional for GTK3 only
