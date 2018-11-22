@@ -24,6 +24,7 @@
 #include "exif.h"
 #include "filedata.h"
 #include "image-load.h"
+#include "osd.h"
 #include "pixbuf_util.h"
 #include "ui_misc.h"
 #include "ui_fileops.h"
@@ -36,14 +37,6 @@
 
 /* method to use when scaling down image data */
 #define PRINT_MAX_INTERP GDK_INTERP_HYPER
-
-typedef enum {
-	TEXT_INFO_FILENAME = 1 << 0,
-	TEXT_INFO_FILEDATE = 1 << 1,
-	TEXT_INFO_FILESIZE = 1 << 2,
-	TEXT_INFO_DIMENSIONS = 1 << 3,
-	TEXT_INFO_FILEPATH = 1 << 4
-} TextInfo;
 
 /* reverse order is important */
 typedef enum {
@@ -59,9 +52,10 @@ struct _PrintWindow
 	GtkWidget *vbox;
 	GList *source_selection;
 
-	TextInfo	text_fields;
-	gint		 job_page;
+	gint job_page;
 	GtkTextBuffer *page_text;
+	gchar *template_string;
+	GtkWidget *parent;
 	ImageLoader	*job_loader;
 
 	GList *print_pixbuf_queue;
@@ -125,63 +119,6 @@ static gboolean print_job_render_image(PrintWindow *pw)
 		}
 
 	return TRUE;
-}
-
-static void print_text_field_set(PrintWindow *pw, TextInfo field, gboolean active)
-{
-	if (active)
-		{
-		pw->text_fields |= field;
-		}
-	else
-		{
-		pw->text_fields &= ~field;
-		}
-}
-
-static void print_text_cb_name(GtkWidget *widget, gpointer data)
-{
-	PrintWindow *pw = data;
-	gboolean active;
-
-	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-	print_text_field_set(pw, TEXT_INFO_FILENAME, active);
-}
-
-static void print_text_cb_path(GtkWidget *widget, gpointer data)
-{
-	PrintWindow *pw = data;
-	gboolean active;
-
-	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-	print_text_field_set(pw, TEXT_INFO_FILEPATH, active);
-}
-
-static void print_text_cb_date(GtkWidget *widget, gpointer data)
-{
-	PrintWindow *pw = data;
-	gboolean active;
-
-	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-	print_text_field_set(pw, TEXT_INFO_FILEDATE, active);
-}
-
-static void print_text_cb_size(GtkWidget *widget, gpointer data)
-{
-	PrintWindow *pw = data;
-	gboolean active;
-
-	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-	print_text_field_set(pw, TEXT_INFO_FILESIZE, active);
-}
-
-static void print_text_cb_dims(GtkWidget *widget, gpointer data)
-{
-	PrintWindow *pw = data;
-	gboolean active;
-
-	active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-	print_text_field_set(pw, TEXT_INFO_DIMENSIONS, active);
 }
 
 static void print_set_font_cb(GtkWidget *widget, gpointer data)
@@ -371,6 +308,32 @@ static void page_text_position_f2_cb(GtkWidget *widget, gpointer data)
 		}
 }
 
+static void set_print_image_text_string(gchar **template_string, const gchar *value)
+{
+	g_assert(template_string);
+
+	g_free(*template_string);
+	*template_string = g_strdup(value);
+}
+
+static void image_text_template_view_changed_cb(GtkWidget *widget, gpointer data)
+{
+	GtkWidget *pTextView;
+	GtkTextBuffer *pTextBuffer;
+	GtkTextIter iStart;
+	GtkTextIter iEnd;
+
+	pTextView = GTK_WIDGET(data);
+
+	pTextBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pTextView));
+	gtk_text_buffer_get_start_iter(pTextBuffer, &iStart);
+	gtk_text_buffer_get_end_iter(pTextBuffer, &iEnd);
+
+	set_print_image_text_string(&options->printer.template_string,
+					  gtk_text_buffer_get_text(pTextBuffer, &iStart, &iEnd, TRUE));
+}
+
+#define PRE_FORMATTED_COLUMNS 4
 static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 {
 	GtkWidget *group;
@@ -382,6 +345,10 @@ static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 	GtkWidget *page_text_button;
 	GtkWidget *subgroup;
 	GtkWidget *page_text_view;
+	GtkWidget *image_text_template_view;
+	GtkWidget *scrolled;
+	GtkWidget *scrolled_pre_formatted;
+	GtkTextBuffer *buffer;
 
 	group = pref_group_new(box, FALSE, _("Image text"), GTK_ORIENTATION_VERTICAL);
 
@@ -411,16 +378,31 @@ static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 	gtk_widget_show(hbox);
 	pw->image_group = (gtk_radio_button_get_group(GTK_RADIO_BUTTON(button1)));
 
-	pref_checkbox_new(subgroup, _("Name"), (pw->text_fields & TEXT_INFO_FILENAME),
-			  G_CALLBACK(print_text_cb_name), pw);
-	pref_checkbox_new(subgroup, _("Path"), (pw->text_fields & TEXT_INFO_FILEPATH),
-			  G_CALLBACK(print_text_cb_path), pw);
-	pref_checkbox_new(subgroup, _("Date"), (pw->text_fields & TEXT_INFO_FILEDATE),
-			  G_CALLBACK(print_text_cb_date), pw);
-	pref_checkbox_new(subgroup, _("Size"), (pw->text_fields & TEXT_INFO_FILESIZE),
-			  G_CALLBACK(print_text_cb_size), pw);
-	pref_checkbox_new(subgroup, _("Dimensions"), (pw->text_fields & TEXT_INFO_DIMENSIONS),
-			  G_CALLBACK(print_text_cb_dims), pw);
+	image_text_template_view = gtk_text_view_new();
+
+	scrolled_pre_formatted = osd_new(PRE_FORMATTED_COLUMNS, image_text_template_view);
+	gtk_box_pack_start(GTK_BOX(subgroup), scrolled_pre_formatted, FALSE, FALSE, 0);
+	gtk_widget_show(scrolled_pre_formatted);
+	gtk_widget_show(subgroup);
+
+	gtk_widget_set_tooltip_markup(image_text_template_view,
+					_("Extensive formatting options are shown in the Help file"));
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_widget_set_size_request(scrolled, 200, 50);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+									GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start(GTK_BOX(subgroup), scrolled, TRUE, TRUE, 5);
+	gtk_widget_show(scrolled);
+
+	gtk_container_add(GTK_CONTAINER(scrolled), image_text_template_view);
+	gtk_widget_show(image_text_template_view);
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(image_text_template_view));
+	if (options->printer.template_string) gtk_text_buffer_set_text(buffer, options->printer.template_string, -1);
+	g_signal_connect(G_OBJECT(buffer), "changed",
+			 G_CALLBACK(image_text_template_view_changed_cb), image_text_template_view);
 
 	hbox = pref_box_new(subgroup, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_BUTTON_GAP);
 
@@ -465,8 +447,6 @@ static void print_text_menu(GtkWidget *box, PrintWindow *pw)
 							G_CALLBACK(page_text_position_f2_cb), pw);
 	gtk_widget_show(hbox);
 	pw->page_group = (gtk_radio_button_get_group(GTK_RADIO_BUTTON(button2)));
-
-	GtkWidget *scrolled;
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_set_size_request(scrolled, 50, 50);
@@ -517,6 +497,69 @@ static gboolean paginate_cb(GtkPrintOperation *operation,
 		}
 }
 
+gchar *form_image_text(const gchar *template_string, FileData *fd, PrintWindow *pw, gint page_nr, gint total)
+{
+	const gchar *name;
+	gchar *text = NULL;
+	GHashTable *vars;
+	gchar *window_title;
+	gchar *delimiter;
+	gchar *collection_name;
+
+	if (!fd) return NULL;
+
+	name = fd->name;
+
+	vars = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+
+	window_title = g_strdup(gtk_window_get_title(GTK_WINDOW(pw->parent)));
+	delimiter = g_strstr_len(window_title, -1, " - Collection - ");
+	if (delimiter)
+		{
+		collection_name = g_strndup(window_title, delimiter - window_title);
+		}
+	else
+		{
+		collection_name = NULL;
+		}
+	g_free(window_title);
+
+	if (collection_name)
+		{
+		osd_template_insert(vars, "collection", collection_name, OSDT_NONE);
+		}
+
+	osd_template_insert(vars, "number", g_strdup_printf("%d", page_nr + 1), OSDT_NO_DUP);
+	osd_template_insert(vars, "total", g_strdup_printf("%d", total), OSDT_NO_DUP);
+	osd_template_insert(vars, "name", (gchar *) name, OSDT_NONE);
+	osd_template_insert(vars, "date", fd ? ((gchar *) text_from_time(fd->date)) : "", OSDT_NONE);
+	osd_template_insert(vars, "size", fd ? (text_from_size_abrev(fd->size)) : g_strdup(""), OSDT_FREE);
+
+	if (fd->pixbuf)
+		{
+		gint w, h;
+		w = gdk_pixbuf_get_width(fd->pixbuf);
+		h = gdk_pixbuf_get_height(fd->pixbuf);
+
+		osd_template_insert(vars, "width", g_strdup_printf("%d", w), OSDT_NO_DUP);
+ 		osd_template_insert(vars, "height", g_strdup_printf("%d", h), OSDT_NO_DUP);
+ 		osd_template_insert(vars, "res", g_strdup_printf("%d × %d", w, h), OSDT_FREE);
+ 		}
+	else
+		{
+		osd_template_insert(vars, "width", NULL, OSDT_NONE);
+ 		osd_template_insert(vars, "height", NULL, OSDT_NONE);
+ 		osd_template_insert(vars, "res", NULL, OSDT_NONE);
+		}
+
+	text = image_osd_mkinfo(template_string, fd, vars);
+	g_hash_table_destroy(vars);
+
+	g_free(collection_name);
+
+	return text;
+}
+
 static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 									gint page_nr, gpointer data)
 {
@@ -545,8 +588,10 @@ static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 	gdouble pango_page_height;
 	GtkTextIter start, end;
 	gchar *tmp;
+	gint total;
 
 	fd = g_list_nth_data(pw->source_selection, page_nr);
+	total = g_list_length(pw->source_selection);
 
 	pixbuf = g_list_nth_data(pw->print_pixbuf_queue, page_nr);
 	if (fd->exif_orientation != EXIF_ORIENTATION_TOP_LEFT)
@@ -560,36 +605,7 @@ static void draw_page(GtkPrintOperation *operation, GtkPrintContext *context,
 
 	if (options->printer.show_image_text)
 		{
-		if (pw->text_fields & TEXT_INFO_FILENAME)
-			{
-			image_text = g_string_append(image_text, g_strdup(fd->name));
-			image_text = g_string_append(image_text, "\n");
-			}
-		if (pw->text_fields & TEXT_INFO_FILEDATE)
-			{
-			image_text = g_string_append(image_text, g_strdup(text_from_time(fd->date)));
-			image_text = g_string_append(image_text, "\n");
-			}
-		if (pw->text_fields & TEXT_INFO_FILESIZE)
-			{
-			image_text = g_string_append(image_text, g_strdup(text_from_size(fd->size)));
-			image_text = g_string_append(image_text, "\n");
-			}
-		if (pw->text_fields & TEXT_INFO_DIMENSIONS)
-			{
-			g_string_append_printf(image_text, "%d x %d", (gint)pixbuf_image_width,
-												(gint)pixbuf_image_height);
-			image_text = g_string_append(image_text, "\n");
-			}
-		if (pw->text_fields & TEXT_INFO_FILEPATH)
-			{
-			image_text = g_string_append(image_text, g_strdup(fd->path));
-			image_text = g_string_append(image_text, "\n");
-			}
-		if (image_text->len > 0)
-			{
-			image_text = g_string_truncate(image_text, image_text->len - 1);
-			}
+		image_text = g_string_append(image_text, form_image_text(options->printer.template_string, fd, pw, page_nr, total));
 		}
 
 	if (options->printer.show_page_text)
@@ -789,8 +805,6 @@ static void print_pref_store(PrintWindow *pw)
 	gchar *tmp;
 	GtkTextIter start, end;
 
-	options->printer.text_fields = pw->text_fields;
-
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(pw->page_text), &start, &end);
 	tmp = gtk_text_buffer_get_text(GTK_TEXT_BUFFER(pw->page_text), &start, &end, FALSE);
 	g_free(options->printer.page_text);
@@ -867,12 +881,13 @@ void print_window_new(FileData *fd, GList *selection, GList *list, GtkWidget *pa
 	pw = g_new0(PrintWindow, 1);
 
 	pw->source_selection = file_data_process_groups_in_selection(selection, FALSE, NULL);
-	pw->text_fields = options->printer.text_fields;
 
 	if (print_layout_page_count(pw) == 0)
 		{
 		return;
 		}
+
+	pw->parent = parent;
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), PREF_PAD_BORDER);

@@ -39,6 +39,7 @@
 #include "layout_config.h"
 #include "layout_util.h"
 #include "metadata.h"
+#include "osd.h"
 #include "pixbuf_util.h"
 #include "slideshow.h"
 #include "toolbar.h"
@@ -51,8 +52,6 @@
 #include "ui_utildlg.h"
 #include "window.h"
 #include "zonedetect.h"
-
-#include <math.h>
 
 #ifdef HAVE_LCMS
 #ifdef HAVE_LCMS2
@@ -2056,116 +2055,7 @@ static void config_tab_windows(GtkWidget *notebook)
 			      options->fullscreen.disable_saver, &c_options->fullscreen.disable_saver);
 }
 
-/* overlay screen display tab */
-static const gchar *predefined_tags[][2] = {
-	{"%name%",							N_("Name")},
-	{"%path:60%*",						N_("Path")},
-	{"%date%",							N_("Date")},
-	{"%size%",							N_("Size")},
-	{"%zoom%",							N_("Zoom")},
-	{"%dimensions%",					N_("Dimensions")},
-	{"%collection%",					N_("Collection")},
-	{"%number%",						N_("Collection number")},
-	{"%total%",							N_("Collection total")},
-	{"%file.ctime%",					N_("File ctime")},
-	{"%file.mode%",						N_("File mode")},
-	{"%file.owner%",					N_("File owner")},
-	{"%file.group%",					N_("File group")},
-	{"%file.link%",						N_("File link")},
-	{"%file.class%",					N_("File class")},
-	{"%formatted.DateTime%",			N_("Image date")},
-	{"%formatted.DateTimeDigitized%",	N_("Date digitized")},
-	{"%formatted.ShutterSpeed%",		N_("ShutterSpeed")},
-	{"%formatted.Aperture%",			N_("Aperture")},
-	{"%formatted.ExposureBias%",		N_("Exposure bias")},
-	{"%formatted.Resolution%",			N_("Resolution")},
-	{"%formatted.Camera%",				N_("Camera")},
-	{"%formatted.ShutterSpeed%",		N_("Shutter speed")},
-	{"%formatted.ISOSpeedRating%",		N_("ISO")},
-	{"%formatted.FocalLength%",			N_("Focal length")},
-	{"%formatted.FocalLength35mmFilm%",	N_("Focal len. 35mm")},
-	{"%formatted.SubjectDistance%",		N_("Subject distance")},
-	{"%formatted.Flash%",				N_("Flash")},
-	{"%formatted.ColorProfile%",		N_("Color profile")},
-	{"%formatted.GPSPosition%",			N_("Lat, Long")},
-	{"%formatted.GPSAltitude%",			N_("Altitude")},
-	{"%formatted.localtime%",			N_("Local time")},
-	{"%formatted.timezone%",			N_("Timezone")},
-	{"%formatted.countryname%",			N_("Country name")},
-	{"%formatted.countrycode%",			N_("Country code")},
-	{"%formatted.star_rating%",			N_("Star rating")},
-	{NULL, NULL}};
-
-static GtkTargetEntry osd_drag_types[] = {
-	{ "text/plain", GTK_TARGET_SAME_APP, TARGET_TEXT_PLAIN }
-};
-
-typedef struct _TagData TagData;
-struct _TagData
-{
-	gchar *key;
-	gchar *title;
-};
-
-static void tag_button_cb(GtkWidget *widget, gpointer data)
-{
-	GtkTextView *image_overlay_template_view = data;
-	GtkTextBuffer *buffer;
-	TagData *td;
-
-	buffer = gtk_text_view_get_buffer(image_overlay_template_view);
-	td = g_object_get_data(G_OBJECT(widget), "tag_data");
-	gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), td->key, -1);
-
-	gtk_widget_grab_focus(GTK_WIDGET(image_overlay_template_view));
-}
-
-static void osd_dnd_get_cb(GtkWidget *btn, GdkDragContext *context,
-								GtkSelectionData *selection_data, guint info,
-								guint time, gpointer data)
-{
-	TagData *td;
-	GtkTextView *image_overlay_template_view = data;
-
-	td = g_object_get_data(G_OBJECT(btn), "tag_data");
-	gtk_selection_data_set_text(selection_data, td->key, -1);
-
-	gtk_widget_grab_focus(GTK_WIDGET(image_overlay_template_view));
-}
-
-static void osd_btn_destroy_cb(GtkWidget *btn, GdkDragContext *context,
-								GtkSelectionData *selection_data, guint info,
-								guint time, gpointer data)
-{
-	TagData *td;
-
-	td = g_object_get_data(G_OBJECT(btn), "tag_data");
-	g_free(td->key);
-	g_free(td->title);
-}
-
-static void set_osd_button(GtkWidget *widget, const gchar *key, const gchar *title,
-										GtkWidget *image_overlay_template_view)
-{
-	GtkWidget *new_button;
-	TagData *td;
-
-	new_button = pref_button_new(widget, NULL, _(title), TRUE,
-							G_CALLBACK(tag_button_cb), image_overlay_template_view);
-
-	td = g_new0(TagData, 1);
-	td->key = g_strdup(key);
-	td->title = g_strdup(title);
-
-	g_object_set_data(G_OBJECT(new_button), "tag_data", td);
-
-	gtk_drag_source_set(new_button, GDK_BUTTON1_MASK, osd_drag_types, 1, GDK_ACTION_COPY);
-	g_signal_connect(G_OBJECT(new_button), "drag_data_get",
-							G_CALLBACK(osd_dnd_get_cb), image_overlay_template_view);
-	g_signal_connect(G_OBJECT(new_button), "destroy",
-							G_CALLBACK(osd_btn_destroy_cb), new_button);
-}
-
+#define PRE_FORMATTED_COLUMNS 5
 static void config_tab_osd(GtkWidget *notebook)
 {
 	GtkWidget *hbox;
@@ -2175,6 +2065,7 @@ static void config_tab_osd(GtkWidget *notebook)
 	GtkWidget *button;
 	GtkWidget *image_overlay_template_view;
 	GtkWidget *scrolled;
+	GtkWidget *scrolled_pre_formatted;
 	GtkTextBuffer *buffer;
 	GtkWidget *label;
 	GtkWidget *	subgroup;
@@ -2188,33 +2079,13 @@ static void config_tab_osd(GtkWidget *notebook)
 
 	group = pref_group_new(vbox, FALSE, _("Overlay Screen Display"), GTK_ORIENTATION_VERTICAL);
 
-	hbox = gtk_hbox_new(FALSE, 0);
-
-	gtk_box_pack_start(GTK_BOX(group), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
-
-	pref_label_new(hbox, _("To include predefined tags in the template, click a button or drag-and-drop"));
-
 	subgroup = pref_box_new(group, FALSE, GTK_ORIENTATION_VERTICAL, PREF_PAD_GAP);
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(subgroup), hbox, FALSE, FALSE, 0);
-	gtk_widget_show(hbox);
 
-	for (cols = 0; cols < 6; cols++)
-		{
-		vbox_buttons = gtk_vbox_new(FALSE, 0);
-		rows = 0;
-
-		gtk_box_pack_start(GTK_BOX(hbox), vbox_buttons, FALSE, FALSE, 0);
-
-		while (rows < 6 && predefined_tags[i][0])
-			{
-			set_osd_button(vbox_buttons, predefined_tags[i][0], predefined_tags[i][1], image_overlay_template_view);
-			i = i + 1;
-			rows++;
-			}
-		gtk_widget_show(vbox_buttons);
-		}
+	scrolled_pre_formatted = osd_new(PRE_FORMATTED_COLUMNS, image_overlay_template_view);
+	gtk_widget_set_size_request(scrolled_pre_formatted, 200, 150);
+	gtk_box_pack_start(GTK_BOX(subgroup), scrolled_pre_formatted, FALSE, FALSE, 0);
+	gtk_widget_show(scrolled_pre_formatted);
+	gtk_widget_show(subgroup);
 
 	pref_line(group, PREF_PAD_GAP);
 

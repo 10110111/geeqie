@@ -70,6 +70,7 @@ src/menu.c
 src/metadata.c
 src/misc.c
 src/options.c
+src/osd.c
 src/pan-view/pan-calendar.c
 src/pan-view/pan-folder.c
 src/pan-view/pan-grid.c

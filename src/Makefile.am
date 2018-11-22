@@ -220,6 +220,8 @@ geeqie_SOURCES = \
 	misc.h		\
 	options.c	\
 	options.h	\
+	osd.c 	\
+	osd.h	\
 	pan-view.h	\
 	pixbuf-renderer.c	\
 	pixbuf-renderer.h	\
