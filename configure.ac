@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.  -*- Autoconf
  -*-
 
 dnl This file is a part of Geeqie project (http://www.geeqie.org/).
-dnl Copyright (C) 2008 - 2016 The Geeqie Team
+dnl Copyright (C) 2008 - 2018 The Geeqie Team
 dnl
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
