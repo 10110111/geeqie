@@ -6,7 +6,7 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-(test -f $srcdir/configure.in \
+(test -f $srcdir/configure.ac\
   && test -f $srcdir/src/main.c \
   && test -f $srcdir/src/main.h) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
@@ -24,8 +24,8 @@ DIE=0
   DIE=1
 }
 
-(grep "^AM_GLIB_GNU_GETTEXT" $srcdir/configure.in >/dev/null) && {
-  (grep "sed.*POTFILES" $srcdir/configure.in) >/dev/null || \
+(grep "^AM_GLIB_GNU_GETTEXT" $srcdir/configure.ac >/dev/null) && {
+  (grep "sed.*POTFILES" $srcdir/configure.ac) >/dev/null || \
   (glib-gettextize --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have \`glib-gettextize' installed."
@@ -74,13 +74,13 @@ xlc )
   am_opt=--include-deps;;
 esac
 
-auxdir="`sed -ne 's/^[ \t]*A._CONFIG_AUX_DIR *( *\([^ )]*\).*/\1/p' $srcdir/configure.in`"
+auxdir="`sed -ne 's/^[ \t]*A._CONFIG_AUX_DIR *( *\([^ )]*\).*/\1/p' $srcdir/configure.ac`"
 if test -n "$auxdir"; then
   if test ! -d "$srcdir/$auxdir"; then
     mkdir -p "$srcdir/$auxdir"
   fi                                                                            fi
 
-for coin in `find $srcdir -name configure.in -print`
+for coin in `find $srcdir -name configure.ac -print`
 do 
   dr=`dirname $coin`
   if test -f $dr/NO-AUTO-GEN; then
@@ -97,9 +97,9 @@ do
 	##  echo "**Warning**: No such directory \`$k'.  Ignored."
         fi
       done
-      if grep "^AM_GLIB_GNU_GETTEXT" configure.in >/dev/null; then
-	if grep "sed.*POTFILES" configure.in >/dev/null; then
-	  : do nothing -- we still have an old unmodified configure.in
+      if grep "^AM_GLIB_GNU_GETTEXT" configure.ac >/dev/null; then
+	if grep "sed.*POTFILES" configure.ac >/dev/null; then
+	  : do nothing -- we still have an old unmodified configure.ac
 	else
 	  echo "Creating $dr/aclocal.m4 ..."
 	  test -r $dr/aclocal.m4 || touch $dr/aclocal.m4
@@ -117,7 +117,7 @@ do
       fi
       echo "Running aclocal $aclocalinclude ..."
       aclocal $aclocalinclude
-      if grep "^AC_CONFIG_HEADER" configure.in >/dev/null; then
+      if grep "^AC_CONFIG_HEADER" configure.ac >/dev/null; then
 	echo "Running autoheader..."
 	autoheader
       fi
