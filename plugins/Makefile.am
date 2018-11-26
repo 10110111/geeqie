@@ -1,6 +1,6 @@
 
 SUBDIRS = rotate symlink ufraw import geocode-parameters export-jpeg tethered-photography camera-import image-crop
 qq_desktoptemplatedir = $(appdir)
-qq_desktoptemplate_DATA = template.desktop
+qq_desktoptemplate_DATA = template.desktop.in
 
 EXTRA_DIST = $(qq_desktoptemplate_DATA)
