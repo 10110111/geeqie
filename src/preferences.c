@@ -3317,7 +3317,7 @@ static void config_window_create(void)
 	gtk_widget_show(win_vbox);
 
 	notebook = gtk_notebook_new();
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_LEFT);
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), TRUE);
 	gtk_box_pack_start(GTK_BOX(win_vbox), notebook, TRUE, TRUE, 0);
 
