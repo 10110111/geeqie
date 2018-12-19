@@ -248,14 +248,6 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 	gtk_window_set_decorated(GTK_WINDOW(fs->window), FALSE);
 	gtk_container_set_border_width(GTK_CONTAINER(fs->window), 0);
 
-	/* make window fullscreen -- let Gtk do it's job, don't screw it in any way */
-	gtk_window_fullscreen(GTK_WINDOW(fs->window));
-
-	/* move it to requested screen */
-	if (options->fullscreen.screen >= 0) {
-		gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
-	}
-
 	/* keep window above others, if requested */
 	if (options->fullscreen.above) {
 		gtk_window_set_keep_above(GTK_WINDOW(fs->window), TRUE);
@@ -281,6 +273,23 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 			GDK_HINT_WIN_GRAVITY | GDK_HINT_USER_POS | GDK_HINT_USER_SIZE);
 
 	gtk_widget_realize(fs->window);
+#if GTK_CHECK_VERSION(3,8,0)
+	if ((options->fullscreen.screen % 100) == 0)
+		{
+		GdkWindow *gdkwin;
+		gdkwin = gtk_widget_get_window(fs->window);
+		if (gdkwin != NULL)
+			gdk_window_set_fullscreen_mode(gdkwin, GDK_FULLSCREEN_ON_ALL_MONITORS);
+		}
+#endif
+	/* make window fullscreen -- let Gtk do it's job, don't screw it in any way */
+	gtk_window_fullscreen(GTK_WINDOW(fs->window));
+
+	/* move it to requested screen */
+	if (options->fullscreen.screen >= 0)
+		{
+		gtk_window_set_screen(GTK_WINDOW(fs->window), screen);
+		}
 
 	fs->imd = image_new(FALSE);
 
