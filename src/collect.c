@@ -345,7 +345,7 @@ CollectWindow *collection_window_find_by_path(const gchar *path)
  * 
  * Return value must be freed with g_free()
  */
-gchar *collection_path(gchar *param)
+gchar *collection_path(const gchar *param)
 {
 	gchar *path = NULL;
 	gchar *full_name = NULL;
@@ -377,7 +377,7 @@ gchar *collection_path(gchar *param)
  * 
  * 
  */
-gboolean is_collection(gchar *param)
+gboolean is_collection(const gchar *param)
 {
 	gchar *name = NULL;
 
@@ -388,6 +388,41 @@ gboolean is_collection(gchar *param)
 		return TRUE;
 		}
 	return FALSE;
+}
+
+/**
+ * @brief Creates a text list of the image paths of the contents of a Collection
+ * @param[in] name The name of the collection, with or wihout extension
+ * @param[inout] contents A GString to which the image paths are appended
+ * 
+ * 
+ */
+void collection_contents(const gchar *name, GString **contents)
+{
+	gchar *path;
+	CollectionData *cd;
+	CollectInfo *ci;
+	GList *work;
+	FileData *fd;
+
+	if (is_collection(name))
+		{
+		path = collection_path(name);
+		cd = collection_new("");
+		collection_load(cd, path, COLLECTION_LOAD_APPEND);
+		work = cd->list;
+		while (work)
+			{
+			ci = work->data;
+			fd = ci->fd;
+			*contents = g_string_append(*contents, g_strdup(fd->path));
+			*contents = g_string_append(*contents, "\n");
+
+			work = work->next;
+			}
+		g_free(path);
+		collection_free(cd);
+		}
 }
 
 /*

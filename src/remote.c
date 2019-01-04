@@ -24,7 +24,9 @@
 
 #include "cache_maint.h"
 #include "collect.h"
+#include "collect-io.h"
 #include "filedata.h"
+#include "filefilter.h"
 #include "image.h"
 #include "img-view.h"
 #include "layout.h"
@@ -747,14 +749,173 @@ static void gr_render_intent(const gchar *text, GIOChannel *channel, gpointer da
 	g_free(render_intent);
 }
 
+static void get_filelist(const gchar *text, GIOChannel *channel, gboolean recurse)
+{
+	GList *list = NULL;
+	FileFormatClass class;
+	FileData *dir_fd;
+	FileData *fd;
+	GString *out_string = g_string_new(NULL);
+	GList *work;
+
+	if (strcmp(text, "") == 0)
+		{
+		if (layout_valid(&lw_id))
+			{
+			dir_fd = file_data_new_dir(lw_id->dir_fd->path);
+			}
+		else
+			{
+			return;
+			}
+		}
+	else
+		{
+		if (isdir(text))
+			{
+			dir_fd = file_data_new_dir(text);
+			}
+		else
+			{
+			return;
+			}
+		}
+
+	if (recurse)
+		{
+		list = filelist_recursive(dir_fd);
+		}
+	else
+		{
+		filelist_read(dir_fd, &list, NULL);
+		}
+
+	work = list;
+	while (work)
+		{
+		fd = work->data;
+		g_string_append_printf(out_string, "%s", fd->path);
+		class = filter_file_get_class(fd->path);
+
+		switch (class)
+			{
+			case FORMAT_CLASS_IMAGE:
+				out_string = g_string_append(out_string, "    Class: Image");
+				break;
+			case FORMAT_CLASS_RAWIMAGE:
+				out_string = g_string_append(out_string, "    Class: RAW image");
+				break;
+			case FORMAT_CLASS_META:
+				out_string = g_string_append(out_string, "    Class: Metadata");
+				break;
+			case FORMAT_CLASS_VIDEO:
+				out_string = g_string_append(out_string, "    Class: Video");
+				break;
+			case FORMAT_CLASS_COLLECTION:
+				out_string = g_string_append(out_string, "    Class: Collection");
+				break;
+			case FORMAT_CLASS_PDF:
+				out_string = g_string_append(out_string, "    Class: PDF");
+				break;
+			case FORMAT_CLASS_UNKNOWN:
+				out_string = g_string_append(out_string, "    Class: Unknown");
+				break;
+			default:
+				out_string = g_string_append(out_string, "    Class: Unknown");
+				break;
+			}
+		out_string = g_string_append(out_string, "\n");
+		work = work->next;
+		}
+
+	g_io_channel_write_chars(channel, out_string->str, -1, NULL, NULL);
+	g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+	g_string_free(out_string, TRUE);
+	filelist_free(list);
+	file_data_unref(dir_fd);
+}
+
+static void gr_collection(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	GString *contents = g_string_new(NULL);
+
+	if (is_collection(text))
+		{
+		collection_contents(text, &contents);
+		}
+	else
+		{
+		return;
+		}
+
+	g_io_channel_write_chars(channel, contents->str, -1, NULL, NULL);
+	g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+	g_string_free(contents, TRUE);
+}
+
+static void gr_collection_list(const gchar *text, GIOChannel *channel, gpointer data)
+{
+
+	GList *collection_list = NULL;
+	GList *work;
+	GString *out_string = g_string_new(NULL);
+
+	collect_manager_list(&collection_list, NULL, NULL);
+
+	work = collection_list;
+	while (work)
+		{
+		const gchar *collection_name = work->data;
+		out_string = g_string_append(out_string, g_strdup(collection_name));
+		out_string = g_string_append(out_string, "\n");
+
+		work = work->next;
+		}
+
+	g_io_channel_write_chars(channel, out_string->str, -1, NULL, NULL);
+	g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+	string_list_free(collection_list);
+	g_string_free(out_string, TRUE);
+}
+
+
+static void gr_filelist(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	get_filelist(text, channel, FALSE);
+}
+
+static void gr_filelist_recurse(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	get_filelist(text, channel, TRUE);
+}
+
 static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
 {
+	gchar *out_string;
+	gchar *collection_name = NULL;
+
 	if (!layout_valid(&lw_id)) return;
 
 	if (image_get_path(lw_id->image))
 		{
-		g_io_channel_write_chars(channel, image_get_path(lw_id->image), -1, NULL, NULL);
+		if (lw_id->image->collection && lw_id->image->collection->name)
+			{
+			collection_name = remove_extension_from_path(lw_id->image->collection->name);
+			out_string = g_strconcat(image_get_path(lw_id->image), "    Collection: ", collection_name, NULL);
+			}
+		else
+			{
+			out_string = g_strconcat(image_get_path(lw_id->image), NULL);
+			}
+
+		g_io_channel_write_chars(channel, out_string, -1, NULL, NULL);
 		g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+		g_free(collection_name);
+		g_free(out_string);
 		}
 }
 
@@ -936,10 +1097,14 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "--get-destination:",  	gr_get_destination,     TRUE,  FALSE, N_("<FILE>"), N_("get destination path of FILE") },
 	{ NULL, "file:",                gr_file_load,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE, bring Geeqie window to the top") },
 	{ NULL, "File:",                gr_file_load_no_raise,  TRUE,  FALSE, N_("<FILE>"), N_("open FILE, do not bring Geeqie window to the top") },
-	{ NULL, "--tell",               gr_file_tell,           FALSE, FALSE, NULL, N_("print filename of current image") },
+	{ NULL, "--tell",               gr_file_tell,           FALSE, FALSE, NULL, N_("print filename [and Collection] of current image") },
 	{ NULL, "--pixel-info",         gr_pixel_info,          FALSE, FALSE, NULL, N_("print pixel info of mouse pointer on current image") },
 	{ NULL, "--get-rectangle",      gr_rectangle,           FALSE, FALSE, NULL, N_("get rectangle co-ordinates") },
 	{ NULL, "--get-render-intent",  gr_render_intent,       FALSE, FALSE, NULL, N_("get render intent") },
+	{ NULL, "--get-filelist:",      gr_filelist,            TRUE,  FALSE, N_("[<FOLDER>]"), N_("get list of files and class") },
+	{ NULL, "--get-filelist-recurse:", gr_filelist_recurse, TRUE,  FALSE, N_("[<FOLDER>]"), N_("get list of files and class recursive") },
+	{ NULL, "--get-collection:",    gr_collection,          TRUE,  FALSE, N_("<COLLECTION>"), N_("get collection content") },
+	{ NULL, "--get-collection-list", gr_collection_list,    FALSE, FALSE, NULL, N_("get collection list") },
 	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
 	{ NULL, "--list-add:",          gr_list_add,            TRUE,  FALSE, N_("<FILE>"), N_("add FILE to command line collection list") },
