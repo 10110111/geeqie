@@ -623,6 +623,7 @@ AC_CONFIG_FILES([
     plugins/tethered-photography/Makefile
     plugins/camera-import/Makefile
     plugins/image-crop/Makefile
+    plugins/random-image/Makefile
     geeqie.spec
 ])
 
