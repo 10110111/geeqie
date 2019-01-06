@@ -73,6 +73,38 @@ struct _RemoteData {
 	CollectionData *command_collection;
 };
 
+/* Remote commands from main.c are prepended with the current dir the remote
+ * command was made from. Some remote commands require this. The
+ * value is stored here
+ */
+static gchar *pwd = NULL;
+
+/**
+ * @brief Ensures file path is absolute.
+ * @param[in] filename Filepath, absolute or relative to calling directory
+ * @returns absolute path
+ * 
+ * If first character of input filepath is not the directory
+ * separator, assume it as a relative path and prepend
+ * the directory the remote command was initiated from
+ * 
+ * Return value must be freed with g_free()
+ */
+static gchar *set_pwd(gchar *filename)
+{
+	gchar *temp;
+
+	if (strncmp(filename, G_DIR_SEPARATOR_S, 1) != 0)
+		{
+		temp = g_build_filename(pwd, filename, NULL);
+		}
+	else
+		{
+		temp = g_strdup(filename);
+		}
+
+	return temp;
+}
 
 static gboolean remote_server_client_cb(GIOChannel *source, GIOCondition condition, gpointer data)
 {
@@ -614,7 +646,10 @@ static void gr_quit(const gchar *text, GIOChannel *channel, gpointer data)
 
 static void gr_file_load_no_raise(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	gchar *filename = expand_tilde(text);
+	gchar *filename;
+	gchar *tilde_filename = expand_tilde(text);
+
+	filename = set_pwd(tilde_filename);
 
 	if (isfile(filename))
 		{
@@ -638,6 +673,7 @@ static void gr_file_load_no_raise(const gchar *text, GIOChannel *channel, gpoint
 		}
 
 	g_free(filename);
+	g_free(tilde_filename);
 }
 
 static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)
@@ -974,10 +1010,14 @@ static void gr_get_destination(const gchar *text, GIOChannel *channel, gpointer 
 
 static void gr_file_view(const gchar *text, GIOChannel *channel, gpointer data)
 {
-	gchar *filename = expand_tilde(text);
+	gchar *filename;
+	gchar *tilde_filename = expand_tilde(text);
+
+	filename = set_pwd(tilde_filename);
 
 	view_window_new(file_data_new_group(filename));
 	g_free(filename);
+	g_free(tilde_filename);
 }
 
 static void gr_list_clear(const gchar *text, GIOChannel *channel, gpointer data)
@@ -1029,6 +1069,14 @@ static void gr_raise(const gchar *text, GIOChannel *channel, gpointer data)
 		{
 		gtk_window_present(GTK_WINDOW(lw_id->window));
 		}
+}
+
+static void gr_pwd(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	LayoutWindow *lw = NULL;
+
+	g_free(pwd);
+	pwd = g_strdup(text);
 }
 
 #ifdef HAVE_LUA
@@ -1126,6 +1174,7 @@ static RemoteCommandEntry remote_commands[] = {
 #ifdef HAVE_LUA
 	{ NULL, "--lua:",               gr_lua,                 TRUE, FALSE, N_("<FILE>,<lua script>"), N_("run lua script on FILE") },
 #endif
+	{ NULL, "--PWD:",               gr_pwd,                 TRUE, FALSE, N_("<PWD>"), N_("for internal use only") },
 	{ NULL, NULL, NULL, FALSE, FALSE, NULL, NULL }
 };
 

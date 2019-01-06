@@ -222,6 +222,8 @@ static void parse_command_line(gint argc, gchar *argv[])
 	gboolean remote_do = FALSE;
 	gchar *first_dir = NULL;
 	gchar *app_lock;
+	gchar *pwd;
+	gchar *current_dir;
 
 	command_line = g_new0(CommandLine, 1);
 
@@ -442,7 +444,16 @@ static void parse_command_line(gint argc, gchar *argv[])
 			printf_term(TRUE, _("\nUse --remote-help for valid remote options.\n"));
 			}
 
+		/* prepend the current dir the remote command was made from,
+		 * for use by any remote command that needs it
+		 */
+		current_dir = g_get_current_dir();
+		pwd = g_strconcat("--PWD:", current_dir, NULL);
+		remote_list = g_list_prepend(remote_list, pwd);
+
 		remote_control(argv[0], remote_list, command_line->path, list, command_line->collection_list);
+		g_free(pwd);
+		g_free(current_dir);
 		}
 	g_list_free(remote_list);
 
