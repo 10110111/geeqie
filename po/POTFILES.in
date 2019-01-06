@@ -5,7 +5,7 @@ plugins/export-jpeg/export-jpeg.desktop.in
 plugins/tethered-photography/tethered-photography.desktop.in
 plugins/camera-import/camera-import.desktop.in
 plugins/image-crop/image-crop.desktop.in
-plugins/random_image/random_image.desktop.in
+plugins/random-image/random-image.desktop.in
 plugins/rotate/rotate.desktop.in
 plugins/symlink/symlink.desktop.in
 plugins/template.desktop.in
