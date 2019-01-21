@@ -890,7 +890,7 @@ static gchar *exif_build_formatted_countrycode(ExifData *exif)
 
 static gchar *exif_build_formatted_star_rating(ExifData *exif)
 {
-	gint n;
+	gint n = 0;
 
 	exif_get_integer(exif, "Xmp.xmp.Rating", &n);
 

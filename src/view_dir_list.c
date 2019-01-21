@@ -149,7 +149,7 @@ static gboolean vdlist_populate(ViewDir *vd, gboolean clear)
 	FileData *fd;
 	SortType sort_type = SORT_NAME;
 	gboolean sort_ascend = TRUE;
-	gchar *link;
+	gchar *link = NULL;
 
 	old_list = VDLIST(vd)->list;
 
