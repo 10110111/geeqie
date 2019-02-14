@@ -382,6 +382,7 @@ GtkWidget *advanced_exif_new(void)
 	ew = g_new0(ExifWin, 1);
 
 	ew->window = window_new(GTK_WINDOW_TOPLEVEL, "view", NULL, NULL, _("Metadata"));
+	DEBUG_NAME(ew->window);
 
 	geometry.min_width = 900;
 	geometry.min_height = 600;

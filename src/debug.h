@@ -61,6 +61,18 @@ void init_exec_time(void);
 					} \
 				} while (0)
 
+/**
+ * @brief For use with the GTKInspector (>GTK 3.14)
+ *
+ * To simplify finding where objects are declared
+ * Sample command line call:
+ * GTK_DEBUG=interactive src/geeqie
+ */
+#define DEBUG_NAME(widget) do \
+				{ \
+				gtk_widget_set_name(GTK_WIDGET(widget), g_strdup_printf("%s:%d", __FILE__, __LINE__, NULL)); \
+				} while(0)
+
 #else /* DEBUG */
 
 #define get_regexp() (0)
@@ -73,6 +85,8 @@ void init_exec_time(void);
 #define init_exec_time() do { } while(0)
 
 #define DEBUG_N(n, ...)  do { } while(0)
+
+#define DEBUG_NAME(widget) do { } while(0)
 
 #endif /* DEBUG */
 

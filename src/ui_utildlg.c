@@ -402,6 +402,7 @@ static void generic_dialog_setup(GenericDialog *gd,
 	gd->cancel_cb = cancel_cb;
 
 	gd->dialog = window_new(GTK_WINDOW_TOPLEVEL, role, NULL, NULL, title);
+	DEBUG_NAME(gd->dialog);
 	gtk_window_set_type_hint(GTK_WINDOW(gd->dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
 	if (options->save_dialog_window_positions)

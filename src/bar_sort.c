@@ -644,6 +644,7 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 	sd->undo_collection = NULL;
 
 	sd->vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	DEBUG_NAME(sd->vbox);
 	g_object_set_data(G_OBJECT(sd->vbox), "bar_sort_data", sd);
 	g_signal_connect(G_OBJECT(sd->vbox), "destroy",
 			 G_CALLBACK(bar_sort_destroy), sd);
@@ -664,6 +665,7 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 			 G_CALLBACK(bar_sort_mode_cb), sd);
 
 	sd->folder_group = pref_box_new(sd->vbox, FALSE, GTK_ORIENTATION_VERTICAL, 0);
+	DEBUG_NAME(sd->folder_group);
 
 	buttongrp = pref_radiobutton_new(sd->folder_group, NULL,
 					 _("Copy"), (sd->action == BAR_SORT_COPY),
@@ -715,10 +717,12 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 			     G_CALLBACK(bar_sort_set_selection_selected_cb), sd);
 
 	sd->bookmarks = bookmark_list_new(SORT_KEY_FOLDERS, bar_sort_bookmark_select, sd);
+	DEBUG_NAME(sd->bookmarks);
 	gtk_box_pack_start(GTK_BOX(sd->vbox), sd->bookmarks, TRUE, TRUE, 0);
 	gtk_widget_show(sd->bookmarks);
 
 	tbar = pref_toolbar_new(sd->vbox, GTK_TOOLBAR_ICONS);
+	DEBUG_NAME(tbar);
 
 	sd->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL, FALSE,
 					     _("Add Bookmark"),

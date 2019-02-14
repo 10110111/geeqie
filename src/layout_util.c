@@ -2779,7 +2779,9 @@ GtkWidget *layout_actions_menu_tool_bar(LayoutWindow *lw)
 	if (lw->menu_tool_bar) return lw->menu_tool_bar;
 
 	menu_bar = layout_actions_menu_bar(lw);
+	DEBUG_NAME(menu_bar);
 	toolbar = layout_actions_toolbar(lw, TOOLBAR_MAIN);
+	DEBUG_NAME(toolbar);
 	lw->menu_tool_bar = gtk_vbox_new(FALSE, 0);
 
 	gtk_box_pack_start(GTK_BOX(lw->menu_tool_bar), menu_bar, FALSE, FALSE, 0);
@@ -3267,6 +3269,7 @@ static void layout_bar_set_default(LayoutWindow *lw)
 	if (!lw->utility_box) return;
 
 	bar = bar_new(lw);
+	DEBUG_NAME(bar);
 
 	layout_bar_set(lw, bar);
 
@@ -3472,6 +3475,7 @@ GtkWidget *layout_bars_prepare(LayoutWindow *lw, GtkWidget *image)
 	if (lw->utility_box) return lw->utility_box;
 	lw->utility_box = gtk_hbox_new(FALSE, PREF_PAD_GAP);
 	lw->utility_paned = gtk_hpaned_new();
+	DEBUG_NAME(lw->utility_paned);
 	gtk_box_pack_start(GTK_BOX(lw->utility_box), lw->utility_paned, TRUE, TRUE, 0);
 
 	gtk_paned_pack1(GTK_PANED(lw->utility_paned), image, TRUE, FALSE);

@@ -1316,6 +1316,7 @@ CollectWindow *collection_window_new(const gchar *path)
 	cw->cd = collection_new(path);
 
 	cw->window = window_new(GTK_WINDOW_TOPLEVEL, "collection", PIXBUF_INLINE_ICON_BOOK, NULL, NULL);
+	DEBUG_NAME(cw->window);
 
 	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
@@ -1362,6 +1363,7 @@ CollectWindow *collection_window_new(const gchar *path)
 	gtk_widget_show(cw->status_box);
 
 	frame = gtk_frame_new(NULL);
+	DEBUG_NAME(frame);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(cw->status_box), frame, TRUE, TRUE, 0);
 	gtk_widget_show(frame);

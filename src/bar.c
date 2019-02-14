@@ -589,6 +589,7 @@ void bar_add(GtkWidget *bar, GtkWidget *pane)
 	pd->bar = bar;
 
 	expander = gtk_expander_new(NULL);
+	DEBUG_NAME(expander);
 	if (pd && pd->title)
 		{
 		gtk_expander_set_label_widget(GTK_EXPANDER(expander), pd->title);
@@ -686,6 +687,7 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	bd->lw = lw;
 
 	bd->widget = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	DEBUG_NAME(bd->widget);
 	g_object_set_data(G_OBJECT(bd->widget), "bar_data", bd);
 	g_signal_connect(G_OBJECT(bd->widget), "destroy",
 			 G_CALLBACK(bar_destroy), bd);
@@ -699,6 +701,7 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	gtk_widget_set_size_request(bd->widget, bd->width, -1);
 
 	box = gtk_hbox_new(FALSE, 0);
+	DEBUG_NAME(box);
 
 	bd->label_file_name = gtk_label_new("");
 	gtk_label_set_ellipsize(GTK_LABEL(bd->label_file_name), PANGO_ELLIPSIZE_END);
@@ -711,6 +714,7 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	gtk_widget_show(box);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	DEBUG_NAME(scrolled);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start(GTK_BOX(bd->widget), scrolled, TRUE, TRUE, 0);
@@ -722,6 +726,7 @@ GtkWidget *bar_new(LayoutWindow *lw)
 	gtk_viewport_set_shadow_type(GTK_VIEWPORT(gtk_bin_get_child(GTK_BIN(scrolled))), GTK_SHADOW_NONE);
 
 	add_box = gtk_vbox_new(FALSE, 0);
+	DEBUG_NAME(add_box);
 	gtk_box_pack_end(GTK_BOX(bd->widget), add_box, FALSE, FALSE, 0);
 	tbar = pref_toolbar_new(add_box, GTK_TOOLBAR_ICONS);
 	bd->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, NULL, FALSE,

@@ -140,6 +140,7 @@ static LogWindow *log_window_create(LayoutWindow *lw)
 	logwin = g_new0(LogWindow, 1);
 
 	window = window_new(GTK_WINDOW_TOPLEVEL, "log", NULL, NULL, _("Log"));
+	DEBUG_NAME(window);
 	win_vbox = gtk_vbox_new(FALSE, PREF_PAD_SPACE);
 	gtk_container_add(GTK_CONTAINER(window), win_vbox);
 	gtk_widget_show(win_vbox);

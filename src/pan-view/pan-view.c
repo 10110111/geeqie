@@ -1809,6 +1809,7 @@ static void pan_window_new_real(FileData *dir_fd)
 	pw->idle_id = 0;
 
 	pw->window = window_new(GTK_WINDOW_TOPLEVEL, "panview", NULL, NULL, _("Pan View"));
+	DEBUG_NAME(pw->window);
 
 	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
@@ -1818,6 +1819,7 @@ static void pan_window_new_real(FileData *dir_fd)
 	gtk_container_set_border_width(GTK_CONTAINER(pw->window), 0);
 
 	vbox = gtk_vbox_new(FALSE, 0);
+	DEBUG_NAME(vbox);
 	gtk_container_add(GTK_CONTAINER(pw->window), vbox);
 	gtk_widget_show(vbox);
 
@@ -1909,6 +1911,7 @@ static void pan_window_new_real(FileData *dir_fd)
 	box = pref_box_new(vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, 0);
 
 	frame = gtk_frame_new(NULL);
+	DEBUG_NAME(frame);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 	gtk_widget_set_size_request(frame, ZOOM_LABEL_WIDTH, -1);
 	gtk_box_pack_start(GTK_BOX(box), frame, TRUE, TRUE, 0);
@@ -1922,6 +1925,7 @@ static void pan_window_new_real(FileData *dir_fd)
 	pw->label_message = pref_label_new(hbox, "");
 
 	frame = gtk_frame_new(NULL);
+	DEBUG_NAME(frame);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 	gtk_widget_set_size_request(frame, ZOOM_LABEL_WIDTH, -1);
 	gtk_box_pack_end(GTK_BOX(box), frame, FALSE, FALSE, 0);

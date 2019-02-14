@@ -3147,6 +3147,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 		}
 
 	sd->window = window_new(GTK_WINDOW_TOPLEVEL, "search", NULL, NULL, _("Image search"));
+	DEBUG_NAME(sd->window);
 
 	gtk_window_set_resizable(GTK_WINDOW(sd->window), TRUE);
 
@@ -3473,6 +3474,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 					      G_CALLBACK(search_thumb_toggle_cb), sd);
 
 	frame = gtk_frame_new(NULL);
+	DEBUG_NAME(frame);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(hbox), frame, TRUE, TRUE, PREF_PAD_SPACE);
 	gtk_widget_show(frame);

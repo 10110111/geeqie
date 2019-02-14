@@ -207,6 +207,7 @@ GtkWidget *help_window_new(const gchar *title,
 	/* window */
 
 	window = window_new(GTK_WINDOW_TOPLEVEL, subclass, NULL, NULL, title);
+	DEBUG_NAME(window);
 	gtk_window_set_resizable(GTK_WINDOW(window), TRUE);
 	gtk_window_set_default_size(GTK_WINDOW(window), HELP_WINDOW_WIDTH, HELP_WINDOW_HEIGHT);
 

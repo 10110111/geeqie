@@ -3278,6 +3278,7 @@ DupeWindow *dupe_window_new()
 	if (options->duplicates_match == DUPE_MATCH_NAME_CI) dw->match_mask = DUPE_MATCH_NAME_CI;
 
 	dw->window = window_new(GTK_WINDOW_TOPLEVEL, "dupe", NULL, NULL, _("Find duplicates"));
+	DEBUG_NAME(dw->window);
 
 	geometry.min_width = DEFAULT_MINIMAL_WINDOW_SIZE;
 	geometry.min_height = DEFAULT_MINIMAL_WINDOW_SIZE;
@@ -3408,6 +3409,7 @@ DupeWindow *dupe_window_new()
 	gtk_widget_show(status_box);
 
 	frame = gtk_frame_new(NULL);
+	DEBUG_NAME(frame);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(status_box), frame, TRUE, TRUE, 0);
 	gtk_widget_show(frame);

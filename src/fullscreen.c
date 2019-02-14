@@ -240,6 +240,7 @@ FullScreenData *fullscreen_start(GtkWidget *window, ImageWindow *imd,
 				      &screen, &fs->same_region);
 
 	fs->window = window_new(GTK_WINDOW_TOPLEVEL, "fullscreen", NULL, NULL, _("Full screen"));
+	DEBUG_NAME(fs->window);
 
 	g_signal_connect(G_OBJECT(fs->window), "delete_event",
 			 G_CALLBACK(fullscreen_delete_cb), fs);
@@ -655,6 +656,7 @@ GtkWidget *fullscreen_prefs_selection_new(const gchar *text, gint *screen_value,
 	if (!screen_value) return NULL;
 
 	vbox = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	DEBUG_NAME(vbox);
 	hbox = pref_box_new(vbox, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	if (text) pref_label_new(hbox, text);
 

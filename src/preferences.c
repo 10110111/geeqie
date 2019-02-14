@@ -3305,6 +3305,7 @@ static void config_window_create(void)
 	if (!c_options) c_options = init_options(NULL);
 
 	configwindow = window_new(GTK_WINDOW_TOPLEVEL, "preferences", PIXBUF_INLINE_ICON_CONFIG, NULL, _("Preferences"));
+	DEBUG_NAME(configwindow);
 	gtk_window_set_type_hint(GTK_WINDOW(configwindow), GDK_WINDOW_TYPE_HINT_DIALOG);
 	g_signal_connect(G_OBJECT(configwindow), "delete_event",
 			 G_CALLBACK(config_window_delete), NULL);

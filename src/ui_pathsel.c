@@ -1068,6 +1068,7 @@ GtkWidget *path_selection_new_with_files(GtkWidget *entry, const gchar *path,
 	if (filter)
 		{
 		paned = gtk_hpaned_new();
+		DEBUG_NAME(paned);
 		gtk_table_attach(GTK_TABLE(table), paned, 0, 3, 1, 2,
 				 GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 		gtk_widget_show(paned);

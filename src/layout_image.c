@@ -2182,9 +2182,15 @@ GtkWidget *layout_image_setup_split_hv(LayoutWindow *lw, gboolean horizontal)
 
 	/* horizontal split means vpaned and vice versa */
 	if (horizontal)
+		{
 		paned = gtk_vpaned_new();
+		DEBUG_NAME(paned);
+		}
 	else
+		{
 		paned = gtk_hpaned_new();
+		DEBUG_NAME(paned);
+		}
 
 	gtk_paned_pack1(GTK_PANED(paned), lw->split_images[0]->widget, TRUE, TRUE);
 	gtk_paned_pack2(GTK_PANED(paned), lw->split_images[1]->widget, TRUE, TRUE);
@@ -2210,8 +2216,11 @@ GtkWidget *layout_image_setup_split_quad(LayoutWindow *lw)
 	layout_image_setup_split_common(lw, 4);
 
 	hpaned = gtk_hpaned_new();
+	DEBUG_NAME(hpaned);
 	vpaned1 = gtk_vpaned_new();
+	DEBUG_NAME(vpaned1);
 	vpaned2 = gtk_vpaned_new();
+	DEBUG_NAME(vpaned2);
 
 	gtk_paned_pack1(GTK_PANED(vpaned1), lw->split_images[0]->widget, TRUE, TRUE);
 	gtk_paned_pack2(GTK_PANED(vpaned1), lw->split_images[2]->widget, TRUE, TRUE);

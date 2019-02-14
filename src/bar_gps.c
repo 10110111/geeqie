@@ -934,6 +934,7 @@ GtkWidget *bar_pane_gps_new(const gchar *id, const gchar *title, const gchar *ma
 	pgd->height = height;
 
 	frame = gtk_frame_new(NULL);
+	DEBUG_NAME(frame);
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
 	gpswidget = gtk_champlain_embed_new();

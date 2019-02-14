@@ -2098,6 +2098,7 @@ void image_set_frame(ImageWindow *imd, gboolean frame)
 	if (frame)
 		{
 		imd->frame = gtk_frame_new(NULL);
+		DEBUG_NAME(imd->frame);
         	g_object_ref(imd->pr);
 		if (imd->has_frame != -1) gtk_container_remove(GTK_CONTAINER(imd->widget), imd->pr);
 		gtk_container_add(GTK_CONTAINER(imd->frame), imd->pr);
@@ -2152,10 +2153,12 @@ ImageWindow *image_new(gboolean frame)
 	imd->orientation = 1;
 
 	imd->pr = GTK_WIDGET(pixbuf_renderer_new());
+	DEBUG_NAME(imd->pr);
 
 	image_options_set(imd);
 
 	imd->widget = gtk_vbox_new(0, 0);
+	DEBUG_NAME(imd->widget);
 
 	image_set_frame(imd, frame);
 

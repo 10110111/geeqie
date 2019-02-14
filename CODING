@@ -9,6 +9,15 @@ log_printf()
 If the first word of the message is "error" or "warning" (case insensitive)
 the message will be color-coded appropriately.
 
+
+GTKInspector:
+
+DEBUG_NAME(widget)
+For use with the GTKInspector to provide a visual indication of where objects are declared.
+
+Sample command line call:
+GTK_DEBUG=interactive src/geeqie
+
 --------------------------------------------------------------------------------
 
 GPL header, in every file, like this:
