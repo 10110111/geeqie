@@ -70,7 +70,7 @@ void init_exec_time(void);
  */
 #define DEBUG_NAME(widget) do \
 				{ \
-				gtk_widget_set_name(GTK_WIDGET(widget), g_strdup_printf("%s:%d", __FILE__, __LINE__, NULL)); \
+				gtk_widget_set_name(GTK_WIDGET(widget), g_strdup_printf("%s:%d", __FILE__, __LINE__)); \
 				} while(0)
 
 #else /* DEBUG */
