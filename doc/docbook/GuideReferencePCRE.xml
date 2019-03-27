@@ -9,6 +9,7 @@
       <listitem>Use "." and not "?" for a single character.</listitem>
       <listitem>Use "abc.*ghk" and not "abc*ghk" for multiple characters</listitem>
       <listitem>Use "\." to represent the dot in a file extension</listitem>
+      <listitem>Use "(?i)" to make the following characters case-insensitive</listitem>
     </itemizedlist>
   </para>
 </section>

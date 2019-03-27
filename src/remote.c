@@ -1174,7 +1174,7 @@ static RemoteCommandEntry remote_commands[] = {
 #ifdef HAVE_LUA
 	{ NULL, "--lua:",               gr_lua,                 TRUE, FALSE, N_("<FILE>,<lua script>"), N_("run lua script on FILE") },
 #endif
-	{ NULL, "--PWD:",               gr_pwd,                 TRUE, FALSE, N_("<PWD>"), N_("for internal use only") },
+	{ NULL, "--PWD:",               gr_pwd,                 TRUE, FALSE, N_("<PWD>"), N_("use PWD as working directory for following commands") },
 	{ NULL, NULL, NULL, FALSE, FALSE, NULL, NULL }
 };
 

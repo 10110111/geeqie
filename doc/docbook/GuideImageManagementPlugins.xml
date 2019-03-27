@@ -34,4 +34,8 @@
     <code>Escape</code>
     , to close the Result dialogue. The Result dialogue can not be closed while a command is still running.
   </para>
+  <para>
+    The supplied standard plugins are described in the
+    <link linkend="GuideReferenceStandardPlugins">Reference section.</link>
+  </para>
 </chapter>

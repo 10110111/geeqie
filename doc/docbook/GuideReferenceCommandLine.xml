@@ -213,13 +213,23 @@
           </row>
           <row>
             <entry />
+            <entry>--file:&lt;file&gt;</entry>
+            <entry>Open  &lt;file&gt; and bring Geeqie window to the top</entry>
+          </row>
+          <row>
+            <entry />
             <entry>File:&lt;file&gt;</entry>
             <entry>Open  &lt;file&gt; and do not bring Geeqie window to the top</entry>
           </row>
           <row>
             <entry />
+            <entry>--File:&lt;file&gt;</entry>
+            <entry>Open  &lt;file&gt; and do not bring Geeqie window to the top</entry>
+          </row>
+          <row>
+            <entry />
             <entry>--tell</entry>
-            <entry>Print filename of current image</entry>
+            <entry>Print filename [and Collection] of current image</entry>
           </row>
           <row>
             <entry />
@@ -229,6 +239,11 @@
           <row>
             <entry />
             <entry>view:&lt;file&gt;</entry>
+            <entry>Open new window containing &lt;file&gt;</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--view:&lt;file&gt;</entry>
             <entry>Open new window containing &lt;file&gt;</entry>
           </row>
           <row>
@@ -244,6 +259,11 @@
           <row>
             <entry />
             <entry>raise</entry>
+            <entry>Bring the geeqie window to the top</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--raise</entry>
             <entry>Bring the geeqie window to the top</entry>
           </row>
           <row>
@@ -310,6 +330,11 @@
             <entry />
             <entry>--lua:&lt;file&gt;,&lt;lua script&gt;</entry>
             <entry>run lua script on file</entry>
+          </row>
+          <row>
+            <entry />
+            <entry>--PWD:&lt;PWD&gt;</entry>
+            <entry>Use PWD as working directory for following commands</entry>
           </row>
         </tbody>
       </tgroup>
