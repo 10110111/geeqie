@@ -99,7 +99,11 @@ gchar *pan_date_value_string(time_t d, PanDateLengthType length)
 			format = "%A %e";
 			break;
 		case PAN_DATE_LENGTH_MONTH:
+#if __GLIBC_PREREQ(2, 27)
+			format = "%OB %Y";
+#else
 			format = "%B %Y";
+#endif
 			break;
 		case PAN_DATE_LENGTH_YEAR:
 			return g_strdup_printf("%d", td.tm_year + 1900);
