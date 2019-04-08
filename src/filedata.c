@@ -1633,6 +1633,33 @@ static void filelist_recursive_append(GList **list, GList *dirs)
 		}
 }
 
+static void filelist_recursive_append_full(GList **list, GList *dirs, SortType method, gboolean ascend)
+{
+	GList *work;
+
+	work = dirs;
+	while (work)
+		{
+		FileData *fd = (FileData *)(work->data);
+		GList *f;
+		GList *d;
+
+		if (filelist_read(fd, &f, &d))
+			{
+			f = filelist_filter(f, FALSE);
+			f = filelist_sort_full(f, method, ascend, (GCompareFunc) filelist_sort_file_cb);
+			*list = g_list_concat(*list, f);
+
+			d = filelist_filter(d, TRUE);
+			d = filelist_sort_path(d);
+			filelist_recursive_append_full(list, d, method, ascend);
+			filelist_free(d);
+			}
+
+		work = work->next;
+		}
+}
+
 GList *filelist_recursive(FileData *dir_fd)
 {
 	GList *list;
@@ -1645,6 +1672,23 @@ GList *filelist_recursive(FileData *dir_fd)
 	d = filelist_filter(d, TRUE);
 	d = filelist_sort_path(d);
 	filelist_recursive_append(&list, d);
+	filelist_free(d);
+
+	return list;
+}
+
+GList *filelist_recursive_full(FileData *dir_fd, SortType method, gboolean ascend)
+{
+	GList *list;
+	GList *d;
+
+	if (!filelist_read(dir_fd, &list, &d)) return NULL;
+	list = filelist_filter(list, FALSE);
+	list = filelist_sort_full(list, method, ascend, (GCompareFunc) filelist_sort_file_cb);
+
+	d = filelist_filter(d, TRUE);
+	d = filelist_sort_path(d);
+	filelist_recursive_append_full(&list, d, method, ascend);
 	filelist_free(d);
 
 	return list;

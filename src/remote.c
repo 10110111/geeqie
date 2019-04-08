@@ -495,7 +495,9 @@ static void gr_slideshow_start_rec(const gchar *text, GIOChannel *channel, gpoin
 {
 	GList *list;
 	FileData *dir_fd = file_data_new_dir(text);
-	list = filelist_recursive(dir_fd);
+
+	layout_valid(&lw_id);
+	list = filelist_recursive_full(dir_fd, lw_id->sort_method, lw_id->sort_ascend);
 	file_data_unref(dir_fd);
 	if (!list) return;
 //printf("length: %d\n", g_list_length(list));
