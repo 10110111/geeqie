@@ -364,7 +364,7 @@ public:
 			Exiv2::Image *image = imageData_->image();
 
 #ifdef HAVE_EXIV2_ERROR_CODE
-			if (!image) throw Exiv2::Error(Exiv2::ErrorCode::kerInputDataReadFailed);
+			if (!image) throw Exiv2::Error(Exiv2::kerInputDataReadFailed);
 #else
 			if (!image) throw Exiv2::Error(21);
 #endif
@@ -388,7 +388,7 @@ public:
 			sidecar->writeMetadata();
 #else
 #ifdef HAVE_EXIV2_ERROR_CODE
-			throw Exiv2::Error(Exiv2::ErrorCode::kerNotAnImage, "xmp");
+			throw Exiv2::Error(Exiv2::kerNotAnImage, "xmp");
 #else
 			throw Exiv2::Error(3, "xmp");
 #endif
