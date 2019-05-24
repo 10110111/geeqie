@@ -529,8 +529,15 @@ if test "x${liblua}" != "xno"; then
       AC_DEFINE(HAVE_LUA, 1, [define to enable lua support])
     ],
     [
-      HAVE_LUA=no
-      AC_MSG_WARN([$LUA_PKG_ERRORS])
+      PKG_CHECK_MODULES(LUA, lua >= 5.1,
+	 [
+	   HAVE_LUA=yes
+	   AC_DEFINE(HAVE_LUA, 1, [define to enable lua support])
+	 ],
+	 [
+	    HAVE_LUA=no
+	    AC_MSG_WARN([$LUA_PKG_ERRORS])
+	 ])
     ])
 else
   HAVE_LUA=disabled
