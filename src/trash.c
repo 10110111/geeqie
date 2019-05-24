@@ -133,7 +133,17 @@ gboolean file_util_safe_unlink(const gchar *path)
 
 	if (!isfile(path)) return FALSE;
 
-	if (!options->file_ops.use_system_trash)
+	if (options->file_ops.no_trash)
+		{
+		if (!unlink_file(path))
+			{
+			file_util_warning_dialog(_("Delete failed"),
+						 _("Unable to remove file"),
+						 GTK_STOCK_DIALOG_WARNING, NULL);
+			success = FALSE;
+			}
+		}
+	else if (!options->file_ops.use_system_trash)
 		{
 		if (!isdir(options->file_ops.safe_delete_path))
 			{
@@ -195,25 +205,26 @@ gchar *file_util_safe_delete_status(void)
 		{
 		buf = g_strdup(_("Deletion by external command"));
 		}
-	else
+	else if (options->file_ops.no_trash)
 		{
-		if (options->file_ops.safe_delete_enable)
+		buf = g_strdup(_("Deleting without trash"));
+		}
+	else if (options->file_ops.safe_delete_enable)
+		{
+		if (!options->file_ops.use_system_trash)
 			{
-			if (!options->file_ops.use_system_trash)
-				{
-				gchar *buf2;
-				if (options->file_ops.safe_delete_folder_maxsize > 0)
-					buf2 = g_strdup_printf(_(" (max. %d MB)"), options->file_ops.safe_delete_folder_maxsize);
-				else
-					buf2 = g_strdup("");
-
-				buf = g_strdup_printf(_("Using Geeqie Trash bin\n%s"), buf2);
-				g_free(buf2);
-				}
+			gchar *buf2;
+			if (options->file_ops.safe_delete_folder_maxsize > 0)
+				buf2 = g_strdup_printf(_(" (max. %d MB)"), options->file_ops.safe_delete_folder_maxsize);
 			else
-				{
-				buf = g_strdup(_("Using system Trash bin"));
-				}
+				buf2 = g_strdup("");
+
+			buf = g_strdup_printf(_("Using Geeqie Trash bin\n%s"), buf2);
+			g_free(buf2);
+			}
+		else
+			{
+			buf = g_strdup(_("Using system Trash bin"));
 			}
 		}
 

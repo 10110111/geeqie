@@ -101,6 +101,7 @@ struct _ConfOptions
 		gboolean use_system_trash;
 		gchar *safe_delete_path;
 		gint safe_delete_folder_maxsize;
+		gboolean no_trash;
 	} file_ops;
 
 	/* image */

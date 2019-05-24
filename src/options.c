@@ -72,6 +72,7 @@ ConfOptions *init_options(ConfOptions *options)
 	options->file_ops.safe_delete_enable = TRUE;
 	options->file_ops.safe_delete_folder_maxsize = 128;
 	options->file_ops.safe_delete_path = NULL;
+	options->file_ops.no_trash = FALSE;
 
 	options->file_sort.ascending = TRUE;
 	options->file_sort.case_sensitive = FALSE;

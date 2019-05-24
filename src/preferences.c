@@ -262,6 +262,7 @@ static void config_window_apply(void)
 	options->file_ops.enable_delete_key = c_options->file_ops.enable_delete_key;
 	options->file_ops.confirm_move_to_trash = c_options->file_ops.confirm_move_to_trash;
 	options->file_ops.use_system_trash = c_options->file_ops.use_system_trash;
+	options->file_ops.no_trash = c_options->file_ops.no_trash;
 	options->file_ops.safe_delete_folder_maxsize = c_options->file_ops.safe_delete_folder_maxsize;
 	options->tools_restore_state = c_options->tools_restore_state;
 	options->save_window_positions = c_options->save_window_positions;
@@ -2951,6 +2952,7 @@ static void use_geeqie_trash_cb(GtkWidget *widget, gpointer data)
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		{
 		c_options->file_ops.use_system_trash = FALSE;
+		c_options->file_ops.no_trash = FALSE;
 		}
 }
 
@@ -2959,6 +2961,15 @@ static void use_system_trash_cb(GtkWidget *widget, gpointer data)
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
 		{
 		c_options->file_ops.use_system_trash = TRUE;
+		c_options->file_ops.no_trash = FALSE;
+		}
+}
+
+static void use_no_cache_cb(GtkWidget *widget, gpointer data)
+{
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+		{
+		c_options->file_ops.no_trash = TRUE;
 		}
 }
 
@@ -2988,7 +2999,7 @@ static void config_tab_behavior(GtkWidget *notebook)
 			      options->file_ops.enable_delete_key, &c_options->file_ops.enable_delete_key);
 
 	ct_button = pref_radiobutton_new(group, NULL, _("Use Geeqie trash location"),
-					!options->file_ops.use_system_trash, G_CALLBACK(use_geeqie_trash_cb),NULL);
+					!options->file_ops.use_system_trash && !options->file_ops.no_trash, G_CALLBACK(use_geeqie_trash_cb),NULL);
 
 	hbox = pref_box_new(group, FALSE, GTK_ORIENTATION_HORIZONTAL, PREF_PAD_SPACE);
 	pref_checkbox_link_sensitivity(ct_button, hbox);
@@ -3017,7 +3028,11 @@ static void config_tab_behavior(GtkWidget *notebook)
 				 G_CALLBACK(safe_delete_clear_cb), NULL);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	pref_radiobutton_new(group, ct_button, _("Use system Trash bin"),
-					options->file_ops.use_system_trash, G_CALLBACK(use_system_trash_cb), NULL);
+					options->file_ops.use_system_trash && !options->file_ops.no_trash, G_CALLBACK(use_system_trash_cb), NULL);
+
+	pref_radiobutton_new(group, ct_button, _("Use no trash at all"),
+			options->file_ops.no_trash, G_CALLBACK(use_no_cache_cb), NULL);
+
 	gtk_widget_show(button);
 
 	pref_spacer(group, PREF_PAD_GROUP);
