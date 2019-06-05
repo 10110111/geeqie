@@ -58,6 +58,13 @@
   <section id="Cameraimport">
     <title>Camera import</title>
     <para>Imports images from an attached camera to the current folder. If a file with the same name already exists it will not be overwritten, and the new image will not be downloaded.</para>
+    <para>File names on digital cameras are not necessarily unique. In some cases the same file name can exist in more than one sub-folder on the camera. As existing images will not be overwritten, subsequent files of the same name will not be downloaded. In this case a dialog will be shown to warn you of this.</para>
+    <para>
+      You may use the gphoto2 option
+      <code>--filename</code>
+      option to ensure that all filenames are unique when downloading. Refer to the
+      <ulink url="http://www.gphoto.org/doc/manual/ref-gphoto2-cli.html">gphoto2 documentation.</ulink>
+    </para>
     <para>
       This item is displayed in the
       <emphasis role="strong">Plugins</emphasis>

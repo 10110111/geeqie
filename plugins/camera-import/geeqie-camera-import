@@ -113,6 +113,17 @@ fi
 ls -1 | sort > $dest_files_sorted
 existing_file_count=$(comm -12 $src_files_sorted $dest_files_sorted | wc -l)
 
+repeated=$(uniq --repeated $src_files_sorted)
+if [ ! -z "$repeated" ]
+then
+	repeated="Warning: The following source filenames are not unique.\nSome files may not be downloaded.\nSee the Help file.\n\n$repeated"
+	zenity --question --text="$repeated" --title="Geeqie camera import" --cancel-label="OK" --ok-label="Cancel" --width=400 --window-icon=/usr/local/share/pixmaps/geeqie.png 2>/dev/null
+	if [[ $? == 0 ]]
+	then
+		exit 1
+	fi
+fi
+
 total=$(cat $src_files_sorted | wc -l)
 files_to_load=$(( $total - $existing_file_count ))
 
