@@ -25,6 +25,10 @@
             <entry>Filename of the picture</entry>
           </row>
           <row>
+            <entry>path</entry>
+            <entry>Full path, including filename, of the picture</entry>
+          </row>
+          <row>
             <entry>collection</entry>
             <entry>Name of the collection</entry>
           </row>
