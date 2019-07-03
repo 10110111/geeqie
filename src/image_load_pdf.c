@@ -41,9 +41,7 @@ struct _ImageLoaderPDF {
 static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize count, GError **error)
 {
 	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
-	ImageLoader *il = ld->data;
-	GError *poppler_error;
-	gchar *uri;
+	GError *poppler_error = NULL;
 	PopplerPage *page;
 	PopplerDocument *document;
 	gint page_num;
@@ -52,15 +50,16 @@ static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize 
 	cairo_t *cr;
 	gboolean ret = FALSE;
 
-	uri = g_filename_to_uri(il->fd->path, NULL, &poppler_error);
-	if (uri == NULL)
+	page_num = 0;
+	document = poppler_document_new_from_data((gchar *)buf, count, NULL, &poppler_error);
+
+	if (poppler_error)
 		{
 		log_printf("warning: pdf reader error: %s\n", poppler_error->message);
+		g_error_free(poppler_error);
 		}
 	else
 		{
-		page_num = 0;
-		document = poppler_document_new_from_file(uri, NULL, &poppler_error);
 		page = poppler_document_get_page(document, page_num);
 		poppler_page_get_size(page, &width, &height);
 
@@ -73,11 +72,11 @@ static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize 
 
 		cairo_destroy (cr);
 		cairo_surface_destroy(surface);
-		g_free(uri);
 		g_object_unref(page);
-		g_object_unref(document);
 		ret = TRUE;
 		}
+
+	g_object_unref(document);
 
 	return ret;
 }
