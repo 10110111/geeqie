@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2018-10-23"
+version="2019-07-03"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -39,9 +39,9 @@ optional_array=(
 "libffmpegthumbnailer-dev"
 "libtiff (for tiff support)"
 "libtiff-dev"
-"libjpeg (for jpeg support"
+"libjpeg (for jpeg support)"
 "libjpeg-dev"
-"librsvg2 (for viewing .svg images"
+"librsvg2 (for viewing .svg images)"
 "librsvg2-common"
 "libwmf (for viewing .wmf images)"
 "libwmf0.2-7-gtk"
@@ -61,6 +61,8 @@ optional_array=(
 "gphoto2"
 "libimage-exiftool-perl (for jpeg extraction plugin)"
 "libimage-exiftool-perl"
+"libheif (for HEIF support)"
+"libheif-dev"
 )
 
 # Optional for GTK3 only

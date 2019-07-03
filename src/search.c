@@ -2185,6 +2185,11 @@ static gboolean search_file_next(SearchData *sd)
 			search_class = FORMAT_CLASS_RAWIMAGE;
 			}
 		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
+						GTK_COMBO_BOX_TEXT(sd->class_type)), _("HEIF")) == 0)
+			{
+			search_class = FORMAT_CLASS_HEIF;
+			}
+		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
 						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Video")) == 0)
 			{
 			search_class = FORMAT_CLASS_VIDEO;
@@ -3369,6 +3374,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	sd->class_type = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Image"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Raw Image"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("HEIF"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Video"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Metadata"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Unknown"));

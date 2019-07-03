@@ -146,6 +146,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_FLIP,	icon_flip },
 	{ PIXBUF_INLINE_ICON_ORIGINAL,	icon_original },
 	{ PIXBUF_INLINE_ICON_TRASH,	icon_trash },
+	{ PIXBUF_INLINE_ICON_HEIF,	icon_heic },
 	{ NULL, NULL }
 };
 
@@ -295,6 +296,9 @@ GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_he
 			break;
 		case FORMAT_CLASS_PDF:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_ICON_PDF);
+			break;
+		case FORMAT_CLASS_HEIF:
+			pixbuf = pixbuf_inline(PIXBUF_INLINE_ICON_HEIF);
 			break;
 		default:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);

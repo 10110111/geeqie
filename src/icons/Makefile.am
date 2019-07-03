@@ -47,7 +47,8 @@ ICONS_INLINE = \
 	icon_mirror.png \
 	icon_flip.png \
 	icon_original.png \
-	icon_trash.png
+	icon_trash.png \
+	icon_heic.png
 
 ICONS_INLINE_PAIRS = \
 	folder_closed		$(srcdir)/folder_closed.png	\
@@ -93,7 +94,8 @@ ICONS_INLINE_PAIRS = \
 	icon_mirror	$(srcdir)/icon_mirror.png \
 	icon_flip	$(srcdir)/icon_flip.png \
 	icon_original	$(srcdir)/icon_original.png \
-	icon_trash	$(srcdir)/icon_trash.png
+	icon_trash	$(srcdir)/icon_trash.png \
+	icon_heic	$(srcdir)/icon_heic.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
 	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \

@@ -576,6 +576,31 @@ AM_CONDITIONAL(HAVE_PDF, [test "x$HAVE_PDF" = xyes])
 AC_SUBST(PDF_CFLAGS)
 AC_SUBST(PDF_LIBS)
 
+#  Heif support
+# ----------------------------------------------------------------------
+
+AC_ARG_ENABLE([heif],
+  AC_HELP_STRING([--disable-heif], [disable heif support]),
+    [libheif=$enableval], [libheif=auto])
+
+if test "x${libheif}" != "xno"; then
+  PKG_CHECK_MODULES(HEIF, libheif >= 1.3.2,
+    [
+      HAVE_HEIF=yes
+      AC_DEFINE(HAVE_HEIF, 1, [define to enable heif support])
+    ],
+    [
+      HAVE_HEIF=no
+      AC_MSG_WARN([$HEIF_PKG_ERRORS])
+    ])
+else
+    HAVE_HEIF=disabled
+fi
+
+AM_CONDITIONAL(HAVE_HEIF, [test "x$HAVE_HEIF" = xyes])
+AC_SUBST(HEIF_CFLAGS)
+AC_SUBST(HEIF_LIBS)
+
 #  Markdown support
 # ----------------------------------------------------------------------
 
@@ -681,6 +706,7 @@ Support:
   Lua:	         $HAVE_LUA
   FFmpegthumbnailer:	$HAVE_FFMPEGTHUMBNAILER
   Pdf:	         $HAVE_PDF
+  Heif:	         $HAVE_HEIF
 
 Documentation:
   Doxygen:       $DX_DOXYGEN

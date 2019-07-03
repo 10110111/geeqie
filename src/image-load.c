@@ -26,6 +26,7 @@
 #include "image_load_tiff.h"
 #include "image_load_dds.h"
 #include "image_load_pdf.h"
+#include "image_load_heif.h"
 #include "image_load_ffmpegthumbnailer.h"
 #include "image_load_collection.h"
 
@@ -624,6 +625,14 @@ static void image_loader_setup_loader(ImageLoader *il)
 		{
 		DEBUG_1("Using custom pdf loader");
 		image_loader_backend_set_pdf(&il->backend);
+		}
+	else
+#endif
+#ifdef HAVE_HEIF
+	if (il->fd->format_class == FORMAT_CLASS_HEIF)
+		{
+		DEBUG_1("Using custom heif loader");
+		image_loader_backend_set_heif(&il->backend);
 		}
 	else
 #endif

@@ -12,6 +12,7 @@ AM_CFLAGS =				\
 	$(CLUTTER_GTK_CFLAGS)		\
 	$(FFMPEGTHUMBNAILER_CFLAGS)	\
 	$(PDF_CFLAGS)	\
+	$(HEIF_CFLAGS)	\
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -27,6 +28,7 @@ AM_CXXFLAGS =				\
 	$(CLUTTER_GTK_CFLAGS)		\
 	$(FFMPEGTHUMBNAILER_CFLAGS)	\
 	$(PDF_CFLAGS)	\
+	$(HEIF_CFLAGS)	\
 	-I$(top_srcdir)			\
 	-I$(top_builddir)
 
@@ -187,6 +189,8 @@ geeqie_SOURCES = \
 	image_load_collection.h\
 	image_load_pdf.c\
 	image_load_pdf.h\
+	image_load_heif.c\
+	image_load_heif.h\
 	image_load_ffmpegthumbnailer.c\
 	image_load_ffmpegthumbnailer.h\
 	image-overlay.c	\
@@ -276,7 +280,7 @@ geeqie_SOURCES = \
 	zonedetect.c	\
 	zonedetect.h
 
-geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS) $(CLUTTER_LIBS) $(CLUTTER_GTK_LIBS) $(FFMPEGTHUMBNAILER_LIBS) $(PDF_LIBS)
+geeqie_LDADD = $(GTK_LIBS) $(GLIB_LIBS) $(INTLLIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LCMS_LIBS) $(EXIV2_LIBS) $(LIBCHAMPLAIN_LIBS) $(LIBCHAMPLAIN_GTK_LIBS) $(LUA_LIBS) $(CLUTTER_LIBS) $(CLUTTER_GTK_LIBS) $(FFMPEGTHUMBNAILER_LIBS) $(PDF_LIBS) $(HEIF_LIBS)
 
 EXTRA_DIST = \
 	$(extra_SLIK)
@@ -286,6 +290,3 @@ gq-marshal.h: gq-marshal.list
 
 gq-marshal.c: gq-marshal.list gq-marshal.h
 	(echo "#include \"gq-marshal.h\"" ; $(GLIB_GENMARSHAL) --prefix=gq_marshal $(srcdir)/gq-marshal.list --body ) >$@
-
-
-
