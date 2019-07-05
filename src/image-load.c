@@ -629,7 +629,8 @@ static void image_loader_setup_loader(ImageLoader *il)
 	else
 #endif
 #ifdef HAVE_HEIF
-	if (il->fd->format_class == FORMAT_CLASS_HEIF)
+	if (il->bytes_total >= 10 &&
+	    (memcmp(il->mapped_file + 4, "ftypheic", 8) == 0))
 		{
 		DEBUG_1("Using custom heif loader");
 		image_loader_backend_set_heif(&il->backend);

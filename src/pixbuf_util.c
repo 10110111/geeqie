@@ -297,9 +297,6 @@ GdkPixbuf *pixbuf_fallback(FileData *fd, gint requested_width, gint requested_he
 		case FORMAT_CLASS_PDF:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_ICON_PDF);
 			break;
-		case FORMAT_CLASS_HEIF:
-			pixbuf = pixbuf_inline(PIXBUF_INLINE_ICON_HEIF);
-			break;
 		default:
 			pixbuf = pixbuf_inline(PIXBUF_INLINE_BROKEN);
 		}

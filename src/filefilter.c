@@ -292,7 +292,7 @@ void filter_add_defaults(void)
 	/* other supported formats */
 	filter_add_if_missing("dds", "DirectDraw Surface", ".dds", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
 	filter_add_if_missing("pdf", "Portable Document Format", ".pdf", FORMAT_CLASS_PDF, FALSE, FALSE, TRUE);
-	filter_add_if_missing("HEIF", "HEIF Format", ".heic", FORMAT_CLASS_HEIF, FALSE, FALSE, TRUE);
+	filter_add_if_missing("HEIF", "HEIF Format", ".heic", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
 }
 
 GList *filter_to_list(const gchar *extensions)
@@ -473,7 +473,6 @@ FileFormatClass filter_file_get_class(const gchar *name)
 	if (filter_file_class(name, FORMAT_CLASS_VIDEO)) return FORMAT_CLASS_VIDEO;
 	if (filter_file_class(name, FORMAT_CLASS_COLLECTION)) return FORMAT_CLASS_COLLECTION;
 	if (filter_file_class(name, FORMAT_CLASS_PDF)) return FORMAT_CLASS_PDF;
-	if (filter_file_class(name, FORMAT_CLASS_HEIF)) return FORMAT_CLASS_HEIF;
 	return FORMAT_CLASS_UNKNOWN;
 }
 
