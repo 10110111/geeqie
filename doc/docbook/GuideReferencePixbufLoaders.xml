@@ -11,25 +11,6 @@
     <title>wmf</title>
     <para>libwmf0.2-7-gtk</para>
   </section>
-  <section id="webp">
-    <title>webp</title>
-    <para>
-      <programlisting>https://github.com/aruiz/webp-pixbuf-loader</programlisting>
-    </para>
-    <para>
-      Example installation script:
-      <programlisting>
-        sudo apt-get install libglib2.0-dev libgdk-pixbuf2.0-dev libwebp-dev
-        wget https://github.com/aruiz/webp-pixbuf-loader/archive/master.zip
-        unzip master.zip
-        cd webp-pixbuf-loader-master
-        ./waf configure
-        ./waf build
-        sudo ./waf install
-      </programlisting>
-    </para>
-    <para />
-  </section>
   <section id="xcf">
     <title>xcf</title>
     <para>

@@ -29,6 +29,7 @@
 #include "image_load_heif.h"
 #include "image_load_ffmpegthumbnailer.h"
 #include "image_load_collection.h"
+#include "image_load_webp.h"
 
 #include "exif.h"
 #include "filedata.h"
@@ -634,6 +635,16 @@ static void image_loader_setup_loader(ImageLoader *il)
 		{
 		DEBUG_1("Using custom heif loader");
 		image_loader_backend_set_heif(&il->backend);
+		}
+	else
+#endif
+#ifdef HAVE_WEBP
+	if (il->bytes_total >= 12 &&
+		(memcmp(il->mapped_file, "RIFF", 4) == 0) &&
+		(memcmp(il->mapped_file + 8, "WEBP", 4) == 0))
+		{
+		DEBUG_1("Using custom webp loader");
+		image_loader_backend_set_webp(&il->backend);
 		}
 	else
 #endif

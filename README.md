@@ -70,7 +70,7 @@ Geeqie is a graphics file viewer. Basic features:
     * output: single image, anaglyph, SBS, mirror, SBS half size (3DTV)
 
 *   Viewing raster and vector images, in the following formats:
-3FR, ANI, APM, ARW, BMP, CR2, CRW, CUR, DNG, ERF, GIF, ICNS, ICO, JPE/JPEG/JPG, JPS, KDC, MEF, MPO, MOS, MRW, NEF, ORF, PEF, PTX, PBM/PGM/PNM/PPM, PNG, QIF/QTIF (QuickTime Image Format), RAF, RAW, RW2, SR2, SRF, SVG/SVGZ, TGA/TARGA, TIF/TIFF, WMF, XBM, XPM, HEIF (primary image only). Animated GIFs are supported.
+3FR, ANI, APM, ARW, BMP, CR2, CRW, CUR, DNG, ERF, GIF, ICNS, ICO, JPE/JPEG/JPG, JPS, KDC, MEF, MPO, MOS, MRW, NEF, ORF, PEF, PTX, PBM/PGM/PNM/PPM, PNG, QIF/QTIF (QuickTime Image Format), RAF, RAW, RW2, SR2, SRF, SVG/SVGZ, TGA/TARGA, TIF/TIFF, WMF, XBM, XPM, HEIF (primary image only), WEBP. Animated GIFs are supported.
 
 * Preview and thumbnails of video clips can be displayed. Clips can be run via a defined external program.
 
@@ -259,6 +259,12 @@ And either the ChangeLog file or [Geeqie ChangeLog](http://geeqie.org/cgi-bin/gi
      ufraw
      exiv2
         Additional command-line tools for various operations
+
+    libheif
+        For displaying HEIF images
+
+    libwebp
+        For displaying webp images
 
 ### Code hackers:
 

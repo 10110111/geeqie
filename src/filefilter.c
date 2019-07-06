@@ -293,6 +293,7 @@ void filter_add_defaults(void)
 	filter_add_if_missing("dds", "DirectDraw Surface", ".dds", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
 	filter_add_if_missing("pdf", "Portable Document Format", ".pdf", FORMAT_CLASS_PDF, FALSE, FALSE, TRUE);
 	filter_add_if_missing("HEIF", "HEIF Format", ".heic", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
+	filter_add_if_missing("webp", "WebP Format", ".webp", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
 }
 
 GList *filter_to_list(const gchar *extensions)

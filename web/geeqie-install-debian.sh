@@ -77,8 +77,6 @@ optional_gtk3_array=(
 
 # Optional pixbuf loaders
 optional_loaders_array=(
-".webp WebP images"
-"webp"
 ".psd Photoshop images"
 "psd"
 ".xcf Gimp files"
@@ -205,22 +203,6 @@ install_options()
 	fi
 }
 
-install_webp()
-{
-	rm -rf webp-pixbuf-loader-master
-	package_install libglib2.0-dev libgdk-pixbuf2.0-dev libwebp-dev python-minimal
-	wget https://github.com/aruiz/webp-pixbuf-loader/archive/master.zip
-	unzip master.zip
-	cd webp-pixbuf-loader-master
-	./waf configure
-	./waf build
-	sudo --askpass ./waf install
-	sudo --askpass gdk-pixbuf-query-loaders --update-cache
-	cd -
-	rm -rf webp-pixbuf-loader-master
-	rm master.zip
-}
-
 install_psd()
 {
 	rm -rf gdk-pixbuf-psd
@@ -270,9 +252,6 @@ install_extra_loaders()
 		while [ $# -gt 0 ];
 		do
 			case $1 in
-			"webp" )
-				install_webp
-			;;
 			"psd" )
 				install_psd
 			;;

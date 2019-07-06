@@ -601,6 +601,31 @@ AM_CONDITIONAL(HAVE_HEIF, [test "x$HAVE_HEIF" = xyes])
 AC_SUBST(HEIF_CFLAGS)
 AC_SUBST(HEIF_LIBS)
 
+#  WebP support
+# ----------------------------------------------------------------------
+
+AC_ARG_ENABLE([webp],
+  AC_HELP_STRING([--disable-webp], [disable webp support]),
+    [libwebp=$enableval], [libwebp=auto])
+
+if test "x${libwebp}" != "xno"; then
+  PKG_CHECK_MODULES(WEBP, libwebp >= 0.6.1,
+    [
+      HAVE_WEBP=yes
+      AC_DEFINE(HAVE_WEBP, 1, [define to enable webp support])
+    ],
+    [
+      HAVE_WEBP=no
+      AC_MSG_WARN([$WEBP_PKG_ERRORS])
+    ])
+else
+    HAVE_WEBP=disabled
+fi
+
+AM_CONDITIONAL(HAVE_WEBP, [test "x$HAVE_WEBP" = xyes])
+AC_SUBST(WEBP_CFLAGS)
+AC_SUBST(WEBP_LIBS)
+
 #  Markdown support
 # ----------------------------------------------------------------------
 
@@ -706,7 +731,8 @@ Support:
   Lua:	         $HAVE_LUA
   FFmpegthumbnailer:	$HAVE_FFMPEGTHUMBNAILER
   Pdf:	         $HAVE_PDF
-  Heif:	         $HAVE_HEIF
+  HEIF:	         $HAVE_HEIF
+  WebP:	         $HAVE_WEBP
 
 Documentation:
   Doxygen:       $DX_DOXYGEN
