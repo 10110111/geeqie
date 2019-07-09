@@ -538,6 +538,7 @@ struct _ImageWindow
 	gboolean delay_flip;
 	gint orientation;
 	gboolean desaturate;
+	gboolean overunderexposed;
 	gint user_stereo;
 
 	gboolean mouse_wheel_mode;

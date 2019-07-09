@@ -76,6 +76,7 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gin
 #define PIXBUF_INLINE_ICON_TRASH	"icon_trash"
 #define PIXBUF_INLINE_ICON_HEIF	"icon_heic"
 #define PIXBUF_INLINE_ICON_GRAYSCALE	"icon_grayscale"
+#define PIXBUF_INLINE_ICON_EXPOSURE		"icon_exposure"
 
 #define PIXBUF_INLINE_ICON_CW	"icon_rotate_clockwise"
 #define PIXBUF_INLINE_ICON_CCW	"icon_rotate_counter_clockwise"
@@ -130,6 +131,8 @@ void pixbuf_draw_shadow(GdkPixbuf *pb,
 			guint8 r, guint8 g, guint8 b, guint8 a);
 
 void pixbuf_desaturate_rect(GdkPixbuf *pb,
+			    gint x, gint y, gint w, gint h);
+void pixbuf_highlight_overunderexposed(GdkPixbuf *pb,
 			    gint x, gint y, gint w, gint h);
 
 

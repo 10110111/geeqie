@@ -1359,6 +1359,26 @@
       </varlistentry>
       <varlistentry>
         <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Shift</keycap>
+                <keycap>E</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Over/Under Exposure</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>
+            Toggles highlighting of pixels that are either over or under exposed. This function operates on the displayed pixels. If a raw file is being displayed, the embedded jpeg data is being used. If the image is zoomed, the zoom type affects the results. Two-pass rendering also has some influence.
+            <para />
+            If a pixel has any channel at zero or full-scale, the pixel is displayed in red.
+          </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
           <guimenu>Keywords</guimenu>
         </term>
         <listitem>

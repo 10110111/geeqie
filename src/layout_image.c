@@ -1231,6 +1231,20 @@ gboolean layout_image_get_desaturate(LayoutWindow *lw)
 	return image_get_desaturate(lw->image);
 }
 
+void layout_image_set_overunderexposed(LayoutWindow *lw, gboolean overunderexposed)
+{
+	if (!layout_valid(&lw)) return;
+
+	image_set_overunderexposed(lw->image, overunderexposed);
+}
+
+gboolean layout_image_get_overunderexposed(LayoutWindow *lw)
+{
+	if (!layout_valid(&lw)) return FALSE;
+
+	return image_get_overunderexposed(lw->image);
+}
+
 /* stereo */
 /*
 gint layout_image_stereo_get(LayoutWindow *lw)

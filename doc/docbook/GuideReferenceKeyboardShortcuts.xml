@@ -675,6 +675,16 @@
           </row>
           <row>
             <entry>
+              <code>
+                Shift +
+                <keycap>E</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Toggle highlighting of pixels that are over or under exposed.</entry>
+          </row>
+          <row>
+            <entry>
               <keycap>V</keycap>
             </entry>
             <entry />

@@ -88,6 +88,8 @@ void image_set_scroll_center(ImageWindow *imd, gdouble x, gdouble y);
 void image_alter_orientation(ImageWindow *imd, FileData *fd, AlterType type);
 void image_set_desaturate(ImageWindow *imd, gboolean desaturate);
 gboolean image_get_desaturate(ImageWindow *imd);
+void image_set_overunderexposed(ImageWindow *imd, gboolean overunderexposed);
+gboolean image_get_overunderexposed(ImageWindow *imd);
 
 /* zoom */
 void image_zoom_adjust(ImageWindow *imd, gdouble increment);

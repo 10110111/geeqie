@@ -63,6 +63,8 @@ void layout_image_zoom_set_fill_geometry(LayoutWindow *lw, gboolean vertical, gb
 void layout_image_alter_orientation(LayoutWindow *lw, AlterType type);
 void layout_image_set_desaturate(LayoutWindow *lw, gboolean desaturate);
 gboolean layout_image_get_desaturate(LayoutWindow *lw);
+void layout_image_set_overunderexposed(LayoutWindow *lw, gboolean overunderexposed);
+gboolean layout_image_get_overunderexposed(LayoutWindow *lw);
 
 void layout_image_rating(LayoutWindow *lw, const gchar *rating);
 

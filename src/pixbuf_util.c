@@ -148,6 +148,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_TRASH,	icon_trash },
 	{ PIXBUF_INLINE_ICON_HEIF,	icon_heic },
 	{ PIXBUF_INLINE_ICON_GRAYSCALE,	icon_grayscale },
+	{ PIXBUF_INLINE_ICON_EXPOSURE,	icon_exposure },
 	{ NULL, NULL }
 };
 
@@ -1456,6 +1457,54 @@ void pixbuf_desaturate_rect(GdkPixbuf *pb,
 			*pp = grey;
 			pp++;
 			if (has_alpha) pp++;
+			}
+		}
+}
+
+/*
+ *-----------------------------------------------------------------------------
+ * pixbuf highlight under/over exposure *-----------------------------------------------------------------------------
+ */
+void pixbuf_highlight_overunderexposed(GdkPixbuf *pb, gint x, gint y, gint w, gint h)
+{
+	gboolean has_alpha;
+	gint pw, ph, prs;
+	guchar *p_pix;
+	guchar *pp;
+	gint i, j;
+
+	if (!pb) return;
+
+	pw = gdk_pixbuf_get_width(pb);
+	ph = gdk_pixbuf_get_height(pb);
+
+	if (x < 0 || x + w > pw) return;
+	if (y < 0 || y + h > ph) return;
+
+	has_alpha = gdk_pixbuf_get_has_alpha(pb);
+	prs = gdk_pixbuf_get_rowstride(pb);
+	p_pix = gdk_pixbuf_get_pixels(pb);
+
+	for (i = 0; i < h; i++)
+		{
+		pp = p_pix + (y + i) * prs + (x * (has_alpha ? 4 : 3));
+		for (j = 0; j < w; j++)
+			{
+			if (pp[0] == 255 || pp[1] == 255 || pp[2] == 255 || pp[0] == 0 || pp[1] == 0 || pp[2] == 0)
+				{
+				*pp = 255;
+				pp++;
+				*pp = 0;
+				pp++;
+				*pp = 0;
+				pp++;
+				if (has_alpha) pp++;
+				}
+			else
+				{
+				pp = pp + 3;
+				if (has_alpha) pp++;
+				}
 			}
 		}
 }

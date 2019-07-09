@@ -545,6 +545,13 @@ static void layout_menu_select_rectangle_cb(GtkToggleAction *action, gpointer da
 	options->draw_rectangle = gtk_toggle_action_get_active(action);
 }
 
+static void layout_menu_select_overunderexposed_cb(GtkToggleAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_image_set_overunderexposed(lw, gtk_toggle_action_get_active(action));
+}
+
 static void layout_menu_write_rotate(GtkToggleAction *action, gpointer data, gboolean keep_date)
 {
 	LayoutWindow *lw = data;
@@ -2020,6 +2027,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "Animate",	NULL,	N_("GIF _animation"),		"A",			N_("Toggle GIF animation"),			CB(layout_menu_animate_cb),	 FALSE  },
   { "ExifRotate",	GTK_STOCK_ORIENTATION_PORTRAIT,			N_("_Exif rotate"),  		"<alt>X",		N_("Exif rotate"),			CB(layout_menu_exif_rotate_cb), FALSE },
   { "DrawRectangle",	PIXBUF_INLINE_ICON_DRAW_RECTANGLE,			N_("Draw Rectangle"),  		NULL,		N_("Draw Rectangle"),			CB(layout_menu_select_rectangle_cb), FALSE },
+  { "OverUnderExposed",	PIXBUF_INLINE_ICON_EXPOSURE,	N_("Over/Under Exposed"),  	"<shift>E",		N_("Over/Under Exposed"),		CB(layout_menu_select_overunderexposed_cb), FALSE },
 };
 
 static GtkRadioActionEntry menu_radio_entries[] = {
@@ -2274,6 +2282,7 @@ static const gchar *menu_ui_description =
 "        <menuitem action='HistogramModeLog'/>"
 "        <menuitem action='HistogramModeCycle'/>"
 "      </menu>"
+"      <menuitem action='OverUnderExposed'/>"
 "      <menuitem action='FullScreen'/>"
 "      <placeholder name='ViewSection'/>"
 "      <separator/>"
@@ -3151,6 +3160,9 @@ static void layout_util_sync_views(LayoutWindow *lw)
 
 	action = gtk_action_group_get_action(lw->action_group, "ExifRotate");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->image.exif_rotate_enable);
+
+	action = gtk_action_group_get_action(lw->action_group, "OverUnderExposed");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->overunderexposed);
 
 	action = gtk_action_group_get_action(lw->action_group, "DrawRectangle");
 	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action), options->draw_rectangle);
