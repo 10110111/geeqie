@@ -119,6 +119,7 @@ static const UseableToolbarItems useable_toolbar_items[] = {
 	{"Zoom33",	N_("Zoom1:3"), GTK_STOCK_FILE},
 	{"Zoom25",	N_("Zoom 1:4"), GTK_STOCK_FILE},
 	{"ConnectZoomIn",	N_("Connected Zoom in"), GTK_STOCK_ZOOM_IN},
+	{"Grayscale",	N_("Grayscale"), PIXBUF_INLINE_ICON_GRAYSCALE},
 	{"HideTools",	N_("Hide file list"), PIXBUF_INLINE_ICON_HIDETOOLS},
 	{"SlideShowPause",	N_("Pause slideshow"), GTK_STOCK_MEDIA_PAUSE},
 	{"SlideShowFaster",	N_("Slideshow Faster"), GTK_STOCK_FILE},

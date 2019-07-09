@@ -48,7 +48,8 @@ ICONS_INLINE = \
 	icon_flip.png \
 	icon_original.png \
 	icon_trash.png \
-	icon_heic.png
+	icon_heic.png \
+	icon_grayscale.png
 
 ICONS_INLINE_PAIRS = \
 	folder_closed		$(srcdir)/folder_closed.png	\
@@ -95,7 +96,8 @@ ICONS_INLINE_PAIRS = \
 	icon_flip	$(srcdir)/icon_flip.png \
 	icon_original	$(srcdir)/icon_original.png \
 	icon_trash	$(srcdir)/icon_trash.png \
-	icon_heic	$(srcdir)/icon_heic.png
+	icon_heic	$(srcdir)/icon_heic.png \
+	icon_grayscale	$(srcdir)/icon_grayscale.png
 
 icons_inline.h: $(ICONS_INLINE) Makefile.in
 	@sh -ec "echo '/* Auto generated file, do not edit */'; echo; \

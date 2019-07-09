@@ -147,6 +147,7 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_ORIGINAL,	icon_original },
 	{ PIXBUF_INLINE_ICON_TRASH,	icon_trash },
 	{ PIXBUF_INLINE_ICON_HEIF,	icon_heic },
+	{ PIXBUF_INLINE_ICON_GRAYSCALE,	icon_grayscale },
 	{ NULL, NULL }
 };
 

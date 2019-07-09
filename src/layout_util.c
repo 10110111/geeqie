@@ -2012,7 +2012,7 @@ static GtkToggleActionEntry menu_toggle_entries[] = {
   { "SlideShow",	GTK_STOCK_MEDIA_PLAY,	N_("Toggle _slideshow"),		"S",			N_("Toggle slideshow"),			CB(layout_menu_slideshow_cb),	 FALSE  },
   { "UseColorProfiles",	GTK_STOCK_SELECT_COLOR,	N_("Use _color profiles"), 		NULL,			N_("Use color profiles"), 		CB(layout_color_menu_enable_cb), FALSE},
   { "UseImageProfile",	NULL,			N_("Use profile from _image"),		NULL,			N_("Use profile from image"),		CB(layout_color_menu_use_image_cb), FALSE},
-  { "Grayscale",	NULL,			N_("Toggle _grayscale"),		"<shift>G",		N_("Toggle grayscale"),			CB(layout_menu_alter_desaturate_cb), FALSE},
+  { "Grayscale",	PIXBUF_INLINE_ICON_GRAYSCALE,	N_("Toggle _grayscale"),	"<shift>G",		N_("Toggle grayscale"),		CB(layout_menu_alter_desaturate_cb), FALSE},
   { "ImageOverlay",	NULL,			N_("Image _Overlay"),			NULL,			N_("Image Overlay"),			CB(layout_menu_overlay_cb),	 FALSE },
   { "ImageHistogram",	NULL,			N_("_Show Histogram"),			NULL,			N_("Show Histogram"),			CB(layout_menu_histogram_cb),	 FALSE },
   { "ImageGuidelines",	PIXBUF_INLINE_ICON_GUIDELINES,		N_("_Show Guidelines"),			NULL,		N_("Show Guidelines"),			CB(layout_menu_guidelines_cb),	 FALSE },
