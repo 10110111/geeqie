@@ -42,6 +42,8 @@
 #include "md5-util.h"
 
 #include "filefilter.h"
+#include "layout.h"
+#include "utilops.h"
 #include "secure_save.h"
 
 /*
@@ -988,5 +990,122 @@ gchar *md5_text_from_file_utf8(const gchar *path, const gchar *error_text)
 	return md5_digest_to_text(digest);
 }
 
+/* Download web file
+ */
+typedef struct _WebData WebData;
+struct _WebData
+{
+	GenericDialog *gd;
+	GCancellable *cancellable;
+	LayoutWindow *lw;
 
+	GtkWidget *progress;
+	GFile *tmp_g_file;
+	GFile *web_file;
+};
+
+static void web_file_async_ready_cb(GObject *source_object, GAsyncResult *res, gpointer data)
+{
+	GError *error = NULL;
+	WebData* web = data;
+	gchar *tmp_filename;
+
+	if (!g_cancellable_is_cancelled(web->cancellable))
+		{
+		generic_dialog_close(web->gd);
+		}
+
+	if (g_file_copy_finish(G_FILE(source_object), res, &error))
+		{
+		tmp_filename = g_file_get_parse_name(web->tmp_g_file);
+		g_free(tmp_filename);
+		layout_set_path(web->lw, g_file_get_path(web->tmp_g_file));
+		}
+	else
+		{
+		file_util_warning_dialog(_("Web file download failed"), error->message, GTK_STOCK_DIALOG_ERROR, NULL);
+		}
+
+	g_object_unref(web->tmp_g_file);
+	web->tmp_g_file = NULL;
+	g_object_unref(web->cancellable);
+	g_object_unref(web->web_file);
+}
+
+static void web_file_progress_cb(goffset current_num_bytes, goffset total_num_bytes, gpointer data)
+{
+	WebData* web = data;
+
+	if (!g_cancellable_is_cancelled(web->cancellable))
+		{
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(web->progress), (gdouble)current_num_bytes / total_num_bytes);
+		}
+}
+
+static void timezone_cancel_button_cb(GenericDialog *gd, gpointer data)
+{
+	WebData* web = data;
+	GError *error = NULL;
+
+	g_cancellable_cancel(web->cancellable);
+}
+
+gboolean download_web_file(const gchar *text, gpointer data)
+{
+	gchar *scheme;
+	LayoutWindow *lw = data;
+	gchar *tmp_dir;
+	GError *error = NULL;
+	WebData *web;
+	gchar *base;
+	gboolean ret;
+	gchar *message;
+
+	scheme = g_uri_parse_scheme(text);
+	if (g_strcmp0("http", scheme) == 0 || g_strcmp0("https", scheme) == 0)
+		{
+		tmp_dir = g_dir_make_tmp("geeqie_XXXXXX", &error);
+		if (error)
+			{
+			log_printf("Error: could not create temporary file n%s\n", error->message);
+			g_error_free(error);
+			error = NULL;
+			ret = TRUE;
+			}
+		else
+			{
+			web = g_new0(WebData,1);
+			web->lw = lw;
+
+			web->web_file = g_file_new_for_uri(text);
+
+			base = g_strdup(g_file_get_basename(web->web_file));
+			web->tmp_g_file = g_file_new_for_path(g_build_filename(tmp_dir, base, NULL));
+
+			web->gd = generic_dialog_new(_("Download web file"), "download_web_file", NULL, TRUE, timezone_cancel_button_cb, web);
+
+			message = g_strconcat(_("Downloading "), base, NULL);
+			generic_dialog_add_message(web->gd, GTK_STOCK_DIALOG_INFO, message, NULL, FALSE);
+
+			web->progress = gtk_progress_bar_new();
+			gtk_box_pack_start(GTK_BOX(web->gd->vbox), web->progress, FALSE, FALSE, 0);
+			gtk_widget_show(web->progress);
+
+			gtk_widget_show(web->gd->dialog);
+			web->cancellable = g_cancellable_new();
+			g_file_copy_async(web->web_file, web->tmp_g_file, G_FILE_COPY_OVERWRITE, G_PRIORITY_LOW, web->cancellable, web_file_progress_cb, web, web_file_async_ready_cb, web);
+
+			g_free(base);
+			g_free(message);
+			ret = TRUE;
+			}
+		}
+	else
+		{
+		ret = FALSE;
+		}
+
+	g_free(scheme);
+	return ret;
+}
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

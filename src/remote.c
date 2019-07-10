@@ -649,33 +649,37 @@ static void gr_quit(const gchar *text, GIOChannel *channel, gpointer data)
 static void gr_file_load_no_raise(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename;
-	gchar *tilde_filename = expand_tilde(text);
+	gchar *tilde_filename;
 
-	filename = set_pwd(tilde_filename);
-
-	if (isfile(filename))
+	if (!download_web_file(text, NULL))
 		{
-		if (file_extension_match(filename, GQ_COLLECTION_EXT))
+		tilde_filename = expand_tilde(text);
+		filename = set_pwd(tilde_filename);
+
+		if (isfile(filename))
 			{
-			collection_window_new(filename);
+			if (file_extension_match(filename, GQ_COLLECTION_EXT))
+				{
+				collection_window_new(filename);
+				}
+			else
+				{
+				layout_set_path(lw_id, filename);
+				}
 			}
-		else
+		else if (isdir(filename))
 			{
 			layout_set_path(lw_id, filename);
 			}
-		}
-	else if (isdir(filename))
-		{
-		layout_set_path(lw_id, filename);
-		}
-	else
-		{
-		log_printf("remote sent filename that does not exist:\"%s\"\n", filename);
-		layout_set_path(lw_id, homedir());
-		}
+		else
+			{
+			log_printf("remote sent filename that does not exist:\"%s\"\n", filename);
+			layout_set_path(lw_id, homedir());
+			}
 
-	g_free(filename);
-	g_free(tilde_filename);
+		g_free(filename);
+		g_free(tilde_filename);
+		}
 }
 
 static void gr_file_load(const gchar *text, GIOChannel *channel, gpointer data)

@@ -179,6 +179,7 @@
       </para>
     </note>
     <para>Next to the path entry is a button with a down arrow, clicking this will display a drop down list containing the most recent locations viewed. The list is ordered such that the most recent location is at the top. Selecting a location from the drop down list will change the window to display the location.</para>
+    <para>An Internet URL may be typed or drag-and-dropped into this field. The file will be downloaded to a temporary file and displayed.</para>
     <para />
   </section>
   <section id="Folderlist">

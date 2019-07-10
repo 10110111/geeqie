@@ -8,6 +8,7 @@
       <footnote id='ref1'>The name of a collection, with or without either path or extension (.gqv) may be used. If a path is not used and there is a name conflict with a file or folder, that will take precedence.</footnote>
     </programlisting>
   </para>
+  <para>You may also use a URL as a filename. The file will be downloaded to a temporary file and displayed.</para>
   <para>These are the command line options available to Geeqie:</para>
   <table frame="all">
     <tgroup cols="3" rowsep="1" colsep="1">

@@ -262,9 +262,13 @@ static void layout_path_entry_cb(const gchar *path, gpointer data)
 	gchar *buf;
 
 	buf = g_strdup(path);
-	parse_out_relatives(buf);
 
-	layout_set_path(lw, buf);
+	if (!download_web_file(buf, lw))
+		{
+		parse_out_relatives(buf);
+
+		layout_set_path(lw, buf);
+		}
 
 	g_free(buf);
 }
