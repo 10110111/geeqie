@@ -804,6 +804,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 {
 	LayoutWindow *lw = data;
 	gint i;
+	gchar *url;
 
 
 	for (i = 0; i < MAX_SPLIT_IMAGES; i++)
@@ -817,8 +818,13 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 		layout_image_activate(lw, i, FALSE);
 		}
 
-
-	if (info == TARGET_URI_LIST || info == TARGET_APP_COLLECTION_MEMBER)
+	if (info == TARGET_TEXT_PLAIN)
+		{
+		url = g_strdup(gtk_selection_data_get_data(selection_data));
+		download_web_file(url, lw);
+		g_free(url);
+		}
+	else if (info == TARGET_URI_LIST || info == TARGET_APP_COLLECTION_MEMBER)
 		{
 		CollectionData *source;
 		GList *list;

@@ -1060,44 +1060,50 @@ gboolean download_web_file(const gchar *text, gpointer data)
 	gchar *base;
 	gboolean ret;
 	gchar *message;
+	FileFormatClass format_class;
 
 	scheme = g_uri_parse_scheme(text);
 	if (g_strcmp0("http", scheme) == 0 || g_strcmp0("https", scheme) == 0)
 		{
-		tmp_dir = g_dir_make_tmp("geeqie_XXXXXX", &error);
-		if (error)
+		format_class = filter_file_get_class(text);
+
+		if (format_class == FORMAT_CLASS_IMAGE || format_class == FORMAT_CLASS_RAWIMAGE || format_class == FORMAT_CLASS_VIDEO || format_class == FORMAT_CLASS_PDF)
 			{
-			log_printf("Error: could not create temporary file n%s\n", error->message);
-			g_error_free(error);
-			error = NULL;
-			ret = TRUE;
-			}
-		else
-			{
-			web = g_new0(WebData,1);
-			web->lw = lw;
+			tmp_dir = g_dir_make_tmp("geeqie_XXXXXX", &error);
+			if (error)
+				{
+				log_printf("Error: could not create temporary file n%s\n", error->message);
+				g_error_free(error);
+				error = NULL;
+				ret = TRUE;
+				}
+			else
+				{
+				web = g_new0(WebData, 1);
+				web->lw = lw;
 
-			web->web_file = g_file_new_for_uri(text);
+				web->web_file = g_file_new_for_uri(text);
 
-			base = g_strdup(g_file_get_basename(web->web_file));
-			web->tmp_g_file = g_file_new_for_path(g_build_filename(tmp_dir, base, NULL));
+				base = g_strdup(g_file_get_basename(web->web_file));
+				web->tmp_g_file = g_file_new_for_path(g_build_filename(tmp_dir, base, NULL));
 
-			web->gd = generic_dialog_new(_("Download web file"), "download_web_file", NULL, TRUE, timezone_cancel_button_cb, web);
+				web->gd = generic_dialog_new(_("Download web file"), "download_web_file", NULL, TRUE, timezone_cancel_button_cb, web);
 
-			message = g_strconcat(_("Downloading "), base, NULL);
-			generic_dialog_add_message(web->gd, GTK_STOCK_DIALOG_INFO, message, NULL, FALSE);
+				message = g_strconcat(_("Downloading "), base, NULL);
+				generic_dialog_add_message(web->gd, GTK_STOCK_DIALOG_INFO, message, NULL, FALSE);
 
-			web->progress = gtk_progress_bar_new();
-			gtk_box_pack_start(GTK_BOX(web->gd->vbox), web->progress, FALSE, FALSE, 0);
-			gtk_widget_show(web->progress);
+				web->progress = gtk_progress_bar_new();
+				gtk_box_pack_start(GTK_BOX(web->gd->vbox), web->progress, FALSE, FALSE, 0);
+				gtk_widget_show(web->progress);
 
-			gtk_widget_show(web->gd->dialog);
-			web->cancellable = g_cancellable_new();
-			g_file_copy_async(web->web_file, web->tmp_g_file, G_FILE_COPY_OVERWRITE, G_PRIORITY_LOW, web->cancellable, web_file_progress_cb, web, web_file_async_ready_cb, web);
+				gtk_widget_show(web->gd->dialog);
+				web->cancellable = g_cancellable_new();
+				g_file_copy_async(web->web_file, web->tmp_g_file, G_FILE_COPY_OVERWRITE, G_PRIORITY_LOW, web->cancellable, web_file_progress_cb, web, web_file_async_ready_cb, web);
 
-			g_free(base);
-			g_free(message);
-			ret = TRUE;
+				g_free(base);
+				g_free(message);
+				ret = TRUE;
+				}
 			}
 		}
 	else
