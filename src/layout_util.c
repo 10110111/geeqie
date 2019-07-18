@@ -1541,6 +1541,22 @@ static void layout_menu_image_next_cb(GtkAction *action, gpointer data)
 	layout_image_next(lw);
 }
 
+static void layout_menu_page_next_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *fd = layout_image_get_fd(lw);
+
+	file_data_inc_page_num(fd);
+}
+
+static void layout_menu_page_previous_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *fd = layout_image_get_fd(lw);
+
+	file_data_dec_page_num(fd);
+}
+
 static void layout_menu_split_pane_next_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1889,6 +1905,11 @@ static GtkActionEntry menu_entries[] = {
   { "PrevImageAlt2",	GTK_STOCK_GO_UP,	N_("_Previous Image"),			"KP_Page_Up",		N_("Previous Image"),			CB(layout_menu_image_prev_cb) },
   { "NextImage",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"space",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
   { "NextImageAlt1",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
+
+  { "NextPage",	NULL,	N_("_Next Page"),			"<control>Page_Down",		N_("Next Page"),			CB(layout_menu_page_next_cb) },
+  { "PrevPage",	NULL,	N_("_Previous Page"),			"<control>Page_Up",		N_("Previous Page"),			CB(layout_menu_page_previous_cb) },
+
+
   { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"KP_Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
   { "LastImage",	GTK_STOCK_GOTO_BOTTOM,	N_("_Last Image"),			"End",			N_("Last Image"),			CB(layout_menu_image_last_cb) },
   { "Back",		GTK_STOCK_GO_BACK,	N_("_Back"),				NULL,			N_("Back"),				CB(layout_menu_back_cb) },
@@ -2121,6 +2142,8 @@ static const gchar *menu_ui_description =
 "      <menuitem action='Up'/>"
 "      <menuitem action='Home'/>"
 "      <separator/>"
+"      <menuitem action='NextPage'/>"
+"      <menuitem action='PrevPage'/>"
 "    </menu>"
 "    <menu action='SelectMenu'>"
 "      <menuitem action='SelectAll'/>"

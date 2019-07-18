@@ -680,6 +680,9 @@ void layout_status_update_info(LayoutWindow *lw, const gchar *text)
 void layout_status_update_image(LayoutWindow *lw)
 {
 	guint64 n;
+	FileData *fd;
+	gint page_total;
+	gint page_num;
 
 	if (!layout_valid(&lw) || !lw->image) return;
 	if (!lw->info_zoom || !lw->info_details) return; /*called from layout_style_set */
@@ -716,10 +719,19 @@ void layout_status_update_image(LayoutWindow *lw)
 		else
 			{
 			gint width, height;
-
+			fd = image_get_fd(lw->image);
+			page_total = fd->page_total;
+			page_num = fd->page_num + 1;
 			image_get_image_size(lw->image, &width, &height);
-			text = g_strdup_printf(_("( %d x %d ) %s bytes"),
-					       width, height, b);
+
+			if (page_total > 0)
+				{
+				text = g_strdup_printf(_("( %d x %d ) %s bytes%s%d%s%d%s"), width, height, b, "[", page_num, "/", page_total, "]");
+				}
+			else
+				{
+				text = g_strdup_printf(_("( %d x %d ) %s bytes"), width, height, b);
+				}
 			}
 
 		g_signal_emit_by_name (lw->image->pr, "update-pixel");

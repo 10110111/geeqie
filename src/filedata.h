@@ -172,5 +172,9 @@ gboolean marks_list_save(gchar *path, gboolean clear);
 gboolean marks_list_load(const gchar *path);
 void marks_clear_all();
 void read_rating_data(FileData *file);
+
+void file_data_inc_page_num(FileData *fd);
+void file_data_dec_page_num(FileData *fd);
+void file_data_set_page_total(FileData *fd, gint page_total);
 #endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

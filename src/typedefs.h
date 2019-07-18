@@ -606,6 +606,9 @@ struct _FileData {
 	gchar *sym_link;
 
 	SelectionType selected;  // Used by view_file_icon.
+
+	gint page_num;
+	gint page_total;
 };
 
 struct _LayoutOptions

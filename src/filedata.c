@@ -435,6 +435,8 @@ static FileData *file_data_new(const gchar *path_utf8, struct stat *st, gboolean
 	fd->exifdate = 0;
 	fd->rating = STAR_RATING_NOT_READ;
 	fd->format_class = filter_file_get_class(path_utf8);
+	fd->page_num = 0;
+	fd->page_total = 0;
 
 	user = getpwuid(st->st_uid);
 	if (!user)
@@ -3394,4 +3396,32 @@ void marks_clear_all()
 {
 	g_hash_table_foreach(file_data_pool, marks_clear, NULL);
 }
+
+void file_data_inc_page_num(FileData *fd)
+{
+	if (fd->page_total > 0 && fd->page_num < fd->page_total - 1)
+		{
+		fd->page_num = fd->page_num + 1;
+		}
+	else if (fd->page_total == 0)
+		{
+		fd->page_num = fd->page_num + 1;
+		}
+	file_data_send_notification(fd, NOTIFY_REREAD);
+}
+
+void file_data_dec_page_num(FileData *fd)
+{
+	if (fd->page_num > 0)
+		{
+		fd->page_num = fd->page_num - 1;
+		}
+	file_data_send_notification(fd, NOTIFY_REREAD);
+}
+
+void file_data_set_page_total(FileData *fd, gint page_total)
+{
+	fd->page_total = page_total;
+}
+
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

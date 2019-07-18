@@ -683,6 +683,12 @@ static void image_loader_setup_loader(ImageLoader *il)
 		image_loader_backend_set_default(&il->backend);
 
 	il->loader = il->backend.loader_new(image_loader_area_updated_cb, image_loader_size_cb, image_loader_area_prepared_cb, il);
+
+	if (il->fd->format_class == FORMAT_CLASS_PDF)
+		{
+		il->backend.set_page_num(il->loader, il->fd->page_num);
+		}
+
 	g_mutex_unlock(il->data_mutex);
 }
 
@@ -764,6 +770,12 @@ static gboolean image_loader_begin(ImageLoader *il)
 		{
 		image_loader_stop_loader(il);
 		return FALSE;
+		}
+
+	if (il->fd->format_class == FORMAT_CLASS_PDF)
+		{
+		gint i = il->backend.get_page_total(il->loader);
+		file_data_set_page_total(il->fd, i);
 		}
 
 	il->bytes_read += b;

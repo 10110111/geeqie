@@ -36,6 +36,8 @@ struct _ImageLoaderPDF {
 	guint requested_width;
 	guint requested_height;
 	gboolean abort;
+	gint page_num;
+	gint page_total;
 };
 
 static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize count, GError **error)
@@ -44,13 +46,13 @@ static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize 
 	GError *poppler_error = NULL;
 	PopplerPage *page;
 	PopplerDocument *document;
-	gint page_num;
 	gdouble width, height;
 	cairo_surface_t *surface;
 	cairo_t *cr;
 	gboolean ret = FALSE;
+	gint page_total;
+DEBUG_0(" ");
 
-	page_num = 0;
 	document = poppler_document_new_from_data((gchar *)buf, count, NULL, &poppler_error);
 
 	if (poppler_error)
@@ -60,7 +62,13 @@ static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize 
 		}
 	else
 		{
-		page = poppler_document_get_page(document, page_num);
+		page_total = poppler_document_get_n_pages(document);
+		if (page_total > 0)
+			{
+			ld->page_total = page_total;
+			}
+
+		page = poppler_document_get_page(document, ld->page_num);
 		poppler_page_get_size(page, &width, &height);
 
 		surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
@@ -88,6 +96,7 @@ static gpointer image_loader_pdf_new(ImageLoaderBackendCbAreaUpdated area_update
 	loader->size_cb = size_cb;
 	loader->area_prepared_cb = area_prepared_cb;
 	loader->data = data;
+	loader->page_num = 0;
 	return (gpointer) loader;
 }
 
@@ -113,6 +122,21 @@ static gchar** image_loader_pdf_get_format_mime_types(gpointer loader)
 {
 	static gchar *mime[] = {"application/pdf", NULL};
 	return g_strdupv(mime);
+}
+
+static void image_loader_pdf_set_page_num(gpointer loader, gint page_num)
+{
+	ImageLoader *il = (ImageLoader *) loader;
+	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
+
+	ld->page_num = page_num;
+}
+
+static gint image_loader_pdf_get_page_total(gpointer loader)
+{
+	ImageLoaderPDF *ld = (ImageLoaderPDF *) loader;
+
+	return ld->page_total;
 }
 
 static gboolean image_loader_pdf_close(gpointer loader, GError **error)
@@ -145,6 +169,8 @@ void image_loader_backend_set_pdf(ImageLoaderBackend *funcs)
 	funcs->free = image_loader_pdf_free;
 	funcs->get_format_name = image_loader_pdf_get_format_name;
 	funcs->get_format_mime_types = image_loader_pdf_get_format_mime_types;
+	funcs->set_page_num = image_loader_pdf_set_page_num;
+	funcs->get_page_total = image_loader_pdf_get_page_total;
 }
 
 #endif

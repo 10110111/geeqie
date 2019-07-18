@@ -38,6 +38,8 @@ typedef void (*ImageLoaderBackendFuncAbort)(gpointer loader);
 typedef void (*ImageLoaderBackendFuncFree)(gpointer loader);
 typedef gchar* (*ImageLoaderBackendFuncGetFormatName)(gpointer loader);
 typedef gchar** (*ImageLoaderBackendFuncGetFormatMimeTypes)(gpointer loader);
+typedef void (*ImageLoaderBackendFuncSetPageNum)(gpointer loader, gint page_num);
+typedef gint (*ImageLoaderBackendFuncGetPageTotal)(gpointer loader);
 
 typedef struct _ImageLoaderBackend ImageLoaderBackend;
 struct _ImageLoaderBackend
@@ -52,6 +54,8 @@ struct _ImageLoaderBackend
 	ImageLoaderBackendFuncFree free;
 	ImageLoaderBackendFuncGetFormatName get_format_name;
 	ImageLoaderBackendFuncGetFormatMimeTypes get_format_mime_types;
+	ImageLoaderBackendFuncSetPageNum set_page_num;
+	ImageLoaderBackendFuncGetPageTotal get_page_total;
 };
 
 
