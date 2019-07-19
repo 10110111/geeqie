@@ -51,7 +51,6 @@ static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize 
 	cairo_t *cr;
 	gboolean ret = FALSE;
 	gint page_total;
-DEBUG_0(" ");
 
 	document = poppler_document_new_from_data((gchar *)buf, count, NULL, &poppler_error);
 

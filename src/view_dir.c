@@ -1093,6 +1093,15 @@ gboolean vd_press_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	ViewDir *vd = data;
 	gboolean ret = FALSE;
 
+	if (bevent->button == MOUSE_BUTTON_RIGHT)
+		{
+		vd->popup = vd_pop_menu(vd, vd->click_fd);
+		gtk_menu_popup(GTK_MENU(vd->popup), NULL, NULL, NULL, NULL,
+			       bevent->button, bevent->time);
+
+		return TRUE;
+		}
+
 	switch (vd->type)
 	{
 	case DIRVIEW_LIST: ret = vdlist_press_cb(widget, bevent, data); break;
