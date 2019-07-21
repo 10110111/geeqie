@@ -2406,6 +2406,11 @@ LayoutWindow *layout_new(FileData *dir_fd, LayoutOptions *lop)
 	return layout_new_with_geometry(dir_fd, lop, NULL);
 }
 
+gboolean release_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	return defined_mouse_buttons(widget, event, data);
+}
+
 LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 				       const gchar *geometry)
 {
@@ -2453,6 +2458,8 @@ LayoutWindow *layout_new_with_geometry(FileData *dir_fd, LayoutOptions *lop,
 	DEBUG_NAME(lw->window);
 	gtk_window_set_resizable(GTK_WINDOW(lw->window), TRUE);
 	gtk_container_set_border_width(GTK_CONTAINER(lw->window), 0);
+
+	g_signal_connect(G_OBJECT(lw->window), "button_release_event", G_CALLBACK(release_cb), lw);
 
 	if (options->save_window_positions)
 		{

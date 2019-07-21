@@ -39,6 +39,7 @@
 #include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
+#include "ui_misc.h"
 #include "ui_tree_edit.h"
 #include "uri_utils.h"
 #include "view_file.h"
@@ -1397,6 +1398,11 @@ gboolean vficon_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer d
 	gboolean was_selected;
 
 	tip_schedule(vf);
+
+	if (defined_mouse_buttons(widget, bevent, vf->layout))
+		{
+		return TRUE;
+		}
 
 	if ((gint)bevent->x != 0 || (gint)bevent->y != 0)
 		{

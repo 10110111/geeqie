@@ -36,6 +36,7 @@
 #include "utilops.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
+#include "ui_misc.h"
 #include "ui_tree_edit.h"
 #include "uri_utils.h"
 #include "view_file.h"
@@ -665,6 +666,11 @@ gboolean vflist_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer d
 	GtkTreePath *tpath;
 	GtkTreeIter iter;
 	FileData *fd = NULL;
+
+	if (defined_mouse_buttons(widget, bevent, vf->layout))
+		{
+		return TRUE;
+		}
 
 	if (bevent->button == MOUSE_BUTTON_MIDDLE)
 		{

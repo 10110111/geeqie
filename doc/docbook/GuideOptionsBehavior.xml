@@ -259,6 +259,14 @@
           <para>If selected, mouse left-click on an image belonging to the video class will start a program chosen in a box below.</para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+        <term>
+          <guilabel>Mouse button Back/Forward</guilabel>
+        </term>
+        <listitem>
+          <para>Some mice have additional buttons designated Back/Forward (mouse buttons 8 and 9). You may allocate any menu item to either of these buttons.</para>
+        </listitem>
+      </varlistentry>
     </variablelist>
   </section>
   <section id="Debugging">

@@ -317,6 +317,10 @@ struct _ConfOptions
 		gchar *template_string;
 	} printer;
 
+	/* user-definable mouse buttons */
+	gchar *mouse_button_8;
+	gchar *mouse_button_9;
+
 	gboolean read_metadata_in_idle;
 
 	GList *disabled_plugins;

@@ -510,6 +510,11 @@ static void write_global_attributes(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_BOOL(*options, printer.show_image_text);
 	WRITE_NL(); WRITE_BOOL(*options, printer.show_page_text);
 	WRITE_SEPARATOR();
+
+	/* user-definable mouse buttons */
+	WRITE_NL(); WRITE_CHAR(*options, mouse_button_8);
+	WRITE_NL(); WRITE_CHAR(*options, mouse_button_9);
+	WRITE_SEPARATOR();
 }
 
 static void write_color_profile(GString *outstr, gint indent)
@@ -892,6 +897,10 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
 		if (READ_INT(*options, printer.page_text_position)) continue;
 		if (READ_BOOL(*options, printer.show_image_text)) continue;
 		if (READ_BOOL(*options, printer.show_page_text)) continue;
+
+		/* user-definable mouse buttons */
+		if (READ_CHAR(*options, mouse_button_8)) continue;
+		if (READ_CHAR(*options, mouse_button_9)) continue;
 
 		/* Dummy options */
 		if (READ_DUMMY(*options, image.dither_quality, "deprecated since 2012-08-13")) continue;

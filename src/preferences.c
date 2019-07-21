@@ -450,6 +450,9 @@ static void config_window_apply(void)
 		}
 #endif
 
+	options->mouse_button_8 = c_options->mouse_button_8;
+	options->mouse_button_9 = c_options->mouse_button_9;
+
 	config_tab_keywords_save();
 
 	image_options_sync();
@@ -626,6 +629,143 @@ static void add_clipboard_selection_menu(GtkWidget *table, gint column, gint row
 
 	g_signal_connect(G_OBJECT(combo), "changed",
 			 G_CALLBACK(clipboard_selection_menu_cb), option_c);
+
+	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
+			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show(combo);
+}
+
+typedef struct _UseableMouseItems UseableMouseItems;
+struct _UseableMouseItems
+{
+	gchar *name; /* GtkActionEntry terminology */
+	gchar *label;
+	gchar *stock_id;
+};
+
+static const UseableMouseItems useable_mouse_items[] = {
+	{"", "", NULL},
+	{"FirstImage",	N_("First Image"), GTK_STOCK_GOTO_TOP},
+	{"PrevImage",	N_("Previous Image"), GTK_STOCK_GO_UP},
+	{"NextImage",	N_("Next Image"), GTK_STOCK_GO_DOWN},
+	{"LastImage",	N_("Last Image"), GTK_STOCK_GOTO_BOTTOM},
+	{"Back",	N_("Back"), GTK_STOCK_GO_BACK},
+	{"Forward",	N_("Forward"), GTK_STOCK_GO_FORWARD},
+	{"Home",	N_("Home"), GTK_STOCK_HOME},
+	{"Up",	N_("Up"), GTK_STOCK_GO_UP},
+	{"NewWindow",	N_("New _window"), GTK_STOCK_NEW},
+	{"NewCollection",	N_("New collection"), GTK_STOCK_INDEX},
+	{"OpenCollection",	N_("Open collection"), GTK_STOCK_OPEN},
+	{"Search",	N_("Search"), GTK_STOCK_FIND},
+	{"FindDupes",	N_("Find duplicates"), GTK_STOCK_FIND},
+	{"NewFolder",	N_("New folder"),GTK_STOCK_DIRECTORY},
+	{"Copy",	N_("Copy"), GTK_STOCK_COPY},
+	{"Move",	N_("Move"), PIXBUF_INLINE_ICON_MOVE},
+	{"Rename",	N_("Rename"), PIXBUF_INLINE_ICON_RENAME},
+	{"Delete",	N_("Delete"), GTK_STOCK_DELETE},
+	{"CloseWindow",	N_("Close Window"), GTK_STOCK_CLOSE},
+	{"PanView",	N_("Pan view"), PIXBUF_INLINE_ICON_PANORAMA},
+	{"SelectAll",	N_("Select all"), PIXBUF_INLINE_ICON_SELECT_ALL},
+	{"SelectNone",	N_("Select none"), PIXBUF_INLINE_ICON_SELECT_NONE},
+	{"SelectInvert",	N_("Select invert"), PIXBUF_INLINE_ICON_SELECT_INVERT},
+	{"ShowFileFilter",	N_("Show file filter"), PIXBUF_INLINE_ICON_FILE_FILTER},
+	{"RectangularSelection",	N_("Select rectangle"), PIXBUF_INLINE_ICON_SELECT_RECTANGLE},
+	{"Print",	N_("Print"), GTK_STOCK_PRINT},
+	{"Preferences",	N_("Preferences"), GTK_STOCK_PREFERENCES},
+	{"LayoutConfig",	N_("Configure this window"), GTK_STOCK_PREFERENCES},
+	{"Maintenance",	N_("Cache maintenance"), PIXBUF_INLINE_ICON_MAINTENANCE},
+	{"RotateCW",	N_("Rotate clockwise"), PIXBUF_INLINE_ICON_CW},
+	{"RotateCCW",	N_("Rotate counterclockwise"), PIXBUF_INLINE_ICON_CCW},
+	{"Rotate180",	N_("Rotate 180"), PIXBUF_INLINE_ICON_180},
+	{"Mirror",	N_("Mirror"), PIXBUF_INLINE_ICON_MIRROR},
+	{"Flip",	N_("Flip"), PIXBUF_INLINE_ICON_FLIP},
+	{"AlterNone",	N_("Original state"), PIXBUF_INLINE_ICON_ORIGINAL},
+	{"ZoomIn",	N_("Zoom in"), GTK_STOCK_ZOOM_IN},
+	{"ZoomOut",	N_("Zoom out"), GTK_STOCK_ZOOM_OUT},
+	{"Zoom100",	N_("Zoom 1:1"), GTK_STOCK_ZOOM_100},
+	{"ZoomFit",	N_("Zoom to fit"), GTK_STOCK_ZOOM_FIT},
+	{"ZoomFillHor",	N_("Fit Horizontaly"), PIXBUF_INLINE_ICON_ZOOMFILLHOR},
+	{"ZoomFillVert",	N_("Fit vertically"), PIXBUF_INLINE_ICON_ZOOMFILLVERT},
+	{"Zoom200",	N_("Zoom 2:1"), GTK_STOCK_FILE},
+	{"Zoom300",	N_("Zoom 3:1"), GTK_STOCK_FILE},
+	{"Zoom400",	N_("Zoom 4:1"), GTK_STOCK_FILE},
+	{"Zoom50",	N_("Zoom 1:2"), GTK_STOCK_FILE},
+	{"Zoom33",	N_("Zoom1:3"), GTK_STOCK_FILE},
+	{"Zoom25",	N_("Zoom 1:4"), GTK_STOCK_FILE},
+	{"ConnectZoomIn",	N_("Connected Zoom in"), GTK_STOCK_ZOOM_IN},
+	{"Grayscale",	N_("Grayscale"), PIXBUF_INLINE_ICON_GRAYSCALE},
+	{"OverUnderExposed",	N_("Over Under Exposed"), PIXBUF_INLINE_ICON_EXPOSURE},
+	{"HideTools",	N_("Hide file list"), PIXBUF_INLINE_ICON_HIDETOOLS},
+	{"SlideShowPause",	N_("Pause slideshow"), GTK_STOCK_MEDIA_PAUSE},
+	{"SlideShowFaster",	N_("Slideshow Faster"), GTK_STOCK_FILE},
+	{"SlideShowSlower",	N_("Slideshow Slower"), GTK_STOCK_FILE},
+	{"Refresh",	N_("Refresh"), GTK_STOCK_REFRESH},
+	{"HelpContents",	N_("Help"), GTK_STOCK_HELP},
+	{"ExifWin",	N_("Exif window"), PIXBUF_INLINE_ICON_EXIF},
+	{"Thumbnails",	N_("Show thumbnails"), PIXBUF_INLINE_ICON_THUMB},
+	{"ShowMarks",	N_("Show marks"), PIXBUF_INLINE_ICON_MARKS},
+	{"ImageGuidelines",	N_("Show guidelines"), PIXBUF_INLINE_ICON_GUIDELINES},
+	{"DrawRectangle",	N_("Draw Rectangle"), PIXBUF_INLINE_ICON_DRAW_RECTANGLE},
+	{"FloatTools",	N_("Float file list"), PIXBUF_INLINE_ICON_FLOAT},
+	{"SBar",	N_("Info sidebar"), PIXBUF_INLINE_ICON_INFO},
+	{"SBarSort",	N_("Sort manager"), PIXBUF_INLINE_ICON_SORT},
+	{"Quit",	N_("Quit"), GTK_STOCK_QUIT},
+	{NULL,		NULL, NULL}
+};
+
+static void mouse_buttons_selection_menu_cb(GtkWidget *combo, gpointer data)
+{
+	gchar **option = data;
+	gchar *label;
+
+	label = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo));
+
+	const UseableMouseItems *list = useable_mouse_items;
+
+	while (list->name)
+		{
+		if (g_strcmp0(list->label, label) == 0)
+			{
+			break;
+			}
+		list++;
+		}
+
+	g_free(*option);
+	*option = g_strdup(list->name);
+	g_free(label);
+}
+
+static void add_mouse_selection_menu(GtkWidget *table, gint column, gint row, const gchar *text,
+			     gchar *option, gchar **option_c)
+{
+	GtkWidget *combo;
+	gint current = 0;
+	gint i = 0;
+
+	*option_c = option;
+
+	pref_table_label(table, column, row, text, 0.0);
+
+	combo = gtk_combo_box_text_new();
+
+	const UseableMouseItems *list = useable_mouse_items;
+
+	while (list->name)
+		{
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), list->label);
+		if (g_strcmp0(list->name, option) == 0)
+			{
+			current = i;
+			}
+		i++;
+		list++;
+		}
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), current);
+
+	g_signal_connect(G_OBJECT(combo), "changed",
+			 G_CALLBACK(mouse_buttons_selection_menu_cb), option_c);
 
 	gtk_table_attach(GTK_TABLE(table), combo, column + 1, column + 2, row, row + 1,
 			 GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -3161,6 +3301,11 @@ static void config_tab_behavior(GtkWidget *notebook)
 	table = pref_table_new(group, 2, 1, FALSE, FALSE);
 	add_video_menu(table, 0, 0, _("Play with:"), options->image_l_click_video_editor, &c_options->image_l_click_video_editor);
 
+	table = pref_table_new(group, 2, 1, FALSE, FALSE);
+	table = pref_table_new(group, 2, 1, FALSE, FALSE);
+	add_mouse_selection_menu(table, 0, 0, _("Mouse button Back:"), options->mouse_button_8, &c_options->mouse_button_8);
+	table = pref_table_new(group, 2, 1, FALSE, FALSE);
+	add_mouse_selection_menu(table, 0, 0, _("Mouse button Forward:"), options->mouse_button_9, &c_options->mouse_button_9);
 
 #ifdef DEBUG
 	pref_spacer(group, PREF_PAD_GROUP);

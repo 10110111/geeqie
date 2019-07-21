@@ -207,6 +207,9 @@ ConfOptions *init_options(ConfOptions *options)
 
 	options->disabled_plugins = NULL;
 
+	options->mouse_button_8 = g_strdup("Back");
+	options->mouse_button_9 = g_strdup("Forward");
+
 	return options;
 }
 

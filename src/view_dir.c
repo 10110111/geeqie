@@ -31,6 +31,7 @@
 #include "ui_fileops.h"
 #include "ui_tree_edit.h"
 #include "ui_menu.h"
+#include "ui_misc.h"
 #include "utilops.h"
 #include "uri_utils.h"
 #include "view_dir_list.h"
@@ -1049,6 +1050,11 @@ gboolean vd_release_cb(GtkWidget *widget, GdkEventButton *bevent, gpointer data)
 	ViewDir *vd = data;
 	GtkTreePath *tpath;
 	FileData *fd = NULL;
+
+	if (defined_mouse_buttons(widget, bevent, vd->layout))
+		{
+		return TRUE;
+		}
 
 	if (vd->type == DIRVIEW_LIST && !options->view_dir_list_single_click_enter)
 		return FALSE;

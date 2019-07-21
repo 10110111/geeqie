@@ -1759,7 +1759,43 @@ gchar *text_widget_text_pull_selected(GtkWidget *text_widget)
 		{
 		return NULL;
 		}
+}
 
+gboolean defined_mouse_buttons(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	LayoutWindow *lw = data;
+	GtkAction *action;
+	gboolean ret = FALSE;
+
+	switch (event->button)
+		{
+		case MOUSE_BUTTON_8:
+			if (options->mouse_button_8)
+				{
+				action = gtk_action_group_get_action(lw->action_group, options->mouse_button_8);
+				if (action)
+					{
+					gtk_action_activate(action);
+					}
+				ret = TRUE;
+				break;
+				}
+		case MOUSE_BUTTON_9:
+			if (options->mouse_button_9)
+				{
+				action = gtk_action_group_get_action(lw->action_group, options->mouse_button_9);
+				if (action)
+					{
+					gtk_action_activate(action);
+					}
+				ret = TRUE;
+				}
+			break;
+		default:
+			break;
+		}
+
+	return ret;
 }
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
