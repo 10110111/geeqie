@@ -626,6 +626,31 @@ AM_CONDITIONAL(HAVE_WEBP, [test "x$HAVE_WEBP" = xyes])
 AC_SUBST(WEBP_CFLAGS)
 AC_SUBST(WEBP_LIBS)
 
+#  DjVu support
+# ----------------------------------------------------------------------
+
+AC_ARG_ENABLE([djvu],
+  AC_HELP_STRING([--disable-djvu], [disable djvu support]),
+    [libdjvulibre=$enableval], [libdjvulibre=auto])
+
+if test "x${libdjvulibre}" != "xno"; then
+  PKG_CHECK_MODULES(DJVU, ddjvuapi >= 3.5.27,
+    [
+      HAVE_DJVU=yes
+      AC_DEFINE(HAVE_DJVU, 1, [define to enable DjVu support])
+    ],
+    [
+      HAVE_DJVU=no
+      AC_MSG_WARN([$DJVU_PKG_ERRORS])
+    ])
+else
+    HAVE_DJVU=disabled
+fi
+
+AM_CONDITIONAL(HAVE_DJVU, [test "x$HAVE_DJVU" = xyes])
+AC_SUBST(DJVU_CFLAGS)
+AC_SUBST(DJVU_LIBS)
+
 #  Markdown support
 # ----------------------------------------------------------------------
 
@@ -733,6 +758,7 @@ Support:
   Pdf:	         $HAVE_PDF
   HEIF:	         $HAVE_HEIF
   WebP:	         $HAVE_WEBP
+  DjVu:	         $HAVE_DJVU
 
 Documentation:
   Doxygen:       $DX_DOXYGEN

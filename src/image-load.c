@@ -25,6 +25,7 @@
 #include "image_load_jpeg.h"
 #include "image_load_tiff.h"
 #include "image_load_dds.h"
+#include "image_load_djvu.h"
 #include "image_load_pdf.h"
 #include "image_load_heif.h"
 #include "image_load_ffmpegthumbnailer.h"
@@ -648,6 +649,15 @@ static void image_loader_setup_loader(ImageLoader *il)
 		}
 	else
 #endif
+#ifdef HAVE_DJVU
+	if (il->bytes_total >= 16 &&
+		(memcmp(il->mapped_file + 12, "DJV", 3) == 0))
+		{
+		DEBUG_1("Using custom djvu loader");
+		image_loader_backend_set_djvu(&il->backend);
+		}
+	else
+#endif
 #ifdef HAVE_JPEG
 	if (il->bytes_total >= 2 && il->mapped_file[0] == 0xff && il->mapped_file[1] == 0xd8)
 		{
@@ -686,6 +696,13 @@ static void image_loader_setup_loader(ImageLoader *il)
 
 #ifdef HAVE_PDF
 	if (il->fd->format_class == FORMAT_CLASS_PDF)
+		{
+		il->backend.set_page_num(il->loader, il->fd->page_num);
+		}
+#endif
+
+#ifdef HAVE_DJVU
+	if (g_strcmp0(il->fd->extension, ".djvu") == 0)
 		{
 		il->backend.set_page_num(il->loader, il->fd->page_num);
 		}
@@ -776,6 +793,13 @@ static gboolean image_loader_begin(ImageLoader *il)
 
 #ifdef HAVE_PDF
 	if (il->fd->format_class == FORMAT_CLASS_PDF)
+		{
+		gint i = il->backend.get_page_total(il->loader);
+		file_data_set_page_total(il->fd, i);
+		}
+#endif
+#ifdef HAVE_DJVU
+	if (g_strcmp0(il->fd->extension, ".djvu") == 0)
 		{
 		gint i = il->backend.get_page_total(il->loader);
 		file_data_set_page_total(il->fd, i);

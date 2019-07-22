@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2019-07-21"
+version="2019-07-22"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -65,6 +65,8 @@ optional_array=(
 "libheif-dev"
 "libwebp (for WebP images)"
 "libwebp-dev"
+"libdjvulibre (for DjVu images)"
+"libdjvulibre-dev"
 )
 
 # Optional for GTK3 only
