@@ -79,6 +79,8 @@ static const UseableToolbarItems useable_toolbar_items[] = {
 	{"Forward",	N_("Forward"), GTK_STOCK_GO_FORWARD},
 	{"Home",	N_("Home"), GTK_STOCK_HOME},
 	{"Up",	N_("Up"), GTK_STOCK_GO_UP},
+	{"NextPage",	N_("Next page"), PIXBUF_INLINE_ICON_NEXT_PAGE},
+	{"PrevPage",	N_("Previous Page"), PIXBUF_INLINE_ICON_PREVIOUS_PAGE},
 	{"NewWindow",	N_("New _window"), GTK_STOCK_NEW},
 	{"NewCollection",	N_("New collection"), GTK_STOCK_INDEX},
 	{"OpenCollection",	N_("Open collection"), GTK_STOCK_OPEN},

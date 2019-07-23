@@ -74,6 +74,10 @@ static gboolean image_loader_pdf_load(gpointer loader, const guchar *buf, gsize 
 		cr = cairo_create(surface);
 		poppler_page_render(page, cr);
 
+		cairo_set_operator(cr, CAIRO_OPERATOR_DEST_OVER);
+		cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+		cairo_paint(cr);
+
 		ld->pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, width, height);
 		ld->area_updated_cb(loader, 0, 0, width, height, ld->data);
 

@@ -1906,8 +1906,8 @@ static GtkActionEntry menu_entries[] = {
   { "NextImage",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"space",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
   { "NextImageAlt1",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
 
-  { "NextPage",	NULL,	N_("_Next Page"),			"<control>Page_Down",		N_("Next Page"),			CB(layout_menu_page_next_cb) },
-  { "PrevPage",	NULL,	N_("_Previous Page"),			"<control>Page_Up",		N_("Previous Page"),			CB(layout_menu_page_previous_cb) },
+  { "NextPage",	PIXBUF_INLINE_ICON_NEXT_PAGE,	N_("_Next Page"),			"<control>Page_Down",	N_("Next Page"),	CB(layout_menu_page_next_cb) },
+  { "PrevPage",	PIXBUF_INLINE_ICON_PREVIOUS_PAGE,	N_("_Previous Page"),	"<control>Page_Up",		N_("Previous Page"),	CB(layout_menu_page_previous_cb) },
 
 
   { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"KP_Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
