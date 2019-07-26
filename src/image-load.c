@@ -613,6 +613,8 @@ static void image_loader_stop_loader(ImageLoader *il)
 
 static void image_loader_setup_loader(ImageLoader *il)
 {
+	gchar *format;
+
 	g_mutex_lock(il->data_mutex);
 #ifdef HAVE_FFMPEGTHUMBNAILER
 	if (il->fd->format_class == FORMAT_CLASS_VIDEO)
@@ -623,7 +625,8 @@ static void image_loader_setup_loader(ImageLoader *il)
 	else
 #endif
 #ifdef HAVE_PDF
-	if (il->fd->format_class == FORMAT_CLASS_PDF)
+	if (il->bytes_total >= 4 &&
+	    (memcmp(il->mapped_file + 0, "%PDF", 4) == 0))
 		{
 		DEBUG_1("Using custom pdf loader");
 		image_loader_backend_set_pdf(&il->backend);
@@ -651,6 +654,7 @@ static void image_loader_setup_loader(ImageLoader *il)
 #endif
 #ifdef HAVE_DJVU
 	if (il->bytes_total >= 16 &&
+		(memcmp(il->mapped_file, "AT&TFORM", 8) == 0) &&
 		(memcmp(il->mapped_file + 12, "DJV", 3) == 0))
 		{
 		DEBUG_1("Using custom djvu loader");
@@ -695,17 +699,21 @@ static void image_loader_setup_loader(ImageLoader *il)
 	il->loader = il->backend.loader_new(image_loader_area_updated_cb, image_loader_size_cb, image_loader_area_prepared_cb, il);
 
 #ifdef HAVE_PDF
-	if (il->fd->format_class == FORMAT_CLASS_PDF)
+	format = il->backend.get_format_name(il->loader);
+	if (g_strcmp0(format, "pdf") == 0)
 		{
 		il->backend.set_page_num(il->loader, il->fd->page_num);
 		}
+	g_free(format);
 #endif
 
 #ifdef HAVE_DJVU
-	if (g_strcmp0(il->fd->extension, ".djvu") == 0)
+	format = il->backend.get_format_name(il->loader);
+	if (g_strcmp0(format, "djvu") == 0)
 		{
 		il->backend.set_page_num(il->loader, il->fd->page_num);
 		}
+	g_free(format);
 #endif
 
 	g_mutex_unlock(il->data_mutex);
@@ -768,6 +776,7 @@ static gboolean image_loader_continue(ImageLoader *il)
 static gboolean image_loader_begin(ImageLoader *il)
 {
 	gssize b;
+	gchar *format;
 
 	if (il->pixbuf) return FALSE;
 
@@ -792,18 +801,22 @@ static gboolean image_loader_begin(ImageLoader *il)
 		}
 
 #ifdef HAVE_PDF
-	if (il->fd->format_class == FORMAT_CLASS_PDF)
+	format = il->backend.get_format_name(il->loader);
+	if (g_strcmp0(format, "pdf") == 0)
 		{
 		gint i = il->backend.get_page_total(il->loader);
 		file_data_set_page_total(il->fd, i);
 		}
+	g_free(format);
 #endif
 #ifdef HAVE_DJVU
-	if (g_strcmp0(il->fd->extension, ".djvu") == 0)
+	format = il->backend.get_format_name(il->loader);
+	if (g_strcmp0(format, "djvu") == 0)
 		{
 		gint i = il->backend.get_page_total(il->loader);
 		file_data_set_page_total(il->fd, i);
 		}
+	g_free(format);
 #endif
 
 	il->bytes_read += b;

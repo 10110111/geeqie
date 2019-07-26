@@ -291,9 +291,18 @@ void filter_add_defaults(void)
 
 	/* other supported formats */
 	filter_add_if_missing("dds", "DirectDraw Surface", ".dds", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
-	filter_add_if_missing("pdf", "Portable Document Format", ".pdf", FORMAT_CLASS_PDF, FALSE, FALSE, TRUE);
+#ifdef HAVE_PDF
+	filter_add_if_missing("pdf", "Portable Document Format", ".pdf", FORMAT_CLASS_DOCUMENT, FALSE, FALSE, TRUE);
+#endif
+#ifdef HAVE_HEIF
 	filter_add_if_missing("HEIF", "HEIF Format", ".heic", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
+#endif
+#ifdef HAVE_WEBP
 	filter_add_if_missing("webp", "WebP Format", ".webp", FORMAT_CLASS_IMAGE, FALSE, FALSE, TRUE);
+#endif
+#ifdef HAVE_DJVU
+	filter_add_if_missing("djvu", "DjVu Format", ".djvu;.djv", FORMAT_CLASS_DOCUMENT, FALSE, FALSE, TRUE);
+#endif
 }
 
 GList *filter_to_list(const gchar *extensions)
@@ -473,7 +482,7 @@ FileFormatClass filter_file_get_class(const gchar *name)
 	if (filter_file_class(name, FORMAT_CLASS_META)) return FORMAT_CLASS_META;
 	if (filter_file_class(name, FORMAT_CLASS_VIDEO)) return FORMAT_CLASS_VIDEO;
 	if (filter_file_class(name, FORMAT_CLASS_COLLECTION)) return FORMAT_CLASS_COLLECTION;
-	if (filter_file_class(name, FORMAT_CLASS_PDF)) return FORMAT_CLASS_PDF;
+	if (filter_file_class(name, FORMAT_CLASS_DOCUMENT)) return FORMAT_CLASS_DOCUMENT;
 	return FORMAT_CLASS_UNKNOWN;
 }
 

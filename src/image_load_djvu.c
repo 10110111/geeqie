@@ -92,9 +92,17 @@ static gboolean image_loader_djvu_load(gpointer loader, const guchar *buf, gsize
 
 	ddjvu_page_render(page, DDJVU_RENDER_COLOR, &prect, &rrect, fmt, stride, pixels);
 
-	ld->pixbuf = gdk_pixbuf_new_from_data(pixels, GDK_COLORSPACE_RGB, alpha, 8, width, height, stride, free_buffer, NULL);
+	/* FIXME implementation of rotation is not correct */
+	GdkPixbuf *tmp1;
+	GdkPixbuf *tmp2;
+	tmp1 = gdk_pixbuf_new_from_data(pixels, GDK_COLORSPACE_RGB, alpha, 8, width, height, stride, free_buffer, NULL);
+	tmp2 = gdk_pixbuf_flip(tmp1, TRUE);
+	g_object_unref(tmp1);
+
+	ld->pixbuf = gdk_pixbuf_rotate_simple(tmp2,GDK_PIXBUF_ROTATE_UPSIDEDOWN);
 
 	ld->area_updated_cb(loader, 0, 0, width, height, ld->data);
+
 
 	cairo_surface_destroy(surface);
 	ddjvu_page_release(page);

@@ -1067,7 +1067,7 @@ gboolean download_web_file(const gchar *text, gpointer data)
 		{
 		format_class = filter_file_get_class(text);
 
-		if (format_class == FORMAT_CLASS_IMAGE || format_class == FORMAT_CLASS_RAWIMAGE || format_class == FORMAT_CLASS_VIDEO || format_class == FORMAT_CLASS_PDF)
+		if (format_class == FORMAT_CLASS_IMAGE || format_class == FORMAT_CLASS_RAWIMAGE || format_class == FORMAT_CLASS_VIDEO || format_class == FORMAT_CLASS_DOCUMENT)
 			{
 			tmp_dir = g_dir_make_tmp("geeqie_XXXXXX", &error);
 			if (error)

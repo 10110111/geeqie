@@ -856,8 +856,8 @@ static void get_filelist(const gchar *text, GIOChannel *channel, gboolean recurs
 			case FORMAT_CLASS_COLLECTION:
 				out_string = g_string_append(out_string, "    Class: Collection");
 				break;
-			case FORMAT_CLASS_PDF:
-				out_string = g_string_append(out_string, "    Class: PDF");
+			case FORMAT_CLASS_DOCUMENT:
+				out_string = g_string_append(out_string, "    Class: Document");
 				break;
 			case FORMAT_CLASS_UNKNOWN:
 				out_string = g_string_append(out_string, "    Class: Unknown");

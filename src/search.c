@@ -2190,9 +2190,9 @@ static gboolean search_file_next(SearchData *sd)
 			search_class = FORMAT_CLASS_VIDEO;
 			}
 		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
-						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Pdf")) == 0)
+						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Document")) == 0)
 			{
-			search_class = FORMAT_CLASS_PDF;
+			search_class = FORMAT_CLASS_DOCUMENT;
 			}
 		else if (g_strcmp0(gtk_combo_box_text_get_active_text(
 						GTK_COMBO_BOX_TEXT(sd->class_type)), _("Metadata")) == 0)
@@ -3375,7 +3375,7 @@ void search_new(FileData *dir_fd, FileData *example_file)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Image"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Raw Image"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Video"));
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Pdf"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Document"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Metadata"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(sd->class_type), _("Unknown"));
 	gtk_box_pack_start(GTK_BOX(hbox), sd->class_type, FALSE, FALSE, 0);

@@ -874,7 +874,7 @@ static void image_load_done_cb(ImageLoader *il, gpointer data)
 			case FORMAT_CLASS_COLLECTION:
 				pixbuf = pixbuf_inline(PIXBUF_INLINE_COLLECTION);
 				break;
-			case FORMAT_CLASS_PDF:
+			case FORMAT_CLASS_DOCUMENT:
 				pixbuf = pixbuf_inline(PIXBUF_INLINE_ICON_PDF);
 				break;
 			default:
