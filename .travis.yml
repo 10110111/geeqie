@@ -1,14 +1,12 @@
 language: c
 os: linux
-dist: trusty
+dist: bionic
 sudo: required
 compiler:
   - gcc
   - clang
 addons:
   apt:
-    sources:
-      - trusty
     packages:
       - autoconf
       - automake
