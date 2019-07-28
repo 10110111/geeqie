@@ -820,7 +820,7 @@ static void layout_image_dnd_receive(GtkWidget *widget, GdkDragContext *context,
 
 	if (info == TARGET_TEXT_PLAIN)
 		{
-		url = g_strdup(gtk_selection_data_get_data(selection_data));
+		url = g_strdup((gchar *)gtk_selection_data_get_data(selection_data));
 		download_web_file(url, lw);
 		g_free(url);
 		}
