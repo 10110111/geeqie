@@ -5,28 +5,6 @@ sudo: required
 compiler:
   - gcc
   - clang
-addons:
-  apt:
-    sources:
-      - bionic
-    packages:
-      - autoconf
-      - automake
-      - autotools-dev
-      - build-essential
-      - debhelper
-      - dh-autoreconf
-      - dpkg-dev
-      - gnome-doc-utils
-      - gnome-doc-utils
-      - imagemagick
-      - intltool
-      - libexiv2-dev
-      - libgtk2.0-dev
-      - libjpeg-dev
-      - liblcms2-dev
-      - liblircclient-dev
-      - liblua5.1-0-dev
-      - libtiff-dev
-      - libtool
+before_install:
+  - sudo alt-get install -y autoconf automake autotools-dev build-essential debhelper dh-autoreconf dpkg-dev gnome-doc-utils gnome-doc-utils imagemagick intltool libexiv2-dev libgtk2.0-dev libjpeg-dev liblcms2-dev liblircclient-dev liblua5.1-0-dev libtiff-dev libtool
 script: (CFLAGS= ./autogen.sh) && make
