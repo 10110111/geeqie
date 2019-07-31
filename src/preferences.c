@@ -465,7 +465,8 @@ static void config_window_apply(void)
 
 	if (accel_store) gtk_tree_model_foreach(GTK_TREE_MODEL(accel_store), accel_apply_cb, NULL);
 
-	toolbar_apply();
+	toolbar_apply(TOOLBAR_MAIN);
+	toolbar_apply(TOOLBAR_STATUS);
 }
 
 /*
@@ -3429,8 +3430,8 @@ static void config_tab_accelerators(GtkWidget *notebook)
 	gtk_widget_show(button);
 }
 
-/* toolbar tab */
-static void config_tab_toolbar(GtkWidget *notebook)
+/* toolbar main tab */
+static void config_tab_toolbar_main(GtkWidget *notebook)
 {
 	GtkWidget *vbox;
 	GtkWidget *toolbardata;
@@ -3438,9 +3439,25 @@ static void config_tab_toolbar(GtkWidget *notebook)
 
 	lw = layout_window_list->data;
 
-	vbox = scrolled_notebook_page(notebook, _("Toolbar"));
+	vbox = scrolled_notebook_page(notebook, _("Toolbar Main"));
 
-	toolbardata = toolbar_select_new(lw);
+	toolbardata = toolbar_select_new(lw, TOOLBAR_MAIN);
+	gtk_box_pack_start(GTK_BOX(vbox), toolbardata, TRUE, TRUE, 0);
+	gtk_widget_show(vbox);
+}
+
+/* toolbar status tab */
+static void config_tab_toolbar_status(GtkWidget *notebook)
+{
+	GtkWidget *vbox;
+	GtkWidget *toolbardata;
+	LayoutWindow *lw;
+
+	lw = layout_window_list->data;
+
+	vbox = scrolled_notebook_page(notebook, _("Toolbar Status"));
+
+	toolbardata = toolbar_select_new(lw, TOOLBAR_STATUS);
 	gtk_box_pack_start(GTK_BOX(vbox), toolbardata, TRUE, TRUE, 0);
 	gtk_widget_show(vbox);
 }
@@ -3562,7 +3579,8 @@ static void config_window_create(void)
 	config_tab_color(notebook);
 	config_tab_stereo(notebook);
 	config_tab_behavior(notebook);
-	config_tab_toolbar(notebook);
+	config_tab_toolbar_main(notebook);
+	config_tab_toolbar_status(notebook);
 
 	hbox = gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_END);

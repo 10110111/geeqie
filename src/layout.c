@@ -2641,6 +2641,7 @@ void layout_write_config(LayoutWindow *lw, GString *outstr, gint indent)
 
 	WRITE_SEPARATOR();
 	layout_toolbar_write_config(lw, TOOLBAR_MAIN, outstr, indent + 1);
+	layout_toolbar_write_config(lw, TOOLBAR_STATUS, outstr, indent + 1);
 
 	WRITE_NL(); WRITE_STRING("</layout>");
 }

@@ -2,7 +2,7 @@
 <section id="GuideOptionsToolbar">
   <title>Toolbar</title>
   <para>
-    This dialogue enables you to change the items displayed on the Toolbar.
+    This dialogue enables you to change the items displayed on either the Main Toolbar or the Status Toolbar.
     <para />
     The initial display shows the current setup. You may re-order these items by right-clicking on any item.
     <para />

@@ -2344,10 +2344,6 @@ static const gchar *menu_ui_description =
 "  <toolbar name='ToolBar'>"
 "  </toolbar>"
 "  <toolbar name='StatusBar'>"
-"    <toolitem action='ExifRotate'/>"
-"    <toolitem action='ShowInfoPixel'/>"
-"    <toolitem action='UseColorProfiles'/>"
-"    <toolitem action='SaveMetadata'/>"
 "  </toolbar>"
 "<accelerator action='PrevImageAlt1'/>"
 "<accelerator action='PrevImageAlt2'/>"
@@ -2628,6 +2624,7 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 void layout_actions_setup(LayoutWindow *lw)
 {
 	GError *error;
+	gint i;
 
 	DEBUG_1("%s layout_actions_setup: start", get_exec_time());
 	if (lw->ui_manager) return;
@@ -2675,8 +2672,12 @@ void layout_actions_setup(LayoutWindow *lw)
 		exit(EXIT_FAILURE);
 		}
 
-	layout_toolbar_clear(lw, TOOLBAR_MAIN);
-	layout_toolbar_add_default(lw, TOOLBAR_MAIN);
+	DEBUG_1("%s layout_actions_setup: add toolbar", get_exec_time());
+	for (i = 0; i < TOOLBAR_COUNT; i++)
+		{
+		layout_toolbar_clear(lw, i);
+		layout_toolbar_add_default(lw, i);
+		}
 
 	DEBUG_1("%s layout_actions_setup: marks", get_exec_time());
 	layout_actions_setup_marks(lw);
@@ -2849,6 +2850,9 @@ void layout_toolbar_add(LayoutWindow *lw, ToolbarType type, const gchar *action)
 		case TOOLBAR_MAIN:
 			path = "/ToolBar";
 			break;
+		case TOOLBAR_STATUS:
+			path = "/StatusBar";
+			break;
 		default:
 			break;
 		}
@@ -2933,6 +2937,36 @@ void layout_toolbar_add_default(LayoutWindow *lw, ToolbarType type)
 				layout_toolbar_add(lw, type, "FloatTools");
 				}
 			break;
+		case TOOLBAR_STATUS:
+			if (layout_window_list)
+				{
+				lw_first = layout_window_list->data;
+				if (lw_first->toolbar_actions[TOOLBAR_MAIN])
+					{
+					work_action = lw_first->toolbar_actions[type];
+					while (work_action)
+						{
+						gchar *action = work_action->data;
+						work_action = work_action->next;
+						layout_toolbar_add(lw, type, action);
+						}
+					}
+				else
+					{
+					layout_toolbar_add(lw, type, "ExifRotate");
+					layout_toolbar_add(lw, type, "ShowInfoPixel");
+					layout_toolbar_add(lw, type, "UseColorProfiles");
+					layout_toolbar_add(lw, type, "SaveMetadata");
+					}
+				}
+			else
+				{
+				layout_toolbar_add(lw, type, "ExifRotate");
+				layout_toolbar_add(lw, type, "ShowInfoPixel");
+				layout_toolbar_add(lw, type, "UseColorProfiles");
+				layout_toolbar_add(lw, type, "SaveMetadata");
+				}
+			break;
 		default:
 			break;
 		}
@@ -2949,6 +2983,9 @@ void layout_toolbar_write_config(LayoutWindow *lw, ToolbarType type, GString *ou
 		{
 		case TOOLBAR_MAIN:
 			name = "toolbar";
+			break;
+		case TOOLBAR_STATUS:
+			name = "statusbar";
 			break;
 		default:
 			break;

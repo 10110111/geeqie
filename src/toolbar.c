@@ -55,7 +55,7 @@ struct _ToolbarButtonData
 	gchar *stock_id;
 };
 
-static 	ToolbarData *toolbarlist;
+static ToolbarData *toolbarlist[2];
 
 typedef struct _UseableToolbarItems UseableToolbarItems;
 struct _UseableToolbarItems
@@ -123,6 +123,10 @@ static const UseableToolbarItems useable_toolbar_items[] = {
 	{"ConnectZoomIn",	N_("Connected Zoom in"), GTK_STOCK_ZOOM_IN},
 	{"Grayscale",	N_("Grayscale"), PIXBUF_INLINE_ICON_GRAYSCALE},
 	{"OverUnderExposed",	N_("Over Under Exposed"), PIXBUF_INLINE_ICON_EXPOSURE},
+	{"ShowInfoPixel",	N_("Pixel Info"), 	GTK_STOCK_COLOR_PICKER},
+	{"ExifRotate",	N_("_Exif rotate"),	GTK_STOCK_ORIENTATION_PORTRAIT},
+	{"UseColorProfiles",	N_("Use color profiles"),	GTK_STOCK_SELECT_COLOR},
+	{"SaveMetadata",	N_("Save metadata"),	GTK_STOCK_SAVE},
 	{"HideTools",	N_("Hide file list"), PIXBUF_INLINE_ICON_HIDETOOLS},
 	{"SlideShowPause",	N_("Pause slideshow"), GTK_STOCK_MEDIA_PAUSE},
 	{"SlideShowFaster",	N_("Slideshow Faster"), GTK_STOCK_FILE},
@@ -424,9 +428,10 @@ static gboolean toolbar_menu_add_cb(GtkWidget *widget, gpointer data)
 
 /**
  * @brief For each layoutwindow, clear toolbar and reload with current selection
+ * @param bar Main or Status toolbar
  * 
  */
-void toolbar_apply()
+void toolbar_apply(ToolbarType bar)
 {
 	LayoutWindow *lw;
 	GList *work_windows;
@@ -437,16 +442,16 @@ void toolbar_apply()
 		{
 		lw = work_windows->data;
 
-		layout_toolbar_clear(lw, TOOLBAR_MAIN);
+		layout_toolbar_clear(lw, bar);
 
-		work_toolbar = gtk_container_get_children(GTK_CONTAINER(toolbarlist->vbox));
+		work_toolbar = gtk_container_get_children(GTK_CONTAINER(toolbarlist[bar]->vbox));
 		while (work_toolbar)
 			{
 			GtkButton *button = work_toolbar->data;
 			ToolbarButtonData *tbbd;
 
 			tbbd = g_object_get_data(G_OBJECT(button),"toolbarbuttondata");
-			layout_toolbar_add(lw, TOOLBAR_MAIN, tbbd->name);
+			layout_toolbar_add(lw, bar, tbbd->name);
 
 			work_toolbar = work_toolbar->next;
 			}
@@ -461,13 +466,14 @@ void toolbar_apply()
  * @brief Load the current toolbar items into the vbox
  * @param lw 
  * @param box The vbox displayed in the preferences Toolbar tab
+ * @param bar Main or Status toolbar
  * 
  * Get the current contents of the toolbar, both menu items
  * and desktop items, and load them into the vbox
  */
-static void toolbarlist_populate(LayoutWindow *lw, GtkBox *box)
+static void toolbarlist_populate(LayoutWindow *lw, GtkBox *box, ToolbarType bar)
 {
-	GList *work = g_list_first(lw->toolbar_actions[TOOLBAR_MAIN]);
+	GList *work = g_list_first(lw->toolbar_actions[bar]);
 
 	while (work)
 		{
@@ -488,7 +494,7 @@ static void toolbarlist_populate(LayoutWindow *lw, GtkBox *box)
 		}
 }
 
-GtkWidget *toolbar_select_new(LayoutWindow *lw)
+GtkWidget *toolbar_select_new(LayoutWindow *lw, ToolbarType bar)
 {
 	GtkWidget *scrolled;
 	GtkWidget *tbar;
@@ -496,40 +502,40 @@ GtkWidget *toolbar_select_new(LayoutWindow *lw)
 
 	if (!lw) return NULL;
 
-	if (!toolbarlist)
+	if (!toolbarlist[bar])
 		{
-		toolbarlist = g_new0(ToolbarData, 1);
+		toolbarlist[bar] = g_new0(ToolbarData, 1);
 		}
-	toolbarlist->lw = lw;
+	toolbarlist[bar]->lw = lw;
 
-	toolbarlist->widget = gtk_vbox_new(FALSE, PREF_PAD_GAP);
-	gtk_widget_show(toolbarlist->widget);
+	toolbarlist[bar]->widget = gtk_vbox_new(FALSE, PREF_PAD_GAP);
+	gtk_widget_show(toolbarlist[bar]->widget);
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 							GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled), GTK_SHADOW_NONE);
-	gtk_box_pack_start(GTK_BOX(toolbarlist->widget), scrolled, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(toolbarlist[bar]->widget), scrolled, TRUE, TRUE, 0);
 	gtk_widget_show(scrolled);
 
-	toolbarlist->vbox = gtk_vbox_new(FALSE, 0);
-	gtk_widget_show(toolbarlist->vbox);
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled), toolbarlist->vbox);
+	toolbarlist[bar]->vbox = gtk_vbox_new(FALSE, 0);
+	gtk_widget_show(toolbarlist[bar]->vbox);
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled), toolbarlist[bar]->vbox);
 	gtk_viewport_set_shadow_type(GTK_VIEWPORT(gtk_bin_get_child(GTK_BIN(scrolled))),
 																GTK_SHADOW_NONE);
 
 	add_box = gtk_vbox_new(FALSE, 0);
 	gtk_widget_show(add_box);
-	gtk_box_pack_end(GTK_BOX(toolbarlist->widget), add_box, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(toolbarlist[bar]->widget), add_box, FALSE, FALSE, 0);
 	tbar = pref_toolbar_new(add_box, GTK_TOOLBAR_ICONS);
-	toolbarlist->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, "NULL", FALSE,
+	toolbarlist[bar]->add_button = pref_toolbar_button(tbar, GTK_STOCK_ADD, "NULL", FALSE,
 											_("Add Toolbar Item"),
-											G_CALLBACK(toolbar_menu_add_cb), toolbarlist);
-	gtk_widget_show(toolbarlist->add_button);
+											G_CALLBACK(toolbar_menu_add_cb), toolbarlist[bar]);
+	gtk_widget_show(toolbarlist[bar]->add_button);
 
-	toolbarlist_populate(lw,GTK_BOX(toolbarlist->vbox));
+	toolbarlist_populate(lw,GTK_BOX(toolbarlist[bar]->vbox), bar);
 
-	return toolbarlist->widget;
+	return toolbarlist[bar]->widget;
 }
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
