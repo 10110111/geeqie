@@ -60,13 +60,13 @@ static gboolean image_loader_djvu_load(gpointer loader, const guchar *buf, gsize
 	gint stride;
 	gboolean alpha = FALSE;
 	cairo_surface_t *surface;
-	gchar *pixels;
+	guchar *pixels;
 
 	ctx = ddjvu_context_create(NULL);
 
 	doc = ddjvu_document_create(ctx, NULL, FALSE);
 
-	ddjvu_stream_write(doc, 0, buf, count );
+	ddjvu_stream_write(doc, 0, (char *)buf, count );
 	while (!ddjvu_document_decoding_done(doc));
 
 	ld->page_total = ddjvu_document_get_pagenum(doc);
@@ -80,7 +80,7 @@ static gboolean image_loader_djvu_load(gpointer loader, const guchar *buf, gsize
 	height = ddjvu_page_get_height(page);
 	stride = width * 4;
 
-	pixels = (gchar *)g_malloc(height * stride);
+	pixels = (guchar *)g_malloc(height * stride);
 
 	prect.x = 0;
 	prect.y = 0;
@@ -88,9 +88,9 @@ static gboolean image_loader_djvu_load(gpointer loader, const guchar *buf, gsize
 	prect.h = height;
 	rrect = prect;
 
-	surface = cairo_image_surface_create_for_data((guchar *)pixels, CAIRO_FORMAT_RGB24, width, height, stride);
+	surface = cairo_image_surface_create_for_data(pixels, CAIRO_FORMAT_RGB24, width, height, stride);
 
-	ddjvu_page_render(page, DDJVU_RENDER_COLOR, &prect, &rrect, fmt, stride, pixels);
+	ddjvu_page_render(page, DDJVU_RENDER_COLOR, &prect, &rrect, fmt, stride, (char *)pixels);
 
 	/* FIXME implementation of rotation is not correct */
 	GdkPixbuf *tmp1;
