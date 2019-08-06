@@ -698,6 +698,15 @@ static void image_loader_setup_loader(ImageLoader *il)
 
 	il->loader = il->backend.loader_new(image_loader_area_updated_cb, image_loader_size_cb, image_loader_area_prepared_cb, il);
 
+#ifdef HAVE_TIFF
+	format = il->backend.get_format_name(il->loader);
+	if (g_strcmp0(format, "tiff") == 0)
+		{
+		il->backend.set_page_num(il->loader, il->fd->page_num);
+		}
+	g_free(format);
+#endif
+
 #ifdef HAVE_PDF
 	format = il->backend.get_format_name(il->loader);
 	if (g_strcmp0(format, "pdf") == 0)
@@ -812,6 +821,15 @@ static gboolean image_loader_begin(ImageLoader *il)
 #ifdef HAVE_DJVU
 	format = il->backend.get_format_name(il->loader);
 	if (g_strcmp0(format, "djvu") == 0)
+		{
+		gint i = il->backend.get_page_total(il->loader);
+		file_data_set_page_total(il->fd, i);
+		}
+	g_free(format);
+#endif
+#ifdef HAVE_TIFF
+	format = il->backend.get_format_name(il->loader);
+	if (g_strcmp0(format, "tiff") == 0)
 		{
 		gint i = il->backend.get_page_total(il->loader);
 		file_data_set_page_total(il->fd, i);

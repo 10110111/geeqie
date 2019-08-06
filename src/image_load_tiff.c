@@ -51,6 +51,8 @@ struct _ImageLoaderTiff {
 	const guchar *buffer;
 	toff_t used;
 	toff_t pos;
+	gint page_num;
+	gint page_total;
 };
 
 static void free_buffer (guchar *pixels, gpointer data)
@@ -144,6 +146,7 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 	gint width, height, rowstride;
 	size_t bytes;
 	uint32 rowsperstrip;
+	gint dircount = 0;
 
 	lt->buffer = buf;
 	lt->used = count;
@@ -161,7 +164,21 @@ static gboolean image_loader_tiff_load (gpointer loader, const guchar *buf, gsiz
 		DEBUG_1("Failed to open TIFF image");
 		return FALSE;
 		}
+	else
+		{
+		do
+			{
+			dircount++;
+			} while (TIFFReadDirectory(tiff));
+		lt->page_total = dircount;
+		}
 
+    if (!TIFFSetDirectory(tiff, lt->page_num))
+		{
+		DEBUG_1("Failed to open TIFF image");
+		TIFFClose(tiff);
+		return FALSE;
+		}
 
 	if (!TIFFGetField (tiff, TIFFTAG_IMAGEWIDTH, &width))
 		{
@@ -364,6 +381,20 @@ static void image_loader_tiff_free(gpointer loader)
 	g_free(lt);
 }
 
+static void image_loader_tiff_set_page_num(gpointer loader, gint page_num)
+{
+	ImageLoader *il = (ImageLoader *) loader;
+	ImageLoaderTiff *lt = (ImageLoaderTiff *) loader;
+
+	lt->page_num = page_num;
+}
+
+static gint image_loader_tiff_get_page_total(gpointer loader)
+{
+	ImageLoaderTiff *lt = (ImageLoaderTiff *) loader;
+
+	return lt->page_total;
+}
 
 void image_loader_backend_set_tiff(ImageLoaderBackend *funcs)
 {
@@ -378,6 +409,9 @@ void image_loader_backend_set_tiff(ImageLoaderBackend *funcs)
 
 	funcs->get_format_name = image_loader_tiff_get_format_name;
 	funcs->get_format_mime_types = image_loader_tiff_get_format_mime_types;
+
+	funcs->set_page_num = image_loader_tiff_set_page_num;
+	funcs->get_page_total = image_loader_tiff_get_page_total;
 }
 
 

@@ -726,7 +726,7 @@ void layout_status_update_image(LayoutWindow *lw)
 
 			if (page_total > 0)
 				{
-				text = g_strdup_printf(_("( %d x %d ) %s bytes%s%d%s%d%s"), width, height, b, "[", page_num, "/", page_total, "]");
+				text = g_strdup_printf(_("( %d x %d ) %s bytes %s%d%s%d%s"), width, height, b, "[", page_num, "/", page_total, "]");
 				}
 			else
 				{
@@ -838,7 +838,7 @@ static void layout_status_setup(LayoutWindow *lw, GtkWidget *box, gboolean small
 		}
 	lw->info_details = layout_status_label(NULL, hbox, TRUE, 0, TRUE);
 	DEBUG_NAME(lw->info_details);
-	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_details), _("(Image dimensions) Image size"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(lw->info_details), _("(Image dimensions) Image size [page n of m]"));
 	toolbar = layout_actions_toolbar(lw, TOOLBAR_STATUS);
 
 	toolbar_frame = gtk_frame_new(NULL);
