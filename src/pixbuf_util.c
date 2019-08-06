@@ -149,8 +149,6 @@ static PixbufInline inline_pixbuf_data[] = {
 	{ PIXBUF_INLINE_ICON_HEIF,	icon_heic },
 	{ PIXBUF_INLINE_ICON_GRAYSCALE,	icon_grayscale },
 	{ PIXBUF_INLINE_ICON_EXPOSURE,	icon_exposure },
-	{ PIXBUF_INLINE_ICON_NEXT_PAGE,	icon_next_page },
-	{ PIXBUF_INLINE_ICON_PREVIOUS_PAGE,	icon_previous_page },
 	{ NULL, NULL }
 };
 

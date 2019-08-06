@@ -239,6 +239,7 @@
   </section>
   <section id="Gomenu">
     <title>Go menu</title>
+    <para>The Page commands are for files which contain multiple images e.g. .tiff files</para>
     <variablelist>
       <varlistentry>
         <term>
@@ -252,7 +253,7 @@
           </menuchoice>
         </term>
         <listitem>
-          <para>Goes tothe first image.</para>
+          <para>Goes to the first image.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
@@ -326,6 +327,70 @@
             Goes to the the Home folder as defined in
             <link linkend="GuideOptionsLayout" endterm="titleGuideOptionsLayout" />
           </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>Home</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>First Page</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Goes to the first page.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>End</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Last Page</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Goes to the last page.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>PageUp</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Previous Page</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Goes to the previous page.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>Ctrl</keycap>
+                <keycap>PageDown</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Next Page</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Goes to the next page.</para>
         </listitem>
       </varlistentry>
     </variablelist>

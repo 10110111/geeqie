@@ -3397,6 +3397,23 @@ void marks_clear_all()
 	g_hash_table_foreach(file_data_pool, marks_clear, NULL);
 }
 
+void file_data_set_page_num(FileData *fd, gint page_num)
+{
+	if (fd->page_total > 1 && page_num < 0)
+		{
+		fd->page_num = fd->page_total - 1;
+		}
+	else if (fd->page_total > 1 && page_num <= fd->page_total)
+		{
+		fd->page_num = page_num - 1;
+		}
+	else
+		{
+		fd->page_num = 0;
+		}
+	file_data_send_notification(fd, NOTIFY_REREAD);
+}
+
 void file_data_inc_page_num(FileData *fd)
 {
 	if (fd->page_total > 0 && fd->page_num < fd->page_total - 1)

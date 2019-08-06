@@ -330,6 +330,53 @@
           </row>
           <row>
             <entry colsep="0">
+              <emphasis role="strong">For files with multiple pages e.g. tiff files</emphasis>
+            </entry>
+            <entry colsep="0" />
+            <entry colsep="0" />
+          </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl +
+                <keycap>Home</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Go to first page</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl +
+                <keycap>End</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Go to last page</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl +
+                <keycap>PageUp</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Go to previous page</entry>
+          </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl +
+                <keycap>PageDown</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Go to next page</entry>
+          </row>
+          <row>
+            <entry colsep="0">
               <emphasis role="strong">File Menu</emphasis>
             </entry>
             <entry colsep="0" />
@@ -428,9 +475,7 @@
           </row>
           <row>
             <entry>
-              <code>
-                Shift + Delete
-              </code>
+              <code>Shift + Delete</code>
             </entry>
             <entry />
             <entry>Permanently delete selected images.</entry>

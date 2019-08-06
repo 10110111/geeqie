@@ -1541,6 +1541,22 @@ static void layout_menu_image_next_cb(GtkAction *action, gpointer data)
 	layout_image_next(lw);
 }
 
+static void layout_menu_page_first_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *fd = layout_image_get_fd(lw);
+
+	file_data_set_page_num(fd, 1);
+}
+
+static void layout_menu_page_last_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *fd = layout_image_get_fd(lw);
+
+	file_data_set_page_num(fd, -1);
+}
+
 static void layout_menu_page_next_cb(GtkAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1906,8 +1922,10 @@ static GtkActionEntry menu_entries[] = {
   { "NextImage",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"space",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
   { "NextImageAlt1",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
 
-  { "NextPage",	PIXBUF_INLINE_ICON_NEXT_PAGE,	N_("_Next Page"),			"<control>Page_Down",	N_("Next Page"),	CB(layout_menu_page_next_cb) },
-  { "PrevPage",	PIXBUF_INLINE_ICON_PREVIOUS_PAGE,	N_("_Previous Page"),	"<control>Page_Up",		N_("Previous Page"),	CB(layout_menu_page_previous_cb) },
+  { "FirstPage",	GTK_STOCK_MEDIA_PREVIOUS,	N_("_First Page"),	"<control>Home",	N_( "First Page"),	CB(layout_menu_page_first_cb) },
+  { "LastPage",	GTK_STOCK_MEDIA_NEXT,	N_("_Last Page"),	"<control>End",		N_("Last Page"),	CB(layout_menu_page_last_cb) },
+  { "NextPage",	GTK_STOCK_MEDIA_FORWARD,	N_("_Next Page"),			"<control>Page_Down",	N_("Next Page"),	CB(layout_menu_page_next_cb) },
+  { "PrevPage",	GTK_STOCK_MEDIA_REWIND,	N_("_Previous Page"),	"<control>Page_Up",		N_("Previous Page"),	CB(layout_menu_page_previous_cb) },
 
 
   { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"KP_Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
@@ -2142,6 +2160,8 @@ static const gchar *menu_ui_description =
 "      <menuitem action='Up'/>"
 "      <menuitem action='Home'/>"
 "      <separator/>"
+"      <menuitem action='FirstPage'/>"
+"      <menuitem action='LastPage'/>"
 "      <menuitem action='NextPage'/>"
 "      <menuitem action='PrevPage'/>"
 "    </menu>"

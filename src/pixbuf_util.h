@@ -77,8 +77,6 @@ gboolean pixbuf_scale_aspect(gint req_w, gint req_h, gint old_w, gint old_h, gin
 #define PIXBUF_INLINE_ICON_HEIF	"icon_heic"
 #define PIXBUF_INLINE_ICON_GRAYSCALE	"icon_grayscale"
 #define PIXBUF_INLINE_ICON_EXPOSURE		"icon_exposure"
-#define PIXBUF_INLINE_ICON_NEXT_PAGE	"icon_next_page"
-#define PIXBUF_INLINE_ICON_PREVIOUS_PAGE	"icon_previous_page"
 
 #define PIXBUF_INLINE_ICON_CW	"icon_rotate_clockwise"
 #define PIXBUF_INLINE_ICON_CCW	"icon_rotate_counter_clockwise"
