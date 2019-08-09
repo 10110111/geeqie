@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2019-07-22"
+version="2019-08-09"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -709,22 +709,6 @@ echo "90 " > $zen_pipe
 echo "#Installing Geeqie..." > $zen_pipe
 
 sudo --askpass make install >>$install_log 2>&1
-
-# This is a temporary fix until the ZoneDetect project releases its source code
-zonedetect_message="ZoneDetect database not loaded"
-if [[ -d "/usr/local/lib/geeqie" ]]
-then
-	if [[ ! -f "/usr/local/lib/geeqie/timezone21.bin" ]]
-	then
-		sudo --askpass wget --directory-prefix=/usr/local/lib/geeqie/ https://github.com/BertoldVdb/ZoneDetect/raw/master/database/timezone21.bin >>$install_log 2>&1
-		if [[ $? == 0 ]]
-		then
-			zonedetect_message=""
-		fi
-	else
-		zonedetect_message=""
-	fi
-fi
 
 rm $install_pass_script
 mv -f $install_log install.log;
