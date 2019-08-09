@@ -321,6 +321,9 @@ struct _ConfOptions
 	gchar *mouse_button_8;
 	gchar *mouse_button_9;
 
+	/* class file filter */
+	gboolean class_filter[FILE_FORMAT_CLASSES];
+
 	gboolean read_metadata_in_idle;
 
 	GList *disabled_plugins;

@@ -1809,6 +1809,10 @@ gboolean vflist_refresh(ViewFile *vf)
 		vf->list = file_data_filter_marks_list(vf->list, vf_marks_get_filter(vf));
 		vf->list = g_list_first(vf->list);
 		vf->list = file_data_filter_file_filter_list(vf->list, vf_file_filter_get_filter(vf));
+
+		vf->list = g_list_first(vf->list);
+		vf->list = file_data_filter_class_list(vf->list, vf_class_get_filter(vf));
+
 		file_data_register_notify_func(vf_notify_cb, vf, NOTIFY_PRIORITY_MEDIUM);
 
 		DEBUG_1("%s vflist_refresh: sort", get_exec_time());

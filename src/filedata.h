@@ -103,6 +103,8 @@ GList *file_data_filter_marks_list(GList *list, guint filter);
 gboolean file_data_filter_file_filter(FileData *fd, GRegex *filter);
 GList *file_data_filter_file_filter_list(GList *list, GRegex *filter);
 
+GList *file_data_filter_class_list(GList *list, guint filter);
+
 gint file_data_get_user_orientation(FileData *fd);
 void file_data_set_user_orientation(FileData *fd, gint value);
 

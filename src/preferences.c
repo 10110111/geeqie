@@ -117,8 +117,7 @@ gchar *format_class_list[] = {
 	N_("Metadata"),
 	N_("Video"),
 	N_("Collection"),
-	N_("Document"),
-	N_("HEIF")
+	N_("Document")
 	};
 
 /* config memory values */

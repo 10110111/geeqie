@@ -562,6 +562,23 @@ static void write_marks_tooltips(GString *outstr, gint indent)
 	WRITE_NL(); WRITE_STRING("</marks_tooltips>");
 }
 
+static void write_class_filter(GString *outstr, gint indent)
+{
+	gint i;
+
+	WRITE_NL(); WRITE_STRING("<class_filter>");
+	indent++;
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		WRITE_NL(); WRITE_STRING("<filter_type ");
+		write_char_option(outstr, indent, "filter", format_class_list[i]);
+		write_bool_option(outstr, indent, "enabled", options->class_filter[i]);
+		WRITE_STRING("/>");
+		}
+	indent--;
+	WRITE_NL(); WRITE_STRING("</class_filter>");
+}
+
 static void write_disabled_plugins(GString *outstr, gint indent)
 {
 	GtkTreeIter iter;
@@ -652,6 +669,9 @@ gboolean save_config_to_file(const gchar *utf8_path, ConfOptions *options)
 
 	WRITE_SEPARATOR();
 	write_disabled_plugins(outstr, indent);
+
+	WRITE_SEPARATOR();
+	write_class_filter(outstr, indent);
 
 	WRITE_SEPARATOR();
 	keyword_tree_write_config(outstr, indent);
@@ -1050,6 +1070,49 @@ static void options_parse_marks_tooltips(GQParserData *parser_data, GMarkupParse
 		}
 }
 
+static void class_filter_load_filter_type(const gchar **attribute_names, const gchar **attribute_values)
+{
+	gint i;
+	gint index;
+
+	while (*attribute_names)
+		{
+		const gchar *option = *attribute_names++;
+		const gchar *value = *attribute_values++;
+		if (g_strcmp0("filter", option) == 0)
+			{
+			for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+				{
+				if (g_strcmp0(format_class_list[i], value) == 0)
+					{
+					index = i;
+					}
+				}
+			continue;
+			}
+
+		if (READ_BOOL_FULL("enabled", options->class_filter[index]))
+			{
+			continue;
+			}
+		log_printf("unknown attribute %s = %s\n", option, value);
+		}
+}
+
+static void options_parse_class_filter(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
+{
+	if (g_ascii_strcasecmp(element_name, "filter_type") == 0)
+		{
+		class_filter_load_filter_type(attribute_names, attribute_values);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+	else
+		{
+		log_printf("unexpected in <profile>: <%s>\n", element_name);
+		options_parse_func_push(parser_data, options_parse_leaf, NULL, NULL);
+		}
+}
+
 static void options_parse_disabled_plugins(GQParserData *parser_data, GMarkupParseContext *context, const gchar *element_name, const gchar **attribute_names, const gchar **attribute_values, gpointer data, GError **error)
 {
 	if (g_ascii_strcasecmp(element_name, "plugin") == 0)
@@ -1138,6 +1201,10 @@ static void options_parse_global(GQParserData *parser_data, GMarkupParseContext 
 		{
 		options_load_marks_tooltips(parser_data, context, element_name, attribute_names, attribute_values, data, error);
 		options_parse_func_push(parser_data, options_parse_marks_tooltips, NULL, NULL);
+		}
+	else if (g_ascii_strcasecmp(element_name, "class_filter") == 0)
+		{
+		options_parse_func_push(parser_data, options_parse_class_filter, NULL, NULL);
 		}
 	else if (g_ascii_strcasecmp(element_name, "keyword_tree") == 0)
 		{

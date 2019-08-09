@@ -45,6 +45,8 @@ void vf_sort_set(ViewFile *vf, SortType type, gboolean ascend);
 guint vf_marks_get_filter(ViewFile *vf);
 void vf_mark_filter_toggle(ViewFile *vf, gint mark);
 
+guint vf_class_get_filter(ViewFile *vf);
+
 GList *vf_selection_get_one(ViewFile *vf, FileData *fd);
 GList *vf_pop_menu_file_list(ViewFile *vf);
 GtkWidget *vf_pop_menu(ViewFile *vf);

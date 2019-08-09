@@ -148,6 +148,7 @@ typedef enum {
 	FILE_FORMAT_CLASSES
 } FileFormatClass;
 
+/* defined in preferences.c */
 extern gchar *format_class_list[];
 
 typedef enum {

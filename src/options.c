@@ -210,6 +210,10 @@ ConfOptions *init_options(ConfOptions *options)
 	options->mouse_button_8 = g_strdup("Back");
 	options->mouse_button_9 = g_strdup("Forward");
 
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		options->class_filter[i] = TRUE;
+		}
 	return options;
 }
 

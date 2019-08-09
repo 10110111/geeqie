@@ -969,6 +969,97 @@ void vf_file_filter_set(ViewFile *vf, gboolean enable)
 	vf_refresh(vf);
 }
 
+static gboolean vf_file_filter_class_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	gint i;
+
+	gboolean state = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		if (g_strcmp0(format_class_list[i], gtk_menu_item_get_label(GTK_MENU_ITEM(widget))) == 0)
+			{
+			options->class_filter[i] = state;
+			}
+		}
+	vf_refresh(vf);
+
+	return TRUE;
+}
+
+static gboolean vf_file_filter_class_set_all_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+	GtkWidget *parent;
+	GList *children;
+	GtkWidget *child;
+	gint i;
+	gboolean state;
+
+	if (g_strcmp0("Select all", gtk_menu_item_get_label(GTK_MENU_ITEM(widget))) == 0)
+		{
+		state == TRUE;
+		}
+	else
+		{
+		state = FALSE;
+		}
+
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		options->class_filter[i] = state;
+		}
+
+	i = 0;
+	parent = gtk_widget_get_parent(widget);
+	children = gtk_container_get_children(GTK_CONTAINER(parent));
+	while (children)
+		{
+		child = children->data;
+		if (i < FILE_FORMAT_CLASSES)
+			{
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(child), state);
+			}
+		i++;
+		children = children->next;
+		}
+	g_list_free(children);
+	vf_refresh(vf);
+
+	return TRUE;
+}
+
+static GtkWidget *class_filter_menu (ViewFile *vf)
+{
+	GtkWidget *menu;
+	GtkWidget *menu_item;
+	int i;
+
+	menu = gtk_menu_new();
+
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+	    {
+		menu_item = gtk_check_menu_item_new_with_label(format_class_list[i]);
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), options->class_filter[i]);
+		g_signal_connect(G_OBJECT(menu_item), "toggled", G_CALLBACK(vf_file_filter_class_cb), vf);
+		gtk_menu_shell_append(GTK_MENU_SHELL (menu), menu_item);
+		gtk_widget_show(menu_item);
+		}
+
+	menu_item = gtk_menu_item_new_with_label(_("Select all"));
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu), menu_item);
+	gtk_widget_show(menu_item);
+	g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(vf_file_filter_class_set_all_cb), vf);
+
+	menu_item = gtk_menu_item_new_with_label(_("Select none"));
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu), menu_item);
+	gtk_widget_show(menu_item);
+	g_signal_connect(G_OBJECT(menu_item), "activate", G_CALLBACK(vf_file_filter_class_set_all_cb), vf);
+
+	return menu;
+}
+
 static GtkWidget *vf_file_filter_init(ViewFile *vf)
 {
 	GtkWidget *frame = gtk_frame_new(NULL);
@@ -976,6 +1067,8 @@ static GtkWidget *vf_file_filter_init(ViewFile *vf)
 	GList *work;
 	gint n = 0;
 	GtkWidget *combo_entry;
+	GtkWidget *menubar;
+	GtkWidget *menuitem;
 
 	vf->file_filter.combo = gtk_combo_box_text_new_with_entry();
 	combo_entry = gtk_bin_get_child(GTK_BIN(vf->file_filter.combo));
@@ -1006,6 +1099,19 @@ static GtkWidget *vf_file_filter_init(ViewFile *vf)
 	gtk_widget_show(vf->file_filter.combo);
 	gtk_container_add(GTK_CONTAINER(frame), hbox);
 	gtk_widget_show(hbox);
+
+	menubar = gtk_menu_bar_new();
+	gtk_widget_set_hexpand(menubar, TRUE);
+	gtk_box_pack_start(GTK_BOX(hbox), menubar, FALSE, TRUE, 0);
+	gtk_widget_show(menubar);
+
+	menuitem = gtk_menu_item_new_with_label(_("Class"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(menuitem), _("Select Class filter"));
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM (menuitem), class_filter_menu(vf));
+	gtk_menu_shell_append(GTK_MENU_SHELL (menubar), menuitem);
+	gtk_widget_show(menuitem);
+
+	gtk_widget_show(menuitem);
 
 	return frame;
 }
@@ -1341,6 +1447,27 @@ GRegex *vf_file_filter_get_filter(ViewFile *vf)
 	else
 		{
 		ret = g_regex_new("", 0, 0, NULL);
+		}
+
+	return ret;
+}
+
+guint vf_class_get_filter(ViewFile *vf)
+{
+	guint ret = 0;
+	gint i;
+
+	if (!gtk_widget_get_visible(vf->file_filter.combo))
+		{
+		return G_MAXUINT;
+		}
+
+	for ( i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		if (options->class_filter[i])
+			{
+			ret |= 1 << i;
+			}
 		}
 
 	return ret;

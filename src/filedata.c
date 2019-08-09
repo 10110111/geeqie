@@ -1890,6 +1890,46 @@ GList *file_data_filter_file_filter_list(GList *list, GRegex *filter)
 	return list;
 }
 
+static gboolean file_data_filter_class(FileData *fd, guint filter)
+{
+	gint i;
+
+	for (i = 0; i < FILE_FORMAT_CLASSES; i++)
+		{
+		if (filter & (1 << i))
+			{
+			if ((FileFormatClass)i == filter_file_get_class(fd->path))
+				{
+				return TRUE;
+				}
+			}
+		}
+
+	return FALSE;
+}
+
+GList *file_data_filter_class_list(GList *list, guint filter)
+{
+	GList *work;
+
+	work = list;
+	while (work)
+		{
+		FileData *fd = work->data;
+		GList *link = work;
+		work = work->next;
+
+		if (!file_data_filter_class(fd, filter))
+			{
+			list = g_list_remove_link(list, link);
+			file_data_unref(fd);
+			g_list_free(link);
+			}
+		}
+
+	return list;
+}
+
 static void file_data_notify_mark_func(gpointer key, gpointer value, gpointer user_data)
 {
 	FileData *fd = value;
