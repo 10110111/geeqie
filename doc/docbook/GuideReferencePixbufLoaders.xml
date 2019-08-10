@@ -17,12 +17,6 @@
       <programlisting>https://gitorious.org/xcf-pixbuf-loader/mainline?p=xcf-pixbuf-loader:mainline.git;a=summary</programlisting>
     </para>
   </section>
-  <section id="psd">
-    <title>psd</title>
-    <para>
-      <programlisting>https://cgit.sukimashita.com/gdk-pixbuf-psd.git/</programlisting>
-    </para>
-  </section>
   <section id="jp2">
     <title>JP2/JPC/JPX/J2K/JPF</title>
     <para>If your distribution has the libpixbufloader-jasper.so loader, these file formats will also be displayed.</para>

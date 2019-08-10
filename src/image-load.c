@@ -27,6 +27,7 @@
 #include "image_load_dds.h"
 #include "image_load_djvu.h"
 #include "image_load_pdf.h"
+#include "image_load_psd.h"
 #include "image_load_heif.h"
 #include "image_load_ffmpegthumbnailer.h"
 #include "image_load_collection.h"
@@ -686,6 +687,13 @@ static void image_loader_setup_loader(ImageLoader *il)
 		{
 		DEBUG_1("Using dds loader");
 		image_loader_backend_set_dds(&il->backend);
+		}
+	else
+	if (il->bytes_total >= 6 &&
+		(memcmp(il->mapped_file, "8BPS\0\x01", 6) == 0))
+		{
+		DEBUG_1("Using custom psd loader");
+		image_loader_backend_set_psd(&il->backend);
 		}
 	else
 	if (il->fd->format_class == FORMAT_CLASS_COLLECTION)

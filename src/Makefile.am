@@ -197,6 +197,8 @@ geeqie_SOURCES = \
 	image_load_webp.h\
 	image_load_djvu.c\
 	image_load_djvu.h\
+	image_load_psd.c\
+	image_load_psd.h\
 	image_load_ffmpegthumbnailer.c\
 	image_load_ffmpegthumbnailer.h\
 	image-overlay.c	\

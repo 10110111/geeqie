@@ -1,5 +1,5 @@
 #!/bin/bash
-version="2019-08-09"
+version="2019-08-10"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
@@ -81,8 +81,6 @@ optional_gtk3_array=(
 
 # Optional pixbuf loaders
 optional_loaders_array=(
-".psd Photoshop images"
-"psd"
 ".xcf Gimp files"
 "xcf"
 )
@@ -207,19 +205,6 @@ install_options()
 	fi
 }
 
-install_psd()
-{
-	rm -rf gdk-pixbuf-psd
-	git clone https://github.com/and-rom/gdk-pixbuf-psd.git
-	cd gdk-pixbuf-psd
-	./autogen.sh
-	make
-	sudo --askpass make install
-	sudo --askpass gdk-pixbuf-query-loaders --update-cache
-	cd -
-	rm -rf gdk-pixbuf-psd
-}
-
 install_xcf()
 {
 	rm -rf xcf-pixbuf-loader
@@ -256,9 +241,6 @@ install_extra_loaders()
 		while [ $# -gt 0 ];
 		do
 			case $1 in
-			"psd" )
-				install_psd
-			;;
 			"xcf" )
 				install_xcf
 			;;
@@ -526,31 +508,6 @@ fi
 
 # Get the optional loaders not yet installed
 ((i=0))
-gdk-pixbuf-query-loaders | grep WebP >/dev/null
-if [[ $? == 1 ]]
-then
-	if [ -z "$loaders_string" ]
-	then
-		loaders_string=$'FALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
-	else
-		loaders_string="$loaders_string"$'\nFALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
-
-	fi
-fi
-
-((i=i+2))
-gdk-pixbuf-query-loaders | grep psd >/dev/null
-if [[ $? == 1 ]]
-then
-	if [ -z "$loaders_string" ]
-	then
-		loaders_string=$'FALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
-	else
-		loaders_string="$loaders_string"$'\nFALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
-	fi
-fi
-
-((i=i+2))
 gdk-pixbuf-query-loaders | grep xcf >/dev/null
 if [[ $? == 1 ]]
 then
