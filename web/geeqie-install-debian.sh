@@ -1,12 +1,11 @@
 #!/bin/bash
-version="2019-08-10"
+version="2019-08-11"
 description=$'
 Geeqie is an image viewer.
 This script will download, compile, and install Geeqie on Debian-based systems.
 If run from a folder that already contains the Geeqie sources, the source
 code will be updated from the repository.
-Dialogs allow the user to install additional features, including
-additional pixbuf loaders.
+Dialogs allow the user to install additional features.
 
 Command line options are:
 -v --version The version of this file
@@ -77,12 +76,6 @@ optional_gtk3_array=(
 "libchamplain-0.12-dev"
 "libpoppler (for pdf file preview)"
 "libpoppler-glib-dev"
-)
-
-# Optional pixbuf loaders
-optional_loaders_array=(
-".xcf Gimp files"
-"xcf"
 )
 
 ####################################################################
@@ -203,54 +196,6 @@ install_options()
 		done
 		IFS=$OLDIFS
 	fi
-}
-
-install_xcf()
-{
-	rm -rf xcf-pixbuf-loader
-	package_install libbz2-dev
-	git clone https://github.com/StephaneDelcroix/xcf-pixbuf-loader.git
-	cd xcf-pixbuf-loader
-	./autogen.sh
-	make
-
-	# There must be a better way...
-	loader_locn=$(gdk-pixbuf-query-loaders | grep "LoaderDir" | tr -d '#[:space:]')
-
-	OLDIFS=$IFS
-	IFS='='
-	set $loader_locn
-	OLDIFS=$IFS
-
-	if [ -d $2 ]
-	then
-		sudo --askpass cp .libs/libioxcf.so $2
-		sudo --askpass gdk-pixbuf-query-loaders --update-cache
-	fi
-	cd -
-	rm -rf xcf-pixbuf-loader
-}
-
-install_extra_loaders()
-{
-	if [ -n "$extra_loaders" ]
-	then
-		OLDIFS=$IFS
-		IFS='|'
-		set $extra_loaders
-		while [ $# -gt 0 ];
-		do
-			case $1 in
-			"xcf" )
-				install_xcf
-			;;
-			esac
-
-			shift
-		done
-		IFS=$OLDIFS
-	fi
-	return
 }
 
 uninstall()
@@ -506,36 +451,12 @@ then
 	done
 fi
 
-# Get the optional loaders not yet installed
-((i=0))
-gdk-pixbuf-query-loaders | grep xcf >/dev/null
-if [[ $? == 1 ]]
-then
-	if [ -z "$loaders_string" ]
-	then
-		loaders_string=$'FALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
-	else
-		loaders_string="$loaders_string"$'\nFALSE\n'"${optional_loaders_array[$i]}"$'\n'"${optional_loaders_array[$i+1]}"
-	fi
-fi
-
 kill $zen_pid 2>/dev/null
 
 # Ask the user which options to install
 if [ -n "$option_string" ]
 then
 	options=$(echo "$option_string" | zenity --title="$title" --width=400 --height=500 --list --checklist --text 'Select which library files to install:' --column='Select' --column='Library files' --column='Library' --hide-column=3 --print-column=3 2>/dev/null)
-
-	if [[ $? == 1 ]]
-	then
-		exit_install
-	fi
-fi
-
-# Ask the user which extra loaders to install
-if [ -n "$loaders_string" ]
-then
-	extra_loaders=$(echo "$loaders_string" | zenity --title="$title" --width=370 --height=400 --list --checklist --text 'These loaders are not part of the main repository,\nbut are known to work to some extent.' --column='Select' --column='Library files' --column='Library' --hide-column=3 --print-column=3 2>/dev/null)
 
 	if [[ $? == 1 ]]
 	then
@@ -560,8 +481,6 @@ install_options
 
 echo "6" > $zen_pipe
 echo "#Installing extra loaders..." > $zen_pipe
-
-install_extra_loaders
 
 echo "10" > $zen_pipe
 echo "#Getting new sources from server..." > $zen_pipe

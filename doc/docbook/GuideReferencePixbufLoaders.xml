@@ -11,12 +11,6 @@
     <title>wmf</title>
     <para>libwmf0.2-7-gtk</para>
   </section>
-  <section id="xcf">
-    <title>xcf</title>
-    <para>
-      <programlisting>https://gitorious.org/xcf-pixbuf-loader/mainline?p=xcf-pixbuf-loader:mainline.git;a=summary</programlisting>
-    </para>
-  </section>
   <section id="jp2">
     <title>JP2/JPC/JPX/J2K/JPF</title>
     <para>If your distribution has the libpixbufloader-jasper.so loader, these file formats will also be displayed.</para>
