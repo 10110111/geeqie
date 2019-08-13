@@ -1101,7 +1101,6 @@ static GtkWidget *vf_file_filter_init(ViewFile *vf)
 	gtk_widget_show(hbox);
 
 	menubar = gtk_menu_bar_new();
-	gtk_widget_set_hexpand(menubar, TRUE);
 	gtk_box_pack_start(GTK_BOX(hbox), menubar, FALSE, TRUE, 0);
 	gtk_widget_show(menubar);
 
