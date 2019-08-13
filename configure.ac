@@ -633,6 +633,31 @@ AM_CONDITIONAL(HAVE_WEBP, [test "x$HAVE_WEBP" = xyes])
 AC_SUBST(WEBP_CFLAGS)
 AC_SUBST(WEBP_LIBS)
 
+#  J2K support
+# ----------------------------------------------------------------------
+
+AC_ARG_ENABLE([j2k],
+  AC_HELP_STRING([--disable-j2k], [disable j2k support]),
+    [libopenjp2=$enableval], [libopenjp2=auto])
+
+if test "x${libopenjp2}" != "xno"; then
+  PKG_CHECK_MODULES(J2K, libopenjp2 >= 2.3.0,
+    [
+      HAVE_J2K=yes
+      AC_DEFINE(HAVE_J2K, 1, [define to enable j2k support])
+    ],
+    [
+      HAVE_J2K=no
+      AC_MSG_WARN([$J2K_PKG_ERRORS])
+    ])
+else
+    HAVE_J2K=disabled
+fi
+
+AM_CONDITIONAL(HAVE_J2K, [test "x$HAVE_J2K" = xyes])
+AC_SUBST(J2K_CFLAGS)
+AC_SUBST(J2K_LIBS)
+
 #  DjVu support
 # ----------------------------------------------------------------------
 
@@ -781,6 +806,7 @@ Support:
   HEIF:	         $HAVE_HEIF
   WebP:	         $HAVE_WEBP
   DjVu:	         $HAVE_DJVU
+  J2K:	         $HAVE_J2K
 
 Documentation:
   Doxygen:       $DX_DOXYGEN

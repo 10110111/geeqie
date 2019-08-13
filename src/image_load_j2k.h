@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2008 - 2016 The Geeqie Team
+ * Copyright (C) 20019 - The Geeqie Team
  *
- * Authors: Vladimir Nadvornik, Laurent Monin
+ * Author: Colin Clark
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,19 +18,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MISC_H
-#define MISC_H
+#ifndef IMAGE_LOAD_J2K_H
+#define IMAGE_LOAD_J2K_H
 
-gdouble get_zoom_increment(void);
-gchar *utf8_validate_or_convert(const gchar *text);
-gint utf8_compare(const gchar *s1, const gchar *s2, gboolean case_sensitive);
-gchar *expand_tilde(const gchar *filename);
-int runcmd(gchar *cmd);
-gchar *decode_geo_parameters(const gchar *input_text);
-gint date_get_first_day_of_week();
-gchar *date_get_abbreviated_day_name(gint day);
-gchar *convert_rating_to_stars(gint rating);
-gchar *get_symbolic_link(const gchar *path_utf8);
-gint get_cpu_cores(void);
-#endif /* MISC_H */
+#ifdef HAVE_J2K
+void image_loader_backend_set_j2k(ImageLoaderBackend *funcs);
+#endif
+
+#endif
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
