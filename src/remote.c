@@ -25,6 +25,7 @@
 #include "cache_maint.h"
 #include "collect.h"
 #include "collect-io.h"
+#include "exif.h"
 #include "filedata.h"
 #include "filefilter.h"
 #include "image.h"
@@ -961,6 +962,73 @@ static void gr_file_tell(const gchar *text, GIOChannel *channel, gpointer data)
 		}
 }
 
+static void gr_file_info(const gchar *text, GIOChannel *channel, gpointer data)
+{
+	gchar *filename;
+	FileData *fd;
+	gchar *country_name;
+	gchar *country_code;
+	gchar *timezone;
+	gchar *local_time;
+	GString *out_string;
+	FileFormatClass format_class;
+
+	if (!layout_valid(&lw_id)) return;
+
+	if (image_get_path(lw_id->image))
+		{
+		filename = g_strdup(image_get_path(lw_id->image));
+		fd = file_data_new_group(filename);
+		out_string = g_string_new(NULL);
+
+		format_class = filter_file_get_class(image_get_path(lw_id->image));
+		if (format_class)
+			{
+			g_string_append_printf(out_string, _("Class: %s\n"), format_class_list[format_class]);
+			}
+
+		if (fd->page_total > 1)
+			{
+			g_string_append_printf(out_string, _("Page no: %d/%d\n"), fd->page_num + 1, fd->page_total);
+			}
+
+		country_name = exif_get_data_as_text(fd->exif, "formatted.countryname");
+		if (country_name)
+			{
+			g_string_append_printf(out_string, _("Country name: %s\n"), country_name);
+			}
+
+		country_code = exif_get_data_as_text(fd->exif, "formatted.countrycode");
+		if (country_name)
+			{
+			g_string_append_printf(out_string, _("Country code: %s\n"), country_code);
+			}
+
+		timezone = exif_get_data_as_text(fd->exif, "formatted.timezone");
+		if (timezone)
+			{
+			g_string_append_printf(out_string, _("Timezone: %s\n"), timezone);
+			}
+
+		local_time = exif_get_data_as_text(fd->exif, "formatted.localtime");
+		if (local_time)
+			{
+			g_string_append_printf(out_string, ("Local time: %s\n"), local_time);
+			}
+
+		g_io_channel_write_chars(channel, out_string->str, -1, NULL, NULL);
+		g_io_channel_write_chars(channel, "\n", -1, NULL, NULL);
+
+		g_free(country_name);
+		g_free(country_code);
+		g_free(timezone);
+		g_free(local_time);
+		g_string_free(out_string, TRUE);
+		file_data_unref(fd);
+		g_free(filename);
+		}
+}
+
 static void gr_config_load(const gchar *text, GIOChannel *channel, gpointer data)
 {
 	gchar *filename = expand_tilde(text);
@@ -1161,6 +1229,7 @@ static RemoteCommandEntry remote_commands[] = {
 	{ NULL, "--get-filelist-recurse:", gr_filelist_recurse, TRUE,  FALSE, N_("[<FOLDER>]"), N_("get list of files and class recursive") },
 	{ NULL, "--get-collection:",    gr_collection,          TRUE,  FALSE, N_("<COLLECTION>"), N_("get collection content") },
 	{ NULL, "--get-collection-list", gr_collection_list,    FALSE, FALSE, NULL, N_("get collection list") },
+	{ NULL, "--get-file-info",      gr_file_info,           FALSE, FALSE, NULL, N_("get file info") },
 	{ NULL, "view:",                gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--view:",              gr_file_view,           TRUE,  FALSE, N_("<FILE>"), N_("open FILE in new window") },
 	{ NULL, "--list-clear",         gr_list_clear,          FALSE, FALSE, NULL, N_("clear command line collection list") },
