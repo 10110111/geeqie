@@ -341,6 +341,10 @@
             <entry>if the file is a symbolic link, shows the path of the source file</entry>
           </row>
           <row>
+            <entry>file.page_no</entry>
+            <entry>if the file is a multi-page file, e.g. .tiff, the current page number and page total is displayed (e.g. [2/10])</entry>
+          </row>
+          <row>
             <entry>lua.&lt;lua script&gt;</entry>
             <entry>
               Call a lua script

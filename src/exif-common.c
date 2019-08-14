@@ -944,6 +944,7 @@ ExifFormattedText ExifFormattedList[] = {
 	{"file.group",				N_("File group"), 	NULL},
 	{"file.link",				N_("File link"), 	NULL},
 	{"file.class",				N_("File class"), 	NULL},
+	{"file.page_no",			N_("Page no."), 	NULL},
 	{ NULL, NULL, NULL }
 };
 
@@ -1192,6 +1193,8 @@ static gchar *mode_number(mode_t m)
 
 gchar *metadata_file_info(FileData *fd, const gchar *key, MetadataFormat format)
 {
+	gchar *page_n_of_m;
+
 	if (strcmp(key, "file.size") == 0)
 		{
 		return g_strdup_printf("%ld", (long)fd->size);
@@ -1223,6 +1226,18 @@ gchar *metadata_file_info(FileData *fd, const gchar *key, MetadataFormat format)
 	if (strcmp(key, "file.link") == 0)
 		{
 		return g_strdup(fd->sym_link);
+		}
+	if (strcmp(key, "file.page_no") == 0)
+		{
+		if (fd->page_total > 1)
+			{
+			page_n_of_m = g_strdup_printf("[%d/%d]", fd->page_num + 1, fd->page_total);
+			return page_n_of_m;
+			}
+		else
+			{
+			return NULL;
+			}
 		}
 	return g_strdup("");
 }

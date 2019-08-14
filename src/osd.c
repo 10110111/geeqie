@@ -52,6 +52,7 @@ static const gchar *predefined_tags[][2] = {
 	{"%file.group%",					N_("File group")},
 	{"%file.link%",						N_("File link")},
 	{"%file.class%",					N_("File class")},
+	{"%file.page_no%",					N_("File page no.")},
 	{"%formatted.DateTime%",			N_("Image date")},
 	{"%formatted.DateTimeDigitized%",	N_("Date digitized")},
 	{"%formatted.ShutterSpeed%",		N_("ShutterSpeed")},
