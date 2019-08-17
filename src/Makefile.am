@@ -203,6 +203,8 @@ geeqie_SOURCES = \
 	image_load_psd.h\
 	image_load_j2k.c\
 	image_load_j2k.h\
+	image_load_svgz.c\
+	image_load_svgz.h\
 	image_load_ffmpegthumbnailer.c\
 	image_load_ffmpegthumbnailer.h\
 	image-overlay.c	\

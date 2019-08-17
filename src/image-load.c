@@ -33,6 +33,7 @@
 #include "image_load_collection.h"
 #include "image_load_webp.h"
 #include "image_load_j2k.h"
+#include "image_load_svgz.h"
 
 #include "exif.h"
 #include "filedata.h"
@@ -710,6 +711,12 @@ static void image_loader_setup_loader(ImageLoader *il)
 		{
 		DEBUG_1("Using custom collection loader");
 		image_loader_backend_set_collection(&il->backend);
+		}
+	else
+	if (g_strcmp0(strrchr(il->fd->path, '.'), ".svgz") == 0)
+		{
+		DEBUG_1("Using custom svgz loader");
+		image_loader_backend_set_svgz(&il->backend);
 		}
 	else
 		image_loader_backend_set_default(&il->backend);
