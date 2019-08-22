@@ -1,4 +1,4 @@
-# gqview ja.po.
+# geeqie ja.po.
 # Copyright (C) 2000-2005 Free Software Foundation, Inc.
 # SATO Satoru <ss@gnome.gr.jp>, 2001
 # Junichi Uekawa <dancer@debian.org>, 2002
@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-28 19:44+0100\n"
+"POT-Creation-Date: 2019-08-21 23:57+0900\n"
 "PO-Revision-Date: 2005-02-17 15:45+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -19,36 +19,49 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../geeqie.desktop.in.h:1
-#, fuzzy
 msgid "Geeqie"
-msgstr "Geeqie の終了"
+msgstr ""
 
 #: ../geeqie.desktop.in.h:2
-#, fuzzy
 msgid "Image Viewer"
-msgstr "画像ファイル"
+msgstr "画像ビューワ"
 
 #: ../geeqie.desktop.in.h:3
-#, fuzzy
 msgid "View and manage images"
-msgstr "次に表示する画像をプリロードする"
+msgstr "画像の表示と管理"
 
-#: ../plugins/import/geeqie-import-geeqie.desktop.in.h:1
-msgid "Import Geeqie 1.0alphaX metadata"
-msgstr ""
+#: ../plugins/export-jpeg/export-jpeg.desktop.in.h:1
+msgid "Export jpeg"
+msgstr "JPEGエクスポート"
 
-#: ../plugins/import/geeqie-import-gqview.desktop.in.h:1
-msgid "Import GQView metadata"
-msgstr ""
+#: ../plugins/tethered-photography/tethered-photography.desktop.in.h:1
+msgid "Tethered photography"
+msgstr "テザー撮影"
+
+#: ../plugins/camera-import/camera-import.desktop.in.h:1
+msgid "Camera import"
+msgstr "カメラからインポート"
+
+#: ../plugins/image-crop/image-crop.desktop.in.h:1
+msgid "Image crop"
+msgstr "画像の切り抜き"
+
+#: ../plugins/random-image/random-image.desktop.in.h:1
+msgid "Random image"
+msgstr "ランダムな画像"
 
 #: ../plugins/rotate/rotate.desktop.in.h:1
-#, fuzzy
 msgid "Apply the orientation to image content"
-msgstr "存在している画像ファイルを入力して下さい"
+msgstr "画像の内容に向きを適用する"
 
 #: ../plugins/symlink/symlink.desktop.in.h:1
 msgid "Symlink"
 msgstr ""
+
+#. The name which appears in the menu:
+#: ../plugins/template.desktop.in.h:2
+msgid "Template"
+msgstr "テンプレート"
 
 #: ../plugins/ufraw/geeqie-ufraw.desktop.in.h:1
 msgid "UFRaw Batch"
@@ -62,173 +75,167 @@ msgstr ""
 msgid "UFRaw Batch recursive"
 msgstr ""
 
-#: ../src/advanced_exif.c:378 ../src/cache_maint.c:1265
-#: ../src/preferences.c:110 ../src/preferences.c:2095
+#: ../src/advanced_exif.c:384 ../src/cache_maint.c:1266
+#: ../src/preferences.c:117 ../src/preferences.c:2592 ../src/search.c:2198
+#: ../src/search.c:3379
 msgid "Metadata"
 msgstr "メタデータ"
 
-#: ../src/advanced_exif.c:426 ../src/preferences.c:2009
+#: ../src/advanced_exif.c:433 ../src/preferences.c:2506
 msgid "Description"
 msgstr "説明"
 
-#: ../src/advanced_exif.c:427
+#: ../src/advanced_exif.c:434
 msgid "Value"
 msgstr "値"
 
-#: ../src/advanced_exif.c:428 ../src/desktop_file.c:535 ../src/dupe.c:2764
-#: ../src/dupe.c:3303 ../src/print.c:3209 ../src/search.c:3111
-#: ../src/utilops.c:505 ../src/view_file/view_file_list.c:1935
+#: ../src/advanced_exif.c:435 ../src/desktop_file.c:631 ../src/dupe.c:2784
+#: ../src/dupe.c:3327 ../src/osd.c:38 ../src/search.c:3462 ../src/utilops.c:505
+#: ../src/view_file/view_file_list.c:2076
 msgid "Name"
 msgstr "名前"
 
-#: ../src/advanced_exif.c:429
+#: ../src/advanced_exif.c:436
 msgid "Tag"
 msgstr "タグ"
 
-#: ../src/advanced_exif.c:430
+#: ../src/advanced_exif.c:437
 msgid "Format"
 msgstr "型"
 
-#: ../src/advanced_exif.c:431
+#: ../src/advanced_exif.c:438
 msgid "Elements"
 msgstr "要素"
 
 #. default sidebar
-#: ../src/bar.c:183
+#: ../src/bar.c:199
 msgid "Histogram"
-msgstr ""
+msgstr "ヒストグラム"
 
-#: ../src/bar.c:184
-#, fuzzy
+#: ../src/bar.c:200
 msgid "Title"
-msgstr "タイトルなし"
+msgstr "タイトル"
 
-#: ../src/bar.c:185 ../src/search.c:2993
+#: ../src/bar.c:201 ../src/osd.c:48 ../src/preferences.c:2977
+#: ../src/search.c:3298
 msgid "Keywords"
 msgstr "キーワード"
 
-#: ../src/bar.c:186 ../src/search.c:3005
-#, fuzzy
+#: ../src/bar.c:202 ../src/osd.c:47 ../src/search.c:3310
 msgid "Comment"
-msgstr "コメント:"
+msgstr "コメント"
 
-#: ../src/bar.c:187
-#, fuzzy
+#: ../src/bar.c:203 ../src/osd.c:74
 msgid "Rating"
-msgstr "印刷エラー"
+msgstr "レーティング"
 
-#: ../src/bar.c:188
+#: ../src/bar.c:204
+#, fuzzy
+msgid "Headline"
+msgstr "線形"
+
+#: ../src/bar.c:205
 msgid "Exif"
 msgstr "Exif"
 
 #. other pre-configured panes
-#: ../src/bar.c:190
+#: ../src/bar.c:207
 #, fuzzy
 msgid "File info"
-msgstr "ファイルはありません"
+msgstr "ファイル情報"
 
-#: ../src/bar.c:191
-#, fuzzy
+#: ../src/bar.c:208
 msgid "Location and GPS"
-msgstr "場所:"
+msgstr "場所とGPS:"
 
-#: ../src/bar.c:192 ../src/exif.c:342
+#: ../src/bar.c:209 ../src/exif.c:342
 msgid "Copyright"
 msgstr "ライセンス"
 
-#: ../src/bar.c:195 ../src/bar_gps.c:1010
+#: ../src/bar.c:212 ../src/bar_gps.c:1011
 msgid "GPS Map"
-msgstr ""
+msgstr "GPSマップ"
 
-#: ../src/bar.c:315 ../src/toolbar.c:191
-#, fuzzy
+#: ../src/bar.c:332 ../src/toolbar.c:214
 msgid "Move to _top"
-msgstr "上へ移動(_U)"
+msgstr "一番上へ移動(_T)"
 
-#: ../src/bar.c:316 ../src/toolbar.c:192 ../src/ui_bookmark.c:416
+#: ../src/bar.c:333 ../src/toolbar.c:215 ../src/ui_bookmark.c:416
 msgid "Move _up"
 msgstr "上へ移動(_U)"
 
-#: ../src/bar.c:317 ../src/toolbar.c:193 ../src/ui_bookmark.c:418
+#: ../src/bar.c:334 ../src/toolbar.c:216 ../src/ui_bookmark.c:418
 msgid "Move _down"
 msgstr "下へ移動(_D)"
 
-#: ../src/bar.c:318 ../src/toolbar.c:194
-#, fuzzy
+#: ../src/bar.c:335 ../src/toolbar.c:217
 msgid "Move to _bottom"
-msgstr "左下"
+msgstr "一番下へ移動(_B)"
 
-#: ../src/bar.c:320 ../src/toolbar.c:196
-#, fuzzy
+#: ../src/bar.c:337 ../src/toolbar.c:219
 msgid "Remove"
-msgstr "削除(_R)"
+msgstr "削除"
 
-#: ../src/bar.c:711
-#, fuzzy
+#: ../src/bar.c:733
 msgid "Add Pane"
-msgstr "画像を追加する"
+msgstr "枠を追加する"
 
 #: ../src/bar_comment.c:216
-#, fuzzy
 msgid "Add text to selected files"
-msgstr "キーワードを選択したファイルに追加します"
+msgstr "選択されたファイルにテキストを追加する"
 
 #: ../src/bar_comment.c:217
-#, fuzzy
 msgid "Replace existing text in selected files"
-msgstr "既存のファイルを新しいファイルで置き換える"
+msgstr "選択されたファイルの既存のテキストを置き換える"
 
-#: ../src/bar_exif.c:222
+#: ../src/bar_exif.c:223
 msgid "<empty label, fixme>"
 msgstr ""
 
-#: ../src/bar_exif.c:550 ../src/bar_exif.c:560
-#, fuzzy
+#: ../src/bar_exif.c:551 ../src/bar_exif.c:561
 msgid "Configure entry"
-msgstr "オプションを設定します"
+msgstr "項目の設定"
 
 #. for the pane
-#: ../src/bar_exif.c:550 ../src/bar_exif.c:560 ../src/bar_exif.c:648
-#, fuzzy
+#: ../src/bar_exif.c:551 ../src/bar_exif.c:561 ../src/bar_exif.c:649
 msgid "Add entry"
-msgstr "内容の追加(_A)"
+msgstr "項目の追加"
 
-#: ../src/bar_exif.c:566
+#: ../src/bar_exif.c:567
 msgid "Key:"
-msgstr ""
+msgstr "キー:"
 
-#: ../src/bar_exif.c:575 ../src/preferences.c:1688
+#: ../src/bar_exif.c:576 ../src/preferences.c:2048
 msgid "Title:"
-msgstr ""
-
-#: ../src/bar_exif.c:584
-msgid "Show only if set"
-msgstr ""
+msgstr "タイトル:"
 
 #: ../src/bar_exif.c:585
+msgid "Show only if set"
+msgstr "セットされているときだけ表示"
+
+#: ../src/bar_exif.c:586
 msgid "Editable (supported only for XMP)"
-msgstr ""
+msgstr "編集可能(XMPのみサポート)"
 
 #. for the entry
-#: ../src/bar_exif.c:634
-#, fuzzy, c-format
+#: ../src/bar_exif.c:635
+#, c-format
 msgid "Configure \"%s\""
-msgstr "オプションを設定します"
+msgstr "\"%s\"を設定"
 
-#: ../src/bar_exif.c:635 ../src/bar_keywords.c:1342
-#, fuzzy, c-format
+#: ../src/bar_exif.c:636 ../src/bar_keywords.c:1367
+#, c-format
 msgid "Remove \"%s\""
-msgstr "削除(_R)"
+msgstr "\"%s\"を削除"
 
-#: ../src/bar_exif.c:636
-#, fuzzy, c-format
+#: ../src/bar_exif.c:637
+#, c-format
 msgid "Copy \"%s\""
-msgstr "コピーする"
+msgstr "\"%s\"をコピー"
 
-#: ../src/bar_exif.c:649
-#, fuzzy
+#: ../src/bar_exif.c:650
 msgid "Show hidden entries"
-msgstr "隠す"
+msgstr "隠し項目を表示"
 
 #: ../src/bar_gps.c:187
 #, c-format
@@ -324,158 +331,164 @@ msgid "Map centering"
 msgstr "計測モード"
 
 #. use the same strings as in layout_util.c
-#: ../src/bar_histogram.c:257 ../src/layout_util.c:1899
+#: ../src/bar_histogram.c:257 ../src/layout_util.c:2080
 msgid "Histogram on _Red"
-msgstr ""
+msgstr "赤のヒストグラム(_R)"
 
-#: ../src/bar_histogram.c:258 ../src/layout_util.c:1900
+#: ../src/bar_histogram.c:258 ../src/layout_util.c:2081
 msgid "Histogram on _Green"
-msgstr ""
+msgstr "緑のヒストグラム(_G)"
 
-#: ../src/bar_histogram.c:259 ../src/layout_util.c:1901
+#: ../src/bar_histogram.c:259 ../src/layout_util.c:2082
 msgid "Histogram on _Blue"
-msgstr ""
+msgstr "青のヒストグラム(_B)"
 
-#: ../src/bar_histogram.c:260 ../src/layout_util.c:1902
+#: ../src/bar_histogram.c:260 ../src/layout_util.c:2083
 msgid "_Histogram on RGB"
-msgstr ""
+msgstr "RGBのヒストグラム(_H)"
 
-#: ../src/bar_histogram.c:261 ../src/layout_util.c:1903
+#: ../src/bar_histogram.c:261 ../src/layout_util.c:2084
 msgid "Histogram on _Value"
-msgstr ""
+msgstr "明度のヒストグラム(_V)"
 
-#: ../src/bar_histogram.c:265 ../src/layout_util.c:1907
+#: ../src/bar_histogram.c:265 ../src/layout_util.c:2088
 msgid "Li_near Histogram"
-msgstr ""
+msgstr "線形ヒストグラム(_N)"
 
 #: ../src/bar_histogram.c:266
 msgid "L_og Histogram"
-msgstr ""
+msgstr "対数ヒストグラム(_O)"
 
-#: ../src/bar_keywords.c:463
-msgid "Add keywords to selected files"
-msgstr "キーワードを選択したファイルに追加します"
-
-#: ../src/bar_keywords.c:464
+#: ../src/bar_keywords.c:488
 #, fuzzy
-msgid "Replace existing keywords in selected files"
+msgid "Add selected keywords to selected files"
 msgstr "キーワードを選択したファイルに追加します"
 
-#: ../src/bar_keywords.c:935
+#: ../src/bar_keywords.c:489
+#, fuzzy
+msgid "Replace existing keywords in selected files with selected keywords"
+msgstr "キーワードを選択したファイルに追加します"
+
+#: ../src/bar_keywords.c:960
 #, fuzzy
 msgid "Edit keyword"
 msgstr "編集ツール"
 
-#: ../src/bar_keywords.c:935 ../src/bar_keywords.c:942
-#: ../src/bar_keywords.c:1287
+#: ../src/bar_keywords.c:960 ../src/bar_keywords.c:967
+#: ../src/bar_keywords.c:1312
 #, fuzzy
 msgid "New keyword"
 msgstr "キーワード"
 
-#: ../src/bar_keywords.c:942
+#: ../src/bar_keywords.c:967
 #, fuzzy
 msgid "Configure keyword"
 msgstr "オプションを設定します"
 
-#: ../src/bar_keywords.c:948
+#: ../src/bar_keywords.c:973
 #, fuzzy
 msgid "Keyword:"
 msgstr "キーワード:"
 
-#: ../src/bar_keywords.c:957
+#: ../src/bar_keywords.c:982
 #, fuzzy
 msgid "Keyword type:"
 msgstr "キーワード:"
 
-#: ../src/bar_keywords.c:959
+#: ../src/bar_keywords.c:984
 #, fuzzy
 msgid "Active keyword"
 msgstr "現在使用中のモニタ"
 
-#: ../src/bar_keywords.c:962
+#: ../src/bar_keywords.c:987
 #, fuzzy
 msgid "Helper"
 msgstr "ヘルプ(_H)"
 
-#: ../src/bar_keywords.c:1036
+#: ../src/bar_keywords.c:1061
 msgid "This will disconnect all Marks Keywords connections"
 msgstr ""
 
-#: ../src/bar_keywords.c:1038
+#: ../src/bar_keywords.c:1063
 #, fuzzy
 msgid "Marks Keywords"
 msgstr "キーワード"
 
-#: ../src/bar_keywords.c:1311
+#: ../src/bar_keywords.c:1336
 #, fuzzy, c-format
 msgid "Add \"%s\" to all selected images"
 msgstr "キーワードを選択したファイルに追加します"
 
-#: ../src/bar_keywords.c:1317
+#: ../src/bar_keywords.c:1342
 #, c-format
 msgid "Hide \"%s\""
 msgstr ""
 
-#: ../src/bar_keywords.c:1324
-#, fuzzy, c-format
+#: ../src/bar_keywords.c:1349
+#, c-format
 msgid "Mark %d"
-msgstr "ブックマークへ追加します"
+msgstr "マーク %d"
 
-#: ../src/bar_keywords.c:1332
+#: ../src/bar_keywords.c:1357
 #, c-format
 msgid "Connect \"%s\" to mark"
 msgstr ""
 
-#: ../src/bar_keywords.c:1339
+#: ../src/bar_keywords.c:1364
 #, fuzzy, c-format
 msgid "Edit \"%s\""
 msgstr "編集ツール"
 
-#: ../src/bar_keywords.c:1349
+#: ../src/bar_keywords.c:1374
 #, c-format
 msgid "Disconnect \"%s\" from mark %s"
 msgstr ""
 
-#: ../src/bar_keywords.c:1356
+#: ../src/bar_keywords.c:1381
 #, c-format
 msgid "Disconnect all Mark Keyword connections"
 msgstr ""
 
 #. for the pane
-#: ../src/bar_keywords.c:1367 ../src/bar_keywords.c:1381
+#: ../src/bar_keywords.c:1392 ../src/bar_keywords.c:1406
 msgid "Expand checked"
 msgstr ""
 
-#: ../src/bar_keywords.c:1368 ../src/bar_keywords.c:1382
+#: ../src/bar_keywords.c:1393 ../src/bar_keywords.c:1407
 msgid "Collapse unchecked"
 msgstr ""
 
-#: ../src/bar_keywords.c:1369 ../src/bar_keywords.c:1383
+#: ../src/bar_keywords.c:1394 ../src/bar_keywords.c:1408
 msgid "Hide unchecked"
 msgstr ""
 
-#: ../src/bar_keywords.c:1370
+#: ../src/bar_keywords.c:1395
 msgid "Revert all hidden"
 msgstr ""
 
-#: ../src/bar_keywords.c:1372
+#: ../src/bar_keywords.c:1397
 #, fuzzy
 msgid "Show all"
 msgstr "表示するもの"
 
-#: ../src/bar_keywords.c:1373
+#: ../src/bar_keywords.c:1398
 msgid "Collapse all"
 msgstr ""
 
-#: ../src/bar_keywords.c:1374
+#: ../src/bar_keywords.c:1399
 msgid "Revert"
 msgstr ""
 
-#: ../src/bar_keywords.c:1378
+#: ../src/bar_keywords.c:1403
 msgid "On any change"
 msgstr ""
 
-#: ../src/bar_sort.c:500
+#: ../src/bar_keywords.c:1899
+#, fuzzy, c-format
+msgid "Error: Unable to write keywords list to: %s\n"
+msgstr "履歴リストへ書き込めません: %s\n"
+
+#: ../src/bar_sort.c:501
 #, c-format
 msgid ""
 "The collection:\n"
@@ -486,11 +499,11 @@ msgstr ""
 "%s\n"
 "は既に存在しています。"
 
-#: ../src/bar_sort.c:501
+#: ../src/bar_sort.c:502
 msgid "Collection exists"
 msgstr "コレクションがあります"
 
-#: ../src/bar_sort.c:515 ../src/collect.c:1126 ../src/collect-dlg.c:93
+#: ../src/bar_sort.c:516 ../src/collect.c:1182 ../src/collect-dlg.c:93
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
@@ -499,52 +512,54 @@ msgstr ""
 "コレクションの保存に失敗しました:\n"
 "%s"
 
-#: ../src/bar_sort.c:516 ../src/collect.c:1127 ../src/collect-dlg.c:94
+#: ../src/bar_sort.c:517 ../src/collect.c:1183 ../src/collect-dlg.c:94
 msgid "Save Failed"
 msgstr "保存に失敗しました"
 
-#: ../src/bar_sort.c:551 ../src/bar_sort.c:723
+#: ../src/bar_sort.c:552 ../src/bar_sort.c:728
 msgid "Add Bookmark"
 msgstr "ブックマークへ追加します"
 
-#: ../src/bar_sort.c:555
+#: ../src/bar_sort.c:556
 msgid "Add Collection"
 msgstr "コレクションの追加"
 
-#: ../src/bar_sort.c:572 ../src/shortcuts.c:118 ../src/ui_bookmark.c:297
+#: ../src/bar_sort.c:573 ../src/shortcuts.c:118 ../src/ui_bookmark.c:297
 msgid "Name:"
 msgstr "名前:"
 
-#: ../src/bar_sort.c:650
+#: ../src/bar_sort.c:652
 msgid "Sort Manager"
 msgstr "ソート・マネージャ"
 
-#: ../src/bar_sort.c:659 ../src/pan-view/pan-view.c:1823
-#: ../src/ui_pathsel.c:1108
+#: ../src/bar_sort.c:661 ../src/pan-view/pan-view.c:1838
+#: ../src/ui_pathsel.c:1109
 msgid "Folders"
 msgstr "フォルダ"
 
-#: ../src/bar_sort.c:660 ../src/options.c:197
+#: ../src/bar_sort.c:662 ../src/options.c:226
 msgid "Collections"
 msgstr "コレクション"
 
-#: ../src/bar_sort.c:668 ../src/utilops.c:2297
+#: ../src/bar_sort.c:671 ../src/preferences.c:664 ../src/toolbar.c:90
+#: ../src/utilops.c:2329
 msgid "Copy"
 msgstr "コピーする"
 
-#: ../src/bar_sort.c:671 ../src/utilops.c:2247
+#: ../src/bar_sort.c:674 ../src/preferences.c:665 ../src/toolbar.c:91
+#: ../src/utilops.c:2279
 msgid "Move"
 msgstr "移動する"
 
-#: ../src/bar_sort.c:710
+#: ../src/bar_sort.c:713
 msgid "Add image"
 msgstr "画像を追加する"
 
-#: ../src/bar_sort.c:713
+#: ../src/bar_sort.c:716
 msgid "Add selection"
 msgstr "選択した画像を追加する"
 
-#: ../src/bar_sort.c:726
+#: ../src/bar_sort.c:731
 msgid "Undo last image"
 msgstr "最後の画像に戻す"
 
@@ -556,7 +571,7 @@ msgid ""
 msgstr "設定ファイルの保存中にエラー: %s\n"
 
 #: ../src/cache_maint.c:123 ../src/cache_maint.c:612 ../src/cache_maint.c:880
-#: ../src/editors.c:1195
+#: ../src/editors.c:1228 ../src/preferences.c:2754
 msgid "done"
 msgstr "完了"
 
@@ -576,11 +591,11 @@ msgstr "古いサムネイルの削除中..."
 msgid "Maintenance"
 msgstr "保守"
 
-#: ../src/cache_maint.c:732
+#: ../src/cache_maint.c:732 ../src/preferences.c:2836
 msgid "Invalid folder"
 msgstr "不正なフォルダ"
 
-#: ../src/cache_maint.c:733
+#: ../src/cache_maint.c:733 ../src/preferences.c:2837
 msgid "The specified folder can not be found."
 msgstr "指定したフォルダが見つかりません。"
 
@@ -588,19 +603,19 @@ msgstr "指定したフォルダが見つかりません。"
 msgid "Create thumbnails"
 msgstr "サムネイルの生成"
 
-#: ../src/cache_maint.c:804 ../src/cache_maint.c:1063
+#: ../src/cache_maint.c:804 ../src/cache_maint.c:1063 ../src/preferences.c:2875
 msgid "S_tart"
 msgstr "開始(_T)"
 
-#: ../src/cache_maint.c:817 ../src/preferences.c:2347
+#: ../src/cache_maint.c:817 ../src/preferences.c:2888 ../src/preferences.c:3224
 msgid "Folder:"
 msgstr "フォルダ:"
 
-#: ../src/cache_maint.c:820
+#: ../src/cache_maint.c:820 ../src/preferences.c:2891
 msgid "Select folder"
 msgstr "フォルダの選択"
 
-#: ../src/cache_maint.c:824
+#: ../src/cache_maint.c:824 ../src/preferences.c:2895
 msgid "Include subfolders"
 msgstr "サブフォルダも含める"
 
@@ -608,11 +623,11 @@ msgstr "サブフォルダも含める"
 msgid "Store thumbnails local to source images"
 msgstr "サムネイルを画像のソースに格納する"
 
-#: ../src/cache_maint.c:834 ../src/cache_maint.c:1072
+#: ../src/cache_maint.c:834 ../src/cache_maint.c:1072 ../src/preferences.c:2903
 msgid "click start to begin"
 msgstr "[開始] ボタンをクリックすると開始します"
 
-#: ../src/cache_maint.c:992 ../src/editors.c:1121
+#: ../src/cache_maint.c:992 ../src/editors.c:1154
 msgid "running..."
 msgstr "実行中..."
 
@@ -634,26 +649,24 @@ msgstr ""
 "全て削除されます。よろしいですか？"
 
 #: ../src/cache_maint.c:1180
-#, fuzzy, c-format
+#, c-format
 msgid "Location: %s"
-msgstr "場所:"
+msgstr "場所: %s"
 
 #: ../src/cache_maint.c:1205
-#, fuzzy
 msgid "Cache Maintenance"
-msgstr "キャッシュの保守 - Geeqie"
+msgstr "キャッシュの保守"
 
 #: ../src/cache_maint.c:1217
 msgid "Cache and Data Maintenance"
 msgstr "キャッシュとデータの保守"
 
 #: ../src/cache_maint.c:1221
-#, fuzzy
 msgid "Geeqie thumbnail cache"
-msgstr "サムネイル・キャッシュの共有"
+msgstr "Geeqieサムネイル・キャッシュ"
 
 #: ../src/cache_maint.c:1227 ../src/cache_maint.c:1246
-#: ../src/cache_maint.c:1271
+#: ../src/cache_maint.c:1272
 msgid "Clean up"
 msgstr "クリア"
 
@@ -662,9 +675,8 @@ msgid "Remove orphaned or outdated thumbnails."
 msgstr "期限切れのサムネイルを削除します。"
 
 #: ../src/cache_maint.c:1235
-#, fuzzy
 msgid "Delete all cached data."
-msgstr "全てのキャッシュを強制的に削除します。"
+msgstr "全てのキャッシュ・データを削除します。"
 
 #: ../src/cache_maint.c:1238
 msgid "Shared thumbnail cache"
@@ -682,31 +694,31 @@ msgstr "生成"
 msgid "Render thumbnails for a specific folder."
 msgstr "特定のフォルダにあるサムネイルを生成します。"
 
-#: ../src/cache_maint.c:1274
+#: ../src/cache_maint.c:1275
 msgid "Remove orphaned keywords and comments."
 msgstr "たった一つのキーワードとコメントを削除します。"
 
 #. When does this occur ??
-#: ../src/collect.c:405 ../src/image.c:186 ../src/image-overlay.c:545
-#: ../src/image-overlay.c:622
+#: ../src/collect.c:457 ../src/image.c:348 ../src/image-overlay.c:271
+#: ../src/image-overlay.c:349
 msgid "Untitled"
 msgstr "タイトルなし"
 
-#: ../src/collect.c:409
+#: ../src/collect.c:461
 #, c-format
 msgid "Untitled (%d)"
 msgstr "タイトルなし (%d)"
 
-#: ../src/collect.c:1051
+#: ../src/collect.c:1107
 #, fuzzy, c-format
 msgid "%s - Collection - %s"
 msgstr "%s - Geeqie コレクション"
 
-#: ../src/collect.c:1163 ../src/collect.c:1167
+#: ../src/collect.c:1219 ../src/collect.c:1223
 msgid "Close collection"
 msgstr "コレクションを閉じる"
 
-#: ../src/collect.c:1168
+#: ../src/collect.c:1224
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
@@ -714,7 +726,7 @@ msgstr ""
 "コレクションが変更されました。\n"
 "まず保存しますか？"
 
-#: ../src/collect.c:1171
+#: ../src/collect.c:1227
 msgid "_Discard"
 msgstr "破棄する(_D)"
 
@@ -771,7 +783,7 @@ msgstr ""
 msgid "Save collection"
 msgstr "コレクションを保存"
 
-#: ../src/collect-dlg.c:210 ../src/toolbar.c:84
+#: ../src/collect-dlg.c:210 ../src/preferences.c:660 ../src/toolbar.c:86
 msgid "Open collection"
 msgstr "コレクションを開く"
 
@@ -801,173 +813,201 @@ msgid ""
 "error: %s\n"
 msgstr "設定ファイルの保存中にエラー: %s\n"
 
-#: ../src/collect-table.c:212
+#: ../src/collect-table.c:214
 #, fuzzy, c-format
 msgid "%s, %d images (%s, %d)"
 msgstr "%s, %d 個のファイル (%s, %d)"
 
-#: ../src/collect-table.c:219
+#: ../src/collect-table.c:221
 #, fuzzy, c-format
 msgid "%s, %d images"
 msgstr "%d 個の画像"
 
-#: ../src/collect-table.c:224 ../src/layout_util.c:1675
-#: ../src/layout_util.c:2816
+#: ../src/collect-table.c:226 ../src/layout_util.c:1844
+#: ../src/layout_util.c:3030
 msgid "Empty"
 msgstr "空です"
 
-#: ../src/collect-table.c:238 ../src/dupe.c:1362 ../src/search.c:365
-#: ../src/view_file/view_file.c:848 ../src/view_file/view_file.c:957
+#: ../src/collect-table.c:240 ../src/dupe.c:1364 ../src/search.c:389
+#: ../src/view_file/view_file.c:1146 ../src/view_file/view_file.c:1255
 msgid "Loading thumbs..."
 msgstr "サムネイルを開く..."
 
-#: ../src/collect-table.c:913 ../src/dupe.c:2343 ../src/dupe.c:2661
-#: ../src/layout_util.c:1722 ../src/search.c:1061
+#: ../src/collect-table.c:961 ../src/dupe.c:2354 ../src/dupe.c:2681
+#: ../src/layout_util.c:1891 ../src/search.c:1107
 msgid "_View"
 msgstr "表示(_V)"
 
-#: ../src/collect-table.c:915 ../src/dupe.c:2345 ../src/dupe.c:2663
-#: ../src/img-view.c:1319 ../src/layout_image.c:691
-#: ../src/pan-view/pan-view.c:2254 ../src/search.c:1063
-#: ../src/view_file/view_file.c:598
+#: ../src/collect-table.c:963 ../src/dupe.c:2356 ../src/dupe.c:2683
+#: ../src/img-view.c:1343 ../src/layout_image.c:701
+#: ../src/pan-view/pan-view.c:2313 ../src/search.c:1109
+#: ../src/view_file/view_file.c:623
 msgid "View in _new window"
 msgstr "新しいウィンドウで表示(_N)"
 
-#: ../src/collect-table.c:918 ../src/dupe.c:2384 ../src/dupe.c:2671
-#: ../src/search.c:1098
+#: ../src/collect-table.c:965 ../src/pan-view/pan-view.c:2315
+#, fuzzy
+msgid "Go to original"
+msgstr "オリジナルのサイズへ拡大する"
+
+#: ../src/collect-table.c:968 ../src/dupe.c:2404 ../src/dupe.c:2691
 msgid "Rem_ove"
 msgstr "削除(_O)"
 
-#: ../src/collect-table.c:921
+#: ../src/collect-table.c:971
 #, fuzzy
 msgid "Append from file selection"
 msgstr "ファイル一覧から追加"
 
-#: ../src/collect-table.c:923
+#: ../src/collect-table.c:973
 msgid "Append from collection..."
 msgstr "コレクションから追加..."
 
-#: ../src/collect-table.c:927
+#: ../src/collect-table.c:977
 #, fuzzy
 msgid "_Selection"
 msgstr "選択した画像"
 
-#: ../src/collect-table.c:929 ../src/dupe.c:2348 ../src/dupe.c:2666
-#: ../src/layout_util.c:1780 ../src/search.c:1066
+#: ../src/collect-table.c:979 ../src/dupe.c:2359 ../src/dupe.c:2686
+#: ../src/layout_util.c:1955 ../src/preferences.c:670 ../src/search.c:1112
+#: ../src/toolbar.c:96
 msgid "Select all"
 msgstr "全て選択"
 
-#: ../src/collect-table.c:931 ../src/dupe.c:2350 ../src/dupe.c:2668
-#: ../src/layout_util.c:1781 ../src/search.c:1068
+#: ../src/collect-table.c:981 ../src/dupe.c:2361 ../src/dupe.c:2688
+#: ../src/layout_util.c:1956 ../src/preferences.c:671 ../src/search.c:1114
+#: ../src/toolbar.c:97
 msgid "Select none"
 msgstr "選択取り消し"
 
-#: ../src/collect-table.c:933
+#: ../src/collect-table.c:983
 #, fuzzy
 msgid "Invert selection"
 msgstr "選択した画像"
 
-#: ../src/collect-table.c:935
+#: ../src/collect-table.c:985
 #, fuzzy
 msgid "Rectangular selection"
 msgstr "アイコン表示で矩形の選択範囲を指定する"
 
-#: ../src/collect-table.c:947 ../src/dupe.c:2371 ../src/img-view.c:1323
-#: ../src/layout_image.c:699 ../src/layout_util.c:1755
-#: ../src/pan-view/pan-view.c:2258 ../src/search.c:1085
-#: ../src/view_file/view_file.c:602
+#: ../src/collect-table.c:997 ../src/dupe.c:2382 ../src/img-view.c:1347
+#: ../src/layout_image.c:709 ../src/layout_util.c:1929
+#: ../src/pan-view/pan-view.c:2319 ../src/search.c:1131
+#: ../src/view_file/view_file.c:627
 msgid "_Copy..."
 msgstr "コピー(_C)..."
 
-#: ../src/collect-table.c:949 ../src/dupe.c:2373 ../src/img-view.c:1324
-#: ../src/layout_image.c:701 ../src/layout_util.c:1756
-#: ../src/pan-view/pan-view.c:2260 ../src/search.c:1087
-#: ../src/view_file/view_file.c:604
+#: ../src/collect-table.c:999 ../src/dupe.c:2384 ../src/img-view.c:1348
+#: ../src/layout_image.c:711 ../src/layout_util.c:1930
+#: ../src/pan-view/pan-view.c:2321 ../src/search.c:1133
+#: ../src/view_file/view_file.c:629
 msgid "_Move..."
 msgstr "移動(_M)..."
 
-#: ../src/collect-table.c:951 ../src/dupe.c:2375 ../src/img-view.c:1325
-#: ../src/layout_image.c:703 ../src/layout_util.c:1757
-#: ../src/pan-view/pan-view.c:2262 ../src/search.c:1089 ../src/view_dir.c:683
-#: ../src/view_file/view_file.c:606
+#: ../src/collect-table.c:1001 ../src/dupe.c:2386 ../src/img-view.c:1349
+#: ../src/layout_image.c:713 ../src/layout_util.c:1931
+#: ../src/pan-view/pan-view.c:2323 ../src/search.c:1135 ../src/view_dir.c:687
+#: ../src/view_file/view_file.c:631
 msgid "_Rename..."
 msgstr "名前の変更(_R)..."
 
-#: ../src/collect-table.c:953 ../src/dupe.c:2377 ../src/img-view.c:1326
-#: ../src/layout_image.c:705 ../src/pan-view/pan-view.c:2264
-#: ../src/search.c:1091 ../src/view_dir.c:686 ../src/view_file/view_file.c:608
-#, fuzzy
+#: ../src/collect-table.c:1003 ../src/dupe.c:2388 ../src/img-view.c:1350
+#: ../src/layout_image.c:715 ../src/pan-view/pan-view.c:2325
+#: ../src/search.c:1137 ../src/view_dir.c:690 ../src/view_file/view_file.c:633
 msgid "_Copy path"
-msgstr "コピー(_C)"
+msgstr "パスをコピー(_C)"
 
-#: ../src/collect-table.c:955 ../src/dupe.c:2379 ../src/img-view.c:1327
-#: ../src/layout_image.c:706 ../src/pan-view/pan-view.c:2266
-#: ../src/search.c:1093 ../src/view_dir.c:689 ../src/view_file/view_file.c:610
-#, fuzzy
+#: ../src/collect-table.c:1005 ../src/dupe.c:2390 ../src/img-view.c:1351
+#: ../src/layout_image.c:716 ../src/pan-view/pan-view.c:2327
+#: ../src/search.c:1139 ../src/view_dir.c:693 ../src/view_file/view_file.c:635
 msgid "_Copy path unquoted"
-msgstr "コピー(_C)"
+msgstr "クオートせずにパスをコピー(_C)"
 
-#: ../src/collect-table.c:957 ../src/dupe.c:2381 ../src/img-view.c:1328
-#: ../src/layout_image.c:708 ../src/layout_util.c:1758
-#: ../src/layout_util.c:1759 ../src/layout_util.c:1760
-#: ../src/pan-view/pan-view.c:2268 ../src/search.c:1095 ../src/view_dir.c:692
-#: ../src/view_file/view_file.c:612
+#: ../src/collect-table.c:1010 ../src/dupe.c:2395 ../src/img-view.c:1355
+#: ../src/layout_image.c:721 ../src/layout_util.c:1932
+#: ../src/layout_util.c:1933 ../src/layout_util.c:1934
+#: ../src/pan-view/pan-view.c:2332 ../src/search.c:1144
+#: ../src/view_file/view_file.c:639
+msgid "Move to Trash..."
+msgstr "ゴミ箱へ移動..."
+
+#: ../src/collect-table.c:1011 ../src/dupe.c:2396 ../src/img-view.c:1356
+#: ../src/layout_image.c:722 ../src/pan-view/pan-view.c:2333
+#: ../src/search.c:1145 ../src/view_file/view_file.c:640
+msgid "Move to Trash"
+msgstr "ゴミ箱へ移動"
+
+#: ../src/collect-table.c:1014 ../src/dupe.c:2399 ../src/img-view.c:1359
+#: ../src/layout_image.c:726 ../src/pan-view/pan-view.c:2336
+#: ../src/search.c:1148 ../src/view_dir.c:696 ../src/view_file/view_file.c:643
 msgid "_Delete..."
 msgstr "削除(_D)..."
 
-#: ../src/collect-table.c:963
+#: ../src/collect-table.c:1015 ../src/dupe.c:2400 ../src/img-view.c:1360
+#: ../src/layout_image.c:727 ../src/pan-view/pan-view.c:2337
+#: ../src/search.c:1149 ../src/ui_pathsel.c:644
+#: ../src/view_file/view_file.c:644
+msgid "_Delete"
+msgstr "削除(_D)"
+
+#: ../src/collect-table.c:1021
 #, fuzzy
 msgid "Randomize"
 msgstr "ランダム"
 
-#: ../src/collect-table.c:965 ../src/view_file/view_file.c:637
+#: ../src/collect-table.c:1023 ../src/view_file/view_file.c:669
 msgid "_Sort"
 msgstr "ソート(_S)"
 
-#: ../src/collect-table.c:968 ../src/view_file/view_file.c:653
+#: ../src/collect-table.c:1026 ../src/view_file/view_file.c:685
 msgid "Show filename _text"
 msgstr "ファイル名表示(_T)"
 
-#: ../src/collect-table.c:971
+#: ../src/collect-table.c:1028 ../src/view_file/view_file.c:693
+#: ../src/view_file/view_file.c:697
+msgid "Show star rating"
+msgstr "スター・レーティングを表示"
+
+#: ../src/collect-table.c:1031
 msgid "_Save collection"
 msgstr "コレクションの保存(_S)"
 
-#: ../src/collect-table.c:973
+#: ../src/collect-table.c:1033
 msgid "Save collection _as..."
 msgstr "別名でコレクションの保存(_A)..."
 
-#: ../src/collect-table.c:976 ../src/layout_util.c:1751
-#: ../src/view_file/view_file.c:622
+#: ../src/collect-table.c:1036 ../src/layout_util.c:1925
+#: ../src/view_file/view_file.c:654
 msgid "_Find duplicates..."
 msgstr "複製の検索(_F)..."
 
-#: ../src/collect-table.c:978 ../src/dupe.c:2368 ../src/layout_util.c:1753
-#: ../src/search.c:1082
+#: ../src/collect-table.c:1038 ../src/dupe.c:2379 ../src/layout_util.c:1927
+#: ../src/search.c:1128
 msgid "Print..."
 msgstr "印刷..."
 
-#: ../src/collect-table.c:2167 ../src/dupe.c:3525 ../src/img-view.c:1487
+#: ../src/collect-table.c:2227 ../src/dupe.c:3550 ../src/img-view.c:1520
 msgid "Dropped list includes folders."
 msgstr "フォルダを含む一覧にドロップします。"
 
-#: ../src/collect-table.c:2169 ../src/dupe.c:3527 ../src/img-view.c:1489
+#: ../src/collect-table.c:2229 ../src/dupe.c:3552 ../src/img-view.c:1522
 msgid "_Add contents"
 msgstr "内容の追加(_A)"
 
-#: ../src/collect-table.c:2171 ../src/dupe.c:3528 ../src/img-view.c:1490
+#: ../src/collect-table.c:2231 ../src/dupe.c:3553 ../src/img-view.c:1523
 msgid "Add contents _recursive"
 msgstr "内容を再帰的に追加(_R)"
 
-#: ../src/collect-table.c:2173 ../src/dupe.c:3529 ../src/img-view.c:1491
+#: ../src/collect-table.c:2233 ../src/dupe.c:3554 ../src/img-view.c:1524
 msgid "_Skip folders"
 msgstr "フォルダをスキップする(_S)"
 
-#: ../src/collect-table.c:2176 ../src/dupe.c:3531 ../src/img-view.c:1493
-#: ../src/view_dir.c:426
+#: ../src/collect-table.c:2236 ../src/dupe.c:3556 ../src/img-view.c:1526
+#: ../src/view_dir.c:430
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../src/color-man.c:434 ../src/exif.c:227 ../src/exif-common.c:448
+#: ../src/color-man.c:434 ../src/exif.c:227 ../src/exif-common.c:504
 msgid "sRGB"
 msgstr ""
 
@@ -1002,12 +1042,11 @@ msgstr ""
 msgid "Could not create directory"
 msgstr "フォルダを作成できませんでした"
 
-#: ../src/desktop_file.c:191 ../src/desktop_file.c:554
-#, fuzzy
+#: ../src/desktop_file.c:191 ../src/desktop_file.c:650
 msgid "Desktop file"
-msgstr "デスクトップ"
+msgstr "desktopファイル"
 
-#: ../src/desktop_file.c:300 ../src/ui_pathsel.c:494
+#: ../src/desktop_file.c:301 ../src/ui_pathsel.c:494
 #, c-format
 msgid ""
 "Unable to delete file:\n"
@@ -1016,17 +1055,17 @@ msgstr ""
 "ファイルの削除に失敗:\n"
 "%s"
 
-#: ../src/desktop_file.c:301 ../src/ui_pathsel.c:495 ../src/utilops.c:2133
-#: ../src/utilops.c:2160 ../src/utilops.c:2682
+#: ../src/desktop_file.c:302 ../src/ui_pathsel.c:495 ../src/utilops.c:2158
+#: ../src/utilops.c:2192 ../src/utilops.c:2714
 msgid "File deletion failed"
 msgstr "削除に失敗したファイル"
 
-#: ../src/desktop_file.c:345 ../src/desktop_file.c:353 ../src/ui_pathsel.c:537
+#: ../src/desktop_file.c:346 ../src/desktop_file.c:354 ../src/ui_pathsel.c:537
 #: ../src/ui_pathsel.c:545
 msgid "Delete file"
 msgstr "ファイルの削除"
 
-#: ../src/desktop_file.c:351 ../src/ui_pathsel.c:543
+#: ../src/desktop_file.c:352 ../src/ui_pathsel.c:543
 #, c-format
 msgid ""
 "About to delete the file:\n"
@@ -1035,189 +1074,189 @@ msgstr ""
 "ファイルの削除について:\n"
 " %s"
 
-#: ../src/desktop_file.c:383
+#: ../src/desktop_file.c:384
 #, fuzzy
 msgid "new.desktop"
 msgstr "デスクトップ"
 
-#: ../src/desktop_file.c:467
+#: ../src/desktop_file.c:549 ../src/menu.c:119
 msgid "Plugins"
-msgstr ""
+msgstr "プラグイン"
 
-#: ../src/desktop_file.c:544
+#: ../src/desktop_file.c:618
+msgid "Disabled"
+msgstr "無効化"
+
+#: ../src/desktop_file.c:640
 msgid "Hidden"
-msgstr ""
+msgstr "隠す"
 
-#: ../src/desktop_file.c:563 ../src/dupe.c:2770 ../src/dupe.c:3307
-#: ../src/print.c:3211 ../src/search.c:3115 ../src/ui_pathsel.c:1120
+#: ../src/desktop_file.c:659 ../src/dupe.c:2790 ../src/dupe.c:3331
+#: ../src/osd.c:39 ../src/search.c:3466 ../src/ui_pathsel.c:1121
 #: ../src/utilops.c:501
 msgid "Path"
 msgstr "パス"
 
-#: ../src/dupe.c:108
+#: ../src/dupe.c:110
 msgid "Drop files to compare them."
 msgstr "比較するためにファイルをドロップして下さい。"
 
-#: ../src/dupe.c:112
+#: ../src/dupe.c:114
 #, c-format
 msgid "%d files"
 msgstr "%d 個のファイル"
 
-#: ../src/dupe.c:116
+#: ../src/dupe.c:118
 #, c-format
 msgid "%d matches found in %d files"
 msgstr "%d 個が一致 (%d 個のファイル中)"
 
-#: ../src/dupe.c:121
+#: ../src/dupe.c:123
 msgid "[set 1]"
 msgstr "[セット 1]"
 
-#: ../src/dupe.c:1488
+#: ../src/dupe.c:1490
 msgid "Reading checksums..."
 msgstr "チェックサムの読み込み中..."
 
-#: ../src/dupe.c:1521
+#: ../src/dupe.c:1523
 msgid "Reading dimensions..."
 msgstr "寸法を検出中..."
 
-#: ../src/dupe.c:1555
+#: ../src/dupe.c:1557
 msgid "Reading similarity data..."
 msgstr "類似データの読み込み中..."
 
-#: ../src/dupe.c:1591 ../src/dupe.c:1622
+#: ../src/dupe.c:1593 ../src/dupe.c:1624
 msgid "Comparing..."
 msgstr "比較中..."
 
-#: ../src/dupe.c:1602 ../src/pan-view/pan-view.c:1011
+#: ../src/dupe.c:1604 ../src/pan-view/pan-view.c:1012
 msgid "Sorting..."
 msgstr "ソート中..."
 
-#: ../src/dupe.c:2352
+#: ../src/dupe.c:2363
 msgid "Select group _1 duplicates"
 msgstr "複製グループ１の選択(_1)"
 
-#: ../src/dupe.c:2354
+#: ../src/dupe.c:2365
 msgid "Select group _2 duplicates"
 msgstr "複製グループ２の選択(_2)"
 
-#: ../src/dupe.c:2386 ../src/dupe.c:2673 ../src/search.c:1100
+#: ../src/dupe.c:2406 ../src/dupe.c:2693
 msgid "C_lear"
 msgstr "クリア(_L)"
 
-#: ../src/dupe.c:2389 ../src/dupe.c:2676
+#: ../src/dupe.c:2409 ../src/dupe.c:2696
 msgid "Close _window"
 msgstr "ウィンドウを閉じる(_W)"
 
-#: ../src/dupe.c:2549
+#: ../src/dupe.c:2569
 #, c-format
 msgid "%d files (set 2)"
 msgstr "%d 個のファイル (セット２)"
 
-#: ../src/dupe.c:2765
+#: ../src/dupe.c:2785
 #, fuzzy
 msgid "Name case-insensitive"
 msgstr "大・小文字で並べ替える"
 
-#: ../src/dupe.c:2766 ../src/dupe.c:3304 ../src/preferences.c:1809
-#: ../src/print.c:3215 ../src/search.c:3112
-#: ../src/view_file/view_file_list.c:1939
+#: ../src/dupe.c:2786 ../src/dupe.c:3328 ../src/osd.c:41
+#: ../src/preferences.c:2241 ../src/search.c:3463
+#: ../src/view_file/view_file_list.c:2088
 msgid "Size"
 msgstr "サイズ"
 
-#: ../src/dupe.c:2767 ../src/dupe.c:3305 ../src/exif.c:336
-#: ../src/exif-common.c:565 ../src/print.c:3213 ../src/search.c:3113
-#: ../src/view_file/view_file_list.c:1943
+#: ../src/dupe.c:2787 ../src/dupe.c:3329 ../src/exif.c:336
+#: ../src/exif-common.c:920 ../src/osd.c:40 ../src/search.c:3464
+#: ../src/view_file/view_file_list.c:2092
 msgid "Date"
 msgstr "日付"
 
-#: ../src/dupe.c:2768 ../src/dupe.c:3306 ../src/print.c:3217
-#: ../src/search.c:3114
+#: ../src/dupe.c:2788 ../src/dupe.c:3330 ../src/osd.c:43 ../src/search.c:3465
 msgid "Dimensions"
 msgstr "寸法"
 
-#: ../src/dupe.c:2769
+#: ../src/dupe.c:2789
 msgid "Checksum"
 msgstr "チェックサム"
 
-#: ../src/dupe.c:2771
+#: ../src/dupe.c:2791
 msgid "Similarity (high)"
 msgstr "類似性 (高い)"
 
-#: ../src/dupe.c:2772
+#: ../src/dupe.c:2792
 msgid "Similarity"
 msgstr "類似性"
 
-#: ../src/dupe.c:2773
+#: ../src/dupe.c:2793
 msgid "Similarity (low)"
 msgstr "類似性 (低い)"
 
-#: ../src/dupe.c:2774
+#: ../src/dupe.c:2794
 msgid "Similarity (custom)"
 msgstr "類似性 (カスタム)"
 
-#: ../src/dupe.c:3257 ../src/toolbar.c:86
-#, fuzzy
+#: ../src/dupe.c:3280 ../src/preferences.c:662 ../src/toolbar.c:88
 msgid "Find duplicates"
-msgstr "複製の検索(_F)..."
+msgstr "複製の検索"
 
-#: ../src/dupe.c:3339
+#: ../src/dupe.c:3363
 msgid "Compare to:"
 msgstr "比較する対象:"
 
-#: ../src/dupe.c:3352
+#: ../src/dupe.c:3376
 msgid "Compare by:"
 msgstr "比較する要素:"
 
-#: ../src/dupe.c:3360 ../src/preferences.c:1599 ../src/search.c:3128
+#: ../src/dupe.c:3384 ../src/preferences.c:1875 ../src/search.c:3479
 msgid "Thumbnails"
 msgstr "サムネイル"
 
-#: ../src/dupe.c:3368
-#, fuzzy
+#: ../src/dupe.c:3392
 msgid "Ignore Rotation"
-msgstr "向き"
+msgstr "回転を無視する"
 
-#: ../src/dupe.c:3376
+#: ../src/dupe.c:3400
 msgid "Compare two file sets"
 msgstr "二つのファイルを比較する"
 
-#: ../src/dupe.c:3396 ../src/menu.c:221
+#: ../src/dupe.c:3421 ../src/menu.c:229
 msgid "Sort"
 msgstr "ソート"
 
-#: ../src/dupe.c:3404
-#, fuzzy
+#: ../src/dupe.c:3429
 msgid "Custom Threshold"
-msgstr "類似性のしきい値:"
+msgstr "カスタムのしきい値:"
 
-#: ../src/editors.c:295
+#: ../src/editors.c:307
 #, c-format
 msgid "Desktop file '%s' should not include extension in Icon key: '%s'\n"
 msgstr ""
 
 #. flash fired (bit 0)
-#: ../src/editors.c:349 ../src/exif.c:220 ../src/exif-common.c:374
+#: ../src/editors.c:377 ../src/exif.c:220 ../src/exif-common.c:430
 msgid "yes"
 msgstr "はい"
 
-#: ../src/editors.c:349 ../src/exif.c:219 ../src/exif-common.c:374
+#: ../src/editors.c:377 ../src/exif.c:219 ../src/exif-common.c:430
 msgid "no"
 msgstr "いいえ"
 
-#: ../src/editors.c:521
+#: ../src/editors.c:554
 msgid "stopping..."
 msgstr "停止中..."
 
-#: ../src/editors.c:542
+#: ../src/editors.c:575
 msgid "Edit command results"
 msgstr "編集コマンドの結果"
 
-#: ../src/editors.c:545
+#: ../src/editors.c:578
 #, c-format
 msgid "Output of %s"
 msgstr "%s の出力"
 
-#: ../src/editors.c:1072
+#: ../src/editors.c:1105
 #, c-format
 msgid ""
 "Failed to run command:\n"
@@ -1226,57 +1265,57 @@ msgstr ""
 "コマンドの実行に失敗しました:\n"
 "%s\n"
 
-#: ../src/editors.c:1199
+#: ../src/editors.c:1232
 msgid "stopped by user"
 msgstr "ユーザ割り込みで停止しました"
 
-#: ../src/editors.c:1284
+#: ../src/editors.c:1317
 #, c-format
 msgid ""
 "%s\n"
 "\"%s\""
 msgstr ""
 
-#: ../src/editors.c:1286
+#: ../src/editors.c:1319
 #, fuzzy
 msgid "Invalid editor command"
 msgstr "不正な対象先"
 
-#: ../src/editors.c:1373
+#: ../src/editors.c:1406
 msgid "Editor template is empty."
 msgstr ""
 
-#: ../src/editors.c:1374
+#: ../src/editors.c:1407
 msgid "Editor template has incorrect syntax."
 msgstr ""
 
-#: ../src/editors.c:1375
+#: ../src/editors.c:1408
 msgid "Editor template uses incompatible macros."
 msgstr ""
 
-#: ../src/editors.c:1376
+#: ../src/editors.c:1409
 msgid "Can't find matching file type."
 msgstr ""
 
-#: ../src/editors.c:1377
+#: ../src/editors.c:1410
 msgid "Can't execute external editor."
 msgstr ""
 
-#: ../src/editors.c:1378
+#: ../src/editors.c:1411
 msgid "External editor returned error status."
 msgstr ""
 
-#: ../src/editors.c:1379
+#: ../src/editors.c:1412
 msgid "File was skipped."
 msgstr ""
 
-#: ../src/editors.c:1380
+#: ../src/editors.c:1413
 msgid "Unknown error."
 msgstr ""
 
 #: ../src/exif.c:142 ../src/exif.c:155 ../src/exif.c:169 ../src/exif.c:194
-#: ../src/exif.c:311 ../src/exif.c:658 ../src/exif-common.c:350
-#: ../src/exif-common.c:353 ../src/exif-common.c:420
+#: ../src/exif.c:311 ../src/exif.c:658 ../src/exif-common.c:406
+#: ../src/exif-common.c:409 ../src/exif-common.c:476
 msgid "unknown"
 msgstr "不明"
 
@@ -1515,7 +1554,7 @@ msgstr ""
 msgid "custom"
 msgstr "カスタマイズ"
 
-#: ../src/exif.c:260 ../src/exif.c:267 ../src/exif-common.c:388
+#: ../src/exif.c:260 ../src/exif.c:267 ../src/exif-common.c:444
 msgid "auto"
 msgstr "自動"
 
@@ -1625,19 +1664,16 @@ msgid "Orientation"
 msgstr "向き"
 
 #: ../src/exif.c:332
-#, fuzzy
 msgid "X resolution"
-msgstr "解像度"
+msgstr "X解像度"
 
 #: ../src/exif.c:333
-#, fuzzy
 msgid "Y Resolution"
-msgstr "解像度"
+msgstr "Y解像度"
 
 #: ../src/exif.c:334
-#, fuzzy
 msgid "Resolution units"
-msgstr "解像度"
+msgstr "解像度の単位"
 
 #: ../src/exif.c:335
 msgid "Firmware"
@@ -1687,7 +1723,7 @@ msgstr "露出プログラム"
 msgid "Spectral Sensitivity"
 msgstr "ISO 感度"
 
-#: ../src/exif.c:349 ../src/exif.c:385 ../src/exif-common.c:569
+#: ../src/exif.c:349 ../src/exif.c:385 ../src/exif-common.c:925
 msgid "ISO sensitivity"
 msgstr "ISO 感度"
 
@@ -1703,7 +1739,7 @@ msgstr ""
 msgid "Date original"
 msgstr "オリジナルの日付"
 
-#: ../src/exif.c:353
+#: ../src/exif.c:353 ../src/osd.c:56
 msgid "Date digitized"
 msgstr "データ化した日付"
 
@@ -1717,11 +1753,11 @@ msgstr "ファイルの書式:"
 msgid "Compression ratio"
 msgstr "圧縮率:"
 
-#: ../src/exif.c:356 ../src/exif-common.c:566
+#: ../src/exif.c:356 ../src/exif-common.c:922
 msgid "Shutter speed"
 msgstr "シャッター・スピード"
 
-#: ../src/exif.c:357 ../src/exif-common.c:567
+#: ../src/exif.c:357 ../src/exif-common.c:923 ../src/osd.c:58
 msgid "Aperture"
 msgstr "レンズ径"
 
@@ -1729,7 +1765,7 @@ msgstr "レンズ径"
 msgid "Brightness"
 msgstr ""
 
-#: ../src/exif.c:359 ../src/exif-common.c:568
+#: ../src/exif.c:359 ../src/exif-common.c:924 ../src/osd.c:59
 msgid "Exposure bias"
 msgstr "露出偏光"
 
@@ -1738,7 +1774,7 @@ msgstr "露出偏光"
 msgid "Maximum aperture"
 msgstr "レンズ径"
 
-#: ../src/exif.c:361 ../src/exif-common.c:572
+#: ../src/exif.c:361 ../src/exif-common.c:928 ../src/osd.c:65
 msgid "Subject distance"
 msgstr "被写体の距離"
 
@@ -1750,11 +1786,11 @@ msgstr "計測モード"
 msgid "Light source"
 msgstr "光源"
 
-#: ../src/exif.c:364 ../src/exif-common.c:573
+#: ../src/exif.c:364 ../src/exif-common.c:929 ../src/osd.c:66
 msgid "Flash"
 msgstr "フラッシュ"
 
-#: ../src/exif.c:365 ../src/exif-common.c:570
+#: ../src/exif.c:365 ../src/exif-common.c:926 ../src/osd.c:63
 msgid "Focal length"
 msgstr "焦点調節範囲"
 
@@ -1795,11 +1831,11 @@ msgid "Colorspace"
 msgstr ""
 
 #. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: ../src/exif.c:375 ../src/preferences.c:2604
+#: ../src/exif.c:375 ../src/preferences.c:3510
 msgid "Width"
 msgstr "幅"
 
-#: ../src/exif.c:376 ../src/preferences.c:2606
+#: ../src/exif.c:376 ../src/preferences.c:3512
 msgid "Height"
 msgstr "高さ"
 
@@ -1895,18 +1931,17 @@ msgstr "コントロールのフロート状態を切り替えます"
 msgid "Contrast"
 msgstr "縦置き"
 
-#: ../src/exif.c:399 ../src/preferences.c:2220
-#, fuzzy
+#: ../src/exif.c:399 ../src/preferences.c:3066
 msgid "Saturation"
-msgstr "アクション"
+msgstr "彩度"
 
 #: ../src/exif.c:400
 msgid "Sharpness"
-msgstr ""
+msgstr "シャープネス"
 
 #: ../src/exif.c:401
 msgid "Device setting"
-msgstr ""
+msgstr "デバイス設定"
 
 #: ../src/exif.c:402
 #, fuzzy
@@ -1926,124 +1961,175 @@ msgstr ""
 msgid "Can't set image comment: not compiled with Exiv2.\n"
 msgstr ""
 
-#: ../src/exif-common.c:349
+#: ../src/exif-common.c:405
 msgid "infinity"
 msgstr "∞"
 
-#: ../src/exif-common.c:378
+#: ../src/exif-common.c:434
 msgid "mode:"
 msgstr "モード:"
 
-#: ../src/exif-common.c:382 ../src/trash.c:213
+#: ../src/exif-common.c:438
 msgid "on"
 msgstr "ON"
 
-#: ../src/exif-common.c:385 ../src/trash.c:218
+#: ../src/exif-common.c:441
 msgid "off"
 msgstr "OFF"
 
-#: ../src/exif-common.c:394
+#: ../src/exif-common.c:450
 msgid "not detected by strobe"
 msgstr "ストロボ未検出"
 
-#: ../src/exif-common.c:395
+#: ../src/exif-common.c:451
 msgid "detected by strobe"
 msgstr "ストロボ検出"
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: ../src/exif-common.c:400
+#: ../src/exif-common.c:456
 msgid "red-eye reduction"
 msgstr "赤目反射"
 
-#: ../src/exif-common.c:420
+#: ../src/exif-common.c:476
 msgid "dot"
 msgstr "ドット"
 
-#: ../src/exif-common.c:453
+#: ../src/exif-common.c:509
 msgid "AdobeRGB"
 msgstr ""
 
-#: ../src/exif-common.c:461
+#: ../src/exif-common.c:517
 msgid "embedded"
 msgstr ""
 
-#: ../src/exif-common.c:556
+#: ../src/exif-common.c:612
 msgid "Above Sea Level"
 msgstr ""
 
-#: ../src/exif-common.c:556
+#: ../src/exif-common.c:612
 msgid "Below Sea Level"
 msgstr ""
 
-#: ../src/exif-common.c:564
-#, fuzzy
+#: ../src/exif-common.c:919 ../src/osd.c:61
 msgid "Camera"
 msgstr "カメラ"
 
-#: ../src/exif-common.c:571
+#: ../src/exif-common.c:921
+#, fuzzy
+msgid "DateDigitized"
+msgstr "データ化した日付"
+
+#: ../src/exif-common.c:927
 #, fuzzy
 msgid "Focal length 35mm"
 msgstr "焦点調節範囲"
 
-#: ../src/exif-common.c:574
-#, fuzzy
+#: ../src/exif-common.c:930 ../src/osd.c:60
 msgid "Resolution"
 msgstr "解像度"
 
-#: ../src/exif-common.c:575
-#, fuzzy
+#: ../src/exif-common.c:931 ../src/osd.c:67
 msgid "Color profile"
-msgstr "全ファイル"
+msgstr "カラープロファイル"
 
-#: ../src/exif-common.c:576
+#: ../src/exif-common.c:932
 msgid "GPS position"
 msgstr ""
 
-#: ../src/exif-common.c:577
+#: ../src/exif-common.c:933
 msgid "GPS altitude"
 msgstr ""
 
-#: ../src/exif-common.c:578
+#: ../src/exif-common.c:934 ../src/osd.c:70
+#, fuzzy
+msgid "Local time"
+msgstr "場所:"
+
+#: ../src/exif-common.c:935
+#, fuzzy
+msgid "Time zone"
+msgstr "線形"
+
+#: ../src/exif-common.c:936 ../src/osd.c:72
+#, fuzzy
+msgid "Country name"
+msgstr "名前順でソート"
+
+#: ../src/exif-common.c:937 ../src/osd.c:73
+msgid "Country code"
+msgstr ""
+
+#: ../src/exif-common.c:938 ../src/osd.c:75
+#, fuzzy
+msgid "Star rating"
+msgstr "日付順でソート"
+
+#: ../src/exif-common.c:939
 #, fuzzy
 msgid "File size"
 msgstr "サイズ:"
 
-#: ../src/exif-common.c:579
+#: ../src/exif-common.c:940
 #, fuzzy
 msgid "File date"
 msgstr "タイムスタンプ:"
 
-#: ../src/exif-common.c:580
+#: ../src/exif-common.c:941 ../src/osd.c:50
 #, fuzzy
 msgid "File mode"
 msgstr "ファイル名が"
 
-#: ../src/filedata.c:109
+#: ../src/exif-common.c:942 ../src/osd.c:49
+#, fuzzy
+msgid "File ctime"
+msgstr "サイズ:"
+
+#: ../src/exif-common.c:943 ../src/osd.c:51
+#, fuzzy
+msgid "File owner"
+msgstr "ファイル名が"
+
+#: ../src/exif-common.c:944 ../src/osd.c:52
+#, fuzzy
+msgid "File group"
+msgstr "ファイルはありません"
+
+#: ../src/exif-common.c:945 ../src/osd.c:53
+#, fuzzy
+msgid "File link"
+msgstr "ファイルはありません"
+
+#: ../src/exif-common.c:946 ../src/osd.c:54
+#, fuzzy
+msgid "File class"
+msgstr "ファイル"
+
+#: ../src/filedata.c:112
 #, c-format
 msgid "%d bytes"
 msgstr "%d バイト"
 
-#: ../src/filedata.c:113
+#: ../src/filedata.c:116
 #, c-format
 msgid "%.1f K"
 msgstr "%.1f Kバイト"
 
-#: ../src/filedata.c:117
+#: ../src/filedata.c:120
 #, c-format
 msgid "%.1f MB"
 msgstr "%.1f Mバイト"
 
-#: ../src/filedata.c:122
+#: ../src/filedata.c:125
 #, c-format
 msgid "%.1f GB"
 msgstr "%.1f Gバイト"
 
-#: ../src/filedata.c:2556
+#: ../src/filedata.c:2726
 msgid "file or directory does not exist"
 msgstr ""
 
-#: ../src/filedata.c:2562
+#: ../src/filedata.c:2732
 #, fuzzy
 msgid "destination already exists"
 msgstr ""
@@ -2051,79 +2137,82 @@ msgstr ""
 "%s\n"
 "は既に存在しています。"
 
-#: ../src/filedata.c:2568
+#: ../src/filedata.c:2738
 msgid "destination can't be overwritten"
 msgstr ""
 
-#: ../src/filedata.c:2574
+#: ../src/filedata.c:2744
 msgid "destination directory is not writable"
 msgstr ""
 
-#: ../src/filedata.c:2580
+#: ../src/filedata.c:2750
 msgid "destination directory does not exist"
 msgstr ""
 
-#: ../src/filedata.c:2586
+#: ../src/filedata.c:2756
 msgid "source directory is not writable"
 msgstr ""
 
-#: ../src/filedata.c:2592
+#: ../src/filedata.c:2762
 #, fuzzy
 msgid "no read permission"
 msgstr "(読み込み権限なし) %s バイト"
 
-#: ../src/filedata.c:2598
+#: ../src/filedata.c:2768
 msgid "file is readonly"
 msgstr ""
 
-#: ../src/filedata.c:2604
+#: ../src/filedata.c:2774
 msgid "destination already exists and will be overwritten"
 msgstr ""
 
-#: ../src/filedata.c:2610
-#, fuzzy
+#: ../src/filedata.c:2780
 msgid "source and destination are the same"
-msgstr "移動元と移動先が同じです。この操作を取り消しました。"
+msgstr "移動元と移動先が同じです"
 
-#: ../src/filedata.c:2616
-#, fuzzy
+#: ../src/filedata.c:2786
 msgid "source and destination have different extension"
-msgstr "移動元と移動先が同じです。この操作を取り消しました。"
+msgstr "移動元と移動先の拡張子が異なります"
 
-#: ../src/filedata.c:2622
+#: ../src/filedata.c:2792
 msgid "there are unsaved metadata changes for the file"
-msgstr ""
+msgstr "ファイルには保存されていないメタデータの変更があります"
 
-#: ../src/filedata.c:2628
+#: ../src/filedata.c:2798
 msgid "another destination file has the same filename"
-msgstr ""
+msgstr "同じ名前の、別の移動先ファイルがあります"
 
-#: ../src/fullscreen.c:242 ../src/layout_util.c:1822 ../src/layout_util.c:1823
-#: ../src/layout_util.c:1824 ../src/preferences.c:1822
+#: ../src/filedata.c:3352
+#, c-format
+msgid "Error: Unable to write marks lists to: %s\n"
+msgstr "エラー: マークのリストを書き込めません: %s\n"
+
+#: ../src/fullscreen.c:242 ../src/layout_util.c:1998 ../src/layout_util.c:1999
+#: ../src/layout_util.c:2000 ../src/preferences.c:2254
 msgid "Full screen"
 msgstr "フル・スクリーン"
 
-#: ../src/fullscreen.c:413
+#: ../src/fullscreen.c:423
 msgid "Full size"
 msgstr "フルサイズ"
 
-#: ../src/fullscreen.c:421
+#: ../src/fullscreen.c:431
 msgid "Monitor"
 msgstr "モニタ"
 
-#: ../src/fullscreen.c:427
+#: ../src/fullscreen.c:437
 msgid "Screen"
 msgstr "スクリーン"
 
-#: ../src/fullscreen.c:661
+#: ../src/fullscreen.c:672
 msgid "Determined by Window Manager"
-msgstr "Ｗマネージャが検出したスクリーン"
+msgstr "ウィンドウ・マネージャが決定する"
 
-#: ../src/fullscreen.c:662
+#: ../src/fullscreen.c:673
 msgid "Active screen"
 msgstr "現在使用中のスクリーン"
 
-#: ../src/fullscreen.c:664
+#: ../src/fullscreen.c:675
 msgid "Active monitor"
 msgstr "現在使用中のモニタ"
 
@@ -2172,7 +2261,7 @@ msgstr ""
 msgid "Unable to write history lists to: %s\n"
 msgstr "履歴リストへ書き込めません: %s\n"
 
-#: ../src/image.c:187
+#: ../src/image.c:349
 #, fuzzy, c-format
 msgid " (Collection %s)"
 msgstr "コレクション"
@@ -2182,209 +2271,210 @@ msgstr "コレクション"
 msgid "Error interpreting JPEG image file (%s)"
 msgstr ""
 
-#: ../src/img-view.c:1303 ../src/layout_image.c:674 ../src/layout_util.c:1789
-#: ../src/layout_util.c:1790 ../src/layout_util.c:1805
-#: ../src/layout_util.c:1806 ../src/pan-view/pan-view.c:2239
+#: ../src/img-view.c:1327 ../src/layout_image.c:684 ../src/layout_util.c:1965
+#: ../src/layout_util.c:1966 ../src/layout_util.c:1981
+#: ../src/layout_util.c:1982 ../src/pan-view/pan-view.c:2298
 msgid "Zoom _in"
 msgstr "拡大(_I)"
 
-#: ../src/img-view.c:1304 ../src/layout_image.c:675 ../src/layout_util.c:1791
-#: ../src/layout_util.c:1792 ../src/layout_util.c:1807
-#: ../src/layout_util.c:1808 ../src/pan-view/pan-view.c:2241
+#: ../src/img-view.c:1328 ../src/layout_image.c:685 ../src/layout_util.c:1967
+#: ../src/layout_util.c:1968 ../src/layout_util.c:1983
+#: ../src/layout_util.c:1984 ../src/pan-view/pan-view.c:2300
 msgid "Zoom _out"
 msgstr "縮小(_O)"
 
-#: ../src/img-view.c:1305 ../src/layout_image.c:676 ../src/layout_util.c:1793
-#: ../src/layout_util.c:1794 ../src/layout_util.c:1809
-#: ../src/layout_util.c:1810 ../src/pan-view/pan-view.c:2243
+#: ../src/img-view.c:1329 ../src/layout_image.c:686 ../src/layout_util.c:1969
+#: ../src/layout_util.c:1970 ../src/layout_util.c:1985
+#: ../src/layout_util.c:1986 ../src/pan-view/pan-view.c:2302
 msgid "Zoom _1:1"
 msgstr "元のサイズ(_1)"
 
-#: ../src/img-view.c:1306 ../src/layout_image.c:677
+#: ../src/img-view.c:1330 ../src/layout_image.c:687
 msgid "Fit image to _window"
 msgstr "ウィンドウにフィットさせる(_W)"
 
-#: ../src/img-view.c:1315 ../src/layout_image.c:687 ../src/layout_util.c:1787
+#: ../src/img-view.c:1339 ../src/layout_image.c:697 ../src/layout_util.c:1962
 msgid "Set as _wallpaper"
 msgstr "壁紙として貼り付け(_W)"
 
-#: ../src/img-view.c:1320 ../src/layout_image.c:694
+#: ../src/img-view.c:1344 ../src/layout_image.c:704
 msgid "_Go to directory view"
-msgstr ""
+msgstr "ディレクトリビューに移動(_G)"
 
-#: ../src/img-view.c:1339 ../src/layout_image.c:719
+#: ../src/img-view.c:1372 ../src/layout_image.c:739
 msgid "_Stop slideshow"
 msgstr "スライドショーの停止(_S)"
 
-#: ../src/img-view.c:1342 ../src/layout_image.c:722
+#: ../src/img-view.c:1375 ../src/layout_image.c:742
 msgid "Continue slides_how"
 msgstr "スライドショーの続行(_H)"
 
-#: ../src/img-view.c:1347 ../src/img-view.c:1355 ../src/layout_image.c:727
-#: ../src/layout_image.c:734
+#: ../src/img-view.c:1380 ../src/img-view.c:1388 ../src/layout_image.c:747
+#: ../src/layout_image.c:754
 msgid "Pause slides_how"
 msgstr "スライドショーの一時停止(_H)"
 
-#: ../src/img-view.c:1353 ../src/layout_image.c:733
+#: ../src/img-view.c:1386 ../src/layout_image.c:753
 msgid "_Start slideshow"
 msgstr "スライドショーの開始(_S)"
 
-#: ../src/img-view.c:1361 ../src/layout_image.c:744
-#: ../src/pan-view/pan-view.c:2321
+#: ../src/img-view.c:1394 ../src/layout_image.c:764
+#: ../src/pan-view/pan-view.c:2390
 msgid "Exit _full screen"
 msgstr "フル・スクリーン表示の終了(_F)"
 
-#: ../src/img-view.c:1365 ../src/layout_image.c:740
-#: ../src/pan-view/pan-view.c:2325
+#: ../src/img-view.c:1398 ../src/layout_image.c:760
+#: ../src/pan-view/pan-view.c:2394
 msgid "_Full screen"
 msgstr "フル・スクリーン表示(_F)"
 
-#: ../src/img-view.c:1369 ../src/layout_util.c:1765
-#: ../src/pan-view/pan-view.c:2329
+#: ../src/img-view.c:1402 ../src/layout_util.c:1940
+#: ../src/pan-view/pan-view.c:2398
 msgid "C_lose window"
 msgstr "ウィンドウを閉じる(_L)"
 
-#: ../src/layout.c:402 ../src/view_file/view_file.c:634
+#: ../src/layout.c:433 ../src/view_file/view_file.c:666
 msgid "Ascending"
 msgstr "昇順にする"
 
-#: ../src/layout.c:482
+#: ../src/layout.c:514
 msgid "Scroll to top left corner"
 msgstr ""
 
-#: ../src/layout.c:487
+#: ../src/layout.c:519
 msgid "Scroll to image center"
 msgstr ""
 
-#: ../src/layout.c:492
+#: ../src/layout.c:524
 msgid "Keep the region from previous image"
 msgstr ""
 
-#: ../src/layout.c:579
+#: ../src/layout.c:631
 msgid " Slideshow"
 msgstr " スライドショー"
 
-#: ../src/layout.c:583
+#: ../src/layout.c:635
 msgid " Paused"
 msgstr " 一時停止"
 
-#: ../src/layout.c:599
+#: ../src/layout.c:651
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
-msgstr "%s, %d 個のファイル (%s, %d)%s"
+msgstr "%s, %d 個のファイル (%s, %d 個)%s"
 
-#: ../src/layout.c:606
+#: ../src/layout.c:658
 #, c-format
 msgid "%s, %d files%s"
 msgstr "%s, %d 個のファイル%s"
 
-#: ../src/layout.c:611
+#: ../src/layout.c:663
 #, c-format
 msgid "%d files%s"
 msgstr "%d 個のファイル%s"
 
-#: ../src/layout.c:657
+#: ../src/layout.c:712
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr "(読み込み権限なし) %s バイト"
 
-#: ../src/layout.c:661
+#: ../src/layout.c:716
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr "( ? x ? ) %s バイト"
 
-#: ../src/layout.c:669
+#: ../src/layout.c:729
+#, fuzzy, c-format
+msgid "( %d x %d ) %s bytes%s%d%s%d%s"
+msgstr "( %d x %d ) %s バイト"
+
+#: ../src/layout.c:733
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr "( %d x %d ) %s バイト"
 
-#: ../src/layout.c:755
+#: ../src/layout.c:824
 #, fuzzy
 msgid "Select sort order"
 msgstr "フォルダの選択"
 
-#: ../src/layout.c:760
+#: ../src/layout.c:830
 #, fuzzy
 msgid "Folder contents (files selected)"
 msgstr "サブフォルダも含める"
 
-#: ../src/layout.c:769
+#: ../src/layout.c:841
 #, fuzzy
 msgid "(Image dimensions) Image size"
 msgstr "画像の寸法が"
 
-#: ../src/layout.c:779
+#: ../src/layout.c:852
 #, fuzzy
-msgid "Select zoom mode"
+msgid "Select zoom and scroll mode"
 msgstr "フォルダの選択"
 
-#. expand only in small format
-#: ../src/layout.c:789
+#: ../src/layout.c:864
 msgid "[Pixel x,y coord]: (Pixel R,G,B value)"
 msgstr ""
 
-#: ../src/layout.c:1429 ../src/layout_config.c:67
+#: ../src/layout.c:1527 ../src/layout_config.c:67
 msgid "Tools"
 msgstr "ツール"
 
-#: ../src/layout.c:2056
+#: ../src/layout.c:2180
 msgid "Window options and layout"
-msgstr ""
+msgstr "ウィンドウのオプションとレイアウト"
 
-#: ../src/layout.c:2121
-#, fuzzy
+#: ../src/layout.c:2249
 msgid "General options"
-msgstr "全般"
+msgstr "全般オプション"
 
-#: ../src/layout.c:2123
+#: ../src/layout.c:2251
 msgid "Home path (empty to use your home directory)"
-msgstr ""
+msgstr "ホームパス (ホームディレクトリを使う場合は空に)"
 
-#: ../src/layout.c:2131
+#: ../src/layout.c:2259
 msgid "Use current"
 msgstr "現在のフォルダ"
 
-#: ../src/layout.c:2134
+#: ../src/layout.c:2262
 msgid "Show date in directories list view"
-msgstr ""
+msgstr "ディレクトリ一覧ビューで日付を表示する"
 
-#: ../src/layout.c:2137
+#: ../src/layout.c:2265
 msgid "Exit program when this window is closed"
-msgstr ""
+msgstr "このウィンドウが閉じられたときプログラムを終了する"
 
-#: ../src/layout.c:2140
+#: ../src/layout.c:2268
 msgid "Start-up directory:"
-msgstr ""
+msgstr "起動時のディレクトリ:"
 
-#: ../src/layout.c:2142
+#: ../src/layout.c:2270
 msgid "No change"
-msgstr ""
+msgstr "変更しない"
 
-#: ../src/layout.c:2145
-#, fuzzy
+#: ../src/layout.c:2273
 msgid "Restore last path"
-msgstr "パスの選択"
+msgstr "最後のパスを復元"
 
-#: ../src/layout.c:2148
-#, fuzzy
+#: ../src/layout.c:2276
 msgid "Home path"
-msgstr "コピー(_C)"
+msgstr "ホームパス"
 
-#: ../src/layout.c:2152 ../src/print.c:3375 ../src/print.c:3382
+#: ../src/layout.c:2280
 msgid "Layout"
 msgstr "配置"
 
-#: ../src/layout.c:2399
+#: ../src/layout.c:2537
 #, fuzzy
 msgid "Invalid geometry\n"
 msgstr "不正なフォルダ"
 
-#: ../src/layout_config.c:67 ../src/preferences.c:1941 ../src/ui_pathsel.c:1187
+#: ../src/layout_config.c:67 ../src/preferences.c:2438 ../src/ui_pathsel.c:1188
 msgid "Files"
 msgstr "ファイル"
 
-#: ../src/layout_config.c:67 ../src/preferences.c:108 ../src/preferences.c:1710
-#: ../src/print.c:133
+#: ../src/layout_config.c:67 ../src/preferences.c:115 ../src/preferences.c:2142
+#: ../src/search.c:2178 ../src/search.c:3375
 msgid "Image"
 msgstr "画像"
 
@@ -2392,1339 +2482,1288 @@ msgstr "画像"
 msgid "(drag to change order)"
 msgstr "(順番を変更する場合はここにドロップして下さい)"
 
-#: ../src/layout_image.c:747
+#: ../src/layout_image.c:767
 msgid "_Animate"
-msgstr ""
+msgstr "アニメーション(_A)"
 
-#: ../src/layout_image.c:751
+#: ../src/layout_image.c:771
 msgid "Hide file _list"
 msgstr "ファイル一覧を隠す(_L)"
 
-#: ../src/layout_image.c:1941
+#: ../src/layout_image.c:1972
 #, c-format
 msgid "[%*d,%*d]: RGB(%3d,%3d,%3d)"
 msgstr ""
 
-#: ../src/layout_image.c:1949
+#: ../src/layout_image.c:1980
 #, c-format
 msgid "[%*s,%*s]: RGB(---,---,---)"
 msgstr ""
 
-#: ../src/layout_util.c:523
+#: ../src/layout_util.c:265 ../src/layout_util.c:2027
+msgid "Clear Marks"
+msgstr "マークのクリア"
+
+#: ../src/layout_util.c:613
 #, fuzzy
 msgid "Operation failed:\n"
 msgstr "削除に失敗したファイル"
 
-#: ../src/layout_util.c:526
+#: ../src/layout_util.c:616
 #, fuzzy
-msgid "Cannot create tmp file"
+msgid "No file extension\n"
+msgstr "フィルタリングしない"
+
+#: ../src/layout_util.c:618
+#, fuzzy
+msgid "Cannot create tmp file\n"
 msgstr "フォルダを作成できませんでした"
 
-#: ../src/layout_util.c:529
-#, fuzzy
-msgid "File: "
-msgstr "ファイル:"
+#: ../src/layout_util.c:620
+msgid "Operation not supported for filetype\n"
+msgstr ""
 
-#: ../src/layout_util.c:533
+#: ../src/layout_util.c:622
+msgid "File is not writable\n"
+msgstr ""
+
+#: ../src/layout_util.c:624
+#, fuzzy
+msgid "Exiftran error\n"
+msgstr "印刷エラー"
+
+#: ../src/layout_util.c:626
+#, fuzzy
+msgid "Mogrify error\n"
+msgstr "ミラーリング(_M)"
+
+#: ../src/layout_util.c:630
 #, fuzzy
 msgid "Image orientation"
 msgstr "向き"
 
-#: ../src/layout_util.c:1715
+#: ../src/layout_util.c:1884
 msgid "_File"
 msgstr "ファイル(_F)"
 
-#: ../src/layout_util.c:1716
+#: ../src/layout_util.c:1885
 msgid "_Go"
-msgstr ""
+msgstr "移動(_G)"
 
-#: ../src/layout_util.c:1717 ../src/menu.c:119
+#: ../src/layout_util.c:1886
 msgid "_Edit"
 msgstr "編集(_E)"
 
-#: ../src/layout_util.c:1718
-#, fuzzy
+#: ../src/layout_util.c:1887
 msgid "_Select"
-msgstr "選択した画像"
+msgstr "選択(_S)"
 
-#: ../src/layout_util.c:1719 ../src/menu.c:372
-#, fuzzy
+#: ../src/layout_util.c:1888 ../src/menu.c:380
 msgid "_Orientation"
-msgstr "向き"
+msgstr "向き(_O)"
 
-#: ../src/layout_util.c:1720
-#, fuzzy
+#: ../src/layout_util.c:1889
 msgid "_Rating"
-msgstr "印刷エラー"
+msgstr "レーティング(_R)"
 
-#: ../src/layout_util.c:1721
+#: ../src/layout_util.c:1890
 #, fuzzy
 msgid "P_references"
 msgstr "設定(_R)..."
 
-#: ../src/layout_util.c:1723
+#: ../src/layout_util.c:1892
 msgid "_Files and Folders"
-msgstr ""
+msgstr "ファイルとフォルダ(_F)"
 
-#: ../src/layout_util.c:1724
-#, fuzzy
+#: ../src/layout_util.c:1893
 msgid "_Zoom"
-msgstr "ズーム"
+msgstr "ズーム(_Z)"
 
-#: ../src/layout_util.c:1725
-#, fuzzy
+#: ../src/layout_util.c:1894
 msgid "_Color Management"
-msgstr "ソート・マネージャ"
+msgstr "カラーマネジメント(_C)"
 
-#: ../src/layout_util.c:1726
+#: ../src/layout_util.c:1895
 msgid "_Connected Zoom"
-msgstr ""
+msgstr "連動ズーム(_C)"
 
-#: ../src/layout_util.c:1727
+#: ../src/layout_util.c:1896
 msgid "Spli_t"
-msgstr ""
+msgstr "分割(_T)"
 
-#: ../src/layout_util.c:1728
+#: ../src/layout_util.c:1897
 msgid "Stere_o"
-msgstr ""
+msgstr "ステレオ(_O)"
 
-#: ../src/layout_util.c:1729 ../src/layout_util.c:1866
-#, fuzzy
+#: ../src/layout_util.c:1898 ../src/layout_util.c:2044
 msgid "Image _Overlay"
-msgstr "画像の検索 - Geeqie"
+msgstr "画像オーバーレイ(_O)"
 
-#: ../src/layout_util.c:1730
+#: ../src/layout_util.c:1899
 msgid "_Plugins"
-msgstr ""
+msgstr "プラグイン(_P)"
 
-#: ../src/layout_util.c:1731
+#: ../src/layout_util.c:1900
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: ../src/layout_util.c:1733
-#, fuzzy
+#: ../src/layout_util.c:1902
 msgid "_First Image"
-msgstr "先頭の画像へジャンプする"
+msgstr "最初の画像(_F)"
 
-#: ../src/layout_util.c:1733 ../src/toolbar.c:74
-#, fuzzy
+#: ../src/layout_util.c:1902 ../src/preferences.c:648 ../src/toolbar.c:74
 msgid "First Image"
-msgstr "先頭の画像へジャンプする"
+msgstr "最初の画像"
 
-#: ../src/layout_util.c:1734 ../src/layout_util.c:1735
-#: ../src/layout_util.c:1736
-#, fuzzy
+#: ../src/layout_util.c:1903 ../src/layout_util.c:1904
+#: ../src/layout_util.c:1905
 msgid "_Previous Image"
-msgstr "前の画像へジャンプする"
+msgstr "前の画像(_P)"
 
-#: ../src/layout_util.c:1734 ../src/layout_util.c:1735
-#: ../src/layout_util.c:1736 ../src/toolbar.c:75
-#, fuzzy
+#: ../src/layout_util.c:1903 ../src/layout_util.c:1904
+#: ../src/layout_util.c:1905 ../src/preferences.c:649 ../src/toolbar.c:75
 msgid "Previous Image"
-msgstr "前の画像へジャンプする"
+msgstr "前の画像"
 
-#: ../src/layout_util.c:1737 ../src/layout_util.c:1738
-#: ../src/layout_util.c:1739
-#, fuzzy
+#: ../src/layout_util.c:1906 ../src/layout_util.c:1907
+#: ../src/layout_util.c:1913
 msgid "_Next Image"
-msgstr "次の画像へジャンプする"
+msgstr "次の画像(_N)"
 
-#: ../src/layout_util.c:1737 ../src/layout_util.c:1738
-#: ../src/layout_util.c:1739 ../src/toolbar.c:76
-#, fuzzy
+#: ../src/layout_util.c:1906 ../src/layout_util.c:1907
+#: ../src/layout_util.c:1913 ../src/preferences.c:650 ../src/toolbar.c:76
 msgid "Next Image"
-msgstr "次の画像へジャンプする"
+msgstr "次の画像"
 
-#: ../src/layout_util.c:1740
-#, fuzzy
+#: ../src/layout_util.c:1909
+msgid "_Next Page"
+msgstr "次のページ(_N)"
+
+#: ../src/layout_util.c:1909 ../src/preferences.c:656
+msgid "Next Page"
+msgstr "次のページ"
+
+#: ../src/layout_util.c:1910
+msgid "_Previous Page"
+msgstr "前のページ(_P)"
+
+#: ../src/layout_util.c:1910 ../src/preferences.c:657 ../src/toolbar.c:83
+msgid "Previous Page"
+msgstr "前のページ"
+
+#: ../src/layout_util.c:1914
 msgid "_Last Image"
-msgstr "最後の画像へジャンプする"
+msgstr "最後の画像(_L)"
 
-#: ../src/layout_util.c:1740 ../src/toolbar.c:77
-#, fuzzy
+#: ../src/layout_util.c:1914 ../src/preferences.c:651 ../src/toolbar.c:77
 msgid "Last Image"
-msgstr "最後の画像へジャンプする"
+msgstr "最後の画像"
 
-#: ../src/layout_util.c:1741
+#: ../src/layout_util.c:1915
 msgid "_Back"
-msgstr ""
+msgstr "戻る(_B)"
 
-#: ../src/layout_util.c:1741 ../src/toolbar.c:78
+#: ../src/layout_util.c:1915 ../src/preferences.c:652 ../src/toolbar.c:78
 msgid "Back"
-msgstr ""
+msgstr "戻る"
 
-#: ../src/layout_util.c:1742
+#: ../src/layout_util.c:1916
 msgid "_Forward"
-msgstr ""
+msgstr "進む(_F)"
 
-#: ../src/layout_util.c:1742 ../src/toolbar.c:79
+#: ../src/layout_util.c:1916 ../src/preferences.c:653 ../src/toolbar.c:79
 msgid "Forward"
-msgstr ""
+msgstr "進む"
 
-#: ../src/layout_util.c:1743
-#, fuzzy
+#: ../src/layout_util.c:1917
 msgid "_Home"
-msgstr "ホーム"
+msgstr "ホーム(_H)"
 
-#: ../src/layout_util.c:1743 ../src/options.c:193 ../src/toolbar.c:80
-#: ../src/ui_bookmark.c:567 ../src/ui_pathsel.c:1056
+#: ../src/layout_util.c:1917 ../src/options.c:222 ../src/preferences.c:654
+#: ../src/toolbar.c:80 ../src/ui_bookmark.c:578 ../src/ui_pathsel.c:1056
 msgid "Home"
 msgstr "ホーム"
 
-#: ../src/layout_util.c:1744
+#: ../src/layout_util.c:1918
 msgid "_Up"
-msgstr ""
+msgstr "上へ(_U)"
 
-#: ../src/layout_util.c:1744 ../src/toolbar.c:81
+#: ../src/layout_util.c:1918 ../src/preferences.c:655 ../src/toolbar.c:81
 msgid "Up"
-msgstr ""
+msgstr "上へ"
 
-#: ../src/layout_util.c:1746 ../src/toolbar.c:82
+#: ../src/layout_util.c:1920 ../src/preferences.c:658 ../src/toolbar.c:84
 msgid "New _window"
 msgstr "新しいウィンドウ(_N)"
 
-#: ../src/layout_util.c:1746
-#, fuzzy
+#: ../src/layout_util.c:1920
 msgid "New window"
-msgstr "新しいウィンドウ(_N)"
+msgstr "新しいウィンドウ"
 
-#: ../src/layout_util.c:1747
+#: ../src/layout_util.c:1921
 msgid "_New collection"
 msgstr "新しいコレクション(_N)"
 
-#: ../src/layout_util.c:1747 ../src/menu.c:431 ../src/toolbar.c:83
-#, fuzzy
+#: ../src/layout_util.c:1921 ../src/menu.c:439 ../src/preferences.c:659
+#: ../src/toolbar.c:85
 msgid "New collection"
-msgstr "新しいコレクション(_N)"
+msgstr "新しいコレクション"
 
-#: ../src/layout_util.c:1748
+#: ../src/layout_util.c:1922
 msgid "_Open collection..."
 msgstr "コレクションを開く(_O)..."
 
-#: ../src/layout_util.c:1748
-#, fuzzy
+#: ../src/layout_util.c:1922
 msgid "Open collection..."
-msgstr "コレクションを開く(_O)..."
+msgstr "コレクションを開く..."
 
-#: ../src/layout_util.c:1749
-#, fuzzy
+#: ../src/layout_util.c:1923
 msgid "Open recen_t"
-msgstr "最近の開いたファイル(_R)"
+msgstr "最近開いたファイル(_T)"
 
-#: ../src/layout_util.c:1749
-#, fuzzy
+#: ../src/layout_util.c:1923
 msgid "Open recent"
-msgstr "最近の開いたファイル(_R)"
+msgstr "最近開いたファイル"
 
-#: ../src/layout_util.c:1750
+#: ../src/layout_util.c:1924
 msgid "_Search..."
 msgstr "検索(_S)..."
 
-#: ../src/layout_util.c:1750
-#, fuzzy
+#: ../src/layout_util.c:1924
 msgid "Search..."
-msgstr "検索(_S)..."
+msgstr "検索..."
 
-#: ../src/layout_util.c:1751
-#, fuzzy
+#: ../src/layout_util.c:1925
 msgid "Find duplicates..."
-msgstr "複製の検索(_F)..."
+msgstr "複製の検索..."
 
-#: ../src/layout_util.c:1752
-#, fuzzy
+#: ../src/layout_util.c:1926
 msgid "Pa_n view"
-msgstr "拡張表示にする"
+msgstr "パン表示にする(_N)"
 
-#: ../src/layout_util.c:1752 ../src/toolbar.c:87
-#, fuzzy
+#: ../src/layout_util.c:1926 ../src/preferences.c:669 ../src/toolbar.c:95
 msgid "Pan view"
-msgstr "拡張表示にする"
+msgstr "パン表示にする"
 
-#: ../src/layout_util.c:1753
+#: ../src/layout_util.c:1927
 msgid "_Print..."
 msgstr "印刷(_P)..."
 
-#: ../src/layout_util.c:1754
+#: ../src/layout_util.c:1928
 msgid "N_ew folder..."
 msgstr "新しいフォルダ(_E)..."
 
-#: ../src/layout_util.c:1754
-#, fuzzy
+#: ../src/layout_util.c:1928
 msgid "New folder..."
-msgstr "新しいフォルダ(_N)..."
+msgstr "新しいフォルダ..."
 
-#: ../src/layout_util.c:1755
+#: ../src/layout_util.c:1929
 #, fuzzy
 msgid "Copy..."
 msgstr "コピー(_C)..."
 
-#: ../src/layout_util.c:1756
-#, fuzzy
+#: ../src/layout_util.c:1930
 msgid "Move..."
-msgstr "移動(_M)..."
+msgstr "移動..."
 
-#: ../src/layout_util.c:1757
-#, fuzzy
+#: ../src/layout_util.c:1931
 msgid "Rename..."
-msgstr "名前の変更(_R)..."
+msgstr "名前の変更..."
 
-#: ../src/layout_util.c:1758 ../src/layout_util.c:1759
-#: ../src/layout_util.c:1760
-#, fuzzy
+#: ../src/layout_util.c:1935
 msgid "Delete..."
-msgstr "削除(_D)..."
+msgstr "削除..."
 
-#: ../src/layout_util.c:1761 ../src/view_file/view_file.c:616
-#, fuzzy
+#: ../src/layout_util.c:1936 ../src/view_file/view_file.c:648
 msgid "Enable file _grouping"
-msgstr "フィルタリングしない"
+msgstr "ファイルのグループ化を有効化(_G)"
 
-#: ../src/layout_util.c:1761
-#, fuzzy
+#: ../src/layout_util.c:1936
 msgid "Enable file grouping"
-msgstr "フィルタリングしない"
+msgstr "ファイルのグループ化を有効化"
 
-#: ../src/layout_util.c:1762 ../src/view_file/view_file.c:618
-#, fuzzy
+#: ../src/layout_util.c:1937 ../src/view_file/view_file.c:650
 msgid "Disable file groupi_ng"
-msgstr "フィルタリングしない"
+msgstr "ファイルのグループ化を無効化(_N)"
 
-#: ../src/layout_util.c:1762
-#, fuzzy
+#: ../src/layout_util.c:1937
 msgid "Disable file grouping"
-msgstr "フィルタリングしない"
+msgstr "ファイルのグループ化を無効化"
 
-#: ../src/layout_util.c:1763
-#, fuzzy
+#: ../src/layout_util.c:1938
 msgid "_Copy path to clipboard"
-msgstr "コピー(_C)"
+msgstr "クリップボードにパスをコピー(_C)"
 
-#: ../src/layout_util.c:1763
+#: ../src/layout_util.c:1938
 msgid "Copy path to clipboard"
-msgstr ""
+msgstr "クリップボードにパスをコピー"
 
-#: ../src/layout_util.c:1764
-#, fuzzy
+#: ../src/layout_util.c:1939
 msgid "_Copy path unquoted to clipboard"
-msgstr "コピー(_C)"
+msgstr "クオートせずクリップボードにパスをコピー(_C)"
 
-#: ../src/layout_util.c:1764
-#, fuzzy
+#: ../src/layout_util.c:1939
 msgid "Copy path unquoted to clipboard"
-msgstr "コピー(_C)"
+msgstr "クオートせずクリップボードにパスをコピー(_C)"
 
-#: ../src/layout_util.c:1765
-#, fuzzy
+#: ../src/layout_util.c:1940
 msgid "Close window"
-msgstr "ウィンドウを閉じる(_L)"
+msgstr "ウィンドウを閉じる"
 
-#: ../src/layout_util.c:1766
+#: ../src/layout_util.c:1941
 msgid "_Quit"
 msgstr "終了(_Q)"
 
-#: ../src/layout_util.c:1766 ../src/toolbar.c:117
-#, fuzzy
+#: ../src/layout_util.c:1941 ../src/preferences.c:714 ../src/toolbar.c:140
 msgid "Quit"
-msgstr "終了(_Q)"
+msgstr "終了"
 
-#: ../src/layout_util.c:1767 ../src/menu.c:314
+#: ../src/layout_util.c:1942 ../src/menu.c:322
 msgid "_Rotate clockwise"
 msgstr "時計回りに回転(_R)"
 
-#: ../src/layout_util.c:1767
-#, fuzzy
+#: ../src/layout_util.c:1942 ../src/preferences.c:679 ../src/toolbar.c:105
 msgid "Rotate clockwise"
-msgstr "時計回りに回転(_R)"
+msgstr "時計回りに回転"
 
-#: ../src/layout_util.c:1768
+#: ../src/layout_util.c:1943
 msgid "_Rating 0"
-msgstr ""
+msgstr "レーティング 0(_R)"
 
-#: ../src/layout_util.c:1768
-#, fuzzy
+#: ../src/layout_util.c:1943
 msgid "Rating 0"
-msgstr "印刷エラー"
+msgstr "レーティング 0"
 
-#: ../src/layout_util.c:1769
+#: ../src/layout_util.c:1944
 msgid "_Rating 1"
-msgstr ""
+msgstr "レーティング 1(_R)"
 
-#: ../src/layout_util.c:1769
-#, fuzzy
+#: ../src/layout_util.c:1944
 msgid "Rating 1"
-msgstr "印刷エラー"
+msgstr "レーティング 1"
 
-#: ../src/layout_util.c:1770
+#: ../src/layout_util.c:1945
 msgid "_Rating 2"
-msgstr ""
+msgstr "レーティング 2(_R)"
 
-#: ../src/layout_util.c:1770
-#, fuzzy
+#: ../src/layout_util.c:1945
 msgid "Rating 2"
-msgstr "印刷エラー"
+msgstr "レーティング 2"
 
-#: ../src/layout_util.c:1771
+#: ../src/layout_util.c:1946
 msgid "_Rating 3"
-msgstr ""
+msgstr "レーティング 3(_R)"
 
-#: ../src/layout_util.c:1771
-#, fuzzy
+#: ../src/layout_util.c:1946
 msgid "Rating 3"
-msgstr "印刷エラー"
+msgstr "レーティング 3"
 
-#: ../src/layout_util.c:1772
+#: ../src/layout_util.c:1947
 msgid "_Rating 4"
-msgstr ""
+msgstr "レーティング 4(_R)"
 
-#: ../src/layout_util.c:1772
-#, fuzzy
+#: ../src/layout_util.c:1947
 msgid "Rating 4"
-msgstr "印刷エラー"
+msgstr "レーティング 4"
 
-#: ../src/layout_util.c:1773
+#: ../src/layout_util.c:1948
 msgid "_Rating 5"
-msgstr ""
+msgstr "レーティング 5(_R)"
 
-#: ../src/layout_util.c:1773
-#, fuzzy
+#: ../src/layout_util.c:1948
 msgid "Rating 5"
-msgstr "印刷エラー"
+msgstr "レーティング 5"
 
-#: ../src/layout_util.c:1774
+#: ../src/layout_util.c:1949
 msgid "_Rating -1"
-msgstr ""
+msgstr "レーティング -1(_R)"
 
-#: ../src/layout_util.c:1774
+#: ../src/layout_util.c:1949
 msgid "Rating -1"
-msgstr ""
+msgstr "レーティング -1"
 
-#: ../src/layout_util.c:1775 ../src/menu.c:317
+#: ../src/layout_util.c:1950 ../src/menu.c:325
 msgid "Rotate _counterclockwise"
 msgstr "反時計回りに回転(_C)"
 
-#: ../src/layout_util.c:1775
-#, fuzzy
+#: ../src/layout_util.c:1950 ../src/preferences.c:680 ../src/toolbar.c:106
 msgid "Rotate counterclockwise"
-msgstr "反時計回りに回転(_C)"
+msgstr "反時計回りに回転"
 
-#: ../src/layout_util.c:1776
+#: ../src/layout_util.c:1951
 msgid "Rotate 1_80"
 msgstr "180度回転(_8)"
 
-#: ../src/layout_util.c:1776
-#, fuzzy
+#: ../src/layout_util.c:1951 ../src/preferences.c:681 ../src/toolbar.c:107
 msgid "Rotate 180"
-msgstr "180度回転(_8)"
+msgstr "180度回転"
 
-#: ../src/layout_util.c:1777 ../src/menu.c:323
+#: ../src/layout_util.c:1952 ../src/menu.c:331
 msgid "_Mirror"
 msgstr "ミラーリング(_M)"
 
-#: ../src/layout_util.c:1777
-#, fuzzy
+#: ../src/layout_util.c:1952 ../src/preferences.c:682 ../src/toolbar.c:108
 msgid "Mirror"
-msgstr "ミラーリング(_M)"
+msgstr "ミラーリング"
 
-#: ../src/layout_util.c:1778 ../src/menu.c:326
+#: ../src/layout_util.c:1953 ../src/menu.c:334
 msgid "_Flip"
-msgstr "折り返す(_F)"
+msgstr "上下反転(_F)"
 
-#: ../src/layout_util.c:1778
-#, fuzzy
+#: ../src/layout_util.c:1953 ../src/preferences.c:683 ../src/toolbar.c:109
 msgid "Flip"
-msgstr "折り返す(_F)"
+msgstr "上下反転"
 
-#: ../src/layout_util.c:1779 ../src/menu.c:329
-#, fuzzy
+#: ../src/layout_util.c:1954 ../src/menu.c:337
 msgid "_Original state"
-msgstr "オリジナルの名前"
+msgstr "オリジナルの状態(_O)"
 
-#: ../src/layout_util.c:1779
-#, fuzzy
+#: ../src/layout_util.c:1954 ../src/preferences.c:684 ../src/toolbar.c:110
 msgid "Original state"
-msgstr "オリジナルの名前"
+msgstr "オリジナルの状態"
 
-#: ../src/layout_util.c:1780
+#: ../src/layout_util.c:1955
 msgid "Select _all"
 msgstr "全て選択(_A)"
 
-#: ../src/layout_util.c:1781
+#: ../src/layout_util.c:1956
 msgid "Select _none"
 msgstr "選択解除(_N)"
 
-#: ../src/layout_util.c:1782
-#, fuzzy
+#: ../src/layout_util.c:1957
 msgid "_Invert Selection"
-msgstr "選択した画像"
+msgstr "選択反転(_I)"
 
-#: ../src/layout_util.c:1782
-#, fuzzy
+#: ../src/layout_util.c:1957
 msgid "Invert Selection"
-msgstr "選択した画像"
+msgstr "選択反転"
 
-#: ../src/layout_util.c:1783
+#: ../src/layout_util.c:1958
 msgid "P_references..."
 msgstr "設定(_R)..."
 
-#: ../src/layout_util.c:1783
-#, fuzzy
+#: ../src/layout_util.c:1958
 msgid "Preferences..."
-msgstr "設定(_R)..."
+msgstr "設定..."
 
-#: ../src/layout_util.c:1784
-#, fuzzy
+#: ../src/layout_util.c:1959
 msgid "Configure _Plugins..."
-msgstr "オプションを設定します"
+msgstr "プラグインを設定(_P)..."
 
-#: ../src/layout_util.c:1784
-#, fuzzy
+#: ../src/layout_util.c:1959
 msgid "Configure Plugins..."
-msgstr "オプションを設定します"
+msgstr "プラグインを設定..."
 
-#: ../src/layout_util.c:1785
-#, fuzzy
+#: ../src/layout_util.c:1960
 msgid "_Configure this window..."
-msgstr "オプションを設定します"
+msgstr "このウィンドウを設定(_C)..."
 
-#: ../src/layout_util.c:1785
-#, fuzzy
+#: ../src/layout_util.c:1960
 msgid "Configure this window..."
-msgstr "オプションを設定します"
+msgstr "このウィンドウを設定..."
 
-#: ../src/layout_util.c:1786
-msgid "_Thumbnail maintenance..."
-msgstr "サムネイルの保守(_T)..."
+#: ../src/layout_util.c:1961
+msgid "_Cache maintenance..."
+msgstr "キャッシュの保守(_C)..."
 
-#: ../src/layout_util.c:1786
-#, fuzzy
-msgid "Thumbnail maintenance..."
-msgstr "サムネイルの保守(_T)..."
+#: ../src/layout_util.c:1961
+msgid "Cache maintenance..."
+msgstr "キャッシュの保守..."
 
-#: ../src/layout_util.c:1787
-#, fuzzy
+#: ../src/layout_util.c:1962
 msgid "Set as wallpaper"
-msgstr "壁紙として貼り付け(_W)"
+msgstr "壁紙に設定"
 
-#: ../src/layout_util.c:1788
-#, fuzzy
+#: ../src/layout_util.c:1963
 msgid "_Save metadata"
-msgstr "メタデータ"
+msgstr "メタデータを保存(_S)"
 
-#: ../src/layout_util.c:1788
-#, fuzzy
+#: ../src/layout_util.c:1963
 msgid "Save metadata"
-msgstr "メタデータ"
+msgstr "メタデータを保存"
 
-#: ../src/layout_util.c:1789 ../src/layout_util.c:1790 ../src/toolbar.c:92
+#: ../src/layout_util.c:1964
+msgid "Keyword autocomplete"
+msgstr "キーワード自動補完"
+
+#: ../src/layout_util.c:1964
+msgid "Keyword Autocomplete"
+msgstr "キーワード自動補完"
+
+#: ../src/layout_util.c:1965 ../src/layout_util.c:1966 ../src/preferences.c:685
+#: ../src/toolbar.c:111
 msgid "Zoom in"
 msgstr "拡大します"
 
-#: ../src/layout_util.c:1791 ../src/layout_util.c:1792 ../src/toolbar.c:93
+#: ../src/layout_util.c:1967 ../src/layout_util.c:1968 ../src/preferences.c:686
+#: ../src/toolbar.c:112
 msgid "Zoom out"
 msgstr "縮小します"
 
-#: ../src/layout_util.c:1793 ../src/layout_util.c:1794 ../src/toolbar.c:94
-#, fuzzy
+#: ../src/layout_util.c:1969 ../src/layout_util.c:1970 ../src/preferences.c:687
+#: ../src/toolbar.c:113
 msgid "Zoom 1:1"
-msgstr "元のサイズ(_1)"
+msgstr "元のサイズ"
 
-#: ../src/layout_util.c:1795 ../src/layout_util.c:1796
-#: ../src/layout_util.c:1811 ../src/layout_util.c:1812
+#: ../src/layout_util.c:1971 ../src/layout_util.c:1972
+#: ../src/layout_util.c:1987 ../src/layout_util.c:1988
 msgid "_Zoom to fit"
 msgstr "ウィンドウにフィット(_Z)"
 
-#: ../src/layout_util.c:1795 ../src/layout_util.c:1796 ../src/toolbar.c:95
-#, fuzzy
+#: ../src/layout_util.c:1971 ../src/layout_util.c:1972 ../src/preferences.c:688
+#: ../src/toolbar.c:114
 msgid "Zoom to fit"
-msgstr "ウィンドウにフィット(_Z)"
+msgstr "ウィンドウにフィット"
 
-#: ../src/layout_util.c:1797 ../src/layout_util.c:1813
+#: ../src/layout_util.c:1973 ../src/layout_util.c:1989
 msgid "Fit _Horizontally"
-msgstr ""
+msgstr "左右をフィット(_H)"
 
-#: ../src/layout_util.c:1797
+#: ../src/layout_util.c:1973
 msgid "Fit Horizontally"
-msgstr ""
+msgstr "左右をフィット"
 
-#: ../src/layout_util.c:1798 ../src/layout_util.c:1814
-#, fuzzy
+#: ../src/layout_util.c:1974 ../src/layout_util.c:1990
 msgid "Fit _Vertically"
-msgstr "部分光"
+msgstr "上下をフィット(_V)"
 
-#: ../src/layout_util.c:1798
-#, fuzzy
+#: ../src/layout_util.c:1974
 msgid "Fit Vertically"
-msgstr "部分光"
+msgstr "上下をフィット"
 
-#: ../src/layout_util.c:1799 ../src/layout_util.c:1815
-#, fuzzy
+#: ../src/layout_util.c:1975 ../src/layout_util.c:1991
 msgid "Zoom _2:1"
-msgstr "元のサイズ(_1)"
+msgstr "_2:1ズーム"
 
-#: ../src/layout_util.c:1799 ../src/toolbar.c:98
-#, fuzzy
+#: ../src/layout_util.c:1975 ../src/preferences.c:691 ../src/toolbar.c:117
 msgid "Zoom 2:1"
-msgstr "元のサイズ(_1)"
+msgstr "2:1ズーム"
 
-#: ../src/layout_util.c:1800 ../src/layout_util.c:1816
-#, fuzzy
+#: ../src/layout_util.c:1976 ../src/layout_util.c:1992
 msgid "Zoom _3:1"
-msgstr "元のサイズ(_1)"
+msgstr "_3:1ズーム"
 
-#: ../src/layout_util.c:1800 ../src/toolbar.c:99
-#, fuzzy
+#: ../src/layout_util.c:1976 ../src/preferences.c:692 ../src/toolbar.c:118
 msgid "Zoom 3:1"
-msgstr "元のサイズ(_1)"
+msgstr "3:1ズーム"
 
-#: ../src/layout_util.c:1801 ../src/layout_util.c:1817
-#, fuzzy
+#: ../src/layout_util.c:1977 ../src/layout_util.c:1993
 msgid "Zoom _4:1"
-msgstr "元のサイズ(_1)"
+msgstr "_4:1ズーム"
 
-#: ../src/layout_util.c:1801 ../src/toolbar.c:100
-#, fuzzy
+#: ../src/layout_util.c:1977 ../src/preferences.c:693 ../src/toolbar.c:119
 msgid "Zoom 4:1"
-msgstr "元のサイズ(_1)"
+msgstr "4:1ズーム"
 
-#: ../src/layout_util.c:1802 ../src/layout_util.c:1818 ../src/toolbar.c:101
-#, fuzzy
+#: ../src/layout_util.c:1978 ../src/layout_util.c:1994 ../src/preferences.c:694
+#: ../src/toolbar.c:120
 msgid "Zoom 1:2"
-msgstr "元のサイズ(_1)"
+msgstr "1:2ズーム"
 
-#: ../src/layout_util.c:1803 ../src/layout_util.c:1819
-#, fuzzy
+#: ../src/layout_util.c:1979 ../src/layout_util.c:1995
 msgid "Zoom 1:3"
-msgstr "元のサイズ(_1)"
+msgstr "1:3ズーム"
 
-#: ../src/layout_util.c:1804 ../src/layout_util.c:1820 ../src/toolbar.c:103
-#, fuzzy
+#: ../src/layout_util.c:1980 ../src/layout_util.c:1996 ../src/preferences.c:696
+#: ../src/toolbar.c:122
 msgid "Zoom 1:4"
-msgstr "元のサイズ(_1)"
+msgstr "1:4ズーム"
 
-#: ../src/layout_util.c:1805 ../src/layout_util.c:1806 ../src/toolbar.c:104
+#: ../src/layout_util.c:1981 ../src/layout_util.c:1982 ../src/preferences.c:697
+#: ../src/toolbar.c:123
 msgid "Connected Zoom in"
-msgstr ""
+msgstr "連動ズームイン"
 
-#: ../src/layout_util.c:1807 ../src/layout_util.c:1808
-#, fuzzy
+#: ../src/layout_util.c:1983 ../src/layout_util.c:1984
 msgid "Connected Zoom out"
-msgstr "縮小します"
+msgstr "連動ズームアウト"
 
-#: ../src/layout_util.c:1809 ../src/layout_util.c:1810
-#, fuzzy
+#: ../src/layout_util.c:1985 ../src/layout_util.c:1986
 msgid "Connected Zoom 1:1"
-msgstr "オリジナルのサイズにします"
+msgstr "連動1:1ズーム"
 
-#: ../src/layout_util.c:1811 ../src/layout_util.c:1812
-#, fuzzy
+#: ../src/layout_util.c:1987 ../src/layout_util.c:1988
 msgid "Connected Zoom to fit"
-msgstr "ウィンドウにフィット(_Z)"
+msgstr "連動フィット"
 
-#: ../src/layout_util.c:1813
+#: ../src/layout_util.c:1989
 msgid "Connected Fit Horizontally"
-msgstr ""
+msgstr "連動左右フィット"
 
-#: ../src/layout_util.c:1814
+#: ../src/layout_util.c:1990
 msgid "Connected Fit Vertically"
-msgstr ""
+msgstr "連動上下フィット"
 
-#: ../src/layout_util.c:1815
-#, fuzzy
+#: ../src/layout_util.c:1991
 msgid "Connected Zoom 2:1"
-msgstr "オリジナルのサイズにします"
+msgstr "連動2:1ズーム"
 
-#: ../src/layout_util.c:1816
-#, fuzzy
+#: ../src/layout_util.c:1992
 msgid "Connected Zoom 3:1"
-msgstr "オリジナルのサイズにします"
+msgstr "連動3:1ズーム"
 
-#: ../src/layout_util.c:1817
-#, fuzzy
+#: ../src/layout_util.c:1993
 msgid "Connected Zoom 4:1"
-msgstr "オリジナルのサイズにします"
+msgstr "連動4:1ズーム"
 
-#: ../src/layout_util.c:1818
-#, fuzzy
+#: ../src/layout_util.c:1994
 msgid "Connected Zoom 1:2"
-msgstr "元のサイズ(_1)"
+msgstr "連動1:2ズーム"
 
-#: ../src/layout_util.c:1819
-#, fuzzy
+#: ../src/layout_util.c:1995
 msgid "Connected Zoom 1:3"
-msgstr "元のサイズ(_1)"
+msgstr "連動1:3ズーム"
 
-#: ../src/layout_util.c:1820
-#, fuzzy
+#: ../src/layout_util.c:1996
 msgid "Connected Zoom 1:4"
-msgstr "元のサイズ(_1)"
+msgstr "連動1:4ズーム"
 
-#: ../src/layout_util.c:1821
-#, fuzzy
+#: ../src/layout_util.c:1997
 msgid "_View in new window"
-msgstr "新しいウィンドウで表示(_N)"
+msgstr "新しいウィンドウで表示(_V)"
 
-#: ../src/layout_util.c:1821
-#, fuzzy
+#: ../src/layout_util.c:1997
 msgid "View in new window"
-msgstr "新しいウィンドウで表示(_N)"
+msgstr "新しいウィンドウで表示"
 
-#: ../src/layout_util.c:1822 ../src/layout_util.c:1823
-#: ../src/layout_util.c:1824
+#: ../src/layout_util.c:1998 ../src/layout_util.c:1999
+#: ../src/layout_util.c:2000
 msgid "F_ull screen"
 msgstr "フル・スクリーン表示(_U)"
 
-#: ../src/layout_util.c:1825 ../src/layout_util.c:1826
-#, fuzzy
+#: ../src/layout_util.c:2001 ../src/layout_util.c:2002
 msgid "_Leave full screen"
-msgstr "Geeqie フル・スクリーン"
+msgstr "フル・スクリーンを終了(_L)"
 
-#: ../src/layout_util.c:1825 ../src/layout_util.c:1826
-#, fuzzy
+#: ../src/layout_util.c:2001 ../src/layout_util.c:2002
 msgid "Leave full screen"
-msgstr "Geeqie フル・スクリーン"
+msgstr "フル・スクリーンを終了"
 
-#: ../src/layout_util.c:1827
+#: ../src/layout_util.c:2003
 msgid "_Cycle through overlay modes"
-msgstr ""
+msgstr "オーバーレイモードを循環(_C)"
 
-#: ../src/layout_util.c:1827
+#: ../src/layout_util.c:2003
 msgid "Cycle through Overlay modes"
-msgstr ""
+msgstr "オーバーレイモードを循環"
 
-#: ../src/layout_util.c:1828
+#: ../src/layout_util.c:2004
 msgid "Cycle through histogram ch_annels"
-msgstr ""
+msgstr "ヒストグラムチャンネルを循環(_A)"
 
-#: ../src/layout_util.c:1828
+#: ../src/layout_util.c:2004
 msgid "Cycle through histogram channels"
-msgstr ""
+msgstr "ヒストグラムチャンネルを循環"
 
-#: ../src/layout_util.c:1829
+#: ../src/layout_util.c:2005
 msgid "Cycle through histogram mo_des"
-msgstr ""
+msgstr "ヒストグラムモードを循環(_D)"
 
-#: ../src/layout_util.c:1829
+#: ../src/layout_util.c:2005
 msgid "Cycle through histogram modes"
-msgstr ""
+msgstr "ヒストグラムモードを循環"
 
-#: ../src/layout_util.c:1830
+#: ../src/layout_util.c:2006
 msgid "_Hide file list"
 msgstr "ファイル一覧を隠す(_H)"
 
-#: ../src/layout_util.c:1830 ../src/toolbar.c:105
-#, fuzzy
+#: ../src/layout_util.c:2006 ../src/preferences.c:700 ../src/toolbar.c:126
 msgid "Hide file list"
-msgstr "ファイル一覧を隠す(_H)"
+msgstr "ファイル一覧を隠す"
 
-#: ../src/layout_util.c:1831
-#, fuzzy
+#: ../src/layout_util.c:2007
 msgid "_Pause slideshow"
-msgstr "スライドショーの一時停止(_H)"
+msgstr "スライドショーの一時停止(_P)"
 
-#: ../src/layout_util.c:1831 ../src/toolbar.c:106
-#, fuzzy
+#: ../src/layout_util.c:2007 ../src/preferences.c:701 ../src/toolbar.c:127
 msgid "Pause slideshow"
-msgstr "スライドショーの一時停止(_H)"
+msgstr "スライドショーの一時停止"
 
-#: ../src/layout_util.c:1832
+#: ../src/layout_util.c:2008
 msgid "Faster"
-msgstr ""
+msgstr "加速"
 
-#: ../src/layout_util.c:1833
+#: ../src/layout_util.c:2009
 msgid "Slower"
-msgstr ""
+msgstr "減速"
 
-#: ../src/layout_util.c:1834
+#: ../src/layout_util.c:2010
 msgid "_Refresh"
 msgstr "更新(_R)"
 
-#: ../src/layout_util.c:1834 ../src/toolbar.c:109
-#, fuzzy
+#: ../src/layout_util.c:2010 ../src/preferences.c:704 ../src/toolbar.c:130
 msgid "Refresh"
-msgstr "更新(_R)"
+msgstr "更新"
 
-#: ../src/layout_util.c:1835
+#: ../src/layout_util.c:2011
 msgid "_Contents"
 msgstr "目次(_C)"
 
-#: ../src/layout_util.c:1835
-#, fuzzy
+#: ../src/layout_util.c:2011
 msgid "Contents"
-msgstr "目次(_C)"
+msgstr "目次"
 
-#: ../src/layout_util.c:1836
+#: ../src/layout_util.c:2012 ../src/window.c:371
+msgid "On-line help search"
+msgstr "オンラインヘルプ検索"
+
+#: ../src/layout_util.c:2013
 msgid "_Keyboard shortcuts"
 msgstr "キー割り当て(_K)"
 
-#: ../src/layout_util.c:1836
-#, fuzzy
+#: ../src/layout_util.c:2013
 msgid "Keyboard shortcuts"
-msgstr "キー割り当て(_K)"
+msgstr "キー割り当て"
 
-#: ../src/layout_util.c:1837
-#, fuzzy
+#: ../src/layout_util.c:2014
 msgid "_Keyboard map"
-msgstr "キーワード(_K)"
+msgstr "キーボードマップ(_K)"
 
-#: ../src/layout_util.c:1837
-#, fuzzy
+#: ../src/layout_util.c:2014
 msgid "Keyboard map"
-msgstr "サムネイルを開く..."
+msgstr "キーボードマップ"
 
-#: ../src/layout_util.c:1838
+#: ../src/layout_util.c:2015
 msgid "_Release notes"
 msgstr "リリースノート(_R)"
 
-#: ../src/layout_util.c:1838
-#, fuzzy
+#: ../src/layout_util.c:2015
 msgid "Release notes"
-msgstr "リリースノート(_R)"
+msgstr "リリースノート"
 
-#: ../src/layout_util.c:1839
+#: ../src/layout_util.c:2016
 msgid "_ChangeLog"
 msgstr ""
 
-#: ../src/layout_util.c:1839
-#, fuzzy
+#: ../src/layout_util.c:2016
 msgid "ChangeLog notes"
-msgstr "フォルダへ移動する:"
+msgstr "ChangeLog記録"
 
-#: ../src/layout_util.c:1840
+#: ../src/layout_util.c:2017
 msgid "_About"
 msgstr "情報(_A)"
 
-#: ../src/layout_util.c:1840
-#, fuzzy
+#: ../src/layout_util.c:2017
 msgid "About"
-msgstr "情報(_A)"
+msgstr "情報"
 
-#: ../src/layout_util.c:1841
-#, fuzzy
+#: ../src/layout_util.c:2018
 msgid "_Log Window"
-msgstr "ウィンドウ"
+msgstr "ログウィンドウ(_L)"
 
-#: ../src/layout_util.c:1841
-#, fuzzy
+#: ../src/layout_util.c:2018
 msgid "Log Window"
-msgstr "ウィンドウ"
+msgstr "ログウィンドウ"
 
-#: ../src/layout_util.c:1842
-#, fuzzy
+#: ../src/layout_util.c:2019
 msgid "_Exif window"
-msgstr "ウィンドウを閉じる(_L)"
+msgstr "Exifウィンドウ(_E)"
 
-#: ../src/layout_util.c:1842 ../src/toolbar.c:111
-#, fuzzy
+#: ../src/layout_util.c:2019 ../src/preferences.c:706 ../src/toolbar.c:132
 msgid "Exif window"
-msgstr "新しいウィンドウ(_N)"
+msgstr "Exifウィンドウ(_N)"
 
-#: ../src/layout_util.c:1843
+#: ../src/layout_util.c:2020
 msgid "_Cycle through stereo modes"
-msgstr ""
+msgstr "ステレオモードを循環(_C)"
 
-#: ../src/layout_util.c:1843
+#: ../src/layout_util.c:2020
 msgid "Cycle through stereo modes"
-msgstr ""
+msgstr "ステレオモードを循環"
 
-#: ../src/layout_util.c:1844
-#, fuzzy
+#: ../src/layout_util.c:2021
 msgid "_Next Pane"
-msgstr "次の画像へジャンプする"
+msgstr "次の枠(_N)"
 
-#: ../src/layout_util.c:1844
-#, fuzzy
+#: ../src/layout_util.c:2021
 msgid "Next Pane"
-msgstr "次の画像へジャンプする"
+msgstr "次の枠"
 
-#: ../src/layout_util.c:1845
-#, fuzzy
+#: ../src/layout_util.c:2022
 msgid "_Previous Pane"
-msgstr "前の画像へジャンプする"
+msgstr "前の枠(_P)"
 
-#: ../src/layout_util.c:1845
-#, fuzzy
+#: ../src/layout_util.c:2022
 msgid "Previous Pane"
-msgstr "前の画像へジャンプする"
+msgstr "前の枠"
 
-#: ../src/layout_util.c:1846
+#: ../src/layout_util.c:2023
 msgid "_Up Pane"
-msgstr ""
+msgstr "上の枠(_U)"
 
-#: ../src/layout_util.c:1846
+#: ../src/layout_util.c:2023
 msgid "Up Pane"
-msgstr ""
+msgstr "上の枠"
 
-#: ../src/layout_util.c:1847
+#: ../src/layout_util.c:2024
 msgid "_Down Pane"
-msgstr ""
+msgstr "下の枠(_D)"
 
-#: ../src/layout_util.c:1847
+#: ../src/layout_util.c:2024
 msgid "Down Pane"
-msgstr ""
+msgstr "下の枠"
 
-#: ../src/layout_util.c:1848
-#, fuzzy
+#: ../src/layout_util.c:2025
 msgid "_Write orientation to file"
-msgstr "ファイルの上書き"
+msgstr "向きをファイルに書き込む(_W)"
 
-#: ../src/layout_util.c:1848
-#, fuzzy
+#: ../src/layout_util.c:2025
 msgid "Write orientation to file"
-msgstr "ファイルの上書き"
+msgstr "向きをファイルに書き込む"
 
-#: ../src/layout_util.c:1849
+#: ../src/layout_util.c:2026
 msgid "_Write orientation to file (preserve timestamp)"
-msgstr ""
+msgstr "向きをファイルに書き込む(タイムスタンプ保持)(_W)"
 
-#: ../src/layout_util.c:1849
+#: ../src/layout_util.c:2026
 msgid "Write orientation to file (preserve timestamp)"
-msgstr ""
+msgstr "向きをファイルに書き込む(タイムスタンプ保持)"
 
-#: ../src/layout_util.c:1854
-#, fuzzy
+#: ../src/layout_util.c:2027
+msgid "Clear Marks..."
+msgstr "マークのクリア..."
+
+#: ../src/layout_util.c:2031
 msgid "Show _Thumbnails"
 msgstr "サムネイルの表示(_T)"
 
-#: ../src/layout_util.c:1854
-#, fuzzy
+#: ../src/layout_util.c:2031
 msgid "Show Thumbnails"
 msgstr "サムネイルの表示"
 
-#: ../src/layout_util.c:1855
-#, fuzzy
+#: ../src/layout_util.c:2032
 msgid "Show _Marks"
-msgstr "隠す"
+msgstr "マークを表示(_M)"
 
-#: ../src/layout_util.c:1855
-#, fuzzy
+#: ../src/layout_util.c:2032
 msgid "Show Marks"
-msgstr "隠す"
+msgstr "マークを表示"
 
-#: ../src/layout_util.c:1856
-#, fuzzy
+#: ../src/layout_util.c:2033
+msgid "Show File Filter"
+msgstr "ファイルフィルタを表示"
+
+#: ../src/layout_util.c:2034
 msgid "Pi_xel Info"
-msgstr "ファイルの書式:"
+msgstr "ピクセル情報"
 
-#: ../src/layout_util.c:1856
-#, fuzzy
+#: ../src/layout_util.c:2034
 msgid "Show Pixel Info"
-msgstr "隠す"
+msgstr "ピクセル情報を表示"
 
-#: ../src/layout_util.c:1857
+#: ../src/layout_util.c:2035
 msgid "_Float file list"
-msgstr "一覧のフロート化(_F)"
+msgstr "ファイル一覧のフロート化(_F)"
 
-#: ../src/layout_util.c:1857 ../src/toolbar.c:114
-#, fuzzy
+#: ../src/layout_util.c:2035 ../src/preferences.c:711 ../src/toolbar.c:137
 msgid "Float file list"
-msgstr "一覧のフロート化(_F)"
+msgstr "ファイル一覧のフロート化"
 
-#: ../src/layout_util.c:1858
+#: ../src/layout_util.c:2036
 msgid "Hide tool_bar"
 msgstr "ツールバーを隠す(_B)"
 
-#: ../src/layout_util.c:1858
-#, fuzzy
+#: ../src/layout_util.c:2036
 msgid "Hide toolbar"
-msgstr "ツールバーを隠す(_B)"
+msgstr "ツールバーを隠す"
 
-#: ../src/layout_util.c:1859
+#: ../src/layout_util.c:2037
 msgid "_Info sidebar"
-msgstr ""
+msgstr "情報サイドバー(_I)"
 
-#: ../src/layout_util.c:1859 ../src/toolbar.c:115
+#: ../src/layout_util.c:2037 ../src/preferences.c:712 ../src/toolbar.c:138
 msgid "Info sidebar"
-msgstr ""
+msgstr "情報サイドバー"
 
-#: ../src/layout_util.c:1860
+#: ../src/layout_util.c:2038
 msgid "Sort _manager"
 msgstr "ソート・マネージャ(_M)"
 
-#: ../src/layout_util.c:1860 ../src/toolbar.c:116
-#, fuzzy
+#: ../src/layout_util.c:2038 ../src/preferences.c:713 ../src/toolbar.c:139
 msgid "Sort manager"
-msgstr "ソート・マネージャ(_M)"
+msgstr "ソート・マネージャ"
 
-#: ../src/layout_util.c:1861
-#, fuzzy
+#: ../src/layout_util.c:2039
 msgid "Hide Bars"
-msgstr "ツールバーを隠す(_B)"
+msgstr "バーを隠す"
 
-#: ../src/layout_util.c:1862
+#: ../src/layout_util.c:2040
 msgid "Toggle _slideshow"
 msgstr "スライドショーの切り替え(_S)"
 
-#: ../src/layout_util.c:1862
-#, fuzzy
+#: ../src/layout_util.c:2040
 msgid "Toggle slideshow"
-msgstr "スライドショーの切り替え(_S)"
+msgstr "スライドショーの切り替え"
 
-#: ../src/layout_util.c:1863
+#: ../src/layout_util.c:2041
 msgid "Use _color profiles"
-msgstr ""
+msgstr "カラープロファイルを使う(_C)"
 
-#: ../src/layout_util.c:1863
+#: ../src/layout_util.c:2041
 #, fuzzy
 msgid "Use color profiles"
-msgstr "全ファイル"
+msgstr "カラープロファイルを使う"
 
-#: ../src/layout_util.c:1864
+#: ../src/layout_util.c:2042
 msgid "Use profile from _image"
-msgstr ""
+msgstr "画像のプロファイルを使う(_I)"
 
-#: ../src/layout_util.c:1864
+#: ../src/layout_util.c:2042
 msgid "Use profile from image"
-msgstr ""
+msgstr "画像のプロファイルを使う"
 
-#: ../src/layout_util.c:1865
-#, fuzzy
+#: ../src/layout_util.c:2043
 msgid "Toggle _grayscale"
-msgstr "スライドショーの切り替え(_S)"
+msgstr "グレースケールの切り替え(_G)"
 
-#: ../src/layout_util.c:1865
-#, fuzzy
+#: ../src/layout_util.c:2043
 msgid "Toggle grayscale"
-msgstr "スライドショーの切り替え(_S)"
+msgstr "グレースケールの切り替え"
 
-#: ../src/layout_util.c:1866
-#, fuzzy
+#: ../src/layout_util.c:2044
 msgid "Image Overlay"
-msgstr "画像の検索 - Geeqie"
+msgstr "画像オーバーレイ"
 
-#: ../src/layout_util.c:1867
+#: ../src/layout_util.c:2045
 msgid "_Show Histogram"
-msgstr ""
+msgstr "ヒストグラムを表示(_S)"
 
-#: ../src/layout_util.c:1867
+#: ../src/layout_util.c:2045
 msgid "Show Histogram"
-msgstr ""
+msgstr "ヒストグラムを表示"
 
-#: ../src/layout_util.c:1868
-#, fuzzy
+#: ../src/layout_util.c:2046
+msgid "_Show Guidelines"
+msgstr "ガイドラインを表示(_S)"
+
+#: ../src/layout_util.c:2046
+msgid "Show Guidelines"
+msgstr "ガイドラインを表示"
+
+#: ../src/layout_util.c:2047
 msgid "Rectangular Selection"
-msgstr "アイコン表示で矩形の選択範囲を指定する"
+msgstr "矩形選択"
 
-#: ../src/layout_util.c:1869
+#: ../src/layout_util.c:2048
 msgid "GIF _animation"
-msgstr ""
+msgstr "GIFアニメーション(_A)"
 
-#: ../src/layout_util.c:1869
+#: ../src/layout_util.c:2048
 msgid "Toggle GIF animation"
-msgstr ""
+msgstr "GIFアニメーションの切り替え"
 
-#: ../src/layout_util.c:1870
-#, fuzzy
+#: ../src/layout_util.c:2049
 msgid "_Exif rotate"
-msgstr "Exif データ(_X)"
+msgstr "Exif回転(_E)"
 
-#: ../src/layout_util.c:1870
-#, fuzzy
+#: ../src/layout_util.c:2049
 msgid "Exif rotate"
-msgstr "Exif データ(_X)"
+msgstr "Exif回転"
 
-#: ../src/layout_util.c:1874
-#, fuzzy
+#: ../src/layout_util.c:2050 ../src/preferences.c:710 ../src/toolbar.c:136
+msgid "Draw Rectangle"
+msgstr "矩形を描画"
+
+#: ../src/layout_util.c:2051
+msgid "Over/Under Exposed"
+msgstr "露出オーバー/アンダー"
+
+#: ../src/layout_util.c:2055
 msgid "Image _List"
-msgstr "画像ファイル"
+msgstr "画像リスト(_L)"
 
-#: ../src/layout_util.c:1874
-#, fuzzy
+#: ../src/layout_util.c:2055
 msgid "View Images as List"
-msgstr "アイコン表示(_I)"
+msgstr "画像をリスト表示する"
 
-#: ../src/layout_util.c:1875
+#: ../src/layout_util.c:2056
 msgid "I_cons"
 msgstr "アイコン表示(_C)"
 
-#: ../src/layout_util.c:1875
-#, fuzzy
+#: ../src/layout_util.c:2056
 msgid "View Images as Icons"
-msgstr "アイコン表示(_I)"
+msgstr "画像をアイコン表示する"
 
-#: ../src/layout_util.c:1879
-#, fuzzy
+#: ../src/layout_util.c:2060
 msgid "T_oggle Folder View"
-msgstr "スライドショーの切り替え(_S)"
+msgstr "フォルダビューの切り替え(_O)"
 
-#: ../src/layout_util.c:1879
-#, fuzzy
+#: ../src/layout_util.c:2060
 msgid "Toggle Folders View"
-msgstr "スライドショーの切り替え(_S)"
+msgstr "フォルダビューの切り替え"
 
-#: ../src/layout_util.c:1883
+#: ../src/layout_util.c:2064
 msgid "_Horizontal"
-msgstr ""
+msgstr "水平(_H)"
 
-#: ../src/layout_util.c:1883
+#: ../src/layout_util.c:2064
 msgid "Split Horizontal"
-msgstr ""
+msgstr "水平に分割"
 
-#: ../src/layout_util.c:1884
-#, fuzzy
+#: ../src/layout_util.c:2065
 msgid "_Vertical"
-msgstr "部分光"
+msgstr "垂直(_V)"
 
-#: ../src/layout_util.c:1884
-#, fuzzy
+#: ../src/layout_util.c:2065
 msgid "Split Vertical"
-msgstr "部分光"
+msgstr "垂直に分割"
 
-#: ../src/layout_util.c:1885
+#: ../src/layout_util.c:2066
 msgid "_Quad"
-msgstr ""
+msgstr "４分割(_Q)"
 
-#: ../src/layout_util.c:1885
+#: ../src/layout_util.c:2066
 msgid "Split Quad"
-msgstr ""
+msgstr "４分割"
 
-#: ../src/layout_util.c:1886
-#, fuzzy
+#: ../src/layout_util.c:2067
 msgid "_Single"
-msgstr "サイズ"
+msgstr "単一"
 
-#: ../src/layout_util.c:1886
-#, fuzzy
+#: ../src/layout_util.c:2067
 msgid "Split Single"
-msgstr "サイズ"
+msgstr "単一に分割"
 
-#: ../src/layout_util.c:1890
+#: ../src/layout_util.c:2071
 msgid "Input _0: sRGB"
-msgstr ""
+msgstr "入力 _0: sRGB"
 
-#: ../src/layout_util.c:1890
+#: ../src/layout_util.c:2071
 msgid "Input 0: sRGB"
-msgstr ""
+msgstr "入力 0: sRGB"
 
-#: ../src/layout_util.c:1891
+#: ../src/layout_util.c:2072
 msgid "Input _1: AdobeRGB compatible"
-msgstr ""
+msgstr "入力 _1: AdobeRGB互換"
 
-#: ../src/layout_util.c:1891
+#: ../src/layout_util.c:2072
+#, fuzzy
 msgid "Input 1: AdobeRGB compatible"
-msgstr ""
+msgstr "入力 _1: AdobeRGB互換"
 
-#: ../src/layout_util.c:1892
+#: ../src/layout_util.c:2073
 msgid "Input _2"
-msgstr ""
+msgstr "入力 _2"
 
-#: ../src/layout_util.c:1892
+#: ../src/layout_util.c:2073
 msgid "Input 2"
-msgstr ""
+msgstr "入力 2"
 
-#: ../src/layout_util.c:1893
+#: ../src/layout_util.c:2074
 msgid "Input _3"
-msgstr ""
+msgstr "入力 _3"
 
-#: ../src/layout_util.c:1893
+#: ../src/layout_util.c:2074
 msgid "Input 3"
-msgstr ""
+msgstr "入力 3"
 
-#: ../src/layout_util.c:1894
+#: ../src/layout_util.c:2075
 msgid "Input _4"
-msgstr ""
+msgstr "入力 _4\t"
 
-#: ../src/layout_util.c:1894
+#: ../src/layout_util.c:2075
 msgid "Input 4"
-msgstr ""
+msgstr "入力 4"
 
-#: ../src/layout_util.c:1895
+#: ../src/layout_util.c:2076
 msgid "Input _5"
-msgstr ""
+msgstr "入力 _5"
 
-#: ../src/layout_util.c:1895
+#: ../src/layout_util.c:2076
 msgid "Input 5"
-msgstr ""
+msgstr "入力 5"
 
-#: ../src/layout_util.c:1899
+#: ../src/layout_util.c:2080
 msgid "Histogram on Red"
-msgstr ""
+msgstr "赤のヒストグラム"
 
-#: ../src/layout_util.c:1900
+#: ../src/layout_util.c:2081
 msgid "Histogram on Green"
-msgstr ""
+msgstr "緑のヒストグラム"
 
-#: ../src/layout_util.c:1901
+#: ../src/layout_util.c:2082
 msgid "Histogram on Blue"
-msgstr ""
+msgstr "青のヒストグラム"
 
-#: ../src/layout_util.c:1902
+#: ../src/layout_util.c:2083
 msgid "Histogram on RGB"
-msgstr ""
+msgstr "RGBのヒストグラム"
 
-#: ../src/layout_util.c:1903
+#: ../src/layout_util.c:2084
 msgid "Histogram on Value"
-msgstr ""
+msgstr "明度のヒストグラム"
 
-#: ../src/layout_util.c:1907
+#: ../src/layout_util.c:2088
 msgid "Linear Histogram"
-msgstr ""
+msgstr "線形ヒストグラム"
 
-#: ../src/layout_util.c:1908
+#: ../src/layout_util.c:2089
 msgid "_Log Histogram"
-msgstr ""
+msgstr "対数ヒストグラム(_L)"
 
-#: ../src/layout_util.c:1908
+#: ../src/layout_util.c:2089
 msgid "Log Histogram"
-msgstr ""
+msgstr "対数ヒストグラム"
 
-#: ../src/layout_util.c:1912
+#: ../src/layout_util.c:2093
 msgid "_Auto"
-msgstr ""
+msgstr "自動(_A)"
 
-#: ../src/layout_util.c:1912
+#: ../src/layout_util.c:2093
 msgid "Stereo Auto"
-msgstr ""
+msgstr "ステレオ 自動"
 
-#: ../src/layout_util.c:1913
+#: ../src/layout_util.c:2094
 msgid "_Side by Side"
-msgstr ""
+msgstr "平行法(_S)"
 
-#: ../src/layout_util.c:1913
+#: ../src/layout_util.c:2094
 msgid "Stereo Side by Side"
-msgstr ""
+msgstr "ステレオ 平行法"
 
-#: ../src/layout_util.c:1914
+#: ../src/layout_util.c:2095
 msgid "_Cross"
-msgstr ""
+msgstr "交差法(_C)"
 
-#: ../src/layout_util.c:1914
+#: ../src/layout_util.c:2095
 msgid "Stereo Cross"
-msgstr ""
+msgstr "ステレオ 交差法"
 
-#: ../src/layout_util.c:1915
+#: ../src/layout_util.c:2096
 msgid "_Off"
-msgstr ""
+msgstr "オフ(_O)"
 
-#: ../src/layout_util.c:1915
+#: ../src/layout_util.c:2096
 msgid "Stereo Off"
-msgstr ""
+msgstr "ステレオ オフ"
 
-#: ../src/layout_util.c:2226
+#: ../src/layout_util.c:2420
 #, c-format
 msgid "Mark _%d"
-msgstr ""
+msgstr "マーク _%d"
 
-#: ../src/layout_util.c:2227 ../src/view_file/view_file.c:550
+#: ../src/layout_util.c:2421 ../src/view_file/view_file.c:575
 #, c-format
 msgid "_Set mark %d"
-msgstr ""
+msgstr "マーク %d をセット(_S)"
 
-#: ../src/layout_util.c:2227
+#: ../src/layout_util.c:2421
 #, fuzzy, c-format
 msgid "Set mark %d"
-msgstr "全て選択"
+msgstr "マーク %d をセット"
 
-#: ../src/layout_util.c:2228 ../src/view_file/view_file.c:551
+#: ../src/layout_util.c:2422 ../src/view_file/view_file.c:576
 #, c-format
 msgid "_Reset mark %d"
-msgstr ""
+msgstr "マーク %d をリセット(_R)"
 
-#: ../src/layout_util.c:2228
-#, fuzzy, c-format
+#: ../src/layout_util.c:2422
+#, c-format
 msgid "Reset mark %d"
-msgstr "全て選択"
+msgstr "マーク %d をリセット"
 
-#: ../src/layout_util.c:2229 ../src/layout_util.c:2230
-#: ../src/view_file/view_file.c:552
+#: ../src/layout_util.c:2423 ../src/layout_util.c:2424
+#: ../src/view_file/view_file.c:577
 #, c-format
 msgid "_Toggle mark %d"
-msgstr ""
+msgstr "マーク %d を切り替え(_T)"
 
-#: ../src/layout_util.c:2229 ../src/layout_util.c:2230
-#, fuzzy, c-format
+#: ../src/layout_util.c:2423 ../src/layout_util.c:2424
+#, c-format
 msgid "Toggle mark %d"
-msgstr "全て選択"
+msgstr "マーク %d を切り替え"
 
-#: ../src/layout_util.c:2231
-#, fuzzy, c-format
+#: ../src/layout_util.c:2425
+#, c-format
 msgid "Se_lect mark %d"
-msgstr "全て選択"
+msgstr "マーク %d を選択(_L)"
 
-#: ../src/layout_util.c:2231 ../src/layout_util.c:2232
-#, fuzzy, c-format
+#: ../src/layout_util.c:2425 ../src/layout_util.c:2426
+#, c-format
 msgid "Select mark %d"
-msgstr "全て選択"
+msgstr "マーク %d を選択"
 
-#: ../src/layout_util.c:2232 ../src/view_file/view_file.c:553
-#, fuzzy, c-format
+#: ../src/layout_util.c:2426 ../src/view_file/view_file.c:578
+#, c-format
 msgid "_Select mark %d"
-msgstr "全て選択"
+msgstr "マーク %d を選択(_S)"
 
-#: ../src/layout_util.c:2233 ../src/view_file/view_file.c:554
-#, fuzzy, c-format
+#: ../src/layout_util.c:2427 ../src/view_file/view_file.c:579
+#, c-format
 msgid "_Add mark %d"
-msgstr "ブックマークへ追加します"
+msgstr "マーク %d を追加(_A)"
 
-#: ../src/layout_util.c:2233
-#, fuzzy, c-format
+#: ../src/layout_util.c:2427
+#, c-format
 msgid "Add mark %d"
-msgstr "ブックマークへ追加します"
+msgstr "マーク %d を追加"
 
-#: ../src/layout_util.c:2234 ../src/view_file/view_file.c:555
+#: ../src/layout_util.c:2428 ../src/view_file/view_file.c:580
 #, c-format
 msgid "_Intersection with mark %d"
-msgstr ""
+msgstr "マーク %d との交差(_I)"
 
-#: ../src/layout_util.c:2234
+#: ../src/layout_util.c:2428
 #, fuzzy, c-format
 msgid "Intersection with mark %d"
-msgstr "全て選択"
+msgstr "マーク %d との交差"
 
-#: ../src/layout_util.c:2235 ../src/view_file/view_file.c:556
+#: ../src/layout_util.c:2429 ../src/view_file/view_file.c:581
 #, c-format
 msgid "_Unselect mark %d"
-msgstr ""
+msgstr "マーク %d の選択を解除(_U)"
 
-#: ../src/layout_util.c:2235
-#, fuzzy, c-format
+#: ../src/layout_util.c:2429
+#, c-format
 msgid "Unselect mark %d"
-msgstr "全て選択"
+msgstr "マーク %d の選択を解除"
 
-#: ../src/layout_util.c:2236
-#, fuzzy, c-format
+#: ../src/layout_util.c:2430
+#, c-format
 msgid "_Filter mark %d"
-msgstr "全て選択"
+msgstr "マーク %d をフィルター(_F)"
 
-#: ../src/layout_util.c:2236
-#, fuzzy, c-format
+#: ../src/layout_util.c:2430
+#, c-format
 msgid "Filter mark %d"
-msgstr "全て選択"
+msgstr "マーク %d をフィルター"
 
-#: ../src/layout_util.c:2790
+#: ../src/layout_util.c:3004
 #, c-format
 msgid "Number of files with unsaved metadata: %d"
-msgstr ""
+msgstr "未保存のメタデータがあるファイルの数: %d"
 
-#: ../src/layout_util.c:2796
+#: ../src/layout_util.c:3010
 msgid "No unsaved metadata"
-msgstr ""
+msgstr "未保存のメタデータはありません"
 
-#: ../src/layout_util.c:2843
+#: ../src/layout_util.c:3057
 #, c-format
 msgid ""
 "Image profile: %s\n"
 "Screen profile: %s"
 msgstr ""
+"画像プロファイル: %s\n"
+"スクリーン・プロファイル: %s"
 
-#: ../src/layout_util.c:2851
+#: ../src/layout_util.c:3065
 msgid "Click to enable color management"
-msgstr ""
+msgstr "クリックでカラーマネジメントを有効化"
 
-#: ../src/layout_util.c:2856
-#, fuzzy
+#: ../src/layout_util.c:3070
 msgid "Color profiles not supported"
-msgstr "フォルダはありません"
+msgstr "カラープロファイルは利用できません"
 
-#: ../src/layout_util.c:2878
+#: ../src/layout_util.c:3092
 #, c-format
 msgid "Input _%d: %s"
-msgstr ""
+msgstr "入力 _%d: %s"
 
 #. something went badly wrong
 #: ../src/lirc.c:209
 #, c-format
 msgid "disconnected from LIRC\n"
-msgstr ""
+msgstr "LIRCから切断されました\n"
 
 #: ../src/lirc.c:234
 #, c-format
@@ -3736,161 +3775,156 @@ msgstr ""
 
 #: ../src/logwindow.c:142
 msgid "Log"
-msgstr ""
+msgstr "ログ"
 
-#: ../src/logwindow.c:171 ../src/preferences.c:2411
+#: ../src/logwindow.c:173 ../src/preferences.c:3317
 msgid "Debug level:"
-msgstr ""
+msgstr "デバッグレベル:"
 
-#: ../src/main.c:361
-#, fuzzy, c-format
+#: ../src/main.c:367
+#, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
 "\n"
 msgstr ""
-"用法: gqview [オプション] [パス]\n"
+"用法: %s [オプション] [パス]\n"
 "\n"
 
-#: ../src/main.c:362
+#: ../src/main.c:368
 msgid "valid options are:\n"
 msgstr "有効なオプション群:\n"
 
-#: ../src/main.c:363
-#, fuzzy
+#: ../src/main.c:369
 msgid "  +t, --with-tools                 force show of tools\n"
-msgstr "  +t, --with-tools           ツールバーを強制的に表示する\n"
+msgstr "  +t, --with-tools                 ツールバーを強制的に表示する\n"
 
-#: ../src/main.c:364
-#, fuzzy
+#: ../src/main.c:370
 msgid "  -t, --without-tools              force hide of tools\n"
-msgstr "  -t, --without-tools        ツールバーを強制的に消す\n"
+msgstr "  -t, --without-tools              ツールバーを強制的に消す\n"
 
-#: ../src/main.c:365
-#, fuzzy
+#: ../src/main.c:371
 msgid "  -f, --fullscreen                 start in full screen mode\n"
-msgstr "  -f, --fullscreen           フル・スクリーン・モードで起動する\n"
+msgstr ""
+"  -f, --fullscreen                 フル・スクリーン・モードで起動する\n"
 
-#: ../src/main.c:366
-#, fuzzy
+#: ../src/main.c:372
 msgid "  -s, --slideshow                  start in slideshow mode\n"
-msgstr "  -s, --slideshow            スライドショー・モードで起動する\n"
+msgstr "  -s, --slideshow                  スライドショー・モードで起動する\n"
 
-#: ../src/main.c:367
-#, fuzzy
+#: ../src/main.c:373
 msgid ""
 "  -l, --list [files] [collections] open collection window for command line\n"
 msgstr ""
-"  -l, --list                 コマンドラインからコレクション・ウィンドウを開"
-"く\n"
-
-#: ../src/main.c:368
-msgid "      --blank                      start with blank file list\n"
-msgstr ""
-
-#: ../src/main.c:369
-msgid "      --geometry=XxY+XOFF+YOFF     set main window location\n"
-msgstr ""
-
-#: ../src/main.c:370
-#, fuzzy
-msgid ""
-"  -r, --remote                     send following commands to open window\n"
-msgstr "  -r, --remote               ウィンドウを開くコマンドを送信する\n"
-
-#: ../src/main.c:371
-#, fuzzy
-msgid "  -rh,--remote-help                print remote command list\n"
-msgstr "  -rh,--remote-help          リモート・コマンドの一覧を表示する\n"
-
-#: ../src/main.c:373
-#, fuzzy
-msgid "      --debug[=level]              turn on debug output\n"
-msgstr "  -debug                     デバッグ出力を有効にする\n"
+"  -l, --list                       コマンドラインからコレクション・ウィンドウ"
+"を開く\n"
 
 #: ../src/main.c:374
-msgid "  -g:<regexp>, --grep:<regexp>     filter debug output\n"
-msgstr ""
+msgid "      --blank                      start with blank file list\n"
+msgstr "      --blank                      空のファイルリストで開始する\n"
+
+#: ../src/main.c:375
+msgid "      --geometry=XxY+XOFF+YOFF     set main window location\n"
+msgstr "      --geometry=XxY+XOFF+YOFF     メインウィンドウの位置を指定する\n"
 
 #: ../src/main.c:376
-#, fuzzy
-msgid "  +w, --show-log-window            show log window\n"
-msgstr "  +t, --with-tools           ツールバーを強制的に表示する\n"
+msgid ""
+"  -r, --remote                     send following commands to open window\n"
+msgstr ""
+"  -r, --remote                     開いているウィンドウに後続のコマンドを送信"
+"する\n"
 
 #: ../src/main.c:377
-msgid "  -o:<file>, --log-file:<file>     save log data to file\n"
+msgid "  -rh,--remote-help                print remote command list\n"
 msgstr ""
-
-#: ../src/main.c:378
-#, fuzzy
-msgid "  -v, --version                    print version info\n"
-msgstr "  -v, --version              バージョン情報を表示する\n"
+"  -rh,--remote-help                リモート・コマンドの一覧を表示する\n"
 
 #: ../src/main.c:379
-#, fuzzy
+msgid "      --debug[=level]              turn on debug output\n"
+msgstr "      --debug[=level]              デバッグ出力を有効にする\n"
+
+#: ../src/main.c:380
+msgid "  -g:<regexp>, --grep:<regexp>     filter debug output\n"
+msgstr "  -g:<regexp>, --grep:<regexp>     デバッグ表示をフィルタリング\n"
+
+#: ../src/main.c:382
+msgid "  +w, --show-log-window            show log window\n"
+msgstr "  +w, --show-log-window            ログウィンドウを表示する\n"
+
+#: ../src/main.c:383
+msgid "  -o:<file>, --log-file:<file>     save log data to file\n"
+msgstr "  -o:<file>, --log-file:<file>     ログデータをファイルに保存する\n"
+
+#: ../src/main.c:384
+msgid "  -v, --version                    print version info\n"
+msgstr "  -v, --version                    バージョン情報を表示する\n"
+
+#: ../src/main.c:385
 msgid ""
 "  -h, --help                       show this message\n"
 "\n"
-msgstr "  -h, --help                 このメッセージを表示する\n"
+msgstr ""
+"  -h, --help                       このメッセージを表示する\n"
+"\n"
 
-#: ../src/main.c:392
+#: ../src/main.c:398
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
 "Use --help for options\n"
 msgstr ""
 "次のオプションを無視しました: %s\n"
-"利用可能なオプションについては '-help' を使って下さい\n"
+"オプションについては '--help' を使って下さい\n"
 
-#: ../src/main.c:421
+#: ../src/main.c:438
 #, fuzzy
 msgid "Invalid or ignored remote options: "
 msgstr ""
 "次のオプションを無視しました: %s\n"
 "利用可能なオプションについては '-help' を使って下さい\n"
 
-#: ../src/main.c:430
+#: ../src/main.c:447
 msgid ""
 "\n"
 "Use --remote-help for valid remote options.\n"
 msgstr ""
 
-#: ../src/main.c:532
-#, fuzzy, c-format
+#: ../src/main.c:577
+#, c-format
 msgid "Creating %s dir:%s\n"
-msgstr "Geeqie フォルダの生成中: %s\n"
+msgstr "%sフォルダの生成中:%s\n"
 
-#: ../src/main.c:536
+#: ../src/main.c:581
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr "フォルダを作成できませんでした: %s\n"
 
-#: ../src/main.c:588
+#: ../src/main.c:633
 #, fuzzy, c-format
 msgid "error saving file: %s\n"
 msgstr "設定ファイルの保存中にエラー: %s\n"
 
-#: ../src/main.c:607
+#: ../src/main.c:652
 #, fuzzy, c-format
 msgid ""
 "error saving file: %s\n"
 "error: %s\n"
 msgstr "設定ファイルの保存中にエラー: %s\n"
 
-#: ../src/main.c:717
+#: ../src/main.c:762
 #, fuzzy
 msgid "exit"
 msgstr "テキスト"
 
-#: ../src/main.c:722
+#: ../src/main.c:767
 #, fuzzy, c-format
 msgid "Quit %s"
 msgstr "終了(_Q)"
 
-#: ../src/main.c:724
+#: ../src/main.c:769
 msgid "Collections have been modified. Quit anyway?"
 msgstr "コレクションが変更されました。とにかく終了しますか？"
 
-#: ../src/main.c:939 ../src/remote.c:708
+#: ../src/main.c:987 ../src/remote.c:1054
 msgid "Command line"
 msgstr "コマンドライン"
 
@@ -3903,532 +3937,590 @@ msgid "Sort by date"
 msgstr "日付順でソート"
 
 #: ../src/menu.c:149
-#, fuzzy
 msgid "Sort by file creation date"
-msgstr "日付順でソート"
+msgstr "ファイル作成日時でソート"
 
 #: ../src/menu.c:152
-#, fuzzy
-msgid "Sort by Exif-date"
-msgstr "日付順でソート"
+msgid "Sort by Exif date original"
+msgstr "Exifのオリジナル日時でソート"
 
 #: ../src/menu.c:155
+msgid "Sort by Exif date digitized"
+msgstr "Exifのデジタル化日時でソート"
+
+#: ../src/menu.c:158
 msgid "Unsorted"
 msgstr "並び替えない"
 
-#: ../src/menu.c:158
+#: ../src/menu.c:161
 msgid "Sort by path"
 msgstr "パス名順でソート"
 
-#: ../src/menu.c:161
+#: ../src/menu.c:164
 msgid "Sort by number"
 msgstr "番号順でソート"
 
-#: ../src/menu.c:164
-#, fuzzy
+#: ../src/menu.c:167
 msgid "Sort by rating"
-msgstr "日付順でソート"
+msgstr "レーティングでソート"
 
-#: ../src/menu.c:168
+#: ../src/menu.c:170
+msgid "Sort by class"
+msgstr "種類でソート"
+
+#: ../src/menu.c:174
 msgid "Sort by name"
 msgstr "名前順でソート"
 
-#: ../src/menu.c:234 ../src/menu.c:243
+#: ../src/menu.c:242 ../src/menu.c:251
 msgid "Zoom to original size"
 msgstr "オリジナルのサイズへ拡大する"
 
-#: ../src/menu.c:237 ../src/preferences.c:1731
+#: ../src/menu.c:245 ../src/preferences.c:2163
 msgid "Fit image to window"
 msgstr "ウィンドウにフィットさせる"
 
-#: ../src/menu.c:240
+#: ../src/menu.c:248
 msgid "Leave Zoom at previous setting"
 msgstr "直前のズーム設定のままにする"
 
-#: ../src/menu.c:295 ../src/preferences.c:1712
+#: ../src/menu.c:303 ../src/osd.c:42 ../src/preferences.c:2144
 msgid "Zoom"
 msgstr "ズーム"
 
-#: ../src/menu.c:320
+#: ../src/menu.c:328
 msgid "Rotate _180"
 msgstr "180度回転(_1)"
 
-#: ../src/menu.c:426
-#, fuzzy
+#: ../src/menu.c:434
 msgid "_Add to Collection"
-msgstr "コレクションの追加"
+msgstr "コレクションに追加(_A)"
 
-#: ../src/metadata.c:1702
+#: ../src/metadata.c:1733
 msgid "People"
 msgstr "人々"
 
-#: ../src/metadata.c:1703
+#: ../src/metadata.c:1734
 msgid "Family"
-msgstr ""
+msgstr "家族"
 
-#: ../src/metadata.c:1704
+#: ../src/metadata.c:1735
 msgid "Free time"
-msgstr ""
+msgstr "レジャー"
 
-#: ../src/metadata.c:1705
+#: ../src/metadata.c:1736
 msgid "Children"
-msgstr ""
+msgstr "子供"
 
-#: ../src/metadata.c:1706
-#, fuzzy
+#: ../src/metadata.c:1737
 msgid "Sport"
-msgstr "縦置き"
+msgstr "スポーツ"
 
-#: ../src/metadata.c:1707
-#, fuzzy
+#: ../src/metadata.c:1738
 msgid "Culture"
-msgstr "自然"
+msgstr "文化"
 
-#: ../src/metadata.c:1708
+#: ../src/metadata.c:1739
 msgid "Festival"
-msgstr ""
+msgstr "お祭り"
 
-#: ../src/metadata.c:1709
+#: ../src/metadata.c:1740
 msgid "Nature"
 msgstr "自然"
 
-#: ../src/metadata.c:1710
+#: ../src/metadata.c:1741
 msgid "Animal"
-msgstr ""
+msgstr "動物"
 
-#: ../src/metadata.c:1711
+#: ../src/metadata.c:1742
 msgid "Bird"
-msgstr ""
+msgstr "鳥"
 
-#: ../src/metadata.c:1712
+#: ../src/metadata.c:1743
 msgid "Insect"
-msgstr ""
+msgstr "昆虫"
 
-#: ../src/metadata.c:1713
+#: ../src/metadata.c:1744
 msgid "Pets"
-msgstr ""
+msgstr "ペット"
 
-#: ../src/metadata.c:1714
+#: ../src/metadata.c:1745
 msgid "Wildlife"
-msgstr ""
+msgstr "野生動物"
 
-#: ../src/metadata.c:1715
-#, fuzzy
+#: ../src/metadata.c:1746
 msgid "Zoo"
-msgstr "ズーム"
+msgstr "動物園"
 
-#: ../src/metadata.c:1716
+#: ../src/metadata.c:1747
 msgid "Plant"
-msgstr ""
+msgstr "植物"
 
-#: ../src/metadata.c:1717
-#, fuzzy
+#: ../src/metadata.c:1748
 msgid "Tree"
-msgstr "ツリー表示(_E)"
+msgstr "木"
 
-#: ../src/metadata.c:1718
+#: ../src/metadata.c:1749
 msgid "Flower"
-msgstr ""
+msgstr "花"
 
-#: ../src/metadata.c:1719
+#: ../src/metadata.c:1750
 msgid "Water"
-msgstr ""
+msgstr "水"
 
-#: ../src/metadata.c:1720
+#: ../src/metadata.c:1751
 msgid "River"
-msgstr ""
+msgstr "川"
 
-#: ../src/metadata.c:1721
+#: ../src/metadata.c:1752
 msgid "Lake"
-msgstr ""
+msgstr "池"
 
-#: ../src/metadata.c:1722
-#, fuzzy
+#: ../src/metadata.c:1753
 msgid "Sea"
-msgstr "検索:"
+msgstr "海"
 
-#: ../src/metadata.c:1723 ../src/print.c:385
+#: ../src/metadata.c:1754
 msgid "Landscape"
-msgstr "横置き"
+msgstr "風景"
 
-#: ../src/metadata.c:1724
+#: ../src/metadata.c:1755
 msgid "Art"
 msgstr "芸術"
 
-#: ../src/metadata.c:1725
-#, fuzzy
+#: ../src/metadata.c:1756
 msgid "Statue"
-msgstr "状態"
+msgstr "彫像"
 
-#: ../src/metadata.c:1726
-#, fuzzy
+#: ../src/metadata.c:1757
 msgid "Painting"
-msgstr "印刷エラー"
+msgstr "絵画"
 
-#: ../src/metadata.c:1727 ../src/metadata.c:1741
+#: ../src/metadata.c:1758 ../src/metadata.c:1772
 msgid "Historic"
-msgstr ""
+msgstr "歴史"
 
-#: ../src/metadata.c:1728 ../src/metadata.c:1742
+#: ../src/metadata.c:1759 ../src/metadata.c:1773
 msgid "Modern"
-msgstr ""
+msgstr "モダン"
 
-#: ../src/metadata.c:1729
+#: ../src/metadata.c:1760
 msgid "City"
-msgstr ""
+msgstr "都市"
 
-#: ../src/metadata.c:1730
+#: ../src/metadata.c:1761
 msgid "Park"
-msgstr ""
+msgstr "公園"
 
-#: ../src/metadata.c:1731
+#: ../src/metadata.c:1762
 msgid "Street"
-msgstr ""
+msgstr "ストリート"
 
-#: ../src/metadata.c:1732
+#: ../src/metadata.c:1763
 msgid "Square"
-msgstr ""
+msgstr "広場"
 
-#: ../src/metadata.c:1733
-#, fuzzy
+#: ../src/metadata.c:1764
 msgid "Architecture"
-msgstr "レンズ径"
+msgstr "建築"
 
-#: ../src/metadata.c:1734
+#: ../src/metadata.c:1765
 msgid "Buildings"
-msgstr ""
+msgstr "ビル"
 
-#: ../src/metadata.c:1735
+#: ../src/metadata.c:1766
 msgid "House"
-msgstr ""
+msgstr "家"
 
-#: ../src/metadata.c:1736
+#: ../src/metadata.c:1767
 msgid "Cathedral"
-msgstr ""
+msgstr "伽藍"
 
-#: ../src/metadata.c:1737
-#, fuzzy
+#: ../src/metadata.c:1768
 msgid "Palace"
-msgstr "場所"
+msgstr "宮殿"
 
-#: ../src/metadata.c:1738
+#: ../src/metadata.c:1769
 msgid "Castle"
-msgstr ""
+msgstr "城"
 
-#: ../src/metadata.c:1739
+#: ../src/metadata.c:1770
 msgid "Bridge"
-msgstr ""
+msgstr "橋"
 
-#: ../src/metadata.c:1740
+#: ../src/metadata.c:1771
 msgid "Interior"
-msgstr ""
+msgstr "内装"
 
-#: ../src/metadata.c:1743
+#: ../src/metadata.c:1774
 msgid "Places"
 msgstr "場所"
 
-#: ../src/metadata.c:1744
+#: ../src/metadata.c:1775
 #, fuzzy
 msgid "Conditions"
 msgstr "コレクション"
 
-#: ../src/metadata.c:1745
+#: ../src/metadata.c:1776
 #, fuzzy
 msgid "Night"
 msgstr "高さ"
 
-#: ../src/metadata.c:1746
+#: ../src/metadata.c:1777
 #, fuzzy
 msgid "Lights"
 msgstr "光源"
 
-#: ../src/metadata.c:1747
+#: ../src/metadata.c:1778
 #, fuzzy
 msgid "Reflections"
 msgstr "選択した画像"
 
-#: ../src/metadata.c:1748
+#: ../src/metadata.c:1779
 msgid "Sun"
 msgstr ""
 
-#: ../src/metadata.c:1749
+#: ../src/metadata.c:1780
 #, fuzzy
 msgid "Weather"
 msgstr "その他"
 
-#: ../src/metadata.c:1750
+#: ../src/metadata.c:1781
 msgid "Fog"
-msgstr ""
+msgstr "霧"
 
-#: ../src/metadata.c:1751
+#: ../src/metadata.c:1782
 msgid "Rain"
 msgstr ""
 
-#: ../src/metadata.c:1752
+#: ../src/metadata.c:1783
 msgid "Clouds"
 msgstr ""
 
-#: ../src/metadata.c:1753
+#: ../src/metadata.c:1784
 msgid "Snow"
 msgstr ""
 
-#: ../src/metadata.c:1754
+#: ../src/metadata.c:1785
 msgid "Sunny weather"
 msgstr ""
 
-#: ../src/metadata.c:1755
+#: ../src/metadata.c:1786
 #, fuzzy
 msgid "Photo"
 msgstr "写真 6x4"
 
-#: ../src/metadata.c:1756
+#: ../src/metadata.c:1787
 #, fuzzy
 msgid "Edited"
 msgstr "編集(_E)"
 
-#: ../src/metadata.c:1757
+#: ../src/metadata.c:1788
 #, fuzzy
 msgid "Detail"
 msgstr "詳細"
 
-#: ../src/metadata.c:1758
+#: ../src/metadata.c:1789
 msgid "Macro"
 msgstr ""
 
-#: ../src/metadata.c:1759 ../src/print.c:384
+#: ../src/metadata.c:1790
 msgid "Portrait"
 msgstr "縦置き"
 
-#: ../src/metadata.c:1760
+#: ../src/metadata.c:1791
 msgid "Black and White"
 msgstr ""
 
-#: ../src/metadata.c:1761
+#: ../src/metadata.c:1792
 #, fuzzy
 msgid "Perspective"
 msgstr "クリエイティブ"
 
-#: ../src/options.c:195 ../src/ui_bookmark.c:578
+#: ../src/options.c:224 ../src/ui_bookmark.c:589
 msgid "Desktop"
 msgstr "デスクトップ"
 
-#: ../src/pan-view/pan-view.c:438
-#, fuzzy, c-format
-msgid "%d images, %s"
-msgstr "%d 個の画像"
+#: ../src/options.c:245 ../src/search.c:2235 ../src/search.c:2239
+#: ../src/search.c:3395 ../src/search.c:3399 ../src/view_file/view_file.c:828
+msgid "Mark "
+msgstr "マーク "
 
-#: ../src/pan-view/pan-view.c:448
-#, c-format
-msgid "The pan view does not support the folder \"%s\"."
+#: ../src/osd.c:44 ../src/preferences.c:119
+#, fuzzy
+msgid "Collection"
+msgstr "コレクション"
+
+#: ../src/osd.c:45
+#, fuzzy
+msgid "Image index"
+msgstr "画像ファイル"
+
+#: ../src/osd.c:46
+#, fuzzy
+msgid "Images total"
+msgstr "画像ファイル"
+
+#: ../src/osd.c:55
+#, fuzzy
+msgid "Image date"
+msgstr "画像ファイル"
+
+#: ../src/osd.c:57
+#, fuzzy
+msgid "ShutterSpeed"
+msgstr "シャッター・スピード"
+
+#: ../src/osd.c:62
+msgid "ISO"
 msgstr ""
 
+#: ../src/osd.c:64
+#, fuzzy
+msgid "Focal len. 35mm"
+msgstr "焦点調節範囲"
+
+#: ../src/osd.c:68
+msgid "Lat, Long"
+msgstr ""
+
+#: ../src/osd.c:69
+msgid "Altitude"
+msgstr ""
+
+#: ../src/osd.c:71
+msgid "Timezone"
+msgstr "タイムゾーン"
+
+#: ../src/osd.c:76
+#, fuzzy
+msgid "© Creator"
+msgstr "フォルダの選択"
+
+#: ../src/osd.c:77
+msgid "© Contributor"
+msgstr ""
+
+#: ../src/osd.c:78
+#, fuzzy
+msgid "© Rights"
+msgstr "光源"
+
+#: ../src/osd.c:175
+msgid ""
+"To include predefined tags in the template, click a button or drag-and-drop"
+msgstr ""
+"定義済みのタグをテンプレートに追加するには、ボタンをクリックするかドラッグ＆"
+"ドロップします"
+
+#: ../src/pan-view/pan-view.c:439
+#, c-format
+msgid "%d images, %s"
+msgstr "%d 個の画像, %s"
+
 #: ../src/pan-view/pan-view.c:449
-#, fuzzy
+#, c-format
+msgid "The pan view does not support the folder \"%s\"."
+msgstr "パン表示はフォルダ「%s」をサポートしません。"
+
+#: ../src/pan-view/pan-view.c:450
 msgid "Folder not supported"
-msgstr "フォルダはありません"
+msgstr "フォルダはサポートされません"
 
-#: ../src/pan-view/pan-view.c:1001 ../src/pan-view/pan-view.c:1017
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1002 ../src/pan-view/pan-view.c:1018
 msgid "Reading image data..."
-msgstr "類似データの読み込み中..."
+msgstr "画像データの読み込み中..."
 
-#: ../src/pan-view/pan-view.c:1076
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1077
 msgid "Sorting images..."
-msgstr "ソート中..."
+msgstr "画像をソート中..."
 
-#: ../src/pan-view/pan-view.c:1385 ../src/print.c:2609
+#: ../src/pan-view/pan-view.c:1412
 msgid "Filename:"
 msgstr "ファイル名:"
 
-#: ../src/pan-view/pan-view.c:1387 ../src/pan-view/pan-view.c:1812
-#: ../src/preferences.c:1826
+#: ../src/pan-view/pan-view.c:1414 ../src/pan-view/pan-view.c:1829
+#: ../src/preferences.c:2258
 msgid "Location:"
 msgstr "場所:"
 
-#: ../src/pan-view/pan-view.c:1389 ../src/pan-view/pan-view-search.c:377
+#: ../src/pan-view/pan-view.c:1416 ../src/pan-view/pan-view-search.c:377
 #, fuzzy
 msgid "Date:"
 msgstr "日付"
 
-#: ../src/pan-view/pan-view.c:1391 ../src/preferences.c:1602
-#: ../src/print.c:3222 ../src/print.c:3427
+#: ../src/pan-view/pan-view.c:1418 ../src/preferences.c:1878
 msgid "Size:"
 msgstr "サイズ:"
 
-#: ../src/pan-view/pan-view.c:1698 ../src/search.c:2417
+#: ../src/pan-view/pan-view.c:1725 ../src/search.c:2685
 msgid "Folder not found"
 msgstr "フォルダはありません"
 
-#: ../src/pan-view/pan-view.c:1699
+#: ../src/pan-view/pan-view.c:1726
 msgid "The entered path is not a folder"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1796
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1811
 msgid "Pan View"
-msgstr "拡張表示にする"
+msgstr "パン表示"
 
-#: ../src/pan-view/pan-view.c:1821
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1836
 msgid "Timeline"
-msgstr "線形"
+msgstr "タイムライン"
 
-#: ../src/pan-view/pan-view.c:1822
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1837
 msgid "Calendar"
-msgstr "クリア(_L)"
+msgstr "カレンダー"
 
-#: ../src/pan-view/pan-view.c:1824
+#: ../src/pan-view/pan-view.c:1839
 #, fuzzy
 msgid "Folders (flower)"
 msgstr "フォルダ"
 
-#: ../src/pan-view/pan-view.c:1825
+#: ../src/pan-view/pan-view.c:1840
 msgid "Grid"
-msgstr ""
+msgstr "グリッド"
 
-#: ../src/pan-view/pan-view.c:1834
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1849
 msgid "Dots"
-msgstr "ポイント"
+msgstr "米粒"
 
-#: ../src/pan-view/pan-view.c:1835
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1850
 msgid "No Images"
-msgstr "画像"
+msgstr "画像なし"
 
-#: ../src/pan-view/pan-view.c:1836
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1851
 msgid "Small Thumbnails"
-msgstr "サムネイル"
+msgstr "小さなサムネイル"
 
-#: ../src/pan-view/pan-view.c:1837
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1852
 msgid "Normal Thumbnails"
-msgstr "サムネイル"
+msgstr "普通のサムネイル"
 
-#: ../src/pan-view/pan-view.c:1838
-#, fuzzy
+#: ../src/pan-view/pan-view.c:1853
 msgid "Large Thumbnails"
-msgstr "サムネイル"
+msgstr "大きなサムネイル"
 
-#: ../src/pan-view/pan-view.c:1839 ../src/pan-view/pan-view.c:2311
+#: ../src/pan-view/pan-view.c:1854 ../src/pan-view/pan-view.c:2380
 msgid "1:10 (10%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1840 ../src/pan-view/pan-view.c:2307
+#: ../src/pan-view/pan-view.c:1855 ../src/pan-view/pan-view.c:2376
 msgid "1:4 (25%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1841 ../src/pan-view/pan-view.c:2303
+#: ../src/pan-view/pan-view.c:1856 ../src/pan-view/pan-view.c:2372
 msgid "1:3 (33%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1842 ../src/pan-view/pan-view.c:2299
+#: ../src/pan-view/pan-view.c:1857 ../src/pan-view/pan-view.c:2368
 msgid "1:2 (50%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1843
+#: ../src/pan-view/pan-view.c:1858
 msgid "1:1 (100%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1989
+#: ../src/pan-view/pan-view.c:2006
 msgid "Pan View Performance"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1996
+#: ../src/pan-view/pan-view.c:2013
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1997
+#: ../src/pan-view/pan-view.c:2014
 msgid ""
-"To improve performance of thumbnails in the pan view the following options "
-"can be enabled. Note that both options must be enabled to notice a change in "
-"performance."
+"To improve the performance of thumbnails in\n"
+"pan view the following options can be enabled.\n"
+"\n"
+"Note that both options must be enabled to\n"
+"notice a change in performance."
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2005 ../src/preferences.c:1605
+#: ../src/pan-view/pan-view.c:2020 ../src/preferences.c:1881
 msgid "Cache thumbnails"
 msgstr "サムネイルをキャッシュする"
 
-#: ../src/pan-view/pan-view.c:2007
+#: ../src/pan-view/pan-view.c:2022
 msgid "Use shared thumbnail cache"
 msgstr "共有サムネイルのキャッシュを利用する"
 
-#: ../src/pan-view/pan-view.c:2013
+#: ../src/pan-view/pan-view.c:2028
 msgid "Do not show this dialog again"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2279
+#: ../src/pan-view/pan-view.c:2294 ../src/search.c:1103
+msgid "_Play"
+msgstr ""
+
+#: ../src/pan-view/pan-view.c:2348
 #, fuzzy
 msgid "Sort by E_xif date"
 msgstr "日付順でソート"
 
-#: ../src/pan-view/pan-view.c:2285
+#: ../src/pan-view/pan-view.c:2354
 msgid "_Show Exif information"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2287
+#: ../src/pan-view/pan-view.c:2356
 #, fuzzy
 msgid "Show im_age"
 msgstr "隠す"
 
-#: ../src/pan-view/pan-view.c:2291
+#: ../src/pan-view/pan-view.c:2360
 #, fuzzy
 msgid "_None"
 msgstr "なし"
 
-#: ../src/pan-view/pan-view.c:2295
+#: ../src/pan-view/pan-view.c:2364
 #, fuzzy
 msgid "_Full size"
 msgstr "フルサイズ"
 
-#: ../src/pan-view/pan-view-filter.c:48
+#: ../src/pan-view/pan-view-filter.c:49
 msgid "Require"
 msgstr ""
 
-#: ../src/pan-view/pan-view-filter.c:48
+#: ../src/pan-view/pan-view-filter.c:49
 msgid "R"
 msgstr ""
 
-#: ../src/pan-view/pan-view-filter.c:51
-#, fuzzy
+#: ../src/pan-view/pan-view-filter.c:52
 msgid "Exclude"
 msgstr "次を除く"
 
-#: ../src/pan-view/pan-view-filter.c:51
+#: ../src/pan-view/pan-view-filter.c:52
 msgid "E"
 msgstr ""
 
-#: ../src/pan-view/pan-view-filter.c:54
-#, fuzzy
+#: ../src/pan-view/pan-view-filter.c:55
 msgid "Include"
-msgstr "次を除く"
+msgstr "次を含む"
 
-#: ../src/pan-view/pan-view-filter.c:54
+#: ../src/pan-view/pan-view-filter.c:55
 msgid "I"
 msgstr ""
 
-#: ../src/pan-view/pan-view-filter.c:57
+#: ../src/pan-view/pan-view-filter.c:58
 #, fuzzy
 msgid "Group"
 msgstr "グループ:"
 
-#: ../src/pan-view/pan-view-filter.c:57
+#: ../src/pan-view/pan-view-filter.c:58
 msgid "G"
 msgstr ""
 
-#: ../src/pan-view/pan-view-filter.c:71
-#, fuzzy
+#: ../src/pan-view/pan-view-filter.c:72
 msgid "Keyword Filter:"
-msgstr "キーワード:"
+msgstr "キーワードフィルタ:"
 
-#: ../src/pan-view/pan-view-filter.c:104 ../src/preferences.c:1989
+#: ../src/pan-view/pan-view-filter.c:105 ../src/preferences.c:2486
 msgid "Filter"
 msgstr "フィルター"
 
-#: ../src/pan-view/pan-view-filter.c:139
+#: ../src/pan-view/pan-view-filter.c:157
 #, fuzzy
 msgid "Removed keyword…"
 msgstr "現在使用中のモニタ"
@@ -4460,115 +4552,228 @@ msgstr "部分光"
 msgid "no match"
 msgstr ""
 
-#: ../src/preferences.c:107
-#, fuzzy
+#: ../src/preferences.c:114 ../src/search.c:3380
 msgid "Unknown"
 msgstr "不明"
 
-#: ../src/preferences.c:109
-#, fuzzy
+#: ../src/preferences.c:116
 msgid "RAW Image"
-msgstr "画像"
+msgstr "RAW画像"
 
-#: ../src/preferences.c:111
+#: ../src/preferences.c:118 ../src/search.c:2188 ../src/search.c:3377
 msgid "Video"
-msgstr ""
+msgstr "ビデオ"
 
-#: ../src/preferences.c:559
-msgid "Nearest (worst, but fastest)"
-msgstr "簡易 (最低だが早い)"
+#: ../src/preferences.c:120 ../src/search.c:2193 ../src/search.c:3378
+#, fuzzy
+msgid "Document"
+msgstr "コメント"
 
-#: ../src/preferences.c:561
-msgid "Tiles"
-msgstr "タイル状"
-
-#: ../src/preferences.c:563
-msgid "Bilinear"
-msgstr "線形"
-
-#: ../src/preferences.c:565
-msgid "Hyper (best, but slowest)"
-msgstr "ハイパー (最適だが遅い)"
-
-#: ../src/preferences.c:590
-msgid "PRIMARY"
+#: ../src/preferences.c:121
+msgid "HEIF"
 msgstr ""
 
 #: ../src/preferences.c:592
+msgid "Nearest (worst, but fastest)"
+msgstr "簡易 (最低だが早い)"
+
+#: ../src/preferences.c:594
+msgid "Tiles"
+msgstr "タイル状"
+
+#: ../src/preferences.c:596
+msgid "Bilinear"
+msgstr "線形"
+
+#: ../src/preferences.c:598
+msgid "Hyper (best, but slowest)"
+msgstr "ハイパー (最適だが遅い)"
+
+#: ../src/preferences.c:623
+msgid "PRIMARY"
+msgstr ""
+
+#: ../src/preferences.c:625
 msgid "CLIPBOARD"
 msgstr ""
 
-#: ../src/preferences.c:657 ../src/print.c:390
+#: ../src/preferences.c:661 ../src/preferences.c:2983 ../src/toolbar.c:87
+msgid "Search"
+msgstr "検索"
+
+#: ../src/preferences.c:663 ../src/toolbar.c:89 ../src/ui_pathsel.c:752
+#: ../src/ui_pathsel.c:1058 ../src/utilops.c:2879
+msgid "New folder"
+msgstr "新しいフォルダ"
+
+#: ../src/preferences.c:666 ../src/toolbar.c:92 ../src/utilops.c:2375
+#: ../src/utilops.c:2841
+msgid "Rename"
+msgstr "名前を変更する"
+
+#: ../src/preferences.c:667 ../src/preferences.c:3208 ../src/toolbar.c:93
+#: ../src/utilops.c:2188
+msgid "Delete"
+msgstr "削除"
+
+#: ../src/preferences.c:668 ../src/toolbar.c:94
+#, fuzzy
+msgid "Close Window"
+msgstr "ウィンドウを閉じる"
+
+#: ../src/preferences.c:672 ../src/toolbar.c:98
+#, fuzzy
+msgid "Select invert"
+msgstr "アイコンの選択"
+
+#: ../src/preferences.c:673 ../src/toolbar.c:99
+#, fuzzy
+msgid "Show file filter"
+msgstr "隠す"
+
+#: ../src/preferences.c:674 ../src/toolbar.c:100
+#, fuzzy
+msgid "Select rectangle"
+msgstr "全て選択"
+
+#: ../src/preferences.c:675 ../src/toolbar.c:101
+#, fuzzy
+msgid "Print"
+msgstr "プリンタ"
+
+#: ../src/preferences.c:676 ../src/preferences.c:3536 ../src/toolbar.c:102
+msgid "Preferences"
+msgstr "設定"
+
+#: ../src/preferences.c:677 ../src/toolbar.c:103
+msgid "Configure this window"
+msgstr "このウィンドウを設定"
+
+#: ../src/preferences.c:678 ../src/toolbar.c:104
+#, fuzzy
+msgid "Cache maintenance"
+msgstr "キャッシュの保守"
+
+#: ../src/preferences.c:689 ../src/toolbar.c:115
+msgid "Fit Horizontaly"
+msgstr "左右をフィット"
+
+#: ../src/preferences.c:690 ../src/toolbar.c:116
+msgid "Fit vertically"
+msgstr "上下をフィット"
+
+#: ../src/preferences.c:695 ../src/toolbar.c:121
+#, fuzzy
+msgid "Zoom1:3"
+msgstr "元のサイズ(_1)"
+
+#: ../src/preferences.c:698 ../src/toolbar.c:124
+#, fuzzy
+msgid "Grayscale"
+msgstr "グレースケールの切り替え"
+
+#: ../src/preferences.c:699 ../src/toolbar.c:125
+msgid "Over Under Exposed"
+msgstr ""
+
+#: ../src/preferences.c:702 ../src/toolbar.c:128
+#, fuzzy
+msgid "Slideshow Faster"
+msgstr " スライドショー"
+
+#: ../src/preferences.c:703 ../src/toolbar.c:129
+#, fuzzy
+msgid "Slideshow Slower"
+msgstr " スライドショー"
+
+#: ../src/preferences.c:705 ../src/toolbar.c:131 ../src/window.c:287
+#: ../src/window.c:308
+msgid "Help"
+msgstr "ヘルプ"
+
+#: ../src/preferences.c:707 ../src/toolbar.c:133
+msgid "Show thumbnails"
+msgstr "サムネイルの表示"
+
+#: ../src/preferences.c:708 ../src/toolbar.c:134
+#, fuzzy
+msgid "Show marks"
+msgstr "隠す"
+
+#: ../src/preferences.c:709 ../src/toolbar.c:135
+#, fuzzy
+msgid "Show guidelines"
+msgstr "隠す"
+
+#: ../src/preferences.c:829
 msgid "Custom"
 msgstr "カスタマイズ"
 
-#: ../src/preferences.c:740
-#, fuzzy
+#: ../src/preferences.c:912
 msgid "Single image"
-msgstr "次の画像へジャンプする"
+msgstr "単一の画像"
 
-#: ../src/preferences.c:742
+#: ../src/preferences.c:914
 msgid "Anaglyph Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:744
+#: ../src/preferences.c:916
 msgid "Anaglyph Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:746
+#: ../src/preferences.c:918
 msgid "Anaglyph Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:748
+#: ../src/preferences.c:920
 msgid "Anaglyph Gray Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:750
+#: ../src/preferences.c:922
 msgid "Anaglyph Gray Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:752
+#: ../src/preferences.c:924
 msgid "Anaglyph Gray Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:754
+#: ../src/preferences.c:926
 msgid "Anaglyph Dubois Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:756
+#: ../src/preferences.c:928
 msgid "Anaglyph Dubois Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:758
+#: ../src/preferences.c:930
 msgid "Anaglyph Dubois Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:761
+#: ../src/preferences.c:933
 msgid "Side by Side"
-msgstr ""
+msgstr "左右"
 
-#: ../src/preferences.c:762
+#: ../src/preferences.c:934
 msgid "Side by Side Half size"
 msgstr ""
 
-#: ../src/preferences.c:769
-#, fuzzy
+#: ../src/preferences.c:941
 msgid "Top - Bottom"
-msgstr "下:"
+msgstr "上下"
 
-#: ../src/preferences.c:770
+#: ../src/preferences.c:942
 msgid "Top - Bottom Half size"
 msgstr ""
 
-#: ../src/preferences.c:779 ../src/preferences.c:2602
+#: ../src/preferences.c:951 ../src/preferences.c:3508
 msgid "Fixed position"
-msgstr ""
+msgstr "固定位置"
 
-#: ../src/preferences.c:1118 ../src/preferences.c:1121
+#: ../src/preferences.c:1283 ../src/preferences.c:1286
 msgid "Reset filters"
 msgstr "フィルタのリセット"
 
-#: ../src/preferences.c:1122
+#: ../src/preferences.c:1287
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
@@ -4576,132 +4781,208 @@ msgstr ""
 "ファイル・フィルタを初期値に戻します。\n"
 "続行しますか？"
 
-#: ../src/preferences.c:1149 ../src/preferences.c:1152
+#: ../src/preferences.c:1314 ../src/preferences.c:1317
 msgid "Clear trash"
 msgstr "ゴミ箱のクリア"
 
-#: ../src/preferences.c:1153
+#: ../src/preferences.c:1318
 msgid "This will remove the trash contents."
 msgstr "ゴミ箱にあるものを削除します"
 
-#: ../src/preferences.c:1197 ../src/preferences.c:1200
+#: ../src/preferences.c:1362 ../src/preferences.c:1365
 msgid "Reset image overlay template string"
-msgstr ""
+msgstr "画像オーバーレイテンプレート文字列のリセット"
 
-#: ../src/preferences.c:1201
-#, fuzzy
+#: ../src/preferences.c:1366
 msgid ""
 "This will reset the image overlay template string to the default.\n"
 "Continue?"
 msgstr ""
-"ファイル・フィルタを初期値に戻します。\n"
+"画像オーバーレイテンプレート文字列を初期値に戻します。\n"
 "続行しますか？"
 
-#: ../src/preferences.c:1597
+#: ../src/preferences.c:1873
 msgid "General"
 msgstr "全般"
 
-#: ../src/preferences.c:1603 ../src/preferences.c:1715
+#: ../src/preferences.c:1879 ../src/preferences.c:2147
 msgid "Quality:"
 msgstr "品質:"
 
-#: ../src/preferences.c:1611
-#, fuzzy
+#: ../src/preferences.c:1889
 msgid "Use Geeqie thumbnail style and cache"
-msgstr "共有サムネイルのキャッシュを利用する"
+msgstr "Geeqie流のサムネイルスタイルとキャッシュを使う"
 
-#: ../src/preferences.c:1618
-#, fuzzy
+#: ../src/preferences.c:1896
 msgid "Store thumbnails local to image folder (non-standard)"
-msgstr "サムネイルを画像のソースに格納する"
+msgstr "サムネイルを画像フォルダと一緒に保存する(非標準)"
 
-#: ../src/preferences.c:1625
+#: ../src/preferences.c:1903
 msgid "Use standard thumbnail style and cache, shared with other applications"
 msgstr ""
+"標準のサムネイルスタイルとキャッシュを使い、他のアプリケーションと共有する"
 
-#: ../src/preferences.c:1631
+#: ../src/preferences.c:1909
 msgid "Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"
+msgstr "EXIFサムネイルがあれば使う(EXIFサムネイルは古いこともある)"
+
+#: ../src/preferences.c:1912
+msgid "Collection preview:"
+msgstr "コレクション・プレビュー:"
+
+#: ../src/preferences.c:1915
+msgid "The maximum number of thumbnails shown in a Collection preview montage"
 msgstr ""
 
-#: ../src/preferences.c:1635
+#: ../src/preferences.c:1918
 msgid "Use embedded metadata in video files as thumbnails when available"
+msgstr "ビデオファイルに埋め込まれたメタデータがあればサムネイルとして使う"
+
+#: ../src/preferences.c:1927
+msgid "Star Rating"
+msgstr "スター・レーティング"
+
+#: ../src/preferences.c:1943 ../src/preferences.c:1975
+msgid "Set"
+msgstr "セット"
+
+#: ../src/preferences.c:1945 ../src/preferences.c:1977
+msgid "Display selected character"
 msgstr ""
 
-#: ../src/preferences.c:1642
+#: ../src/preferences.c:1948 ../src/preferences.c:1980
+msgid ""
+"Hexadecimal representation of a Unicode character. A list of all Unicode "
+"characters may be found on the Internet."
+msgstr ""
+
+#: ../src/preferences.c:1952 ../src/preferences.c:1984
+#: ../src/preferences.c:2121 ../src/window.c:397
+#, fuzzy
+msgid "Clear"
+msgstr "クリア(_L)"
+
+#: ../src/preferences.c:1956 ../src/preferences.c:1988
+#: ../src/preferences.c:2125
+#, fuzzy
+msgid "Default"
+msgstr "初期値"
+
+#: ../src/preferences.c:1998
 msgid "Slide show"
 msgstr "スライドショー"
 
-#: ../src/preferences.c:1653
-#, fuzzy
+#: ../src/preferences.c:2009
 msgid "Delay between image change hrs:mins:secs.dec"
-msgstr "画像を表示する間隔:"
+msgstr "画像を変更する間隔 時:分:秒"
 
-#: ../src/preferences.c:1669
+#: ../src/preferences.c:2025
 msgid "Random"
 msgstr "ランダム"
 
-#: ../src/preferences.c:1670
+#: ../src/preferences.c:2026
 msgid "Repeat"
 msgstr "繰り返す"
 
-#: ../src/preferences.c:1672
+#: ../src/preferences.c:2030
 msgid "Image loading and caching"
-msgstr ""
+msgstr "画像の読み込みとキャッシュ"
 
-#: ../src/preferences.c:1674
-#, fuzzy
+#: ../src/preferences.c:2032
 msgid "Decoded image cache size (Mb):"
-msgstr "オフスクリーンのキャッシュ・サイズ (Mバイト/画像):"
+msgstr "デコード済み画像のキャッシュサイズ (Mb):"
 
-#: ../src/preferences.c:1676
+#: ../src/preferences.c:2034
 msgid "Preload next image"
 msgstr "次に表示する画像をプリロードする"
 
-#: ../src/preferences.c:1679
+#: ../src/preferences.c:2037
 msgid "Refresh on file change"
 msgstr "ファイルを変更したら画面をリフレッシュする"
 
-#: ../src/preferences.c:1682
+#: ../src/preferences.c:2042
 msgid "Info sidebar heights"
-msgstr ""
+msgstr "情報サイドバーの高さ"
 
-#: ../src/preferences.c:1683
+#: ../src/preferences.c:2043
 msgid "NOTE! Geeqie must be restarted for changes to take effect"
-msgstr ""
+msgstr "注意！ 変更を有効にするにはGeeqieを再起動する必要があります"
 
-#: ../src/preferences.c:1685
-#, fuzzy
+#: ../src/preferences.c:2045
 msgid "Keywords:"
-msgstr "キーワード"
+msgstr "キーワード:"
 
-#: ../src/preferences.c:1691
-#, fuzzy
+#: ../src/preferences.c:2051
 msgid "Comment:"
 msgstr "コメント:"
 
-#: ../src/preferences.c:1694
-#, fuzzy
+#: ../src/preferences.c:2054
 msgid "Rating:"
-msgstr "印刷エラー"
+msgstr "レーティング:"
 
-#: ../src/preferences.c:1718
+#: ../src/preferences.c:2060
+msgid "Show predefined keyword tree"
+msgstr "定義済みのキーワード・ツリーの表示"
+
+#: ../src/preferences.c:2062
+msgid ""
+"Show predefined keyword tree (NOTE! Geeqie must be restarted for change to "
+"take effect)"
+msgstr "定義済みのキーワード・ツリーを表示する(要再起動)"
+
+#: ../src/preferences.c:2072 ../src/preferences.c:3807
+msgid "Timezone database"
+msgstr "タイムゾーン・データベース"
+
+#: ../src/preferences.c:2090 ../src/preferences.c:3819
+msgid "Update"
+msgstr "アップデート"
+
+#: ../src/preferences.c:2094
+msgid "Install"
+msgstr "インストール"
+
+#: ../src/preferences.c:2099
+msgid ""
+"No Internet connection!\n"
+"The timezone database is used to display exif time and date\n"
+"corrected for UTC offset and Daylight Saving Time"
+msgstr ""
+
+#: ../src/preferences.c:2103
+msgid ""
+"The timezone database is used to display exif time and date\n"
+"corrected for UTC offset and Daylight Saving Time"
+msgstr ""
+
+#: ../src/preferences.c:2109
+msgid "On-line help search engine"
+msgstr "オンラインヘルプ検索エンジン"
+
+#: ../src/preferences.c:2116
+msgid ""
+"The format varies between search engines, e.g the format may be:\n"
+"https://www.search_engine.com/search?q=site:geeqie.org/help\n"
+"https://www.search_engine.com/?q=site:geeqie.org/help"
+msgstr ""
+
+#: ../src/preferences.c:2150
 msgid "Use GPU acceleration via Clutter library"
-msgstr ""
+msgstr "Clutterライブラリ経由でGPUアクセラレーションを使う"
 
-#: ../src/preferences.c:1722
+#: ../src/preferences.c:2154
 msgid "Two pass rendering (apply HQ zoom and color correction in second pass)"
-msgstr ""
+msgstr "２パス・レンダリング(HQズームと色補正を２パス目で適用する)"
 
-#: ../src/preferences.c:1726
+#: ../src/preferences.c:2158
 msgid "Zoom increment:"
-msgstr "拡大率:"
+msgstr "拡大増加率:"
 
-#: ../src/preferences.c:1734
-#, fuzzy
+#: ../src/preferences.c:2166
 msgid "Allow enlargement of image (max. size in %)"
-msgstr "ズーム時にフィットするように画像を引き伸ばす"
+msgstr "画像の拡大を許可する (百分率での最大サイズ)"
 
-#: ../src/preferences.c:1740
+#: ../src/preferences.c:2172
 #, c-format
 msgid ""
 "Enable this to allow Geeqie to increase the image size for images that are "
@@ -4710,12 +4991,12 @@ msgid ""
 "100% is full-size."
 msgstr ""
 
-#: ../src/preferences.c:1743
+#: ../src/preferences.c:2175
 #, c-format
 msgid "Virtual window size (% of actual window):"
-msgstr ""
+msgstr "仮想ウィンドウサイズ (実ウィンドウに対する百分率):"
 
-#: ../src/preferences.c:1749
+#: ../src/preferences.c:2181
 msgid ""
 "This value will set the virtual size of the window when \"Fit image to window"
 "\" is set. Instead of using the actual size of the window, the specified "
@@ -4724,1239 +5005,1141 @@ msgid ""
 "than 100%). It affects fullscreen mode too."
 msgstr ""
 
-#: ../src/preferences.c:1751
+#: ../src/preferences.c:2183
 msgid "Appearance"
 msgstr "外観"
 
-#: ../src/preferences.c:1753
-#, fuzzy
+#: ../src/preferences.c:2185
 msgid "Use custom border color in window mode"
-msgstr "プリンタのカスタマイズ"
+msgstr "ウィンドウモードでカスタムのボーダー色を使う"
 
-#: ../src/preferences.c:1756
+#: ../src/preferences.c:2188
 msgid "Use custom border color in fullscreen mode"
-msgstr ""
+msgstr "フルスクリーン・モードでカスタムのボーダー色を使う"
 
-#: ../src/preferences.c:1759
-#, fuzzy
+#: ../src/preferences.c:2191
 msgid "Border color"
-msgstr "背景を黒にする"
+msgstr "ボーダー色"
 
-#: ../src/preferences.c:1764
+#: ../src/preferences.c:2196
 msgid "Alpha channel color 1"
-msgstr ""
+msgstr "アルファ・チャンネル色１"
 
-#: ../src/preferences.c:1767
+#: ../src/preferences.c:2199
 msgid "Alpha channel color 2"
-msgstr ""
+msgstr "アルファ・チャンネル色２"
 
-#: ../src/preferences.c:1773
+#: ../src/preferences.c:2205
 msgid "Convenience"
 msgstr "便利な機能"
 
-#: ../src/preferences.c:1775
+#: ../src/preferences.c:2207
 #, fuzzy
 msgid "Auto rotate proofs using Exif information"
 msgstr "Exif 情報で画像を自動的に回転させる"
 
-#: ../src/preferences.c:1792
+#: ../src/preferences.c:2221
 msgid "Windows"
 msgstr "ウィンドウ"
 
-#: ../src/preferences.c:1794
+#: ../src/preferences.c:2223
 msgid "State"
 msgstr "状態"
 
-#: ../src/preferences.c:1796
+#: ../src/preferences.c:2225
 msgid "Remember window positions"
 msgstr "ウィンドウ位置を保持する"
 
-#: ../src/preferences.c:1799
+#: ../src/preferences.c:2228
 msgid "Use saved window positions also for new windows"
-msgstr ""
+msgstr "新しいウィンドウにも保存されたウィンドウ位置を使う"
 
-#: ../src/preferences.c:1803
+#: ../src/preferences.c:2232
 msgid "Remember tool state (float/hidden)"
 msgstr "ツールバーの状態 (フロートや非表示) を保持する"
 
-#: ../src/preferences.c:1806
-#, fuzzy
+#: ../src/preferences.c:2235
 msgid "Remember dialog window positions"
-msgstr "ウィンドウ位置を保持する"
+msgstr "ダイアログウィンドウの位置を保持する"
 
-#: ../src/preferences.c:1811
+#: ../src/preferences.c:2238
+msgid "Show window IDs"
+msgstr "ウィンドウIDを表示する"
+
+#: ../src/preferences.c:2243
 msgid "Fit window to image when tools are hidden/floating"
 msgstr "ツールバーの変更時に画像をウィンドウにフィットさせる"
 
-#: ../src/preferences.c:1815
+#: ../src/preferences.c:2247
 msgid "Limit size when auto-sizing window (%):"
 msgstr "自動的に調整するウィンドウ・サイズの上限 (%):"
 
-#: ../src/preferences.c:1830
+#: ../src/preferences.c:2262
 msgid "Smooth image flip"
 msgstr "画像をスムーズにめくる"
 
-#: ../src/preferences.c:1832
+#: ../src/preferences.c:2264
 msgid "Disable screen saver"
 msgstr "スクリーン・セーバーを無効にする"
 
-#: ../src/preferences.c:1836
+#: ../src/preferences.c:2286
+msgid "OSD"
+msgstr ""
+
+#: ../src/preferences.c:2290
 msgid "Overlay Screen Display"
-msgstr ""
+msgstr "オーバーレイ・スクリーン・ディスプレイ"
 
-#: ../src/preferences.c:1838
+#: ../src/preferences.c:2302
 msgid "Image overlay template"
+msgstr "画像オーバーレイのテンプレート"
+
+#: ../src/preferences.c:2313 ../src/print.c:389
+msgid "Extensive formatting options are shown in the Help file"
 msgstr ""
 
-#: ../src/preferences.c:1851
-msgid ""
-"<i>%name%</i> results in the filename of the picture.\n"
-"Also available: <i>%collection%</i>, <i>%number%</i>, <i>%total%</i>, <i>"
-"%date%</i>,\n"
-"<i>%size%</i> (filesize), <i>%width%</i>, <i>%height%</i>, <i>%res%</i> "
-"(resolution)\n"
-"To access exif data use the exif name, e. g. <i>%formatted.Camera%</i> is "
-"the formatted camera name,\n"
-"<i>%Exif.Photo.DateTimeOriginal%</i> the date of the original shot.\n"
-"<i>%formatted.Camera:20</i> notation will truncate the displayed data to 20 "
-"characters and will add 3 dots at the end to denote the truncation.\n"
-"If two or more variables are connected with the |-sign, it prints available "
-"variables with a separator.\n"
-"<i>%formatted.ShutterSpeed%</i>|<i>%formatted.ISOSpeedRating%</i>|<i>"
-"%formatted.FocalLength%</i> could show \"1/20s - 400 - 80 mm\" or \"1/200 - "
-"80 mm\",\n"
-"if there's no ISO information in the Exif data.\n"
-"If a line is empty, it is removed. This allows one to add lines that totally "
-"disappear when no data is available.\n"
-msgstr ""
-
-#: ../src/preferences.c:1868 ../src/print.c:3220
+#: ../src/preferences.c:2321 ../src/print.c:410 ../src/print.c:471
 msgid "Font"
 msgstr "フォント"
 
-#: ../src/preferences.c:1880 ../src/print.c:3410
+#: ../src/preferences.c:2333
 msgid "Text"
 msgstr "テキスト"
 
-#: ../src/preferences.c:1885
-#, fuzzy
+#: ../src/preferences.c:2338
 msgid "Background"
-msgstr "背景を黒にする"
+msgstr "背景"
 
-#: ../src/preferences.c:1891 ../src/preferences.c:2069
-#: ../src/preferences.c:2515
+#: ../src/preferences.c:2344 ../src/preferences.c:2566
+#: ../src/preferences.c:3421
 msgid "Defaults"
 msgstr "初期値"
 
-#: ../src/preferences.c:1945
+#: ../src/preferences.c:2361
+msgid "Exif, XMP or IPTC tags"
+msgstr "Exit/XMP/IPTCタグ"
+
+#: ../src/preferences.c:2365
+msgid "%Exif.Image.Orientation%"
+msgstr ""
+
+#: ../src/preferences.c:2370
+msgid "Field separators"
+msgstr "フィールド区切り子"
+
+#: ../src/preferences.c:2374
+msgid ""
+"Separator shown only if both fields are non-null:\n"
+"%formatted.ShutterSpeed%|%formatted.ISOSpeedRating%"
+msgstr ""
+"区切り子は両方のフィールドがともに非nullのときのみ表示されます:\n"
+"%formatted.ShutterSpeed%|%formatted.ISOSpeedRating%"
+
+#: ../src/preferences.c:2379
+msgid "Field maximum length"
+msgstr "フィールドの最大長"
+
+#: ../src/preferences.c:2383
+msgid "%path:39%"
+msgstr ""
+
+#: ../src/preferences.c:2388
+msgid "Pre- and post- text"
+msgstr "前置き・後置きテキスト"
+
+#: ../src/preferences.c:2392
+msgid ""
+"Text shown only if the field is non-null:\n"
+"%formatted.Aperture:F no. * setting%\n"
+" %formatted.Aperture:10:F no. * setting%"
+msgstr ""
+"テキストはフィールドが非nullのときのみ表示されます:\n"
+"%formatted.Aperture:F no. * setting%\n"
+" %formatted.Aperture:10:F no. * setting%"
+
+#: ../src/preferences.c:2397
+msgid "Pango markup"
+msgstr "Pangoマークアップ"
+
+#: ../src/preferences.c:2401
+msgid ""
+"<b>bold</b>\n"
+"<u>underline</u>\n"
+"<i>italic</i>\n"
+"<s>strikethrough</s>"
+msgstr ""
+
+#: ../src/preferences.c:2442
 msgid "Show hidden files or folders"
-msgstr ""
+msgstr "隠しファイル・フォルダを表示する"
 
-#: ../src/preferences.c:1947
+#: ../src/preferences.c:2444
 msgid "Show parent folder (..)"
-msgstr ""
+msgstr "親フォルダ(..)を表示する"
 
-#: ../src/preferences.c:1949
+#: ../src/preferences.c:2446
 msgid "Case sensitive sort"
 msgstr "大・小文字で並べ替える"
 
-#: ../src/preferences.c:1951
+#: ../src/preferences.c:2448
 msgid "Natural sort order"
-msgstr ""
+msgstr "自然なソート順"
 
-#: ../src/preferences.c:1953
-#, fuzzy
+#: ../src/preferences.c:2450
 msgid "Disable file extension checks"
-msgstr "フィルタリングしない"
+msgstr "ファイル拡張子のチェックをしない"
 
-#: ../src/preferences.c:1956
+#: ../src/preferences.c:2453
 msgid "Disable File Filtering"
 msgstr "フィルタリングしない"
 
-#: ../src/preferences.c:1960
+#: ../src/preferences.c:2457
 msgid "Grouping sidecar extensions"
-msgstr ""
+msgstr "サイドカー拡張子のグループ化"
 
-#: ../src/preferences.c:1967
+#: ../src/preferences.c:2464
 msgid "File types"
 msgstr "ファイルの種類"
 
-#: ../src/preferences.c:2024
+#: ../src/preferences.c:2521
 msgid "Class"
-msgstr ""
+msgstr "種類"
 
-#: ../src/preferences.c:2041
+#: ../src/preferences.c:2538
 msgid "Writable"
-msgstr ""
+msgstr "書き込み可"
 
-#: ../src/preferences.c:2052
+#: ../src/preferences.c:2549
 msgid "Sidecar is allowed"
-msgstr ""
+msgstr "サイドカーを許可"
 
-#: ../src/preferences.c:2098
+#: ../src/preferences.c:2595
 msgid "Metadata writing process"
-msgstr ""
+msgstr "メタデータ書き込み処理"
 
-#: ../src/preferences.c:2100
+#: ../src/preferences.c:2597
 msgid "Warning: Geeqie is built without Exiv2. Some options are disabled."
 msgstr ""
+"警告: GeeqieはExiv2なしでビルドされています。一部のオプションは無効です"
 
-#: ../src/preferences.c:2102
+#: ../src/preferences.c:2599
 msgid ""
 "Metadata are written in the following order. The process ends after first "
 "success."
 msgstr ""
+"以下の順でメタデータが書かれます。処理は最初に成功した時点で終了します。"
 
-#: ../src/preferences.c:2105
+#: ../src/preferences.c:2602
 msgid ""
 "1) Save metadata in image files, or sidecar files, according to the XMP "
 "standard"
 msgstr ""
+"1) メタデータを画像ファイル、あるいはサイドカーファイルにXMP標準に則って保存"
+"する"
 
-#: ../src/preferences.c:2111
+#: ../src/preferences.c:2608
 msgid ""
 "2) Save metadata in '.metadata' folder, local to image folder (non-standard)"
 msgstr ""
+"2) メタデータを画像のフォルダにある、'.metadata' フォルダに保存する (非標準)"
 
-#: ../src/preferences.c:2114
+#: ../src/preferences.c:2611
 #, c-format
 msgid "3) Save metadata in Geeqie private directory '%s'"
-msgstr ""
+msgstr "3) メタデータをGeeqie独自のディレクトリ '%s' に保存する"
 
-#: ../src/preferences.c:2120
+#: ../src/preferences.c:2617
 msgid "Step 1: Write to image files"
-msgstr ""
+msgstr "ステップ1: 画像ファイルに書き込む"
 
-#: ../src/preferences.c:2128
+#: ../src/preferences.c:2625
 msgid ""
 "Store metadata also in legacy IPTC tags (converted according to IPTC4XMP "
 "standard)"
-msgstr ""
+msgstr "メタデータをレガシーなIPTCタグ形式でも保存する (IPTC4XMPに則って変換)"
 
-#: ../src/preferences.c:2131
+#: ../src/preferences.c:2628
 msgid "Warn if the image files are unwritable"
-msgstr ""
+msgstr "画像ファイルが書き込み不可ならば警告する"
 
-#: ../src/preferences.c:2134
-#, fuzzy
+#: ../src/preferences.c:2631
 msgid "Ask before writing to image files"
-msgstr "ファイル %s への書き込みに失敗"
+msgstr "画像ファイルへの書き込みの前に確認する"
 
-#: ../src/preferences.c:2137
+#: ../src/preferences.c:2634
 msgid "Create sidecar files named image.ext.xmp (as opposed to image.xmp)"
-msgstr ""
+msgstr "サイドカーファイルの名前を(image.xmp ではなく) image.ext.xmp とする"
 
-#: ../src/preferences.c:2140
+#: ../src/preferences.c:2637
 msgid "Step 2 and 3: write to Geeqie private files"
-msgstr ""
+msgstr "ステップ２・3: Geeqie 独自のファイルに書き込む"
 
-#: ../src/preferences.c:2145
+#: ../src/preferences.c:2642
 msgid ""
 "Use GQview legacy metadata format (supports only keywords and comments) "
 "instead of XMP"
 msgstr ""
+"XMPではなくGQviewのレガシーなメタデータ形式を使う (キーワードとコメントのみ利"
+"用可能)"
 
-#: ../src/preferences.c:2149
+#: ../src/preferences.c:2646
 msgid "Miscellaneous"
 msgstr "その他"
 
-#: ../src/preferences.c:2150
+#: ../src/preferences.c:2647
 msgid ""
 "Write the same description tags (keywords, comment, etc.) to all grouped "
 "sidecars"
 msgstr ""
+"同じ説明タグ(キーワード、コメントなど)をすべてのグループ化されたサイドカーに"
+"書き込む"
 
-#: ../src/preferences.c:2153
+#: ../src/preferences.c:2650
 msgid "Allow keywords to differ only in case"
-msgstr ""
+msgstr "キーワードの大文字・小文字の違いを許容する"
 
-#: ../src/preferences.c:2156
+#: ../src/preferences.c:2653
 msgid "Write altered image orientation to the metadata"
-msgstr ""
+msgstr "変更された画像の向きをメタデータに書き込む"
 
-#: ../src/preferences.c:2162
+#: ../src/preferences.c:2659
 msgid "Auto-save options"
-msgstr ""
+msgstr "自動保存のオプション"
 
-#: ../src/preferences.c:2164
+#: ../src/preferences.c:2661
 msgid "Write metadata after timeout"
-msgstr ""
+msgstr "次のタイムアウト後にメタデータを書き込む"
 
-#: ../src/preferences.c:2170
-#, fuzzy
+#: ../src/preferences.c:2667
 msgid "Timeout (seconds):"
-msgstr "露出偏光"
+msgstr "タイムアウト(秒):"
 
-#: ../src/preferences.c:2173
-#, fuzzy
+#: ../src/preferences.c:2670
 msgid "Write metadata on image change"
-msgstr "画像を表示する間隔:"
+msgstr "画像の変更時にメタデータを書き込む"
 
-#: ../src/preferences.c:2176
+#: ../src/preferences.c:2673
 msgid "Write metadata on directory change"
-msgstr ""
+msgstr "ディレクトリ変更時にメタデータを書き込む"
 
-#: ../src/preferences.c:2216
+#: ../src/preferences.c:2676
+msgid "Pre-load metadata"
+msgstr "メタデータを先読みする"
+
+#: ../src/preferences.c:2678
+msgid "Read metadata in background"
+msgstr "メタデータをバックグラウンドで読み込む"
+
+#: ../src/preferences.c:2867 ../src/preferences.c:2881
+msgid "Search for keywords"
+msgstr "キーワードを検索"
+
+#: ../src/preferences.c:2979
+msgid "Edit keywords autocompletion list"
+msgstr "キーワード自動補完リストを編集する"
+
+#: ../src/preferences.c:3062
 msgid "Perceptual"
-msgstr ""
+msgstr "知覚的"
 
-#: ../src/preferences.c:2218
+#: ../src/preferences.c:3064
 msgid "Relative Colorimetric"
-msgstr ""
+msgstr "相対的な色域を維持"
 
-#: ../src/preferences.c:2222
+#: ../src/preferences.c:3068
 msgid "Absolute Colorimetric"
-msgstr ""
+msgstr "絶対的な色域を維持"
 
-#: ../src/preferences.c:2247
-#, fuzzy
+#: ../src/preferences.c:3093
 msgid "Color management"
-msgstr "ソート・マネージャ(_M)"
+msgstr "カラーマネジメント"
 
-#: ../src/preferences.c:2249
-#, fuzzy
+#: ../src/preferences.c:3095
 msgid "Input profiles"
-msgstr "全ファイル"
+msgstr "入力プロファイル"
 
-#: ../src/preferences.c:2257
+#: ../src/preferences.c:3103
 msgid "Type"
-msgstr ""
+msgstr "タイプ"
 
-#: ../src/preferences.c:2260
+#: ../src/preferences.c:3106
 msgid "Menu name"
 msgstr "メニューの名前"
 
-#: ../src/preferences.c:2263
-#, fuzzy
+#: ../src/preferences.c:3109
 msgid "File"
-msgstr "ファイル:"
+msgstr "ファイル"
 
-#: ../src/preferences.c:2271
+#: ../src/preferences.c:3117
 #, c-format
 msgid "Input %d:"
-msgstr ""
+msgstr "入力 %d:"
 
-#: ../src/preferences.c:2287 ../src/preferences.c:2307
-#, fuzzy
+#: ../src/preferences.c:3133 ../src/preferences.c:3153
 msgid "Select color profile"
-msgstr "フォルダの選択"
+msgstr "カラー・プロファイルの選択"
 
-#: ../src/preferences.c:2295
-#, fuzzy
+#: ../src/preferences.c:3141
 msgid "Screen profile"
-msgstr "全ファイル"
+msgstr "スクリーン・プロファイル"
 
-#: ../src/preferences.c:2299
+#: ../src/preferences.c:3145
 msgid "Use system screen profile if available"
-msgstr ""
+msgstr "利用可能ならシステムのスクリーン・プロファイルを使う"
 
-#: ../src/preferences.c:2304
-#, fuzzy
+#: ../src/preferences.c:3150
 msgid "Screen:"
-msgstr "スクリーン"
+msgstr "スクリーン:"
 
-#: ../src/preferences.c:2310
-#, fuzzy
+#: ../src/preferences.c:3156
 msgid "Render Intent:"
-msgstr "生成"
+msgstr "レンダリングの意図:"
 
-#: ../src/preferences.c:2331 ../src/preferences.c:2372
+#: ../src/preferences.c:3206 ../src/preferences.c:3257
 msgid "Behavior"
 msgstr "動作"
 
-#: ../src/preferences.c:2333 ../src/utilops.c:2156
-msgid "Delete"
-msgstr "削除"
+#: ../src/preferences.c:3210
+msgid "Confirm permanent file delete"
+msgstr "ファイルの取り消せない削除をする時に確認する"
 
-#: ../src/preferences.c:2335
-msgid "Confirm file delete"
-msgstr "削除時に確認する"
+#: ../src/preferences.c:3212
+msgid "Confirm move file to Trash"
+msgstr "ゴミ箱へのファイル移動時に確認する"
 
-#: ../src/preferences.c:2337
+#: ../src/preferences.c:3214
 msgid "Enable Delete key"
 msgstr "[DEL] キーを有効にする"
 
-#: ../src/preferences.c:2340
-msgid "Safe delete"
-msgstr "安全に削除する"
+#: ../src/preferences.c:3217
+msgid "Use Geeqie trash location"
+msgstr "Geeqie 独自のゴミ箱を使う"
 
-#: ../src/preferences.c:2358
+#: ../src/preferences.c:3235
 msgid "Maximum size:"
 msgstr "最大サイズ:"
 
-#: ../src/preferences.c:2358
+#: ../src/preferences.c:3235
 msgid "MB"
 msgstr "Mバイト"
 
-#: ../src/preferences.c:2360
+#: ../src/preferences.c:3237
 msgid "Set to 0 for unlimited size"
 msgstr ""
 
-#: ../src/preferences.c:2361
+#: ../src/preferences.c:3238
 msgid "View"
 msgstr "表示"
 
-#: ../src/preferences.c:2374
+#: ../src/preferences.c:3246
+msgid "Use system Trash bin"
+msgstr "システムのゴミ箱を使う"
+
+#: ../src/preferences.c:3249
+msgid "Use no trash at all"
+msgstr "ゴミ箱を使わない"
+
+#: ../src/preferences.c:3259
 msgid "Descend folders in tree view"
 msgstr "フォルダを降順でツリー表示する"
 
-#: ../src/preferences.c:2377
+#: ../src/preferences.c:3262
 msgid "In place renaming"
 msgstr "名前を変更して配置する"
 
-#: ../src/preferences.c:2380
+#: ../src/preferences.c:3265
 msgid "List directory view uses single click to enter"
-msgstr ""
+msgstr "ディレクトリビューのリスト表示時、シングル・クリックで移動する"
 
-#: ../src/preferences.c:2383
+#: ../src/preferences.c:3268
+msgid "Save marks on exit"
+msgstr "終了時にマークを保存"
+
+#: ../src/preferences.c:3272
+msgid "Use \"With Rename\" as default for Copy/Move dialogs"
+msgstr "コピー/移動ダイアログで \"With Rename\" をデフォルトにする"
+
+#: ../src/preferences.c:3276
+msgid "Open collections on top"
+msgstr "コレクションを前面で開く"
+
+#: ../src/preferences.c:3280
 msgid "Recent folder list maximum size"
-msgstr ""
+msgstr "最近使ったフォルダのリストの最大サイズ"
 
-#: ../src/preferences.c:2386
+#: ../src/preferences.c:3283
 msgid "Drag'n drop icon size"
-msgstr ""
+msgstr "ドラッグ＆ドロップのアイコンのサイズ"
 
-#: ../src/preferences.c:2390
-#, fuzzy
+#: ../src/preferences.c:3287
 msgid "Copy path clipboard selection:"
-msgstr "コピー(_C)"
+msgstr "パスをコピーする際のセレクション名:"
 
-#: ../src/preferences.c:2392
+#: ../src/preferences.c:3291
 msgid "Navigation"
 msgstr "ナビゲーション"
 
-#: ../src/preferences.c:2394
+#: ../src/preferences.c:3293
 msgid "Progressive keyboard scrolling"
 msgstr "キーボードによるスクロールを有効にする"
 
-#: ../src/preferences.c:2396
+#: ../src/preferences.c:3295
 msgid "Keyboard scrolling step multiplier:"
-msgstr ""
+msgstr "キーボード・スクロール移動量の乗数:"
 
-#: ../src/preferences.c:2398
+#: ../src/preferences.c:3297
 msgid "Mouse wheel scrolls image"
-msgstr "ホイール・マウスで画像をスクロールする"
+msgstr "マウス・ホイールで画像をスクロールする"
 
-#: ../src/preferences.c:2400
+#: ../src/preferences.c:3299
 msgid "Navigation by left or middle click on image"
-msgstr ""
+msgstr "画像を左クリック・中クリックしてナビゲーションする"
 
-#: ../src/preferences.c:2402
+#: ../src/preferences.c:3301
 msgid "Play video by left click on image"
-msgstr ""
+msgstr "画像の左クリックでビデオを再生する"
 
-#: ../src/preferences.c:2405
+#: ../src/preferences.c:3304
 msgid "Play with:"
-msgstr ""
+msgstr "使用するプレーヤー:"
 
-#: ../src/preferences.c:2409
+#: ../src/preferences.c:3308
+msgid "Mouse button Back:"
+msgstr "マウスボタンの「戻る」:"
+
+#: ../src/preferences.c:3310
+msgid "Mouse button Forward:"
+msgstr "マウスボタンの「進む」:"
+
+#: ../src/preferences.c:3315
 msgid "Debugging"
-msgstr ""
+msgstr "デバッグ"
 
-#: ../src/preferences.c:2414
-#, fuzzy
+#: ../src/preferences.c:3320
 msgid "Timer data"
-msgstr "タイムスタンプ:"
+msgstr "タイマー・データ"
 
-#: ../src/preferences.c:2417
-#, fuzzy
+#: ../src/preferences.c:3323
 msgid "Log Window max. lines:"
-msgstr "ウィンドウ"
+msgstr "ログ・ウィンドウ最大行数:"
 
-#: ../src/preferences.c:2435
+#: ../src/preferences.c:3341
 msgid "Keyboard"
-msgstr ""
+msgstr "キーボード"
 
-#: ../src/preferences.c:2437
+#: ../src/preferences.c:3343
 msgid "Accelerators"
-msgstr ""
+msgstr "アクセラレータ"
 
-#: ../src/preferences.c:2456
-#, fuzzy
+#: ../src/preferences.c:3362
 msgid "Action"
 msgstr "アクション"
 
-#: ../src/preferences.c:2478
+#: ../src/preferences.c:3384
 msgid "KEY"
-msgstr ""
+msgstr "キー"
 
-#: ../src/preferences.c:2489
-#, fuzzy
+#: ../src/preferences.c:3395
 msgid "Tooltip"
-msgstr "ツール"
+msgstr "ツールチップ"
 
-#: ../src/preferences.c:2520
-#, fuzzy
+#: ../src/preferences.c:3426
 msgid "Reset selected"
-msgstr "フィルタのリセット"
+msgstr "選択項目をリセット"
 
-#: ../src/preferences.c:2535
-#, fuzzy
+#: ../src/preferences.c:3441
 msgid "Toolbar"
-msgstr "ツール"
+msgstr "ツールバー"
 
-#: ../src/preferences.c:2552
+#: ../src/preferences.c:3458
 msgid "Stereo"
-msgstr ""
+msgstr "ステレオ"
 
-#: ../src/preferences.c:2554 ../src/preferences.c:2557
+#: ../src/preferences.c:3460 ../src/preferences.c:3463
 msgid "Windowed stereo mode"
-msgstr ""
+msgstr "ウィンドウ・ステレオモード"
 
-#: ../src/preferences.c:2561 ../src/preferences.c:2586
-#, fuzzy
+#: ../src/preferences.c:3467 ../src/preferences.c:3492
 msgid "Mirror left image"
-msgstr "先頭の画像へジャンプする"
+msgstr "左画像を左右反転"
 
-#: ../src/preferences.c:2564 ../src/preferences.c:2589
-#, fuzzy
+#: ../src/preferences.c:3470 ../src/preferences.c:3495
 msgid "Flip left image"
-msgstr "次の画像へジャンプする"
+msgstr "左画像を上下反転"
 
-#: ../src/preferences.c:2567 ../src/preferences.c:2592
-#, fuzzy
+#: ../src/preferences.c:3473 ../src/preferences.c:3498
 msgid "Mirror right image"
-msgstr "先頭の画像へジャンプする"
+msgstr "右画像を左右反転"
 
-#: ../src/preferences.c:2570 ../src/preferences.c:2595
-#, fuzzy
+#: ../src/preferences.c:3476 ../src/preferences.c:3501
 msgid "Flip right image"
-msgstr "先頭の画像へジャンプする"
+msgstr "右画像を上下反転"
 
-#: ../src/preferences.c:2572 ../src/preferences.c:2597
+#: ../src/preferences.c:3478 ../src/preferences.c:3503
 msgid "Swap left and right images"
-msgstr ""
+msgstr "左画像と右画像を入れ替える"
 
-#: ../src/preferences.c:2574 ../src/preferences.c:2599
+#: ../src/preferences.c:3480 ../src/preferences.c:3505
 msgid "Disable stereo mode on single image source"
-msgstr ""
+msgstr "単一画像ソースではステレオモードを無効にする"
 
-#: ../src/preferences.c:2577 ../src/preferences.c:2583
-#, fuzzy
+#: ../src/preferences.c:3483 ../src/preferences.c:3489
 msgid "Fullscreen stereo mode"
-msgstr "フル・スクリーン"
+msgstr "フルスクリーン・ステレオモード"
 
-#: ../src/preferences.c:2578
+#: ../src/preferences.c:3484
 msgid "Use different settings for fullscreen"
-msgstr ""
+msgstr "フルスクリーンでは異なる設定を使う"
 
-#: ../src/preferences.c:2608
-#, fuzzy
+#: ../src/preferences.c:3514
 msgid "Left X"
-msgstr "左:"
+msgstr "左 X:"
 
-#: ../src/preferences.c:2610
-#, fuzzy
+#: ../src/preferences.c:3516
 msgid "Left Y"
-msgstr "左:"
+msgstr "左 Y:"
 
-#: ../src/preferences.c:2612
-#, fuzzy
+#: ../src/preferences.c:3518
 msgid "Right X"
-msgstr "右:"
+msgstr "右 X:"
 
-#: ../src/preferences.c:2614
-#, fuzzy
+#: ../src/preferences.c:3520
 msgid "Right Y"
-msgstr "右:"
+msgstr "右 Y:"
 
-#: ../src/preferences.c:2630 ../src/toolbar.c:89
-#, fuzzy
-msgid "Preferences"
-msgstr "設定(_R)..."
-
-#: ../src/preferences.c:2781
-#, fuzzy
+#: ../src/preferences.c:3689
 msgid "About Geeqie"
-msgstr "情報 - Geeqie"
+msgstr "Geeqieについて"
 
-#: ../src/preferences.c:2791
+#: ../src/preferences.c:3699
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/print.c:134
-msgid "Selection"
-msgstr "選択した画像"
+#: ../src/preferences.c:3755 ../src/preferences.c:3798
+msgid "Timezone database download failed"
+msgstr "タイムゾーン・データベースのダウンロードに失敗しました"
 
-#: ../src/print.c:135
-msgid "All"
-msgstr "全て"
+#: ../src/preferences.c:3809
+msgid "Downloading timezone database"
+msgstr "タイムゾーン・データベースをダウンロードしています"
 
-#: ../src/print.c:146
-msgid "One image per page"
-msgstr "１ページにつき１画像"
-
-#: ../src/print.c:147
-msgid "Proof sheet"
-msgstr "ためし刷り"
-
-#: ../src/print.c:160
-msgid "Default printer"
-msgstr "デフォルトのプリンタ"
-
-#: ../src/print.c:161
-msgid "Custom printer"
-msgstr "プリンタのカスタマイズ"
-
-#: ../src/print.c:162
-msgid "PostScript file"
-msgstr "PostScript ファイル"
-
-#: ../src/print.c:163
-msgid "Image file"
-msgstr "画像ファイル"
-
-#: ../src/print.c:177
-msgid "jpeg, low quality"
-msgstr "JPEG (低品質)"
-
-#: ../src/print.c:178
-msgid "jpeg, normal quality"
-msgstr "JPEG (標準の品質)"
-
-#: ../src/print.c:179
-msgid "jpeg, high quality"
-msgstr "JPEG (高品質)"
-
-#: ../src/print.c:375 ../src/print.c:3222
-msgid "points"
-msgstr "ポイント"
-
-#: ../src/print.c:376
-msgid "millimeters"
-msgstr "ミリ"
-
-#: ../src/print.c:377
-msgid "centimeters"
-msgstr "センチ"
-
-#: ../src/print.c:378
-msgid "inches"
-msgstr "インチ"
-
-#: ../src/print.c:379
-msgid "picas"
-msgstr "パイカ"
-
-#: ../src/print.c:391
-msgid "Letter"
-msgstr "レター"
-
-#. in 8.5 x 11
-#: ../src/print.c:392
-msgid "Legal"
-msgstr "リーガル"
-
-#. in 8.5 x 14
-#: ../src/print.c:393
-msgid "Executive"
-msgstr "エグゼクティブ"
-
-#. in 7.25x 10.5
-#. mm 841 x 1189
-#. mm 594 x 841
-#. mm 420 x 594
-#. mm 297 x 420
-#. mm 210 x 297
-#. mm 148 x 210
-#. mm 105 x 148
-#. mm 353 x 500
-#. mm 250 x 353
-#. mm 176 x 250
-#. mm 125 x 176
-#: ../src/print.c:405
-msgid "Envelope #10"
-msgstr "封筒 #10"
-
-#. in 4.125 x 9.5
-#: ../src/print.c:406
-msgid "Envelope #9"
-msgstr "封筒 #9"
-
-#. in 3.875 x 8.875
-#: ../src/print.c:407
-msgid "Envelope C4"
-msgstr "封筒 C4"
-
-#. mm 229 x 324
-#: ../src/print.c:408
-msgid "Envelope C5"
-msgstr "封筒 C5"
-
-#. mm 162 x 229
-#: ../src/print.c:409
-msgid "Envelope C6"
-msgstr "封筒 C6"
-
-#. mm 114 x 162
-#: ../src/print.c:410
-msgid "Photo 6x4"
-msgstr "写真 6x4"
-
-#. in 6   x 4
-#: ../src/print.c:411
-msgid "Photo 8x10"
-msgstr "写真 8x10"
-
-#. in 8   x 10
-#: ../src/print.c:412
-msgid "Postcard"
-msgstr "絵はがき"
-
-#. mm 100 x 148
-#: ../src/print.c:413
-msgid "Tabloid"
-msgstr "タブロイド"
-
-#: ../src/print.c:569
-#, c-format
-msgid "page %d of %d"
-msgstr "%d / %d ページ"
-
-#: ../src/print.c:761
-msgid "Preview"
-msgstr "プレビュー"
-
-#: ../src/print.c:1069
-#, c-format
-msgid ""
-"Unable to open pipe for writing.\n"
-"\"%s\""
-msgstr ""
-"パイプを書き込みモードで開けません。\n"
-"\"%s\""
-
-#: ../src/print.c:1084 ../src/print.c:1476 ../src/ui_pathsel.c:432
-#, c-format
-msgid "A file with name %s already exists."
-msgstr "ファイル名 %s は既に存在しています。"
-
-#: ../src/print.c:1099 ../src/print.c:1531
-#, c-format
-msgid "Failure writing to file %s"
-msgstr "ファイル %s への書き込みに失敗"
-
-#: ../src/print.c:1154 ../src/print.c:1191 ../src/print.c:1227
-#: ../src/print.c:1344 ../src/print.c:1417
-msgid "SIGPIPE error writing to printer."
-msgstr "プリンタへ書き込む際に SIGPIPE エラーが発生しました。"
-
-#: ../src/print.c:1952
-#, c-format
-msgid "Page %d"
-msgstr "%d ページ"
-
-#: ../src/print.c:1974 ../src/print.c:1979
-msgid "Printing error"
-msgstr "印刷エラー"
-
-#: ../src/print.c:1978
-#, c-format
-msgid "An error occured printing to %s."
-msgstr "%s へ印刷する際にエラーが発生しました。"
-
-#: ../src/print.c:1982
-msgid "Details"
-msgstr "詳細"
-
-#: ../src/print.c:2597 ../src/print.c:3351 ../src/toolbar.c:88
+#: ../src/print.c:353
 #, fuzzy
-msgid "Print"
-msgstr "プリンタ"
+msgid "Image text"
+msgstr "高さ"
 
-#: ../src/print.c:2601
-#, c-format
-msgid "Printing %d pages to %s."
-msgstr "%d ページを %s で印刷しています"
+#: ../src/print.c:355
+#, fuzzy
+msgid "Show image text"
+msgstr "隠す"
 
-#: ../src/print.c:2701
-msgid "Format:"
-msgstr "書式:"
+#: ../src/print.c:424
+#, fuzzy
+msgid "Page text"
+msgstr "テキストの先頭"
 
-#: ../src/print.c:2776
-msgid "Units:"
-msgstr "単位:"
-
-#: ../src/print.c:2820
-msgid "Orientation:"
-msgstr "向き:"
-
-#: ../src/print.c:2952
-msgid "Destination:"
-msgstr "印刷先:"
-
-#: ../src/print.c:3000
-msgid "<printer name>"
-msgstr "<プリンタ名>"
-
-#: ../src/print.c:3089
-msgid "Unlimited"
-msgstr "制限なし"
-
-#: ../src/print.c:3207
-msgid "Show"
-msgstr "表示するもの"
-
-#: ../src/print.c:3378
-msgid "Source"
-msgstr "印刷する対象"
-
-#: ../src/print.c:3390
-msgid "Image size:"
-msgstr "画像サイズ:"
-
-#: ../src/print.c:3394
-msgid "Proof size:"
-msgstr "ためし刷りのサイズ:"
-
-#: ../src/print.c:3420
-msgid "Paper"
-msgstr "用紙"
-
-#: ../src/print.c:3443
-msgid "Margins"
-msgstr "マージン"
-
-#: ../src/print.c:3445
-msgid "Left:"
-msgstr "左:"
-
-#: ../src/print.c:3448
-msgid "Right:"
-msgstr "右:"
-
-#: ../src/print.c:3451
-msgid "Top:"
-msgstr "上:"
-
-#: ../src/print.c:3454
-msgid "Bottom:"
-msgstr "下:"
-
-#: ../src/print.c:3463
-msgid "Printer"
-msgstr "プリンタ"
-
-#: ../src/print.c:3469
-msgid "Custom printer:"
-msgstr "カスタムのプリンタ:"
-
-#: ../src/print.c:3478
-msgid "File:"
-msgstr "ファイル:"
-
-#: ../src/print.c:3487
-msgid "File format:"
-msgstr "ファイルの書式:"
-
-#: ../src/print.c:3492
-msgid "DPI:"
-msgstr "DPI:"
-
-#: ../src/print.c:3500
-msgid "Remember print settings"
-msgstr "印刷設定を保存しておく"
+#: ../src/print.c:426
+#, fuzzy
+msgid "Show page text"
+msgstr "ファイル名表示(_T)"
 
 #: ../src/rcfile.c:91
 #, fuzzy, c-format
 msgid "Option %s ignored: %s\n"
 msgstr "Geeqie フォルダの生成中: %s\n"
 
-#: ../src/rcfile.c:532
+#: ../src/rcfile.c:617
 #, c-format
 msgid "error saving config file: %s\n"
 msgstr "設定ファイルの保存中にエラー: %s\n"
 
-#: ../src/rcfile.c:590
+#: ../src/rcfile.c:681
 #, fuzzy, c-format
 msgid ""
 "error saving config file: %s\n"
 "error: %s\n"
 msgstr "設定ファイルの保存中にエラー: %s\n"
 
-#: ../src/remote.c:752 ../src/remote.c:757
+#: ../src/remote.c:717
+#, c-format
+msgid "[%d,%d]: RGB(%3d,%3d,%3d)"
+msgstr ""
+
+#: ../src/remote.c:752
+#, c-format
+msgid "%dx%d+%d+%d"
+msgstr ""
+
+#: ../src/remote.c:1106 ../src/remote.c:1111
 msgid "lua error: no data"
 msgstr ""
 
 #. short, long                  callback,               extra, prefer, parameter, description
-#: ../src/remote.c:780
+#: ../src/remote.c:1134
 msgid "next image"
 msgstr "次の画像へジャンプする"
 
-#: ../src/remote.c:781
+#: ../src/remote.c:1135
 msgid "previous image"
 msgstr "前の画像へジャンプする"
 
-#: ../src/remote.c:782
+#: ../src/remote.c:1136
 msgid "first image"
 msgstr "先頭の画像へジャンプする"
 
-#: ../src/remote.c:783
+#: ../src/remote.c:1137
 msgid "last image"
 msgstr "最後の画像へジャンプする"
 
-#: ../src/remote.c:784
+#: ../src/remote.c:1138
 msgid "toggle full screen"
 msgstr "フル・スクリーン表示の切り替え"
 
-#: ../src/remote.c:785
+#: ../src/remote.c:1139
 msgid "start full screen"
 msgstr "フル・スクリーン表示を開始する"
 
-#: ../src/remote.c:786
+#: ../src/remote.c:1140
 msgid "stop full screen"
 msgstr "フル・スクリーン表示を停止する"
 
-#: ../src/remote.c:787
+#: ../src/remote.c:1141
 msgid "toggle slide show"
 msgstr "スライドショーの切り替え"
 
-#: ../src/remote.c:788
+#: ../src/remote.c:1142
 msgid "start slide show"
 msgstr "スライドショーを開始する"
 
-#: ../src/remote.c:789
+#: ../src/remote.c:1143
 msgid "stop slide show"
 msgstr "スライドショーを停止する"
 
-#: ../src/remote.c:790
+#: ../src/remote.c:1144
 msgid "<FOLDER>"
 msgstr ""
 
-#: ../src/remote.c:790
+#: ../src/remote.c:1144
 #, fuzzy
 msgid "start recursive slide show in FOLDER"
 msgstr "スライドショーを開始する(再帰的)"
 
-#: ../src/remote.c:791
+#: ../src/remote.c:1145
 msgid "<[H:][M:][N][.M]>"
 msgstr ""
 
-#: ../src/remote.c:791
+#: ../src/remote.c:1145
 #, fuzzy
 msgid "set slide show delay to Hrs Mins N.M seconds"
 msgstr "スライドショーで画像を表示する間隔(秒)をセットする"
 
-#: ../src/remote.c:792
+#: ../src/remote.c:1146
 msgid "show tools"
 msgstr "ツールを表示する"
 
-#: ../src/remote.c:793
+#: ../src/remote.c:1147
 msgid "hide tools"
 msgstr "ツールを隠す"
 
-#: ../src/remote.c:794
+#: ../src/remote.c:1148
 msgid "quit"
 msgstr "終了"
 
-#: ../src/remote.c:795 ../src/remote.c:796 ../src/remote.c:797
-#: ../src/remote.c:798 ../src/remote.c:799 ../src/remote.c:801
-#: ../src/remote.c:803
+#: ../src/remote.c:1149 ../src/remote.c:1150 ../src/remote.c:1151
+#: ../src/remote.c:1152 ../src/remote.c:1153 ../src/remote.c:1154
+#: ../src/remote.c:1155 ../src/remote.c:1164 ../src/remote.c:1165
+#: ../src/remote.c:1167
 msgid "<FILE>"
 msgstr ""
 
-#: ../src/remote.c:795
+#: ../src/remote.c:1149
 msgid "load configuration from FILE"
 msgstr ""
 
-#: ../src/remote.c:796
+#: ../src/remote.c:1150
 msgid "get list of sidecars of FILE"
 msgstr ""
 
-#: ../src/remote.c:797
+#: ../src/remote.c:1151
 msgid "get destination path of FILE"
 msgstr ""
 
-#: ../src/remote.c:798
+#: ../src/remote.c:1152 ../src/remote.c:1153
 #, fuzzy
 msgid "open FILE, bring Geeqie window to the top"
 msgstr "新しいウィンドウでファイルを開く"
 
-#: ../src/remote.c:799
+#: ../src/remote.c:1154 ../src/remote.c:1155
 msgid "open FILE, do not bring Geeqie window to the top"
 msgstr ""
 
-#: ../src/remote.c:800
-msgid "print filename of current image"
+#: ../src/remote.c:1156
+msgid "print filename [and Collection] of current image"
 msgstr ""
 
-#: ../src/remote.c:801
+#: ../src/remote.c:1157
+msgid "print pixel info of mouse pointer on current image"
+msgstr ""
+
+#: ../src/remote.c:1158
+msgid "get rectangle co-ordinates"
+msgstr ""
+
+#: ../src/remote.c:1159
+#, fuzzy
+msgid "get render intent"
+msgstr "生成"
+
+#: ../src/remote.c:1160 ../src/remote.c:1161
+msgid "[<FOLDER>]"
+msgstr ""
+
+#: ../src/remote.c:1160
+msgid "get list of files and class"
+msgstr ""
+
+#: ../src/remote.c:1161
+msgid "get list of files and class recursive"
+msgstr ""
+
+#: ../src/remote.c:1162
+msgid "<COLLECTION>"
+msgstr ""
+
+#: ../src/remote.c:1162
+#, fuzzy
+msgid "get collection content"
+msgstr "新しいコレクション(_N)"
+
+#: ../src/remote.c:1163
+#, fuzzy
+msgid "get collection list"
+msgstr "新しいコレクション(_N)"
+
+#: ../src/remote.c:1164 ../src/remote.c:1165
 #, fuzzy
 msgid "open FILE in new window"
 msgstr "新しいウィンドウでファイルを開く"
 
-#: ../src/remote.c:802
+#: ../src/remote.c:1166
 msgid "clear command line collection list"
 msgstr ""
 
-#: ../src/remote.c:803
+#: ../src/remote.c:1167
 #, fuzzy
 msgid "add FILE to command line collection list"
 msgstr "新しいコレクションの追加"
 
-#: ../src/remote.c:804
+#: ../src/remote.c:1168 ../src/remote.c:1169
 msgid "bring the Geeqie window to the top"
 msgstr ""
 
-#: ../src/remote.c:805 ../src/remote.c:806
+#: ../src/remote.c:1170
+msgid "<ID>"
+msgstr ""
+
+#: ../src/remote.c:1170
+msgid "window id for following commands"
+msgstr ""
+
+#: ../src/remote.c:1171
+#, fuzzy
+msgid "new window"
+msgstr "新しいウィンドウ(_N)"
+
+#: ../src/remote.c:1172
+#, fuzzy
+msgid "close window"
+msgstr "ウィンドウを閉じる"
+
+#: ../src/remote.c:1173 ../src/remote.c:1174
 msgid "clear|clean"
 msgstr ""
 
-#: ../src/remote.c:805
+#: ../src/remote.c:1173
 #, fuzzy
 msgid "clear or clean thumbnail cache"
 msgstr "サムネイル・キャッシュの共有"
 
-#: ../src/remote.c:806
+#: ../src/remote.c:1174
 #, fuzzy
 msgid "clear or clean shared thumbnail cache"
 msgstr "共有サムネイルのキャッシュを利用する"
 
-#: ../src/remote.c:807
+#: ../src/remote.c:1175
 msgid "    clean the metadata cache"
 msgstr ""
 
-#: ../src/remote.c:808
+#: ../src/remote.c:1176
 #, fuzzy
 msgid "<folder>  "
 msgstr "フォルダ"
 
-#: ../src/remote.c:808
+#: ../src/remote.c:1176
 #, fuzzy
 msgid " render thumbnails"
 msgstr "サムネイルの生成"
 
-#: ../src/remote.c:809 ../src/remote.c:810
+#: ../src/remote.c:1177 ../src/remote.c:1178
 #, fuzzy
 msgid "<folder> "
 msgstr "フォルダ"
 
-#: ../src/remote.c:809
+#: ../src/remote.c:1177
 #, fuzzy
 msgid "render thumbnails recursively"
 msgstr "特定のフォルダにあるサムネイルを生成します。"
 
-#: ../src/remote.c:810
+#: ../src/remote.c:1178
 #, fuzzy
 msgid " render thumbnails (see Help)"
 msgstr "特定のフォルダにあるサムネイルを生成します。"
 
-#: ../src/remote.c:811
+#: ../src/remote.c:1179
 #, fuzzy
 msgid "<folder>"
 msgstr "フォルダ"
 
-#: ../src/remote.c:811
+#: ../src/remote.c:1179
 msgid " render thumbnails recursively (see Help)"
 msgstr ""
 
-#: ../src/remote.c:813
+#: ../src/remote.c:1181
 msgid "<FILE>,<lua script>"
 msgstr ""
 
-#: ../src/remote.c:813
+#: ../src/remote.c:1181
 msgid "run lua script on FILE"
 msgstr ""
 
-#: ../src/remote.c:879
+#: ../src/remote.c:1183
+msgid "<PWD>"
+msgstr ""
+
+#: ../src/remote.c:1183
+msgid "use PWD as working directory for following commands"
+msgstr ""
+
+#: ../src/remote.c:1248
 msgid "Remote command list:\n"
 msgstr "リモート・コマンドの一覧:\n"
 
-#: ../src/remote.c:898
+#: ../src/remote.c:1267
 msgid ""
 "\n"
 "  All other command line parameters are used as plain files if they exists.\n"
 msgstr ""
 
-#: ../src/remote.c:948
+#: ../src/remote.c:1317
 #, fuzzy, c-format
 msgid "Remote %s not running, starting..."
 msgstr "リモートの Geeqie が起動していません。起動します..."
 
-#: ../src/remote.c:1084
+#: ../src/remote.c:1453
 msgid "Remote not available\n"
 msgstr "リモート機能は利用できません\n"
 
-#: ../src/search.c:243
+#: ../src/search.c:257
 msgid "folder"
 msgstr "フォルダ"
 
-#: ../src/search.c:244
+#: ../src/search.c:258
 msgid "comments"
 msgstr "コメント"
 
-#: ../src/search.c:245
+#: ../src/search.c:259
 msgid "results"
 msgstr "結果"
 
-#: ../src/search.c:249 ../src/search.c:274
+#: ../src/search.c:263 ../src/search.c:288
 msgid "contains"
 msgstr "次を含む"
 
-#: ../src/search.c:250
+#: ../src/search.c:264 ../src/search.c:307 ../src/search.c:312
 msgid "is"
-msgstr "次の文字列である"
+msgstr "次と同じである"
 
-#: ../src/search.c:254 ../src/search.c:261 ../src/search.c:280
+#: ../src/search.c:268 ../src/search.c:275 ../src/search.c:294
 msgid "equal to"
 msgstr "次と等しい"
 
-#: ../src/search.c:255 ../src/search.c:281 ../src/search.c:288
+#: ../src/search.c:269 ../src/search.c:295 ../src/search.c:302
 msgid "less than"
 msgstr "次より小さい"
 
-#: ../src/search.c:256 ../src/search.c:282 ../src/search.c:289
+#: ../src/search.c:270 ../src/search.c:296 ../src/search.c:303
 msgid "greater than"
 msgstr "次より大きい"
 
-#: ../src/search.c:257 ../src/search.c:264 ../src/search.c:283
+#: ../src/search.c:271 ../src/search.c:278 ../src/search.c:297
 msgid "between"
 msgstr "次の間にある"
 
-#: ../src/search.c:262
+#: ../src/search.c:276
 msgid "before"
 msgstr "次の前にある"
 
-#: ../src/search.c:263
+#: ../src/search.c:277
 msgid "after"
 msgstr "次の後ろにある"
 
-#: ../src/search.c:268
+#: ../src/search.c:282
 msgid "match all"
 msgstr "次と完全に一致する　"
 
-#: ../src/search.c:269
+#: ../src/search.c:283
 msgid "match any"
-msgstr "次のいづれかと一致する"
+msgstr "次のいずれかと一致する"
 
-#: ../src/search.c:270
+#: ../src/search.c:284
 msgid "exclude"
 msgstr "次を除く"
 
-#: ../src/search.c:275
+#: ../src/search.c:289
 msgid "miss"
-msgstr ""
+msgstr "次を含まない"
 
-#: ../src/search.c:287
-#, fuzzy
+#: ../src/search.c:301
 msgid "not geocoded"
-msgstr "定義なし"
+msgstr "ジオコードなし"
 
-#: ../src/search.c:340
+#: ../src/search.c:308 ../src/search.c:313
+msgid "is not"
+msgstr "次と同じでない"
+
+#: ../src/search.c:364
 #, c-format
 msgid "%s, %d files (%s, %d)"
 msgstr "%s, %d 個のファイル (%s, %d)"
 
-#: ../src/search.c:345
+#: ../src/search.c:369
 #, c-format
 msgid "%s, %d files"
 msgstr "%s, %d 個のファイル"
 
-#: ../src/search.c:363
+#: ../src/search.c:387
 msgid "Searching..."
 msgstr "検索中..."
 
-#: ../src/search.c:2045 ../src/search.c:3043
+#: ../src/search.c:1975
+msgid "Changed"
+msgstr ""
+
+#: ../src/search.c:1980 ../src/search.c:3249
+msgid "Original"
+msgstr "オリジナルの日時"
+
+#: ../src/search.c:1986 ../src/search.c:3250
+msgid "Digitized"
+msgstr "データ化の日時"
+
+#: ../src/search.c:2183 ../src/search.c:3376
+msgid "Raw Image"
+msgstr "RAW画像"
+
+#: ../src/search.c:2227 ../src/search.c:3392
+msgid "Any mark"
+msgstr "任意のマーク"
+
+#: ../src/search.c:2283 ../src/search.c:3349
 msgid "km"
 msgstr ""
 
-#: ../src/search.c:2050 ../src/search.c:3044
-#, fuzzy
+#: ../src/search.c:2288 ../src/search.c:3350
 msgid "miles"
-msgstr "ファイル"
+msgstr "マイル"
 
-#: ../src/search.c:2342
+#: ../src/search.c:2610
 msgid "File not found"
 msgstr "ファイルはありません"
 
-#: ../src/search.c:2343
+#: ../src/search.c:2611
 msgid "Please enter an existing file for image content."
 msgstr "存在している画像ファイルを入力して下さい"
 
-#: ../src/search.c:2368
+#: ../src/search.c:2636
 msgid "Entry does not contain a valid lat/long value"
 msgstr ""
 
-#: ../src/search.c:2418
+#: ../src/search.c:2686
 msgid "Please enter an existing folder to search."
 msgstr "存在しているフォルダを入力して下さい"
 
-#: ../src/search.c:2860
-#, fuzzy
+#: ../src/search.c:3154
 msgid "Image search"
-msgstr "画像の検索 - Geeqie"
+msgstr "画像の検索"
 
-#: ../src/search.c:2890
+#: ../src/search.c:3185
 msgid "Search:"
 msgstr "検索:"
 
-#: ../src/search.c:2904
+#: ../src/search.c:3199
 msgid "Recurse"
 msgstr "再帰的に検索する"
 
-#: ../src/search.c:2909
+#: ../src/search.c:3204
 msgid "File name"
 msgstr "ファイル名が"
 
-#: ../src/search.c:2915 ../src/search.c:3014
+#: ../src/search.c:3210 ../src/search.c:3319
 msgid "Match case"
 msgstr "大/小文字を区別する"
 
-#: ../src/search.c:2920
+#: ../src/search.c:3216
 msgid "File size is"
 msgstr "ファイル・サイズが"
 
-#: ../src/search.c:2927 ../src/search.c:2943 ../src/search.c:2964
-#: ../src/search.c:3026
+#: ../src/search.c:3223 ../src/search.c:3240 ../src/search.c:3269
+#: ../src/search.c:3332
 msgid "and"
 msgstr "と"
 
-#: ../src/search.c:2933
+#: ../src/search.c:3229
 msgid "File date is"
 msgstr "タイムスタンプが"
 
-#: ../src/search.c:2948
-#, fuzzy
-msgid "Exif date"
-msgstr "Exif データ(_X)"
+#: ../src/search.c:3247
+msgid "Modified"
+msgstr "変更された日時"
 
-#: ../src/search.c:2953
+#: ../src/search.c:3248
+msgid "Status Changed"
+msgstr "状態が変更された日時"
+
+#: ../src/search.c:3258
 msgid "Image dimensions are"
 msgstr "画像の寸法が"
 
-#: ../src/search.c:2974
+#: ../src/search.c:3279
 msgid "Image content is"
 msgstr "画像の中身が"
 
-#: ../src/search.c:2980
+#: ../src/search.c:3285
 #, no-c-format
 msgid "% similar to"
 msgstr "% 次と類似する"
 
-#: ../src/search.c:2988
-#, fuzzy
+#: ../src/search.c:3293
 msgid "Ignore rotation"
-msgstr "向き"
+msgstr "回転を無視"
 
-#: ../src/search.c:3019
-#, fuzzy
+#: ../src/search.c:3325
 msgid "Image rating is"
-msgstr "画像の中身が"
+msgstr "レーティングが"
 
-#: ../src/search.c:3033
-#, fuzzy
+#: ../src/search.c:3339
 msgid "Image is"
-msgstr "画像ファイル"
+msgstr "画像は"
 
-#: ../src/search.c:3045
+#: ../src/search.c:3351
 msgid "n.m."
-msgstr ""
+msgstr "海里"
 
-#: ../src/search.c:3051
+#: ../src/search.c:3357
 msgid "from"
-msgstr ""
+msgstr "次の場所から"
 
-#: ../src/search.c:3056
+#: ../src/search.c:3362
 msgid ""
 "Enter a coordinate in the form:\n"
 "89.123 179.456\n"
@@ -5967,7 +6150,15 @@ msgid ""
 "See the Help file"
 msgstr ""
 
-#: ../src/search.c:3109
+#: ../src/search.c:3370
+msgid "Image class"
+msgstr "種類"
+
+#: ../src/search.c:3387
+msgid "Marks"
+msgstr "マーク"
+
+#: ../src/search.c:3460
 msgid "Rank"
 msgstr "ランク"
 
@@ -6021,67 +6212,17 @@ msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr ""
 "キャッシュにあるサムネイル画像のロードに失敗しました。再度作成して下さい。\n"
 
-#: ../src/toolbar.c:85
+#: ../src/toolbar.c:82
 #, fuzzy
-msgid "Search"
-msgstr "検索:"
+msgid "Next page"
+msgstr "次の画像"
 
-#: ../src/toolbar.c:90
-#, fuzzy
-msgid "Configure this window"
-msgstr "オプションを設定します"
-
-#: ../src/toolbar.c:91
-#, fuzzy
-msgid "Thumbnail maintenance"
-msgstr "サムネイルの保守(_T)..."
-
-#: ../src/toolbar.c:96
-#, fuzzy
-msgid "Fit Horizontaly"
-msgstr "部分光"
-
-#: ../src/toolbar.c:97
-#, fuzzy
-msgid "Fit vertically"
-msgstr "部分光"
-
-#: ../src/toolbar.c:102
-#, fuzzy
-msgid "Zoom1:3"
-msgstr "元のサイズ(_1)"
-
-#: ../src/toolbar.c:107
-#, fuzzy
-msgid "Slideshow Faster"
-msgstr " スライドショー"
-
-#: ../src/toolbar.c:108
-#, fuzzy
-msgid "Slideshow Slower"
-msgstr " スライドショー"
-
-#: ../src/toolbar.c:110 ../src/window.c:274 ../src/window.c:295
-#, fuzzy
-msgid "Help"
-msgstr "ヘルプ(_H)"
-
-#: ../src/toolbar.c:112
-#, fuzzy
-msgid "Show thumbnails"
-msgstr "サムネイルの表示(_T)"
-
-#: ../src/toolbar.c:113
-#, fuzzy
-msgid "Show marks"
-msgstr "隠す"
-
-#: ../src/toolbar.c:503
+#: ../src/toolbar.c:526
 msgid "Add Toolbar Item"
 msgstr ""
 
-#: ../src/trash.c:88 ../src/utilops.c:2621 ../src/utilops.c:2632
-#: ../src/utilops.c:2689
+#: ../src/trash.c:88 ../src/trash.c:140 ../src/utilops.c:2653
+#: ../src/utilops.c:2664 ../src/utilops.c:2721
 msgid "Delete failed"
 msgstr "削除に失敗しました"
 
@@ -6089,15 +6230,23 @@ msgstr "削除に失敗しました"
 msgid "Unable to remove old file from trash folder"
 msgstr "ゴミ箱から古いファイルを削除できません"
 
-#: ../src/trash.c:146
+#: ../src/trash.c:141
+#, fuzzy
+msgid "Unable to remove file"
+msgstr ""
+"%s\n"
+"から\n"
+"%s へ移動できませんでした"
+
+#: ../src/trash.c:153
 msgid "Could not create folder"
 msgstr "フォルダを作成できませんでした"
 
-#: ../src/trash.c:168
+#: ../src/trash.c:175
 msgid "Permission denied"
 msgstr "パーミッションが不正です"
 
-#: ../src/trash.c:178
+#: ../src/trash.c:185
 #, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
@@ -6106,30 +6255,31 @@ msgstr ""
 "ゴミ箱にアクセスまたは作成できません。\n"
 "\"%s\""
 
-#: ../src/trash.c:182
-msgid "Turn off safe delete"
-msgstr "安全な削除を無効にする"
-
-#: ../src/trash.c:201
+#: ../src/trash.c:206
 msgid "Deletion by external command"
 msgstr ""
 
-#: ../src/trash.c:209
-#, c-format
-msgid " (max. %d MB)"
+#: ../src/trash.c:210
+msgid "Deleting without trash"
 msgstr ""
-
-#: ../src/trash.c:213
-#, fuzzy, c-format
-msgid ""
-"Safe delete: %s%s\n"
-"Trash: %s"
-msgstr "安全に削除: %s"
 
 #: ../src/trash.c:218
 #, c-format
-msgid "Safe delete: %s"
-msgstr "安全に削除: %s"
+msgid " (max. %d MB)"
+msgstr " (最大 %d MB)"
+
+#: ../src/trash.c:222
+#, c-format
+msgid ""
+"Using Geeqie Trash bin\n"
+"%s"
+msgstr ""
+"Geeqieのゴミ箱を使用\n"
+"%s"
+
+#: ../src/trash.c:227
+msgid "Using system Trash bin"
+msgstr "システムのゴミ箱を使用"
 
 #: ../src/ui_bookmark.c:139 ../src/ui_bookmark.c:202
 msgid "New Bookmark"
@@ -6159,63 +6309,77 @@ msgstr "プロパティ(_P)..."
 msgid "_Remove"
 msgstr "削除(_R)"
 
-#: ../src/ui_fileops.c:88
+#: ../src/ui_fileops.c:90
 msgid ""
 "One or more filenames are not encoded with the preferred locale character "
 "set.\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:89
+#: ../src/ui_fileops.c:91
 #, c-format
 msgid "Operations on, and display of these files with %s may not succeed.\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:91
+#: ../src/ui_fileops.c:93
 msgid ""
 "If your filenames are not encoded in utf-8, try setting the environment "
 "variable G_BROKEN_FILENAMES=1\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:93
+#: ../src/ui_fileops.c:95
 #, c-format
 msgid "It appears G_BROKEN_FILENAMES is set to %s\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:95
+#: ../src/ui_fileops.c:97
 msgid "It appears G_BROKEN_FILENAMES is not set\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:97
+#: ../src/ui_fileops.c:99
 #, c-format
 msgid ""
 "The locale appears to be set to \"%s\"\n"
 "(set by the LANG environment variable)\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:102
+#: ../src/ui_fileops.c:104
 msgid ""
 "\n"
 "Preferred encoding appears to be UTF-8, however the file:\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:103 ../src/ui_fileops.c:106 ../src/ui_fileops.c:108
+#: ../src/ui_fileops.c:105 ../src/ui_fileops.c:108 ../src/ui_fileops.c:110
 #, fuzzy
 msgid "[name not displayable]"
 msgstr "リモート機能は利用できません\n"
 
-#: ../src/ui_fileops.c:106
+#: ../src/ui_fileops.c:108
 #, c-format
 msgid "\"%s\" is encoded in valid UTF-8."
 msgstr ""
 
-#: ../src/ui_fileops.c:108
+#: ../src/ui_fileops.c:110
 #, c-format
 msgid "\"%s\" is not encoded in valid UTF-8."
 msgstr ""
 
-#: ../src/ui_fileops.c:113 ../src/ui_fileops.c:118
+#: ../src/ui_fileops.c:115 ../src/ui_fileops.c:120
 msgid "Filename encoding locale mismatch"
 msgstr ""
+
+#: ../src/ui_fileops.c:1026
+#, fuzzy
+msgid "Web file download failed"
+msgstr "削除に失敗したファイル"
+
+#: ../src/ui_fileops.c:1090
+msgid "Download web file"
+msgstr ""
+
+#: ../src/ui_fileops.c:1092
+#, fuzzy
+msgid "Downloading "
+msgstr "サムネイルを開く..."
 
 #: ../src/ui_help.c:119
 #, c-format
@@ -6226,8 +6390,13 @@ msgstr ""
 "読み込めません:\n"
 "%s"
 
-#: ../src/ui_pathsel.c:433 ../src/ui_pathsel.c:439 ../src/utilops.c:2320
-#: ../src/utilops.c:2347 ../src/utilops.c:2813
+#: ../src/ui_pathsel.c:432
+#, c-format
+msgid "A file with name %s already exists."
+msgstr "ファイル名 %s は既に存在しています。"
+
+#: ../src/ui_pathsel.c:433 ../src/ui_pathsel.c:439 ../src/utilops.c:2352
+#: ../src/utilops.c:2379 ../src/utilops.c:2845
 #, fuzzy
 msgid "Rename failed"
 msgstr "ファイル名の変更"
@@ -6244,14 +6413,6 @@ msgstr "名前の変更(_R)"
 #: ../src/ui_pathsel.c:636 ../src/ui_pathsel.c:646
 msgid "Add _Bookmark"
 msgstr "ブックマークへ追加(_B)"
-
-#: ../src/ui_pathsel.c:644
-msgid "_Delete"
-msgstr "削除(_D)"
-
-#: ../src/ui_pathsel.c:752 ../src/ui_pathsel.c:1058 ../src/utilops.c:2847
-msgid "New folder"
-msgstr "新しいフォルダ"
 
 #: ../src/ui_pathsel.c:762
 #, c-format
@@ -6272,23 +6433,23 @@ msgstr "全ファイル"
 
 #: ../src/ui_pathsel.c:1061
 msgid "Show hidden"
-msgstr "隠す"
+msgstr "隠しファイルを表示"
 
-#: ../src/ui_pathsel.c:1145
+#: ../src/ui_pathsel.c:1146
 msgid "Filter:"
 msgstr "フィルター:"
 
-#: ../src/ui_tabcomp.c:933
+#: ../src/ui_tabcomp.c:942
 msgid "Select path"
 msgstr "パスの選択"
 
-#: ../src/ui_tabcomp.c:949
+#: ../src/ui_tabcomp.c:964
 msgid "All files"
 msgstr "全ファイル"
 
 #: ../src/uri_utils.c:43
 msgid "Drag and Drop failed"
-msgstr ""
+msgstr "ドラッグ＆ドロップが失敗しました"
 
 #: ../src/utilops.c:590
 #, fuzzy
@@ -6338,265 +6499,254 @@ msgstr ""
 msgid "This operation can't continue:"
 msgstr ""
 
-#: ../src/utilops.c:1503 ../src/utilops.c:1617 ../src/utilops.c:2032
+#: ../src/utilops.c:1518 ../src/utilops.c:1641 ../src/utilops.c:2056
 #, fuzzy
 msgid "Discard changes"
 msgstr "破棄する(_D)"
 
-#: ../src/utilops.c:1504 ../src/utilops.c:1618 ../src/utilops.c:1982
-#: ../src/utilops.c:1998
-#, fuzzy
+#: ../src/utilops.c:1519 ../src/utilops.c:1642 ../src/utilops.c:2006
+#: ../src/utilops.c:2022
 msgid "File details"
-msgstr "タイムスタンプが"
+msgstr "ファイルの詳細"
 
-#: ../src/utilops.c:1526 ../src/utilops.c:1635
+#: ../src/utilops.c:1541 ../src/utilops.c:1659
 msgid "Sidecars"
-msgstr ""
+msgstr "サイドカー"
 
-#: ../src/utilops.c:1528
+#: ../src/utilops.c:1543
 #, fuzzy
 msgid "Write to file"
 msgstr "ファイルの上書き"
 
-#: ../src/utilops.c:1568
+#: ../src/utilops.c:1583
 msgid "Choose the destination folder."
 msgstr "対象となるフォルダを選択して下さい"
 
-#: ../src/utilops.c:1637
-#, fuzzy
+#: ../src/utilops.c:1661
 msgid "New name"
-msgstr "新しい名前:"
+msgstr "新しい名前"
 
-#: ../src/utilops.c:1674
-#, fuzzy
+#: ../src/utilops.c:1698
 msgid "Manual rename"
-msgstr "メニューの名前"
+msgstr "手動で名前を変更"
 
-#: ../src/utilops.c:1679
+#: ../src/utilops.c:1703
 msgid "Original name:"
 msgstr "オリジナルの名前:"
 
-#: ../src/utilops.c:1682
+#: ../src/utilops.c:1706
 msgid "New name:"
 msgstr "新しい名前:"
 
-#: ../src/utilops.c:1695
+#: ../src/utilops.c:1719
 msgid "Auto rename"
-msgstr "自動的に名前を変更する"
+msgstr "自動的に名前を変更"
 
-#: ../src/utilops.c:1701
+#: ../src/utilops.c:1725
 msgid "Begin text"
 msgstr "テキストの先頭"
 
-#: ../src/utilops.c:1709 ../src/utilops.c:1741
+#: ../src/utilops.c:1733 ../src/utilops.c:1765
 msgid "Start #"
 msgstr "開始 #"
 
-#: ../src/utilops.c:1715
+#: ../src/utilops.c:1739
 msgid "End text"
 msgstr "テキストの末尾"
 
-#: ../src/utilops.c:1723
+#: ../src/utilops.c:1747
 msgid "Padding:"
 msgstr "埋め込み:"
 
-#: ../src/utilops.c:1728
+#: ../src/utilops.c:1752
 msgid "Formatted rename"
-msgstr ""
+msgstr "フォーマットで名前を変更"
 
-#: ../src/utilops.c:1733
+#: ../src/utilops.c:1757
 msgid "Format (* = original name, ## = numbers)"
-msgstr ""
+msgstr "フォーマット (* = 元の名前, ## = 番号)"
 
-#: ../src/utilops.c:1885
+#: ../src/utilops.c:1909
 msgid "Another operation in progress.\n"
-msgstr ""
+msgstr "別の操作が進行中です。\n"
 
-#: ../src/utilops.c:1941
-#, fuzzy, c-format
+#: ../src/utilops.c:1965
+#, c-format
 msgid "File: '%s'\n"
-msgstr "ファイル:"
+msgstr "ファイル: '%s'\n"
 
-#: ../src/utilops.c:1946
+#: ../src/utilops.c:1970
 msgid "with sidecar files:\n"
 msgstr ""
 
-#: ../src/utilops.c:1952
+#: ../src/utilops.c:1976
 #, c-format
 msgid " '%s'\n"
 msgstr ""
 
-#: ../src/utilops.c:1956
+#: ../src/utilops.c:1980
 msgid ""
 "\n"
 "Status: "
 msgstr ""
+"\n"
+"状態: "
 
-#: ../src/utilops.c:1968
+#: ../src/utilops.c:1992
 msgid "no problem detected"
-msgstr ""
+msgstr "問題は検出されませんでした"
 
-#: ../src/utilops.c:1984 ../src/utilops.c:2031
-#, fuzzy
+#: ../src/utilops.c:2008 ../src/utilops.c:2055
 msgid "Exclude file"
-msgstr "次を除く"
+msgstr "ファイルを除外"
 
-#: ../src/utilops.c:2029 ../src/utilops.c:2054
+#: ../src/utilops.c:2053 ../src/utilops.c:2078
 msgid "Overview of changed metadata"
 msgstr ""
 
-#: ../src/utilops.c:2047
+#: ../src/utilops.c:2071
 #, c-format
 msgid ""
 "The following metadata tags will be written to\n"
 "'%s'."
 msgstr ""
 
-#: ../src/utilops.c:2051
+#: ../src/utilops.c:2075
 #, c-format
 msgid "The following metadata tags will be written to the image file itself."
 msgstr ""
 
-#: ../src/utilops.c:2157
-#, fuzzy
+#: ../src/utilops.c:2182
+msgid "This will move the following files to the Trash bin"
+msgstr "次のファイルをゴミ箱に移動します"
+
+#: ../src/utilops.c:2186
+msgid "This will permanently delete the following files"
+msgstr "次のファイルを永久に削除します"
+
+#: ../src/utilops.c:2189
 msgid "Delete files?"
-msgstr "ファイルの削除"
+msgstr "ファイルを削除しますか？"
 
-#: ../src/utilops.c:2158
-#, fuzzy
-msgid "This will delete the following files"
-msgstr "ゴミ箱にあるものを削除します"
-
-#: ../src/utilops.c:2177
+#: ../src/utilops.c:2209
 msgid "Can't write metadata"
 msgstr ""
 
-#: ../src/utilops.c:2200
+#: ../src/utilops.c:2232
 #, fuzzy
 msgid "Write metadata"
 msgstr "メタデータ"
 
-#: ../src/utilops.c:2201
+#: ../src/utilops.c:2233
 #, fuzzy
 msgid "Write metadata?"
 msgstr "メタデータ"
 
-#: ../src/utilops.c:2202
+#: ../src/utilops.c:2234
 #, fuzzy
 msgid "This will write the changed metadata into the following files"
 msgstr ""
 "エディタ・コマンドをデフォルトに初期化します。\n"
 "続行しますか？"
 
-#: ../src/utilops.c:2204
+#: ../src/utilops.c:2236
 msgid "Metadata writing failed"
 msgstr ""
 
-#: ../src/utilops.c:2223 ../src/utilops.c:2251
-#, fuzzy
+#: ../src/utilops.c:2255 ../src/utilops.c:2283
 msgid "Move failed"
-msgstr "ファイルの移動"
+msgstr "移動が失敗しました"
 
-#: ../src/utilops.c:2248
-#, fuzzy
+#: ../src/utilops.c:2280
 msgid "Move files?"
-msgstr "ファイルの移動"
+msgstr "ファイルを移動しますか？"
 
-#: ../src/utilops.c:2249
-#, fuzzy
+#: ../src/utilops.c:2281
 msgid "This will move the following files"
-msgstr "ゴミ箱にあるものを削除します"
+msgstr "次のファイルを移動します"
 
-#: ../src/utilops.c:2273 ../src/utilops.c:2301
+#: ../src/utilops.c:2305 ../src/utilops.c:2333
 #, fuzzy
 msgid "Copy failed"
 msgstr "ファイルのコピー"
 
-#: ../src/utilops.c:2298
-#, fuzzy
+#: ../src/utilops.c:2330
 msgid "Copy files?"
-msgstr "ファイルのコピー"
+msgstr "ファイルをコピーしますか？"
 
-#: ../src/utilops.c:2299 ../src/utilops.c:2433
+#: ../src/utilops.c:2331 ../src/utilops.c:2465
 msgid "This will copy the following files"
-msgstr ""
+msgstr "次のファイルをコピーします"
 
-#: ../src/utilops.c:2343 ../src/utilops.c:2809
-msgid "Rename"
-msgstr "名前を変更する"
-
-#: ../src/utilops.c:2344
-#, fuzzy
+#: ../src/utilops.c:2376
 msgid "Rename files?"
-msgstr "ファイル名の変更"
+msgstr "ファイル名を変更しますか？"
 
-#: ../src/utilops.c:2345
-#, fuzzy
+#: ../src/utilops.c:2377
 msgid "This will rename the following files"
-msgstr "ゴミ箱にあるものを削除します"
+msgstr "次のファイルの名前を変更します"
 
-#: ../src/utilops.c:2397
+#: ../src/utilops.c:2429
 msgid "Can't run external editor"
-msgstr ""
+msgstr "外部エディタを実行できません"
 
-#: ../src/utilops.c:2431
+#: ../src/utilops.c:2463
 #, fuzzy
 msgid "Editor"
 msgstr "編集ツール"
 
-#: ../src/utilops.c:2432
+#: ../src/utilops.c:2464
 #, fuzzy
 msgid "Run editor?"
 msgstr "エディタのリセット"
 
-#: ../src/utilops.c:2435
+#: ../src/utilops.c:2467
 #, fuzzy
 msgid "External command failed"
 msgstr "[DEL] キーを有効にする"
 
-#: ../src/utilops.c:2604 ../src/utilops.c:2677
-#, fuzzy
+#: ../src/utilops.c:2636 ../src/utilops.c:2709
 msgid "Delete folder"
-msgstr "フォルダの選択"
+msgstr "フォルダの削除"
 
-#: ../src/utilops.c:2605
+#: ../src/utilops.c:2637
 #, fuzzy
 msgid "Delete symbolic link?"
 msgstr ""
 "フォルダを作成できません:\n"
 "%s"
 
-#: ../src/utilops.c:2607
+#: ../src/utilops.c:2639
 msgid ""
 "This will delete the symbolic link.\n"
 "The folder this link points to will not be deleted."
 msgstr ""
 
-#: ../src/utilops.c:2609
+#: ../src/utilops.c:2641
 #, fuzzy
 msgid "Link deletion failed"
 msgstr "削除に失敗したファイル"
 
-#: ../src/utilops.c:2619
+#: ../src/utilops.c:2651
 #, fuzzy, c-format
 msgid ""
 "Unable to remove folder %s\n"
 "Permissions do not allow writing to the folder."
 msgstr "ゴミ箱から古いファイルを削除できません"
 
-#: ../src/utilops.c:2631 ../src/utilops.c:2688
+#: ../src/utilops.c:2663 ../src/utilops.c:2720
 #, fuzzy, c-format
 msgid "Unable to list contents of folder %s"
 msgstr ""
 "フォルダを作成できません:\n"
 "%s"
 
-#: ../src/utilops.c:2645 ../src/utilops.c:2653
+#: ../src/utilops.c:2677 ../src/utilops.c:2685
 #, fuzzy
 msgid "Folder contains subfolders"
 msgstr "サブフォルダも含める"
 
-#: ../src/utilops.c:2649
+#: ../src/utilops.c:2681
 #, c-format
 msgid ""
 "Unable to delete the folder:\n"
@@ -6606,117 +6756,130 @@ msgid ""
 "This folder contains subfolders which must be moved before it can be deleted."
 msgstr ""
 
-#: ../src/utilops.c:2657
+#: ../src/utilops.c:2689
 #, fuzzy
 msgid "Subfolders:"
 msgstr "フォルダ"
 
-#: ../src/utilops.c:2678
-#, fuzzy
+#: ../src/utilops.c:2710
 msgid "Delete folder?"
-msgstr "ファイルを削除しますか？"
+msgstr "フォルダを削除しますか？"
 
-#: ../src/utilops.c:2679
-#, fuzzy
+#: ../src/utilops.c:2711
 msgid "The folder contains these files:"
-msgstr "サブフォルダも含める"
+msgstr "フォルダには次のファイルがあります:"
 
-#: ../src/utilops.c:2680
+#: ../src/utilops.c:2712
 msgid ""
 "This will delete the folder.\n"
 "The contents of this folder will also be deleted."
 msgstr ""
+"フォルダを削除します。\n"
+"フォルダの内容も削除されます。"
 
-#: ../src/utilops.c:2810
-#, fuzzy
+#: ../src/utilops.c:2842
 msgid "Rename folder?"
-msgstr "ファイル名の変更"
+msgstr "フォルダ名を変更しますか？"
 
-#: ../src/utilops.c:2811
-#, fuzzy
+#: ../src/utilops.c:2843
 msgid "The folder contains the following files"
-msgstr "サブフォルダも含める"
+msgstr "フォルダには次のファイルがあります"
 
-#: ../src/utilops.c:2857
+#: ../src/utilops.c:2889
 #, fuzzy
 msgid "Create Folder"
 msgstr "フォルダの選択"
 
-#: ../src/utilops.c:2858
+#: ../src/utilops.c:2890
 #, fuzzy
 msgid "Create folder?"
 msgstr "ファイルを削除しますか？"
 
-#: ../src/utilops.c:2861
+#: ../src/utilops.c:2893
 #, fuzzy
 msgid "Can't create folder"
 msgstr "フォルダを作成できませんでした"
 
-#: ../src/view_dir.c:406
+#: ../src/view_dir.c:410
 msgid "_Copy"
 msgstr "コピー(_C)"
 
-#: ../src/view_dir.c:408
+#: ../src/view_dir.c:412
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: ../src/view_dir.c:662
+#: ../src/view_dir.c:666
 msgid "_Up to parent"
 msgstr "上のフォルダへ(_U)"
 
-#: ../src/view_dir.c:667
+#: ../src/view_dir.c:671
 msgid "_Slideshow"
 msgstr " スライドショー(_S)"
 
-#: ../src/view_dir.c:669
+#: ../src/view_dir.c:673
 msgid "Slideshow recursive"
 msgstr "逆順にスライドショー"
 
-#: ../src/view_dir.c:673
+#: ../src/view_dir.c:677
 msgid "Find _duplicates..."
 msgstr "複製の検索(_D)..."
 
-#: ../src/view_dir.c:675
+#: ../src/view_dir.c:679
 msgid "Find duplicates recursive..."
 msgstr "逆順に複製の検索..."
 
-#: ../src/view_dir.c:680
+#: ../src/view_dir.c:684
 msgid "_New folder..."
 msgstr "新しいフォルダ(_N)..."
 
-#: ../src/view_dir.c:697 ../src/view_file/view_file.c:640
-#, fuzzy
+#: ../src/view_dir.c:701 ../src/view_file/view_file.c:672
 msgid "View as _List"
-msgstr "アイコン表示(_I)"
+msgstr "リストで表示(_L)"
 
-#: ../src/view_dir.c:700
-#, fuzzy
+#: ../src/view_dir.c:704
 msgid "View as _Tree"
-msgstr "ツリー表示(_T)"
+msgstr "ツリーで表示(_T)"
 
-#: ../src/view_dir.c:705
-#, fuzzy
+#: ../src/view_dir.c:709
 msgid "Show _hidden files"
-msgstr "隠す"
+msgstr "隠しファイルを表示する(_H)"
 
-#: ../src/view_dir.c:708 ../src/view_file/view_file.c:658
+#: ../src/view_dir.c:712 ../src/view_file/view_file.c:702
 msgid "Re_fresh"
 msgstr "更新(_F)"
 
-#: ../src/view_file/view_file.c:643
-#, fuzzy
+#: ../src/view_file/view_file.c:675
 msgid "View as _Icons"
-msgstr "アイコン表示(_I)"
+msgstr "アイコンで表示(_I)"
 
-#: ../src/view_file/view_file.c:649
+#: ../src/view_file/view_file.c:681
 msgid "Show _thumbnails"
 msgstr "サムネイルの表示(_T)"
 
-#: ../src/view_file/view_file_icon.c:1964 ../src/view_file/view_file_list.c:834
+#: ../src/view_file/view_file.c:817
+#, fuzzy
+msgid "Mark text"
+msgstr "マーク %d"
+
+#: ../src/view_file/view_file.c:820
+#, fuzzy
+msgid "Set mark text"
+msgstr "全て選択"
+
+#: ../src/view_file/view_file.c:821
+#, fuzzy
+msgid "This will set or clear the mark text."
+msgstr "ゴミ箱にあるものを削除します"
+
+#: ../src/view_file/view_file.c:1448
+msgid "Loading meta..."
+msgstr "メタデータ読込中…"
+
+#: ../src/view_file/view_file_icon.c:2037 ../src/view_file/view_file_list.c:925
 msgid " [NO GROUPING]"
 msgstr ""
 
-#: ../src/view_file/view_file_list.c:460
+#: ../src/view_file/view_file_list.c:514
 #, c-format
 msgid ""
 "Invalid file name:\n"
@@ -6725,9 +6888,252 @@ msgstr ""
 "不正なファイル名:\n"
 "%s"
 
-#: ../src/view_file/view_file_list.c:461
+#: ../src/view_file/view_file_list.c:515
 msgid "Error renaming file"
 msgstr "ファイル名の変更でエラー"
+
+#: ../src/view_file/view_file_list.c:2080
+#, fuzzy
+msgid "NameStars"
+msgstr "名前"
+
+#: ../src/view_file/view_file_list.c:2084
+#, fuzzy
+msgid "Stars"
+msgstr "開始 #"
+
+#: ../src/window.c:374
+msgid "Search the on-line help files.\n"
+msgstr "オンラインヘルプファイルを検索します。\n"
+
+#: ../src/window.c:379
+msgid "Search engine:"
+msgstr "検索エンジン:"
+
+#: ../src/window.c:387
+msgid "Search terms:"
+msgstr "検索ワード:"
+
+#~ msgid "Import Geeqie 1.0alphaX metadata"
+#~ msgstr "Geeqie 1.0alphaXメタデータのインポート"
+
+#~ msgid "Import GQView metadata"
+#~ msgstr "GQViewメタデータのインポート"
+
+#, fuzzy
+#~ msgid "File: "
+#~ msgstr "ファイル:"
+
+#~ msgid "_Thumbnail maintenance..."
+#~ msgstr "サムネイルの保守(_T)..."
+
+#, fuzzy
+#~ msgid "Thumbnail maintenance..."
+#~ msgstr "サムネイルの保守(_T)..."
+
+#, fuzzy
+#~ msgid "Sort by Exif-date"
+#~ msgstr "日付順でソート"
+
+#~ msgid "Safe delete"
+#~ msgstr "安全に削除する"
+
+#~ msgid "Selection"
+#~ msgstr "選択した画像"
+
+#~ msgid "All"
+#~ msgstr "全て"
+
+#~ msgid "One image per page"
+#~ msgstr "１ページにつき１画像"
+
+#~ msgid "Proof sheet"
+#~ msgstr "ためし刷り"
+
+#~ msgid "Default printer"
+#~ msgstr "デフォルトのプリンタ"
+
+#~ msgid "Custom printer"
+#~ msgstr "プリンタのカスタマイズ"
+
+#~ msgid "PostScript file"
+#~ msgstr "PostScript ファイル"
+
+#~ msgid "jpeg, low quality"
+#~ msgstr "JPEG (低品質)"
+
+#~ msgid "jpeg, normal quality"
+#~ msgstr "JPEG (標準の品質)"
+
+#~ msgid "jpeg, high quality"
+#~ msgstr "JPEG (高品質)"
+
+#~ msgid "points"
+#~ msgstr "ポイント"
+
+#~ msgid "millimeters"
+#~ msgstr "ミリ"
+
+#~ msgid "centimeters"
+#~ msgstr "センチ"
+
+#~ msgid "inches"
+#~ msgstr "インチ"
+
+#~ msgid "picas"
+#~ msgstr "パイカ"
+
+#~ msgid "Letter"
+#~ msgstr "レター"
+
+#~ msgid "Legal"
+#~ msgstr "リーガル"
+
+#~ msgid "Executive"
+#~ msgstr "エグゼクティブ"
+
+#~ msgid "Envelope #10"
+#~ msgstr "封筒 #10"
+
+#~ msgid "Envelope #9"
+#~ msgstr "封筒 #9"
+
+#~ msgid "Envelope C4"
+#~ msgstr "封筒 C4"
+
+#~ msgid "Envelope C5"
+#~ msgstr "封筒 C5"
+
+#~ msgid "Envelope C6"
+#~ msgstr "封筒 C6"
+
+#~ msgid "Photo 6x4"
+#~ msgstr "写真 6x4"
+
+#~ msgid "Photo 8x10"
+#~ msgstr "写真 8x10"
+
+#~ msgid "Postcard"
+#~ msgstr "絵はがき"
+
+#~ msgid "Tabloid"
+#~ msgstr "タブロイド"
+
+#~ msgid "page %d of %d"
+#~ msgstr "%d / %d ページ"
+
+#~ msgid "Preview"
+#~ msgstr "プレビュー"
+
+#~ msgid ""
+#~ "Unable to open pipe for writing.\n"
+#~ "\"%s\""
+#~ msgstr ""
+#~ "パイプを書き込みモードで開けません。\n"
+#~ "\"%s\""
+
+#~ msgid "Failure writing to file %s"
+#~ msgstr "ファイル %s への書き込みに失敗"
+
+#~ msgid "SIGPIPE error writing to printer."
+#~ msgstr "プリンタへ書き込む際に SIGPIPE エラーが発生しました。"
+
+#~ msgid "Page %d"
+#~ msgstr "%d ページ"
+
+#~ msgid "An error occured printing to %s."
+#~ msgstr "%s へ印刷する際にエラーが発生しました。"
+
+#~ msgid "Details"
+#~ msgstr "詳細"
+
+#~ msgid "Printing %d pages to %s."
+#~ msgstr "%d ページを %s で印刷しています"
+
+#~ msgid "Format:"
+#~ msgstr "書式:"
+
+#~ msgid "Units:"
+#~ msgstr "単位:"
+
+#~ msgid "Orientation:"
+#~ msgstr "向き:"
+
+#~ msgid "Destination:"
+#~ msgstr "印刷先:"
+
+#~ msgid "<printer name>"
+#~ msgstr "<プリンタ名>"
+
+#~ msgid "Unlimited"
+#~ msgstr "制限なし"
+
+#~ msgid "Show"
+#~ msgstr "表示するもの"
+
+#~ msgid "Source"
+#~ msgstr "印刷する対象"
+
+#~ msgid "Image size:"
+#~ msgstr "画像サイズ:"
+
+#~ msgid "Proof size:"
+#~ msgstr "ためし刷りのサイズ:"
+
+#~ msgid "Paper"
+#~ msgstr "用紙"
+
+#~ msgid "Margins"
+#~ msgstr "マージン"
+
+#~ msgid "Left:"
+#~ msgstr "左:"
+
+#~ msgid "Right:"
+#~ msgstr "右:"
+
+#~ msgid "Top:"
+#~ msgstr "上:"
+
+#~ msgid "Bottom:"
+#~ msgstr "下:"
+
+#~ msgid "Printer"
+#~ msgstr "プリンタ"
+
+#~ msgid "Custom printer:"
+#~ msgstr "カスタムのプリンタ:"
+
+#~ msgid "File:"
+#~ msgstr "ファイル:"
+
+#~ msgid "File format:"
+#~ msgstr "ファイルの書式:"
+
+#~ msgid "DPI:"
+#~ msgstr "DPI:"
+
+#~ msgid "Remember print settings"
+#~ msgstr "印刷設定を保存しておく"
+
+#, fuzzy
+#~ msgid "Exif date"
+#~ msgstr "Exif データ(_X)"
+
+#~ msgid "Thumbnail maintenance"
+#~ msgstr "サムネイルの保守"
+
+#~ msgid "Turn off safe delete"
+#~ msgstr "安全な削除を無効にする"
+
+#, fuzzy
+#~ msgid ""
+#~ "Safe delete: %s%s\n"
+#~ "Trash: %s"
+#~ msgstr "安全に削除: %s"
+
+#~ msgid "Safe delete: %s"
+#~ msgstr "安全に削除: %s"
 
 #, fuzzy
 #~ msgid "Thumbnail cache"
@@ -6860,10 +7266,6 @@ msgstr "ファイル名の変更でエラー"
 #~ msgid "Foreground color"
 #~ msgstr "背景を黒にする"
 
-#, fuzzy
-#~ msgid "Show text"
-#~ msgstr "ファイル名表示(_T)"
-
 #~ msgid "Collection empty"
 #~ msgstr "コレクションは空"
 
@@ -6911,10 +7313,6 @@ msgstr "ファイル名の変更でエラー"
 
 #~ msgid "Image %d of %d"
 #~ msgstr "画像 %d / %d"
-
-#, fuzzy
-#~ msgid "Image properties"
-#~ msgstr "画像のプロパティ - Geeqie"
 
 #, fuzzy
 #~ msgid "_%d %s..."
@@ -7129,16 +7527,6 @@ msgstr "ファイル名の変更でエラー"
 #~ "%s へコピーしますか？"
 
 #~ msgid ""
-#~ "Unable to move file:\n"
-#~ "%s\n"
-#~ "to:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "%s\n"
-#~ "から\n"
-#~ "%s へ移動できませんでした"
-
-#~ msgid ""
 #~ "When operating with multiple files, please select\n"
 #~ "a folder, not a file."
 #~ msgstr ""
@@ -7229,9 +7617,6 @@ msgstr "ファイル名の変更でエラー"
 
 #~ msgid "Rename multiple files"
 #~ msgstr "複数のファイル名の変更"
-
-#~ msgid "Original Name"
-#~ msgstr "オリジナルの名前"
 
 #~ msgid ""
 #~ "Unable to rename file:\n"
