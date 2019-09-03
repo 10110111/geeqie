@@ -19,7 +19,9 @@
         Find
       </guibutton>
     </code>
-    button. A search in progress can be stopped by activating the
+    button or press
+    <code>Ctrl + Enter</code>
+    . A search in progress can be stopped by activating the
     <code>
       <guibutton>
         <guiicon>
@@ -28,7 +30,9 @@
         Stop
       </guibutton>
     </code>
-    button.
+    button or press
+    <code>Ctrl + Enter</code>
+    .
   </para>
   <para>The progress of an active search is displayed as a progress bar at the bottom of the window. The progress bar will also display the total files that match the search parameters, and the total number of files searched.</para>
   <para>When a search is completed, the total number of files found and their total size will be displayed in the status bar.</para>

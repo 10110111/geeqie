@@ -1367,6 +1367,16 @@
             <entry />
             <entry>Close window.</entry>
           </row>
+          <row>
+            <entry>
+              <code>
+                Ctrl +
+                <keycap>Enter</keycap>
+              </code>
+            </entry>
+            <entry />
+            <entry>Start/Stop search.</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
