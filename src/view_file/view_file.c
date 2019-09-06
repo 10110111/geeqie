@@ -997,9 +997,9 @@ static gboolean vf_file_filter_class_set_all_cb(GtkWidget *widget, gpointer data
 	gint i;
 	gboolean state;
 
-	if (g_strcmp0("Select all", gtk_menu_item_get_label(GTK_MENU_ITEM(widget))) == 0)
+	if (g_strcmp0(_("Select all"), gtk_menu_item_get_label(GTK_MENU_ITEM(widget))) == 0)
 		{
-		state == TRUE;
+		state = TRUE;
 		}
 	else
 		{
