@@ -319,13 +319,13 @@ gchar *alter_type_get_text(AlterType type)
 	switch (type)
 		{
 		case ALTER_ROTATE_90:
-			return _("_Rotate clockwise");
+			return _("_Rotate clockwise 90°");
 			break;
 		case ALTER_ROTATE_90_CC:
-			return _("Rotate _counterclockwise");
+			return _("Rotate _counterclockwise 90°");
 			break;
 		case ALTER_ROTATE_180:
-			return _("Rotate _180");
+			return _("Rotate _180°");
 			break;
 		case ALTER_MIRROR:
 			return _("_Mirror");
