@@ -1,22 +1,22 @@
 # Geeqie Britsh English translation
 # Copyright (C) 2018 The Geeqie Team
 # This file is distributed under the same license as the Geeqie package.
-# Colin Clark <colin.clark@cclark.uk>, 2018.
+# Colin Clark <colin.clark@cclark.uk>, 2018-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: geeqie-1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-03 15:19+0000\n"
-"PO-Revision-Date: 2018-11-03 16:09+0000\n"
+"POT-Creation-Date: 2019-09-07 11:10+0100\n"
+"PO-Revision-Date: 2019-09-07 10:49+0100\n"
 "Last-Translator: Colin Clark <colin.clark@cclark.uk>\n"
 "Language-Team: English <>\n"
-"Language: en_GB\n"
+"Language: en-gb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 3.32.0\n"
 
 #: ../geeqie.desktop.in.h:1
 msgid "Geeqie"
@@ -28,14 +28,6 @@ msgstr ""
 
 #: ../geeqie.desktop.in.h:3
 msgid "View and manage images"
-msgstr ""
-
-#: ../plugins/import/geeqie-import-geeqie.desktop.in.h:1
-msgid "Import Geeqie 1.0alphaX metadata"
-msgstr ""
-
-#: ../plugins/import/geeqie-import-gqview.desktop.in.h:1
-msgid "Import GQView metadata"
 msgstr ""
 
 #: ../plugins/export-jpeg/export-jpeg.desktop.in.h:1
@@ -54,12 +46,21 @@ msgstr ""
 msgid "Image crop"
 msgstr ""
 
+#: ../plugins/random-image/random-image.desktop.in.h:1
+msgid "Random image"
+msgstr ""
+
 #: ../plugins/rotate/rotate.desktop.in.h:1
 msgid "Apply the orientation to image content"
 msgstr ""
 
 #: ../plugins/symlink/symlink.desktop.in.h:1
 msgid "Symlink"
+msgstr ""
+
+#. The name which appears in the menu:
+#: ../plugins/template.desktop.in.h:2
+msgid "Template"
 msgstr ""
 
 #: ../plugins/ufraw/geeqie-ufraw.desktop.in.h:1
@@ -75,35 +76,34 @@ msgid "UFRaw Batch recursive"
 msgstr ""
 
 #: ../src/advanced_exif.c:384 ../src/cache_maint.c:1266
-#: ../src/preferences.c:118 ../src/preferences.c:2512 ../src/search.c:2193
-#: ../src/search.c:3366
+#: ../src/preferences.c:117 ../src/preferences.c:2594 ../src/search.c:2204
+#: ../src/search.c:3385
 msgid "Metadata"
 msgstr ""
 
-#: ../src/advanced_exif.c:432 ../src/preferences.c:2426
+#: ../src/advanced_exif.c:433 ../src/preferences.c:2508
 msgid "Description"
 msgstr ""
 
-#: ../src/advanced_exif.c:433
+#: ../src/advanced_exif.c:434
 msgid "Value"
 msgstr ""
 
-#: ../src/advanced_exif.c:434 ../src/desktop_file.c:629 ../src/dupe.c:2784
-#: ../src/dupe.c:3326 ../src/preferences.c:2062 ../src/print.c:414
-#: ../src/search.c:3449 ../src/utilops.c:505
-#: ../src/view_file/view_file_list.c:2070
+#: ../src/advanced_exif.c:435 ../src/desktop_file.c:631 ../src/dupe.c:2784
+#: ../src/dupe.c:3327 ../src/osd.c:38 ../src/search.c:3468 ../src/utilops.c:505
+#: ../src/view_file/view_file_list.c:2080
 msgid "Name"
 msgstr ""
 
-#: ../src/advanced_exif.c:435
+#: ../src/advanced_exif.c:436
 msgid "Tag"
 msgstr ""
 
-#: ../src/advanced_exif.c:436
+#: ../src/advanced_exif.c:437
 msgid "Format"
 msgstr ""
 
-#: ../src/advanced_exif.c:437
+#: ../src/advanced_exif.c:438
 msgid "Elements"
 msgstr ""
 
@@ -116,15 +116,16 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: ../src/bar.c:201 ../src/preferences.c:2897 ../src/search.c:3286
+#: ../src/bar.c:201 ../src/osd.c:48 ../src/preferences.c:2979
+#: ../src/search.c:3304
 msgid "Keywords"
 msgstr ""
 
-#: ../src/bar.c:202 ../src/search.c:3298
+#: ../src/bar.c:202 ../src/osd.c:47 ../src/search.c:3316
 msgid "Comment"
 msgstr ""
 
-#: ../src/bar.c:203
+#: ../src/bar.c:203 ../src/osd.c:75
 msgid "Rating"
 msgstr ""
 
@@ -149,31 +150,31 @@ msgstr ""
 msgid "Copyright"
 msgstr ""
 
-#: ../src/bar.c:212 ../src/bar_gps.c:1010
+#: ../src/bar.c:212 ../src/bar_gps.c:1011
 msgid "GPS Map"
 msgstr ""
 
-#: ../src/bar.c:332 ../src/toolbar.c:210
+#: ../src/bar.c:332 ../src/toolbar.c:220
 msgid "Move to _top"
 msgstr ""
 
-#: ../src/bar.c:333 ../src/toolbar.c:211 ../src/ui_bookmark.c:416
+#: ../src/bar.c:333 ../src/toolbar.c:221 ../src/ui_bookmark.c:416
 msgid "Move _up"
 msgstr ""
 
-#: ../src/bar.c:334 ../src/toolbar.c:212 ../src/ui_bookmark.c:418
+#: ../src/bar.c:334 ../src/toolbar.c:222 ../src/ui_bookmark.c:418
 msgid "Move _down"
 msgstr ""
 
-#: ../src/bar.c:335 ../src/toolbar.c:213
+#: ../src/bar.c:335 ../src/toolbar.c:223
 msgid "Move to _bottom"
 msgstr ""
 
-#: ../src/bar.c:337 ../src/toolbar.c:215
+#: ../src/bar.c:337 ../src/toolbar.c:225
 msgid "Remove"
 msgstr ""
 
-#: ../src/bar.c:728
+#: ../src/bar.c:733
 msgid "Add Pane"
 msgstr ""
 
@@ -202,7 +203,7 @@ msgstr ""
 msgid "Key:"
 msgstr ""
 
-#: ../src/bar_exif.c:576 ../src/preferences.c:1886
+#: ../src/bar_exif.c:576 ../src/preferences.c:2050
 msgid "Title:"
 msgstr ""
 
@@ -324,27 +325,27 @@ msgid "Map centering"
 msgstr ""
 
 #. use the same strings as in layout_util.c
-#: ../src/bar_histogram.c:257 ../src/layout_util.c:2047
+#: ../src/bar_histogram.c:257 ../src/layout_util.c:2098
 msgid "Histogram on _Red"
 msgstr ""
 
-#: ../src/bar_histogram.c:258 ../src/layout_util.c:2048
+#: ../src/bar_histogram.c:258 ../src/layout_util.c:2099
 msgid "Histogram on _Green"
 msgstr ""
 
-#: ../src/bar_histogram.c:259 ../src/layout_util.c:2049
+#: ../src/bar_histogram.c:259 ../src/layout_util.c:2100
 msgid "Histogram on _Blue"
 msgstr ""
 
-#: ../src/bar_histogram.c:260 ../src/layout_util.c:2050
+#: ../src/bar_histogram.c:260 ../src/layout_util.c:2101
 msgid "_Histogram on RGB"
 msgstr ""
 
-#: ../src/bar_histogram.c:261 ../src/layout_util.c:2051
+#: ../src/bar_histogram.c:261 ../src/layout_util.c:2102
 msgid "Histogram on _Value"
 msgstr ""
 
-#: ../src/bar_histogram.c:265 ../src/layout_util.c:2055
+#: ../src/bar_histogram.c:265 ../src/layout_util.c:2106
 msgid "Li_near Histogram"
 msgstr ""
 
@@ -482,18 +483,18 @@ msgstr ""
 msgid "Collection exists"
 msgstr ""
 
-#: ../src/bar_sort.c:516 ../src/collect.c:1147 ../src/collect-dlg.c:93
+#: ../src/bar_sort.c:516 ../src/collect.c:1182 ../src/collect-dlg.c:93
 #, c-format
 msgid ""
 "Failed to save the collection:\n"
 "%s"
 msgstr ""
 
-#: ../src/bar_sort.c:517 ../src/collect.c:1148 ../src/collect-dlg.c:94
+#: ../src/bar_sort.c:517 ../src/collect.c:1183 ../src/collect-dlg.c:94
 msgid "Save Failed"
 msgstr ""
 
-#: ../src/bar_sort.c:552 ../src/bar_sort.c:724
+#: ../src/bar_sort.c:552 ../src/bar_sort.c:728
 msgid "Add Bookmark"
 msgstr ""
 
@@ -505,36 +506,38 @@ msgstr ""
 msgid "Name:"
 msgstr ""
 
-#: ../src/bar_sort.c:651
+#: ../src/bar_sort.c:652
 msgid "Sort Manager"
 msgstr ""
 
-#: ../src/bar_sort.c:660 ../src/pan-view/pan-view.c:1836
-#: ../src/ui_pathsel.c:1108
+#: ../src/bar_sort.c:661 ../src/pan-view/pan-view.c:1838
+#: ../src/ui_pathsel.c:1109
 msgid "Folders"
 msgstr ""
 
-#: ../src/bar_sort.c:661 ../src/options.c:221
+#: ../src/bar_sort.c:662 ../src/options.c:230
 msgid "Collections"
 msgstr ""
 
-#: ../src/bar_sort.c:669 ../src/toolbar.c:88 ../src/utilops.c:2329
+#: ../src/bar_sort.c:671 ../src/preferences.c:666 ../src/toolbar.c:92
+#: ../src/utilops.c:2329
 msgid "Copy"
 msgstr ""
 
-#: ../src/bar_sort.c:672 ../src/toolbar.c:89 ../src/utilops.c:2279
+#: ../src/bar_sort.c:674 ../src/preferences.c:667 ../src/toolbar.c:93
+#: ../src/utilops.c:2279
 msgid "Move"
 msgstr ""
 
-#: ../src/bar_sort.c:711
+#: ../src/bar_sort.c:713
 msgid "Add image"
 msgstr ""
 
-#: ../src/bar_sort.c:714
+#: ../src/bar_sort.c:716
 msgid "Add selection"
 msgstr ""
 
-#: ../src/bar_sort.c:727
+#: ../src/bar_sort.c:731
 msgid "Undo last image"
 msgstr ""
 
@@ -546,7 +549,7 @@ msgid ""
 msgstr ""
 
 #: ../src/cache_maint.c:123 ../src/cache_maint.c:612 ../src/cache_maint.c:880
-#: ../src/editors.c:1228 ../src/preferences.c:2674
+#: ../src/editors.c:1228 ../src/preferences.c:2756
 msgid "done"
 msgstr ""
 
@@ -566,11 +569,11 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#: ../src/cache_maint.c:732 ../src/preferences.c:2756
+#: ../src/cache_maint.c:732 ../src/preferences.c:2838
 msgid "Invalid folder"
 msgstr ""
 
-#: ../src/cache_maint.c:733 ../src/preferences.c:2757
+#: ../src/cache_maint.c:733 ../src/preferences.c:2839
 msgid "The specified folder can not be found."
 msgstr ""
 
@@ -578,19 +581,19 @@ msgstr ""
 msgid "Create thumbnails"
 msgstr ""
 
-#: ../src/cache_maint.c:804 ../src/cache_maint.c:1063 ../src/preferences.c:2795
+#: ../src/cache_maint.c:804 ../src/cache_maint.c:1063 ../src/preferences.c:2877
 msgid "S_tart"
 msgstr ""
 
-#: ../src/cache_maint.c:817 ../src/preferences.c:2808 ../src/preferences.c:3134
+#: ../src/cache_maint.c:817 ../src/preferences.c:2890 ../src/preferences.c:3226
 msgid "Folder:"
 msgstr ""
 
-#: ../src/cache_maint.c:820 ../src/preferences.c:2811
+#: ../src/cache_maint.c:820 ../src/preferences.c:2893
 msgid "Select folder"
 msgstr ""
 
-#: ../src/cache_maint.c:824 ../src/preferences.c:2815
+#: ../src/cache_maint.c:824 ../src/preferences.c:2897
 msgid "Include subfolders"
 msgstr ""
 
@@ -598,7 +601,7 @@ msgstr ""
 msgid "Store thumbnails local to source images"
 msgstr ""
 
-#: ../src/cache_maint.c:834 ../src/cache_maint.c:1072 ../src/preferences.c:2823
+#: ../src/cache_maint.c:834 ../src/cache_maint.c:1072 ../src/preferences.c:2905
 msgid "click start to begin"
 msgstr ""
 
@@ -672,32 +675,32 @@ msgid "Remove orphaned keywords and comments."
 msgstr ""
 
 #. When does this occur ??
-#: ../src/collect.c:422 ../src/image.c:313 ../src/image-overlay.c:555
-#: ../src/image-overlay.c:632
+#: ../src/collect.c:457 ../src/image.c:348 ../src/image-overlay.c:271
+#: ../src/image-overlay.c:349
 msgid "Untitled"
 msgstr ""
 
-#: ../src/collect.c:426
+#: ../src/collect.c:461
 #, c-format
 msgid "Untitled (%d)"
 msgstr ""
 
-#: ../src/collect.c:1072
+#: ../src/collect.c:1107
 #, c-format
 msgid "%s - Collection - %s"
 msgstr ""
 
-#: ../src/collect.c:1184 ../src/collect.c:1188
+#: ../src/collect.c:1219 ../src/collect.c:1223
 msgid "Close collection"
 msgstr ""
 
-#: ../src/collect.c:1189
+#: ../src/collect.c:1224
 msgid ""
 "Collection has been modified.\n"
 "Save first?"
 msgstr ""
 
-#: ../src/collect.c:1192
+#: ../src/collect.c:1227
 msgid "_Discard"
 msgstr ""
 
@@ -748,7 +751,7 @@ msgstr ""
 msgid "Save collection"
 msgstr ""
 
-#: ../src/collect-dlg.c:210 ../src/toolbar.c:84
+#: ../src/collect-dlg.c:210 ../src/preferences.c:662 ../src/toolbar.c:88
 msgid "Open collection"
 msgstr ""
 
@@ -786,29 +789,29 @@ msgstr ""
 msgid "%s, %d images"
 msgstr ""
 
-#: ../src/collect-table.c:226 ../src/layout_util.c:1817
-#: ../src/layout_util.c:2992
+#: ../src/collect-table.c:226 ../src/layout_util.c:1860
+#: ../src/layout_util.c:3087
 msgid "Empty"
 msgstr ""
 
-#: ../src/collect-table.c:240 ../src/dupe.c:1364 ../src/search.c:389
-#: ../src/view_file/view_file.c:1146 ../src/view_file/view_file.c:1255
+#: ../src/collect-table.c:240 ../src/dupe.c:1364 ../src/search.c:391
+#: ../src/view_file/view_file.c:1251 ../src/view_file/view_file.c:1360
 msgid "Loading thumbs..."
 msgstr ""
 
 #: ../src/collect-table.c:961 ../src/dupe.c:2354 ../src/dupe.c:2681
-#: ../src/layout_util.c:1864 ../src/search.c:1107
+#: ../src/layout_util.c:1907 ../src/search.c:1110
 msgid "_View"
 msgstr ""
 
 #: ../src/collect-table.c:963 ../src/dupe.c:2356 ../src/dupe.c:2683
-#: ../src/img-view.c:1337 ../src/layout_image.c:701
-#: ../src/pan-view/pan-view.c:2309 ../src/search.c:1109
+#: ../src/img-view.c:1343 ../src/layout_image.c:758
+#: ../src/pan-view/pan-view.c:2313 ../src/search.c:1112
 #: ../src/view_file/view_file.c:623
 msgid "View in _new window"
 msgstr ""
 
-#: ../src/collect-table.c:965 ../src/pan-view/pan-view.c:2311
+#: ../src/collect-table.c:965 ../src/pan-view/pan-view.c:2315
 msgid "Go to original"
 msgstr ""
 
@@ -829,12 +832,15 @@ msgid "_Selection"
 msgstr ""
 
 #: ../src/collect-table.c:979 ../src/dupe.c:2359 ../src/dupe.c:2686
-#: ../src/layout_util.c:1923 ../src/search.c:1112 ../src/toolbar.c:94
+#: ../src/layout_util.c:1973 ../src/preferences.c:672 ../src/search.c:1115
+#: ../src/toolbar.c:98 ../src/view_file/view_file.c:1000
+#: ../src/view_file/view_file.c:1050
 msgid "Select all"
 msgstr ""
 
 #: ../src/collect-table.c:981 ../src/dupe.c:2361 ../src/dupe.c:2688
-#: ../src/layout_util.c:1924 ../src/search.c:1114 ../src/toolbar.c:95
+#: ../src/layout_util.c:1974 ../src/preferences.c:673 ../src/search.c:1117
+#: ../src/toolbar.c:99 ../src/view_file/view_file.c:1055
 msgid "Select none"
 msgstr ""
 
@@ -846,62 +852,62 @@ msgstr ""
 msgid "Rectangular selection"
 msgstr ""
 
-#: ../src/collect-table.c:997 ../src/dupe.c:2382 ../src/img-view.c:1341
-#: ../src/layout_image.c:709 ../src/layout_util.c:1897
-#: ../src/pan-view/pan-view.c:2315 ../src/search.c:1131
+#: ../src/collect-table.c:997 ../src/dupe.c:2382 ../src/img-view.c:1347
+#: ../src/layout_image.c:766 ../src/layout_util.c:1947
+#: ../src/pan-view/pan-view.c:2319 ../src/search.c:1134
 #: ../src/view_file/view_file.c:627
 msgid "_Copy..."
 msgstr ""
 
-#: ../src/collect-table.c:999 ../src/dupe.c:2384 ../src/img-view.c:1342
-#: ../src/layout_image.c:711 ../src/layout_util.c:1898
-#: ../src/pan-view/pan-view.c:2317 ../src/search.c:1133
+#: ../src/collect-table.c:999 ../src/dupe.c:2384 ../src/img-view.c:1348
+#: ../src/layout_image.c:768 ../src/layout_util.c:1948
+#: ../src/pan-view/pan-view.c:2321 ../src/search.c:1136
 #: ../src/view_file/view_file.c:629
 msgid "_Move..."
 msgstr ""
 
-#: ../src/collect-table.c:1001 ../src/dupe.c:2386 ../src/img-view.c:1343
-#: ../src/layout_image.c:713 ../src/layout_util.c:1899
-#: ../src/pan-view/pan-view.c:2319 ../src/search.c:1135 ../src/view_dir.c:686
+#: ../src/collect-table.c:1001 ../src/dupe.c:2386 ../src/img-view.c:1349
+#: ../src/layout_image.c:770 ../src/layout_util.c:1949
+#: ../src/pan-view/pan-view.c:2323 ../src/search.c:1138 ../src/view_dir.c:687
 #: ../src/view_file/view_file.c:631
 msgid "_Rename..."
 msgstr ""
 
-#: ../src/collect-table.c:1003 ../src/dupe.c:2388 ../src/img-view.c:1344
-#: ../src/layout_image.c:715 ../src/pan-view/pan-view.c:2321
-#: ../src/search.c:1137 ../src/view_dir.c:689 ../src/view_file/view_file.c:633
+#: ../src/collect-table.c:1003 ../src/dupe.c:2388 ../src/img-view.c:1350
+#: ../src/layout_image.c:772 ../src/pan-view/pan-view.c:2325
+#: ../src/search.c:1140 ../src/view_dir.c:690 ../src/view_file/view_file.c:633
 msgid "_Copy path"
 msgstr ""
 
-#: ../src/collect-table.c:1005 ../src/dupe.c:2390 ../src/img-view.c:1345
-#: ../src/layout_image.c:716 ../src/pan-view/pan-view.c:2323
-#: ../src/search.c:1139 ../src/view_dir.c:692 ../src/view_file/view_file.c:635
+#: ../src/collect-table.c:1005 ../src/dupe.c:2390 ../src/img-view.c:1351
+#: ../src/layout_image.c:773 ../src/pan-view/pan-view.c:2327
+#: ../src/search.c:1142 ../src/view_dir.c:693 ../src/view_file/view_file.c:635
 msgid "_Copy path unquoted"
 msgstr ""
 
-#: ../src/collect-table.c:1010 ../src/dupe.c:2395 ../src/img-view.c:1349
-#: ../src/layout_image.c:721 ../src/layout_util.c:1900
-#: ../src/layout_util.c:1901 ../src/layout_util.c:1902
-#: ../src/pan-view/pan-view.c:2328 ../src/search.c:1144
+#: ../src/collect-table.c:1010 ../src/dupe.c:2395 ../src/img-view.c:1355
+#: ../src/layout_image.c:778 ../src/layout_util.c:1950
+#: ../src/layout_util.c:1951 ../src/layout_util.c:1952
+#: ../src/pan-view/pan-view.c:2332 ../src/search.c:1147
 #: ../src/view_file/view_file.c:639
 msgid "Move to Trash..."
 msgstr "Move to Rubbish bin..."
 
-#: ../src/collect-table.c:1011 ../src/dupe.c:2396 ../src/img-view.c:1350
-#: ../src/layout_image.c:722 ../src/pan-view/pan-view.c:2329
-#: ../src/search.c:1145 ../src/view_file/view_file.c:640
+#: ../src/collect-table.c:1011 ../src/dupe.c:2396 ../src/img-view.c:1356
+#: ../src/layout_image.c:779 ../src/pan-view/pan-view.c:2333
+#: ../src/search.c:1148 ../src/view_file/view_file.c:640
 msgid "Move to Trash"
 msgstr "Move to Rubbish bin"
 
-#: ../src/collect-table.c:1014 ../src/dupe.c:2399 ../src/img-view.c:1353
-#: ../src/layout_image.c:726 ../src/pan-view/pan-view.c:2332
-#: ../src/search.c:1148 ../src/view_dir.c:695 ../src/view_file/view_file.c:643
+#: ../src/collect-table.c:1014 ../src/dupe.c:2399 ../src/img-view.c:1359
+#: ../src/layout_image.c:783 ../src/pan-view/pan-view.c:2336
+#: ../src/search.c:1151 ../src/view_dir.c:696 ../src/view_file/view_file.c:643
 msgid "_Delete..."
 msgstr ""
 
-#: ../src/collect-table.c:1015 ../src/dupe.c:2400 ../src/img-view.c:1354
-#: ../src/layout_image.c:727 ../src/pan-view/pan-view.c:2333
-#: ../src/search.c:1149 ../src/ui_pathsel.c:644
+#: ../src/collect-table.c:1015 ../src/dupe.c:2400 ../src/img-view.c:1360
+#: ../src/layout_image.c:784 ../src/pan-view/pan-view.c:2337
+#: ../src/search.c:1152 ../src/ui_pathsel.c:644
 #: ../src/view_file/view_file.c:644
 msgid "_Delete"
 msgstr ""
@@ -931,38 +937,38 @@ msgstr ""
 msgid "Save collection _as..."
 msgstr ""
 
-#: ../src/collect-table.c:1036 ../src/layout_util.c:1893
+#: ../src/collect-table.c:1036 ../src/layout_util.c:1943
 #: ../src/view_file/view_file.c:654
 msgid "_Find duplicates..."
 msgstr ""
 
-#: ../src/collect-table.c:1038 ../src/dupe.c:2379 ../src/layout_util.c:1895
-#: ../src/search.c:1128
+#: ../src/collect-table.c:1038 ../src/dupe.c:2379 ../src/layout_util.c:1945
+#: ../src/search.c:1131
 msgid "Print..."
 msgstr ""
 
-#: ../src/collect-table.c:2227 ../src/dupe.c:3548 ../src/img-view.c:1514
+#: ../src/collect-table.c:2227 ../src/dupe.c:3550 ../src/img-view.c:1520
 msgid "Dropped list includes folders."
 msgstr ""
 
-#: ../src/collect-table.c:2229 ../src/dupe.c:3550 ../src/img-view.c:1516
+#: ../src/collect-table.c:2229 ../src/dupe.c:3552 ../src/img-view.c:1522
 msgid "_Add contents"
 msgstr ""
 
-#: ../src/collect-table.c:2231 ../src/dupe.c:3551 ../src/img-view.c:1517
+#: ../src/collect-table.c:2231 ../src/dupe.c:3553 ../src/img-view.c:1523
 msgid "Add contents _recursive"
 msgstr ""
 
-#: ../src/collect-table.c:2233 ../src/dupe.c:3552 ../src/img-view.c:1518
+#: ../src/collect-table.c:2233 ../src/dupe.c:3554 ../src/img-view.c:1524
 msgid "_Skip folders"
 msgstr ""
 
-#: ../src/collect-table.c:2236 ../src/dupe.c:3554 ../src/img-view.c:1520
-#: ../src/view_dir.c:429
+#: ../src/collect-table.c:2236 ../src/dupe.c:3556 ../src/img-view.c:1526
+#: ../src/view_dir.c:430
 msgid "Cancel"
 msgstr ""
 
-#: ../src/color-man.c:434 ../src/exif.c:227 ../src/exif-common.c:503
+#: ../src/color-man.c:434 ../src/exif.c:227 ../src/exif-common.c:504
 msgid "sRGB"
 msgstr ""
 
@@ -994,53 +1000,53 @@ msgstr ""
 msgid "Could not create directory"
 msgstr ""
 
-#: ../src/desktop_file.c:191 ../src/desktop_file.c:648
+#: ../src/desktop_file.c:191 ../src/desktop_file.c:650
 msgid "Desktop file"
 msgstr ""
 
-#: ../src/desktop_file.c:300 ../src/ui_pathsel.c:494
+#: ../src/desktop_file.c:301 ../src/ui_pathsel.c:494
 #, c-format
 msgid ""
 "Unable to delete file:\n"
 "%s"
 msgstr ""
 
-#: ../src/desktop_file.c:301 ../src/ui_pathsel.c:495 ../src/utilops.c:2158
+#: ../src/desktop_file.c:302 ../src/ui_pathsel.c:495 ../src/utilops.c:2158
 #: ../src/utilops.c:2192 ../src/utilops.c:2714
 msgid "File deletion failed"
 msgstr ""
 
-#: ../src/desktop_file.c:345 ../src/desktop_file.c:353 ../src/ui_pathsel.c:537
+#: ../src/desktop_file.c:346 ../src/desktop_file.c:354 ../src/ui_pathsel.c:537
 #: ../src/ui_pathsel.c:545
 msgid "Delete file"
 msgstr ""
 
-#: ../src/desktop_file.c:351 ../src/ui_pathsel.c:543
+#: ../src/desktop_file.c:352 ../src/ui_pathsel.c:543
 #, c-format
 msgid ""
 "About to delete the file:\n"
 " %s"
 msgstr ""
 
-#: ../src/desktop_file.c:383
+#: ../src/desktop_file.c:384
 msgid "new.desktop"
 msgstr ""
 
-#: ../src/desktop_file.c:548 ../src/menu.c:119
+#: ../src/desktop_file.c:549 ../src/menu.c:119
 msgid "Plugins"
 msgstr ""
 
-#: ../src/desktop_file.c:616
+#: ../src/desktop_file.c:618
 msgid "Disabled"
 msgstr ""
 
-#: ../src/desktop_file.c:638
+#: ../src/desktop_file.c:640
 msgid "Hidden"
 msgstr ""
 
-#: ../src/desktop_file.c:657 ../src/dupe.c:2790 ../src/dupe.c:3330
-#: ../src/preferences.c:2063 ../src/print.c:416 ../src/search.c:3453
-#: ../src/ui_pathsel.c:1120 ../src/utilops.c:501
+#: ../src/desktop_file.c:659 ../src/dupe.c:2790 ../src/dupe.c:3331
+#: ../src/osd.c:39 ../src/search.c:3472 ../src/ui_pathsel.c:1121
+#: ../src/utilops.c:501
 msgid "Path"
 msgstr ""
 
@@ -1107,20 +1113,19 @@ msgstr ""
 msgid "Name case-insensitive"
 msgstr ""
 
-#: ../src/dupe.c:2786 ../src/dupe.c:3327 ../src/preferences.c:2033
-#: ../src/preferences.c:2065 ../src/print.c:420 ../src/search.c:3450
-#: ../src/view_file/view_file_list.c:2082
+#: ../src/dupe.c:2786 ../src/dupe.c:3328 ../src/osd.c:41
+#: ../src/preferences.c:2243 ../src/search.c:3469
+#: ../src/view_file/view_file_list.c:2092
 msgid "Size"
 msgstr ""
 
-#: ../src/dupe.c:2787 ../src/dupe.c:3328 ../src/exif.c:336
-#: ../src/exif-common.c:900 ../src/preferences.c:2064 ../src/print.c:418
-#: ../src/search.c:3451 ../src/view_file/view_file_list.c:2086
+#: ../src/dupe.c:2787 ../src/dupe.c:3329 ../src/exif.c:336
+#: ../src/exif-common.c:920 ../src/osd.c:40 ../src/search.c:3470
+#: ../src/view_file/view_file_list.c:2096
 msgid "Date"
 msgstr ""
 
-#: ../src/dupe.c:2788 ../src/dupe.c:3329 ../src/preferences.c:2067
-#: ../src/print.c:422 ../src/search.c:3452
+#: ../src/dupe.c:2788 ../src/dupe.c:3330 ../src/osd.c:43 ../src/search.c:3471
 msgid "Dimensions"
 msgstr ""
 
@@ -1144,35 +1149,35 @@ msgstr ""
 msgid "Similarity (custom)"
 msgstr ""
 
-#: ../src/dupe.c:3280 ../src/toolbar.c:86
+#: ../src/dupe.c:3280 ../src/preferences.c:664 ../src/toolbar.c:90
 msgid "Find duplicates"
 msgstr ""
 
-#: ../src/dupe.c:3362
+#: ../src/dupe.c:3363
 msgid "Compare to:"
 msgstr ""
 
-#: ../src/dupe.c:3375
+#: ../src/dupe.c:3376
 msgid "Compare by:"
 msgstr ""
 
-#: ../src/dupe.c:3383 ../src/preferences.c:1721 ../src/search.c:3466
+#: ../src/dupe.c:3384 ../src/preferences.c:1877 ../src/search.c:3485
 msgid "Thumbnails"
 msgstr ""
 
-#: ../src/dupe.c:3391
+#: ../src/dupe.c:3392
 msgid "Ignore Rotation"
 msgstr ""
 
-#: ../src/dupe.c:3399
+#: ../src/dupe.c:3400
 msgid "Compare two file sets"
 msgstr ""
 
-#: ../src/dupe.c:3419 ../src/menu.c:229
+#: ../src/dupe.c:3421 ../src/menu.c:229
 msgid "Sort"
 msgstr ""
 
-#: ../src/dupe.c:3427
+#: ../src/dupe.c:3429
 msgid "Custom Threshold"
 msgstr ""
 
@@ -1182,11 +1187,11 @@ msgid "Desktop file '%s' should not include extension in Icon key: '%s'\n"
 msgstr ""
 
 #. flash fired (bit 0)
-#: ../src/editors.c:377 ../src/exif.c:220 ../src/exif-common.c:429
+#: ../src/editors.c:377 ../src/exif.c:220 ../src/exif-common.c:430
 msgid "yes"
 msgstr ""
 
-#: ../src/editors.c:377 ../src/exif.c:219 ../src/exif-common.c:429
+#: ../src/editors.c:377 ../src/exif.c:219 ../src/exif-common.c:430
 msgid "no"
 msgstr ""
 
@@ -1258,8 +1263,8 @@ msgid "Unknown error."
 msgstr ""
 
 #: ../src/exif.c:142 ../src/exif.c:155 ../src/exif.c:169 ../src/exif.c:194
-#: ../src/exif.c:311 ../src/exif.c:658 ../src/exif-common.c:405
-#: ../src/exif-common.c:408 ../src/exif-common.c:475
+#: ../src/exif.c:311 ../src/exif.c:658 ../src/exif-common.c:406
+#: ../src/exif-common.c:409 ../src/exif-common.c:476
 msgid "unknown"
 msgstr ""
 
@@ -1492,7 +1497,7 @@ msgstr ""
 msgid "custom"
 msgstr ""
 
-#: ../src/exif.c:260 ../src/exif.c:267 ../src/exif-common.c:443
+#: ../src/exif.c:260 ../src/exif.c:267 ../src/exif-common.c:444
 msgid "auto"
 msgstr ""
 
@@ -1645,7 +1650,7 @@ msgstr ""
 msgid "Spectral Sensitivity"
 msgstr ""
 
-#: ../src/exif.c:349 ../src/exif.c:385 ../src/exif-common.c:905
+#: ../src/exif.c:349 ../src/exif.c:385 ../src/exif-common.c:925
 msgid "ISO sensitivity"
 msgstr ""
 
@@ -1661,7 +1666,7 @@ msgstr ""
 msgid "Date original"
 msgstr ""
 
-#: ../src/exif.c:353 ../src/preferences.c:2078
+#: ../src/exif.c:353 ../src/osd.c:57
 msgid "Date digitized"
 msgstr "Date digitised"
 
@@ -1673,11 +1678,11 @@ msgstr ""
 msgid "Compression ratio"
 msgstr ""
 
-#: ../src/exif.c:356 ../src/exif-common.c:902 ../src/preferences.c:2084
+#: ../src/exif.c:356 ../src/exif-common.c:922
 msgid "Shutter speed"
 msgstr ""
 
-#: ../src/exif.c:357 ../src/exif-common.c:903 ../src/preferences.c:2080
+#: ../src/exif.c:357 ../src/exif-common.c:923 ../src/osd.c:59
 msgid "Aperture"
 msgstr ""
 
@@ -1685,7 +1690,7 @@ msgstr ""
 msgid "Brightness"
 msgstr ""
 
-#: ../src/exif.c:359 ../src/exif-common.c:904 ../src/preferences.c:2081
+#: ../src/exif.c:359 ../src/exif-common.c:924 ../src/osd.c:60
 msgid "Exposure bias"
 msgstr ""
 
@@ -1693,7 +1698,7 @@ msgstr ""
 msgid "Maximum aperture"
 msgstr ""
 
-#: ../src/exif.c:361 ../src/exif-common.c:908 ../src/preferences.c:2088
+#: ../src/exif.c:361 ../src/exif-common.c:928 ../src/osd.c:66
 msgid "Subject distance"
 msgstr ""
 
@@ -1705,11 +1710,11 @@ msgstr ""
 msgid "Light source"
 msgstr ""
 
-#: ../src/exif.c:364 ../src/exif-common.c:909 ../src/preferences.c:2089
+#: ../src/exif.c:364 ../src/exif-common.c:929 ../src/osd.c:67
 msgid "Flash"
 msgstr ""
 
-#: ../src/exif.c:365 ../src/exif-common.c:906 ../src/preferences.c:2086
+#: ../src/exif.c:365 ../src/exif-common.c:926 ../src/osd.c:64
 msgid "Focal length"
 msgstr ""
 
@@ -1746,11 +1751,11 @@ msgid "Colorspace"
 msgstr "Colourspace"
 
 #. ExifImageWidth, ExifImageHeight can also be unsigned short
-#: ../src/exif.c:375 ../src/preferences.c:3411
+#: ../src/exif.c:375 ../src/preferences.c:3528
 msgid "Width"
 msgstr ""
 
-#: ../src/exif.c:376 ../src/preferences.c:3413
+#: ../src/exif.c:376 ../src/preferences.c:3530
 msgid "Height"
 msgstr ""
 
@@ -1835,7 +1840,7 @@ msgstr ""
 msgid "Contrast"
 msgstr ""
 
-#: ../src/exif.c:399 ../src/preferences.c:2986
+#: ../src/exif.c:399 ../src/preferences.c:3068
 msgid "Saturation"
 msgstr ""
 
@@ -1863,134 +1868,138 @@ msgstr ""
 msgid "Can't set image comment: not compiled with Exiv2.\n"
 msgstr ""
 
-#: ../src/exif-common.c:404
+#: ../src/exif-common.c:405
 msgid "infinity"
 msgstr ""
 
-#: ../src/exif-common.c:433
+#: ../src/exif-common.c:434
 msgid "mode:"
 msgstr ""
 
-#: ../src/exif-common.c:437
+#: ../src/exif-common.c:438
 msgid "on"
 msgstr ""
 
-#: ../src/exif-common.c:440
+#: ../src/exif-common.c:441
 msgid "off"
 msgstr ""
 
-#: ../src/exif-common.c:449
+#: ../src/exif-common.c:450
 msgid "not detected by strobe"
 msgstr ""
 
-#: ../src/exif-common.c:450
+#: ../src/exif-common.c:451
 msgid "detected by strobe"
 msgstr ""
 
 #. we ignore flash function (bit 5)
 #. red-eye (bit 6)
-#: ../src/exif-common.c:455
+#: ../src/exif-common.c:456
 msgid "red-eye reduction"
 msgstr ""
 
-#: ../src/exif-common.c:475
+#: ../src/exif-common.c:476
 msgid "dot"
 msgstr ""
 
-#: ../src/exif-common.c:508
+#: ../src/exif-common.c:509
 msgid "AdobeRGB"
 msgstr ""
 
-#: ../src/exif-common.c:516
+#: ../src/exif-common.c:517
 msgid "embedded"
 msgstr ""
 
-#: ../src/exif-common.c:611
+#: ../src/exif-common.c:612
 msgid "Above Sea Level"
 msgstr ""
 
-#: ../src/exif-common.c:611
+#: ../src/exif-common.c:612
 msgid "Below Sea Level"
 msgstr ""
 
-#: ../src/exif-common.c:899 ../src/preferences.c:2083
+#: ../src/exif-common.c:919 ../src/osd.c:62
 msgid "Camera"
 msgstr ""
 
-#: ../src/exif-common.c:901
+#: ../src/exif-common.c:921
 msgid "DateDigitized"
 msgstr "DateDigitised"
 
-#: ../src/exif-common.c:907
+#: ../src/exif-common.c:927
 msgid "Focal length 35mm"
 msgstr ""
 
-#: ../src/exif-common.c:910 ../src/preferences.c:2082
+#: ../src/exif-common.c:930 ../src/osd.c:61
 msgid "Resolution"
 msgstr ""
 
-#: ../src/exif-common.c:911 ../src/preferences.c:2090
+#: ../src/exif-common.c:931 ../src/osd.c:68
 msgid "Color profile"
 msgstr "Colour profile"
 
-#: ../src/exif-common.c:912
+#: ../src/exif-common.c:932
 msgid "GPS position"
 msgstr ""
 
-#: ../src/exif-common.c:913
+#: ../src/exif-common.c:933
 msgid "GPS altitude"
 msgstr ""
 
-#: ../src/exif-common.c:914 ../src/preferences.c:2093
+#: ../src/exif-common.c:934 ../src/osd.c:71
 msgid "Local time"
 msgstr ""
 
-#: ../src/exif-common.c:915
+#: ../src/exif-common.c:935
 msgid "Time zone"
 msgstr ""
 
-#: ../src/exif-common.c:916 ../src/preferences.c:2095
+#: ../src/exif-common.c:936 ../src/osd.c:73
 msgid "Country name"
 msgstr ""
 
-#: ../src/exif-common.c:917 ../src/preferences.c:2096
+#: ../src/exif-common.c:937 ../src/osd.c:74
 msgid "Country code"
 msgstr ""
 
-#: ../src/exif-common.c:918 ../src/preferences.c:2097
+#: ../src/exif-common.c:938 ../src/osd.c:76
 msgid "Star rating"
 msgstr ""
 
-#: ../src/exif-common.c:919
+#: ../src/exif-common.c:939
 msgid "File size"
 msgstr ""
 
-#: ../src/exif-common.c:920
+#: ../src/exif-common.c:940
 msgid "File date"
 msgstr ""
 
-#: ../src/exif-common.c:921 ../src/preferences.c:2072
+#: ../src/exif-common.c:941 ../src/osd.c:50
 msgid "File mode"
 msgstr ""
 
-#: ../src/exif-common.c:922 ../src/preferences.c:2071
+#: ../src/exif-common.c:942 ../src/osd.c:49
 msgid "File ctime"
 msgstr ""
 
-#: ../src/exif-common.c:923 ../src/preferences.c:2073
+#: ../src/exif-common.c:943 ../src/osd.c:51
 msgid "File owner"
 msgstr ""
 
-#: ../src/exif-common.c:924 ../src/preferences.c:2074
+#: ../src/exif-common.c:944 ../src/osd.c:52
 msgid "File group"
 msgstr ""
 
-#: ../src/exif-common.c:925 ../src/preferences.c:2075
+#: ../src/exif-common.c:945 ../src/osd.c:53
 msgid "File link"
 msgstr ""
 
-#: ../src/exif-common.c:926 ../src/preferences.c:2076
+#: ../src/exif-common.c:946 ../src/osd.c:54
 msgid "File class"
+msgstr ""
+
+#: ../src/exif-common.c:947
+msgid "Page no."
 msgstr ""
 
 #: ../src/filedata.c:112
@@ -2013,89 +2022,89 @@ msgstr ""
 msgid "%.1f GB"
 msgstr ""
 
-#: ../src/filedata.c:2680
+#: ../src/filedata.c:2766
 msgid "file or directory does not exist"
 msgstr ""
 
-#: ../src/filedata.c:2686
+#: ../src/filedata.c:2772
 msgid "destination already exists"
 msgstr ""
 
-#: ../src/filedata.c:2692
+#: ../src/filedata.c:2778
 msgid "destination can't be overwritten"
 msgstr ""
 
-#: ../src/filedata.c:2698
+#: ../src/filedata.c:2784
 msgid "destination directory is not writable"
 msgstr ""
 
-#: ../src/filedata.c:2704
+#: ../src/filedata.c:2790
 msgid "destination directory does not exist"
 msgstr ""
 
-#: ../src/filedata.c:2710
+#: ../src/filedata.c:2796
 msgid "source directory is not writable"
 msgstr ""
 
-#: ../src/filedata.c:2716
+#: ../src/filedata.c:2802
 msgid "no read permission"
 msgstr ""
 
-#: ../src/filedata.c:2722
+#: ../src/filedata.c:2808
 msgid "file is readonly"
 msgstr ""
 
-#: ../src/filedata.c:2728
+#: ../src/filedata.c:2814
 msgid "destination already exists and will be overwritten"
 msgstr ""
 
-#: ../src/filedata.c:2734
+#: ../src/filedata.c:2820
 msgid "source and destination are the same"
 msgstr ""
 
-#: ../src/filedata.c:2740
+#: ../src/filedata.c:2826
 msgid "source and destination have different extension"
 msgstr ""
 
-#: ../src/filedata.c:2746
+#: ../src/filedata.c:2832
 msgid "there are unsaved metadata changes for the file"
 msgstr ""
 
-#: ../src/filedata.c:2752
+#: ../src/filedata.c:2838
 msgid "another destination file has the same filename"
 msgstr ""
 
-#: ../src/filedata.c:3306
+#: ../src/filedata.c:3392
 #, c-format
 msgid "Error: Unable to write marks lists to: %s\n"
 msgstr ""
 
-#: ../src/fullscreen.c:242 ../src/layout_util.c:1966 ../src/layout_util.c:1967
-#: ../src/layout_util.c:1968 ../src/preferences.c:2046
+#: ../src/fullscreen.c:242 ../src/layout_util.c:2016 ../src/layout_util.c:2017
+#: ../src/layout_util.c:2018 ../src/preferences.c:2256
 msgid "Full screen"
 msgstr ""
 
-#: ../src/fullscreen.c:413
+#: ../src/fullscreen.c:423
 msgid "Full size"
 msgstr ""
 
-#: ../src/fullscreen.c:421
+#: ../src/fullscreen.c:431
 msgid "Monitor"
 msgstr ""
 
-#: ../src/fullscreen.c:427
+#: ../src/fullscreen.c:437
 msgid "Screen"
 msgstr ""
 
-#: ../src/fullscreen.c:661
+#: ../src/fullscreen.c:672
 msgid "Determined by Window Manager"
 msgstr ""
 
-#: ../src/fullscreen.c:662
+#: ../src/fullscreen.c:673
 msgid "Active screen"
 msgstr ""
 
-#: ../src/fullscreen.c:664
+#: ../src/fullscreen.c:675
 msgid "Active monitor"
 msgstr ""
 
@@ -2144,7 +2153,7 @@ msgstr ""
 msgid "Unable to write history lists to: %s\n"
 msgstr ""
 
-#: ../src/image.c:314
+#: ../src/image.c:349
 #, c-format
 msgid " (Collection %s)"
 msgstr ""
@@ -2154,201 +2163,205 @@ msgstr ""
 msgid "Error interpreting JPEG image file (%s)"
 msgstr ""
 
-#: ../src/img-view.c:1321 ../src/layout_image.c:684 ../src/layout_util.c:1933
-#: ../src/layout_util.c:1934 ../src/layout_util.c:1949
-#: ../src/layout_util.c:1950 ../src/pan-view/pan-view.c:2294
+#: ../src/img-view.c:1327 ../src/layout_image.c:741 ../src/layout_util.c:1983
+#: ../src/layout_util.c:1984 ../src/layout_util.c:1999
+#: ../src/layout_util.c:2000 ../src/pan-view/pan-view.c:2298
 msgid "Zoom _in"
 msgstr ""
 
-#: ../src/img-view.c:1322 ../src/layout_image.c:685 ../src/layout_util.c:1935
-#: ../src/layout_util.c:1936 ../src/layout_util.c:1951
-#: ../src/layout_util.c:1952 ../src/pan-view/pan-view.c:2296
+#: ../src/img-view.c:1328 ../src/layout_image.c:742 ../src/layout_util.c:1985
+#: ../src/layout_util.c:1986 ../src/layout_util.c:2001
+#: ../src/layout_util.c:2002 ../src/pan-view/pan-view.c:2300
 msgid "Zoom _out"
 msgstr ""
 
-#: ../src/img-view.c:1323 ../src/layout_image.c:686 ../src/layout_util.c:1937
-#: ../src/layout_util.c:1938 ../src/layout_util.c:1953
-#: ../src/layout_util.c:1954 ../src/pan-view/pan-view.c:2298
+#: ../src/img-view.c:1329 ../src/layout_image.c:743 ../src/layout_util.c:1987
+#: ../src/layout_util.c:1988 ../src/layout_util.c:2003
+#: ../src/layout_util.c:2004 ../src/pan-view/pan-view.c:2302
 msgid "Zoom _1:1"
 msgstr ""
 
-#: ../src/img-view.c:1324 ../src/layout_image.c:687
+#: ../src/img-view.c:1330 ../src/layout_image.c:744
 msgid "Fit image to _window"
 msgstr ""
 
-#: ../src/img-view.c:1333 ../src/layout_image.c:697 ../src/layout_util.c:1930
+#: ../src/img-view.c:1339 ../src/layout_image.c:754 ../src/layout_util.c:1980
 msgid "Set as _wallpaper"
 msgstr ""
 
-#: ../src/img-view.c:1338 ../src/layout_image.c:704
+#: ../src/img-view.c:1344 ../src/layout_image.c:761
 msgid "_Go to directory view"
 msgstr ""
 
-#: ../src/img-view.c:1366 ../src/layout_image.c:739
+#: ../src/img-view.c:1372 ../src/layout_image.c:796
 msgid "_Stop slideshow"
 msgstr ""
 
-#: ../src/img-view.c:1369 ../src/layout_image.c:742
+#: ../src/img-view.c:1375 ../src/layout_image.c:799
 msgid "Continue slides_how"
 msgstr ""
 
-#: ../src/img-view.c:1374 ../src/img-view.c:1382 ../src/layout_image.c:747
-#: ../src/layout_image.c:754
+#: ../src/img-view.c:1380 ../src/img-view.c:1388 ../src/layout_image.c:804
+#: ../src/layout_image.c:811
 msgid "Pause slides_how"
 msgstr ""
 
-#: ../src/img-view.c:1380 ../src/layout_image.c:753
+#: ../src/img-view.c:1386 ../src/layout_image.c:810
 msgid "_Start slideshow"
 msgstr ""
 
-#: ../src/img-view.c:1388 ../src/layout_image.c:764
-#: ../src/pan-view/pan-view.c:2386
+#: ../src/img-view.c:1394 ../src/layout_image.c:821
+#: ../src/pan-view/pan-view.c:2390
 msgid "Exit _full screen"
 msgstr ""
 
-#: ../src/img-view.c:1392 ../src/layout_image.c:760
-#: ../src/pan-view/pan-view.c:2390
+#: ../src/img-view.c:1398 ../src/layout_image.c:817
+#: ../src/pan-view/pan-view.c:2394
 msgid "_Full screen"
 msgstr ""
 
-#: ../src/img-view.c:1396 ../src/layout_util.c:1908
-#: ../src/pan-view/pan-view.c:2394
+#: ../src/img-view.c:1402 ../src/layout_util.c:1958
+#: ../src/pan-view/pan-view.c:2398
 msgid "C_lose window"
 msgstr ""
 
-#: ../src/layout.c:424 ../src/view_file/view_file.c:666
+#: ../src/layout.c:433 ../src/view_file/view_file.c:666
 msgid "Ascending"
 msgstr ""
 
-#: ../src/layout.c:504
+#: ../src/layout.c:514
 msgid "Scroll to top left corner"
 msgstr ""
 
-#: ../src/layout.c:509
+#: ../src/layout.c:519
 msgid "Scroll to image center"
 msgstr ""
 
-#: ../src/layout.c:514
+#: ../src/layout.c:524
 msgid "Keep the region from previous image"
 msgstr ""
 
-#: ../src/layout.c:620
+#: ../src/layout.c:631
 msgid " Slideshow"
 msgstr ""
 
-#: ../src/layout.c:624
+#: ../src/layout.c:635
 msgid " Paused"
 msgstr ""
 
-#: ../src/layout.c:640
+#: ../src/layout.c:651
 #, c-format
 msgid "%s, %d files (%s, %d)%s"
 msgstr ""
 
-#: ../src/layout.c:647
+#: ../src/layout.c:658
 #, c-format
 msgid "%s, %d files%s"
 msgstr ""
 
-#: ../src/layout.c:652
+#: ../src/layout.c:663
 #, c-format
 msgid "%d files%s"
 msgstr ""
 
-#: ../src/layout.c:698
+#: ../src/layout.c:712
 #, c-format
 msgid "(no read permission) %s bytes"
 msgstr ""
 
-#: ../src/layout.c:702
+#: ../src/layout.c:716
 #, c-format
 msgid "( ? x ? ) %s bytes"
 msgstr ""
 
-#: ../src/layout.c:710
+#: ../src/layout.c:729
+#, c-format
+msgid "( %d x %d ) %s bytes %s%d%s%d%s"
+msgstr ""
+
+#: ../src/layout.c:733
 #, c-format
 msgid "( %d x %d ) %s bytes"
 msgstr ""
 
-#: ../src/layout.c:796
+#: ../src/layout.c:824
 msgid "Select sort order"
 msgstr ""
 
-#: ../src/layout.c:801
+#: ../src/layout.c:830
 msgid "Folder contents (files selected)"
 msgstr ""
 
-#: ../src/layout.c:810
-msgid "(Image dimensions) Image size"
+#: ../src/layout.c:841
+msgid "(Image dimensions) Image size [page n of m]"
 msgstr ""
 
-#: ../src/layout.c:820
+#: ../src/layout.c:852
 msgid "Select zoom and scroll mode"
 msgstr ""
 
-#. expand only in small format
-#: ../src/layout.c:830
+#: ../src/layout.c:864
 msgid "[Pixel x,y coord]: (Pixel R,G,B value)"
 msgstr ""
 
-#: ../src/layout.c:1493 ../src/layout_config.c:67
+#: ../src/layout.c:1527 ../src/layout_config.c:67
 msgid "Tools"
 msgstr ""
 
-#: ../src/layout.c:2123
+#: ../src/layout.c:2180
 msgid "Window options and layout"
 msgstr ""
 
-#: ../src/layout.c:2188
+#: ../src/layout.c:2249
 msgid "General options"
 msgstr ""
 
-#: ../src/layout.c:2190
+#: ../src/layout.c:2251
 msgid "Home path (empty to use your home directory)"
 msgstr ""
 
-#: ../src/layout.c:2198
+#: ../src/layout.c:2259
 msgid "Use current"
 msgstr ""
 
-#: ../src/layout.c:2201
+#: ../src/layout.c:2262
 msgid "Show date in directories list view"
 msgstr ""
 
-#: ../src/layout.c:2204
+#: ../src/layout.c:2265
 msgid "Exit program when this window is closed"
 msgstr ""
 
-#: ../src/layout.c:2207
+#: ../src/layout.c:2268
 msgid "Start-up directory:"
 msgstr ""
 
-#: ../src/layout.c:2209
+#: ../src/layout.c:2270
 msgid "No change"
 msgstr ""
 
-#: ../src/layout.c:2212
+#: ../src/layout.c:2273
 msgid "Restore last path"
 msgstr ""
 
-#: ../src/layout.c:2215
+#: ../src/layout.c:2276
 msgid "Home path"
 msgstr ""
 
-#: ../src/layout.c:2219
+#: ../src/layout.c:2280
 msgid "Layout"
 msgstr ""
 
-#: ../src/layout.c:2466
+#: ../src/layout.c:2537
 msgid "Invalid geometry\n"
 msgstr ""
 
-#: ../src/layout_config.c:67 ../src/preferences.c:2358 ../src/ui_pathsel.c:1187
+#: ../src/layout_config.c:67 ../src/preferences.c:2440 ../src/ui_pathsel.c:1188
 msgid "Files"
 msgstr ""
 
-#: ../src/layout_config.c:67 ../src/preferences.c:116 ../src/preferences.c:1934
-#: ../src/search.c:2178 ../src/search.c:3363
+#: ../src/layout_config.c:67 ../src/preferences.c:115 ../src/preferences.c:2144
+#: ../src/search.c:2184 ../src/search.c:3381
 msgid "Image"
 msgstr ""
 
@@ -2356,1239 +2369,1283 @@ msgstr ""
 msgid "(drag to change order)"
 msgstr ""
 
-#: ../src/layout_image.c:767
+#: ../src/layout_image.c:824
 msgid "_Animate"
 msgstr ""
 
-#: ../src/layout_image.c:771
+#: ../src/layout_image.c:828
 msgid "Hide file _list"
 msgstr ""
 
-#: ../src/layout_image.c:1962
+#: ../src/layout_image.c:2029
 #, c-format
 msgid "[%*d,%*d]: RGB(%3d,%3d,%3d)"
 msgstr ""
 
-#: ../src/layout_image.c:1970
+#: ../src/layout_image.c:2037
 #, c-format
 msgid "[%*s,%*s]: RGB(---,---,---)"
 msgstr ""
 
-#: ../src/layout_util.c:265 ../src/layout_util.c:1995
+#: ../src/layout_util.c:265 ../src/layout_util.c:2045
 msgid "Clear Marks"
 msgstr ""
 
-#: ../src/layout_util.c:606
+#: ../src/layout_util.c:613
 msgid "Operation failed:\n"
 msgstr ""
 
-#: ../src/layout_util.c:609
+#: ../src/layout_util.c:616
 msgid "No file extension\n"
 msgstr ""
 
-#: ../src/layout_util.c:611
+#: ../src/layout_util.c:618
 msgid "Cannot create tmp file\n"
 msgstr ""
 
-#: ../src/layout_util.c:613
+#: ../src/layout_util.c:620
 msgid "Operation not supported for filetype\n"
 msgstr ""
 
-#: ../src/layout_util.c:615
+#: ../src/layout_util.c:622
 msgid "File is not writable\n"
 msgstr ""
 
-#: ../src/layout_util.c:617
+#: ../src/layout_util.c:624
 msgid "Exiftran error\n"
 msgstr ""
 
-#: ../src/layout_util.c:619
+#: ../src/layout_util.c:626
 msgid "Mogrify error\n"
 msgstr ""
 
-#: ../src/layout_util.c:623
+#: ../src/layout_util.c:630
 msgid "Image orientation"
 msgstr ""
 
-#: ../src/layout_util.c:1857
+#: ../src/layout_util.c:1900
 msgid "_File"
 msgstr ""
 
-#: ../src/layout_util.c:1858
+#: ../src/layout_util.c:1901
 msgid "_Go"
 msgstr ""
 
-#: ../src/layout_util.c:1859
+#: ../src/layout_util.c:1902
 msgid "_Edit"
 msgstr ""
 
-#: ../src/layout_util.c:1860
+#: ../src/layout_util.c:1903
 msgid "_Select"
 msgstr ""
 
-#: ../src/layout_util.c:1861 ../src/menu.c:380
+#: ../src/layout_util.c:1904 ../src/menu.c:380
 msgid "_Orientation"
 msgstr ""
 
-#: ../src/layout_util.c:1862
+#: ../src/layout_util.c:1905
 msgid "_Rating"
 msgstr ""
 
-#: ../src/layout_util.c:1863
+#: ../src/layout_util.c:1906
 msgid "P_references"
 msgstr ""
 
-#: ../src/layout_util.c:1865
+#: ../src/layout_util.c:1908
 msgid "_Files and Folders"
 msgstr ""
 
-#: ../src/layout_util.c:1866
+#: ../src/layout_util.c:1909
 msgid "_Zoom"
 msgstr ""
 
-#: ../src/layout_util.c:1867
+#: ../src/layout_util.c:1910
 msgid "_Color Management"
 msgstr "_Colour Management"
 
-#: ../src/layout_util.c:1868
+#: ../src/layout_util.c:1911
 msgid "_Connected Zoom"
 msgstr ""
 
-#: ../src/layout_util.c:1869
+#: ../src/layout_util.c:1912
 msgid "Spli_t"
 msgstr ""
 
-#: ../src/layout_util.c:1870
+#: ../src/layout_util.c:1913
 msgid "Stere_o"
 msgstr ""
 
-#: ../src/layout_util.c:1871 ../src/layout_util.c:2012
+#: ../src/layout_util.c:1914 ../src/layout_util.c:2062
 msgid "Image _Overlay"
 msgstr ""
 
-#: ../src/layout_util.c:1872
+#: ../src/layout_util.c:1915
 msgid "_Plugins"
 msgstr ""
 
-#: ../src/layout_util.c:1873
+#: ../src/layout_util.c:1916
 msgid "_Help"
 msgstr ""
 
-#: ../src/layout_util.c:1875
+#: ../src/layout_util.c:1918
 msgid "_First Image"
 msgstr ""
 
-#: ../src/layout_util.c:1875 ../src/toolbar.c:74
+#: ../src/layout_util.c:1918 ../src/preferences.c:648 ../src/toolbar.c:74
 msgid "First Image"
 msgstr ""
 
-#: ../src/layout_util.c:1876 ../src/layout_util.c:1877
-#: ../src/layout_util.c:1878
+#: ../src/layout_util.c:1919 ../src/layout_util.c:1920
+#: ../src/layout_util.c:1921
 msgid "_Previous Image"
 msgstr ""
 
-#: ../src/layout_util.c:1876 ../src/layout_util.c:1877
-#: ../src/layout_util.c:1878 ../src/toolbar.c:75
+#: ../src/layout_util.c:1919 ../src/layout_util.c:1920
+#: ../src/layout_util.c:1921 ../src/preferences.c:649 ../src/toolbar.c:75
 msgid "Previous Image"
 msgstr ""
 
-#: ../src/layout_util.c:1879 ../src/layout_util.c:1880
-#: ../src/layout_util.c:1881
+#: ../src/layout_util.c:1922 ../src/layout_util.c:1923
+#: ../src/layout_util.c:1931
 msgid "_Next Image"
 msgstr ""
 
-#: ../src/layout_util.c:1879 ../src/layout_util.c:1880
-#: ../src/layout_util.c:1881 ../src/toolbar.c:76
+#: ../src/layout_util.c:1922 ../src/layout_util.c:1923
+#: ../src/layout_util.c:1931 ../src/preferences.c:650 ../src/toolbar.c:76
 msgid "Next Image"
 msgstr ""
 
-#: ../src/layout_util.c:1882
+#: ../src/layout_util.c:1925
+msgid "_First Page"
+msgstr ""
+
+#: ../src/layout_util.c:1925
+msgid "First Page"
+msgstr ""
+
+#: ../src/layout_util.c:1926
+msgid "_Last Page"
+msgstr ""
+
+#: ../src/layout_util.c:1926 ../src/preferences.c:657 ../src/toolbar.c:83
+msgid "Last Page"
+msgstr ""
+
+#: ../src/layout_util.c:1927
+msgid "_Next Page"
+msgstr ""
+
+#: ../src/layout_util.c:1927
+msgid "Next Page"
+msgstr ""
+
+#: ../src/layout_util.c:1928
+msgid "_Previous Page"
+msgstr ""
+
+#: ../src/layout_util.c:1928 ../src/preferences.c:659 ../src/toolbar.c:85
+msgid "Previous Page"
+msgstr ""
+
+#: ../src/layout_util.c:1932
 msgid "_Last Image"
 msgstr ""
 
-#: ../src/layout_util.c:1882 ../src/toolbar.c:77
+#: ../src/layout_util.c:1932 ../src/preferences.c:651 ../src/toolbar.c:77
 msgid "Last Image"
 msgstr ""
 
-#: ../src/layout_util.c:1883
+#: ../src/layout_util.c:1933
 msgid "_Back"
 msgstr ""
 
-#: ../src/layout_util.c:1883 ../src/toolbar.c:78
+#: ../src/layout_util.c:1933 ../src/preferences.c:652 ../src/toolbar.c:78
 msgid "Back"
 msgstr ""
 
-#: ../src/layout_util.c:1884
+#: ../src/layout_util.c:1934
 msgid "_Forward"
 msgstr ""
 
-#: ../src/layout_util.c:1884 ../src/toolbar.c:79
+#: ../src/layout_util.c:1934 ../src/preferences.c:653 ../src/toolbar.c:79
 msgid "Forward"
 msgstr ""
 
-#: ../src/layout_util.c:1885
+#: ../src/layout_util.c:1935
 msgid "_Home"
 msgstr ""
 
-#: ../src/layout_util.c:1885 ../src/options.c:217 ../src/toolbar.c:80
-#: ../src/ui_bookmark.c:578 ../src/ui_pathsel.c:1056
+#: ../src/layout_util.c:1935 ../src/options.c:226 ../src/preferences.c:654
+#: ../src/toolbar.c:80 ../src/ui_bookmark.c:578 ../src/ui_pathsel.c:1056
 msgid "Home"
 msgstr ""
 
-#: ../src/layout_util.c:1886
+#: ../src/layout_util.c:1936
 msgid "_Up"
 msgstr ""
 
-#: ../src/layout_util.c:1886 ../src/toolbar.c:81
+#: ../src/layout_util.c:1936 ../src/preferences.c:655 ../src/toolbar.c:81
 msgid "Up"
 msgstr ""
 
-#: ../src/layout_util.c:1888 ../src/toolbar.c:82
+#: ../src/layout_util.c:1938 ../src/preferences.c:660 ../src/toolbar.c:86
 msgid "New _window"
 msgstr ""
 
-#: ../src/layout_util.c:1888
+#: ../src/layout_util.c:1938
 msgid "New window"
 msgstr ""
 
-#: ../src/layout_util.c:1889
+#: ../src/layout_util.c:1939
 msgid "_New collection"
 msgstr ""
 
-#: ../src/layout_util.c:1889 ../src/menu.c:439 ../src/toolbar.c:83
+#: ../src/layout_util.c:1939 ../src/menu.c:439 ../src/preferences.c:661
+#: ../src/toolbar.c:87
 msgid "New collection"
 msgstr ""
 
-#: ../src/layout_util.c:1890
+#: ../src/layout_util.c:1940
 msgid "_Open collection..."
 msgstr ""
 
-#: ../src/layout_util.c:1890
+#: ../src/layout_util.c:1940
 msgid "Open collection..."
 msgstr ""
 
-#: ../src/layout_util.c:1891
+#: ../src/layout_util.c:1941
 msgid "Open recen_t"
 msgstr ""
 
-#: ../src/layout_util.c:1891
+#: ../src/layout_util.c:1941
 msgid "Open recent"
 msgstr ""
 
-#: ../src/layout_util.c:1892
+#: ../src/layout_util.c:1942
 msgid "_Search..."
 msgstr ""
 
-#: ../src/layout_util.c:1892
+#: ../src/layout_util.c:1942
 msgid "Search..."
 msgstr ""
 
-#: ../src/layout_util.c:1893
+#: ../src/layout_util.c:1943
 msgid "Find duplicates..."
 msgstr ""
 
-#: ../src/layout_util.c:1894
+#: ../src/layout_util.c:1944
 msgid "Pa_n view"
 msgstr ""
 
-#: ../src/layout_util.c:1894 ../src/toolbar.c:93
+#: ../src/layout_util.c:1944 ../src/preferences.c:671 ../src/toolbar.c:97
 msgid "Pan view"
 msgstr ""
 
-#: ../src/layout_util.c:1895
+#: ../src/layout_util.c:1945
 msgid "_Print..."
 msgstr ""
 
-#: ../src/layout_util.c:1896
+#: ../src/layout_util.c:1946
 msgid "N_ew folder..."
 msgstr ""
 
-#: ../src/layout_util.c:1896
+#: ../src/layout_util.c:1946
 msgid "New folder..."
 msgstr ""
 
-#: ../src/layout_util.c:1897
+#: ../src/layout_util.c:1947
 msgid "Copy..."
 msgstr ""
 
-#: ../src/layout_util.c:1898
+#: ../src/layout_util.c:1948
 msgid "Move..."
 msgstr ""
 
-#: ../src/layout_util.c:1899
+#: ../src/layout_util.c:1949
 msgid "Rename..."
 msgstr ""
 
-#: ../src/layout_util.c:1903
+#: ../src/layout_util.c:1953
 msgid "Delete..."
 msgstr ""
 
-#: ../src/layout_util.c:1904 ../src/view_file/view_file.c:648
+#: ../src/layout_util.c:1954 ../src/view_file/view_file.c:648
 msgid "Enable file _grouping"
 msgstr ""
 
-#: ../src/layout_util.c:1904
+#: ../src/layout_util.c:1954
 msgid "Enable file grouping"
 msgstr ""
 
-#: ../src/layout_util.c:1905 ../src/view_file/view_file.c:650
+#: ../src/layout_util.c:1955 ../src/view_file/view_file.c:650
 msgid "Disable file groupi_ng"
 msgstr ""
 
-#: ../src/layout_util.c:1905
+#: ../src/layout_util.c:1955
 msgid "Disable file grouping"
 msgstr ""
 
-#: ../src/layout_util.c:1906
+#: ../src/layout_util.c:1956
 msgid "_Copy path to clipboard"
 msgstr ""
 
-#: ../src/layout_util.c:1906
+#: ../src/layout_util.c:1956
 msgid "Copy path to clipboard"
 msgstr ""
 
-#: ../src/layout_util.c:1907
+#: ../src/layout_util.c:1957
 msgid "_Copy path unquoted to clipboard"
 msgstr ""
 
-#: ../src/layout_util.c:1907
+#: ../src/layout_util.c:1957
 msgid "Copy path unquoted to clipboard"
 msgstr ""
 
-#: ../src/layout_util.c:1908
+#: ../src/layout_util.c:1958
 msgid "Close window"
 msgstr ""
 
-#: ../src/layout_util.c:1909
+#: ../src/layout_util.c:1959
 msgid "_Quit"
 msgstr ""
 
-#: ../src/layout_util.c:1909 ../src/toolbar.c:136
+#: ../src/layout_util.c:1959 ../src/preferences.c:716 ../src/toolbar.c:146
 msgid "Quit"
 msgstr ""
 
-#: ../src/layout_util.c:1910 ../src/menu.c:322
-msgid "_Rotate clockwise"
+#: ../src/layout_util.c:1960 ../src/menu.c:322
+msgid "_Rotate clockwise 90°"
 msgstr ""
 
-#: ../src/layout_util.c:1910 ../src/toolbar.c:103
-msgid "Rotate clockwise"
-msgstr ""
-
-#: ../src/layout_util.c:1911
-msgid "_Rating 0"
-msgstr ""
-
-#: ../src/layout_util.c:1911
-msgid "Rating 0"
-msgstr ""
-
-#: ../src/layout_util.c:1912
-msgid "_Rating 1"
-msgstr ""
-
-#: ../src/layout_util.c:1912
-msgid "Rating 1"
-msgstr ""
-
-#: ../src/layout_util.c:1913
-msgid "_Rating 2"
-msgstr ""
-
-#: ../src/layout_util.c:1913
-msgid "Rating 2"
-msgstr ""
-
-#: ../src/layout_util.c:1914
-msgid "_Rating 3"
-msgstr ""
-
-#: ../src/layout_util.c:1914
-msgid "Rating 3"
-msgstr ""
-
-#: ../src/layout_util.c:1915
-msgid "_Rating 4"
-msgstr ""
-
-#: ../src/layout_util.c:1915
-msgid "Rating 4"
-msgstr ""
-
-#: ../src/layout_util.c:1916
-msgid "_Rating 5"
-msgstr ""
-
-#: ../src/layout_util.c:1916
-msgid "Rating 5"
-msgstr ""
-
-#: ../src/layout_util.c:1917
-msgid "_Rating -1"
-msgstr ""
-
-#: ../src/layout_util.c:1917
-msgid "Rating -1"
-msgstr ""
-
-#: ../src/layout_util.c:1918 ../src/menu.c:325
-msgid "Rotate _counterclockwise"
-msgstr ""
-
-#: ../src/layout_util.c:1918 ../src/toolbar.c:104
-msgid "Rotate counterclockwise"
-msgstr ""
-
-#: ../src/layout_util.c:1919
-msgid "Rotate 1_80"
-msgstr ""
-
-#: ../src/layout_util.c:1919 ../src/toolbar.c:105
-msgid "Rotate 180"
-msgstr ""
-
-#: ../src/layout_util.c:1920 ../src/menu.c:331
-msgid "_Mirror"
-msgstr ""
-
-#: ../src/layout_util.c:1920 ../src/toolbar.c:106
-msgid "Mirror"
-msgstr ""
-
-#: ../src/layout_util.c:1921 ../src/menu.c:334
-msgid "_Flip"
-msgstr ""
-
-#: ../src/layout_util.c:1921 ../src/toolbar.c:107
-msgid "Flip"
-msgstr ""
-
-#: ../src/layout_util.c:1922 ../src/menu.c:337
-msgid "_Original state"
-msgstr ""
-
-#: ../src/layout_util.c:1922 ../src/toolbar.c:108
-msgid "Original state"
-msgstr ""
-
-#: ../src/layout_util.c:1923
-msgid "Select _all"
-msgstr ""
-
-#: ../src/layout_util.c:1924
-msgid "Select _none"
-msgstr ""
-
-#: ../src/layout_util.c:1925
-msgid "_Invert Selection"
-msgstr ""
-
-#: ../src/layout_util.c:1925
-msgid "Invert Selection"
-msgstr ""
-
-#: ../src/layout_util.c:1926
-msgid "P_references..."
-msgstr ""
-
-#: ../src/layout_util.c:1926
-msgid "Preferences..."
-msgstr ""
-
-#: ../src/layout_util.c:1927
-msgid "Configure _Plugins..."
-msgstr ""
-
-#: ../src/layout_util.c:1927
-msgid "Configure Plugins..."
-msgstr ""
-
-#: ../src/layout_util.c:1928
-msgid "_Configure this window..."
-msgstr ""
-
-#: ../src/layout_util.c:1928
-msgid "Configure this window..."
-msgstr ""
-
-#: ../src/layout_util.c:1929
-msgid "_Cache maintenance..."
-msgstr ""
-
-#: ../src/layout_util.c:1929
-msgid "Cache maintenance..."
-msgstr ""
-
-#: ../src/layout_util.c:1930
-msgid "Set as wallpaper"
-msgstr ""
-
-#: ../src/layout_util.c:1931
-msgid "_Save metadata"
-msgstr ""
-
-#: ../src/layout_util.c:1931
-msgid "Save metadata"
-msgstr ""
-
-#: ../src/layout_util.c:1932
-msgid "Keyword autocomplete"
-msgstr ""
-
-#: ../src/layout_util.c:1932
-msgid "Keyword Autocomplete"
-msgstr ""
-
-#: ../src/layout_util.c:1933 ../src/layout_util.c:1934 ../src/toolbar.c:109
-msgid "Zoom in"
-msgstr ""
-
-#: ../src/layout_util.c:1935 ../src/layout_util.c:1936 ../src/toolbar.c:110
-msgid "Zoom out"
-msgstr ""
-
-#: ../src/layout_util.c:1937 ../src/layout_util.c:1938 ../src/toolbar.c:111
-msgid "Zoom 1:1"
-msgstr ""
-
-#: ../src/layout_util.c:1939 ../src/layout_util.c:1940
-#: ../src/layout_util.c:1955 ../src/layout_util.c:1956
-msgid "_Zoom to fit"
-msgstr ""
-
-#: ../src/layout_util.c:1939 ../src/layout_util.c:1940 ../src/toolbar.c:112
-msgid "Zoom to fit"
-msgstr ""
-
-#: ../src/layout_util.c:1941 ../src/layout_util.c:1957
-msgid "Fit _Horizontally"
-msgstr ""
-
-#: ../src/layout_util.c:1941
-msgid "Fit Horizontally"
-msgstr ""
-
-#: ../src/layout_util.c:1942 ../src/layout_util.c:1958
-msgid "Fit _Vertically"
-msgstr ""
-
-#: ../src/layout_util.c:1942
-msgid "Fit Vertically"
-msgstr ""
-
-#: ../src/layout_util.c:1943 ../src/layout_util.c:1959
-msgid "Zoom _2:1"
-msgstr ""
-
-#: ../src/layout_util.c:1943 ../src/toolbar.c:115
-msgid "Zoom 2:1"
-msgstr ""
-
-#: ../src/layout_util.c:1944 ../src/layout_util.c:1960
-msgid "Zoom _3:1"
-msgstr ""
-
-#: ../src/layout_util.c:1944 ../src/toolbar.c:116
-msgid "Zoom 3:1"
-msgstr ""
-
-#: ../src/layout_util.c:1945 ../src/layout_util.c:1961
-msgid "Zoom _4:1"
-msgstr ""
-
-#: ../src/layout_util.c:1945 ../src/toolbar.c:117
-msgid "Zoom 4:1"
-msgstr ""
-
-#: ../src/layout_util.c:1946 ../src/layout_util.c:1962 ../src/toolbar.c:118
-msgid "Zoom 1:2"
-msgstr ""
-
-#: ../src/layout_util.c:1947 ../src/layout_util.c:1963
-msgid "Zoom 1:3"
-msgstr ""
-
-#: ../src/layout_util.c:1948 ../src/layout_util.c:1964 ../src/toolbar.c:120
-msgid "Zoom 1:4"
-msgstr ""
-
-#: ../src/layout_util.c:1949 ../src/layout_util.c:1950 ../src/toolbar.c:121
-msgid "Connected Zoom in"
-msgstr ""
-
-#: ../src/layout_util.c:1951 ../src/layout_util.c:1952
-msgid "Connected Zoom out"
-msgstr ""
-
-#: ../src/layout_util.c:1953 ../src/layout_util.c:1954
-msgid "Connected Zoom 1:1"
-msgstr ""
-
-#: ../src/layout_util.c:1955 ../src/layout_util.c:1956
-msgid "Connected Zoom to fit"
-msgstr ""
-
-#: ../src/layout_util.c:1957
-msgid "Connected Fit Horizontally"
-msgstr ""
-
-#: ../src/layout_util.c:1958
-msgid "Connected Fit Vertically"
-msgstr ""
-
-#: ../src/layout_util.c:1959
-msgid "Connected Zoom 2:1"
-msgstr ""
-
-#: ../src/layout_util.c:1960
-msgid "Connected Zoom 3:1"
+#: ../src/layout_util.c:1960 ../src/preferences.c:681 ../src/toolbar.c:107
+msgid "Rotate clockwise 90°"
 msgstr ""
 
 #: ../src/layout_util.c:1961
-msgid "Connected Zoom 4:1"
+msgid "_Rating 0"
+msgstr ""
+
+#: ../src/layout_util.c:1961
+msgid "Rating 0"
 msgstr ""
 
 #: ../src/layout_util.c:1962
-msgid "Connected Zoom 1:2"
+msgid "_Rating 1"
+msgstr ""
+
+#: ../src/layout_util.c:1962
+msgid "Rating 1"
 msgstr ""
 
 #: ../src/layout_util.c:1963
-msgid "Connected Zoom 1:3"
+msgid "_Rating 2"
+msgstr ""
+
+#: ../src/layout_util.c:1963
+msgid "Rating 2"
 msgstr ""
 
 #: ../src/layout_util.c:1964
-msgid "Connected Zoom 1:4"
+msgid "_Rating 3"
+msgstr ""
+
+#: ../src/layout_util.c:1964
+msgid "Rating 3"
 msgstr ""
 
 #: ../src/layout_util.c:1965
-msgid "_View in new window"
+msgid "_Rating 4"
 msgstr ""
 
 #: ../src/layout_util.c:1965
-msgid "View in new window"
+msgid "Rating 4"
 msgstr ""
 
-#: ../src/layout_util.c:1966 ../src/layout_util.c:1967
-#: ../src/layout_util.c:1968
-msgid "F_ull screen"
+#: ../src/layout_util.c:1966
+msgid "_Rating 5"
 msgstr ""
 
-#: ../src/layout_util.c:1969 ../src/layout_util.c:1970
-msgid "_Leave full screen"
+#: ../src/layout_util.c:1966
+msgid "Rating 5"
 msgstr ""
 
-#: ../src/layout_util.c:1969 ../src/layout_util.c:1970
-msgid "Leave full screen"
+#: ../src/layout_util.c:1967
+msgid "_Rating -1"
 msgstr ""
 
-#: ../src/layout_util.c:1971
-msgid "_Cycle through overlay modes"
+#: ../src/layout_util.c:1967
+msgid "Rating -1"
 msgstr ""
 
-#: ../src/layout_util.c:1971
-msgid "Cycle through Overlay modes"
+#: ../src/layout_util.c:1968 ../src/menu.c:325
+msgid "Rotate _counterclockwise 90°"
+msgstr "Rotate anti-_clockwise 90°"
+
+#: ../src/layout_util.c:1968 ../src/preferences.c:682 ../src/toolbar.c:108
+msgid "Rotate counterclockwise 90°"
+msgstr "Rotate anti-clockwise 90°"
+
+#: ../src/layout_util.c:1969
+msgid "Rotate 1_80°"
 msgstr ""
 
-#: ../src/layout_util.c:1972
-msgid "Cycle through histogram ch_annels"
+#: ../src/layout_util.c:1969 ../src/preferences.c:683 ../src/toolbar.c:109
+msgid "Rotate 180°"
 msgstr ""
 
-#: ../src/layout_util.c:1972
-msgid "Cycle through histogram channels"
+#: ../src/layout_util.c:1970 ../src/menu.c:331
+msgid "_Mirror"
+msgstr ""
+
+#: ../src/layout_util.c:1970 ../src/preferences.c:684 ../src/toolbar.c:110
+msgid "Mirror"
+msgstr ""
+
+#: ../src/layout_util.c:1971 ../src/menu.c:334
+msgid "_Flip"
+msgstr ""
+
+#: ../src/layout_util.c:1971 ../src/preferences.c:685 ../src/toolbar.c:111
+msgid "Flip"
+msgstr ""
+
+#: ../src/layout_util.c:1972 ../src/menu.c:337
+msgid "_Original state"
+msgstr ""
+
+#: ../src/layout_util.c:1972 ../src/preferences.c:686 ../src/toolbar.c:112
+msgid "Original state"
 msgstr ""
 
 #: ../src/layout_util.c:1973
-msgid "Cycle through histogram mo_des"
-msgstr ""
-
-#: ../src/layout_util.c:1973
-msgid "Cycle through histogram modes"
+msgid "Select _all"
 msgstr ""
 
 #: ../src/layout_util.c:1974
-msgid "_Hide file list"
-msgstr ""
-
-#: ../src/layout_util.c:1974 ../src/toolbar.c:122
-msgid "Hide file list"
+msgid "Select _none"
 msgstr ""
 
 #: ../src/layout_util.c:1975
-msgid "_Pause slideshow"
+msgid "_Invert Selection"
 msgstr ""
 
-#: ../src/layout_util.c:1975 ../src/toolbar.c:123
-msgid "Pause slideshow"
+#: ../src/layout_util.c:1975
+msgid "Invert Selection"
 msgstr ""
 
 #: ../src/layout_util.c:1976
-msgid "Faster"
+msgid "P_references..."
+msgstr ""
+
+#: ../src/layout_util.c:1976
+msgid "Preferences..."
 msgstr ""
 
 #: ../src/layout_util.c:1977
-msgid "Slower"
+msgid "Configure _Plugins..."
+msgstr ""
+
+#: ../src/layout_util.c:1977
+msgid "Configure Plugins..."
 msgstr ""
 
 #: ../src/layout_util.c:1978
-msgid "_Refresh"
+msgid "_Configure this window..."
 msgstr ""
 
-#: ../src/layout_util.c:1978 ../src/toolbar.c:126
-msgid "Refresh"
-msgstr ""
-
-#: ../src/layout_util.c:1979
-msgid "_Contents"
+#: ../src/layout_util.c:1978
+msgid "Configure this window..."
 msgstr ""
 
 #: ../src/layout_util.c:1979
-msgid "Contents"
+msgid "_Cache maintenance..."
 msgstr ""
 
-#: ../src/layout_util.c:1980 ../src/window.c:371
-msgid "On-line help search"
+#: ../src/layout_util.c:1979
+msgid "Cache maintenance..."
+msgstr ""
+
+#: ../src/layout_util.c:1980
+msgid "Set as wallpaper"
 msgstr ""
 
 #: ../src/layout_util.c:1981
-msgid "_Keyboard shortcuts"
+msgid "_Save metadata"
 msgstr ""
 
-#: ../src/layout_util.c:1981
-msgid "Keyboard shortcuts"
-msgstr ""
-
-#: ../src/layout_util.c:1982
-msgid "_Keyboard map"
+#: ../src/layout_util.c:1981 ../src/toolbar.c:131
+msgid "Save metadata"
 msgstr ""
 
 #: ../src/layout_util.c:1982
-msgid "Keyboard map"
+msgid "Keyword autocomplete"
 msgstr ""
 
-#: ../src/layout_util.c:1983
-msgid "_Release notes"
+#: ../src/layout_util.c:1982
+msgid "Keyword Autocomplete"
 msgstr ""
 
-#: ../src/layout_util.c:1983
-msgid "Release notes"
+#: ../src/layout_util.c:1983 ../src/layout_util.c:1984 ../src/preferences.c:687
+#: ../src/toolbar.c:113
+msgid "Zoom in"
 msgstr ""
 
-#: ../src/layout_util.c:1984
-msgid "_ChangeLog"
+#: ../src/layout_util.c:1985 ../src/layout_util.c:1986 ../src/preferences.c:688
+#: ../src/toolbar.c:114
+msgid "Zoom out"
 msgstr ""
 
-#: ../src/layout_util.c:1984
-msgid "ChangeLog notes"
+#: ../src/layout_util.c:1987 ../src/layout_util.c:1988 ../src/preferences.c:689
+#: ../src/toolbar.c:115
+msgid "Zoom 1:1"
 msgstr ""
 
-#: ../src/layout_util.c:1985
-msgid "_About"
+#: ../src/layout_util.c:1989 ../src/layout_util.c:1990
+#: ../src/layout_util.c:2005 ../src/layout_util.c:2006
+msgid "_Zoom to fit"
 msgstr ""
 
-#: ../src/layout_util.c:1985
-msgid "About"
+#: ../src/layout_util.c:1989 ../src/layout_util.c:1990 ../src/preferences.c:690
+#: ../src/toolbar.c:116
+msgid "Zoom to fit"
 msgstr ""
 
-#: ../src/layout_util.c:1986
-msgid "_Log Window"
-msgstr ""
-
-#: ../src/layout_util.c:1986
-msgid "Log Window"
-msgstr ""
-
-#: ../src/layout_util.c:1987
-msgid "_Exif window"
-msgstr ""
-
-#: ../src/layout_util.c:1987 ../src/toolbar.c:128
-msgid "Exif window"
-msgstr ""
-
-#: ../src/layout_util.c:1988
-msgid "_Cycle through stereo modes"
-msgstr ""
-
-#: ../src/layout_util.c:1988
-msgid "Cycle through stereo modes"
-msgstr ""
-
-#: ../src/layout_util.c:1989
-msgid "_Next Pane"
-msgstr ""
-
-#: ../src/layout_util.c:1989
-msgid "Next Pane"
-msgstr ""
-
-#: ../src/layout_util.c:1990
-msgid "_Previous Pane"
-msgstr ""
-
-#: ../src/layout_util.c:1990
-msgid "Previous Pane"
+#: ../src/layout_util.c:1991 ../src/layout_util.c:2007
+msgid "Fit _Horizontally"
 msgstr ""
 
 #: ../src/layout_util.c:1991
-msgid "_Up Pane"
+msgid "Fit Horizontally"
 msgstr ""
 
-#: ../src/layout_util.c:1991
-msgid "Up Pane"
-msgstr ""
-
-#: ../src/layout_util.c:1992
-msgid "_Down Pane"
+#: ../src/layout_util.c:1992 ../src/layout_util.c:2008
+msgid "Fit _Vertically"
 msgstr ""
 
 #: ../src/layout_util.c:1992
-msgid "Down Pane"
+msgid "Fit Vertically"
 msgstr ""
 
-#: ../src/layout_util.c:1993
-msgid "_Write orientation to file"
+#: ../src/layout_util.c:1993 ../src/layout_util.c:2009
+msgid "Zoom _2:1"
 msgstr ""
 
-#: ../src/layout_util.c:1993
-msgid "Write orientation to file"
+#: ../src/layout_util.c:1993 ../src/preferences.c:693 ../src/toolbar.c:119
+msgid "Zoom 2:1"
 msgstr ""
 
-#: ../src/layout_util.c:1994
-msgid "_Write orientation to file (preserve timestamp)"
+#: ../src/layout_util.c:1994 ../src/layout_util.c:2010
+msgid "Zoom _3:1"
 msgstr ""
 
-#: ../src/layout_util.c:1994
-msgid "Write orientation to file (preserve timestamp)"
+#: ../src/layout_util.c:1994 ../src/preferences.c:694 ../src/toolbar.c:120
+msgid "Zoom 3:1"
 msgstr ""
 
-#: ../src/layout_util.c:1995
-msgid "Clear Marks..."
+#: ../src/layout_util.c:1995 ../src/layout_util.c:2011
+msgid "Zoom _4:1"
 msgstr ""
 
-#: ../src/layout_util.c:1999
-msgid "Show _Thumbnails"
+#: ../src/layout_util.c:1995 ../src/preferences.c:695 ../src/toolbar.c:121
+msgid "Zoom 4:1"
 msgstr ""
 
-#: ../src/layout_util.c:1999
-msgid "Show Thumbnails"
+#: ../src/layout_util.c:1996 ../src/layout_util.c:2012 ../src/preferences.c:696
+#: ../src/toolbar.c:122
+msgid "Zoom 1:2"
 msgstr ""
 
-#: ../src/layout_util.c:2000
-msgid "Show _Marks"
+#: ../src/layout_util.c:1997 ../src/layout_util.c:2013
+msgid "Zoom 1:3"
 msgstr ""
 
-#: ../src/layout_util.c:2000
-msgid "Show Marks"
+#: ../src/layout_util.c:1998 ../src/layout_util.c:2014 ../src/preferences.c:698
+#: ../src/toolbar.c:124
+msgid "Zoom 1:4"
 msgstr ""
 
-#: ../src/layout_util.c:2001
-msgid "Show File Filter"
+#: ../src/layout_util.c:1999 ../src/layout_util.c:2000 ../src/preferences.c:699
+#: ../src/toolbar.c:125
+msgid "Connected Zoom in"
 msgstr ""
 
-#: ../src/layout_util.c:2002
-msgid "Pi_xel Info"
+#: ../src/layout_util.c:2001 ../src/layout_util.c:2002
+msgid "Connected Zoom out"
 msgstr ""
 
-#: ../src/layout_util.c:2002
-msgid "Show Pixel Info"
+#: ../src/layout_util.c:2003 ../src/layout_util.c:2004
+msgid "Connected Zoom 1:1"
 msgstr ""
 
-#: ../src/layout_util.c:2003
-msgid "_Float file list"
-msgstr ""
-
-#: ../src/layout_util.c:2003 ../src/toolbar.c:133
-msgid "Float file list"
-msgstr ""
-
-#: ../src/layout_util.c:2004
-msgid "Hide tool_bar"
-msgstr ""
-
-#: ../src/layout_util.c:2004
-msgid "Hide toolbar"
-msgstr ""
-
-#: ../src/layout_util.c:2005
-msgid "_Info sidebar"
-msgstr ""
-
-#: ../src/layout_util.c:2005 ../src/toolbar.c:134
-msgid "Info sidebar"
-msgstr ""
-
-#: ../src/layout_util.c:2006
-msgid "Sort _manager"
-msgstr ""
-
-#: ../src/layout_util.c:2006 ../src/toolbar.c:135
-msgid "Sort manager"
+#: ../src/layout_util.c:2005 ../src/layout_util.c:2006
+msgid "Connected Zoom to fit"
 msgstr ""
 
 #: ../src/layout_util.c:2007
-msgid "Hide Bars"
+msgid "Connected Fit Horizontally"
 msgstr ""
 
 #: ../src/layout_util.c:2008
-msgid "Toggle _slideshow"
-msgstr ""
-
-#: ../src/layout_util.c:2008
-msgid "Toggle slideshow"
+msgid "Connected Fit Vertically"
 msgstr ""
 
 #: ../src/layout_util.c:2009
-msgid "Use _color profiles"
-msgstr "Use _colour profiles"
-
-#: ../src/layout_util.c:2009
-msgid "Use color profiles"
-msgstr "Use colour profiles"
-
-#: ../src/layout_util.c:2010
-msgid "Use profile from _image"
+msgid "Connected Zoom 2:1"
 msgstr ""
 
 #: ../src/layout_util.c:2010
-msgid "Use profile from image"
+msgid "Connected Zoom 3:1"
 msgstr ""
 
 #: ../src/layout_util.c:2011
-msgid "Toggle _grayscale"
-msgstr ""
-
-#: ../src/layout_util.c:2011
-msgid "Toggle grayscale"
+msgid "Connected Zoom 4:1"
 msgstr ""
 
 #: ../src/layout_util.c:2012
-msgid "Image Overlay"
+msgid "Connected Zoom 1:2"
 msgstr ""
 
 #: ../src/layout_util.c:2013
-msgid "_Show Histogram"
-msgstr ""
-
-#: ../src/layout_util.c:2013
-msgid "Show Histogram"
+msgid "Connected Zoom 1:3"
 msgstr ""
 
 #: ../src/layout_util.c:2014
-msgid "_Show Guidelines"
-msgstr ""
-
-#: ../src/layout_util.c:2014
-msgid "Show Guidelines"
+msgid "Connected Zoom 1:4"
 msgstr ""
 
 #: ../src/layout_util.c:2015
-msgid "Rectangular Selection"
+msgid "_View in new window"
 msgstr ""
 
-#: ../src/layout_util.c:2016
-msgid "GIF _animation"
+#: ../src/layout_util.c:2015
+msgid "View in new window"
 msgstr ""
 
-#: ../src/layout_util.c:2016
-msgid "Toggle GIF animation"
+#: ../src/layout_util.c:2016 ../src/layout_util.c:2017
+#: ../src/layout_util.c:2018
+msgid "F_ull screen"
 msgstr ""
 
-#: ../src/layout_util.c:2017
-msgid "_Exif rotate"
+#: ../src/layout_util.c:2019 ../src/layout_util.c:2020
+msgid "_Leave full screen"
 msgstr ""
 
-#: ../src/layout_util.c:2017
-msgid "Exif rotate"
+#: ../src/layout_util.c:2019 ../src/layout_util.c:2020
+msgid "Leave full screen"
 msgstr ""
 
-#: ../src/layout_util.c:2018 ../src/toolbar.c:132
-msgid "Draw Rectangle"
+#: ../src/layout_util.c:2021
+msgid "_Cycle through overlay modes"
+msgstr ""
+
+#: ../src/layout_util.c:2021
+msgid "Cycle through Overlay modes"
 msgstr ""
 
 #: ../src/layout_util.c:2022
-msgid "Image _List"
+msgid "Cycle through histogram ch_annels"
 msgstr ""
 
 #: ../src/layout_util.c:2022
-msgid "View Images as List"
+msgid "Cycle through histogram channels"
 msgstr ""
 
 #: ../src/layout_util.c:2023
-msgid "I_cons"
+msgid "Cycle through histogram mo_des"
 msgstr ""
 
 #: ../src/layout_util.c:2023
-msgid "View Images as Icons"
+msgid "Cycle through histogram modes"
+msgstr ""
+
+#: ../src/layout_util.c:2024
+msgid "_Hide file list"
+msgstr ""
+
+#: ../src/layout_util.c:2024 ../src/preferences.c:702 ../src/toolbar.c:132
+msgid "Hide file list"
+msgstr ""
+
+#: ../src/layout_util.c:2025
+msgid "_Pause slideshow"
+msgstr ""
+
+#: ../src/layout_util.c:2025 ../src/preferences.c:703 ../src/toolbar.c:133
+msgid "Pause slideshow"
+msgstr ""
+
+#: ../src/layout_util.c:2026
+msgid "Faster"
 msgstr ""
 
 #: ../src/layout_util.c:2027
-msgid "T_oggle Folder View"
+msgid "Slower"
 msgstr ""
 
-#: ../src/layout_util.c:2027
-msgid "Toggle Folders View"
+#: ../src/layout_util.c:2028
+msgid "_Refresh"
+msgstr ""
+
+#: ../src/layout_util.c:2028 ../src/preferences.c:706 ../src/toolbar.c:136
+msgid "Refresh"
+msgstr ""
+
+#: ../src/layout_util.c:2029
+msgid "_Contents"
+msgstr ""
+
+#: ../src/layout_util.c:2029
+msgid "Contents"
+msgstr ""
+
+#: ../src/layout_util.c:2030 ../src/window.c:371
+msgid "On-line help search"
 msgstr ""
 
 #: ../src/layout_util.c:2031
-msgid "_Horizontal"
+msgid "_Keyboard shortcuts"
 msgstr ""
 
 #: ../src/layout_util.c:2031
-msgid "Split Horizontal"
+msgid "Keyboard shortcuts"
 msgstr ""
 
 #: ../src/layout_util.c:2032
-msgid "_Vertical"
+msgid "_Keyboard map"
 msgstr ""
 
 #: ../src/layout_util.c:2032
-msgid "Split Vertical"
+msgid "Keyboard map"
 msgstr ""
 
 #: ../src/layout_util.c:2033
-msgid "_Quad"
+msgid "_Release notes"
 msgstr ""
 
 #: ../src/layout_util.c:2033
-msgid "Split Quad"
+msgid "Release notes"
 msgstr ""
 
 #: ../src/layout_util.c:2034
-msgid "_Single"
+msgid "_ChangeLog"
 msgstr ""
 
 #: ../src/layout_util.c:2034
-msgid "Split Single"
+msgid "ChangeLog notes"
+msgstr ""
+
+#: ../src/layout_util.c:2035
+msgid "_About"
+msgstr ""
+
+#: ../src/layout_util.c:2035
+msgid "About"
+msgstr ""
+
+#: ../src/layout_util.c:2036
+msgid "_Log Window"
+msgstr ""
+
+#: ../src/layout_util.c:2036
+msgid "Log Window"
+msgstr ""
+
+#: ../src/layout_util.c:2037
+msgid "_Exif window"
+msgstr ""
+
+#: ../src/layout_util.c:2037 ../src/preferences.c:708 ../src/toolbar.c:138
+msgid "Exif window"
 msgstr ""
 
 #: ../src/layout_util.c:2038
-msgid "Input _0: sRGB"
+msgid "_Cycle through stereo modes"
 msgstr ""
 
 #: ../src/layout_util.c:2038
-msgid "Input 0: sRGB"
+msgid "Cycle through stereo modes"
 msgstr ""
 
 #: ../src/layout_util.c:2039
-msgid "Input _1: AdobeRGB compatible"
+msgid "_Next Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2039
-msgid "Input 1: AdobeRGB compatible"
+msgid "Next Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2040
-msgid "Input _2"
+msgid "_Previous Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2040
-msgid "Input 2"
+msgid "Previous Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2041
-msgid "Input _3"
+msgid "_Up Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2041
-msgid "Input 3"
+msgid "Up Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2042
-msgid "Input _4"
+msgid "_Down Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2042
-msgid "Input 4"
+msgid "Down Pane"
 msgstr ""
 
 #: ../src/layout_util.c:2043
-msgid "Input _5"
+msgid "_Write orientation to file"
 msgstr ""
 
 #: ../src/layout_util.c:2043
-msgid "Input 5"
+msgid "Write orientation to file"
 msgstr ""
 
-#: ../src/layout_util.c:2047
-msgid "Histogram on Red"
+#: ../src/layout_util.c:2044
+msgid "_Write orientation to file (preserve timestamp)"
 msgstr ""
 
-#: ../src/layout_util.c:2048
-msgid "Histogram on Green"
+#: ../src/layout_util.c:2044
+msgid "Write orientation to file (preserve timestamp)"
+msgstr ""
+
+#: ../src/layout_util.c:2045
+msgid "Clear Marks..."
 msgstr ""
 
 #: ../src/layout_util.c:2049
-msgid "Histogram on Blue"
+msgid "Show _Thumbnails"
+msgstr ""
+
+#: ../src/layout_util.c:2049
+msgid "Show Thumbnails"
 msgstr ""
 
 #: ../src/layout_util.c:2050
-msgid "Histogram on RGB"
+msgid "Show _Marks"
+msgstr ""
+
+#: ../src/layout_util.c:2050
+msgid "Show Marks"
 msgstr ""
 
 #: ../src/layout_util.c:2051
-msgid "Histogram on Value"
+msgid "Show File Filter"
+msgstr ""
+
+#: ../src/layout_util.c:2052
+msgid "Pi_xel Info"
+msgstr ""
+
+#: ../src/layout_util.c:2052
+msgid "Show Pixel Info"
+msgstr ""
+
+#: ../src/layout_util.c:2053
+msgid "_Float file list"
+msgstr ""
+
+#: ../src/layout_util.c:2053 ../src/preferences.c:713 ../src/toolbar.c:143
+msgid "Float file list"
+msgstr ""
+
+#: ../src/layout_util.c:2054
+msgid "Hide tool_bar"
+msgstr ""
+
+#: ../src/layout_util.c:2054
+msgid "Hide toolbar"
 msgstr ""
 
 #: ../src/layout_util.c:2055
+msgid "_Info sidebar"
+msgstr ""
+
+#: ../src/layout_util.c:2055 ../src/preferences.c:714 ../src/toolbar.c:144
+msgid "Info sidebar"
+msgstr ""
+
+#: ../src/layout_util.c:2056
+msgid "Sort _manager"
+msgstr ""
+
+#: ../src/layout_util.c:2056 ../src/preferences.c:715 ../src/toolbar.c:145
+msgid "Sort manager"
+msgstr ""
+
+#: ../src/layout_util.c:2057
+msgid "Hide Bars"
+msgstr ""
+
+#: ../src/layout_util.c:2058
+msgid "Toggle _slideshow"
+msgstr ""
+
+#: ../src/layout_util.c:2058
+msgid "Toggle slideshow"
+msgstr ""
+
+#: ../src/layout_util.c:2059
+msgid "Use _color profiles"
+msgstr "Use _colour profiles"
+
+#: ../src/layout_util.c:2059 ../src/toolbar.c:130
+msgid "Use color profiles"
+msgstr "Use colour profiles"
+
+#: ../src/layout_util.c:2060
+msgid "Use profile from _image"
+msgstr ""
+
+#: ../src/layout_util.c:2060
+msgid "Use profile from image"
+msgstr ""
+
+#: ../src/layout_util.c:2061
+msgid "Toggle _grayscale"
+msgstr ""
+
+#: ../src/layout_util.c:2061
+msgid "Toggle grayscale"
+msgstr ""
+
+#: ../src/layout_util.c:2062
+msgid "Image Overlay"
+msgstr ""
+
+#: ../src/layout_util.c:2063
+msgid "_Show Histogram"
+msgstr ""
+
+#: ../src/layout_util.c:2063
+msgid "Show Histogram"
+msgstr ""
+
+#: ../src/layout_util.c:2064
+msgid "_Show Guidelines"
+msgstr ""
+
+#: ../src/layout_util.c:2064
+msgid "Show Guidelines"
+msgstr ""
+
+#: ../src/layout_util.c:2065
+msgid "Rectangular Selection"
+msgstr ""
+
+#: ../src/layout_util.c:2066
+msgid "GIF _animation"
+msgstr ""
+
+#: ../src/layout_util.c:2066
+msgid "Toggle GIF animation"
+msgstr ""
+
+#: ../src/layout_util.c:2067 ../src/toolbar.c:129
+msgid "_Exif rotate"
+msgstr ""
+
+#: ../src/layout_util.c:2067
+msgid "Exif rotate"
+msgstr ""
+
+#: ../src/layout_util.c:2068 ../src/preferences.c:712 ../src/toolbar.c:142
+msgid "Draw Rectangle"
+msgstr ""
+
+#: ../src/layout_util.c:2069
+msgid "Over/Under Exposed"
+msgstr ""
+
+#: ../src/layout_util.c:2073
+msgid "Image _List"
+msgstr ""
+
+#: ../src/layout_util.c:2073
+msgid "View Images as List"
+msgstr ""
+
+#: ../src/layout_util.c:2074
+msgid "I_cons"
+msgstr ""
+
+#: ../src/layout_util.c:2074
+msgid "View Images as Icons"
+msgstr ""
+
+#: ../src/layout_util.c:2078
+msgid "T_oggle Folder View"
+msgstr ""
+
+#: ../src/layout_util.c:2078
+msgid "Toggle Folders View"
+msgstr ""
+
+#: ../src/layout_util.c:2082
+msgid "_Horizontal"
+msgstr ""
+
+#: ../src/layout_util.c:2082
+msgid "Split Horizontal"
+msgstr ""
+
+#: ../src/layout_util.c:2083
+msgid "_Vertical"
+msgstr ""
+
+#: ../src/layout_util.c:2083
+msgid "Split Vertical"
+msgstr ""
+
+#: ../src/layout_util.c:2084
+msgid "_Quad"
+msgstr ""
+
+#: ../src/layout_util.c:2084
+msgid "Split Quad"
+msgstr ""
+
+#: ../src/layout_util.c:2085
+msgid "_Single"
+msgstr ""
+
+#: ../src/layout_util.c:2085
+msgid "Split Single"
+msgstr ""
+
+#: ../src/layout_util.c:2089
+msgid "Input _0: sRGB"
+msgstr ""
+
+#: ../src/layout_util.c:2089
+msgid "Input 0: sRGB"
+msgstr ""
+
+#: ../src/layout_util.c:2090
+msgid "Input _1: AdobeRGB compatible"
+msgstr ""
+
+#: ../src/layout_util.c:2090
+msgid "Input 1: AdobeRGB compatible"
+msgstr ""
+
+#: ../src/layout_util.c:2091
+msgid "Input _2"
+msgstr ""
+
+#: ../src/layout_util.c:2091
+msgid "Input 2"
+msgstr ""
+
+#: ../src/layout_util.c:2092
+msgid "Input _3"
+msgstr ""
+
+#: ../src/layout_util.c:2092
+msgid "Input 3"
+msgstr ""
+
+#: ../src/layout_util.c:2093
+msgid "Input _4"
+msgstr ""
+
+#: ../src/layout_util.c:2093
+msgid "Input 4"
+msgstr ""
+
+#: ../src/layout_util.c:2094
+msgid "Input _5"
+msgstr ""
+
+#: ../src/layout_util.c:2094
+msgid "Input 5"
+msgstr ""
+
+#: ../src/layout_util.c:2098
+msgid "Histogram on Red"
+msgstr ""
+
+#: ../src/layout_util.c:2099
+msgid "Histogram on Green"
+msgstr ""
+
+#: ../src/layout_util.c:2100
+msgid "Histogram on Blue"
+msgstr ""
+
+#: ../src/layout_util.c:2101
+msgid "Histogram on RGB"
+msgstr ""
+
+#: ../src/layout_util.c:2102
+msgid "Histogram on Value"
+msgstr ""
+
+#: ../src/layout_util.c:2106
 msgid "Linear Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:2056
+#: ../src/layout_util.c:2107
 msgid "_Log Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:2056
+#: ../src/layout_util.c:2107
 msgid "Log Histogram"
 msgstr ""
 
-#: ../src/layout_util.c:2060
+#: ../src/layout_util.c:2111
 msgid "_Auto"
 msgstr ""
 
-#: ../src/layout_util.c:2060
+#: ../src/layout_util.c:2111
 msgid "Stereo Auto"
 msgstr ""
 
-#: ../src/layout_util.c:2061
+#: ../src/layout_util.c:2112
 msgid "_Side by Side"
 msgstr ""
 
-#: ../src/layout_util.c:2061
+#: ../src/layout_util.c:2112
 msgid "Stereo Side by Side"
 msgstr ""
 
-#: ../src/layout_util.c:2062
+#: ../src/layout_util.c:2113
 msgid "_Cross"
 msgstr ""
 
-#: ../src/layout_util.c:2062
+#: ../src/layout_util.c:2113
 msgid "Stereo Cross"
 msgstr ""
 
-#: ../src/layout_util.c:2063
+#: ../src/layout_util.c:2114
 msgid "_Off"
 msgstr ""
 
-#: ../src/layout_util.c:2063
+#: ../src/layout_util.c:2114
 msgid "Stereo Off"
 msgstr ""
 
-#: ../src/layout_util.c:2384
+#: ../src/layout_util.c:2436
 #, c-format
 msgid "Mark _%d"
 msgstr ""
 
-#: ../src/layout_util.c:2385 ../src/view_file/view_file.c:575
+#: ../src/layout_util.c:2437 ../src/view_file/view_file.c:575
 #, c-format
 msgid "_Set mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2385
+#: ../src/layout_util.c:2437
 #, c-format
 msgid "Set mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2386 ../src/view_file/view_file.c:576
+#: ../src/layout_util.c:2438 ../src/view_file/view_file.c:576
 #, c-format
 msgid "_Reset mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2386
+#: ../src/layout_util.c:2438
 #, c-format
 msgid "Reset mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2387 ../src/layout_util.c:2388
+#: ../src/layout_util.c:2439 ../src/layout_util.c:2440
 #: ../src/view_file/view_file.c:577
 #, c-format
 msgid "_Toggle mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2387 ../src/layout_util.c:2388
+#: ../src/layout_util.c:2439 ../src/layout_util.c:2440
 #, c-format
 msgid "Toggle mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2389
+#: ../src/layout_util.c:2441
 #, c-format
 msgid "Se_lect mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2389 ../src/layout_util.c:2390
+#: ../src/layout_util.c:2441 ../src/layout_util.c:2442
 #, c-format
 msgid "Select mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2390 ../src/view_file/view_file.c:578
+#: ../src/layout_util.c:2442 ../src/view_file/view_file.c:578
 #, c-format
 msgid "_Select mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2391 ../src/view_file/view_file.c:579
+#: ../src/layout_util.c:2443 ../src/view_file/view_file.c:579
 #, c-format
 msgid "_Add mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2391
+#: ../src/layout_util.c:2443
 #, c-format
 msgid "Add mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2392 ../src/view_file/view_file.c:580
+#: ../src/layout_util.c:2444 ../src/view_file/view_file.c:580
 #, c-format
 msgid "_Intersection with mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2392
+#: ../src/layout_util.c:2444
 #, c-format
 msgid "Intersection with mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2393 ../src/view_file/view_file.c:581
+#: ../src/layout_util.c:2445 ../src/view_file/view_file.c:581
 #, c-format
 msgid "_Unselect mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2393
+#: ../src/layout_util.c:2445
 #, c-format
 msgid "Unselect mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2394
+#: ../src/layout_util.c:2446
 #, c-format
 msgid "_Filter mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2394
+#: ../src/layout_util.c:2446
 #, c-format
 msgid "Filter mark %d"
 msgstr ""
 
-#: ../src/layout_util.c:2966
+#: ../src/layout_util.c:3061
 #, c-format
 msgid "Number of files with unsaved metadata: %d"
 msgstr ""
 
-#: ../src/layout_util.c:2972
+#: ../src/layout_util.c:3067
 msgid "No unsaved metadata"
 msgstr ""
 
-#: ../src/layout_util.c:3019
+#: ../src/layout_util.c:3114
 #, c-format
 msgid ""
 "Image profile: %s\n"
 "Screen profile: %s"
 msgstr ""
 
-#: ../src/layout_util.c:3027
+#: ../src/layout_util.c:3122
 msgid "Click to enable color management"
 msgstr "Click to enable colour management"
 
-#: ../src/layout_util.c:3032
+#: ../src/layout_util.c:3127
 msgid "Color profiles not supported"
 msgstr "Colour profiles not supported"
 
-#: ../src/layout_util.c:3054
+#: ../src/layout_util.c:3149
 #, c-format
 msgid "Input _%d: %s"
 msgstr ""
@@ -3611,138 +3668,138 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
-#: ../src/logwindow.c:172 ../src/preferences.c:3218
+#: ../src/logwindow.c:173 ../src/preferences.c:3319
 msgid "Debug level:"
 msgstr ""
 
-#: ../src/main.c:362
+#: ../src/main.c:367
 #, c-format
 msgid ""
 "Usage: %s [options] [path]\n"
 "\n"
 msgstr ""
 
-#: ../src/main.c:363
+#: ../src/main.c:368
 msgid "valid options are:\n"
 msgstr ""
 
-#: ../src/main.c:364
+#: ../src/main.c:369
 msgid "  +t, --with-tools                 force show of tools\n"
 msgstr ""
 
-#: ../src/main.c:365
+#: ../src/main.c:370
 msgid "  -t, --without-tools              force hide of tools\n"
 msgstr ""
 
-#: ../src/main.c:366
+#: ../src/main.c:371
 msgid "  -f, --fullscreen                 start in full screen mode\n"
 msgstr ""
 
-#: ../src/main.c:367
+#: ../src/main.c:372
 msgid "  -s, --slideshow                  start in slideshow mode\n"
 msgstr ""
 
-#: ../src/main.c:368
+#: ../src/main.c:373
 msgid ""
 "  -l, --list [files] [collections] open collection window for command line\n"
 msgstr ""
 
-#: ../src/main.c:369
+#: ../src/main.c:374
 msgid "      --blank                      start with blank file list\n"
 msgstr ""
 
-#: ../src/main.c:370
+#: ../src/main.c:375
 msgid "      --geometry=XxY+XOFF+YOFF     set main window location\n"
 msgstr ""
 
-#: ../src/main.c:371
+#: ../src/main.c:376
 msgid ""
 "  -r, --remote                     send following commands to open window\n"
 msgstr ""
 
-#: ../src/main.c:372
+#: ../src/main.c:377
 msgid "  -rh,--remote-help                print remote command list\n"
 msgstr ""
 
-#: ../src/main.c:374
+#: ../src/main.c:379
 msgid "      --debug[=level]              turn on debug output\n"
 msgstr ""
 
-#: ../src/main.c:375
+#: ../src/main.c:380
 msgid "  -g:<regexp>, --grep:<regexp>     filter debug output\n"
 msgstr ""
 
-#: ../src/main.c:377
+#: ../src/main.c:382
 msgid "  +w, --show-log-window            show log window\n"
 msgstr ""
 
-#: ../src/main.c:378
+#: ../src/main.c:383
 msgid "  -o:<file>, --log-file:<file>     save log data to file\n"
 msgstr ""
 
-#: ../src/main.c:379
+#: ../src/main.c:384
 msgid "  -v, --version                    print version info\n"
 msgstr ""
 
-#: ../src/main.c:380
+#: ../src/main.c:385
 msgid ""
 "  -h, --help                       show this message\n"
 "\n"
 msgstr ""
 
-#: ../src/main.c:393
+#: ../src/main.c:398
 #, c-format
 msgid ""
 "invalid or ignored: %s\n"
 "Use --help for options\n"
 msgstr ""
 
-#: ../src/main.c:433
+#: ../src/main.c:438
 msgid "Invalid or ignored remote options: "
 msgstr ""
 
-#: ../src/main.c:442
+#: ../src/main.c:447
 msgid ""
 "\n"
 "Use --remote-help for valid remote options.\n"
 msgstr ""
 
-#: ../src/main.c:563
+#: ../src/main.c:577
 #, c-format
 msgid "Creating %s dir:%s\n"
 msgstr ""
 
-#: ../src/main.c:567
+#: ../src/main.c:581
 #, c-format
 msgid "Could not create dir:%s\n"
 msgstr ""
 
-#: ../src/main.c:619
+#: ../src/main.c:633
 #, c-format
 msgid "error saving file: %s\n"
 msgstr ""
 
-#: ../src/main.c:638
+#: ../src/main.c:652
 #, c-format
 msgid ""
 "error saving file: %s\n"
 "error: %s\n"
 msgstr ""
 
-#: ../src/main.c:748
+#: ../src/main.c:762
 msgid "exit"
 msgstr ""
 
-#: ../src/main.c:753
+#: ../src/main.c:767
 #, c-format
 msgid "Quit %s"
 msgstr ""
 
-#: ../src/main.c:755
+#: ../src/main.c:769
 msgid "Collections have been modified. Quit anyway?"
 msgstr ""
 
-#: ../src/main.c:973 ../src/remote.c:847
+#: ../src/main.c:987 ../src/remote.c:1122
 msgid "Command line"
 msgstr ""
 
@@ -3794,7 +3851,7 @@ msgstr ""
 msgid "Zoom to original size"
 msgstr ""
 
-#: ../src/menu.c:245 ../src/preferences.c:1955
+#: ../src/menu.c:245 ../src/preferences.c:2165
 msgid "Fit image to window"
 msgstr ""
 
@@ -3802,257 +3859,318 @@ msgstr ""
 msgid "Leave Zoom at previous setting"
 msgstr ""
 
-#: ../src/menu.c:303 ../src/preferences.c:1936 ../src/preferences.c:2066
+#: ../src/menu.c:303 ../src/osd.c:42 ../src/preferences.c:2146
 msgid "Zoom"
 msgstr ""
 
 #: ../src/menu.c:328
-msgid "Rotate _180"
+msgid "Rotate _180°"
 msgstr ""
 
 #: ../src/menu.c:434
 msgid "_Add to Collection"
 msgstr ""
 
-#: ../src/metadata.c:1712
+#: ../src/metadata.c:1733
 msgid "People"
 msgstr ""
 
-#: ../src/metadata.c:1713
+#: ../src/metadata.c:1734
 msgid "Family"
 msgstr ""
 
-#: ../src/metadata.c:1714
+#: ../src/metadata.c:1735
 msgid "Free time"
 msgstr ""
 
-#: ../src/metadata.c:1715
+#: ../src/metadata.c:1736
 msgid "Children"
 msgstr ""
 
-#: ../src/metadata.c:1716
+#: ../src/metadata.c:1737
 msgid "Sport"
 msgstr ""
 
-#: ../src/metadata.c:1717
+#: ../src/metadata.c:1738
 msgid "Culture"
 msgstr ""
 
-#: ../src/metadata.c:1718
+#: ../src/metadata.c:1739
 msgid "Festival"
 msgstr ""
 
-#: ../src/metadata.c:1719
+#: ../src/metadata.c:1740
 msgid "Nature"
 msgstr ""
 
-#: ../src/metadata.c:1720
+#: ../src/metadata.c:1741
 msgid "Animal"
 msgstr ""
 
-#: ../src/metadata.c:1721
+#: ../src/metadata.c:1742
 msgid "Bird"
 msgstr ""
 
-#: ../src/metadata.c:1722
+#: ../src/metadata.c:1743
 msgid "Insect"
 msgstr ""
 
-#: ../src/metadata.c:1723
+#: ../src/metadata.c:1744
 msgid "Pets"
 msgstr ""
 
-#: ../src/metadata.c:1724
+#: ../src/metadata.c:1745
 msgid "Wildlife"
 msgstr ""
 
-#: ../src/metadata.c:1725
+#: ../src/metadata.c:1746
 msgid "Zoo"
 msgstr ""
 
-#: ../src/metadata.c:1726
+#: ../src/metadata.c:1747
 msgid "Plant"
 msgstr ""
 
-#: ../src/metadata.c:1727
+#: ../src/metadata.c:1748
 msgid "Tree"
 msgstr ""
 
-#: ../src/metadata.c:1728
+#: ../src/metadata.c:1749
 msgid "Flower"
 msgstr ""
 
-#: ../src/metadata.c:1729
+#: ../src/metadata.c:1750
 msgid "Water"
 msgstr ""
 
-#: ../src/metadata.c:1730
+#: ../src/metadata.c:1751
 msgid "River"
 msgstr ""
 
-#: ../src/metadata.c:1731
+#: ../src/metadata.c:1752
 msgid "Lake"
 msgstr ""
 
-#: ../src/metadata.c:1732
+#: ../src/metadata.c:1753
 msgid "Sea"
 msgstr ""
 
-#: ../src/metadata.c:1733
+#: ../src/metadata.c:1754
 msgid "Landscape"
 msgstr ""
 
-#: ../src/metadata.c:1734
+#: ../src/metadata.c:1755
 msgid "Art"
 msgstr ""
 
-#: ../src/metadata.c:1735
+#: ../src/metadata.c:1756
 msgid "Statue"
 msgstr ""
 
-#: ../src/metadata.c:1736
+#: ../src/metadata.c:1757
 msgid "Painting"
 msgstr ""
 
-#: ../src/metadata.c:1737 ../src/metadata.c:1751
+#: ../src/metadata.c:1758 ../src/metadata.c:1772
 msgid "Historic"
 msgstr ""
 
-#: ../src/metadata.c:1738 ../src/metadata.c:1752
+#: ../src/metadata.c:1759 ../src/metadata.c:1773
 msgid "Modern"
 msgstr ""
 
-#: ../src/metadata.c:1739
+#: ../src/metadata.c:1760
 msgid "City"
 msgstr ""
 
-#: ../src/metadata.c:1740
+#: ../src/metadata.c:1761
 msgid "Park"
 msgstr ""
 
-#: ../src/metadata.c:1741
+#: ../src/metadata.c:1762
 msgid "Street"
 msgstr ""
 
-#: ../src/metadata.c:1742
+#: ../src/metadata.c:1763
 msgid "Square"
 msgstr ""
 
-#: ../src/metadata.c:1743
+#: ../src/metadata.c:1764
 msgid "Architecture"
 msgstr ""
 
-#: ../src/metadata.c:1744
+#: ../src/metadata.c:1765
 msgid "Buildings"
 msgstr ""
 
-#: ../src/metadata.c:1745
+#: ../src/metadata.c:1766
 msgid "House"
 msgstr ""
 
-#: ../src/metadata.c:1746
+#: ../src/metadata.c:1767
 msgid "Cathedral"
 msgstr ""
 
-#: ../src/metadata.c:1747
+#: ../src/metadata.c:1768
 msgid "Palace"
 msgstr ""
 
-#: ../src/metadata.c:1748
+#: ../src/metadata.c:1769
 msgid "Castle"
 msgstr ""
 
-#: ../src/metadata.c:1749
+#: ../src/metadata.c:1770
 msgid "Bridge"
 msgstr ""
 
-#: ../src/metadata.c:1750
+#: ../src/metadata.c:1771
 msgid "Interior"
 msgstr ""
 
-#: ../src/metadata.c:1753
+#: ../src/metadata.c:1774
 msgid "Places"
 msgstr ""
 
-#: ../src/metadata.c:1754
+#: ../src/metadata.c:1775
 msgid "Conditions"
 msgstr ""
 
-#: ../src/metadata.c:1755
+#: ../src/metadata.c:1776
 msgid "Night"
 msgstr ""
 
-#: ../src/metadata.c:1756
+#: ../src/metadata.c:1777
 msgid "Lights"
 msgstr ""
 
-#: ../src/metadata.c:1757
+#: ../src/metadata.c:1778
 msgid "Reflections"
 msgstr ""
 
-#: ../src/metadata.c:1758
+#: ../src/metadata.c:1779
 msgid "Sun"
 msgstr ""
 
-#: ../src/metadata.c:1759
+#: ../src/metadata.c:1780
 msgid "Weather"
 msgstr ""
 
-#: ../src/metadata.c:1760
+#: ../src/metadata.c:1781
 msgid "Fog"
 msgstr ""
 
-#: ../src/metadata.c:1761
+#: ../src/metadata.c:1782
 msgid "Rain"
 msgstr ""
 
-#: ../src/metadata.c:1762
+#: ../src/metadata.c:1783
 msgid "Clouds"
 msgstr ""
 
-#: ../src/metadata.c:1763
+#: ../src/metadata.c:1784
 msgid "Snow"
 msgstr ""
 
-#: ../src/metadata.c:1764
+#: ../src/metadata.c:1785
 msgid "Sunny weather"
 msgstr ""
 
-#: ../src/metadata.c:1765
+#: ../src/metadata.c:1786
 msgid "Photo"
 msgstr ""
 
-#: ../src/metadata.c:1766
+#: ../src/metadata.c:1787
 msgid "Edited"
 msgstr ""
 
-#: ../src/metadata.c:1767
+#: ../src/metadata.c:1788
 msgid "Detail"
 msgstr ""
 
-#: ../src/metadata.c:1768
+#: ../src/metadata.c:1789
 msgid "Macro"
 msgstr ""
 
-#: ../src/metadata.c:1769
+#: ../src/metadata.c:1790
 msgid "Portrait"
 msgstr ""
 
-#: ../src/metadata.c:1770
+#: ../src/metadata.c:1791
 msgid "Black and White"
 msgstr ""
 
-#: ../src/metadata.c:1771
+#: ../src/metadata.c:1792
 msgid "Perspective"
 msgstr ""
 
-#: ../src/options.c:219 ../src/ui_bookmark.c:589
+#: ../src/options.c:228 ../src/ui_bookmark.c:589
 msgid "Desktop"
 msgstr ""
 
-#: ../src/options.c:240 ../src/search.c:2230 ../src/search.c:2234
-#: ../src/search.c:3382 ../src/search.c:3386 ../src/view_file/view_file.c:828
+#: ../src/options.c:249 ../src/search.c:2241 ../src/search.c:2245
+#: ../src/search.c:3401 ../src/search.c:3405 ../src/view_file/view_file.c:828
 msgid "Mark "
+msgstr ""
+
+#: ../src/osd.c:44 ../src/preferences.c:119
+msgid "Collection"
+msgstr ""
+
+#: ../src/osd.c:45
+msgid "Image index"
+msgstr ""
+
+#: ../src/osd.c:46
+msgid "Images total"
+msgstr ""
+
+#: ../src/osd.c:55
+msgid "File page no."
+msgstr ""
+
+#: ../src/osd.c:56
+msgid "Image date"
+msgstr ""
+
+#: ../src/osd.c:58
+msgid "ShutterSpeed"
+msgstr ""
+
+#: ../src/osd.c:63
+msgid "ISO"
+msgstr ""
+
+#: ../src/osd.c:65
+msgid "Focal len. 35mm"
+msgstr ""
+
+#: ../src/osd.c:69
+msgid "Lat, Long"
+msgstr ""
+
+#: ../src/osd.c:70
+msgid "Altitude"
+msgstr ""
+
+#: ../src/osd.c:72
+msgid "Timezone"
+msgstr ""
+
+#: ../src/osd.c:77
+msgid "© Creator"
+msgstr ""
+
+#: ../src/osd.c:78
+msgid "© Contributor"
+msgstr ""
+
+#: ../src/osd.c:79
+msgid "© Rights"
+msgstr ""
+
+#: ../src/osd.c:176
+msgid ""
+"To include predefined tags in the template, click a button or drag-and-drop"
 msgstr ""
 
 #: ../src/pan-view/pan-view.c:439
@@ -4081,8 +4199,8 @@ msgstr ""
 msgid "Filename:"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1414 ../src/pan-view/pan-view.c:1827
-#: ../src/preferences.c:2050
+#: ../src/pan-view/pan-view.c:1414 ../src/pan-view/pan-view.c:1829
+#: ../src/preferences.c:2260
 msgid "Location:"
 msgstr ""
 
@@ -4090,11 +4208,11 @@ msgstr ""
 msgid "Date:"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1418 ../src/preferences.c:1724
+#: ../src/pan-view/pan-view.c:1418 ../src/preferences.c:1880
 msgid "Size:"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1725 ../src/search.c:2680
+#: ../src/pan-view/pan-view.c:1725 ../src/search.c:2691
 msgid "Folder not found"
 msgstr ""
 
@@ -4106,71 +4224,71 @@ msgstr ""
 msgid "Pan View"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1834
+#: ../src/pan-view/pan-view.c:1836
 msgid "Timeline"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1835
+#: ../src/pan-view/pan-view.c:1837
 msgid "Calendar"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1837
+#: ../src/pan-view/pan-view.c:1839
 msgid "Folders (flower)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1838
+#: ../src/pan-view/pan-view.c:1840
 msgid "Grid"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1847
+#: ../src/pan-view/pan-view.c:1849
 msgid "Dots"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1848
+#: ../src/pan-view/pan-view.c:1850
 msgid "No Images"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1849
+#: ../src/pan-view/pan-view.c:1851
 msgid "Small Thumbnails"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1850
+#: ../src/pan-view/pan-view.c:1852
 msgid "Normal Thumbnails"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1851
+#: ../src/pan-view/pan-view.c:1853
 msgid "Large Thumbnails"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1852 ../src/pan-view/pan-view.c:2376
+#: ../src/pan-view/pan-view.c:1854 ../src/pan-view/pan-view.c:2380
 msgid "1:10 (10%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1853 ../src/pan-view/pan-view.c:2372
+#: ../src/pan-view/pan-view.c:1855 ../src/pan-view/pan-view.c:2376
 msgid "1:4 (25%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1854 ../src/pan-view/pan-view.c:2368
+#: ../src/pan-view/pan-view.c:1856 ../src/pan-view/pan-view.c:2372
 msgid "1:3 (33%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1855 ../src/pan-view/pan-view.c:2364
+#: ../src/pan-view/pan-view.c:1857 ../src/pan-view/pan-view.c:2368
 msgid "1:2 (50%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:1856
+#: ../src/pan-view/pan-view.c:1858
 msgid "1:1 (100%)"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2002
+#: ../src/pan-view/pan-view.c:2006
 msgid "Pan View Performance"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2009
+#: ../src/pan-view/pan-view.c:2013
 msgid "Pan view performance may be poor."
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2010
+#: ../src/pan-view/pan-view.c:2014
 msgid ""
 "To improve the performance of thumbnails in\n"
 "pan view the following options can be enabled.\n"
@@ -4179,39 +4297,39 @@ msgid ""
 "notice a change in performance."
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2016 ../src/preferences.c:1727
+#: ../src/pan-view/pan-view.c:2020 ../src/preferences.c:1883
 msgid "Cache thumbnails"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2018
+#: ../src/pan-view/pan-view.c:2022
 msgid "Use shared thumbnail cache"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2024
+#: ../src/pan-view/pan-view.c:2028
 msgid "Do not show this dialog again"
 msgstr "Do not show this dialogue again"
 
-#: ../src/pan-view/pan-view.c:2290 ../src/search.c:1103
+#: ../src/pan-view/pan-view.c:2294 ../src/search.c:1106
 msgid "_Play"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2344
+#: ../src/pan-view/pan-view.c:2348
 msgid "Sort by E_xif date"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2350
+#: ../src/pan-view/pan-view.c:2354
 msgid "_Show Exif information"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2352
+#: ../src/pan-view/pan-view.c:2356
 msgid "Show im_age"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2356
+#: ../src/pan-view/pan-view.c:2360
 msgid "_None"
 msgstr ""
 
-#: ../src/pan-view/pan-view.c:2360
+#: ../src/pan-view/pan-view.c:2364
 msgid "_Full size"
 msgstr ""
 
@@ -4251,7 +4369,7 @@ msgstr ""
 msgid "Keyword Filter:"
 msgstr ""
 
-#: ../src/pan-view/pan-view-filter.c:105 ../src/preferences.c:2406
+#: ../src/pan-view/pan-view-filter.c:105 ../src/preferences.c:2488
 msgid "Filter"
 msgstr ""
 
@@ -4283,297 +4401,422 @@ msgstr ""
 msgid "no match"
 msgstr ""
 
-#: ../src/preferences.c:115 ../src/search.c:3367
+#: ../src/preferences.c:114 ../src/search.c:3386
 msgid "Unknown"
 msgstr ""
 
-#: ../src/preferences.c:117
+#: ../src/preferences.c:116
 msgid "RAW Image"
 msgstr ""
 
-#: ../src/preferences.c:119 ../src/search.c:2188 ../src/search.c:3365
+#: ../src/preferences.c:118 ../src/search.c:2194 ../src/search.c:3383
 msgid "Video"
 msgstr ""
 
-#: ../src/preferences.c:120 ../src/preferences.c:2068
-msgid "Collection"
+#: ../src/preferences.c:120 ../src/search.c:2199 ../src/search.c:3384
+msgid "Document"
 msgstr ""
 
-#: ../src/preferences.c:121
-msgid "Pdf"
-msgstr ""
-
-#: ../src/preferences.c:589
+#: ../src/preferences.c:592
 msgid "Nearest (worst, but fastest)"
 msgstr ""
 
-#: ../src/preferences.c:591
+#: ../src/preferences.c:594
 msgid "Tiles"
 msgstr ""
 
-#: ../src/preferences.c:593
+#: ../src/preferences.c:596
 msgid "Bilinear"
 msgstr ""
 
-#: ../src/preferences.c:595
+#: ../src/preferences.c:598
 msgid "Hyper (best, but slowest)"
 msgstr ""
 
-#: ../src/preferences.c:620
+#: ../src/preferences.c:623
 msgid "PRIMARY"
 msgstr ""
 
-#: ../src/preferences.c:622
+#: ../src/preferences.c:625
 msgid "CLIPBOARD"
 msgstr ""
 
-#: ../src/preferences.c:687
+#: ../src/preferences.c:656 ../src/toolbar.c:82
+msgid "First page"
+msgstr ""
+
+#: ../src/preferences.c:658 ../src/toolbar.c:84
+msgid "Next page"
+msgstr ""
+
+#: ../src/preferences.c:663 ../src/preferences.c:2985 ../src/toolbar.c:89
+msgid "Search"
+msgstr ""
+
+#: ../src/preferences.c:665 ../src/toolbar.c:91 ../src/ui_pathsel.c:752
+#: ../src/ui_pathsel.c:1058 ../src/utilops.c:2879
+msgid "New folder"
+msgstr ""
+
+#: ../src/preferences.c:668 ../src/toolbar.c:94 ../src/utilops.c:2375
+#: ../src/utilops.c:2841
+msgid "Rename"
+msgstr ""
+
+#: ../src/preferences.c:669 ../src/preferences.c:3210 ../src/toolbar.c:95
+#: ../src/utilops.c:2188
+msgid "Delete"
+msgstr ""
+
+#: ../src/preferences.c:670 ../src/toolbar.c:96
+msgid "Close Window"
+msgstr ""
+
+#: ../src/preferences.c:674 ../src/toolbar.c:100
+msgid "Select invert"
+msgstr ""
+
+#: ../src/preferences.c:675 ../src/toolbar.c:101
+msgid "Show file filter"
+msgstr ""
+
+#: ../src/preferences.c:676 ../src/toolbar.c:102
+msgid "Select rectangle"
+msgstr ""
+
+#: ../src/preferences.c:677 ../src/toolbar.c:103
+msgid "Print"
+msgstr ""
+
+#: ../src/preferences.c:678 ../src/preferences.c:3554 ../src/toolbar.c:104
+msgid "Preferences"
+msgstr ""
+
+#: ../src/preferences.c:679 ../src/toolbar.c:105
+msgid "Configure this window"
+msgstr ""
+
+#: ../src/preferences.c:680 ../src/toolbar.c:106
+msgid "Cache maintenance"
+msgstr ""
+
+#: ../src/preferences.c:691 ../src/toolbar.c:117
+msgid "Fit Horizontaly"
+msgstr ""
+
+#: ../src/preferences.c:692 ../src/toolbar.c:118
+msgid "Fit vertically"
+msgstr ""
+
+#: ../src/preferences.c:697 ../src/toolbar.c:123
+msgid "Zoom1:3"
+msgstr ""
+
+#: ../src/preferences.c:700 ../src/toolbar.c:126
+msgid "Grayscale"
+msgstr ""
+
+#: ../src/preferences.c:701 ../src/toolbar.c:127
+msgid "Over Under Exposed"
+msgstr ""
+
+#: ../src/preferences.c:704 ../src/toolbar.c:134
+msgid "Slideshow Faster"
+msgstr ""
+
+#: ../src/preferences.c:705 ../src/toolbar.c:135
+msgid "Slideshow Slower"
+msgstr ""
+
+#: ../src/preferences.c:707 ../src/toolbar.c:137 ../src/window.c:287
+#: ../src/window.c:308
+msgid "Help"
+msgstr ""
+
+#: ../src/preferences.c:709 ../src/toolbar.c:139
+msgid "Show thumbnails"
+msgstr ""
+
+#: ../src/preferences.c:710 ../src/toolbar.c:140
+msgid "Show marks"
+msgstr ""
+
+#: ../src/preferences.c:711 ../src/toolbar.c:141
+msgid "Show guidelines"
+msgstr ""
+
+#: ../src/preferences.c:831
 msgid "Custom"
 msgstr ""
 
-#: ../src/preferences.c:770
+#: ../src/preferences.c:914
 msgid "Single image"
 msgstr ""
 
-#: ../src/preferences.c:772
+#: ../src/preferences.c:916
 msgid "Anaglyph Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:774
+#: ../src/preferences.c:918
 msgid "Anaglyph Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:776
+#: ../src/preferences.c:920
 msgid "Anaglyph Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:778
+#: ../src/preferences.c:922
 msgid "Anaglyph Gray Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:780
+#: ../src/preferences.c:924
 msgid "Anaglyph Gray Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:782
+#: ../src/preferences.c:926
 msgid "Anaglyph Gray Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:784
+#: ../src/preferences.c:928
 msgid "Anaglyph Dubois Red-Cyan"
 msgstr ""
 
-#: ../src/preferences.c:786
+#: ../src/preferences.c:930
 msgid "Anaglyph Dubois Green-Magenta"
 msgstr ""
 
-#: ../src/preferences.c:788
+#: ../src/preferences.c:932
 msgid "Anaglyph Dubois Yellow-Blue"
 msgstr ""
 
-#: ../src/preferences.c:791
+#: ../src/preferences.c:935
 msgid "Side by Side"
 msgstr ""
 
-#: ../src/preferences.c:792
+#: ../src/preferences.c:936
 msgid "Side by Side Half size"
 msgstr ""
 
-#: ../src/preferences.c:799
+#: ../src/preferences.c:943
 msgid "Top - Bottom"
 msgstr ""
 
-#: ../src/preferences.c:800
+#: ../src/preferences.c:944
 msgid "Top - Bottom Half size"
 msgstr ""
 
-#: ../src/preferences.c:809 ../src/preferences.c:3409
+#: ../src/preferences.c:953 ../src/preferences.c:3526
 msgid "Fixed position"
 msgstr ""
 
-#: ../src/preferences.c:1148 ../src/preferences.c:1151
+#: ../src/preferences.c:1285 ../src/preferences.c:1288
 msgid "Reset filters"
 msgstr ""
 
-#: ../src/preferences.c:1152
+#: ../src/preferences.c:1289
 msgid ""
 "This will reset the file filters to the defaults.\n"
 "Continue?"
 msgstr ""
 
-#: ../src/preferences.c:1179 ../src/preferences.c:1182
+#: ../src/preferences.c:1316 ../src/preferences.c:1319
 msgid "Clear trash"
 msgstr "Clear Rubbish Bin"
 
-#: ../src/preferences.c:1183
+#: ../src/preferences.c:1320
 msgid "This will remove the trash contents."
 msgstr "This will remove the Rubbish Bin contents."
 
-#: ../src/preferences.c:1227 ../src/preferences.c:1230
+#: ../src/preferences.c:1364 ../src/preferences.c:1367
 msgid "Reset image overlay template string"
 msgstr ""
 
-#: ../src/preferences.c:1231
+#: ../src/preferences.c:1368
 msgid ""
 "This will reset the image overlay template string to the default.\n"
 "Continue?"
 msgstr ""
 
-#: ../src/preferences.c:1719
+#: ../src/preferences.c:1875
 msgid "General"
 msgstr ""
 
-#: ../src/preferences.c:1725 ../src/preferences.c:1939
+#: ../src/preferences.c:1881 ../src/preferences.c:2149
 msgid "Quality:"
 msgstr ""
 
-#: ../src/preferences.c:1735
+#: ../src/preferences.c:1891
 msgid "Use Geeqie thumbnail style and cache"
 msgstr ""
 
-#: ../src/preferences.c:1742
+#: ../src/preferences.c:1898
 msgid "Store thumbnails local to image folder (non-standard)"
 msgstr ""
 
-#: ../src/preferences.c:1749
+#: ../src/preferences.c:1905
 msgid "Use standard thumbnail style and cache, shared with other applications"
 msgstr ""
 
-#: ../src/preferences.c:1755
+#: ../src/preferences.c:1911
 msgid "Use EXIF thumbnails when available (EXIF thumbnails may be outdated)"
 msgstr ""
 
-#: ../src/preferences.c:1758
+#: ../src/preferences.c:1914
 msgid "Collection preview:"
 msgstr ""
 
-#: ../src/preferences.c:1761
+#: ../src/preferences.c:1917
 msgid "The maximum number of thumbnails shown in a Collection preview montage"
 msgstr ""
 
-#: ../src/preferences.c:1764
+#: ../src/preferences.c:1920
 msgid "Use embedded metadata in video files as thumbnails when available"
 msgstr ""
 
-#: ../src/preferences.c:1771
+#: ../src/preferences.c:1929
 msgid "Star Rating"
 msgstr ""
 
-#: ../src/preferences.c:1787 ../src/preferences.c:1819
+#: ../src/preferences.c:1945 ../src/preferences.c:1977
 msgid "Set"
 msgstr ""
 
-#: ../src/preferences.c:1789 ../src/preferences.c:1821
+#: ../src/preferences.c:1947 ../src/preferences.c:1979
 msgid "Display selected character"
 msgstr ""
 
-#: ../src/preferences.c:1792 ../src/preferences.c:1824
+#: ../src/preferences.c:1950 ../src/preferences.c:1982
 msgid ""
 "Hexadecimal representation of a Unicode character. A list of all Unicode "
 "characters may be found on the Internet."
 msgstr ""
 
-#: ../src/preferences.c:1796 ../src/preferences.c:1828
-#: ../src/preferences.c:1913 ../src/window.c:397
+#: ../src/preferences.c:1954 ../src/preferences.c:1986
+#: ../src/preferences.c:2123 ../src/window.c:397
 msgid "Clear"
 msgstr ""
 
-#: ../src/preferences.c:1800 ../src/preferences.c:1832
-#: ../src/preferences.c:1917
+#: ../src/preferences.c:1958 ../src/preferences.c:1990
+#: ../src/preferences.c:2127
 msgid "Default"
 msgstr ""
 
-#: ../src/preferences.c:1840
+#: ../src/preferences.c:2000
 msgid "Slide show"
 msgstr ""
 
-#: ../src/preferences.c:1851
+#: ../src/preferences.c:2011
 msgid "Delay between image change hrs:mins:secs.dec"
 msgstr ""
 
-#: ../src/preferences.c:1867
+#: ../src/preferences.c:2027
 msgid "Random"
 msgstr ""
 
-#: ../src/preferences.c:1868
+#: ../src/preferences.c:2028
 msgid "Repeat"
 msgstr ""
 
-#: ../src/preferences.c:1870
+#: ../src/preferences.c:2032
 msgid "Image loading and caching"
 msgstr ""
 
-#: ../src/preferences.c:1872
+#: ../src/preferences.c:2034
 msgid "Decoded image cache size (Mb):"
 msgstr ""
 
-#: ../src/preferences.c:1874
+#: ../src/preferences.c:2036
 msgid "Preload next image"
 msgstr ""
 
-#: ../src/preferences.c:1877
+#: ../src/preferences.c:2039
 msgid "Refresh on file change"
 msgstr ""
 
-#: ../src/preferences.c:1880
+#: ../src/preferences.c:2044
 msgid "Info sidebar heights"
 msgstr ""
 
-#: ../src/preferences.c:1881
+#: ../src/preferences.c:2045
 msgid "NOTE! Geeqie must be restarted for changes to take effect"
 msgstr ""
 
-#: ../src/preferences.c:1883
+#: ../src/preferences.c:2047
 msgid "Keywords:"
 msgstr ""
 
-#: ../src/preferences.c:1889
+#: ../src/preferences.c:2053
 msgid "Comment:"
 msgstr ""
 
-#: ../src/preferences.c:1892
+#: ../src/preferences.c:2056
 msgid "Rating:"
 msgstr ""
 
-#: ../src/preferences.c:1896
+#: ../src/preferences.c:2062
 msgid "Show predefined keyword tree"
 msgstr ""
 
-#: ../src/preferences.c:1898
+#: ../src/preferences.c:2064
 msgid ""
 "Show predefined keyword tree (NOTE! Geeqie must be restarted for change to "
 "take effect)"
 msgstr ""
 
-#: ../src/preferences.c:1901
+#: ../src/preferences.c:2074 ../src/preferences.c:3834
+msgid "Timezone database"
+msgstr ""
+
+#: ../src/preferences.c:2092 ../src/preferences.c:3846
+msgid "Update"
+msgstr ""
+
+#: ../src/preferences.c:2096
+msgid "Install"
+msgstr ""
+
+#: ../src/preferences.c:2101
+msgid ""
+"No Internet connection!\n"
+"The timezone database is used to display exif time and date\n"
+"corrected for UTC offset and Daylight Saving Time"
+msgstr ""
+
+#: ../src/preferences.c:2105
+msgid ""
+"The timezone database is used to display exif time and date\n"
+"corrected for UTC offset and Daylight Saving Time"
+msgstr ""
+
+#: ../src/preferences.c:2111
 msgid "On-line help search engine"
 msgstr ""
 
-#: ../src/preferences.c:1908
+#: ../src/preferences.c:2118
 msgid ""
 "The format varies between search engines, e.g the format may be:\n"
 "https://www.search_engine.com/search?q=site:geeqie.org/help\n"
 "https://www.search_engine.com/?q=site:geeqie.org/help"
 msgstr ""
 
-#: ../src/preferences.c:1942
+#: ../src/preferences.c:2152
 msgid "Use GPU acceleration via Clutter library"
 msgstr ""
 
-#: ../src/preferences.c:1946
+#: ../src/preferences.c:2156
 msgid "Two pass rendering (apply HQ zoom and color correction in second pass)"
 msgstr ""
 "Two pass rendering (apply HQ zoom and colour correction in second pass)"
 
-#: ../src/preferences.c:1950
+#: ../src/preferences.c:2160
 msgid "Zoom increment:"
 msgstr ""
 
-#: ../src/preferences.c:1958
+#: ../src/preferences.c:2168
 msgid "Allow enlargement of image (max. size in %)"
 msgstr ""
 
-#: ../src/preferences.c:1964
+#: ../src/preferences.c:2174
 #, c-format
 msgid ""
 "Enable this to allow Geeqie to increase the image size for images that are "
@@ -4582,12 +4825,12 @@ msgid ""
 "100% is full-size."
 msgstr ""
 
-#: ../src/preferences.c:1967
+#: ../src/preferences.c:2177
 #, c-format
 msgid "Virtual window size (% of actual window):"
 msgstr ""
 
-#: ../src/preferences.c:1973
+#: ../src/preferences.c:2183
 msgid ""
 "This value will set the virtual size of the window when \"Fit image to window"
 "\" is set. Instead of using the actual size of the window, the specified "
@@ -4596,198 +4839,157 @@ msgid ""
 "than 100%). It affects fullscreen mode too."
 msgstr ""
 
-#: ../src/preferences.c:1975
+#: ../src/preferences.c:2185
 msgid "Appearance"
 msgstr ""
 
-#: ../src/preferences.c:1977
+#: ../src/preferences.c:2187
 msgid "Use custom border color in window mode"
 msgstr "Use custom border colour in window mode"
 
-#: ../src/preferences.c:1980
+#: ../src/preferences.c:2190
 msgid "Use custom border color in fullscreen mode"
 msgstr "Use custom border colour in fullscreen mode"
 
-#: ../src/preferences.c:1983
+#: ../src/preferences.c:2193
 msgid "Border color"
 msgstr "Border colour"
 
-#: ../src/preferences.c:1988
+#: ../src/preferences.c:2198
 msgid "Alpha channel color 1"
 msgstr "Alpha channel colour 1"
 
-#: ../src/preferences.c:1991
+#: ../src/preferences.c:2201
 msgid "Alpha channel color 2"
 msgstr "Alpha channel colour 2"
 
-#: ../src/preferences.c:1997
+#: ../src/preferences.c:2207
 msgid "Convenience"
 msgstr ""
 
-#: ../src/preferences.c:1999
+#: ../src/preferences.c:2209
 msgid "Auto rotate proofs using Exif information"
 msgstr ""
 
-#: ../src/preferences.c:2013
+#: ../src/preferences.c:2223
 msgid "Windows"
 msgstr ""
 
-#: ../src/preferences.c:2015
+#: ../src/preferences.c:2225
 msgid "State"
 msgstr ""
 
-#: ../src/preferences.c:2017
+#: ../src/preferences.c:2227
 msgid "Remember window positions"
 msgstr ""
 
-#: ../src/preferences.c:2020
+#: ../src/preferences.c:2230
 msgid "Use saved window positions also for new windows"
 msgstr ""
 
-#: ../src/preferences.c:2024
+#: ../src/preferences.c:2234
 msgid "Remember tool state (float/hidden)"
 msgstr ""
 
-#: ../src/preferences.c:2027
+#: ../src/preferences.c:2237
 msgid "Remember dialog window positions"
 msgstr "Remember dialogue window positions"
 
-#: ../src/preferences.c:2030
+#: ../src/preferences.c:2240
 msgid "Show window IDs"
 msgstr ""
 
-#: ../src/preferences.c:2035
+#: ../src/preferences.c:2245
 msgid "Fit window to image when tools are hidden/floating"
 msgstr ""
 
-#: ../src/preferences.c:2039
+#: ../src/preferences.c:2249
 msgid "Limit size when auto-sizing window (%):"
 msgstr ""
 
-#: ../src/preferences.c:2054
+#: ../src/preferences.c:2264
 msgid "Smooth image flip"
 msgstr ""
 
-#: ../src/preferences.c:2056
+#: ../src/preferences.c:2266
 msgid "Disable screen saver"
 msgstr ""
 
-#: ../src/preferences.c:2069
-msgid "Collection number"
-msgstr ""
-
-#: ../src/preferences.c:2070
-msgid "Collection total"
-msgstr ""
-
-#: ../src/preferences.c:2077
-msgid "Image date"
-msgstr ""
-
-#: ../src/preferences.c:2079
-msgid "ShutterSpeed"
-msgstr ""
-
-#: ../src/preferences.c:2085
-msgid "ISO"
-msgstr ""
-
-#: ../src/preferences.c:2087
-msgid "Focal len. 35mm"
-msgstr ""
-
-#: ../src/preferences.c:2091
-msgid "Lat, Long"
-msgstr ""
-
-#: ../src/preferences.c:2092
-msgid "Altitude"
-msgstr ""
-
-#: ../src/preferences.c:2094
-msgid "Timezone"
-msgstr ""
-
-#: ../src/preferences.c:2186
+#: ../src/preferences.c:2288
 msgid "OSD"
 msgstr ""
 
-#: ../src/preferences.c:2190
+#: ../src/preferences.c:2292
 msgid "Overlay Screen Display"
 msgstr ""
 
-#: ../src/preferences.c:2197
-msgid ""
-"To include predefined tags in the template, click a button or drag-and-drop"
-msgstr ""
-
-#: ../src/preferences.c:2222
+#: ../src/preferences.c:2304
 msgid "Image overlay template"
 msgstr ""
 
-#: ../src/preferences.c:2233
+#: ../src/preferences.c:2315 ../src/print.c:389
 msgid "Extensive formatting options are shown in the Help file"
 msgstr ""
 
-#: ../src/preferences.c:2241 ../src/print.c:428 ../src/print.c:491
+#: ../src/preferences.c:2323 ../src/print.c:410 ../src/print.c:471
 msgid "Font"
 msgstr ""
 
-#: ../src/preferences.c:2253
+#: ../src/preferences.c:2335
 msgid "Text"
 msgstr ""
 
-#: ../src/preferences.c:2258
+#: ../src/preferences.c:2340
 msgid "Background"
 msgstr ""
 
-#: ../src/preferences.c:2264 ../src/preferences.c:2486
-#: ../src/preferences.c:3322
+#: ../src/preferences.c:2346 ../src/preferences.c:2568
+#: ../src/preferences.c:3423
 msgid "Defaults"
 msgstr ""
 
-#: ../src/preferences.c:2281
+#: ../src/preferences.c:2363
 msgid "Exif, XMP or IPTC tags"
 msgstr ""
 
-#: ../src/preferences.c:2285
+#: ../src/preferences.c:2367
 msgid "%Exif.Image.Orientation%"
 msgstr ""
 
-#: ../src/preferences.c:2290
+#: ../src/preferences.c:2372
 msgid "Field separators"
 msgstr ""
 
-#: ../src/preferences.c:2294
+#: ../src/preferences.c:2376
 msgid ""
 "Separator shown only if both fields are non-null:\n"
 "%formatted.ShutterSpeed%|%formatted.ISOSpeedRating%"
 msgstr ""
 
-#: ../src/preferences.c:2299
+#: ../src/preferences.c:2381
 msgid "Field maximum length"
 msgstr ""
 
-#: ../src/preferences.c:2303
+#: ../src/preferences.c:2385
 msgid "%path:39%"
 msgstr ""
 
-#: ../src/preferences.c:2308
+#: ../src/preferences.c:2390
 msgid "Pre- and post- text"
 msgstr ""
 
-#: ../src/preferences.c:2312
+#: ../src/preferences.c:2394
 msgid ""
 "Text shown only if the field is non-null:\n"
 "%formatted.Aperture:F no. * setting%\n"
 " %formatted.Aperture:10:F no. * setting%"
 msgstr ""
 
-#: ../src/preferences.c:2317
+#: ../src/preferences.c:2399
 msgid "Pango markup"
 msgstr ""
 
-#: ../src/preferences.c:2321
+#: ../src/preferences.c:2403
 msgid ""
 "<b>bold</b>\n"
 "<u>underline</u>\n"
@@ -4795,456 +4997,468 @@ msgid ""
 "<s>strikethrough</s>"
 msgstr ""
 
-#: ../src/preferences.c:2362
+#: ../src/preferences.c:2444
 msgid "Show hidden files or folders"
 msgstr ""
 
-#: ../src/preferences.c:2364
+#: ../src/preferences.c:2446
 msgid "Show parent folder (..)"
 msgstr ""
 
-#: ../src/preferences.c:2366
+#: ../src/preferences.c:2448
 msgid "Case sensitive sort"
 msgstr ""
 
-#: ../src/preferences.c:2368
+#: ../src/preferences.c:2450
 msgid "Natural sort order"
 msgstr ""
 
-#: ../src/preferences.c:2370
+#: ../src/preferences.c:2452
 msgid "Disable file extension checks"
 msgstr ""
 
-#: ../src/preferences.c:2373
+#: ../src/preferences.c:2455
 msgid "Disable File Filtering"
 msgstr ""
 
-#: ../src/preferences.c:2377
+#: ../src/preferences.c:2459
 msgid "Grouping sidecar extensions"
 msgstr ""
 
-#: ../src/preferences.c:2384
+#: ../src/preferences.c:2466
 msgid "File types"
 msgstr ""
 
-#: ../src/preferences.c:2441
+#: ../src/preferences.c:2523 ../src/view_file/view_file.c:1107
 msgid "Class"
 msgstr ""
 
-#: ../src/preferences.c:2458
+#: ../src/preferences.c:2540
 msgid "Writable"
 msgstr ""
 
-#: ../src/preferences.c:2469
+#: ../src/preferences.c:2551
 msgid "Sidecar is allowed"
 msgstr ""
 
-#: ../src/preferences.c:2515
+#: ../src/preferences.c:2597
 msgid "Metadata writing process"
 msgstr ""
 
-#: ../src/preferences.c:2517
+#: ../src/preferences.c:2599
 msgid "Warning: Geeqie is built without Exiv2. Some options are disabled."
 msgstr ""
 
-#: ../src/preferences.c:2519
+#: ../src/preferences.c:2601
 msgid ""
 "Metadata are written in the following order. The process ends after first "
 "success."
 msgstr ""
 
-#: ../src/preferences.c:2522
+#: ../src/preferences.c:2604
 msgid ""
 "1) Save metadata in image files, or sidecar files, according to the XMP "
 "standard"
 msgstr ""
 
-#: ../src/preferences.c:2528
+#: ../src/preferences.c:2610
 msgid ""
 "2) Save metadata in '.metadata' folder, local to image folder (non-standard)"
 msgstr ""
 
-#: ../src/preferences.c:2531
+#: ../src/preferences.c:2613
 #, c-format
 msgid "3) Save metadata in Geeqie private directory '%s'"
 msgstr ""
 
-#: ../src/preferences.c:2537
+#: ../src/preferences.c:2619
 msgid "Step 1: Write to image files"
 msgstr ""
 
-#: ../src/preferences.c:2545
+#: ../src/preferences.c:2627
 msgid ""
 "Store metadata also in legacy IPTC tags (converted according to IPTC4XMP "
 "standard)"
 msgstr ""
 
-#: ../src/preferences.c:2548
+#: ../src/preferences.c:2630
 msgid "Warn if the image files are unwritable"
 msgstr ""
 
-#: ../src/preferences.c:2551
+#: ../src/preferences.c:2633
 msgid "Ask before writing to image files"
 msgstr ""
 
-#: ../src/preferences.c:2554
+#: ../src/preferences.c:2636
 msgid "Create sidecar files named image.ext.xmp (as opposed to image.xmp)"
 msgstr ""
 
-#: ../src/preferences.c:2557
+#: ../src/preferences.c:2639
 msgid "Step 2 and 3: write to Geeqie private files"
 msgstr ""
 
-#: ../src/preferences.c:2562
+#: ../src/preferences.c:2644
 msgid ""
 "Use GQview legacy metadata format (supports only keywords and comments) "
 "instead of XMP"
 msgstr ""
 
-#: ../src/preferences.c:2566
+#: ../src/preferences.c:2648
 msgid "Miscellaneous"
 msgstr ""
 
-#: ../src/preferences.c:2567
+#: ../src/preferences.c:2649
 msgid ""
 "Write the same description tags (keywords, comment, etc.) to all grouped "
 "sidecars"
 msgstr ""
 
-#: ../src/preferences.c:2570
+#: ../src/preferences.c:2652
 msgid "Allow keywords to differ only in case"
 msgstr ""
 
-#: ../src/preferences.c:2573
+#: ../src/preferences.c:2655
 msgid "Write altered image orientation to the metadata"
 msgstr ""
 
-#: ../src/preferences.c:2579
+#: ../src/preferences.c:2661
 msgid "Auto-save options"
 msgstr ""
 
-#: ../src/preferences.c:2581
+#: ../src/preferences.c:2663
 msgid "Write metadata after timeout"
 msgstr ""
 
-#: ../src/preferences.c:2587
+#: ../src/preferences.c:2669
 msgid "Timeout (seconds):"
 msgstr ""
 
-#: ../src/preferences.c:2590
+#: ../src/preferences.c:2672
 msgid "Write metadata on image change"
 msgstr ""
 
-#: ../src/preferences.c:2593
+#: ../src/preferences.c:2675
 msgid "Write metadata on directory change"
 msgstr ""
 
-#: ../src/preferences.c:2596
+#: ../src/preferences.c:2678
 msgid "Pre-load metadata"
 msgstr ""
 
-#: ../src/preferences.c:2598
+#: ../src/preferences.c:2680
 msgid "Read metadata in background"
 msgstr ""
 
-#: ../src/preferences.c:2787 ../src/preferences.c:2801
+#: ../src/preferences.c:2869 ../src/preferences.c:2883
 msgid "Search for keywords"
 msgstr ""
 
-#: ../src/preferences.c:2899
+#: ../src/preferences.c:2981
 msgid "Edit keywords autocompletion list"
 msgstr ""
 
-#: ../src/preferences.c:2903 ../src/toolbar.c:85
-msgid "Search"
-msgstr ""
-
-#: ../src/preferences.c:2982
+#: ../src/preferences.c:3064
 msgid "Perceptual"
 msgstr ""
 
-#: ../src/preferences.c:2984
+#: ../src/preferences.c:3066
 msgid "Relative Colorimetric"
 msgstr "Relative Colourimetric"
 
-#: ../src/preferences.c:2988
+#: ../src/preferences.c:3070
 msgid "Absolute Colorimetric"
 msgstr "Absolute Colourimetric"
 
-#: ../src/preferences.c:3013
+#: ../src/preferences.c:3095
 msgid "Color management"
 msgstr "Colour management"
 
-#: ../src/preferences.c:3015
+#: ../src/preferences.c:3097
 msgid "Input profiles"
 msgstr ""
 
-#: ../src/preferences.c:3023
+#: ../src/preferences.c:3105
 msgid "Type"
 msgstr ""
 
-#: ../src/preferences.c:3026
+#: ../src/preferences.c:3108
 msgid "Menu name"
 msgstr ""
 
-#: ../src/preferences.c:3029
+#: ../src/preferences.c:3111
 msgid "File"
 msgstr ""
 
-#: ../src/preferences.c:3037
+#: ../src/preferences.c:3119
 #, c-format
 msgid "Input %d:"
 msgstr ""
 
-#: ../src/preferences.c:3053 ../src/preferences.c:3073
+#: ../src/preferences.c:3135 ../src/preferences.c:3155
 msgid "Select color profile"
 msgstr "Select colour profile"
 
-#: ../src/preferences.c:3061
+#: ../src/preferences.c:3143
 msgid "Screen profile"
 msgstr ""
 
-#: ../src/preferences.c:3065
+#: ../src/preferences.c:3147
 msgid "Use system screen profile if available"
 msgstr ""
 
-#: ../src/preferences.c:3070
+#: ../src/preferences.c:3152
 msgid "Screen:"
 msgstr ""
 
-#: ../src/preferences.c:3076
+#: ../src/preferences.c:3158
 msgid "Render Intent:"
 msgstr ""
 
-#: ../src/preferences.c:3116 ../src/preferences.c:3163
+#: ../src/preferences.c:3208 ../src/preferences.c:3259
 msgid "Behavior"
 msgstr "Behaviour"
 
-#: ../src/preferences.c:3118 ../src/toolbar.c:91 ../src/utilops.c:2188
-msgid "Delete"
-msgstr ""
-
-#: ../src/preferences.c:3120
+#: ../src/preferences.c:3212
 msgid "Confirm permanent file delete"
 msgstr ""
 
-#: ../src/preferences.c:3122
+#: ../src/preferences.c:3214
 msgid "Confirm move file to Trash"
 msgstr "Confirm file move to Rubbish bin"
 
-#: ../src/preferences.c:3124
+#: ../src/preferences.c:3216
 msgid "Enable Delete key"
 msgstr ""
 
-#: ../src/preferences.c:3127
+#: ../src/preferences.c:3219
 msgid "Use Geeqie trash location"
 msgstr "Use Geeqie Rubbish bin location"
 
-#: ../src/preferences.c:3145
+#: ../src/preferences.c:3237
 msgid "Maximum size:"
 msgstr ""
 
-#: ../src/preferences.c:3145
+#: ../src/preferences.c:3237
 msgid "MB"
 msgstr ""
 
-#: ../src/preferences.c:3147
+#: ../src/preferences.c:3239
 msgid "Set to 0 for unlimited size"
 msgstr ""
 
-#: ../src/preferences.c:3148
+#: ../src/preferences.c:3240
 msgid "View"
 msgstr ""
 
-#: ../src/preferences.c:3156
+#: ../src/preferences.c:3248
 msgid "Use system Trash bin"
 msgstr "Use system Rubbish bin"
 
-#: ../src/preferences.c:3165
+#: ../src/preferences.c:3251
+msgid "Use no trash at all"
+msgstr ""
+
+#: ../src/preferences.c:3261
 msgid "Descend folders in tree view"
 msgstr ""
 
-#: ../src/preferences.c:3168
+#: ../src/preferences.c:3264
 msgid "In place renaming"
 msgstr ""
 
-#: ../src/preferences.c:3171
+#: ../src/preferences.c:3267
 msgid "List directory view uses single click to enter"
 msgstr ""
 
-#: ../src/preferences.c:3174
+#: ../src/preferences.c:3270
 msgid "Save marks on exit"
 msgstr ""
 
-#: ../src/preferences.c:3178
+#: ../src/preferences.c:3274
 msgid "Use \"With Rename\" as default for Copy/Move dialogs"
 msgstr "Use \"With Rename\" as default for Copy/Move dialogues"
 
-#: ../src/preferences.c:3182
+#: ../src/preferences.c:3278
 msgid "Open collections on top"
 msgstr ""
 
-#: ../src/preferences.c:3186
+#: ../src/preferences.c:3282
 msgid "Recent folder list maximum size"
 msgstr ""
 
-#: ../src/preferences.c:3189
+#: ../src/preferences.c:3285
 msgid "Drag'n drop icon size"
 msgstr ""
 
-#: ../src/preferences.c:3193
+#: ../src/preferences.c:3289
 msgid "Copy path clipboard selection:"
 msgstr ""
 
-#: ../src/preferences.c:3197
+#: ../src/preferences.c:3293
 msgid "Navigation"
 msgstr ""
 
-#: ../src/preferences.c:3199
+#: ../src/preferences.c:3295
 msgid "Progressive keyboard scrolling"
 msgstr ""
 
-#: ../src/preferences.c:3201
+#: ../src/preferences.c:3297
 msgid "Keyboard scrolling step multiplier:"
 msgstr ""
 
-#: ../src/preferences.c:3203
+#: ../src/preferences.c:3299
 msgid "Mouse wheel scrolls image"
 msgstr ""
 
-#: ../src/preferences.c:3205
+#: ../src/preferences.c:3301
 msgid "Navigation by left or middle click on image"
 msgstr ""
 
-#: ../src/preferences.c:3207
+#: ../src/preferences.c:3303
 msgid "Play video by left click on image"
 msgstr ""
 
-#: ../src/preferences.c:3210
+#: ../src/preferences.c:3306
 msgid "Play with:"
 msgstr ""
 
-#: ../src/preferences.c:3216
+#: ../src/preferences.c:3310
+msgid "Mouse button Back:"
+msgstr ""
+
+#: ../src/preferences.c:3312
+msgid "Mouse button Forward:"
+msgstr ""
+
+#: ../src/preferences.c:3317
 msgid "Debugging"
 msgstr ""
 
-#: ../src/preferences.c:3221
+#: ../src/preferences.c:3322
 msgid "Timer data"
 msgstr ""
 
-#: ../src/preferences.c:3224
+#: ../src/preferences.c:3325
 msgid "Log Window max. lines:"
 msgstr ""
 
-#: ../src/preferences.c:3242
+#: ../src/preferences.c:3343
 msgid "Keyboard"
 msgstr ""
 
-#: ../src/preferences.c:3244
+#: ../src/preferences.c:3345
 msgid "Accelerators"
 msgstr ""
 
-#: ../src/preferences.c:3263
+#: ../src/preferences.c:3364
 msgid "Action"
 msgstr ""
 
-#: ../src/preferences.c:3285
+#: ../src/preferences.c:3386
 msgid "KEY"
 msgstr ""
 
-#: ../src/preferences.c:3296
+#: ../src/preferences.c:3397
 msgid "Tooltip"
 msgstr ""
 
-#: ../src/preferences.c:3327
+#: ../src/preferences.c:3428
 msgid "Reset selected"
 msgstr ""
 
-#: ../src/preferences.c:3342
-msgid "Toolbar"
+#: ../src/preferences.c:3443
+msgid "Toolbar Main"
 msgstr ""
 
-#: ../src/preferences.c:3359
+#: ../src/preferences.c:3459
+msgid "Toolbar Status"
+msgstr ""
+
+#: ../src/preferences.c:3476
 msgid "Stereo"
 msgstr ""
 
-#: ../src/preferences.c:3361 ../src/preferences.c:3364
+#: ../src/preferences.c:3478 ../src/preferences.c:3481
 msgid "Windowed stereo mode"
 msgstr ""
 
-#: ../src/preferences.c:3368 ../src/preferences.c:3393
+#: ../src/preferences.c:3485 ../src/preferences.c:3510
 msgid "Mirror left image"
 msgstr ""
 
-#: ../src/preferences.c:3371 ../src/preferences.c:3396
+#: ../src/preferences.c:3488 ../src/preferences.c:3513
 msgid "Flip left image"
 msgstr ""
 
-#: ../src/preferences.c:3374 ../src/preferences.c:3399
+#: ../src/preferences.c:3491 ../src/preferences.c:3516
 msgid "Mirror right image"
 msgstr ""
 
-#: ../src/preferences.c:3377 ../src/preferences.c:3402
+#: ../src/preferences.c:3494 ../src/preferences.c:3519
 msgid "Flip right image"
 msgstr ""
 
-#: ../src/preferences.c:3379 ../src/preferences.c:3404
+#: ../src/preferences.c:3496 ../src/preferences.c:3521
 msgid "Swap left and right images"
 msgstr ""
 
-#: ../src/preferences.c:3381 ../src/preferences.c:3406
+#: ../src/preferences.c:3498 ../src/preferences.c:3523
 msgid "Disable stereo mode on single image source"
 msgstr ""
 
-#: ../src/preferences.c:3384 ../src/preferences.c:3390
+#: ../src/preferences.c:3501 ../src/preferences.c:3507
 msgid "Fullscreen stereo mode"
 msgstr ""
 
-#: ../src/preferences.c:3385
+#: ../src/preferences.c:3502
 msgid "Use different settings for fullscreen"
 msgstr ""
 
-#: ../src/preferences.c:3415
+#: ../src/preferences.c:3532
 msgid "Left X"
 msgstr ""
 
-#: ../src/preferences.c:3417
+#: ../src/preferences.c:3534
 msgid "Left Y"
 msgstr ""
 
-#: ../src/preferences.c:3419
+#: ../src/preferences.c:3536
 msgid "Right X"
 msgstr ""
 
-#: ../src/preferences.c:3421
+#: ../src/preferences.c:3538
 msgid "Right Y"
 msgstr ""
 
-#: ../src/preferences.c:3437 ../src/toolbar.c:100
-msgid "Preferences"
-msgstr ""
-
-#: ../src/preferences.c:3589
+#: ../src/preferences.c:3716
 msgid "About Geeqie"
 msgstr ""
 
-#: ../src/preferences.c:3599
+#: ../src/preferences.c:3726
 msgid "translator-credits"
 msgstr ""
 
-#: ../src/print.c:386
+#: ../src/preferences.c:3782 ../src/preferences.c:3825
+msgid "Timezone database download failed"
+msgstr ""
+
+#: ../src/preferences.c:3836
+msgid "Downloading timezone database"
+msgstr ""
+
+#: ../src/print.c:353
 msgid "Image text"
 msgstr ""
 
-#: ../src/print.c:388
+#: ../src/print.c:355
 msgid "Show image text"
 msgstr ""
 
-#: ../src/print.c:442
+#: ../src/print.c:424
 msgid "Page text"
 msgstr ""
 
-#: ../src/print.c:444
+#: ../src/print.c:426
 msgid "Show page text"
 msgstr ""
 
@@ -5253,243 +5467,305 @@ msgstr ""
 msgid "Option %s ignored: %s\n"
 msgstr ""
 
-#: ../src/rcfile.c:608
+#: ../src/rcfile.c:634
 #, c-format
 msgid "error saving config file: %s\n"
 msgstr ""
 
-#: ../src/rcfile.c:672
+#: ../src/rcfile.c:701
 #, c-format
 msgid ""
 "error saving config file: %s\n"
 "error: %s\n"
 msgstr ""
 
-#: ../src/remote.c:673
+#: ../src/remote.c:718
 #, c-format
 msgid "[%d,%d]: RGB(%3d,%3d,%3d)"
 msgstr ""
 
-#: ../src/remote.c:708
+#: ../src/remote.c:753
 #, c-format
 msgid "%dx%d+%d+%d"
 msgstr ""
 
-#: ../src/remote.c:891 ../src/remote.c:896
+#: ../src/remote.c:987
+#, c-format
+msgid "Class: %s\n"
+msgstr ""
+
+#: ../src/remote.c:992
+#, c-format
+msgid "Page no: %d/%d\n"
+msgstr ""
+
+#: ../src/remote.c:998
+#, c-format
+msgid "Country name: %s\n"
+msgstr ""
+
+#: ../src/remote.c:1004
+#, c-format
+msgid "Country code: %s\n"
+msgstr ""
+
+#: ../src/remote.c:1010
+#, c-format
+msgid "Timezone: %s\n"
+msgstr ""
+
+#: ../src/remote.c:1174 ../src/remote.c:1179
 msgid "lua error: no data"
 msgstr ""
 
 #. short, long                  callback,               extra, prefer, parameter, description
-#: ../src/remote.c:919
+#: ../src/remote.c:1202
 msgid "next image"
 msgstr ""
 
-#: ../src/remote.c:920
+#: ../src/remote.c:1203
 msgid "previous image"
 msgstr ""
 
-#: ../src/remote.c:921
+#: ../src/remote.c:1204
 msgid "first image"
 msgstr ""
 
-#: ../src/remote.c:922
+#: ../src/remote.c:1205
 msgid "last image"
 msgstr ""
 
-#: ../src/remote.c:923
+#: ../src/remote.c:1206
 msgid "toggle full screen"
 msgstr ""
 
-#: ../src/remote.c:924
+#: ../src/remote.c:1207
 msgid "start full screen"
 msgstr ""
 
-#: ../src/remote.c:925
+#: ../src/remote.c:1208
 msgid "stop full screen"
 msgstr ""
 
-#: ../src/remote.c:926
+#: ../src/remote.c:1209
 msgid "toggle slide show"
 msgstr ""
 
-#: ../src/remote.c:927
+#: ../src/remote.c:1210
 msgid "start slide show"
 msgstr ""
 
-#: ../src/remote.c:928
+#: ../src/remote.c:1211
 msgid "stop slide show"
 msgstr ""
 
-#: ../src/remote.c:929
+#: ../src/remote.c:1212
 msgid "<FOLDER>"
 msgstr ""
 
-#: ../src/remote.c:929
+#: ../src/remote.c:1212
 msgid "start recursive slide show in FOLDER"
 msgstr ""
 
-#: ../src/remote.c:930
+#: ../src/remote.c:1213
 msgid "<[H:][M:][N][.M]>"
 msgstr ""
 
-#: ../src/remote.c:930
+#: ../src/remote.c:1213
 msgid "set slide show delay to Hrs Mins N.M seconds"
 msgstr ""
 
-#: ../src/remote.c:931
+#: ../src/remote.c:1214
 msgid "show tools"
 msgstr ""
 
-#: ../src/remote.c:932
+#: ../src/remote.c:1215
 msgid "hide tools"
 msgstr ""
 
-#: ../src/remote.c:933
+#: ../src/remote.c:1216
 msgid "quit"
 msgstr ""
 
-#: ../src/remote.c:934 ../src/remote.c:935 ../src/remote.c:936
-#: ../src/remote.c:937 ../src/remote.c:938 ../src/remote.c:943
-#: ../src/remote.c:945
+#: ../src/remote.c:1217 ../src/remote.c:1218 ../src/remote.c:1219
+#: ../src/remote.c:1220 ../src/remote.c:1221 ../src/remote.c:1222
+#: ../src/remote.c:1223 ../src/remote.c:1233 ../src/remote.c:1234
+#: ../src/remote.c:1236
 msgid "<FILE>"
 msgstr ""
 
-#: ../src/remote.c:934
+#: ../src/remote.c:1217
 msgid "load configuration from FILE"
 msgstr ""
 
-#: ../src/remote.c:935
+#: ../src/remote.c:1218
 msgid "get list of sidecars of FILE"
 msgstr ""
 
-#: ../src/remote.c:936
+#: ../src/remote.c:1219
 msgid "get destination path of FILE"
 msgstr ""
 
-#: ../src/remote.c:937
+#: ../src/remote.c:1220 ../src/remote.c:1221
 msgid "open FILE, bring Geeqie window to the top"
 msgstr ""
 
-#: ../src/remote.c:938
+#: ../src/remote.c:1222 ../src/remote.c:1223
 msgid "open FILE, do not bring Geeqie window to the top"
 msgstr ""
 
-#: ../src/remote.c:939
-msgid "print filename of current image"
+#: ../src/remote.c:1224
+msgid "print filename [and Collection] of current image"
 msgstr ""
 
-#: ../src/remote.c:940
+#: ../src/remote.c:1225
 msgid "print pixel info of mouse pointer on current image"
 msgstr ""
 
-#: ../src/remote.c:941
+#: ../src/remote.c:1226
 msgid "get rectangle co-ordinates"
 msgstr ""
 
-#: ../src/remote.c:942
+#: ../src/remote.c:1227
 msgid "get render intent"
 msgstr ""
 
-#: ../src/remote.c:943
+#: ../src/remote.c:1228 ../src/remote.c:1229
+msgid "[<FOLDER>]"
+msgstr ""
+
+#: ../src/remote.c:1228
+msgid "get list of files and class"
+msgstr ""
+
+#: ../src/remote.c:1229
+msgid "get list of files and class recursive"
+msgstr ""
+
+#: ../src/remote.c:1230
+msgid "<COLLECTION>"
+msgstr ""
+
+#: ../src/remote.c:1230
+msgid "get collection content"
+msgstr ""
+
+#: ../src/remote.c:1231
+msgid "get collection list"
+msgstr ""
+
+#: ../src/remote.c:1232
+msgid "get file info"
+msgstr ""
+
+#: ../src/remote.c:1233 ../src/remote.c:1234
 msgid "open FILE in new window"
 msgstr ""
 
-#: ../src/remote.c:944
+#: ../src/remote.c:1235
 msgid "clear command line collection list"
 msgstr ""
 
-#: ../src/remote.c:945
+#: ../src/remote.c:1236
 msgid "add FILE to command line collection list"
 msgstr ""
 
-#: ../src/remote.c:946
+#: ../src/remote.c:1237 ../src/remote.c:1238
 msgid "bring the Geeqie window to the top"
 msgstr ""
 
-#: ../src/remote.c:947
+#: ../src/remote.c:1239
 msgid "<ID>"
 msgstr ""
 
-#: ../src/remote.c:947
+#: ../src/remote.c:1239
 msgid "window id for following commands"
 msgstr ""
 
-#: ../src/remote.c:948
+#: ../src/remote.c:1240
 msgid "new window"
 msgstr ""
 
-#: ../src/remote.c:949
+#: ../src/remote.c:1241
 msgid "close window"
 msgstr ""
 
-#: ../src/remote.c:950 ../src/remote.c:951
+#: ../src/remote.c:1242 ../src/remote.c:1243
 msgid "clear|clean"
 msgstr ""
 
-#: ../src/remote.c:950
+#: ../src/remote.c:1242
 msgid "clear or clean thumbnail cache"
 msgstr ""
 
-#: ../src/remote.c:951
+#: ../src/remote.c:1243
 msgid "clear or clean shared thumbnail cache"
 msgstr ""
 
-#: ../src/remote.c:952
+#: ../src/remote.c:1244
 msgid "    clean the metadata cache"
 msgstr ""
 
-#: ../src/remote.c:953
+#: ../src/remote.c:1245
 msgid "<folder>  "
 msgstr ""
 
-#: ../src/remote.c:953
+#: ../src/remote.c:1245
 msgid " render thumbnails"
 msgstr ""
 
-#: ../src/remote.c:954 ../src/remote.c:955
+#: ../src/remote.c:1246 ../src/remote.c:1247
 msgid "<folder> "
 msgstr ""
 
-#: ../src/remote.c:954
+#: ../src/remote.c:1246
 msgid "render thumbnails recursively"
 msgstr ""
 
-#: ../src/remote.c:955
+#: ../src/remote.c:1247
 msgid " render thumbnails (see Help)"
 msgstr ""
 
-#: ../src/remote.c:956
+#: ../src/remote.c:1248
 msgid "<folder>"
 msgstr ""
 
-#: ../src/remote.c:956
+#: ../src/remote.c:1248
 msgid " render thumbnails recursively (see Help)"
 msgstr ""
 
-#: ../src/remote.c:958
+#: ../src/remote.c:1250
 msgid "<FILE>,<lua script>"
 msgstr ""
 
-#: ../src/remote.c:958
+#: ../src/remote.c:1250
 msgid "run lua script on FILE"
 msgstr ""
 
-#: ../src/remote.c:1024
+#: ../src/remote.c:1252
+msgid "<PWD>"
+msgstr ""
+
+#: ../src/remote.c:1252
+msgid "use PWD as working directory for following commands"
+msgstr ""
+
+#: ../src/remote.c:1317
 msgid "Remote command list:\n"
 msgstr ""
 
-#: ../src/remote.c:1043
+#: ../src/remote.c:1336
 msgid ""
 "\n"
 "  All other command line parameters are used as plain files if they exists.\n"
 msgstr ""
 
-#: ../src/remote.c:1093
+#: ../src/remote.c:1386
 #, c-format
 msgid "Remote %s not running, starting..."
 msgstr ""
 
-#: ../src/remote.c:1229
+#: ../src/remote.c:1522
 msgid "Remote not available\n"
 msgstr ""
 
@@ -5561,139 +5837,139 @@ msgstr ""
 msgid "is not"
 msgstr ""
 
-#: ../src/search.c:364
+#: ../src/search.c:366
 #, c-format
 msgid "%s, %d files (%s, %d)"
 msgstr ""
 
-#: ../src/search.c:369
+#: ../src/search.c:371
 #, c-format
 msgid "%s, %d files"
 msgstr ""
 
-#: ../src/search.c:387
+#: ../src/search.c:389
 msgid "Searching..."
 msgstr ""
 
-#: ../src/search.c:1975
+#: ../src/search.c:1981
 msgid "Changed"
 msgstr ""
 
-#: ../src/search.c:1980 ../src/search.c:3237
+#: ../src/search.c:1986 ../src/search.c:3255
 msgid "Original"
 msgstr ""
 
-#: ../src/search.c:1986 ../src/search.c:3238
+#: ../src/search.c:1992 ../src/search.c:3256
 msgid "Digitized"
 msgstr "Digitised"
 
-#: ../src/search.c:2183 ../src/search.c:3364
+#: ../src/search.c:2189 ../src/search.c:3382
 msgid "Raw Image"
 msgstr ""
 
-#: ../src/search.c:2222 ../src/search.c:3379
+#: ../src/search.c:2233 ../src/search.c:3398
 msgid "Any mark"
 msgstr ""
 
-#: ../src/search.c:2278 ../src/search.c:3337
+#: ../src/search.c:2289 ../src/search.c:3355
 msgid "km"
 msgstr ""
 
-#: ../src/search.c:2283 ../src/search.c:3338
+#: ../src/search.c:2294 ../src/search.c:3356
 msgid "miles"
 msgstr ""
 
-#: ../src/search.c:2605
+#: ../src/search.c:2616
 msgid "File not found"
 msgstr ""
 
-#: ../src/search.c:2606
+#: ../src/search.c:2617
 msgid "Please enter an existing file for image content."
 msgstr ""
 
-#: ../src/search.c:2631
+#: ../src/search.c:2642
 msgid "Entry does not contain a valid lat/long value"
 msgstr ""
 
-#: ../src/search.c:2681
+#: ../src/search.c:2692
 msgid "Please enter an existing folder to search."
 msgstr ""
 
-#: ../src/search.c:3143
+#: ../src/search.c:3160
 msgid "Image search"
 msgstr ""
 
-#: ../src/search.c:3173
+#: ../src/search.c:3191
 msgid "Search:"
 msgstr ""
 
-#: ../src/search.c:3187
+#: ../src/search.c:3205
 msgid "Recurse"
 msgstr ""
 
-#: ../src/search.c:3192
+#: ../src/search.c:3210
 msgid "File name"
 msgstr ""
 
-#: ../src/search.c:3198 ../src/search.c:3307
+#: ../src/search.c:3216 ../src/search.c:3325
 msgid "Match case"
 msgstr ""
 
-#: ../src/search.c:3204
+#: ../src/search.c:3222
 msgid "File size is"
 msgstr ""
 
-#: ../src/search.c:3211 ../src/search.c:3228 ../src/search.c:3257
-#: ../src/search.c:3320
+#: ../src/search.c:3229 ../src/search.c:3246 ../src/search.c:3275
+#: ../src/search.c:3338
 msgid "and"
 msgstr ""
 
-#: ../src/search.c:3217
+#: ../src/search.c:3235
 msgid "File date is"
 msgstr ""
 
-#: ../src/search.c:3235
+#: ../src/search.c:3253
 msgid "Modified"
 msgstr ""
 
-#: ../src/search.c:3236
+#: ../src/search.c:3254
 msgid "Status Changed"
 msgstr ""
 
-#: ../src/search.c:3246
+#: ../src/search.c:3264
 msgid "Image dimensions are"
 msgstr ""
 
-#: ../src/search.c:3267
+#: ../src/search.c:3285
 msgid "Image content is"
 msgstr ""
 
-#: ../src/search.c:3273
+#: ../src/search.c:3291
 #, no-c-format
 msgid "% similar to"
 msgstr ""
 
-#: ../src/search.c:3281
+#: ../src/search.c:3299
 msgid "Ignore rotation"
 msgstr ""
 
-#: ../src/search.c:3313
+#: ../src/search.c:3331
 msgid "Image rating is"
 msgstr ""
 
-#: ../src/search.c:3327
+#: ../src/search.c:3345
 msgid "Image is"
 msgstr ""
 
-#: ../src/search.c:3339
+#: ../src/search.c:3357
 msgid "n.m."
 msgstr ""
 
-#: ../src/search.c:3345
+#: ../src/search.c:3363
 msgid "from"
 msgstr ""
 
-#: ../src/search.c:3350
+#: ../src/search.c:3368
 msgid ""
 "Enter a coordinate in the form:\n"
 "89.123 179.456\n"
@@ -5704,15 +5980,15 @@ msgid ""
 "See the Help file"
 msgstr ""
 
-#: ../src/search.c:3358
+#: ../src/search.c:3376
 msgid "Image class"
 msgstr ""
 
-#: ../src/search.c:3374
+#: ../src/search.c:3393
 msgid "Marks"
 msgstr ""
 
-#: ../src/search.c:3447
+#: ../src/search.c:3466
 msgid "Rank"
 msgstr ""
 
@@ -5760,85 +6036,16 @@ msgstr ""
 msgid "Thumbnail image in cache failed to load, trying to recreate.\n"
 msgstr ""
 
-#: ../src/toolbar.c:87 ../src/ui_pathsel.c:752 ../src/ui_pathsel.c:1058
-#: ../src/utilops.c:2879
-msgid "New folder"
+#: ../src/toolbar.c:128
+msgid "Pixel Info"
 msgstr ""
 
-#: ../src/toolbar.c:90 ../src/utilops.c:2375 ../src/utilops.c:2841
-msgid "Rename"
-msgstr ""
-
-#: ../src/toolbar.c:92
-msgid "Close Window"
-msgstr ""
-
-#: ../src/toolbar.c:96
-msgid "Select invert"
-msgstr ""
-
-#: ../src/toolbar.c:97
-msgid "Show file filter"
-msgstr ""
-
-#: ../src/toolbar.c:98
-msgid "Select rectangle"
-msgstr ""
-
-#: ../src/toolbar.c:99
-msgid "Print"
-msgstr ""
-
-#: ../src/toolbar.c:101
-msgid "Configure this window"
-msgstr ""
-
-#: ../src/toolbar.c:102
-msgid "Cache maintenance"
-msgstr ""
-
-#: ../src/toolbar.c:113
-msgid "Fit Horizontaly"
-msgstr ""
-
-#: ../src/toolbar.c:114
-msgid "Fit vertically"
-msgstr ""
-
-#: ../src/toolbar.c:119
-msgid "Zoom1:3"
-msgstr ""
-
-#: ../src/toolbar.c:124
-msgid "Slideshow Faster"
-msgstr ""
-
-#: ../src/toolbar.c:125
-msgid "Slideshow Slower"
-msgstr ""
-
-#: ../src/toolbar.c:127 ../src/window.c:287 ../src/window.c:308
-msgid "Help"
-msgstr ""
-
-#: ../src/toolbar.c:129
-msgid "Show thumbnails"
-msgstr ""
-
-#: ../src/toolbar.c:130
-msgid "Show marks"
-msgstr ""
-
-#: ../src/toolbar.c:131
-msgid "Show guidelines"
-msgstr ""
-
-#: ../src/toolbar.c:522
+#: ../src/toolbar.c:534
 msgid "Add Toolbar Item"
 msgstr ""
 
-#: ../src/trash.c:88 ../src/utilops.c:2653 ../src/utilops.c:2664
-#: ../src/utilops.c:2721
+#: ../src/trash.c:88 ../src/trash.c:140 ../src/utilops.c:2653
+#: ../src/utilops.c:2664 ../src/utilops.c:2721
 msgid "Delete failed"
 msgstr ""
 
@@ -5846,15 +6053,19 @@ msgstr ""
 msgid "Unable to remove old file from trash folder"
 msgstr "Unable to remove old file from Rubbish Bin folder"
 
-#: ../src/trash.c:148
+#: ../src/trash.c:141
+msgid "Unable to remove file"
+msgstr ""
+
+#: ../src/trash.c:153
 msgid "Could not create folder"
 msgstr ""
 
-#: ../src/trash.c:170
+#: ../src/trash.c:175
 msgid "Permission denied"
 msgstr ""
 
-#: ../src/trash.c:180
+#: ../src/trash.c:185
 #, c-format
 msgid ""
 "Unable to access or create the trash folder.\n"
@@ -5863,17 +6074,20 @@ msgstr ""
 "Unable to access or create the Rubbish Bin folder.\n"
 "\"%s\""
 
-#: ../src/trash.c:210
+#: ../src/trash.c:206
 msgid "Deletion by external command"
 msgstr ""
 
-#: ../src/trash.c:220
+#: ../src/trash.c:210
+msgid "Deleting without trash"
+msgstr ""
+
+#: ../src/trash.c:218
 #, c-format
 msgid " (max. %d MB)"
 msgstr ""
 
-#. ~ buf = g_strdup_printf(_("Safe delete: %s%s\nTrash: %s"), _("on"), buf2, options->file_ops.safe_delete_path);
-#: ../src/trash.c:225
+#: ../src/trash.c:222
 #, c-format
 msgid ""
 "Using Geeqie Trash bin\n"
@@ -5882,7 +6096,7 @@ msgstr ""
 "Using Geeqie Rubbish bin\n"
 "%s"
 
-#: ../src/trash.c:230
+#: ../src/trash.c:227
 msgid "Using system Trash bin"
 msgstr "Using system Rubbish bin"
 
@@ -5914,61 +6128,73 @@ msgstr ""
 msgid "_Remove"
 msgstr ""
 
-#: ../src/ui_fileops.c:88
+#: ../src/ui_fileops.c:90
 msgid ""
 "One or more filenames are not encoded with the preferred locale character "
 "set.\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:89
+#: ../src/ui_fileops.c:91
 #, c-format
 msgid "Operations on, and display of these files with %s may not succeed.\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:91
+#: ../src/ui_fileops.c:93
 msgid ""
 "If your filenames are not encoded in utf-8, try setting the environment "
 "variable G_BROKEN_FILENAMES=1\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:93
+#: ../src/ui_fileops.c:95
 #, c-format
 msgid "It appears G_BROKEN_FILENAMES is set to %s\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:95
+#: ../src/ui_fileops.c:97
 msgid "It appears G_BROKEN_FILENAMES is not set\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:97
+#: ../src/ui_fileops.c:99
 #, c-format
 msgid ""
 "The locale appears to be set to \"%s\"\n"
 "(set by the LANG environment variable)\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:102
+#: ../src/ui_fileops.c:104
 msgid ""
 "\n"
 "Preferred encoding appears to be UTF-8, however the file:\n"
 msgstr ""
 
-#: ../src/ui_fileops.c:103 ../src/ui_fileops.c:106 ../src/ui_fileops.c:108
+#: ../src/ui_fileops.c:105 ../src/ui_fileops.c:108 ../src/ui_fileops.c:110
 msgid "[name not displayable]"
-msgstr ""
-
-#: ../src/ui_fileops.c:106
-#, c-format
-msgid "\"%s\" is encoded in valid UTF-8."
 msgstr ""
 
 #: ../src/ui_fileops.c:108
 #, c-format
+msgid "\"%s\" is encoded in valid UTF-8."
+msgstr ""
+
+#: ../src/ui_fileops.c:110
+#, c-format
 msgid "\"%s\" is not encoded in valid UTF-8."
 msgstr ""
 
-#: ../src/ui_fileops.c:113 ../src/ui_fileops.c:118
+#: ../src/ui_fileops.c:115 ../src/ui_fileops.c:120
 msgid "Filename encoding locale mismatch"
+msgstr ""
+
+#: ../src/ui_fileops.c:1026
+msgid "Web file download failed"
+msgstr ""
+
+#: ../src/ui_fileops.c:1090
+msgid "Download web file"
+msgstr ""
+
+#: ../src/ui_fileops.c:1092
+msgid "Downloading "
 msgstr ""
 
 #: ../src/ui_help.c:119
@@ -6020,7 +6246,7 @@ msgstr ""
 msgid "Show hidden"
 msgstr ""
 
-#: ../src/ui_pathsel.c:1145
+#: ../src/ui_pathsel.c:1146
 msgid "Filter:"
 msgstr ""
 
@@ -6353,51 +6579,51 @@ msgstr ""
 msgid "Can't create folder"
 msgstr ""
 
-#: ../src/view_dir.c:409
+#: ../src/view_dir.c:410
 msgid "_Copy"
 msgstr ""
 
-#: ../src/view_dir.c:411
+#: ../src/view_dir.c:412
 msgid "_Move"
 msgstr ""
 
-#: ../src/view_dir.c:665
+#: ../src/view_dir.c:666
 msgid "_Up to parent"
 msgstr ""
 
-#: ../src/view_dir.c:670
+#: ../src/view_dir.c:671
 msgid "_Slideshow"
 msgstr ""
 
-#: ../src/view_dir.c:672
+#: ../src/view_dir.c:673
 msgid "Slideshow recursive"
 msgstr ""
 
-#: ../src/view_dir.c:676
+#: ../src/view_dir.c:677
 msgid "Find _duplicates..."
 msgstr ""
 
-#: ../src/view_dir.c:678
+#: ../src/view_dir.c:679
 msgid "Find duplicates recursive..."
 msgstr ""
 
-#: ../src/view_dir.c:683
+#: ../src/view_dir.c:684
 msgid "_New folder..."
 msgstr ""
 
-#: ../src/view_dir.c:700 ../src/view_file/view_file.c:672
+#: ../src/view_dir.c:701 ../src/view_file/view_file.c:672
 msgid "View as _List"
 msgstr ""
 
-#: ../src/view_dir.c:703
+#: ../src/view_dir.c:704
 msgid "View as _Tree"
 msgstr ""
 
-#: ../src/view_dir.c:708
+#: ../src/view_dir.c:709
 msgid "Show _hidden files"
 msgstr ""
 
-#: ../src/view_dir.c:711 ../src/view_file/view_file.c:702
+#: ../src/view_dir.c:712 ../src/view_file/view_file.c:702
 msgid "Re_fresh"
 msgstr ""
 
@@ -6421,30 +6647,34 @@ msgstr ""
 msgid "This will set or clear the mark text."
 msgstr ""
 
-#: ../src/view_file/view_file.c:1448
+#: ../src/view_file/view_file.c:1108
+msgid "Select Class filter"
+msgstr ""
+
+#: ../src/view_file/view_file.c:1574
 msgid "Loading meta..."
 msgstr ""
 
-#: ../src/view_file/view_file_icon.c:2031 ../src/view_file/view_file_list.c:919
+#: ../src/view_file/view_file_icon.c:2041 ../src/view_file/view_file_list.c:925
 msgid " [NO GROUPING]"
 msgstr ""
 
-#: ../src/view_file/view_file_list.c:513
+#: ../src/view_file/view_file_list.c:514
 #, c-format
 msgid ""
 "Invalid file name:\n"
 "%s"
 msgstr ""
 
-#: ../src/view_file/view_file_list.c:514
+#: ../src/view_file/view_file_list.c:515
 msgid "Error renaming file"
 msgstr ""
 
-#: ../src/view_file/view_file_list.c:2074
+#: ../src/view_file/view_file_list.c:2084
 msgid "NameStars"
 msgstr ""
 
-#: ../src/view_file/view_file_list.c:2078
+#: ../src/view_file/view_file_list.c:2088
 msgid "Stars"
 msgstr ""
 

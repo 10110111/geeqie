@@ -251,7 +251,7 @@ static void get_toolbar_item(const gchar *name, gchar **label, gchar **stock_id)
 		{
 		if (g_strcmp0(list->name, name) == 0)
 			{
-			*label = g_strdup(list->label);
+			*label = g_strdup(gettext(list->label));
 			*stock_id = g_strdup(list->stock_id);
 			break;
 			}
@@ -388,10 +388,10 @@ static void toolbar_menu_add_popup(GtkWidget *widget, gpointer data)
 	while (list->name)
 		{
 		GtkWidget *item;
-		item = menu_item_add_stock(menu, list->label, list->stock_id,
+		item = menu_item_add_stock(menu, gettext(list->label), list->stock_id,
 										G_CALLBACK(toolbarlist_add_cb), toolbarlist);
 		g_object_set_data(G_OBJECT(item), "toolbar_add_name", g_strdup(list->name));
-		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(list->label));
+		g_object_set_data(G_OBJECT(item), "toolbar_add_label", g_strdup(gettext(list->label)));
 		g_object_set_data(G_OBJECT(item), "toolbar_add_stock_id", g_strdup(list->stock_id));
 		g_signal_connect(G_OBJECT(item), "destroy", G_CALLBACK(toolbar_button_free), item);
 		list++;
