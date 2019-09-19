@@ -877,6 +877,7 @@ struct _ViewFile
 		GtkWidget *frame;
 		gint count;
 		gint last_selected;
+		gboolean case_sensitive;
 	} file_filter;
 
 	FileData *dir_fd;

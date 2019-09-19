@@ -71,8 +71,6 @@
       <para />
       For basic pattern matching "JPG" will match any filename containing those characters.
       <para />
-      To make a case-insensitive search, use "(?i)JPG"
-      <para />
       If you type a newline, the text will be saved in the dropdown box list. The last 10 items are saved.
       <para />
       To delete an item, select it from the drop-down list, click on the text box to select the text, and then press
@@ -80,6 +78,8 @@
       followed by
       <keycap>Enter</keycap>
       .
+    </para>
+    <para>By default filtering is case-insensitive. A checkbox labelled "Case" permits the filter to be made case-sensitive.
     </para>
     <para>Additionally a drop-down box permits any of the file <link linkend="Filetypes">Classes</link> to be selected or deselected from the viewed list.</para>
     <para />

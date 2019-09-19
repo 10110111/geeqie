@@ -1060,6 +1060,14 @@ static GtkWidget *class_filter_menu (ViewFile *vf)
 	return menu;
 }
 
+static void case_sensitive_cb(GtkWidget *widget, gpointer data)
+{
+	ViewFile *vf = data;
+
+	vf->file_filter.case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+	vf_refresh(vf);
+}
+
 static GtkWidget *vf_file_filter_init(ViewFile *vf)
 {
 	GtkWidget *frame = gtk_frame_new(NULL);
@@ -1069,6 +1077,7 @@ static GtkWidget *vf_file_filter_init(ViewFile *vf)
 	GtkWidget *combo_entry;
 	GtkWidget *menubar;
 	GtkWidget *menuitem;
+	GtkWidget *case_sensitive;
 
 	vf->file_filter.combo = gtk_combo_box_text_new_with_entry();
 	combo_entry = gtk_bin_get_child(GTK_BIN(vf->file_filter.combo));
@@ -1099,6 +1108,12 @@ static GtkWidget *vf_file_filter_init(ViewFile *vf)
 	gtk_widget_show(vf->file_filter.combo);
 	gtk_container_add(GTK_CONTAINER(frame), hbox);
 	gtk_widget_show(hbox);
+
+	case_sensitive = gtk_check_button_new_with_label("Case");
+	gtk_box_pack_start(GTK_BOX(hbox), case_sensitive, FALSE, FALSE, 0);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(case_sensitive), _("Case sensitive"));
+	g_signal_connect(G_OBJECT(case_sensitive), "clicked", G_CALLBACK(case_sensitive_cb), vf);
+	gtk_widget_show(case_sensitive);
 
 	menubar = gtk_menu_bar_new();
 	gtk_box_pack_start(GTK_BOX(hbox), menubar, FALSE, TRUE, 0);
@@ -1433,7 +1448,7 @@ GRegex *vf_file_filter_get_filter(ViewFile *vf)
 
 	if (file_filter_text[0] != '\0')
 		{
-		ret = g_regex_new(file_filter_text, 0, 0, &error);
+		ret = g_regex_new(file_filter_text, vf->file_filter.case_sensitive ? 0 : G_REGEX_CASELESS, 0, &error);
 		if (error)
 			{
 			log_printf("Error: could not compile regular expression %s\n%s\n", file_filter_text, error->message);
