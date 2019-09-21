@@ -514,23 +514,13 @@ static gboolean config_window_delete(GtkWidget *widget, GdkEventAny *event, gpoi
 
 static void config_window_ok_cb(GtkWidget *widget, gpointer data)
 {
-	config_window_apply();
-	config_window_close_cb(NULL, NULL);
-}
-
-static void config_window_apply_cb(GtkWidget *widget, gpointer data)
-{
 	LayoutWindow *lw;
 	lw = layout_window_list->data;
 
 	config_window_apply();
 	layout_util_sync(lw);
-}
-
-static void config_window_save_cb(GtkWidget *widget, gpointer data)
-{
-	config_window_apply();
 	save_options(options);
+	config_window_close_cb(NULL, NULL);
 }
 
 /*
@@ -3603,18 +3593,6 @@ static void config_window_create(void)
 	gtk_widget_show(button);
 
 	ct_button = button;
-
-	button = pref_button_new(NULL, GTK_STOCK_SAVE, NULL, FALSE,
-				 G_CALLBACK(config_window_save_cb), NULL);
-	gtk_container_add(GTK_CONTAINER(hbox), button);
-	gtk_widget_set_can_default(button, TRUE);
-	gtk_widget_show(button);
-
-	button = pref_button_new(NULL, GTK_STOCK_APPLY, NULL, FALSE,
-				 G_CALLBACK(config_window_apply_cb), NULL);
-	gtk_container_add(GTK_CONTAINER(hbox), button);
-	gtk_widget_set_can_default(button, TRUE);
-	gtk_widget_show(button);
 
 	button = pref_button_new(NULL, GTK_STOCK_CANCEL, NULL, FALSE,
 				 G_CALLBACK(config_window_close_cb), NULL);

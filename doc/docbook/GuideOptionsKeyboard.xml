@@ -3,5 +3,5 @@
   <title id="titleGuideOptionsKeyboard">Keyboard Options</title>
   <para>This dialogue enables changes to be be made to the default key short-cut allocated to menu items.</para>
   <para>The data displayed may be ordered by clicking at the top of each column.</para>
-  <para>To change or create a new short-cut, double click on the KEY column of the relevant item. The text displayed will change to "New accelerator...". Press the key combination required for this action. The Apply button must be pressed for the change to be made permanent.</para>
+  <para>To change or create a new short-cut, double click on the KEY column of the relevant item. The text displayed will change to "New accelerator...". Press the key combination required for this action.</para>
 </section>
