@@ -229,9 +229,18 @@ static void bar_pane_exif_update_entry(PaneExifData *ped, GtkWidget *entry, gboo
 {
 	gchar *text;
 	ExifEntry *ee = g_object_get_data(G_OBJECT(entry), "entry_data");
+	gshort rating;
 
 	if (!ee) return;
-	text = metadata_read_string(ped->fd, ee->key, ee->editable ? METADATA_PLAIN : METADATA_FORMATTED);
+	if (g_strcmp0(ee->key, "Xmp.xmp.Rating") == 0)
+		{
+		rating = metadata_read_int(ee->ped->fd, ee->key, 0);
+		text = g_strdup_printf("%d", rating);
+		}
+	else
+		{
+		text = metadata_read_string(ped->fd, ee->key, ee->editable ? METADATA_PLAIN : METADATA_FORMATTED);
+		}
 
 	if (!ped->show_all && ee->if_set && !ee->editable && (!text || !*text))
 		{

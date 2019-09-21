@@ -70,10 +70,19 @@ static void bar_pane_comment_update(PaneCommentData *pcd)
 	gchar *comment = NULL;
 	gchar *orig_comment = NULL;
 	gchar *comment_not_null;
+	gshort rating;
 	GtkTextBuffer *comment_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(pcd->comment_view));
 
 	orig_comment = text_widget_text_pull(pcd->comment_view);
-	comment = metadata_read_string(pcd->fd, pcd->key, METADATA_PLAIN);
+	if (g_strcmp0(pcd->key, "Xmp.xmp.Rating") == 0)
+		{
+		rating = metadata_read_int(pcd->fd, pcd->key, 0);
+		comment = g_strdup_printf("%d", rating);
+		}
+	else
+		{
+		comment = metadata_read_string(pcd->fd, pcd->key, METADATA_PLAIN);
+		}
 	comment_not_null = (comment) ? comment : "";
 
 	if (strcmp(orig_comment, comment_not_null) != 0)
