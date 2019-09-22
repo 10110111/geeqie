@@ -2641,10 +2641,44 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 	g_list_free(editors_list);
 }
 
+static gboolean go_menu_select(GtkWidget *widget, gpointer data)
+{
+	GtkAction *action;
+	LayoutWindow *lw = data;
+
+	action = gtk_action_group_get_action(lw->action_group, "FirstPage");
+	gtk_action_set_sensitive(action, FALSE);
+	action = gtk_action_group_get_action(lw->action_group, "PrevPage");
+	gtk_action_set_sensitive(action, FALSE);
+	action = gtk_action_group_get_action(lw->action_group, "LastPage");
+	gtk_action_set_sensitive(action, FALSE);
+	action = gtk_action_group_get_action(lw->action_group, "NextPage");
+	gtk_action_set_sensitive(action, FALSE);
+
+	if (lw->image && lw->image->image_fd && lw->image->image_fd->page_total > 0)
+		{
+		if (lw->image->image_fd->page_num > 0)
+			{
+			action = gtk_action_group_get_action(lw->action_group, "FirstPage");
+			gtk_action_set_sensitive(action, TRUE);
+			action = gtk_action_group_get_action(lw->action_group, "PrevPage");
+			gtk_action_set_sensitive(action, TRUE);
+			}
+		if (lw->image->image_fd->page_num < (lw->image->image_fd->page_total - 1))
+			{
+			action = gtk_action_group_get_action(lw->action_group, "LastPage");
+			gtk_action_set_sensitive(action, TRUE);
+			action = gtk_action_group_get_action(lw->action_group, "NextPage");
+			gtk_action_set_sensitive(action, TRUE);
+			}
+		}
+}
+
 void layout_actions_setup(LayoutWindow *lw)
 {
 	GError *error;
 	gint i;
+	GtkAction *action;
 
 	DEBUG_1("%s layout_actions_setup: start", get_exec_time());
 	if (lw->ui_manager) return;
@@ -2654,6 +2688,10 @@ void layout_actions_setup(LayoutWindow *lw)
 
 	gtk_action_group_add_actions(lw->action_group,
 				     menu_entries, G_N_ELEMENTS(menu_entries), lw);
+
+	action = gtk_action_group_get_action(lw->action_group, "GoMenu");
+	g_signal_connect(G_OBJECT(action), "activate", G_CALLBACK(go_menu_select), lw);
+
 	gtk_action_group_add_toggle_actions(lw->action_group,
 					    menu_toggle_entries, G_N_ELEMENTS(menu_toggle_entries), lw);
 	gtk_action_group_add_radio_actions(lw->action_group,
