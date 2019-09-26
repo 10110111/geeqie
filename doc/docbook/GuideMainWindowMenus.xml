@@ -304,6 +304,26 @@
       <varlistentry>
         <term>
           <menuchoice>
+            <guimenu>Image Back</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Each image you view is appended to a chain. You may traverse forwards and backwards through this chain using this and the following key. Move to the previous image in the chain.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <guimenu>Image Forward</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Move to the next image in the chain.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <menuchoice>
             <guimenu>Back</guimenu>
           </menuchoice>
         </term>

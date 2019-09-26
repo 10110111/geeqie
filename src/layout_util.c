@@ -1546,7 +1546,10 @@ static void layout_menu_page_first_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	FileData *fd = layout_image_get_fd(lw);
 
-	file_data_set_page_num(fd, 1);
+	if (fd->page_total > 0)
+		{
+		file_data_set_page_num(fd, 1);
+		}
 }
 
 static void layout_menu_page_last_cb(GtkAction *action, gpointer data)
@@ -1554,7 +1557,10 @@ static void layout_menu_page_last_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	FileData *fd = layout_image_get_fd(lw);
 
-	file_data_set_page_num(fd, -1);
+	if (fd->page_total > 0)
+		{
+		file_data_set_page_num(fd, -1);
+		}
 }
 
 static void layout_menu_page_next_cb(GtkAction *action, gpointer data)
@@ -1562,7 +1568,10 @@ static void layout_menu_page_next_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	FileData *fd = layout_image_get_fd(lw);
 
-	file_data_inc_page_num(fd);
+	if (fd->page_total > 0)
+		{
+		file_data_inc_page_num(fd);
+		}
 }
 
 static void layout_menu_page_previous_cb(GtkAction *action, gpointer data)
@@ -1570,7 +1579,28 @@ static void layout_menu_page_previous_cb(GtkAction *action, gpointer data)
 	LayoutWindow *lw = data;
 	FileData *fd = layout_image_get_fd(lw);
 
-	file_data_dec_page_num(fd);
+	if (fd->page_total > 0)
+		{
+		file_data_dec_page_num(fd);
+		}
+}
+
+static void layout_menu_image_forward_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *dir_fd;
+
+	/* Obtain next image */
+	layout_set_path(lw, image_chain_forward());
+}
+
+static void layout_menu_image_back_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+	FileData *dir_fd;
+
+	/* Obtain previous image */
+	layout_set_path(lw, image_chain_back());
 }
 
 static void layout_menu_split_pane_next_cb(GtkAction *action, gpointer data)
@@ -1922,10 +1952,13 @@ static GtkActionEntry menu_entries[] = {
   { "NextImage",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"space",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
   { "NextImageAlt1",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
 
-  { "FirstPage",	GTK_STOCK_MEDIA_PREVIOUS,	N_("_First Page"),	"<control>Home",	N_( "First Page"),	CB(layout_menu_page_first_cb) },
-  { "LastPage",	GTK_STOCK_MEDIA_NEXT,	N_("_Last Page"),	"<control>End",		N_("Last Page"),	CB(layout_menu_page_last_cb) },
-  { "NextPage",	GTK_STOCK_MEDIA_FORWARD,	N_("_Next Page"),			"<control>Page_Down",	N_("Next Page"),	CB(layout_menu_page_next_cb) },
-  { "PrevPage",	GTK_STOCK_MEDIA_REWIND,	N_("_Previous Page"),	"<control>Page_Up",		N_("Previous Page"),	CB(layout_menu_page_previous_cb) },
+  { "ImageForward",	GTK_STOCK_GOTO_LAST,	N_("Image Forward"),	NULL,		N_("Image Forward"),	CB(layout_menu_image_forward_cb) },
+  { "ImageBack",	GTK_STOCK_GOTO_FIRST,	N_("Image Back"),		NULL,		N_("Image Back"),		CB(layout_menu_image_back_cb) },
+
+  { "FirstPage",	GTK_STOCK_MEDIA_PREVIOUS,	N_("_First Page"),	NULL,	N_( "First Page"),	CB(layout_menu_page_first_cb) },
+  { "LastPage",	GTK_STOCK_MEDIA_NEXT,	N_("_Last Page"),	NULL,		N_("Last Page"),	CB(layout_menu_page_last_cb) },
+  { "NextPage",	GTK_STOCK_MEDIA_FORWARD,	N_("_Next Page"),			NULL,	N_("Next Page"),	CB(layout_menu_page_next_cb) },
+  { "PrevPage",	GTK_STOCK_MEDIA_REWIND,	N_("_Previous Page"),	NULL,		N_("Previous Page"),	CB(layout_menu_page_previous_cb) },
 
 
   { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"KP_Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
@@ -2154,6 +2187,8 @@ static const gchar *menu_ui_description =
 "      <menuitem action='PrevImage'/>"
 "      <menuitem action='NextImage'/>"
 "      <menuitem action='LastImage'/>"
+"      <menuitem action='ImageBack'/>"
+"      <menuitem action='ImageForward'/>"
 "      <separator/>"
 "      <menuitem action='Back'/>"
 "      <menuitem action='Forward'/>"
@@ -2641,39 +2676,6 @@ static void layout_actions_setup_editors(LayoutWindow *lw)
 	g_list_free(editors_list);
 }
 
-static gboolean go_menu_select(GtkWidget *widget, gpointer data)
-{
-	GtkAction *action;
-	LayoutWindow *lw = data;
-
-	action = gtk_action_group_get_action(lw->action_group, "FirstPage");
-	gtk_action_set_sensitive(action, FALSE);
-	action = gtk_action_group_get_action(lw->action_group, "PrevPage");
-	gtk_action_set_sensitive(action, FALSE);
-	action = gtk_action_group_get_action(lw->action_group, "LastPage");
-	gtk_action_set_sensitive(action, FALSE);
-	action = gtk_action_group_get_action(lw->action_group, "NextPage");
-	gtk_action_set_sensitive(action, FALSE);
-
-	if (lw->image && lw->image->image_fd && lw->image->image_fd->page_total > 0)
-		{
-		if (lw->image->image_fd->page_num > 0)
-			{
-			action = gtk_action_group_get_action(lw->action_group, "FirstPage");
-			gtk_action_set_sensitive(action, TRUE);
-			action = gtk_action_group_get_action(lw->action_group, "PrevPage");
-			gtk_action_set_sensitive(action, TRUE);
-			}
-		if (lw->image->image_fd->page_num < (lw->image->image_fd->page_total - 1))
-			{
-			action = gtk_action_group_get_action(lw->action_group, "LastPage");
-			gtk_action_set_sensitive(action, TRUE);
-			action = gtk_action_group_get_action(lw->action_group, "NextPage");
-			gtk_action_set_sensitive(action, TRUE);
-			}
-		}
-}
-
 void layout_actions_setup(LayoutWindow *lw)
 {
 	GError *error;
@@ -2688,10 +2690,6 @@ void layout_actions_setup(LayoutWindow *lw)
 
 	gtk_action_group_add_actions(lw->action_group,
 				     menu_entries, G_N_ELEMENTS(menu_entries), lw);
-
-	action = gtk_action_group_get_action(lw->action_group, "GoMenu");
-	g_signal_connect(G_OBJECT(action), "activate", G_CALLBACK(go_menu_select), lw);
-
 	gtk_action_group_add_toggle_actions(lw->action_group,
 					    menu_toggle_entries, G_N_ELEMENTS(menu_toggle_entries), lw);
 	gtk_action_group_add_radio_actions(lw->action_group,

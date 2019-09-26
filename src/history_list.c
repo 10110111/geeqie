@@ -100,6 +100,79 @@ void history_chain_append_end(const gchar *path)
 
 /*
  *-----------------------------------------------------------------------------
+ * Implements an image history chain. Whenever an image is displayed it is
+ * appended to a chain.
+ * Pressing the Image Back and Image Forward buttons moves along the chain,
+ * but does not make additions to the chain.
+ * The chain always increases and is deleted at the end of the session
+ *-----------------------------------------------------------------------------
+ */
+static GList *image_chain = NULL;
+static guint image_chain_index = G_MAXUINT;
+static gboolean image_nav_button = FALSE; /** Used to prevent the nav buttons making entries to the chain **/
+const gchar *image_chain_back()
+{
+	image_nav_button = TRUE;
+
+	image_chain_index = image_chain_index > 0 ? image_chain_index - 1 : 0;
+
+	return g_list_nth_data(image_chain, image_chain_index);
+}
+
+const gchar *image_chain_forward()
+{
+	image_nav_button= TRUE;
+	guint last = g_list_length(image_chain) - 1;
+
+	image_chain_index = image_chain_index < last ? image_chain_index + 1 : last;
+
+	return g_list_nth_data(image_chain, image_chain_index);
+}
+
+/**
+ * @brief Appends a path to the image history chain
+ * @param path Image path selected
+ * 
+ * Each time the user selects a new image it is appended to the chain
+ * except when it is identical to the current last entry
+ * The pointer is always moved to the end of the chain
+ */
+void image_chain_append_end(const gchar *path)
+{
+	GList *work;
+
+	if (!image_nav_button)
+		{
+		if(image_chain_index == G_MAXUINT)
+			{
+			image_chain = g_list_append(image_chain, g_strdup(path));
+			image_chain_index = 0;
+			}
+		else
+			{
+			work = g_list_last(image_chain);
+			gchar *tmp;
+			tmp = work->data;
+			if (g_strcmp0(work->data , path) != 0)
+				{
+				image_chain = g_list_append(image_chain, g_strdup(path));
+				image_chain_index = g_list_length(image_chain) - 1;
+				DEBUG_3("%d %s", image_chain_index, path);
+				}
+			else
+				{
+				image_chain_index = g_list_length(image_chain) - 1;
+				}
+			}
+		}
+	else
+		{
+		image_nav_button = FALSE;
+		}
+}
+
+/*
+ *-----------------------------------------------------------------------------
  * history lists
  *-----------------------------------------------------------------------------
  */

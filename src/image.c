@@ -29,6 +29,7 @@
 #include "exif.h"
 #include "metadata.h"
 #include "histogram.h"
+#include "history_list.h"
 #include "image-load.h"
 #include "image-overlay.h"
 #include "layout.h"
@@ -1383,6 +1384,11 @@ void image_change_from_collection(ImageWindow *imd, CollectionData *cd, CollectI
 		collection_table_set_focus(cw->table, info);
 		collection_table_unselect_all(cw->table);
 		collection_table_select(cw->table,info);
+		}
+
+	if (info->fd)
+		{
+		image_chain_append_end(info->fd->path);
 		}
 }
 

@@ -1400,6 +1400,11 @@ void layout_image_set_fd(LayoutWindow *lw, FileData *fd)
 	layout_image_slideshow_continue_check(lw);
 	layout_bars_new_image(lw);
 	layout_image_animate_new_file(lw);
+
+	if (fd)
+		{
+		image_chain_append_end(fd->path);
+		}
 }
 
 void layout_image_set_with_ahead(LayoutWindow *lw, FileData *fd, FileData *read_ahead_fd)
