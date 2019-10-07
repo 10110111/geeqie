@@ -736,7 +736,6 @@ static void search_result_collection_from_selection(SearchData *sd)
 {
 	CollectWindow *w;
 	GList *list;
-DEBUG_0(" ");
 
 	list = search_result_selection_list(sd);
 	w = collection_window_new(NULL);

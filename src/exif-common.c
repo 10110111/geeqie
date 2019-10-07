@@ -945,6 +945,7 @@ ExifFormattedText ExifFormattedList[] = {
 	{"file.link",				N_("File link"), 	NULL},
 	{"file.class",				N_("File class"), 	NULL},
 	{"file.page_no",			N_("Page no."), 	NULL},
+	{"lua.lensID",				N_("Lens"), 		NULL},
 	{ NULL, NULL, NULL }
 };
 
@@ -970,8 +971,7 @@ gchar *exif_get_description_by_key(const gchar *key)
 {
 	if (!key) return NULL;
 
-	if (strncmp(key, EXIF_FORMATTED(), EXIF_FORMATTED_LEN) == 0 ||
-	    strncmp(key, "file.", 5) == 0)
+	if (strncmp(key, EXIF_FORMATTED(), EXIF_FORMATTED_LEN) == 0 || strncmp(key, "file.", 5) == 0 || strncmp(key, "lua.", 4) == 0)
 		{
 		gint i;
 

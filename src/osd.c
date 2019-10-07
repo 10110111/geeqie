@@ -60,6 +60,7 @@ static const gchar *predefined_tags[][2] = {
 	{"%formatted.ExposureBias%",		N_("Exposure bias")},
 	{"%formatted.Resolution%",			N_("Resolution")},
 	{"%formatted.Camera%",				N_("Camera")},
+	{"%lua.lensID%",					N_("Lens")},
 	{"%formatted.ISOSpeedRating%",		N_("ISO")},
 	{"%formatted.FocalLength%",			N_("Focal length")},
 	{"%formatted.FocalLength35mmFilm%",	N_("Focal len. 35mm")},

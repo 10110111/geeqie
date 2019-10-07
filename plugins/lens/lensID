@@ -1,0 +1,34 @@
+-- Retrieve the lens ID data
+-- Called from the pre-formatted tag lua.lensID
+-- Requires lua and extftool
+-- Runs rather slow
+
+n = 0
+m = 0
+lensID = ""
+lensIDstring = ""
+
+path = Image:get_path()
+
+lensIDfile = io.popen("exiftool -Composite:LensID \"" .. path .. "\" 2>/dev/null ")
+lensID = lensIDfile:read("*a")
+
+if lensID ~= ""
+then
+	n = string.find(lensID, ":")
+	if n > 2
+	then
+		n = n + 2
+		lensIDstring = string.sub(lensID, n)
+		m = string.find(lensIDstring, "Unknown")
+		if m ~= nil
+		then
+			lensIDstring = ""
+		else
+			lensIDstring = string.gsub(lensIDstring, "\n", "")
+		end
+	end
+end
+
+lensIDfile:close()
+return (lensIDstring)

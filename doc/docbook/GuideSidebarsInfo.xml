@@ -345,6 +345,16 @@
             <entry>if the file is a multi-page file, e.g. .tiff, the current page number and page total is displayed (e.g. [2/10])</entry>
           </row>
           <row>
+            <entry>lua.lensID</entry>
+            <entry>
+              lens identification data
+              <footnote id='lensid'>
+                Requires lua and exiftool.
+                <note>This function may be slow.</note>
+              </footnote>
+            </entry>
+          </row>
+          <row>
             <entry>lua.&lt;lua script&gt;</entry>
             <entry>
               Call a lua script

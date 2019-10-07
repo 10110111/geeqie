@@ -272,6 +272,26 @@ gchar *lua_callvalue(FileData *fd, const gchar *file, const gchar *function)
 	FileData **image_data;
 	gchar *tmp;
 	GError *error = NULL;
+	gboolean ok;
+
+	ok = access(g_build_filename(get_rc_dir(), "lua", file, NULL), R_OK);
+	if (ok == 0)
+		{
+		path = g_build_filename(get_rc_dir(), "lua", file, NULL);
+		}
+	else
+		{
+		/* FIXME: what is the correct way to find the scripts folder? */
+		ok = access(g_build_filename("/usr/local/lib", GQ_APPNAME_LC, file, NULL), R_OK);
+		if (ok == 0)
+			{
+			path = g_build_filename("/usr/local/lib", GQ_APPNAME_LC, file, NULL);
+			}
+		else
+			{
+			return g_strdup("");
+			}
+		}
 
 	/* Collection Table (Dummy at the moment) */
 	lua_newtable(L);
@@ -290,8 +310,6 @@ gchar *lua_callvalue(FileData *fd, const gchar *file, const gchar *function)
 		}
 	else
 		{
-		dir = g_build_filename(get_rc_dir(), "lua", NULL);
-		path = g_build_filename(dir, file, NULL);
 		result = luaL_dofile(L, path);
 		g_free(path);
 		g_free(dir);

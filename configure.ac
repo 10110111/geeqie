@@ -752,6 +752,7 @@ AC_CONFIG_FILES([
     plugins/camera-import/Makefile
     plugins/image-crop/Makefile
     plugins/random-image/Makefile
+    plugins/lens/Makefile
     geeqie.spec
 ])
 
