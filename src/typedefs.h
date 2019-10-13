@@ -265,6 +265,25 @@ typedef enum {
 	STEREO_PIXBUF_NONE     = 3
 } StereoPixbufData;
 
+typedef enum {
+	BAR_SORT_MODE_FOLDER = 0,
+	BAR_SORT_MODE_COLLECTION,
+	BAR_SORT_MODE_COUNT
+} SortModeType;
+
+typedef enum {
+	BAR_SORT_COPY = 0,
+	BAR_SORT_MOVE,
+	BAR_SORT_FILTER,
+	BAR_SORT_ACTION_COUNT
+} SortActionType;
+
+typedef enum {
+	BAR_SORT_SELECTION_IMAGE = 0,
+	BAR_SORT_SELECTION_SELECTED,
+	BAR_SORT_SELECTION_COUNT
+} SortSelectionType;
+
 #define MAX_SPLIT_IMAGES 4
 
 typedef enum {
@@ -692,6 +711,11 @@ struct _LayoutOptions
 	gboolean exit_on_close;
 
 	gboolean animate;
+
+	SortActionType action;
+	SortModeType mode;
+	SortSelectionType selection;
+	gchar *filter_key;
 };
 
 struct _LayoutWindow

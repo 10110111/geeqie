@@ -35,6 +35,7 @@
 #include "ui_menu.h"
 #include "ui_misc.h"
 #include "rcfile.h"
+#include "window.h"
 
 
 /*
@@ -42,25 +43,6 @@
   * sort bar
   *-------------------------------------------------------------------
   */
-
-typedef enum {
-	BAR_SORT_MODE_FOLDER = 0,
-	BAR_SORT_MODE_COLLECTION,
-	BAR_SORT_MODE_COUNT
-} SortModeType;
-
-typedef enum {
-	BAR_SORT_COPY = 0,
-	BAR_SORT_MOVE,
-	BAR_SORT_FILTER,
-	BAR_SORT_ACTION_COUNT
-} SortActionType;
-
-typedef enum {
-	BAR_SORT_SELECTION_IMAGE = 0,
-	BAR_SORT_SELECTION_SELECTED,
-	BAR_SORT_SELECTION_COUNT
-} SortSelectionType;
 
 typedef struct _SortData SortData;
 struct _SortData
@@ -439,6 +421,29 @@ static void bar_sort_set_filter_cb(GtkWidget *button, gpointer data)
 	bar_sort_set_action(sd, BAR_SORT_FILTER, key);
 }
 
+static void bar_filter_help_cb(GenericDialog *gd, gpointer data)
+{
+	help_window_show("GuidePluginsConfig.html#Geeqieextensions");
+}
+
+static gboolean bar_filter_message_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	GenericDialog *gd;
+
+	if (event->button != MOUSE_BUTTON_RIGHT) return FALSE;
+
+	gd = generic_dialog_new(_("Sort Manager Operations"),
+				"sort_manager_operations", NULL, TRUE, NULL, NULL);
+	generic_dialog_add_message(gd, GTK_STOCK_DIALOG_INFO,
+				"Sort Manager Operations", _("Additional operations utilising plugins\nmay be included by setting:\n\nX-Geeqie-Filter=true\n\nin the plugin file."), TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_HELP, NULL, bar_filter_help_cb, TRUE);
+	generic_dialog_add_button(gd, GTK_STOCK_OK, NULL, NULL, TRUE);
+
+	gtk_widget_show(gd->dialog);
+
+	return TRUE;
+}
+
 static void bar_sort_set_selection(SortData *sd, SortSelectionType selection)
 {
 	sd->selection = selection;
@@ -624,6 +629,7 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 	GtkWidget *combo;
 	GList *editors_list, *work;
 	gboolean have_filter;
+	GtkWidget *button;
 
 	if (!lw) return NULL;
 
@@ -670,9 +676,11 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 	buttongrp = pref_radiobutton_new(sd->folder_group, NULL,
 					 _("Copy"), (sd->action == BAR_SORT_COPY),
 					 G_CALLBACK(bar_sort_set_copy_cb), sd);
-	pref_radiobutton_new(sd->folder_group, buttongrp,
+	g_signal_connect(G_OBJECT(buttongrp), "button_press_event", G_CALLBACK(bar_filter_message_cb), NULL);
+	button = pref_radiobutton_new(sd->folder_group, buttongrp,
 			     _("Move"), (sd->action == BAR_SORT_MOVE),
 			     G_CALLBACK(bar_sort_set_move_cb), sd);
+	g_signal_connect(G_OBJECT(button), "button_press_event", G_CALLBACK(bar_filter_message_cb), NULL);
 
 
 	have_filter = FALSE;
@@ -700,6 +708,7 @@ static GtkWidget *bar_sort_new(LayoutWindow *lw, SortActionType action,
 		button = pref_radiobutton_new(sd->folder_group, buttongrp,
 					      editor->name, select,
 					      G_CALLBACK(bar_sort_set_filter_cb), sd);
+		g_signal_connect(G_OBJECT(button), "button_press_event", G_CALLBACK(bar_filter_message_cb), NULL);
 
 		g_object_set_data_full(G_OBJECT(button), "filter_key", key, bar_sort_edit_button_free);
 		}
@@ -742,29 +751,9 @@ GtkWidget *bar_sort_new_from_config(LayoutWindow *lw, const gchar **attribute_na
 {
 	GtkWidget *bar;
 
-	gboolean enabled = TRUE;
-	gint action = 0;
-	gint mode = 0;
-	gint selection = 0;
-	gchar *filter_key = NULL;
+	bar = bar_sort_new(lw, lw->options.action, lw->options.mode, lw->options.selection, lw->options.filter_key);
 
-	while (attribute_names && *attribute_names)
-		{
-		const gchar *option = *attribute_names++;
-		const gchar *value = *attribute_values++;
-
-		if (READ_BOOL_FULL("enabled", enabled)) continue;
-		if (READ_INT_CLAMP_FULL("action", action, 0, BAR_SORT_ACTION_COUNT - 1)) continue;
-		if (READ_INT_CLAMP_FULL("mode", mode, 0, BAR_SORT_MODE_COUNT - 1)) continue;
-		if (READ_INT_CLAMP_FULL("selection", selection, 0, BAR_SORT_SELECTION_COUNT - 1)) continue;
-		if (READ_CHAR_FULL("filter_key", filter_key)) continue;
-
-		log_printf("unknown attribute %s = %s\n", option, value);
-		}
-	bar = bar_sort_new(lw, action, mode, selection, filter_key);
-
-	g_free(filter_key);
-	if (enabled) gtk_widget_show(bar);
+	if (lw->bar_sort_enabled) gtk_widget_show(bar);
 	return bar;
 }
 
@@ -779,7 +768,6 @@ GtkWidget *bar_sort_new_from_config(LayoutWindow *lw, const gchar **attribute_na
  * the sort manager and desktop files are set up in the idle loop, and
  * setup is not yet completed during initialisation.
  * The flag is checked in layout_editors_reload_idle_cb.
- * action, mode, selection and filter_key are ignored.
  */
 void bar_sort_cold_start(LayoutWindow *lw, const gchar **attribute_names, const gchar **attribute_values)
 {
@@ -803,7 +791,13 @@ void bar_sort_cold_start(LayoutWindow *lw, const gchar **attribute_names, const 
 		log_printf("unknown attribute %s = %s\n", option, value);
 		}
 
+	lw->options.action = action;
+	lw->options.mode = mode;
+	lw->options.selection = selection;
+	lw->options.filter_key = g_strdup(filter_key);
 	lw->bar_sort_enabled = enabled;
+
+	g_free(filter_key);
 }
 
 GtkWidget *bar_sort_new_default(LayoutWindow *lw)
