@@ -245,13 +245,13 @@
       <programlisting>X-Geeqie-Verbose=true</programlisting>
     </para>
     <para>
+      Any terminal output from the plugin command can be displayed, only when multiple files are selected, with the following command:
+      <programlisting>X-Geeqie-Verbose-Multi=true</programlisting>
+    </para>
+    <para>
       The plugin can be restricted to run on only certain file types, for example:
       <programlisting>X-Geeqie-File-Extensions=.jpg; .cr2</programlisting>
       The entries are case insensitive.
-    </para>
-    <para>
-      <programlisting>X-Geeqie-Keep-Verbose-Multi=</programlisting>
-      TBD
     </para>
     <para>
       The key or key combination to execute this function can be set with:
