@@ -836,6 +836,7 @@ struct _LayoutWindow
 //	gint bar_width;
 
 	GtkWidget *exif_window;
+	GtkWidget *sar_window; /* Search and Run window */
 
 	AnimationData *animation;
 

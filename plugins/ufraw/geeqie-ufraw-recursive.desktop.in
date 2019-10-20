@@ -2,6 +2,7 @@
 Version=1.0
 Type=Application
 _Name=UFRaw Batch recursive
+_Comment=Search for new RAW files or modified UFRaw ID files recursively
 
 # call the helper script with current directory as an argument
 Exec=geeqie-ufraw --recursive .

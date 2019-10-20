@@ -2,6 +2,7 @@
 Version=1.0
 Type=Application
 _Name=UFRaw Batch
+_Comment=Search for new RAW files or modified UFRaw ID files
 
 # call the helper script on each file individually 
 # - this allows a better controll over processing

@@ -259,6 +259,8 @@ geeqie_SOURCES = \
 	rcfile.h	\
 	search.c	\
 	search.h	\
+	search_and_run.c	\
+	search_and_run.h	\
 	secure_save.c	\
 	secure_save.h	\
 	shortcuts.c	\

@@ -47,6 +47,7 @@
 #include "print.h"
 #include "rcfile.h"
 #include "search.h"
+#include "search_and_run.h"
 #include "slideshow.h"
 #include "ui_fileops.h"
 #include "ui_menu.h"
@@ -69,6 +70,7 @@ static gboolean layout_bar_enabled(LayoutWindow *lw);
 static gboolean layout_bar_sort_enabled(LayoutWindow *lw);
 static void layout_bars_hide_toggle(LayoutWindow *lw);
 static void layout_util_sync_views(LayoutWindow *lw);
+static void layout_search_and_run_window_new(LayoutWindow *lw);
 
 /*
  *-----------------------------------------------------------------------------
@@ -1058,6 +1060,15 @@ static void layout_menu_bar_exif_cb(GtkAction *action, gpointer data)
 	layout_exif_window_new(lw);
 }
 
+static void layout_menu_search_and_run_cb(GtkAction *action, gpointer data)
+{
+	LayoutWindow *lw = data;
+
+	layout_exit_fullscreen(lw);
+	layout_search_and_run_window_new(lw);
+}
+
+
 static void layout_menu_float_cb(GtkToggleAction *action, gpointer data)
 {
 	LayoutWindow *lw = data;
@@ -1943,6 +1954,7 @@ static GtkActionEntry menu_entries[] = {
   { "StereoMenu",	NULL,			N_("Stere_o"),				NULL,			NULL,					NULL },
   { "OverlayMenu",	NULL,			N_("Image _Overlay"),			NULL,			NULL,					NULL },
   { "PluginsMenu",	NULL,			N_("_Plugins"),				NULL,			NULL,					NULL },
+  { "SarMenu",		NULL,			N_("S_aR"),				NULL,			NULL,					NULL },
   { "HelpMenu",		NULL,			N_("_Help"),				NULL,			NULL,					NULL },
 
   { "FirstImage",	GTK_STOCK_GOTO_TOP,	N_("_First Image"),			"Home",			N_("First Image"),			CB(layout_menu_image_first_cb) },
@@ -1952,21 +1964,21 @@ static GtkActionEntry menu_entries[] = {
   { "NextImage",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"space",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
   { "NextImageAlt1",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
 
-  { "ImageForward",	GTK_STOCK_GOTO_LAST,	N_("Image Forward"),	NULL,		N_("Image Forward"),	CB(layout_menu_image_forward_cb) },
-  { "ImageBack",	GTK_STOCK_GOTO_FIRST,	N_("Image Back"),		NULL,		N_("Image Back"),		CB(layout_menu_image_back_cb) },
+  { "ImageForward",	GTK_STOCK_GOTO_LAST,	N_("Image Forward"),	NULL,	N_("Forward in image history"),	CB(layout_menu_image_forward_cb) },
+  { "ImageBack",	GTK_STOCK_GOTO_FIRST,	N_("Image Back"),		NULL,	N_("Back in image history"),		CB(layout_menu_image_back_cb) },
 
-  { "FirstPage",	GTK_STOCK_MEDIA_PREVIOUS,	N_("_First Page"),	NULL,	N_( "First Page"),	CB(layout_menu_page_first_cb) },
-  { "LastPage",	GTK_STOCK_MEDIA_NEXT,	N_("_Last Page"),	NULL,		N_("Last Page"),	CB(layout_menu_page_last_cb) },
-  { "NextPage",	GTK_STOCK_MEDIA_FORWARD,	N_("_Next Page"),			NULL,	N_("Next Page"),	CB(layout_menu_page_next_cb) },
-  { "PrevPage",	GTK_STOCK_MEDIA_REWIND,	N_("_Previous Page"),	NULL,		N_("Previous Page"),	CB(layout_menu_page_previous_cb) },
+  { "FirstPage",GTK_STOCK_MEDIA_PREVIOUS,	N_("_First Page"),		NULL,	N_( "First Page of multi-page image"),	CB(layout_menu_page_first_cb) },
+  { "LastPage",	GTK_STOCK_MEDIA_NEXT,		N_("_Last Page"),		NULL,	N_("Last Page of multi-page image"),	CB(layout_menu_page_last_cb) },
+  { "NextPage",	GTK_STOCK_MEDIA_FORWARD,	N_("_Next Page"),		NULL,	N_("Next Page of multi-page image"),	CB(layout_menu_page_next_cb) },
+  { "PrevPage",	GTK_STOCK_MEDIA_REWIND,		N_("_Previous Page"),	NULL,	N_("Previous Page of multi-page image"),	CB(layout_menu_page_previous_cb) },
 
 
-  { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"KP_Page_Down",		N_("Next Image"),			CB(layout_menu_image_next_cb) },
+  { "NextImageAlt2",	GTK_STOCK_GO_DOWN,	N_("_Next Image"),			"KP_Page_Down",		N_("Next Image"),		CB(layout_menu_image_next_cb) },
   { "LastImage",	GTK_STOCK_GOTO_BOTTOM,	N_("_Last Image"),			"End",			N_("Last Image"),			CB(layout_menu_image_last_cb) },
-  { "Back",		GTK_STOCK_GO_BACK,	N_("_Back"),				NULL,			N_("Back"),				CB(layout_menu_back_cb) },
-  { "Forward",	GTK_STOCK_GO_FORWARD,	N_("_Forward"),			NULL,			N_("Forward"),				CB(layout_menu_forward_cb) },
-  { "Home",		GTK_STOCK_HOME,		N_("_Home"),				NULL,			N_("Home"),				CB(layout_menu_home_cb) },
-  { "Up",		GTK_STOCK_GO_UP,	N_("_Up"),				NULL,			N_("Up"),				CB(layout_menu_up_cb) },
+  { "Back",		GTK_STOCK_GO_BACK,	N_("_Back"),			NULL,	N_("Back in folder history"),		CB(layout_menu_back_cb) },
+  { "Forward",	GTK_STOCK_GO_FORWARD,	N_("_Forward"),		NULL,	N_("Forward in folder history"),	CB(layout_menu_forward_cb) },
+  { "Home",		GTK_STOCK_HOME,		N_("_Home"),			NULL,	N_("Home"),				CB(layout_menu_home_cb) },
+  { "Up",		GTK_STOCK_GO_UP,	N_("_Up"),				NULL,	N_("Up one folder"),				CB(layout_menu_up_cb) },
 
   { "NewWindow",	GTK_STOCK_NEW,		N_("New _window"),			"<control>N",		N_("New window"),			CB(layout_menu_new_window_cb) },
   { "NewCollection",	GTK_STOCK_INDEX,	N_("_New collection"),			"C",			N_("New collection"),			CB(layout_menu_new_cb) },
@@ -1990,7 +2002,7 @@ static GtkActionEntry menu_entries[] = {
   { "CopyPathUnquoted",		NULL,			N_("_Copy path unquoted to clipboard"),		NULL,			N_("Copy path unquoted to clipboard"),		CB(layout_menu_copy_path_unquoted_cb) },
   { "CloseWindow",	GTK_STOCK_CLOSE,	N_("C_lose window"),			"<control>W",		N_("Close window"),			CB(layout_menu_close_cb) },
   { "Quit",		GTK_STOCK_QUIT, 	N_("_Quit"),				"<control>Q",		N_("Quit"),				CB(layout_menu_exit_cb) },
-  { "RotateCW",		PIXBUF_INLINE_ICON_CW,			N_("_Rotate clockwise 90°"),		"bracketright",		N_("Rotate clockwise 90°"),			CB(layout_menu_alter_90_cb) },
+  { "RotateCW",		PIXBUF_INLINE_ICON_CW,			N_("_Rotate clockwise 90°"),		"bracketright",		N_("Image Rotate clockwise 90°"),			CB(layout_menu_alter_90_cb) },
   { "Rating0",		NULL,			N_("_Rating 0"),	"<alt>KP_0",	N_("Rating 0"),			CB(layout_menu_rating_0_cb) },
   { "Rating1",		NULL,			N_("_Rating 1"),	"<alt>KP_1",	N_("Rating 1"),			CB(layout_menu_rating_1_cb) },
   { "Rating2",		NULL,			N_("_Rating 2"),	"<alt>KP_2",	N_("Rating 2"),			CB(layout_menu_rating_2_cb) },
@@ -1999,9 +2011,9 @@ static GtkActionEntry menu_entries[] = {
   { "Rating5",		NULL,			N_("_Rating 5"),	"<alt>KP_5",	N_("Rating 5"),			CB(layout_menu_rating_5_cb) },
   { "RatingM1",		NULL,			N_("_Rating -1"),	"<alt>KP_Subtract",	N_("Rating -1"),	CB(layout_menu_rating_m1_cb) },
   { "RotateCCW",	PIXBUF_INLINE_ICON_CCW,	N_("Rotate _counterclockwise 90°"),		"bracketleft",		N_("Rotate counterclockwise 90°"),		CB(layout_menu_alter_90cc_cb) },
-  { "Rotate180",	PIXBUF_INLINE_ICON_180,	N_("Rotate 1_80°"),	"<shift>R",		N_("Rotate 180°"),			CB(layout_menu_alter_180_cb) },
-  { "Mirror",		PIXBUF_INLINE_ICON_MIRROR,	N_("_Mirror"),	"<shift>M",		N_("Mirror"),				CB(layout_menu_alter_mirror_cb) },
-  { "Flip",		PIXBUF_INLINE_ICON_FLIP,	N_("_Flip"),	"<shift>F",		N_("Flip"),				CB(layout_menu_alter_flip_cb) },
+  { "Rotate180",	PIXBUF_INLINE_ICON_180,	N_("Rotate 1_80°"),	"<shift>R",		N_("Image Rotate 180°"),			CB(layout_menu_alter_180_cb) },
+  { "Mirror",		PIXBUF_INLINE_ICON_MIRROR,	N_("_Mirror"),	"<shift>M",		N_("Image Mirror"),				CB(layout_menu_alter_mirror_cb) },
+  { "Flip",		PIXBUF_INLINE_ICON_FLIP,	N_("_Flip"),	"<shift>F",		N_("Image Flip"),				CB(layout_menu_alter_flip_cb) },
   { "AlterNone",	PIXBUF_INLINE_ICON_ORIGINAL,	N_("_Original state"), 	"<shift>O",		N_("Original state"),			CB(layout_menu_alter_none_cb) },
   { "SelectAll",	PIXBUF_INLINE_ICON_SELECT_ALL,			N_("Select _all"),			"<control>A",		N_("Select all"),			CB(layout_menu_select_all_cb) },
   { "SelectNone",	PIXBUF_INLINE_ICON_SELECT_NONE,			N_("Select _none"),			"<control><shift>A",	N_("Select none"),			CB(layout_menu_unselect_all_cb) },
@@ -2056,8 +2068,8 @@ static GtkActionEntry menu_entries[] = {
   { "HistogramModeCycle",NULL,			N_("Cycle through histogram mo_des"),	"J",			N_("Cycle through histogram modes"),	CB(layout_menu_histogram_toggle_mode_cb) },
   { "HideTools",	PIXBUF_INLINE_ICON_HIDETOOLS,	N_("_Hide file list"),			"<control>H",		N_("Hide file list"),			CB(layout_menu_hide_cb) },
   { "SlideShowPause",	GTK_STOCK_MEDIA_PAUSE,	N_("_Pause slideshow"), 		"P",			N_("Pause slideshow"), 			CB(layout_menu_slideshow_pause_cb) },
-  { "SlideShowFaster",	GTK_STOCK_FILE,	N_("Faster"), 		"<control>KP_Add",			N_("Faster"), 			CB(layout_menu_slideshow_faster_cb) },
-  { "SlideShowSlower",	GTK_STOCK_FILE,	N_("Slower"), 		"<control>KP_Subtract",			N_("Slower"), 			CB(layout_menu_slideshow_slower_cb) },
+  { "SlideShowFaster",	GTK_STOCK_FILE,	N_("Faster"), 		"<control>KP_Add",			N_("Slideshow Faster"), 			CB(layout_menu_slideshow_faster_cb) },
+  { "SlideShowSlower",	GTK_STOCK_FILE,	N_("Slower"), 		"<control>KP_Subtract",			N_("Slideshow Slower"), 			CB(layout_menu_slideshow_slower_cb) },
   { "Refresh",		GTK_STOCK_REFRESH,	N_("_Refresh"),				"R",			N_("Refresh"),				CB(layout_menu_refresh_cb) },
   { "HelpContents",	GTK_STOCK_HELP,		N_("_Contents"),			"F1",			N_("Contents"),				CB(layout_menu_help_cb) },
   { "HelpSearch",	NULL,		N_("On-line help search"),			NULL,			N_("On-line help search"),				CB(layout_menu_help_search_cb) },
@@ -2065,14 +2077,15 @@ static GtkActionEntry menu_entries[] = {
   { "HelpKbd",		NULL,			N_("_Keyboard map"),			NULL,			N_("Keyboard map"),			CB(layout_menu_kbd_map_cb) },
   { "HelpNotes",	NULL,			N_("_Release notes"),			NULL,			N_("Release notes"),			CB(layout_menu_notes_cb) },
   { "HelpChangeLog",	NULL,			N_("_ChangeLog"),			NULL,			N_("ChangeLog notes"),			CB(layout_menu_changelog_cb) },
+  { "SearchAndRunCommand",	GTK_STOCK_FIND,		N_("Search and Run command"),	"slash",	N_("Search commands by keyword and run them"),	CB(layout_menu_search_and_run_cb) },
   { "About",		GTK_STOCK_ABOUT,	N_("_About"),				NULL,			N_("About"),				CB(layout_menu_about_cb) },
   { "LogWindow",	NULL,			N_("_Log Window"),			NULL,			N_("Log Window"),			CB(layout_menu_log_window_cb) },
   { "ExifWin",		PIXBUF_INLINE_ICON_EXIF,	N_("_Exif window"),			"<control>E",		N_("Exif window"),			CB(layout_menu_bar_exif_cb) },
   { "StereoCycle",	NULL,			N_("_Cycle through stereo modes"),	NULL,			N_("Cycle through stereo modes"),	CB(layout_menu_stereo_mode_next_cb) },
-  { "SplitNextPane",	NULL,			N_("_Next Pane"),	"<alt>Right",			N_("Next Pane"),	CB(layout_menu_split_pane_next_cb) },
-  { "SplitPreviousPane",	NULL,			N_("_Previous Pane"),	"<alt>Left",			N_("Previous Pane"),	CB(layout_menu_split_pane_prev_cb) },
-  { "SplitUpPane",	NULL,			N_("_Up Pane"),	"<alt>Up",			N_("Up Pane"),	CB(layout_menu_split_pane_updown_cb) },
-  { "SplitDownPane",	NULL,			N_("_Down Pane"),	"<alt>Down",			N_("Down Pane"),	CB(layout_menu_split_pane_updown_cb) },
+  { "SplitNextPane",	NULL,			N_("_Next Pane"),	"<alt>Right",			N_("Next Split Pane"),	CB(layout_menu_split_pane_next_cb) },
+  { "SplitPreviousPane",	NULL,			N_("_Previous Pane"),	"<alt>Left",			N_("Previous Split Pane"),	CB(layout_menu_split_pane_prev_cb) },
+  { "SplitUpPane",	NULL,			N_("_Up Pane"),	"<alt>Up",			N_("Up Split Pane"),	CB(layout_menu_split_pane_updown_cb) },
+  { "SplitDownPane",	NULL,			N_("_Down Pane"),	"<alt>Down",			N_("Down Split Pane"),	CB(layout_menu_split_pane_updown_cb) },
   { "WriteRotation",	NULL,			N_("_Write orientation to file"),  		NULL,		N_("Write orientation to file"),			CB(layout_menu_write_rotate_cb) },
   { "WriteRotationKeepDate",	NULL,			N_("_Write orientation to file (preserve timestamp)"),  		NULL,		N_("Write orientation to file (preserve timestamp)"),			CB(layout_menu_write_rotate_keep_date_cb) },
   { "ClearMarks",	NULL,		N_("Clear Marks..."),			NULL,		N_("Clear Marks"),			CB(layout_menu_clear_marks_cb) },
@@ -2379,6 +2392,9 @@ static const gchar *menu_ui_description =
 "      <menuitem action='Refresh'/>"
 "      <placeholder name='SlideShowSection'/>"
 "      <separator/>"
+"    </menu>"
+"    <menu action='SarMenu'>"
+"      <menuitem action='SearchAndRunCommand'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <separator/>"
@@ -3636,6 +3652,17 @@ void layout_exif_window_new(LayoutWindow *lw)
 	g_signal_connect(G_OBJECT(lw->exif_window), "destroy",
 			 G_CALLBACK(layout_exif_window_destroy), lw);
 	advanced_exif_set_fd(lw->exif_window, layout_image_get_fd(lw));
+}
+
+static void layout_search_and_run_window_new(LayoutWindow *lw)
+{
+	if (lw->sar_window)
+		{
+		gtk_window_present(GTK_WINDOW(lw->sar_window));
+		return;
+		}
+
+	lw->sar_window = search_and_run_new(lw);
 }
 
 /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */

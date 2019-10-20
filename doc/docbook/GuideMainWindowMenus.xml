@@ -1614,6 +1614,27 @@
     </variablelist>
     <para />
   </section>
+  <section id="Sarmenu">
+    <title>SaR menu</title>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <menuchoice>
+            <shortcut>
+              <keycombo>
+                <keycap>/</keycap>
+              </keycombo>
+            </shortcut>
+            <guimenu>Search and Run Commands</guimenu>
+          </menuchoice>
+        </term>
+        <listitem>
+          <para>Opens a text box in which you may type characters to find a command. The characters you type will be matched to the first characters of any word in all the commands in Geeqie - both built-in commands and plugins - and matching actions will be displayed in a pop-up. You may scroll to any of the matching commands and press <code>Enter</code> to execute the command. Pressing <code>Enter</code> without selecting from the list will execute the first action in the list. Press <code>Esc</code> to close the box.</para>
+        </listitem>
+      </varlistentry>
+     </variablelist>
+    <para />
+  </section>
   <section id="Tearoffmenus">
     <title>Tear off menus</title>
     <para>Menus can be permanently displayed by selecting the dotted line item at the top of each menu category. A tear off menu will behave the same as an ordinary window. To close a tear off menu, select the dotted line item at the top of the menu.</para>

@@ -2,6 +2,7 @@
 Version=1.0
 Type=Application
 _Name=Image crop
+_Comment=Crop image from marked rectangle
 
 # Requires ImageMagick and exiftools
 

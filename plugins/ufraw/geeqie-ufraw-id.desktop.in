@@ -2,6 +2,7 @@
 Version=1.0
 Type=Application
 _Name=Edit UFRaw ID file
+_Comment=Create UFRaw ID files for RAW files
 
 Exec=ufraw --create-id=only %U
 

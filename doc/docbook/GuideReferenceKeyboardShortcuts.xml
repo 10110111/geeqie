@@ -40,6 +40,13 @@
             <entry>Right-click</entry>
             <entry>Context menu.</entry>
           </row>
+          <row>
+            <entry>
+              <keycap>/</keycap>
+            </entry>
+            <entry/>
+            <entry>Search and Run Commands.</entry>
+          </row>
         </tbody>
       </tgroup>
     </table>
