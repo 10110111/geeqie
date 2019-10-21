@@ -108,7 +108,7 @@ static void command_store_populate(SarData* sar)
 			if (accel_path && gtk_accel_map_lookup_entry(accel_path, &key))
 				{
 				g_object_get(action, "tooltip", &tooltip, "label", &label, NULL);
-				accel = gtk_accelerator_name(key.accel_key, key.accel_mods);
+				accel = gtk_accelerator_get_label(key.accel_key, key.accel_mods);
 
 				/* menu items with no tooltip are placeholders */
 				if (g_strrstr(accel_path, ".desktop") != NULL || tooltip != NULL)
@@ -288,8 +288,10 @@ GtkWidget *search_and_run_new(LayoutWindow *lw)
 	DEBUG_NAME(sar->window);
 
 	geometry.min_width = 500;
-	geometry.min_height = 0;
-	gtk_window_set_geometry_hints(GTK_WINDOW(sar->window), NULL, &geometry, GDK_HINT_MIN_SIZE);
+	geometry.max_width = 1500;
+	geometry.min_height = 10;
+	geometry.max_height = 10;
+	gtk_window_set_geometry_hints(GTK_WINDOW(sar->window), NULL, &geometry, GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE);
 
 	gtk_window_set_resizable(GTK_WINDOW(sar->window), TRUE);
 
