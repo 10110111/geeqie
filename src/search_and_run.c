@@ -25,6 +25,8 @@
 #include "ui_misc.h"
 #include "window.h"
 
+#include <gdk/gdkkeysyms.h>
+
 enum {
 	SAR_LABEL,
 	SAR_ACTION,
